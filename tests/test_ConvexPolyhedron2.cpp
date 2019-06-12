@@ -3,34 +3,21 @@
 #include "../src/sdot/Support/P.h"
 #include "../src/sdot/VtkOutput.h"
 using namespace sdot;
+//// nsmake cpp_flag -march=native
 
 int main() {
-    //    struct Pc {
-    //        using TF = double;
-    //        using TI = std::size_t;
-    //        using CI = std::size_t;
+    struct Pc {
+        using TF = double;
+        using TI = std::size_t;
+        using CI = std::size_t;
 
-    //    };
-    //    using Cp = ConvexPolyhedron2<Pc>;
+    };
+    using Cp = ConvexPolyhedron2<Pc>;
 
-    //    Cp cp;
-    //    cp.resize( 90 );
-    //    ASSERT( cp.nb_nodes() == 90, "" );
-    //    for( std::size_t i = 0; i < cp.nb_nodes(); ++i ) {
-    //        cp.node( i ).x =  1.0 * i;
-    //        cp.node( i ).y = 10.0 * i;
-    //    }
+    Cp cp( Cp::Box{ { 0, 0 }, { 1, 1 } } );
+    cp.plane_cut( { 0.5, 0.5 }, { 1.0, 1.0 }, 17, N<0>() );
 
-    //    for( std::size_t i = 0; i < cp.nb_nodes(); ++i ) {
-    //        ASSERT( cp.node( i ).x ==  1.0 * i, "" );
-    //        ASSERT( cp.node( i ).y == 10.0 * i, "" );
-    //    }
-
-    //    int i = 0;
-    //    cp.for_each_node( [&]( auto &node ) {
-    //        ASSERT( node.x ==  1.0 * i, "" );
-    //        ASSERT( node.y == 10.0 * i, "" );
-    //        ++i;
-    //    } );
-    VtkOutput vo;
+    VtkOutput vo( { "smurf" } );
+    cp.display( vo, { 1.0 } );
+    vo.save( "vtk/pd.vtk" );
 }

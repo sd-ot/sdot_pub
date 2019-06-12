@@ -1,7 +1,9 @@
+#include "../Support/Display/binary_repr.h"
 #include "../Support/aligned_memory.h"
 #include "../Support/TODO.h"
 #include "../Support/P.h"
 #include "ConvexPolyhedron2.h"
+#include <xsimd/xsimd.hpp>
 #include <immintrin.h>
 #include <iomanip>
 
@@ -68,13 +70,23 @@ void ConvexPolyhedron2<Pc>::write_to_stream( std::ostream &os ) const {
     //    os << " sphere center: " << sphere_center << " sphere radius: " << sphere_radius;
 }
 
+template<class Pc>
+void ConvexPolyhedron2<Pc>::display( VtkOutput &vo, const std::vector<TF> &cell_values ) const {
+    std::vector<VtkOutput::Pt> pts;
+    pts.reserve( nb_nodes() );
+    for_each_node( [&]( const Node &node ) {
+        pts.push_back( node.pos() );
+    } );
+    vo.add_polygon( pts, cell_values );
+}
+
 template<class Pc> template<class F>
-void ConvexPolyhedron2<Pc>::for_each_edge( const F &/*f*/ ) {
+void ConvexPolyhedron2<Pc>::for_each_edge( const F &/*f*/ ) const {
     TODO;
 }
 
 template<class Pc> template<class F>
-void ConvexPolyhedron2<Pc>::for_each_node( const F &f ) {
+void ConvexPolyhedron2<Pc>::for_each_node( const F &f ) const {
     static_assert ( sizeof( Node ) % sizeof( TF ) == 0, "" );
 
     Node *ptr = nodes;
@@ -132,7 +144,27 @@ bool ConvexPolyhedron2<Pc>::plane_cut( Pt origin, Pt normal, CI cut_id ) {
 }
 
 template<class Pc> template<int no>
-bool ConvexPolyhedron2<Pc>::plane_cut( Pt /*origin*/, Pt /*normal*/, CI /*cut_id*/, N<no> /*normal_is_normalized*/ ) {
+bool ConvexPolyhedron2<Pc>::plane_cut( Pt origin, Pt normal, CI /*cut_id*/, N<no> /*normal_is_normalized*/ ) {
+    constexpr std::size_t simd_size = xsimd::simd_type<TF>::size;
+    using BF = xsimd::batch<TF,simd_size>;
+    auto ox = BF( origin.x );
+    auto oy = BF( origin.y );
+    auto nx = BF( normal.x );
+    auto ny = BF( normal.y );
+
+    if ( simd_size == 4 ) {
+        if ( size <= 4 ) {
+            BF px; px.load_aligned( &nodes->x );
+            BF py; py.load_aligned( &nodes->y );
+            BF d = ( ox - px ) * nx + ( oy - py ) * ny;
+            auto n = d < BF( TF( 0 ) );
+            int outside = _mm256_movemask_pd( n );
+            P( binary_repr( outside ) );
+        } else {
+            TODO;
+        }
+    }
+
     return true;
 }
 

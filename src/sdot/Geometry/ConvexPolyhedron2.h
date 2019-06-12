@@ -3,9 +3,9 @@
 
 //#include "../Integration/SpaceFunctions/Constant.h"
 //#include "../Integration/FunctionEnum.h"
-//#include "../Display/VtkOutput.h"
 #include "Internal/ConvexPolyhedron2NodeBlock.h"
 #include "../Support/N.h"
+#include "../VtkOutput.h"
 
 #include <functional>
 #include <bitset>
@@ -54,9 +54,10 @@ public:
 
     // information
     void                      write_to_stream           ( std::ostream &os ) const;
-    template<class F> void    for_each_edge             ( const F &f );
-    template<class F> void    for_each_node             ( const F &f );
+    template<class F> void    for_each_edge             ( const F &f ) const;
+    template<class F> void    for_each_node             ( const F &f ) const;
     TI                        nb_nodes                  () const;
+    void                      display                   ( VtkOutput &vo, const std::vector<TF> &cell_values = {} ) const;
     const Node&               node                      ( TI index ) const;
     Node&                     node                      ( TI index );
 
