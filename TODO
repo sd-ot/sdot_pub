@@ -1,0 +1,17 @@
+Prop: on fait un pool pour les points
+  => x[ 64*i : 64*i+64 ] // TF 
+  => y[ 64*i : 64*i+64 ] // TF
+  => z[ 64*i : 64*i+64 ] // TF
+  => a[ 64*i : 64*i+64 ] // bool
+  => edge0[ ... ]
+  => edge1[ ... ]
+  => edge2[ ... ]
+  => ...
+
+Besoin d'un pool. Pour le 2D, on n'a pas besoin ni de pointeur, ni d'index.
+
+Pour le 3D, on peut utiliser des index voire des pointeurs globaux.
+
+Rq: si on compacte avec du int64 pour les bools, on ne pourra pas utiliser de pointeur dans les noeuds.
+
+Prop: on stocke les angles  
