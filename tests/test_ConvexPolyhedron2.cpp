@@ -51,42 +51,59 @@ int main() {
                 StaticRange<1+(no_simd.val==0)>::for_each( [&]( auto no_switch ) {
                     constexpr int flags = no_switch.val * ConvexPolyhedron::plane_cut_flag_no_switches +
                                           no_simd  .val * ConvexPolyhedron::do_not_use_simd;
-                    Cp cp, lc( Cp::Box{ { 0, 0 }, { 1, 1 } } );
+                    Cp lc( Cp::Box{ { 0, 0 }, { 1, 1 } } );
+                    Cp cp[ 16 ];
 
                     uint64_t t0 = 0, t1 = 0, dt = 0;
                     switch ( nb_cuts ) {
                     case 0:
                         for( double x = 0.5; x > 0; x -= 0.5 / rep ) {
-                            cp = lc;
+                            #pragma unroll
+                            for( std::size_t i = 0; i < 16; ++i )
+                                cp[ i ] = lc;
                             RDTSC_START( t0 );
-                            cp.plane_cut( { 2 + x, 0.5 }, { 1.0, 0.0 }, 17, N<flags>() );
+                            StaticRange<16>::for_each( [&]( auto i ) {
+                                cp[ i ].plane_cut( { 2 + x, 0.5 }, { 1.0, 0.0 }, 17, N<flags>() );
+                            } );
                             RDTSC_FINAL( t1 );
                             dt += t1 - t0;
                         }
                         break;
                     case 1:
                         for( double x = 0.45; x > 0; x -= 0.45 / rep ) {
-                            cp = lc;
+                            #pragma unroll
+                            for( std::size_t i = 0; i < 16; ++i )
+                                cp[ i ] = lc;
                             RDTSC_START( t0 );
-                            cp.plane_cut( { 0.5 - x, 0.5 + x }, { -1.0, 1.0 }, 17, N<flags>() );
+                            StaticRange<16>::for_each( [&]( auto i ) {
+                                cp[ i ].plane_cut( { 0.5 - x, 0.5 + x }, { -1.0, 1.0 }, 17, N<flags>() );
+                            } );
                             RDTSC_FINAL( t1 );
                             dt += t1 - t0;
                         }
                         break;
                     case 2:
                         for( double x = 0.5; x > 0; x -= 0.5 / rep ) {
-                            cp = lc;
+                            #pragma unroll
+                            for( std::size_t i = 0; i < 16; ++i )
+                                cp[ i ] = lc;
                             RDTSC_START( t0 );
-                            cp.plane_cut( { x, 0.5 }, { 1.0, 0.0 }, 17, N<flags>() );
+                            StaticRange<16>::for_each( [&]( auto i ) {
+                                cp[ i ].plane_cut( { x, 0.5 }, { 1.0, 0.0 }, 17, N<flags>() );
+                            } );
                             RDTSC_FINAL( t1 );
                             dt += t1 - t0;
                         }
                         break;
                     case 3:
                         for( double x = 0.45; x > 0; x -= 0.45 / rep ) {
-                            cp = lc;
+                            #pragma unroll
+                            for( std::size_t i = 0; i < 16; ++i )
+                                cp[ i ] = lc;
                             RDTSC_START( t0 );
-                            cp.plane_cut( { x, x }, { 1.0, 1.0 }, 17, N<flags>() );
+                            StaticRange<16>::for_each( [&]( auto i ) {
+                                cp[ i ].plane_cut( { x, x }, { 1.0, 1.0 }, 17, N<flags>() );
+                            } );
                             RDTSC_FINAL( t1 );
                             dt += t1 - t0;
                         }
@@ -101,7 +118,7 @@ int main() {
                     t.nb_nodes   = nb_nodes;
                     t.nb_cuts    = nb_cuts;
 
-                    timings[ t ] = dt / rep;
+                    timings[ t ] = dt / 16.0 / rep;
 
                     //                    if ( rep < 10 ) {
                     //                        // static double inc = 0;
