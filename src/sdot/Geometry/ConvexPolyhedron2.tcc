@@ -55,30 +55,67 @@ ConvexPolyhedron2<Pc>::~ConvexPolyhedron2() {
 }
 
 template<class Pc>
-void ConvexPolyhedron2<Pc>::write_to_stream( std::ostream &os ) const {
-    for( TI i = 0; i < nb_nodes(); ++i ) {
-        os << ( i ? " " : "" ) << node( i ).pos();
+ConvexPolyhedron2<Pc> &ConvexPolyhedron2<Pc>::operator=( const ConvexPolyhedron2 &that ) {
+    resize( that.nb_nodes() );
+    for( std::size_t i = 0; ; i += block_size ) {
+        Node &n = nodes[ i / block_size ];
+        const Node &t = that.nodes[ i / block_size ];
+        if ( i + block_size > size ) {
+            std::size_t r = size - i;
+            memcpy( &n.x, &t.x, r * sizeof( TF ) );
+            memcpy( &n.y, &t.y, r * sizeof( TF ) );
+            if ( store_the_normals ) {
+                memcpy( &n.dir_x, &t.dir_x, r * sizeof( TF ) );
+                memcpy( &n.dir_y, &t.dir_y, r * sizeof( TF ) );
+            }
+            if ( allow_ball_cut ) {
+                memcpy( &n.arc_radius  , &t.arc_radius  , r * sizeof( TF ) );
+                memcpy( &n.arc_center_x, &t.arc_center_x, r * sizeof( TF ) );
+                memcpy( &n.arc_center_y, &t.arc_center_y, r * sizeof( TF ) );
+            }
+            for( std::size_t j = 0; j < r; ++j )
+                n.local_at( j ).cut_id.set( t.local_at( j ).cut_id.get() );
+            break;
+        }
+
+        memcpy( &n.x, &t.x, block_size * sizeof( TF ) );
+        memcpy( &n.y, &t.y, block_size * sizeof( TF ) );
+        if ( store_the_normals ) {
+            memcpy( &n.dir_x, &t.dir_x, block_size * sizeof( TF ) );
+            memcpy( &n.dir_y, &t.dir_y, block_size * sizeof( TF ) );
+        }
+        if ( allow_ball_cut ) {
+            memcpy( &n.arc_radius  , &t.arc_radius  , block_size * sizeof( TF ) );
+            memcpy( &n.arc_center_x, &t.arc_center_x, block_size * sizeof( TF ) );
+            memcpy( &n.arc_center_y, &t.arc_center_y, block_size * sizeof( TF ) );
+        }
+        for( std::size_t j = 0; j < block_size; ++j )
+            n.local_at( j ).cut_id.set( t.local_at( j ).cut_id.get() );
     }
-    //    os << std::setprecision( 17 );
-    //    os << "cuts: [";
-    //    for( TI i = 0; i < size; ++i )
-    //        os << ( i ? "," : "" ) << "(" << point( i ) << ")";
-    //    os << "]";
-    //    if ( store_the_normals ) {
-    //        os << " nrms: [";
-    //        for( TI i = 0; i < size; ++i )
-    //            os << ( i ? "," : "" ) << "(" << normal( i ) << ")";
-    //        os << "]";
-    //    }
+
+
+    return *this;
+}
+
+template<class Pc>
+void ConvexPolyhedron2<Pc>::write_to_stream( std::ostream &os ) const {
+    os << "pos: ";
+    for( TI i = 0; i < nb_nodes(); ++i )
+        os << ( i ? " [" : "[" ) << node( i ).pos() << "]";
+    if ( store_the_normals ) {
+        os << " nrms: ";
+        for( TI i = 0; i < nb_nodes(); ++i )
+            os << ( i ? " [" : "[" ) << node( i ).dir() << "]";
+    }
     //    os << " sphere center: " << sphere_center << " sphere radius: " << sphere_radius;
 }
 
 template<class Pc>
-void ConvexPolyhedron2<Pc>::display( VtkOutput &vo, const std::vector<TF> &cell_values ) const {
+void ConvexPolyhedron2<Pc>::display( VtkOutput &vo, const std::vector<TF> &cell_values, Pt offset ) const {
     std::vector<VtkOutput::Pt> pts;
     pts.reserve( nb_nodes() );
     for_each_node( [&]( const Node &node ) {
-        pts.push_back( node.pos() );
+        pts.push_back( node.pos() + offset );
     } );
     vo.add_polygon( pts, cell_values );
 }
@@ -147,7 +184,7 @@ bool ConvexPolyhedron2<Pc>::plane_cut( Pt origin, Pt normal, CI cut_id ) {
 }
 
 template<class Pc> template<int flags,class BB>
-bool ConvexPolyhedron2<Pc>::plane_cut_simd4_size4_ns( Pt origin, Pt normal, CI cut_id, N<flags>, std::uint64_t outside, BB *d ) {
+bool ConvexPolyhedron2<Pc>::plane_cut_simd4_sizelt4_ns( Pt origin, Pt normal, CI cut_id, N<flags>, std::uint64_t outside, BB *d ) {
     constexpr std::size_t simd_size = xsimd::simd_type<TF>::size;
     using BF = xsimd::batch<TF,simd_size>;
 
@@ -163,7 +200,7 @@ bool ConvexPolyhedron2<Pc>::plane_cut_simd4_size4_ns( Pt origin, Pt normal, CI c
     }
 
     // => we will need a normalized direction
-    if ( ( flags & ConvexPolyhedron::plane_cur_flag_dir_is_normalized ) == 0 ) {
+    if ( ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 ) {
         TF n = 1 / norm_2( normal );
         for( std::size_t i = 0; i < size / simd_size; ++i )
             d[ i ] *= n;
@@ -176,50 +213,44 @@ bool ConvexPolyhedron2<Pc>::plane_cut_simd4_size4_ns( Pt origin, Pt normal, CI c
 
     // only 1 outside ?
     if ( nb_outside == 1 ) {
-        TODO;
-        //        // => creation of a new point
-        //        std::size_t i0 = ( i1 + size - 1 ) % size;
-        //        std::size_t i2 = ( i1 + 1 ) % size;
-        //        Pt p0 { points[ 0 ][ i0 ], points[ 1 ][ i0 ] };
-        //        Pt p1 { points[ 0 ][ i1 ], points[ 1 ][ i1 ] };
-        //        Pt p2 { points[ 0 ][ i2 ], points[ 1 ][ i2 ] };
-        //        TF s0 = distances[ i0 ];
-        //        TF s1 = distances[ i1 ];
-        //        TF s2 = distances[ i2 ];
+        // => creation of a new point
+        std::size_t i0 = ( i1 + size - 1 ) % size;
+        std::size_t i2 = ( i1 + 1 ) % size;
+        std::size_t in = i1 + 1;
 
-        //        TF m0 = s0 / ( s1 - s0 );
-        //        TF m1 = s2 / ( s1 - s2 );
+        Node &n0 = node( i0 );
+        Node &n1 = node( i1 );
+        Node &n2 = node( i2 );
+        Node &nn = node( in );
 
-        //        // shift points
-        //        for( std::size_t i = size; i > i1 + 1; --i ) {
-        //            points [ 0 ][ i ] = points [ 0 ][ i - 1 ];
-        //            points [ 1 ][ i ] = points [ 1 ][ i - 1 ];
-        //            cut_ids     [ i ] = cut_ids     [ i - 1 ];
-        //            if ( store_the_normals ) {
-        //                normals[ 0 ][ i ] = normals[ 0 ][ i - 1 ];
-        //                normals[ 1 ][ i ] = normals[ 1 ][ i - 1 ];
-        //            }
-        //        }
+        TF s0 = distances[ i0 ];
+        TF s1 = distances[ i1 ];
+        TF s2 = distances[ i2 ];
 
-        //        // modify the number of points
-        //        ++size;
+        TF m0 = s0 / ( s1 - s0 );
+        TF m1 = s2 / ( s1 - s2 );
 
-        //        // modified or added points
-        //        points[ 0 ][ i1 + 1 ] = p2.x - m1 * ( p1.x - p2.x );
-        //        points[ 1 ][ i1 + 1 ] = p2.y - m1 * ( p1.y - p2.y );
-        //        cut_ids    [ i1 + 1 ] = cut_ids[ i1 + 0 ];
-        //        if ( store_the_normals ) {
-        //            normals[ 0 ][ i1 + 1 ] = normals[ 0 ][ i1 + 0 ];
-        //            normals[ 1 ][ i1 + 1 ] = normals[ 1 ][ i1 + 0 ];
-        //        }
+        // shift points
+        for( std::size_t i = size; i > i1 + 1; --i )
+            node( i + 1 ).get_straight_content_from( node( i + 0 ) );
+        ++size;
 
-        //        points[ 0 ][ i1 + 0 ] = p0.x - m0 * ( p1.x - p0.x );
-        //        points[ 1 ][ i1 + 0 ] = p0.y - m0 * ( p1.y - p0.y );
-        //        cut_ids    [ i1 + 0 ] = cut_id;
-        //        if ( store_the_normals ) {
-        //            normals[ 0 ][ i1 + 0 ] = normal[ 0 ];
-        //            normals[ 1 ][ i1 + 0 ] = normal[ 1 ];
-        //        }
+        // modified or added points
+        nn.x = n2.x - m1 * ( n1.x - n2.x );
+        nn.y = n2.y - m1 * ( n1.y - n2.y );
+        nn.cut_id.set( n1.cut_id.get() );
+        if ( store_the_normals ) {
+            nn.dir_x = n1.dir_x;
+            nn.dir_y = n1.dir_y;
+        }
+
+        n1.x = n0.x - m0 * ( n1.x - n0.x );
+        n1.y = n0.y - m0 * ( n1.y - n0.y );
+        n1.cut_id.set( cut_id );
+        if ( store_the_normals ) {
+            n1.dir_x = normal.x;
+            n1.dir_y = normal.y;
+        }
 
         return true;
     }
@@ -314,75 +345,67 @@ bool ConvexPolyhedron2<Pc>::plane_cut_simd4_size4_ns( Pt origin, Pt normal, CI c
     }
 
     // more than 2 points are outside, outside points do not cross `nb_points`
-    TODO;
-    //    std::size_t i0 = ( i1 + size  - 1 ) % size;
-    //    std::size_t i2 = ( i1 + nb_outside - 1 ) % size;
-    //    std::size_t i3 = ( i1 + nb_outside     ) % size;
-    //    Pt p0 { points[ 0 ][ i0 ], points[ 1 ][ i0 ] };
-    //    Pt p1 { points[ 0 ][ i1 ], points[ 1 ][ i1 ] };
-    //    Pt p2 { points[ 0 ][ i2 ], points[ 1 ][ i2 ] };
-    //    Pt p3 { points[ 0 ][ i3 ], points[ 1 ][ i3 ] };
-    //    TF s0 = distances[ i0 ];
-    //    TF s1 = distances[ i1 ];
-    //    TF s2 = distances[ i2 ];
-    //    TF s3 = distances[ i3 ];
+    std::size_t i0 = ( i1 + size - 1       ) % size;
+    std::size_t i2 = ( i1 + nb_outside - 1 ) % size;
+    std::size_t i3 = ( i1 + nb_outside     ) % size;
+    std::size_t in = i1 + 1;
 
-    //    TF m1 = s0 / ( s1 - s0 );
-    //    TF m2 = s3 / ( s2 - s3 );
+    Node &n0 = node( i0 );
+    Node &n1 = node( i1 );
+    Node &n2 = node( i2 );
+    Node &n3 = node( i3 );
+    Node &nn = node( in );
 
-    //    // modified and deleted points
-    //    points[ 0 ][ i1 + 0 ] = p0.x - m1 * ( p1.x - p0.x );
-    //    points[ 1 ][ i1 + 0 ] = p0.y - m1 * ( p1.y - p0.y );
-    //    cut_ids    [ i1 + 0 ] = cut_id;
-    //    if ( store_the_normals ) {
-    //        normals[ 0 ][ i1 + 0 ] = normal[ 0 ];
-    //        normals[ 1 ][ i1 + 0 ] = normal[ 1 ];
-    //    }
+    TF s0 = distances[ i0 ];
+    TF s1 = distances[ i1 ];
+    TF s2 = distances[ i2 ];
+    TF s3 = distances[ i3 ];
 
-    //    points[ 0 ][ i1 + 1 ] = p3.x - m2 * ( p2.x - p3.x );
-    //    points[ 1 ][ i1 + 1 ] = p3.y - m2 * ( p2.y - p3.y );
-    //    cut_ids    [ i1 + 1 ] = cut_ids[ i2 ];
-    //    if ( store_the_normals ) {
-    //        normals[ 0 ][ i1 + 1 ] = normals[ 0 ][ i2 ];
-    //        normals[ 1 ][ i1 + 1 ] = normals[ 1 ][ i2 ];
-    //    }
+    TF m1 = s0 / ( s1 - s0 );
+    TF m2 = s3 / ( s2 - s3 );
 
-    //    std::size_t nb_to_rem = nb_outside - 2;
-    //    for( std::size_t i = i2 + 1; i < size; ++i ) {
-    //        points[ 0 ][ i - nb_to_rem ] = points[ 0 ][ i ];
-    //        points[ 1 ][ i - nb_to_rem ] = points[ 1 ][ i ];
-    //        cut_ids    [ i - nb_to_rem ] = cut_ids    [ i ];
-    //        if ( store_the_normals ) {
-    //            normals[ 0 ][ i - nb_to_rem ] = normals[ 0 ][ i ];
-    //            normals[ 1 ][ i - nb_to_rem ] = normals[ 1 ][ i ];
-    //        }
-    //    }
+    // modified and deleted points
+    if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
+    n1.x = n0.x - m1 * ( n1.x - n0.x );
+    n1.y = n0.y - m1 * ( n1.y - n0.y );
+    n1.cut_id.set( cut_id );
 
-    //    // modification of the number of points
-    //    size -= nb_to_rem;
+    if ( store_the_normals ) { nn.dir_x = n2.dir_x; nn.dir_y = n2.dir_y; }
+    nn.x = n3.x - m2 * ( n2.x - n3.x );
+    nn.y = n3.y - m2 * ( n2.y - n3.y );
+    nn.cut_id.set( n2.cut_id.get() );
+
+    std::size_t nb_to_rem = nb_outside - 2;
+    for( std::size_t i = i2 + 1; i < size; ++i )
+        nodes->local_at( i - nb_to_rem ).get_straight_content_from( nodes->local_at( i ) );
+
+    // modification of the number of points
+    size -= nb_to_rem;
     return true;
 }
 
 template<class Pc> template<int flags,class BB>
 bool ConvexPolyhedron2<Pc>::plane_cut_simd4_size4( Pt origin, Pt normal, CI cut_id, N<flags>, std::uint64_t outside, BB *d ) {
+    constexpr std::size_t si = 4;
+
     switch ( outside ) {
     case 0b0000:
         return false;
     case 0b0001:
         TODO;
-        break;
+        return true;
     case 0b0010:
         TODO;
-        break;
+        return true;
     case 0b0011:
         TODO;
-        break;
+        return true;
     case 0b0100:
         TODO;
-        break;
+        return true;
     case 0b0101:
         TODO;
-        break;
+        return true;
     case 0b0110: {
         TF s0 = d[ 0 ][ 0 ];
         TF s1 = d[ 0 ][ 1 ];
@@ -398,39 +421,161 @@ bool ConvexPolyhedron2<Pc>::plane_cut_simd4_size4( Pt origin, Pt normal, CI cut_
         Node &n3 = nodes->local_at( 3 );
 
         if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
-        nodes->local_at( 1 ).cut_id.set( cut_id );
         n1.x = n0.x - m1 * ( n1.x - n0.x );
         n1.y = n0.y - m1 * ( n1.y - n0.y );
         n2.x = n3.x - m2 * ( n2.x - n3.x );
         n2.y = n3.y - m2 * ( n2.y - n3.y );
+        n1.cut_id.set( cut_id );
         return true;
     }
     case 0b0111:
         TODO;
-        break;
-    case 0b1000:
-        TODO;
-        break;
+        return true;
+    case 0b1000: {
+        constexpr int i1 = 3;
+        constexpr int i0 = ( i1 + si - 1 ) % si;
+        constexpr int i2 = ( i1 + 1 ) % si;
+        constexpr int in = 4;
+
+        TF s0 = d[ 0 ][ i0 ]; // ( i1 + size - 1 ) % size
+        TF s1 = d[ 0 ][ i1 ]; // i1
+        TF s2 = d[ 0 ][ i2 ]; // ( i1 + 1 ) % size
+
+        TF m0 = s0 / ( s1 - s0 );
+        TF m1 = s2 / ( s1 - s2 );
+
+        // no point to shift
+        //        for( std::size_t i = size; i > i1 + 1; --i ) {
+        //            points [ 0 ][ i ] = points [ 0 ][ i - 1 ];
+        //            points [ 1 ][ i ] = points [ 1 ][ i - 1 ];
+        //            cut_ids     [ i ] = cut_ids     [ i - 1 ];
+        //            if ( store_the_normals ) {
+        //                normals[ 0 ][ i ] = normals[ 0 ][ i - 1 ];
+        //                normals[ 1 ][ i ] = normals[ 1 ][ i - 1 ];
+        //            }
+        //        }
+
+        size = 5;
+
+        Node &n0 = nodes->local_at( i0 );
+        Node &n1 = nodes->local_at( i1 );
+        Node &n2 = nodes->local_at( i2 );
+        Node &nn = nodes->local_at( in );
+
+        if ( store_the_normals ) {
+            nn.dir_x = n1.dir_x;
+            nn.dir_y = n1.dir_y;
+            n1.dir_x = normal.x;
+            n1.dir_y = normal.y;
+        }
+        nn.x = n2.x - m1 * ( n1.x - n2.x );
+        nn.y = n2.y - m1 * ( n1.y - n2.y );
+        n1.x = n0.x - m0 * ( n1.x - n0.x );
+        n1.y = n0.y - m0 * ( n1.y - n0.y );
+        nn.cut_id.set( n1.cut_id.get() );
+        n1.cut_id.set( cut_id );
+        return true;
+    }
     case 0b1001:
         TODO;
-        break;
+        return true;
     case 0b1010:
         TODO;
-        break;
+        return true;
     case 0b1011:
         TODO;
-        break;
+        return true;
     case 0b1100:
         TODO;
-        break;
+        return true;
     case 0b1101:
         TODO;
-        break;
-    case 0b1110:
-        TODO;
-        break;
+        return true;
+    case 0b1110: {
+        constexpr std::size_t i1 = 1;
+        constexpr std::size_t nb_outside = 3;
+        constexpr std::size_t i0 = ( i1 + si  - 1        ) % si;
+        constexpr std::size_t i2 = ( i1 + nb_outside - 1 ) % si;
+        constexpr std::size_t i3 = ( i1 + nb_outside     ) % si;
+        constexpr std::size_t in = i1 + 1;
+
+        // more than 2 points are outside, outside points are before and after bit 0
+        // if ( i1 == 0 && ( outside & ( 1ul << ( size - 1 ) ) ) ) {
+        //
+
+        Node &n0 = nodes->local_at( i0 );
+        Node &n1 = nodes->local_at( i1 );
+        Node &n2 = nodes->local_at( i2 );
+        Node &n3 = nodes->local_at( i3 );
+        Node &nn = nodes->local_at( in );
+
+        TF s0 = d[ 0 ][ i0 ];
+        TF s1 = d[ 0 ][ i1 ];
+        TF s2 = d[ 0 ][ i2 ];
+        TF s3 = d[ 0 ][ i3 ];
+
+        TF m1 = s0 / ( s1 - s0 );
+        TF m2 = s3 / ( s2 - s3 );
+
+        // modified and deleted points
+        n1.x = n0.x - m1 * ( n1.x - n0.x );
+        n1.y = n0.y - m1 * ( n1.y - n0.y );
+        n1.cut_id.set( cut_id );
+        if ( store_the_normals ) {
+            n1.dir_x = normal.x;
+            n1.dir_y = normal.y;
+        }
+
+        nn.x = n3.x - m2 * ( n2.x - n3.x );
+        nn.y = n3.y - m2 * ( n2.y - n3.y );
+        nn.cut_id.set( n2.cut_id.get() );
+        if ( store_the_normals ) {
+            nn.dir_x = n2.dir_x;
+            nn.dir_y = n2.dir_y;
+        }
+
+        constexpr std::size_t nb_to_rem = nb_outside - 2;
+        for( std::size_t i = i2 + 1; i < si; ++i )
+            nodes->local_at( i - nb_to_rem ).get_straight_content_from( nodes->local_at( i ) );
+
+        // modification of the number of points
+        size -= nb_to_rem;
+        return true;
+    }
     case 0b1111:
         size = 0;
+        return true;
+    default:
+        return false;
+    }
+}
+
+template<class Pc> template<int flags,class BB>
+bool ConvexPolyhedron2<Pc>::plane_cut_simd4_size3( Pt origin, Pt normal, CI cut_id, N<flags>, std::uint64_t outside, BB *d ) {
+    switch ( outside ) {
+    case 0b000:
+        return false;
+    case 0b001:
+        TODO;
+        return true;
+    case 0b010:
+        TODO;
+        return true;
+    case 0b011:
+        TODO;
+        return true;
+    case 0b100:
+        TODO;
+        return true;
+    case 0b101:
+        TODO;
+        return true;
+    case 0b110: {
+
+        return true;
+    }
+    case 0b111:
+        TODO;
         return true;
     default:
         return false;
@@ -459,7 +604,7 @@ bool ConvexPolyhedron2<Pc>::plane_cut_gen( Pt origin, Pt normal, CI cut_id, N<fl
     }
 
     // => we will need a normalized direction
-    if ( ( flags & ConvexPolyhedron::plane_cur_flag_dir_is_normalized ) == 0 ) {
+    if ( ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 ) {
         TF n = 1 / norm_2( normal );
         for( std::size_t i = 0; i < size; ++i )
             distances[ i ] *= n;
@@ -469,55 +614,49 @@ bool ConvexPolyhedron2<Pc>::plane_cut_gen( Pt origin, Pt normal, CI cut_id, N<fl
     // => we will need index of the first outside point
     std::size_t i1 = tzcnt( outside );
 
-    //    // only 1 outside ?
-    //    if ( nb_outside == 1 ) {
-    //        TODO;
-    //        //        // => creation of a new point
-    //        //        std::size_t i0 = ( i1 + size - 1 ) % size;
-    //        //        std::size_t i2 = ( i1 + 1 ) % size;
-    //        //        Pt p0 { points[ 0 ][ i0 ], points[ 1 ][ i0 ] };
-    //        //        Pt p1 { points[ 0 ][ i1 ], points[ 1 ][ i1 ] };
-    //        //        Pt p2 { points[ 0 ][ i2 ], points[ 1 ][ i2 ] };
-    //        //        TF s0 = distances[ i0 ];
-    //        //        TF s1 = distances[ i1 ];
-    //        //        TF s2 = distances[ i2 ];
+    // only 1 outside ?
+    if ( nb_outside == 1 ) {
+        // => creation of a new point
+        std::size_t i0 = ( i1 + size - 1 ) % size;
+        std::size_t i2 = ( i1 + 1 ) % size;
+        std::size_t in = i1 + 1;
 
-    //        //        TF m0 = s0 / ( s1 - s0 );
-    //        //        TF m1 = s2 / ( s1 - s2 );
+        Node &n0 = node( i0 );
+        Node &n1 = node( i1 );
+        Node &n2 = node( i2 );
+        Node &nn = node( in );
 
-    //        //        // shift points
-    //        //        for( std::size_t i = size; i > i1 + 1; --i ) {
-    //        //            points [ 0 ][ i ] = points [ 0 ][ i - 1 ];
-    //        //            points [ 1 ][ i ] = points [ 1 ][ i - 1 ];
-    //        //            cut_ids     [ i ] = cut_ids     [ i - 1 ];
-    //        //            if ( store_the_normals ) {
-    //        //                normals[ 0 ][ i ] = normals[ 0 ][ i - 1 ];
-    //        //                normals[ 1 ][ i ] = normals[ 1 ][ i - 1 ];
-    //        //            }
-    //        //        }
+        TF s0 = distances[ i0 ];
+        TF s1 = distances[ i1 ];
+        TF s2 = distances[ i2 ];
 
-    //        //        // modify the number of points
-    //        //        ++size;
+        TF m0 = s0 / ( s1 - s0 );
+        TF m1 = s2 / ( s1 - s2 );
 
-    //        //        // modified or added points
-    //        //        points[ 0 ][ i1 + 1 ] = p2.x - m1 * ( p1.x - p2.x );
-    //        //        points[ 1 ][ i1 + 1 ] = p2.y - m1 * ( p1.y - p2.y );
-    //        //        cut_ids    [ i1 + 1 ] = cut_ids[ i1 + 0 ];
-    //        //        if ( store_the_normals ) {
-    //        //            normals[ 0 ][ i1 + 1 ] = normals[ 0 ][ i1 + 0 ];
-    //        //            normals[ 1 ][ i1 + 1 ] = normals[ 1 ][ i1 + 0 ];
-    //        //        }
+        // shift points
+        for( std::size_t i = size; i > i1 + 1; --i )
+            node( i + 1 ).get_straight_content_from( node( i + 0 ) );
+        ++size;
 
-    //        //        points[ 0 ][ i1 + 0 ] = p0.x - m0 * ( p1.x - p0.x );
-    //        //        points[ 1 ][ i1 + 0 ] = p0.y - m0 * ( p1.y - p0.y );
-    //        //        cut_ids    [ i1 + 0 ] = cut_id;
-    //        //        if ( store_the_normals ) {
-    //        //            normals[ 0 ][ i1 + 0 ] = normal[ 0 ];
-    //        //            normals[ 1 ][ i1 + 0 ] = normal[ 1 ];
-    //        //        }
+        // modified or added points
+        nn.x = n2.x - m1 * ( n1.x - n2.x );
+        nn.y = n2.y - m1 * ( n1.y - n2.y );
+        nn.cut_id.set( n1.cut_id.get() );
+        if ( store_the_normals ) {
+            nn.dir_x = n1.dir_x;
+            nn.dir_y = n1.dir_y;
+        }
 
-    //        return true;
-    //    }
+        n1.x = n0.x - m0 * ( n1.x - n0.x );
+        n1.y = n0.y - m0 * ( n1.y - n0.y );
+        n1.cut_id.set( cut_id );
+        if ( store_the_normals ) {
+            n1.dir_x = normal.x;
+            n1.dir_y = normal.y;
+        }
+
+        return true;
+    }
 
     // 2 points are outside ?
     if ( nb_outside == 2 ) {
@@ -551,152 +690,184 @@ bool ConvexPolyhedron2<Pc>::plane_cut_gen( Pt origin, Pt normal, CI cut_id, N<fl
         return true;
     }
 
-    //    // more than 2 points are outside, outside points are before and after bit 0
-    //    if ( i1 == 0 && ( outside & ( 1ul << ( size - 1 ) ) ) ) {
-    //        TODO;
-    //        //        std::size_t nb_inside = size - nb_outside;
-    //        //        #ifdef __AVX2__
-    //        //        std::size_t i3 = _tzcnt_u64( ~ outside );
-    //        //        #else
-    //        //        std::size_t i3 = 0;
-    //        //        for( auto cp = ~ outside; ( cp & 1 ) == 0; ++i3 )
-    //        //            cp /= 2;
-    //        //        #endif
-    //        //        i1 = nb_inside + i3;
-    //        //        std::size_t i0 = i1 - 1;
-    //        //        std::size_t i2 = i3 - 1;
+    // more than 2 points are outside, outside points are before and after bit 0
+    if ( i1 == 0 && outside[ size - 1 ] ) {
+        TODO;
+        //        std::size_t nb_inside = size - nb_outside;
+        //        #ifdef __AVX2__
+        //        std::size_t i3 = _tzcnt_u64( ~ outside );
+        //        #else
+        //        std::size_t i3 = 0;
+        //        for( auto cp = ~ outside; ( cp & 1 ) == 0; ++i3 )
+        //            cp /= 2;
+        //        #endif
+        //        i1 = nb_inside + i3;
+        //        std::size_t i0 = i1 - 1;
+        //        std::size_t i2 = i3 - 1;
 
-    //        //        Pt p0 { points[ 0 ][ i0 ], points[ 1 ][ i0 ] };
-    //        //        Pt p1 { points[ 0 ][ i1 ], points[ 1 ][ i1 ] };
-    //        //        Pt p2 { points[ 0 ][ i2 ], points[ 1 ][ i2 ] };
-    //        //        Pt p3 { points[ 0 ][ i3 ], points[ 1 ][ i3 ] };
-    //        //        TF s0 = distances[ i0 ];
-    //        //        TF s1 = distances[ i1 ];
-    //        //        TF s2 = distances[ i2 ];
-    //        //        TF s3 = distances[ i3 ];
+        //        Pt p0 { points[ 0 ][ i0 ], points[ 1 ][ i0 ] };
+        //        Pt p1 { points[ 0 ][ i1 ], points[ 1 ][ i1 ] };
+        //        Pt p2 { points[ 0 ][ i2 ], points[ 1 ][ i2 ] };
+        //        Pt p3 { points[ 0 ][ i3 ], points[ 1 ][ i3 ] };
+        //        TF s0 = distances[ i0 ];
+        //        TF s1 = distances[ i1 ];
+        //        TF s2 = distances[ i2 ];
+        //        TF s3 = distances[ i3 ];
 
-    //        //        TF m1 = s0 / ( s1 - s0 );
-    //        //        TF m2 = s3 / ( s2 - s3 );
+        //        TF m1 = s0 / ( s1 - s0 );
+        //        TF m2 = s3 / ( s2 - s3 );
 
-    //        //        // modified and shifted points
-    //        //        points[ 0 ][ 0 ] = p3.x - m2 * ( p2.x - p3.x );
-    //        //        points[ 1 ][ 0 ] = p3.y - m2 * ( p2.y - p3.y );
-    //        //        cut_ids    [ 0 ] = cut_ids[ i2 ];
-    //        //        if ( store_the_normals ) {
-    //        //            normals[ 0 ][ 0 ] = normals[ 0 ][ i2 ];
-    //        //            normals[ 1 ][ 0 ] = normals[ 1 ][ i2 ];
-    //        //        }
-    //        //        std::size_t o = 1;
-    //        //        for( ; o <= nb_inside; ++o ) {
-    //        //            points[ 0 ][ o ] = points[ 0 ][ i2 + o ];
-    //        //            points[ 1 ][ o ] = points[ 1 ][ i2 + o ];
-    //        //            cut_ids    [ o ] = cut_ids    [ i2 + o ];
-    //        //            if ( store_the_normals ) {
-    //        //                normals[ 0 ][ o ] = normals[ 0 ][ i2 + o ];
-    //        //                normals[ 1 ][ o ] = normals[ 1 ][ i2 + o ];
-    //        //            }
-    //        //        }
-    //        //        points[ 0 ][ o ] = p0.x - m1 * ( p1.x - p0.x );
-    //        //        points[ 1 ][ o ] = p0.y - m1 * ( p1.y - p0.y );
-    //        //        cut_ids    [ o ] = cut_id;
-    //        //        if ( store_the_normals ) {
-    //        //            normals[ 0 ][ o ] = normal[ 0 ];
-    //        //            normals[ 1 ][ o ] = normal[ 1 ];
-    //        //        }
+        //        // modified and shifted points
+        //        points[ 0 ][ 0 ] = p3.x - m2 * ( p2.x - p3.x );
+        //        points[ 1 ][ 0 ] = p3.y - m2 * ( p2.y - p3.y );
+        //        cut_ids    [ 0 ] = cut_ids[ i2 ];
+        //        if ( store_the_normals ) {
+        //            normals[ 0 ][ 0 ] = normals[ 0 ][ i2 ];
+        //            normals[ 1 ][ 0 ] = normals[ 1 ][ i2 ];
+        //        }
+        //        std::size_t o = 1;
+        //        for( ; o <= nb_inside; ++o ) {
+        //            points[ 0 ][ o ] = points[ 0 ][ i2 + o ];
+        //            points[ 1 ][ o ] = points[ 1 ][ i2 + o ];
+        //            cut_ids    [ o ] = cut_ids    [ i2 + o ];
+        //            if ( store_the_normals ) {
+        //                normals[ 0 ][ o ] = normals[ 0 ][ i2 + o ];
+        //                normals[ 1 ][ o ] = normals[ 1 ][ i2 + o ];
+        //            }
+        //        }
+        //        points[ 0 ][ o ] = p0.x - m1 * ( p1.x - p0.x );
+        //        points[ 1 ][ o ] = p0.y - m1 * ( p1.y - p0.y );
+        //        cut_ids    [ o ] = cut_id;
+        //        if ( store_the_normals ) {
+        //            normals[ 0 ][ o ] = normal[ 0 ];
+        //            normals[ 1 ][ o ] = normal[ 1 ];
+        //        }
 
-    //        //        size -= nb_outside - 2;
-    //        return true;
-    //    }
+        //        size -= nb_outside - 2;
+        return true;
+    }
 
-    //    // more than 2 points are outside, outside points do not cross `nb_points`
-    //    TODO;
-    //    //    std::size_t i0 = ( i1 + size  - 1 ) % size;
-    //    //    std::size_t i2 = ( i1 + nb_outside - 1 ) % size;
-    //    //    std::size_t i3 = ( i1 + nb_outside     ) % size;
-    //    //    Pt p0 { points[ 0 ][ i0 ], points[ 1 ][ i0 ] };
-    //    //    Pt p1 { points[ 0 ][ i1 ], points[ 1 ][ i1 ] };
-    //    //    Pt p2 { points[ 0 ][ i2 ], points[ 1 ][ i2 ] };
-    //    //    Pt p3 { points[ 0 ][ i3 ], points[ 1 ][ i3 ] };
-    //    //    TF s0 = distances[ i0 ];
-    //    //    TF s1 = distances[ i1 ];
-    //    //    TF s2 = distances[ i2 ];
-    //    //    TF s3 = distances[ i3 ];
+    // more than 2 points are outside, outside points do not cross `nb_points`
+    std::size_t i0 = ( i1 + size - 1       ) % size;
+    std::size_t i2 = ( i1 + nb_outside - 1 ) % size;
+    std::size_t i3 = ( i1 + nb_outside     ) % size;
+    std::size_t in = i1 + 1;
 
-    //    //    TF m1 = s0 / ( s1 - s0 );
-    //    //    TF m2 = s3 / ( s2 - s3 );
+    Node &n0 = node( i0 );
+    Node &n1 = node( i1 );
+    Node &n2 = node( i2 );
+    Node &n3 = node( i3 );
+    Node &nn = node( in );
 
-    //    //    // modified and deleted points
-    //    //    points[ 0 ][ i1 + 0 ] = p0.x - m1 * ( p1.x - p0.x );
-    //    //    points[ 1 ][ i1 + 0 ] = p0.y - m1 * ( p1.y - p0.y );
-    //    //    cut_ids    [ i1 + 0 ] = cut_id;
-    //    //    if ( store_the_normals ) {
-    //    //        normals[ 0 ][ i1 + 0 ] = normal[ 0 ];
-    //    //        normals[ 1 ][ i1 + 0 ] = normal[ 1 ];
-    //    //    }
+    TF s0 = distances[ i0 ];
+    TF s1 = distances[ i1 ];
+    TF s2 = distances[ i2 ];
+    TF s3 = distances[ i3 ];
 
-    //    //    points[ 0 ][ i1 + 1 ] = p3.x - m2 * ( p2.x - p3.x );
-    //    //    points[ 1 ][ i1 + 1 ] = p3.y - m2 * ( p2.y - p3.y );
-    //    //    cut_ids    [ i1 + 1 ] = cut_ids[ i2 ];
-    //    //    if ( store_the_normals ) {
-    //    //        normals[ 0 ][ i1 + 1 ] = normals[ 0 ][ i2 ];
-    //    //        normals[ 1 ][ i1 + 1 ] = normals[ 1 ][ i2 ];
-    //    //    }
+    TF m1 = s0 / ( s1 - s0 );
+    TF m2 = s3 / ( s2 - s3 );
 
-    //    //    std::size_t nb_to_rem = nb_outside - 2;
-    //    //    for( std::size_t i = i2 + 1; i < size; ++i ) {
-    //    //        points[ 0 ][ i - nb_to_rem ] = points[ 0 ][ i ];
-    //    //        points[ 1 ][ i - nb_to_rem ] = points[ 1 ][ i ];
-    //    //        cut_ids    [ i - nb_to_rem ] = cut_ids    [ i ];
-    //    //        if ( store_the_normals ) {
-    //    //            normals[ 0 ][ i - nb_to_rem ] = normals[ 0 ][ i ];
-    //    //            normals[ 1 ][ i - nb_to_rem ] = normals[ 1 ][ i ];
-    //    //        }
-    //    //    }
+    // modified and deleted points
+    if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
+    n1.x = n0.x - m1 * ( n1.x - n0.x );
+    n1.y = n0.y - m1 * ( n1.y - n0.y );
+    n1.cut_id.set( cut_id );
 
-    //    //    // modification of the number of points
-    //    //    size -= nb_to_rem;
-    TODO;
+    if ( store_the_normals ) { nn.dir_x = n2.dir_x; nn.dir_y = n2.dir_y; }
+    nn.x = n3.x - m2 * ( n2.x - n3.x );
+    nn.y = n3.y - m2 * ( n2.y - n3.y );
+    nn.cut_id.set( n2.cut_id.get() );
+
+    std::size_t nb_to_rem = nb_outside - 2;
+    for( std::size_t i = i2 + 1; i < size; ++i )
+        node( i - nb_to_rem ).get_straight_content_from( node( i ) );
+
+    // modification of the number of points
+    size -= nb_to_rem;
     return true;
 }
 
 template<class Pc> template<int flags>
 bool ConvexPolyhedron2<Pc>::plane_cut( Pt origin, Pt normal, CI cut_id, N<flags> ) {
-    if ( ( flags & ConvexPolyhedron::do_not_use_simd ) == 0 ) {
-        constexpr std::size_t simd_size = xsimd::simd_type<TF>::size;
-        using BB = xsimd::batch_bool<TF,simd_size>;
-        using BF = xsimd::batch<TF,simd_size>;
-        auto ox = BF( origin.x );
-        auto oy = BF( origin.y );
-        auto nx = BF( normal.x );
-        auto ny = BF( normal.y );
+    // no simd ?
+    if ( flags & ConvexPolyhedron::do_not_use_simd ) {
+        if ( size <= 64 ) {
+            std::bitset<64> outside;
+            std::array<TF,64> distances;
+            return plane_cut_gen( origin, normal, cut_id, N<flags>(), outside, distances );
+        }
 
-        if ( simd_size == 4 ) {
-            if ( size == 4 ) {
+        std::vector<bool> outside( size );
+        std::vector<TF> distances( size );
+        return plane_cut_gen( origin, normal, cut_id, N<flags>(), outside, distances );
+    }
+
+    // => simd prep
+    constexpr std::size_t simd_size = xsimd::simd_type<TF>::size;
+    using BB = xsimd::batch_bool<TF,simd_size>;
+    using BF = xsimd::batch<TF,simd_size>;
+    auto ox = BF( origin.x );
+    auto oy = BF( origin.y );
+    auto nx = BF( normal.x );
+    auto ny = BF( normal.y );
+
+    if ( simd_size == 4 ) {
+        if ( flags & ConvexPolyhedron::plane_cut_flag_no_switches ) {
+            if ( size <= 4 ) {
                 BF px; px.load_aligned( &nodes->x );
                 BF py; py.load_aligned( &nodes->y );
                 BF d = ( ox - px ) * nx + ( oy - py ) * ny;
                 std::uint64_t outside = _mm256_movemask_pd( d < BF( TF( 0 ) ) );
-                if ( flags & ConvexPolyhedron::plane_cut_flag_no_switches )
-                    return plane_cut_simd4_size4_ns( origin, normal, cut_id, N<flags>(), outside, &d );
-                return plane_cut_simd4_size4( origin, normal, cut_id, N<flags>(), outside, &d );
-            } else {
-                TODO;
+                return plane_cut_simd4_sizelt4_ns( origin, normal, cut_id, N<flags>(), outside, &d );
             }
+            TODO;
             return false;
         }
 
-        TODO;
+        // => use of switch for outside
+        switch ( size ) {
+        case 0:
+            return false;
+        case 1:
+            ERROR( "should not happen" );
+            return false;
+        case 2:
+            ERROR( "should not happen" );
+            return false;
+        case 3: {
+            BF px; px.load_aligned( &nodes->x );
+            BF py; py.load_aligned( &nodes->y );
+            BF d = ( ox - px ) * nx + ( oy - py ) * ny;
+            std::uint64_t outside = _mm256_movemask_pd( d < BF( TF( 0 ) ) ) & 0b111;
+            return plane_cut_simd4_size3( origin, normal, cut_id, N<flags>(), outside, &d );
+        }
+        case 4: {
+            BF px; px.load_aligned( &nodes->x );
+            BF py; py.load_aligned( &nodes->y );
+            BF d = ( ox - px ) * nx + ( oy - py ) * ny;
+            std::uint64_t outside = _mm256_movemask_pd( d < BF( TF( 0 ) ) );
+            return plane_cut_simd4_size4( origin, normal, cut_id, N<flags>(), outside, &d );
+        }
+        case 5:
+            TODO;
+            return false;
+        case 6:
+            TODO;
+            return false;
+        case 7:
+            TODO;
+            return false;
+        case 8:
+            TODO;
+            return false;
+        default:
+            TODO;
+            return false;
+        }
     }
 
-    if ( size <= 64 ) {
-        std::bitset<64> outside;
-        std::array<TF,64> distances;
-        return plane_cut_gen( origin, normal, cut_id, N<flags>(), outside, distances );
-    }
-
-    std::vector<bool> outside( size );
-    std::vector<TF> distances( size );
-    return plane_cut_gen( origin, normal, cut_id, N<flags>(), outside, distances );
+    TODO;
+    return false;
 }
 
 } // namespace sdot
