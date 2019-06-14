@@ -36,7 +36,7 @@ public:
     using                                CI                        = typename Pc::CI; ///< cut info
     using                                Pt                        = Point2<TF>;      ///< point type
 
-    static constexpr bool                store_the_normals         = true;
+    static constexpr bool                store_the_normals         = Pc::store_the_normals; ///< used to test if a point is inside
     static constexpr bool                allow_ball_cut            = Pc::allow_ball_cut;
     static constexpr TI                  block_size                = 64;
     using                                Node                      = ConvexPolyhedron2NodeBlock<TF,TI,block_size,store_the_normals,allow_ball_cut>;
@@ -69,9 +69,8 @@ public:
 
 
 private:
-    template<int f,class B> bool         plane_cut_simd4_sizelt4_ns( Pt origin, Pt normal, CI cut_id, N<f>, std::uint64_t outside, B *d );
-    template<int f,class B> bool         plane_cut_simd4_size4     ( Pt origin, Pt normal, CI cut_id, N<f>, std::uint64_t outside, B *d );
-    template<int f,class B> bool         plane_cut_simd4_size3     ( Pt origin, Pt normal, CI cut_id, N<f>, std::uint64_t outside, B *d );
+    template<int f> bool                 plane_cut_simd_switch     ( Pt origin, Pt normal, CI cut_id, N<f> );
+    template<int f> bool                 plane_cut_simd_tzcnt      ( Pt origin, Pt normal, CI cut_id, N<f> );
     template<int f,class B,class D> bool plane_cut_gen             ( Pt origin, Pt normal, CI cut_id, N<f>, B &outside, D &distances );
 
     Node*                                nodes;                    ///< aligned data. @see ConvexPolyhedron2

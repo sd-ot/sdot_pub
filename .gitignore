@@ -1,3 +1,4 @@
 .sdot*
 ext/
 vtk/
+callgrind.out*

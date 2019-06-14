@@ -1,5 +1,6 @@
 #include "../Support/Display/binary_repr.h"
 #include "../Support/aligned_memory.h"
+#include "../Support/xsimd_util.h"
 #include "../Support/bit_handling.h"
 #include "../Support/TODO.h"
 #include "../Support/P.h"
@@ -183,10 +184,22 @@ bool ConvexPolyhedron2<Pc>::plane_cut( Pt origin, Pt normal, CI cut_id ) {
     return plane_cut( origin, normal, cut_id, N<0>() );
 }
 
-template<class Pc> template<int flags,class BB>
-bool ConvexPolyhedron2<Pc>::plane_cut_simd4_sizelt4_ns( Pt origin, Pt normal, CI cut_id, N<flags>, std::uint64_t outside, BB *d ) {
+template<class Pc> template<int flags>
+bool ConvexPolyhedron2<Pc>::plane_cut_simd_tzcnt( Pt origin, Pt normal, CI cut_id, N<flags> ) {
     constexpr std::size_t simd_size = xsimd::simd_type<TF>::size;
+    using BB = xsimd::batch_bool<TF,simd_size>;
     using BF = xsimd::batch<TF,simd_size>;
+
+    // outsize list
+    BF ox( origin.x );
+    BF oy( origin.y );
+    BF nx( normal.x );
+    BF ny( normal.y );
+
+    BF px; px.load_aligned( &nodes->x );
+    BF py; py.load_aligned( &nodes->y );
+    BF d = ( ox - px ) * nx + ( oy - py ) * ny;
+    std::uint64_t outside = is_neg( d );
 
     // all inside ?
     if ( outside == 0 )
@@ -200,7 +213,7 @@ bool ConvexPolyhedron2<Pc>::plane_cut_simd4_sizelt4_ns( Pt origin, Pt normal, CI
     }
 
     // => we will need a normalized direction
-    if ( ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 ) {
+    if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 ) {
         TF n = 1 / norm_2( normal );
         for( std::size_t i = 0; i < size / simd_size; ++i )
             d[ i ] *= n;
@@ -208,7 +221,7 @@ bool ConvexPolyhedron2<Pc>::plane_cut_simd4_sizelt4_ns( Pt origin, Pt normal, CI
     }
 
     // => we will need index of the first outside point
-    const TF *distances = reinterpret_cast<const TF *>( d );
+    const TF *distances = reinterpret_cast<const TF *>( &d );
     std::size_t i1 = tzcnt( outside );
 
     // only 1 outside ?
@@ -289,58 +302,52 @@ bool ConvexPolyhedron2<Pc>::plane_cut_simd4_sizelt4_ns( Pt origin, Pt normal, CI
 
     // more than 2 points are outside, outside points are before and after bit 0
     if ( i1 == 0 && ( outside & ( 1ul << ( size - 1 ) ) ) ) {
-        TODO;
-        //        std::size_t nb_inside = size - nb_outside;
-        //        #ifdef __AVX2__
-        //        std::size_t i3 = _tzcnt_u64( ~ outside );
-        //        #else
-        //        std::size_t i3 = 0;
-        //        for( auto cp = ~ outside; ( cp & 1 ) == 0; ++i3 )
-        //            cp /= 2;
-        //        #endif
-        //        i1 = nb_inside + i3;
-        //        std::size_t i0 = i1 - 1;
-        //        std::size_t i2 = i3 - 1;
+        std::size_t nb_inside = size - nb_outside;
+        std::size_t i3 = tzcnt( ~ outside );
+        i1 = nb_inside + i3;
+        std::size_t i0 = i1 - 1;
+        std::size_t i2 = i3 - 1;
 
-        //        Pt p0 { points[ 0 ][ i0 ], points[ 1 ][ i0 ] };
-        //        Pt p1 { points[ 0 ][ i1 ], points[ 1 ][ i1 ] };
-        //        Pt p2 { points[ 0 ][ i2 ], points[ 1 ][ i2 ] };
-        //        Pt p3 { points[ 0 ][ i3 ], points[ 1 ][ i3 ] };
-        //        TF s0 = distances[ i0 ];
-        //        TF s1 = distances[ i1 ];
-        //        TF s2 = distances[ i2 ];
-        //        TF s3 = distances[ i3 ];
+        Node &n0 = node( i0 );
+        Node &n1 = node( i1 );
+        Node &n2 = node( i2 );
+        Node &n3 = node( i3 );
+        Node &nz = node(  0 );
 
-        //        TF m1 = s0 / ( s1 - s0 );
-        //        TF m2 = s3 / ( s2 - s3 );
+        Pt p0 { n0.x, n0.y };
+        Pt p1 { n1.x, n1.y };
+        Pt p2 { n2.x, n2.y };
+        Pt p3 { n3.x, n3.y };
 
-        //        // modified and shifted points
-        //        points[ 0 ][ 0 ] = p3.x - m2 * ( p2.x - p3.x );
-        //        points[ 1 ][ 0 ] = p3.y - m2 * ( p2.y - p3.y );
-        //        cut_ids    [ 0 ] = cut_ids[ i2 ];
-        //        if ( store_the_normals ) {
-        //            normals[ 0 ][ 0 ] = normals[ 0 ][ i2 ];
-        //            normals[ 1 ][ 0 ] = normals[ 1 ][ i2 ];
-        //        }
-        //        std::size_t o = 1;
-        //        for( ; o <= nb_inside; ++o ) {
-        //            points[ 0 ][ o ] = points[ 0 ][ i2 + o ];
-        //            points[ 1 ][ o ] = points[ 1 ][ i2 + o ];
-        //            cut_ids    [ o ] = cut_ids    [ i2 + o ];
-        //            if ( store_the_normals ) {
-        //                normals[ 0 ][ o ] = normals[ 0 ][ i2 + o ];
-        //                normals[ 1 ][ o ] = normals[ 1 ][ i2 + o ];
-        //            }
-        //        }
-        //        points[ 0 ][ o ] = p0.x - m1 * ( p1.x - p0.x );
-        //        points[ 1 ][ o ] = p0.y - m1 * ( p1.y - p0.y );
-        //        cut_ids    [ o ] = cut_id;
-        //        if ( store_the_normals ) {
-        //            normals[ 0 ][ o ] = normal[ 0 ];
-        //            normals[ 1 ][ o ] = normal[ 1 ];
-        //        }
+        TF s0 = distances[ i0 ];
+        TF s1 = distances[ i1 ];
+        TF s2 = distances[ i2 ];
+        TF s3 = distances[ i3 ];
 
-        //        size -= nb_outside - 2;
+        TF m1 = s0 / ( s1 - s0 );
+        TF m2 = s3 / ( s2 - s3 );
+
+        // modified and shifted points
+        nz.x = p3.x - m2 * ( p2.x - p3.x );
+        nz.y = p3.y - m2 * ( p2.y - p3.y );
+        nz.cut_id.set( n2.cut_id.get() );
+        if ( store_the_normals ) {
+            nz.x = n2.dir_x;
+            nz.y = n2.dir_y;
+        }
+        std::size_t o = 1;
+        for( ; o <= nb_inside; ++o )
+            node( o ).get_straight_content_from( node( i2 + o ) );
+        Node &no = node( o );
+        no.x = p0.x - m1 * ( p1.x - p0.x );
+        no.y = p0.y - m1 * ( p1.y - p0.y );
+        no.cut_id.set( cut_id );
+        if ( store_the_normals ) {
+            no.dir_x = normal.x;
+            no.dir_y = normal.y;
+        }
+
+        size -= nb_outside - 2;
         return true;
     }
 
@@ -384,33 +391,47 @@ bool ConvexPolyhedron2<Pc>::plane_cut_simd4_sizelt4_ns( Pt origin, Pt normal, CI
     return true;
 }
 
-template<class Pc> template<int flags,class BB>
-bool ConvexPolyhedron2<Pc>::plane_cut_simd4_size4( Pt origin, Pt normal, CI cut_id, N<flags>, std::uint64_t outside, BB *d ) {
-    constexpr std::size_t si = 4;
+template<class Pc> template<int flags>
+bool ConvexPolyhedron2<Pc>::plane_cut_simd_switch( Pt origin, Pt normal, CI cut_id, N<flags> ) {
+    constexpr std::size_t simd_size = xsimd::simd_type<TF>::size;
+    using BB = xsimd::batch_bool<TF,simd_size>;
+    using BF = xsimd::batch<TF,simd_size>;
 
-    switch ( outside ) {
-    case 0b0000:
+    // outsize list
+    BF ox( origin.x );
+    BF oy( origin.y );
+    BF nx( normal.x );
+    BF ny( normal.y );
+
+    BF px; px.load_aligned( &nodes->x );
+    BF py; py.load_aligned( &nodes->y );
+    BF d = ( ox - px ) * nx + ( oy - py ) * ny;
+    std::uint64_t outside = is_neg( d );
+
+    constexpr std::size_t mul_size = 64;
+    switch ( mul_size * size + outside ) {
+    case mul_size * 4 + 0b0000:
         return false;
-    case 0b0001:
+    case mul_size * 4 + 0b0001:
         TODO;
         return true;
-    case 0b0010:
+    case mul_size * 4 + 0b0010:
         TODO;
         return true;
-    case 0b0011:
+    case mul_size * 4 + 0b0011:
         TODO;
         return true;
-    case 0b0100:
+    case mul_size * 4 + 0b0100:
         TODO;
         return true;
-    case 0b0101:
+    case mul_size * 4 + 0b0101:
         TODO;
         return true;
-    case 0b0110: {
-        TF s0 = d[ 0 ][ 0 ];
-        TF s1 = d[ 0 ][ 1 ];
-        TF s2 = d[ 0 ][ 2 ];
-        TF s3 = d[ 0 ][ 3 ];
+    case mul_size * 4 + 0b0110: {
+        TF s0 = d[ 0 ];
+        TF s1 = d[ 1 ];
+        TF s2 = d[ 2 ];
+        TF s3 = d[ 3 ];
 
         TF m1 = s0 / ( s1 - s0 );
         TF m2 = s3 / ( s2 - s3 );
@@ -428,22 +449,10 @@ bool ConvexPolyhedron2<Pc>::plane_cut_simd4_size4( Pt origin, Pt normal, CI cut_
         n1.cut_id.set( cut_id );
         return true;
     }
-    case 0b0111:
+    case mul_size * 4 + 0b0111:
         TODO;
         return true;
-    case 0b1000: {
-        constexpr int i1 = 3;
-        constexpr int i0 = ( i1 + si - 1 ) % si;
-        constexpr int i2 = ( i1 + 1 ) % si;
-        constexpr int in = 4;
-
-        TF s0 = d[ 0 ][ i0 ]; // ( i1 + size - 1 ) % size
-        TF s1 = d[ 0 ][ i1 ]; // i1
-        TF s2 = d[ 0 ][ i2 ]; // ( i1 + 1 ) % size
-
-        TF m0 = s0 / ( s1 - s0 );
-        TF m1 = s2 / ( s1 - s2 );
-
+    case mul_size * 4 + 0b1000: {
         // no point to shift
         //        for( std::size_t i = size; i > i1 + 1; --i ) {
         //            points [ 0 ][ i ] = points [ 0 ][ i - 1 ];
@@ -454,6 +463,16 @@ bool ConvexPolyhedron2<Pc>::plane_cut_simd4_size4( Pt origin, Pt normal, CI cut_
         //                normals[ 1 ][ i ] = normals[ 1 ][ i - 1 ];
         //            }
         //        }
+
+        constexpr std::size_t si = 4;
+        constexpr int i1 = 3;
+        constexpr int i0 = ( i1 + si - 1 ) % si;
+        constexpr int i2 = ( i1 + 1 ) % si;
+        constexpr int in = 4;
+
+        xsimd::batch<TF,2> s1{ d[ i1 ] };
+        xsimd::batch<TF,2> so{ d[ i0 ], d[ i2 ] };
+        xsimd::batch<TF,2> mo = so / ( s1 - so );
 
         size = 5;
 
@@ -468,30 +487,41 @@ bool ConvexPolyhedron2<Pc>::plane_cut_simd4_size4( Pt origin, Pt normal, CI cut_
             n1.dir_x = normal.x;
             n1.dir_y = normal.y;
         }
-        nn.x = n2.x - m1 * ( n1.x - n2.x );
-        nn.y = n2.y - m1 * ( n1.y - n2.y );
-        n1.x = n0.x - m0 * ( n1.x - n0.x );
-        n1.y = n0.y - m0 * ( n1.y - n0.y );
+
+        //
+        xsimd::batch<TF,2> x1{ n1.x };
+        xsimd::batch<TF,2> y1{ n1.y };
+
+        xsimd::batch<TF,2> xo{ n0.x, n2.x };
+        xsimd::batch<TF,2> yo{ n0.y, n2.y };
+
+        xsimd::batch<TF,2> nx = xo - mo * ( x1 - xo );
+        xsimd::batch<TF,2> ny = yo - mo * ( y1 - xo );
+
+        nx.store_unaligned( &n1.x );
+        ny.store_unaligned( &n1.y );
+
         nn.cut_id.set( n1.cut_id.get() );
         n1.cut_id.set( cut_id );
         return true;
     }
-    case 0b1001:
+    case mul_size * 4 + 0b1001:
         TODO;
         return true;
-    case 0b1010:
+    case mul_size * 4 + 0b1010:
         TODO;
         return true;
-    case 0b1011:
+    case mul_size * 4 + 0b1011:
         TODO;
         return true;
-    case 0b1100:
+    case mul_size * 4 + 0b1100:
         TODO;
         return true;
-    case 0b1101:
+    case mul_size * 4 + 0b1101:
         TODO;
         return true;
-    case 0b1110: {
+    case mul_size * 4 + 0b1110: {
+        constexpr std::size_t si = 4;
         constexpr std::size_t i1 = 1;
         constexpr std::size_t nb_outside = 3;
         constexpr std::size_t i0 = ( i1 + si  - 1        ) % si;
@@ -509,10 +539,10 @@ bool ConvexPolyhedron2<Pc>::plane_cut_simd4_size4( Pt origin, Pt normal, CI cut_
         Node &n3 = nodes->local_at( i3 );
         Node &nn = nodes->local_at( in );
 
-        TF s0 = d[ 0 ][ i0 ];
-        TF s1 = d[ 0 ][ i1 ];
-        TF s2 = d[ 0 ][ i2 ];
-        TF s3 = d[ 0 ][ i3 ];
+        TF s0 = d[ i0 ];
+        TF s1 = d[ i1 ];
+        TF s2 = d[ i2 ];
+        TF s3 = d[ i3 ];
 
         TF m1 = s0 / ( s1 - s0 );
         TF m2 = s3 / ( s2 - s3 );
@@ -542,39 +572,33 @@ bool ConvexPolyhedron2<Pc>::plane_cut_simd4_size4( Pt origin, Pt normal, CI cut_
         size -= nb_to_rem;
         return true;
     }
-    case 0b1111:
+    case mul_size * 4 + 0b1111:
         size = 0;
         return true;
-    default:
-        return false;
-    }
-}
 
-template<class Pc> template<int flags,class BB>
-bool ConvexPolyhedron2<Pc>::plane_cut_simd4_size3( Pt origin, Pt normal, CI cut_id, N<flags>, std::uint64_t outside, BB *d ) {
-    switch ( outside ) {
-    case 0b000:
+    // ------------------------------------------------
+    case mul_size * 3 + 0b000:
         return false;
-    case 0b001:
+    case mul_size * 3 + 0b001:
         TODO;
         return true;
-    case 0b010:
+    case mul_size * 3 + 0b010:
         TODO;
         return true;
-    case 0b011:
+    case mul_size * 3 + 0b011:
         TODO;
         return true;
-    case 0b100:
+    case mul_size * 3 + 0b100:
         TODO;
         return true;
-    case 0b101:
+    case mul_size * 3 + 0b101:
         TODO;
         return true;
-    case 0b110: {
+    case mul_size * 3 + 0b110: {
 
         return true;
     }
-    case 0b111:
+    case mul_size * 3 + 0b111:
         TODO;
         return true;
     default:
@@ -604,7 +628,7 @@ bool ConvexPolyhedron2<Pc>::plane_cut_gen( Pt origin, Pt normal, CI cut_id, N<fl
     }
 
     // => we will need a normalized direction
-    if ( ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 ) {
+    if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 ) {
         TF n = 1 / norm_2( normal );
         for( std::size_t i = 0; i < size; ++i )
             distances[ i ] *= n;
@@ -802,72 +826,12 @@ bool ConvexPolyhedron2<Pc>::plane_cut( Pt origin, Pt normal, CI cut_id, N<flags>
         return plane_cut_gen( origin, normal, cut_id, N<flags>(), outside, distances );
     }
 
-    // => simd prep
-    constexpr std::size_t simd_size = xsimd::simd_type<TF>::size;
-    using BB = xsimd::batch_bool<TF,simd_size>;
-    using BF = xsimd::batch<TF,simd_size>;
-    auto ox = BF( origin.x );
-    auto oy = BF( origin.y );
-    auto nx = BF( normal.x );
-    auto ny = BF( normal.y );
+    // no switch version ?
+    if ( flags & ConvexPolyhedron::plane_cut_flag_no_switches )
+        return plane_cut_simd_tzcnt( origin, normal, cut_id, N<flags>() );
 
-    if ( simd_size == 4 ) {
-        if ( flags & ConvexPolyhedron::plane_cut_flag_no_switches ) {
-            if ( size <= 4 ) {
-                BF px; px.load_aligned( &nodes->x );
-                BF py; py.load_aligned( &nodes->y );
-                BF d = ( ox - px ) * nx + ( oy - py ) * ny;
-                std::uint64_t outside = _mm256_movemask_pd( d < BF( TF( 0 ) ) );
-                return plane_cut_simd4_sizelt4_ns( origin, normal, cut_id, N<flags>(), outside, &d );
-            }
-            TODO;
-            return false;
-        }
-
-        // => use of switch for outside
-        switch ( size ) {
-        case 0:
-            return false;
-        case 1:
-            ERROR( "should not happen" );
-            return false;
-        case 2:
-            ERROR( "should not happen" );
-            return false;
-        case 3: {
-            BF px; px.load_aligned( &nodes->x );
-            BF py; py.load_aligned( &nodes->y );
-            BF d = ( ox - px ) * nx + ( oy - py ) * ny;
-            std::uint64_t outside = _mm256_movemask_pd( d < BF( TF( 0 ) ) ) & 0b111;
-            return plane_cut_simd4_size3( origin, normal, cut_id, N<flags>(), outside, &d );
-        }
-        case 4: {
-            BF px; px.load_aligned( &nodes->x );
-            BF py; py.load_aligned( &nodes->y );
-            BF d = ( ox - px ) * nx + ( oy - py ) * ny;
-            std::uint64_t outside = _mm256_movemask_pd( d < BF( TF( 0 ) ) );
-            return plane_cut_simd4_size4( origin, normal, cut_id, N<flags>(), outside, &d );
-        }
-        case 5:
-            TODO;
-            return false;
-        case 6:
-            TODO;
-            return false;
-        case 7:
-            TODO;
-            return false;
-        case 8:
-            TODO;
-            return false;
-        default:
-            TODO;
-            return false;
-        }
-    }
-
-    TODO;
-    return false;
+    // => default version
+    return plane_cut_simd_switch( origin, normal, cut_id, N<flags>() );
 }
 
 } // namespace sdot
