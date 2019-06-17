@@ -25,7 +25,7 @@ public:
     Node&       global_at                ( TI index ) { return *reinterpret_cast<Node *>( &this[ index / bs ].x + index % bs ); }
 
     void        get_content_from         ( const Node &b ) { get_straight_content_from( b ); if ( allow_ball_cut ) { arc_radius = b.arc_radius; arc_center_x = b.arc_center_x; arc_center_y = b.arc_center_y; } }
-    void        get_straight_content_from( const Node &b ) { x = b.x; y = b.y; if ( store_the_normals ) { dir_x = b.dir_x; dir_y = b.dir_y; } cut_id = b.cut_id; }
+    void        get_straight_content_from( const Node &b ) { x = b.x; y = b.y; if ( store_the_normals ) { dir_x = b.dir_x; dir_y = b.dir_y; } cut_id.set( b.cut_id.get() ); }
 
     TF          x           , _pad_x           [ bs - 1 ];
     TF          y           , _pad_y           [ bs - 1 ];

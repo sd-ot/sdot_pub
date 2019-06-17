@@ -25,6 +25,8 @@ struct Point2 {
     template<class Bq> static Point2 read_from      ( Bq &bq ) { return { TF( bq.read() ), TF( bq.read() ) }; }
     template<class Bq> void          write_to       ( Bq &bq ) const { bq << x << y; }
 
+    Point2&                          operator/=     ( TF v ) { x /= v; y /= v; return *this ; }
+
     TF                               x;
     TF                               y;
 };

@@ -96,4 +96,29 @@ inline unsigned tzcnt( std::uint64_t val ) {
     #endif
 }
 
+
+template<std::size_t N>
+inline unsigned tocnt( const std::bitset<N> &bs ) {
+    for( unsigned i = 0; i < bs.size(); ++i )
+       if ( ! bs[ i ] )
+           return i;
+    return bs.size();
+}
+
+inline unsigned tocnt( const std::vector<bool> &bs ) {
+    for( unsigned i = 0; i < bs.size(); ++i )
+        if ( ! bs[ i ] )
+           return i;
+    return bs.size();
+}
+
+inline unsigned tocnt( std::uint32_t val ) {
+    return tzcnt( ~ val  );
+}
+
+inline unsigned tocnt( std::uint64_t val ) {
+    return tzcnt( ~ val  );
+}
+
+
 }

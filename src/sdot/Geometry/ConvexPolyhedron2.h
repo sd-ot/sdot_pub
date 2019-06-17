@@ -5,6 +5,7 @@
 //#include "../Integration/FunctionEnum.h"
 #include "Internal/ConvexPolyhedron2NodeBlock.h"
 #include "ConvexPolyhedron.h"
+#include "../Support/S.h"
 #include <functional>
 
 namespace sdot {
@@ -69,8 +70,10 @@ public:
 
 
 private:
-    template<int f> bool                 plane_cut_simd_switch     ( Pt origin, Pt normal, CI cut_id, N<f> );
+    template<int f> bool                 plane_cut_simd_switch     ( Pt origin, Pt normal, CI cut_id, N<f>, S<double> );
+    template<int f,class T> bool         plane_cut_simd_switch     ( Pt origin, Pt normal, CI cut_id, N<f>, S<T> );
     template<int f> bool                 plane_cut_simd_tzcnt      ( Pt origin, Pt normal, CI cut_id, N<f> );
+    template<int f> bool                 plane_cut_gen             ( Pt origin, Pt normal, CI cut_id, N<f> );
     template<int f,class B,class D> bool plane_cut_gen             ( Pt origin, Pt normal, CI cut_id, N<f>, B &outside, D &distances );
 
     Node*                                nodes;                    ///< aligned data. @see ConvexPolyhedron2
