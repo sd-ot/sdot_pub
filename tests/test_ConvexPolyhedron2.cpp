@@ -36,7 +36,7 @@ struct Test {
 };
 
 template<class Cp,int Simd,int Switch>
-void test( std::map<Test,double> &timings, VtkOutput &vo, int &cpt_vo, std::size_t nb_nodes, N<Simd>, N<Switch> ) {
+void test( VtkOutput &vo, int &cpt_vo, std::size_t nb_nodes, N<Simd>, N<Switch> ) {
     using Pt = typename Cp::Pt;
     using TF = typename Cp::TF;
 
@@ -50,12 +50,8 @@ void test( std::map<Test,double> &timings, VtkOutput &vo, int &cpt_vo, std::size
         lc.plane_cut( n, n, 17, N<flags>() );
     }
 
-    P( nb_nodes, lc );
-
     lc.display( vo, { TF( cpt_vo ) }, { 2.5 * TF( cpt_vo % 8 ), 2.5 * TF( cpt_vo / 8 ) } );
     ++cpt_vo;;
-
-    //
 }
 
 int main() {

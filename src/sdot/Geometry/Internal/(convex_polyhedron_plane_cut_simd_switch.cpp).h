@@ -15,6 +15,1339 @@ bool ConvexPolyhedron2<Pc>::plane_cut_simd_switch( Pt origin, Pt normal, CI cut_
     std::uint8_t outside_0 = _mm512_cmp_pd_mask( di_0, _mm512_set1_pd( 0.0 ), _CMP_LT_OQ ); // OS?
     
     switch( 256 * size + 1 * outside_0 ) {
+    case 514:
+    case 518:
+    case 522:
+    case 526:
+    case 530:
+    case 534:
+    case 538:
+    case 542:
+    case 546:
+    case 550:
+    case 554:
+    case 558:
+    case 562:
+    case 566:
+    case 570:
+    case 574:
+    case 578:
+    case 582:
+    case 586:
+    case 590:
+    case 594:
+    case 598:
+    case 602:
+    case 606:
+    case 610:
+    case 614:
+    case 618:
+    case 622:
+    case 626:
+    case 630:
+    case 634:
+    case 638:
+    case 642:
+    case 646:
+    case 650:
+    case 654:
+    case 658:
+    case 662:
+    case 666:
+    case 670:
+    case 674:
+    case 678:
+    case 682:
+    case 686:
+    case 690:
+    case 694:
+    case 698:
+    case 702:
+    case 706:
+    case 710:
+    case 714:
+    case 718:
+    case 722:
+    case 726:
+    case 730:
+    case 734:
+    case 738:
+    case 742:
+    case 746:
+    case 750:
+    case 754:
+    case 758:
+    case 762:
+    case 766: {
+        bc[ 1 ]++;
+        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
+            normal /= norm_2( normal );
+        size = 3;
+        Node &n0 = node( 0 );
+        Node &n1 = node( 1 );
+        Node &n2 = node( 0 );
+        Node &nn = node( 2 );
+        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
+        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
+        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
+        TF m0 = s0 / ( s1 - s0 );
+        TF m1 = s2 / ( s1 - s2 );
+        TF n0_x = n0.x;
+        TF n0_y = n0.y;
+        if ( store_the_normals ) { nn.dir_x = n1.dir_x; nn.dir_y = n1.dir_y; }
+        nn.x = n2.x - m1 * ( n1.x - n2.x );
+        nn.y = n2.y - m1 * ( n1.y - n2.y );
+        nn.cut_id.set( n1.cut_id.get() );
+        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
+        n1.x = n0_x - m0 * ( n1.x - n0_x );
+        n1.y = n0_y - m0 * ( n1.y - n0_y );
+        n1.cut_id.set( cut_id );
+        return true;
+    }
+    case 513:
+    case 517:
+    case 521:
+    case 525:
+    case 529:
+    case 533:
+    case 537:
+    case 541:
+    case 545:
+    case 549:
+    case 553:
+    case 557:
+    case 561:
+    case 565:
+    case 569:
+    case 573:
+    case 577:
+    case 581:
+    case 585:
+    case 589:
+    case 593:
+    case 597:
+    case 601:
+    case 605:
+    case 609:
+    case 613:
+    case 617:
+    case 621:
+    case 625:
+    case 629:
+    case 633:
+    case 637:
+    case 641:
+    case 645:
+    case 649:
+    case 653:
+    case 657:
+    case 661:
+    case 665:
+    case 669:
+    case 673:
+    case 677:
+    case 681:
+    case 685:
+    case 689:
+    case 693:
+    case 697:
+    case 701:
+    case 705:
+    case 709:
+    case 713:
+    case 717:
+    case 721:
+    case 725:
+    case 729:
+    case 733:
+    case 737:
+    case 741:
+    case 745:
+    case 749:
+    case 753:
+    case 757:
+    case 761:
+    case 765: {
+        bc[ 1 ]++;
+        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
+            normal /= norm_2( normal );
+        size = 3;
+        Node &n0 = node( 1 );
+        Node &n1 = node( 0 );
+        Node &n2 = node( 1 );
+        Node &nn = node( 1 );
+        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
+        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
+        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
+        TF m0 = s0 / ( s1 - s0 );
+        TF m1 = s2 / ( s1 - s2 );
+        TF n0_x = n0.x;
+        TF n0_y = n0.y;
+        node( 2 ).get_straight_content_from( node( 1 ) );
+        if ( store_the_normals ) { nn.dir_x = n1.dir_x; nn.dir_y = n1.dir_y; }
+        nn.x = n2.x - m1 * ( n1.x - n2.x );
+        nn.y = n2.y - m1 * ( n1.y - n2.y );
+        nn.cut_id.set( n1.cut_id.get() );
+        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
+        n1.x = n0_x - m0 * ( n1.x - n0_x );
+        n1.y = n0_y - m0 * ( n1.y - n0_y );
+        n1.cut_id.set( cut_id );
+        return true;
+    }
+    case 770:
+    case 778:
+    case 786:
+    case 794:
+    case 802:
+    case 810:
+    case 818:
+    case 826:
+    case 834:
+    case 842:
+    case 850:
+    case 858:
+    case 866:
+    case 874:
+    case 882:
+    case 890:
+    case 898:
+    case 906:
+    case 914:
+    case 922:
+    case 930:
+    case 938:
+    case 946:
+    case 954:
+    case 962:
+    case 970:
+    case 978:
+    case 986:
+    case 994:
+    case 1002:
+    case 1010:
+    case 1018: {
+        bc[ 1 ]++;
+        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
+            normal /= norm_2( normal );
+        size = 4;
+        Node &n0 = node( 0 );
+        Node &n1 = node( 1 );
+        Node &n2 = node( 2 );
+        Node &nn = node( 2 );
+        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
+        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
+        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
+        TF m0 = s0 / ( s1 - s0 );
+        TF m1 = s2 / ( s1 - s2 );
+        TF n0_x = n0.x;
+        TF n0_y = n0.y;
+        node( 3 ).get_straight_content_from( node( 2 ) );
+        if ( store_the_normals ) { nn.dir_x = n1.dir_x; nn.dir_y = n1.dir_y; }
+        nn.x = n2.x - m1 * ( n1.x - n2.x );
+        nn.y = n2.y - m1 * ( n1.y - n2.y );
+        nn.cut_id.set( n1.cut_id.get() );
+        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
+        n1.x = n0_x - m0 * ( n1.x - n0_x );
+        n1.y = n0_y - m0 * ( n1.y - n0_y );
+        n1.cut_id.set( cut_id );
+        return true;
+    }
+    case 772:
+    case 780:
+    case 788:
+    case 796:
+    case 804:
+    case 812:
+    case 820:
+    case 828:
+    case 836:
+    case 844:
+    case 852:
+    case 860:
+    case 868:
+    case 876:
+    case 884:
+    case 892:
+    case 900:
+    case 908:
+    case 916:
+    case 924:
+    case 932:
+    case 940:
+    case 948:
+    case 956:
+    case 964:
+    case 972:
+    case 980:
+    case 988:
+    case 996:
+    case 1004:
+    case 1012:
+    case 1020: {
+        bc[ 1 ]++;
+        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
+            normal /= norm_2( normal );
+        size = 4;
+        Node &n0 = node( 1 );
+        Node &n1 = node( 2 );
+        Node &n2 = node( 0 );
+        Node &nn = node( 3 );
+        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
+        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
+        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
+        TF m0 = s0 / ( s1 - s0 );
+        TF m1 = s2 / ( s1 - s2 );
+        TF n0_x = n0.x;
+        TF n0_y = n0.y;
+        if ( store_the_normals ) { nn.dir_x = n1.dir_x; nn.dir_y = n1.dir_y; }
+        nn.x = n2.x - m1 * ( n1.x - n2.x );
+        nn.y = n2.y - m1 * ( n1.y - n2.y );
+        nn.cut_id.set( n1.cut_id.get() );
+        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
+        n1.x = n0_x - m0 * ( n1.x - n0_x );
+        n1.y = n0_y - m0 * ( n1.y - n0_y );
+        n1.cut_id.set( cut_id );
+        return true;
+    }
+    case 769:
+    case 777:
+    case 785:
+    case 793:
+    case 801:
+    case 809:
+    case 817:
+    case 825:
+    case 833:
+    case 841:
+    case 849:
+    case 857:
+    case 865:
+    case 873:
+    case 881:
+    case 889:
+    case 897:
+    case 905:
+    case 913:
+    case 921:
+    case 929:
+    case 937:
+    case 945:
+    case 953:
+    case 961:
+    case 969:
+    case 977:
+    case 985:
+    case 993:
+    case 1001:
+    case 1009:
+    case 1017: {
+        bc[ 1 ]++;
+        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
+            normal /= norm_2( normal );
+        size = 4;
+        Node &n0 = node( 2 );
+        Node &n1 = node( 0 );
+        Node &n2 = node( 1 );
+        Node &nn = node( 1 );
+        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
+        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
+        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
+        TF m0 = s0 / ( s1 - s0 );
+        TF m1 = s2 / ( s1 - s2 );
+        TF n0_x = n0.x;
+        TF n0_y = n0.y;
+        node( 3 ).get_straight_content_from( node( 2 ) );
+        node( 2 ).get_straight_content_from( node( 1 ) );
+        if ( store_the_normals ) { nn.dir_x = n1.dir_x; nn.dir_y = n1.dir_y; }
+        nn.x = n2.x - m1 * ( n1.x - n2.x );
+        nn.y = n2.y - m1 * ( n1.y - n2.y );
+        nn.cut_id.set( n1.cut_id.get() );
+        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
+        n1.x = n0_x - m0 * ( n1.x - n0_x );
+        n1.y = n0_y - m0 * ( n1.y - n0_y );
+        n1.cut_id.set( cut_id );
+        return true;
+    }
+    case 1026:
+    case 1042:
+    case 1058:
+    case 1074:
+    case 1090:
+    case 1106:
+    case 1122:
+    case 1138:
+    case 1154:
+    case 1170:
+    case 1186:
+    case 1202:
+    case 1218:
+    case 1234:
+    case 1250:
+    case 1266: {
+        bc[ 1 ]++;
+        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
+            normal /= norm_2( normal );
+        size = 5;
+        Node &n0 = node( 0 );
+        Node &n1 = node( 1 );
+        Node &n2 = node( 2 );
+        Node &nn = node( 2 );
+        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
+        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
+        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
+        TF m0 = s0 / ( s1 - s0 );
+        TF m1 = s2 / ( s1 - s2 );
+        TF n0_x = n0.x;
+        TF n0_y = n0.y;
+        node( 4 ).get_straight_content_from( node( 3 ) );
+        node( 3 ).get_straight_content_from( node( 2 ) );
+        if ( store_the_normals ) { nn.dir_x = n1.dir_x; nn.dir_y = n1.dir_y; }
+        nn.x = n2.x - m1 * ( n1.x - n2.x );
+        nn.y = n2.y - m1 * ( n1.y - n2.y );
+        nn.cut_id.set( n1.cut_id.get() );
+        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
+        n1.x = n0_x - m0 * ( n1.x - n0_x );
+        n1.y = n0_y - m0 * ( n1.y - n0_y );
+        n1.cut_id.set( cut_id );
+        return true;
+    }
+    case 1028:
+    case 1044:
+    case 1060:
+    case 1076:
+    case 1092:
+    case 1108:
+    case 1124:
+    case 1140:
+    case 1156:
+    case 1172:
+    case 1188:
+    case 1204:
+    case 1220:
+    case 1236:
+    case 1252:
+    case 1268: {
+        bc[ 1 ]++;
+        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
+            normal /= norm_2( normal );
+        size = 5;
+        Node &n0 = node( 1 );
+        Node &n1 = node( 2 );
+        Node &n2 = node( 3 );
+        Node &nn = node( 3 );
+        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
+        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
+        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
+        TF m0 = s0 / ( s1 - s0 );
+        TF m1 = s2 / ( s1 - s2 );
+        TF n0_x = n0.x;
+        TF n0_y = n0.y;
+        node( 4 ).get_straight_content_from( node( 3 ) );
+        if ( store_the_normals ) { nn.dir_x = n1.dir_x; nn.dir_y = n1.dir_y; }
+        nn.x = n2.x - m1 * ( n1.x - n2.x );
+        nn.y = n2.y - m1 * ( n1.y - n2.y );
+        nn.cut_id.set( n1.cut_id.get() );
+        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
+        n1.x = n0_x - m0 * ( n1.x - n0_x );
+        n1.y = n0_y - m0 * ( n1.y - n0_y );
+        n1.cut_id.set( cut_id );
+        return true;
+    }
+    case 1032:
+    case 1048:
+    case 1064:
+    case 1080:
+    case 1096:
+    case 1112:
+    case 1128:
+    case 1144:
+    case 1160:
+    case 1176:
+    case 1192:
+    case 1208:
+    case 1224:
+    case 1240:
+    case 1256:
+    case 1272: {
+        bc[ 1 ]++;
+        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
+            normal /= norm_2( normal );
+        size = 5;
+        Node &n0 = node( 2 );
+        Node &n1 = node( 3 );
+        Node &n2 = node( 0 );
+        Node &nn = node( 4 );
+        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
+        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
+        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
+        TF m0 = s0 / ( s1 - s0 );
+        TF m1 = s2 / ( s1 - s2 );
+        TF n0_x = n0.x;
+        TF n0_y = n0.y;
+        if ( store_the_normals ) { nn.dir_x = n1.dir_x; nn.dir_y = n1.dir_y; }
+        nn.x = n2.x - m1 * ( n1.x - n2.x );
+        nn.y = n2.y - m1 * ( n1.y - n2.y );
+        nn.cut_id.set( n1.cut_id.get() );
+        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
+        n1.x = n0_x - m0 * ( n1.x - n0_x );
+        n1.y = n0_y - m0 * ( n1.y - n0_y );
+        n1.cut_id.set( cut_id );
+        return true;
+    }
+    case 1025:
+    case 1041:
+    case 1057:
+    case 1073:
+    case 1089:
+    case 1105:
+    case 1121:
+    case 1137:
+    case 1153:
+    case 1169:
+    case 1185:
+    case 1201:
+    case 1217:
+    case 1233:
+    case 1249:
+    case 1265: {
+        bc[ 1 ]++;
+        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
+            normal /= norm_2( normal );
+        size = 5;
+        Node &n0 = node( 3 );
+        Node &n1 = node( 0 );
+        Node &n2 = node( 1 );
+        Node &nn = node( 1 );
+        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
+        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
+        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
+        TF m0 = s0 / ( s1 - s0 );
+        TF m1 = s2 / ( s1 - s2 );
+        TF n0_x = n0.x;
+        TF n0_y = n0.y;
+        node( 4 ).get_straight_content_from( node( 3 ) );
+        node( 3 ).get_straight_content_from( node( 2 ) );
+        node( 2 ).get_straight_content_from( node( 1 ) );
+        if ( store_the_normals ) { nn.dir_x = n1.dir_x; nn.dir_y = n1.dir_y; }
+        nn.x = n2.x - m1 * ( n1.x - n2.x );
+        nn.y = n2.y - m1 * ( n1.y - n2.y );
+        nn.cut_id.set( n1.cut_id.get() );
+        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
+        n1.x = n0_x - m0 * ( n1.x - n0_x );
+        n1.y = n0_y - m0 * ( n1.y - n0_y );
+        n1.cut_id.set( cut_id );
+        return true;
+    }
+    case 1282:
+    case 1314:
+    case 1346:
+    case 1378:
+    case 1410:
+    case 1442:
+    case 1474:
+    case 1506: {
+        bc[ 1 ]++;
+        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
+            normal /= norm_2( normal );
+        size = 6;
+        Node &n0 = node( 0 );
+        Node &n1 = node( 1 );
+        Node &n2 = node( 2 );
+        Node &nn = node( 2 );
+        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
+        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
+        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
+        TF m0 = s0 / ( s1 - s0 );
+        TF m1 = s2 / ( s1 - s2 );
+        TF n0_x = n0.x;
+        TF n0_y = n0.y;
+        node( 5 ).get_straight_content_from( node( 4 ) );
+        node( 4 ).get_straight_content_from( node( 3 ) );
+        node( 3 ).get_straight_content_from( node( 2 ) );
+        if ( store_the_normals ) { nn.dir_x = n1.dir_x; nn.dir_y = n1.dir_y; }
+        nn.x = n2.x - m1 * ( n1.x - n2.x );
+        nn.y = n2.y - m1 * ( n1.y - n2.y );
+        nn.cut_id.set( n1.cut_id.get() );
+        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
+        n1.x = n0_x - m0 * ( n1.x - n0_x );
+        n1.y = n0_y - m0 * ( n1.y - n0_y );
+        n1.cut_id.set( cut_id );
+        return true;
+    }
+    case 1284:
+    case 1316:
+    case 1348:
+    case 1380:
+    case 1412:
+    case 1444:
+    case 1476:
+    case 1508: {
+        bc[ 1 ]++;
+        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
+            normal /= norm_2( normal );
+        size = 6;
+        Node &n0 = node( 1 );
+        Node &n1 = node( 2 );
+        Node &n2 = node( 3 );
+        Node &nn = node( 3 );
+        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
+        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
+        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
+        TF m0 = s0 / ( s1 - s0 );
+        TF m1 = s2 / ( s1 - s2 );
+        TF n0_x = n0.x;
+        TF n0_y = n0.y;
+        node( 5 ).get_straight_content_from( node( 4 ) );
+        node( 4 ).get_straight_content_from( node( 3 ) );
+        if ( store_the_normals ) { nn.dir_x = n1.dir_x; nn.dir_y = n1.dir_y; }
+        nn.x = n2.x - m1 * ( n1.x - n2.x );
+        nn.y = n2.y - m1 * ( n1.y - n2.y );
+        nn.cut_id.set( n1.cut_id.get() );
+        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
+        n1.x = n0_x - m0 * ( n1.x - n0_x );
+        n1.y = n0_y - m0 * ( n1.y - n0_y );
+        n1.cut_id.set( cut_id );
+        return true;
+    }
+    case 1288:
+    case 1320:
+    case 1352:
+    case 1384:
+    case 1416:
+    case 1448:
+    case 1480:
+    case 1512: {
+        bc[ 1 ]++;
+        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
+            normal /= norm_2( normal );
+        size = 6;
+        Node &n0 = node( 2 );
+        Node &n1 = node( 3 );
+        Node &n2 = node( 4 );
+        Node &nn = node( 4 );
+        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
+        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
+        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
+        TF m0 = s0 / ( s1 - s0 );
+        TF m1 = s2 / ( s1 - s2 );
+        TF n0_x = n0.x;
+        TF n0_y = n0.y;
+        node( 5 ).get_straight_content_from( node( 4 ) );
+        if ( store_the_normals ) { nn.dir_x = n1.dir_x; nn.dir_y = n1.dir_y; }
+        nn.x = n2.x - m1 * ( n1.x - n2.x );
+        nn.y = n2.y - m1 * ( n1.y - n2.y );
+        nn.cut_id.set( n1.cut_id.get() );
+        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
+        n1.x = n0_x - m0 * ( n1.x - n0_x );
+        n1.y = n0_y - m0 * ( n1.y - n0_y );
+        n1.cut_id.set( cut_id );
+        return true;
+    }
+    case 1296:
+    case 1328:
+    case 1360:
+    case 1392:
+    case 1424:
+    case 1456:
+    case 1488:
+    case 1520: {
+        bc[ 1 ]++;
+        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
+            normal /= norm_2( normal );
+        size = 6;
+        Node &n0 = node( 3 );
+        Node &n1 = node( 4 );
+        Node &n2 = node( 0 );
+        Node &nn = node( 5 );
+        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
+        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
+        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
+        TF m0 = s0 / ( s1 - s0 );
+        TF m1 = s2 / ( s1 - s2 );
+        TF n0_x = n0.x;
+        TF n0_y = n0.y;
+        if ( store_the_normals ) { nn.dir_x = n1.dir_x; nn.dir_y = n1.dir_y; }
+        nn.x = n2.x - m1 * ( n1.x - n2.x );
+        nn.y = n2.y - m1 * ( n1.y - n2.y );
+        nn.cut_id.set( n1.cut_id.get() );
+        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
+        n1.x = n0_x - m0 * ( n1.x - n0_x );
+        n1.y = n0_y - m0 * ( n1.y - n0_y );
+        n1.cut_id.set( cut_id );
+        return true;
+    }
+    case 1281:
+    case 1313:
+    case 1345:
+    case 1377:
+    case 1409:
+    case 1441:
+    case 1473:
+    case 1505: {
+        bc[ 1 ]++;
+        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
+            normal /= norm_2( normal );
+        size = 6;
+        Node &n0 = node( 4 );
+        Node &n1 = node( 0 );
+        Node &n2 = node( 1 );
+        Node &nn = node( 1 );
+        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
+        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
+        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
+        TF m0 = s0 / ( s1 - s0 );
+        TF m1 = s2 / ( s1 - s2 );
+        TF n0_x = n0.x;
+        TF n0_y = n0.y;
+        node( 5 ).get_straight_content_from( node( 4 ) );
+        node( 4 ).get_straight_content_from( node( 3 ) );
+        node( 3 ).get_straight_content_from( node( 2 ) );
+        node( 2 ).get_straight_content_from( node( 1 ) );
+        if ( store_the_normals ) { nn.dir_x = n1.dir_x; nn.dir_y = n1.dir_y; }
+        nn.x = n2.x - m1 * ( n1.x - n2.x );
+        nn.y = n2.y - m1 * ( n1.y - n2.y );
+        nn.cut_id.set( n1.cut_id.get() );
+        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
+        n1.x = n0_x - m0 * ( n1.x - n0_x );
+        n1.y = n0_y - m0 * ( n1.y - n0_y );
+        n1.cut_id.set( cut_id );
+        return true;
+    }
+    case 1538:
+    case 1602:
+    case 1666:
+    case 1730: {
+        bc[ 1 ]++;
+        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
+            normal /= norm_2( normal );
+        size = 7;
+        Node &n0 = node( 0 );
+        Node &n1 = node( 1 );
+        Node &n2 = node( 2 );
+        Node &nn = node( 2 );
+        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
+        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
+        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
+        TF m0 = s0 / ( s1 - s0 );
+        TF m1 = s2 / ( s1 - s2 );
+        TF n0_x = n0.x;
+        TF n0_y = n0.y;
+        node( 6 ).get_straight_content_from( node( 5 ) );
+        node( 5 ).get_straight_content_from( node( 4 ) );
+        node( 4 ).get_straight_content_from( node( 3 ) );
+        node( 3 ).get_straight_content_from( node( 2 ) );
+        if ( store_the_normals ) { nn.dir_x = n1.dir_x; nn.dir_y = n1.dir_y; }
+        nn.x = n2.x - m1 * ( n1.x - n2.x );
+        nn.y = n2.y - m1 * ( n1.y - n2.y );
+        nn.cut_id.set( n1.cut_id.get() );
+        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
+        n1.x = n0_x - m0 * ( n1.x - n0_x );
+        n1.y = n0_y - m0 * ( n1.y - n0_y );
+        n1.cut_id.set( cut_id );
+        return true;
+    }
+    case 1540:
+    case 1604:
+    case 1668:
+    case 1732: {
+        bc[ 1 ]++;
+        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
+            normal /= norm_2( normal );
+        size = 7;
+        Node &n0 = node( 1 );
+        Node &n1 = node( 2 );
+        Node &n2 = node( 3 );
+        Node &nn = node( 3 );
+        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
+        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
+        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
+        TF m0 = s0 / ( s1 - s0 );
+        TF m1 = s2 / ( s1 - s2 );
+        TF n0_x = n0.x;
+        TF n0_y = n0.y;
+        node( 6 ).get_straight_content_from( node( 5 ) );
+        node( 5 ).get_straight_content_from( node( 4 ) );
+        node( 4 ).get_straight_content_from( node( 3 ) );
+        if ( store_the_normals ) { nn.dir_x = n1.dir_x; nn.dir_y = n1.dir_y; }
+        nn.x = n2.x - m1 * ( n1.x - n2.x );
+        nn.y = n2.y - m1 * ( n1.y - n2.y );
+        nn.cut_id.set( n1.cut_id.get() );
+        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
+        n1.x = n0_x - m0 * ( n1.x - n0_x );
+        n1.y = n0_y - m0 * ( n1.y - n0_y );
+        n1.cut_id.set( cut_id );
+        return true;
+    }
+    case 1544:
+    case 1608:
+    case 1672:
+    case 1736: {
+        bc[ 1 ]++;
+        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
+            normal /= norm_2( normal );
+        size = 7;
+        Node &n0 = node( 2 );
+        Node &n1 = node( 3 );
+        Node &n2 = node( 4 );
+        Node &nn = node( 4 );
+        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
+        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
+        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
+        TF m0 = s0 / ( s1 - s0 );
+        TF m1 = s2 / ( s1 - s2 );
+        TF n0_x = n0.x;
+        TF n0_y = n0.y;
+        node( 6 ).get_straight_content_from( node( 5 ) );
+        node( 5 ).get_straight_content_from( node( 4 ) );
+        if ( store_the_normals ) { nn.dir_x = n1.dir_x; nn.dir_y = n1.dir_y; }
+        nn.x = n2.x - m1 * ( n1.x - n2.x );
+        nn.y = n2.y - m1 * ( n1.y - n2.y );
+        nn.cut_id.set( n1.cut_id.get() );
+        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
+        n1.x = n0_x - m0 * ( n1.x - n0_x );
+        n1.y = n0_y - m0 * ( n1.y - n0_y );
+        n1.cut_id.set( cut_id );
+        return true;
+    }
+    case 1552:
+    case 1616:
+    case 1680:
+    case 1744: {
+        bc[ 1 ]++;
+        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
+            normal /= norm_2( normal );
+        size = 7;
+        Node &n0 = node( 3 );
+        Node &n1 = node( 4 );
+        Node &n2 = node( 5 );
+        Node &nn = node( 5 );
+        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
+        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
+        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
+        TF m0 = s0 / ( s1 - s0 );
+        TF m1 = s2 / ( s1 - s2 );
+        TF n0_x = n0.x;
+        TF n0_y = n0.y;
+        node( 6 ).get_straight_content_from( node( 5 ) );
+        if ( store_the_normals ) { nn.dir_x = n1.dir_x; nn.dir_y = n1.dir_y; }
+        nn.x = n2.x - m1 * ( n1.x - n2.x );
+        nn.y = n2.y - m1 * ( n1.y - n2.y );
+        nn.cut_id.set( n1.cut_id.get() );
+        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
+        n1.x = n0_x - m0 * ( n1.x - n0_x );
+        n1.y = n0_y - m0 * ( n1.y - n0_y );
+        n1.cut_id.set( cut_id );
+        return true;
+    }
+    case 1568:
+    case 1632:
+    case 1696:
+    case 1760: {
+        bc[ 1 ]++;
+        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
+            normal /= norm_2( normal );
+        size = 7;
+        Node &n0 = node( 4 );
+        Node &n1 = node( 5 );
+        Node &n2 = node( 0 );
+        Node &nn = node( 6 );
+        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
+        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
+        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
+        TF m0 = s0 / ( s1 - s0 );
+        TF m1 = s2 / ( s1 - s2 );
+        TF n0_x = n0.x;
+        TF n0_y = n0.y;
+        if ( store_the_normals ) { nn.dir_x = n1.dir_x; nn.dir_y = n1.dir_y; }
+        nn.x = n2.x - m1 * ( n1.x - n2.x );
+        nn.y = n2.y - m1 * ( n1.y - n2.y );
+        nn.cut_id.set( n1.cut_id.get() );
+        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
+        n1.x = n0_x - m0 * ( n1.x - n0_x );
+        n1.y = n0_y - m0 * ( n1.y - n0_y );
+        n1.cut_id.set( cut_id );
+        return true;
+    }
+    case 1537:
+    case 1601:
+    case 1665:
+    case 1729: {
+        bc[ 1 ]++;
+        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
+            normal /= norm_2( normal );
+        size = 7;
+        Node &n0 = node( 5 );
+        Node &n1 = node( 0 );
+        Node &n2 = node( 1 );
+        Node &nn = node( 1 );
+        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
+        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
+        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
+        TF m0 = s0 / ( s1 - s0 );
+        TF m1 = s2 / ( s1 - s2 );
+        TF n0_x = n0.x;
+        TF n0_y = n0.y;
+        node( 6 ).get_straight_content_from( node( 5 ) );
+        node( 5 ).get_straight_content_from( node( 4 ) );
+        node( 4 ).get_straight_content_from( node( 3 ) );
+        node( 3 ).get_straight_content_from( node( 2 ) );
+        node( 2 ).get_straight_content_from( node( 1 ) );
+        if ( store_the_normals ) { nn.dir_x = n1.dir_x; nn.dir_y = n1.dir_y; }
+        nn.x = n2.x - m1 * ( n1.x - n2.x );
+        nn.y = n2.y - m1 * ( n1.y - n2.y );
+        nn.cut_id.set( n1.cut_id.get() );
+        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
+        n1.x = n0_x - m0 * ( n1.x - n0_x );
+        n1.y = n0_y - m0 * ( n1.y - n0_y );
+        n1.cut_id.set( cut_id );
+        return true;
+    }
+    case 1794:
+    case 1922: {
+        bc[ 1 ]++;
+        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
+            normal /= norm_2( normal );
+        size = 8;
+        Node &n0 = node( 0 );
+        Node &n1 = node( 1 );
+        Node &n2 = node( 2 );
+        Node &nn = node( 2 );
+        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
+        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
+        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
+        TF m0 = s0 / ( s1 - s0 );
+        TF m1 = s2 / ( s1 - s2 );
+        TF n0_x = n0.x;
+        TF n0_y = n0.y;
+        node( 7 ).get_straight_content_from( node( 6 ) );
+        node( 6 ).get_straight_content_from( node( 5 ) );
+        node( 5 ).get_straight_content_from( node( 4 ) );
+        node( 4 ).get_straight_content_from( node( 3 ) );
+        node( 3 ).get_straight_content_from( node( 2 ) );
+        if ( store_the_normals ) { nn.dir_x = n1.dir_x; nn.dir_y = n1.dir_y; }
+        nn.x = n2.x - m1 * ( n1.x - n2.x );
+        nn.y = n2.y - m1 * ( n1.y - n2.y );
+        nn.cut_id.set( n1.cut_id.get() );
+        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
+        n1.x = n0_x - m0 * ( n1.x - n0_x );
+        n1.y = n0_y - m0 * ( n1.y - n0_y );
+        n1.cut_id.set( cut_id );
+        return true;
+    }
+    case 1796:
+    case 1924: {
+        bc[ 1 ]++;
+        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
+            normal /= norm_2( normal );
+        size = 8;
+        Node &n0 = node( 1 );
+        Node &n1 = node( 2 );
+        Node &n2 = node( 3 );
+        Node &nn = node( 3 );
+        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
+        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
+        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
+        TF m0 = s0 / ( s1 - s0 );
+        TF m1 = s2 / ( s1 - s2 );
+        TF n0_x = n0.x;
+        TF n0_y = n0.y;
+        node( 7 ).get_straight_content_from( node( 6 ) );
+        node( 6 ).get_straight_content_from( node( 5 ) );
+        node( 5 ).get_straight_content_from( node( 4 ) );
+        node( 4 ).get_straight_content_from( node( 3 ) );
+        if ( store_the_normals ) { nn.dir_x = n1.dir_x; nn.dir_y = n1.dir_y; }
+        nn.x = n2.x - m1 * ( n1.x - n2.x );
+        nn.y = n2.y - m1 * ( n1.y - n2.y );
+        nn.cut_id.set( n1.cut_id.get() );
+        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
+        n1.x = n0_x - m0 * ( n1.x - n0_x );
+        n1.y = n0_y - m0 * ( n1.y - n0_y );
+        n1.cut_id.set( cut_id );
+        return true;
+    }
+    case 1800:
+    case 1928: {
+        bc[ 1 ]++;
+        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
+            normal /= norm_2( normal );
+        size = 8;
+        Node &n0 = node( 2 );
+        Node &n1 = node( 3 );
+        Node &n2 = node( 4 );
+        Node &nn = node( 4 );
+        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
+        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
+        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
+        TF m0 = s0 / ( s1 - s0 );
+        TF m1 = s2 / ( s1 - s2 );
+        TF n0_x = n0.x;
+        TF n0_y = n0.y;
+        node( 7 ).get_straight_content_from( node( 6 ) );
+        node( 6 ).get_straight_content_from( node( 5 ) );
+        node( 5 ).get_straight_content_from( node( 4 ) );
+        if ( store_the_normals ) { nn.dir_x = n1.dir_x; nn.dir_y = n1.dir_y; }
+        nn.x = n2.x - m1 * ( n1.x - n2.x );
+        nn.y = n2.y - m1 * ( n1.y - n2.y );
+        nn.cut_id.set( n1.cut_id.get() );
+        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
+        n1.x = n0_x - m0 * ( n1.x - n0_x );
+        n1.y = n0_y - m0 * ( n1.y - n0_y );
+        n1.cut_id.set( cut_id );
+        return true;
+    }
+    case 1808:
+    case 1936: {
+        bc[ 1 ]++;
+        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
+            normal /= norm_2( normal );
+        size = 8;
+        Node &n0 = node( 3 );
+        Node &n1 = node( 4 );
+        Node &n2 = node( 5 );
+        Node &nn = node( 5 );
+        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
+        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
+        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
+        TF m0 = s0 / ( s1 - s0 );
+        TF m1 = s2 / ( s1 - s2 );
+        TF n0_x = n0.x;
+        TF n0_y = n0.y;
+        node( 7 ).get_straight_content_from( node( 6 ) );
+        node( 6 ).get_straight_content_from( node( 5 ) );
+        if ( store_the_normals ) { nn.dir_x = n1.dir_x; nn.dir_y = n1.dir_y; }
+        nn.x = n2.x - m1 * ( n1.x - n2.x );
+        nn.y = n2.y - m1 * ( n1.y - n2.y );
+        nn.cut_id.set( n1.cut_id.get() );
+        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
+        n1.x = n0_x - m0 * ( n1.x - n0_x );
+        n1.y = n0_y - m0 * ( n1.y - n0_y );
+        n1.cut_id.set( cut_id );
+        return true;
+    }
+    case 1824:
+    case 1952: {
+        bc[ 1 ]++;
+        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
+            normal /= norm_2( normal );
+        size = 8;
+        Node &n0 = node( 4 );
+        Node &n1 = node( 5 );
+        Node &n2 = node( 6 );
+        Node &nn = node( 6 );
+        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
+        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
+        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
+        TF m0 = s0 / ( s1 - s0 );
+        TF m1 = s2 / ( s1 - s2 );
+        TF n0_x = n0.x;
+        TF n0_y = n0.y;
+        node( 7 ).get_straight_content_from( node( 6 ) );
+        if ( store_the_normals ) { nn.dir_x = n1.dir_x; nn.dir_y = n1.dir_y; }
+        nn.x = n2.x - m1 * ( n1.x - n2.x );
+        nn.y = n2.y - m1 * ( n1.y - n2.y );
+        nn.cut_id.set( n1.cut_id.get() );
+        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
+        n1.x = n0_x - m0 * ( n1.x - n0_x );
+        n1.y = n0_y - m0 * ( n1.y - n0_y );
+        n1.cut_id.set( cut_id );
+        return true;
+    }
+    case 1856:
+    case 1984: {
+        bc[ 1 ]++;
+        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
+            normal /= norm_2( normal );
+        size = 8;
+        Node &n0 = node( 5 );
+        Node &n1 = node( 6 );
+        Node &n2 = node( 0 );
+        Node &nn = node( 7 );
+        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
+        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
+        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
+        TF m0 = s0 / ( s1 - s0 );
+        TF m1 = s2 / ( s1 - s2 );
+        TF n0_x = n0.x;
+        TF n0_y = n0.y;
+        if ( store_the_normals ) { nn.dir_x = n1.dir_x; nn.dir_y = n1.dir_y; }
+        nn.x = n2.x - m1 * ( n1.x - n2.x );
+        nn.y = n2.y - m1 * ( n1.y - n2.y );
+        nn.cut_id.set( n1.cut_id.get() );
+        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
+        n1.x = n0_x - m0 * ( n1.x - n0_x );
+        n1.y = n0_y - m0 * ( n1.y - n0_y );
+        n1.cut_id.set( cut_id );
+        return true;
+    }
+    case 1793:
+    case 1921: {
+        bc[ 1 ]++;
+        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
+            normal /= norm_2( normal );
+        size = 8;
+        Node &n0 = node( 6 );
+        Node &n1 = node( 0 );
+        Node &n2 = node( 1 );
+        Node &nn = node( 1 );
+        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
+        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
+        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
+        TF m0 = s0 / ( s1 - s0 );
+        TF m1 = s2 / ( s1 - s2 );
+        TF n0_x = n0.x;
+        TF n0_y = n0.y;
+        node( 7 ).get_straight_content_from( node( 6 ) );
+        node( 6 ).get_straight_content_from( node( 5 ) );
+        node( 5 ).get_straight_content_from( node( 4 ) );
+        node( 4 ).get_straight_content_from( node( 3 ) );
+        node( 3 ).get_straight_content_from( node( 2 ) );
+        node( 2 ).get_straight_content_from( node( 1 ) );
+        if ( store_the_normals ) { nn.dir_x = n1.dir_x; nn.dir_y = n1.dir_y; }
+        nn.x = n2.x - m1 * ( n1.x - n2.x );
+        nn.y = n2.y - m1 * ( n1.y - n2.y );
+        nn.cut_id.set( n1.cut_id.get() );
+        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
+        n1.x = n0_x - m0 * ( n1.x - n0_x );
+        n1.y = n0_y - m0 * ( n1.y - n0_y );
+        n1.cut_id.set( cut_id );
+        return true;
+    }
+    case 2050: {
+        bc[ 1 ]++;
+        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
+            normal /= norm_2( normal );
+        size = 9;
+        Node &n0 = node( 0 );
+        Node &n1 = node( 1 );
+        Node &n2 = node( 2 );
+        Node &nn = node( 2 );
+        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
+        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
+        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
+        TF m0 = s0 / ( s1 - s0 );
+        TF m1 = s2 / ( s1 - s2 );
+        TF n0_x = n0.x;
+        TF n0_y = n0.y;
+        node( 8 ).get_straight_content_from( node( 7 ) );
+        node( 7 ).get_straight_content_from( node( 6 ) );
+        node( 6 ).get_straight_content_from( node( 5 ) );
+        node( 5 ).get_straight_content_from( node( 4 ) );
+        node( 4 ).get_straight_content_from( node( 3 ) );
+        node( 3 ).get_straight_content_from( node( 2 ) );
+        if ( store_the_normals ) { nn.dir_x = n1.dir_x; nn.dir_y = n1.dir_y; }
+        nn.x = n2.x - m1 * ( n1.x - n2.x );
+        nn.y = n2.y - m1 * ( n1.y - n2.y );
+        nn.cut_id.set( n1.cut_id.get() );
+        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
+        n1.x = n0_x - m0 * ( n1.x - n0_x );
+        n1.y = n0_y - m0 * ( n1.y - n0_y );
+        n1.cut_id.set( cut_id );
+        return true;
+    }
+    case 2052: {
+        bc[ 1 ]++;
+        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
+            normal /= norm_2( normal );
+        size = 9;
+        Node &n0 = node( 1 );
+        Node &n1 = node( 2 );
+        Node &n2 = node( 3 );
+        Node &nn = node( 3 );
+        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
+        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
+        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
+        TF m0 = s0 / ( s1 - s0 );
+        TF m1 = s2 / ( s1 - s2 );
+        TF n0_x = n0.x;
+        TF n0_y = n0.y;
+        node( 8 ).get_straight_content_from( node( 7 ) );
+        node( 7 ).get_straight_content_from( node( 6 ) );
+        node( 6 ).get_straight_content_from( node( 5 ) );
+        node( 5 ).get_straight_content_from( node( 4 ) );
+        node( 4 ).get_straight_content_from( node( 3 ) );
+        if ( store_the_normals ) { nn.dir_x = n1.dir_x; nn.dir_y = n1.dir_y; }
+        nn.x = n2.x - m1 * ( n1.x - n2.x );
+        nn.y = n2.y - m1 * ( n1.y - n2.y );
+        nn.cut_id.set( n1.cut_id.get() );
+        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
+        n1.x = n0_x - m0 * ( n1.x - n0_x );
+        n1.y = n0_y - m0 * ( n1.y - n0_y );
+        n1.cut_id.set( cut_id );
+        return true;
+    }
+    case 2056: {
+        bc[ 1 ]++;
+        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
+            normal /= norm_2( normal );
+        size = 9;
+        Node &n0 = node( 2 );
+        Node &n1 = node( 3 );
+        Node &n2 = node( 4 );
+        Node &nn = node( 4 );
+        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
+        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
+        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
+        TF m0 = s0 / ( s1 - s0 );
+        TF m1 = s2 / ( s1 - s2 );
+        TF n0_x = n0.x;
+        TF n0_y = n0.y;
+        node( 8 ).get_straight_content_from( node( 7 ) );
+        node( 7 ).get_straight_content_from( node( 6 ) );
+        node( 6 ).get_straight_content_from( node( 5 ) );
+        node( 5 ).get_straight_content_from( node( 4 ) );
+        if ( store_the_normals ) { nn.dir_x = n1.dir_x; nn.dir_y = n1.dir_y; }
+        nn.x = n2.x - m1 * ( n1.x - n2.x );
+        nn.y = n2.y - m1 * ( n1.y - n2.y );
+        nn.cut_id.set( n1.cut_id.get() );
+        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
+        n1.x = n0_x - m0 * ( n1.x - n0_x );
+        n1.y = n0_y - m0 * ( n1.y - n0_y );
+        n1.cut_id.set( cut_id );
+        return true;
+    }
+    case 2064: {
+        bc[ 1 ]++;
+        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
+            normal /= norm_2( normal );
+        size = 9;
+        Node &n0 = node( 3 );
+        Node &n1 = node( 4 );
+        Node &n2 = node( 5 );
+        Node &nn = node( 5 );
+        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
+        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
+        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
+        TF m0 = s0 / ( s1 - s0 );
+        TF m1 = s2 / ( s1 - s2 );
+        TF n0_x = n0.x;
+        TF n0_y = n0.y;
+        node( 8 ).get_straight_content_from( node( 7 ) );
+        node( 7 ).get_straight_content_from( node( 6 ) );
+        node( 6 ).get_straight_content_from( node( 5 ) );
+        if ( store_the_normals ) { nn.dir_x = n1.dir_x; nn.dir_y = n1.dir_y; }
+        nn.x = n2.x - m1 * ( n1.x - n2.x );
+        nn.y = n2.y - m1 * ( n1.y - n2.y );
+        nn.cut_id.set( n1.cut_id.get() );
+        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
+        n1.x = n0_x - m0 * ( n1.x - n0_x );
+        n1.y = n0_y - m0 * ( n1.y - n0_y );
+        n1.cut_id.set( cut_id );
+        return true;
+    }
+    case 2080: {
+        bc[ 1 ]++;
+        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
+            normal /= norm_2( normal );
+        size = 9;
+        Node &n0 = node( 4 );
+        Node &n1 = node( 5 );
+        Node &n2 = node( 6 );
+        Node &nn = node( 6 );
+        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
+        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
+        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
+        TF m0 = s0 / ( s1 - s0 );
+        TF m1 = s2 / ( s1 - s2 );
+        TF n0_x = n0.x;
+        TF n0_y = n0.y;
+        node( 8 ).get_straight_content_from( node( 7 ) );
+        node( 7 ).get_straight_content_from( node( 6 ) );
+        if ( store_the_normals ) { nn.dir_x = n1.dir_x; nn.dir_y = n1.dir_y; }
+        nn.x = n2.x - m1 * ( n1.x - n2.x );
+        nn.y = n2.y - m1 * ( n1.y - n2.y );
+        nn.cut_id.set( n1.cut_id.get() );
+        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
+        n1.x = n0_x - m0 * ( n1.x - n0_x );
+        n1.y = n0_y - m0 * ( n1.y - n0_y );
+        n1.cut_id.set( cut_id );
+        return true;
+    }
+    case 2112: {
+        bc[ 1 ]++;
+        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
+            normal /= norm_2( normal );
+        size = 9;
+        Node &n0 = node( 5 );
+        Node &n1 = node( 6 );
+        Node &n2 = node( 7 );
+        Node &nn = node( 7 );
+        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
+        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
+        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
+        TF m0 = s0 / ( s1 - s0 );
+        TF m1 = s2 / ( s1 - s2 );
+        TF n0_x = n0.x;
+        TF n0_y = n0.y;
+        node( 8 ).get_straight_content_from( node( 7 ) );
+        if ( store_the_normals ) { nn.dir_x = n1.dir_x; nn.dir_y = n1.dir_y; }
+        nn.x = n2.x - m1 * ( n1.x - n2.x );
+        nn.y = n2.y - m1 * ( n1.y - n2.y );
+        nn.cut_id.set( n1.cut_id.get() );
+        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
+        n1.x = n0_x - m0 * ( n1.x - n0_x );
+        n1.y = n0_y - m0 * ( n1.y - n0_y );
+        n1.cut_id.set( cut_id );
+        return true;
+    }
+    case 2176: {
+        bc[ 1 ]++;
+        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
+            normal /= norm_2( normal );
+        size = 9;
+        Node &n0 = node( 6 );
+        Node &n1 = node( 7 );
+        Node &n2 = node( 0 );
+        Node &nn = node( 8 );
+        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
+        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
+        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
+        TF m0 = s0 / ( s1 - s0 );
+        TF m1 = s2 / ( s1 - s2 );
+        TF n0_x = n0.x;
+        TF n0_y = n0.y;
+        if ( store_the_normals ) { nn.dir_x = n1.dir_x; nn.dir_y = n1.dir_y; }
+        nn.x = n2.x - m1 * ( n1.x - n2.x );
+        nn.y = n2.y - m1 * ( n1.y - n2.y );
+        nn.cut_id.set( n1.cut_id.get() );
+        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
+        n1.x = n0_x - m0 * ( n1.x - n0_x );
+        n1.y = n0_y - m0 * ( n1.y - n0_y );
+        n1.cut_id.set( cut_id );
+        return true;
+    }
+    case 2049: {
+        bc[ 1 ]++;
+        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
+            normal /= norm_2( normal );
+        size = 9;
+        Node &n0 = node( 7 );
+        Node &n1 = node( 0 );
+        Node &n2 = node( 1 );
+        Node &nn = node( 1 );
+        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
+        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
+        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
+        TF m0 = s0 / ( s1 - s0 );
+        TF m1 = s2 / ( s1 - s2 );
+        TF n0_x = n0.x;
+        TF n0_y = n0.y;
+        node( 8 ).get_straight_content_from( node( 7 ) );
+        node( 7 ).get_straight_content_from( node( 6 ) );
+        node( 6 ).get_straight_content_from( node( 5 ) );
+        node( 5 ).get_straight_content_from( node( 4 ) );
+        node( 4 ).get_straight_content_from( node( 3 ) );
+        node( 3 ).get_straight_content_from( node( 2 ) );
+        node( 2 ).get_straight_content_from( node( 1 ) );
+        if ( store_the_normals ) { nn.dir_x = n1.dir_x; nn.dir_y = n1.dir_y; }
+        nn.x = n2.x - m1 * ( n1.x - n2.x );
+        nn.y = n2.y - m1 * ( n1.y - n2.y );
+        nn.cut_id.set( n1.cut_id.get() );
+        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
+        n1.x = n0_x - m0 * ( n1.x - n0_x );
+        n1.y = n0_y - m0 * ( n1.y - n0_y );
+        n1.cut_id.set( cut_id );
+        return true;
+    }
     case 774:
     case 782:
     case 790:
@@ -47,6 +1380,7 @@ bool ConvexPolyhedron2<Pc>::plane_cut_simd_switch( Pt origin, Pt normal, CI cut_
     case 1006:
     case 1014:
     case 1022: {
+        bc[ 2 ]++;
         if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
             normal /= norm_2( normal );
         Node &n0 = node( 0 );
@@ -155,6 +1489,7 @@ bool ConvexPolyhedron2<Pc>::plane_cut_simd_switch( Pt origin, Pt normal, CI cut_
     case 2082:
     case 2114:
     case 2178: {
+        bc[ 2 ]++;
         if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
             normal /= norm_2( normal );
         Node &n0 = node( 0 );
@@ -173,644 +1508,6 @@ bool ConvexPolyhedron2<Pc>::plane_cut_simd_switch( Pt origin, Pt normal, CI cut_
         n1.y = n0.y - m1 * ( n1.y - n0.y );
         n2.x = n3.x - m2 * ( n2.x - n3.x );
         n2.y = n3.y - m2 * ( n2.y - n3.y );
-        return true;
-    }
-    case 1038:
-    case 1054:
-    case 1070:
-    case 1086:
-    case 1102:
-    case 1118:
-    case 1134:
-    case 1150:
-    case 1166:
-    case 1182:
-    case 1198:
-    case 1214:
-    case 1230:
-    case 1246:
-    case 1262:
-    case 1278: {
-        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
-            normal /= norm_2( normal );
-        Node &n0 = node( 0 );
-        Node &n1 = node( 1 );
-        Node &n2 = node( 3 );
-        Node &n3 = node( 0 );
-        Node &nn = node( 2 );
-        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-        TF m1 = s0 / ( s1 - s0 );
-        TF m2 = s3 / ( s2 - s3 );
-        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
-        n1.x = n0.x - m1 * ( n1.x - n0.x );
-        n1.y = n0.y - m1 * ( n1.y - n0.y );
-        n1.cut_id.set( cut_id );
-        if ( store_the_normals ) { nn.dir_x = n2.dir_x; nn.dir_y = n2.dir_y; }
-        nn.x = n3.x - m2 * ( n2.x - n3.x );
-        nn.y = n3.y - m2 * ( n2.y - n3.y );
-        nn.cut_id.set( n2.cut_id.get() );
-        size = 3;
-        return true;
-    }
-    case 2062:
-    case 2070:
-    case 2074:
-    case 2086:
-    case 2090:
-    case 2098:
-    case 2118:
-    case 2122:
-    case 2130:
-    case 2146:
-    case 2182:
-    case 2186:
-    case 2194:
-    case 2210:
-    case 2242: {
-        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
-            normal /= norm_2( normal );
-        Node &n0 = node( 0 );
-        Node &n1 = node( 1 );
-        Node &n2 = node( 3 );
-        Node &n3 = node( 4 );
-        Node &nn = node( 2 );
-        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-        TF m1 = s0 / ( s1 - s0 );
-        TF m2 = s3 / ( s2 - s3 );
-        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
-        n1.x = n0.x - m1 * ( n1.x - n0.x );
-        n1.y = n0.y - m1 * ( n1.y - n0.y );
-        n1.cut_id.set( cut_id );
-        if ( store_the_normals ) { nn.dir_x = n2.dir_x; nn.dir_y = n2.dir_y; }
-        nn.x = n3.x - m2 * ( n2.x - n3.x );
-        nn.y = n3.y - m2 * ( n2.y - n3.y );
-        nn.cut_id.set( n2.cut_id.get() );
-        nodes->local_at( 3 ).get_straight_content_from( nodes->local_at( 4 ) );
-        nodes->local_at( 4 ).get_straight_content_from( nodes->local_at( 5 ) );
-        nodes->local_at( 5 ).get_straight_content_from( nodes->local_at( 6 ) );
-        nodes->local_at( 6 ).get_straight_content_from( nodes->local_at( 7 ) );
-        size = 7;
-        return true;
-    }
-    case 1806:
-    case 1814:
-    case 1818:
-    case 1830:
-    case 1834:
-    case 1842:
-    case 1862:
-    case 1866:
-    case 1874:
-    case 1890:
-    case 1934:
-    case 1942:
-    case 1946:
-    case 1958:
-    case 1962:
-    case 1970:
-    case 1990:
-    case 1994:
-    case 2002:
-    case 2018: {
-        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
-            normal /= norm_2( normal );
-        Node &n0 = node( 0 );
-        Node &n1 = node( 1 );
-        Node &n2 = node( 3 );
-        Node &n3 = node( 4 );
-        Node &nn = node( 2 );
-        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-        TF m1 = s0 / ( s1 - s0 );
-        TF m2 = s3 / ( s2 - s3 );
-        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
-        n1.x = n0.x - m1 * ( n1.x - n0.x );
-        n1.y = n0.y - m1 * ( n1.y - n0.y );
-        n1.cut_id.set( cut_id );
-        if ( store_the_normals ) { nn.dir_x = n2.dir_x; nn.dir_y = n2.dir_y; }
-        nn.x = n3.x - m2 * ( n2.x - n3.x );
-        nn.y = n3.y - m2 * ( n2.y - n3.y );
-        nn.cut_id.set( n2.cut_id.get() );
-        nodes->local_at( 3 ).get_straight_content_from( nodes->local_at( 4 ) );
-        nodes->local_at( 4 ).get_straight_content_from( nodes->local_at( 5 ) );
-        nodes->local_at( 5 ).get_straight_content_from( nodes->local_at( 6 ) );
-        size = 6;
-        return true;
-    }
-    case 1550:
-    case 1558:
-    case 1562:
-    case 1574:
-    case 1578:
-    case 1586:
-    case 1614:
-    case 1622:
-    case 1626:
-    case 1638:
-    case 1642:
-    case 1650:
-    case 1678:
-    case 1686:
-    case 1690:
-    case 1702:
-    case 1706:
-    case 1714:
-    case 1742:
-    case 1750:
-    case 1754:
-    case 1766:
-    case 1770:
-    case 1778: {
-        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
-            normal /= norm_2( normal );
-        Node &n0 = node( 0 );
-        Node &n1 = node( 1 );
-        Node &n2 = node( 3 );
-        Node &n3 = node( 4 );
-        Node &nn = node( 2 );
-        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-        TF m1 = s0 / ( s1 - s0 );
-        TF m2 = s3 / ( s2 - s3 );
-        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
-        n1.x = n0.x - m1 * ( n1.x - n0.x );
-        n1.y = n0.y - m1 * ( n1.y - n0.y );
-        n1.cut_id.set( cut_id );
-        if ( store_the_normals ) { nn.dir_x = n2.dir_x; nn.dir_y = n2.dir_y; }
-        nn.x = n3.x - m2 * ( n2.x - n3.x );
-        nn.y = n3.y - m2 * ( n2.y - n3.y );
-        nn.cut_id.set( n2.cut_id.get() );
-        nodes->local_at( 3 ).get_straight_content_from( nodes->local_at( 4 ) );
-        nodes->local_at( 4 ).get_straight_content_from( nodes->local_at( 5 ) );
-        size = 5;
-        return true;
-    }
-    case 1294:
-    case 1302:
-    case 1306:
-    case 1326:
-    case 1334:
-    case 1338:
-    case 1358:
-    case 1366:
-    case 1370:
-    case 1390:
-    case 1398:
-    case 1402:
-    case 1422:
-    case 1430:
-    case 1434:
-    case 1454:
-    case 1462:
-    case 1466:
-    case 1486:
-    case 1494:
-    case 1498:
-    case 1518:
-    case 1526:
-    case 1530: {
-        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
-            normal /= norm_2( normal );
-        Node &n0 = node( 0 );
-        Node &n1 = node( 1 );
-        Node &n2 = node( 3 );
-        Node &n3 = node( 4 );
-        Node &nn = node( 2 );
-        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-        TF m1 = s0 / ( s1 - s0 );
-        TF m2 = s3 / ( s2 - s3 );
-        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
-        n1.x = n0.x - m1 * ( n1.x - n0.x );
-        n1.y = n0.y - m1 * ( n1.y - n0.y );
-        n1.cut_id.set( cut_id );
-        if ( store_the_normals ) { nn.dir_x = n2.dir_x; nn.dir_y = n2.dir_y; }
-        nn.x = n3.x - m2 * ( n2.x - n3.x );
-        nn.y = n3.y - m2 * ( n2.y - n3.y );
-        nn.cut_id.set( n2.cut_id.get() );
-        nodes->local_at( 3 ).get_straight_content_from( nodes->local_at( 4 ) );
-        size = 4;
-        return true;
-    }
-    case 1310:
-    case 1342:
-    case 1374:
-    case 1406:
-    case 1438:
-    case 1470:
-    case 1502:
-    case 1534: {
-        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
-            normal /= norm_2( normal );
-        Node &n0 = node( 0 );
-        Node &n1 = node( 1 );
-        Node &n2 = node( 4 );
-        Node &n3 = node( 0 );
-        Node &nn = node( 2 );
-        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-        TF m1 = s0 / ( s1 - s0 );
-        TF m2 = s3 / ( s2 - s3 );
-        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
-        n1.x = n0.x - m1 * ( n1.x - n0.x );
-        n1.y = n0.y - m1 * ( n1.y - n0.y );
-        n1.cut_id.set( cut_id );
-        if ( store_the_normals ) { nn.dir_x = n2.dir_x; nn.dir_y = n2.dir_y; }
-        nn.x = n3.x - m2 * ( n2.x - n3.x );
-        nn.y = n3.y - m2 * ( n2.y - n3.y );
-        nn.cut_id.set( n2.cut_id.get() );
-        size = 3;
-        return true;
-    }
-    case 2078:
-    case 2094:
-    case 2102:
-    case 2106:
-    case 2126:
-    case 2134:
-    case 2138:
-    case 2150:
-    case 2154:
-    case 2162:
-    case 2190:
-    case 2198:
-    case 2202:
-    case 2214:
-    case 2218:
-    case 2226:
-    case 2246:
-    case 2250:
-    case 2258:
-    case 2274: {
-        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
-            normal /= norm_2( normal );
-        Node &n0 = node( 0 );
-        Node &n1 = node( 1 );
-        Node &n2 = node( 4 );
-        Node &n3 = node( 5 );
-        Node &nn = node( 2 );
-        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-        TF m1 = s0 / ( s1 - s0 );
-        TF m2 = s3 / ( s2 - s3 );
-        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
-        n1.x = n0.x - m1 * ( n1.x - n0.x );
-        n1.y = n0.y - m1 * ( n1.y - n0.y );
-        n1.cut_id.set( cut_id );
-        if ( store_the_normals ) { nn.dir_x = n2.dir_x; nn.dir_y = n2.dir_y; }
-        nn.x = n3.x - m2 * ( n2.x - n3.x );
-        nn.y = n3.y - m2 * ( n2.y - n3.y );
-        nn.cut_id.set( n2.cut_id.get() );
-        nodes->local_at( 3 ).get_straight_content_from( nodes->local_at( 5 ) );
-        nodes->local_at( 4 ).get_straight_content_from( nodes->local_at( 6 ) );
-        nodes->local_at( 5 ).get_straight_content_from( nodes->local_at( 7 ) );
-        size = 6;
-        return true;
-    }
-    case 1822:
-    case 1838:
-    case 1846:
-    case 1850:
-    case 1870:
-    case 1878:
-    case 1882:
-    case 1894:
-    case 1898:
-    case 1906:
-    case 1950:
-    case 1966:
-    case 1974:
-    case 1978:
-    case 1998:
-    case 2006:
-    case 2010:
-    case 2022:
-    case 2026:
-    case 2034: {
-        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
-            normal /= norm_2( normal );
-        Node &n0 = node( 0 );
-        Node &n1 = node( 1 );
-        Node &n2 = node( 4 );
-        Node &n3 = node( 5 );
-        Node &nn = node( 2 );
-        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-        TF m1 = s0 / ( s1 - s0 );
-        TF m2 = s3 / ( s2 - s3 );
-        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
-        n1.x = n0.x - m1 * ( n1.x - n0.x );
-        n1.y = n0.y - m1 * ( n1.y - n0.y );
-        n1.cut_id.set( cut_id );
-        if ( store_the_normals ) { nn.dir_x = n2.dir_x; nn.dir_y = n2.dir_y; }
-        nn.x = n3.x - m2 * ( n2.x - n3.x );
-        nn.y = n3.y - m2 * ( n2.y - n3.y );
-        nn.cut_id.set( n2.cut_id.get() );
-        nodes->local_at( 3 ).get_straight_content_from( nodes->local_at( 5 ) );
-        nodes->local_at( 4 ).get_straight_content_from( nodes->local_at( 6 ) );
-        size = 5;
-        return true;
-    }
-    case 1566:
-    case 1582:
-    case 1590:
-    case 1594:
-    case 1630:
-    case 1646:
-    case 1654:
-    case 1658:
-    case 1694:
-    case 1710:
-    case 1718:
-    case 1722:
-    case 1758:
-    case 1774:
-    case 1782:
-    case 1786: {
-        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
-            normal /= norm_2( normal );
-        Node &n0 = node( 0 );
-        Node &n1 = node( 1 );
-        Node &n2 = node( 4 );
-        Node &n3 = node( 5 );
-        Node &nn = node( 2 );
-        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-        TF m1 = s0 / ( s1 - s0 );
-        TF m2 = s3 / ( s2 - s3 );
-        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
-        n1.x = n0.x - m1 * ( n1.x - n0.x );
-        n1.y = n0.y - m1 * ( n1.y - n0.y );
-        n1.cut_id.set( cut_id );
-        if ( store_the_normals ) { nn.dir_x = n2.dir_x; nn.dir_y = n2.dir_y; }
-        nn.x = n3.x - m2 * ( n2.x - n3.x );
-        nn.y = n3.y - m2 * ( n2.y - n3.y );
-        nn.cut_id.set( n2.cut_id.get() );
-        nodes->local_at( 3 ).get_straight_content_from( nodes->local_at( 5 ) );
-        size = 4;
-        return true;
-    }
-    case 1598:
-    case 1662:
-    case 1726:
-    case 1790: {
-        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
-            normal /= norm_2( normal );
-        Node &n0 = node( 0 );
-        Node &n1 = node( 1 );
-        Node &n2 = node( 5 );
-        Node &n3 = node( 0 );
-        Node &nn = node( 2 );
-        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-        TF m1 = s0 / ( s1 - s0 );
-        TF m2 = s3 / ( s2 - s3 );
-        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
-        n1.x = n0.x - m1 * ( n1.x - n0.x );
-        n1.y = n0.y - m1 * ( n1.y - n0.y );
-        n1.cut_id.set( cut_id );
-        if ( store_the_normals ) { nn.dir_x = n2.dir_x; nn.dir_y = n2.dir_y; }
-        nn.x = n3.x - m2 * ( n2.x - n3.x );
-        nn.y = n3.y - m2 * ( n2.y - n3.y );
-        nn.cut_id.set( n2.cut_id.get() );
-        size = 3;
-        return true;
-    }
-    case 2110:
-    case 2142:
-    case 2158:
-    case 2166:
-    case 2170:
-    case 2206:
-    case 2222:
-    case 2230:
-    case 2234:
-    case 2254:
-    case 2262:
-    case 2266:
-    case 2278:
-    case 2282:
-    case 2290: {
-        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
-            normal /= norm_2( normal );
-        Node &n0 = node( 0 );
-        Node &n1 = node( 1 );
-        Node &n2 = node( 5 );
-        Node &n3 = node( 6 );
-        Node &nn = node( 2 );
-        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-        TF m1 = s0 / ( s1 - s0 );
-        TF m2 = s3 / ( s2 - s3 );
-        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
-        n1.x = n0.x - m1 * ( n1.x - n0.x );
-        n1.y = n0.y - m1 * ( n1.y - n0.y );
-        n1.cut_id.set( cut_id );
-        if ( store_the_normals ) { nn.dir_x = n2.dir_x; nn.dir_y = n2.dir_y; }
-        nn.x = n3.x - m2 * ( n2.x - n3.x );
-        nn.y = n3.y - m2 * ( n2.y - n3.y );
-        nn.cut_id.set( n2.cut_id.get() );
-        nodes->local_at( 3 ).get_straight_content_from( nodes->local_at( 6 ) );
-        nodes->local_at( 4 ).get_straight_content_from( nodes->local_at( 7 ) );
-        size = 5;
-        return true;
-    }
-    case 1854:
-    case 1886:
-    case 1902:
-    case 1910:
-    case 1914:
-    case 1982:
-    case 2014:
-    case 2030:
-    case 2038:
-    case 2042: {
-        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
-            normal /= norm_2( normal );
-        Node &n0 = node( 0 );
-        Node &n1 = node( 1 );
-        Node &n2 = node( 5 );
-        Node &n3 = node( 6 );
-        Node &nn = node( 2 );
-        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-        TF m1 = s0 / ( s1 - s0 );
-        TF m2 = s3 / ( s2 - s3 );
-        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
-        n1.x = n0.x - m1 * ( n1.x - n0.x );
-        n1.y = n0.y - m1 * ( n1.y - n0.y );
-        n1.cut_id.set( cut_id );
-        if ( store_the_normals ) { nn.dir_x = n2.dir_x; nn.dir_y = n2.dir_y; }
-        nn.x = n3.x - m2 * ( n2.x - n3.x );
-        nn.y = n3.y - m2 * ( n2.y - n3.y );
-        nn.cut_id.set( n2.cut_id.get() );
-        nodes->local_at( 3 ).get_straight_content_from( nodes->local_at( 6 ) );
-        size = 4;
-        return true;
-    }
-    case 1918:
-    case 2046: {
-        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
-            normal /= norm_2( normal );
-        Node &n0 = node( 0 );
-        Node &n1 = node( 1 );
-        Node &n2 = node( 6 );
-        Node &n3 = node( 0 );
-        Node &nn = node( 2 );
-        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-        TF m1 = s0 / ( s1 - s0 );
-        TF m2 = s3 / ( s2 - s3 );
-        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
-        n1.x = n0.x - m1 * ( n1.x - n0.x );
-        n1.y = n0.y - m1 * ( n1.y - n0.y );
-        n1.cut_id.set( cut_id );
-        if ( store_the_normals ) { nn.dir_x = n2.dir_x; nn.dir_y = n2.dir_y; }
-        nn.x = n3.x - m2 * ( n2.x - n3.x );
-        nn.y = n3.y - m2 * ( n2.y - n3.y );
-        nn.cut_id.set( n2.cut_id.get() );
-        size = 3;
-        return true;
-    }
-    case 2174:
-    case 2238:
-    case 2270:
-    case 2286:
-    case 2294:
-    case 2298: {
-        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
-            normal /= norm_2( normal );
-        Node &n0 = node( 0 );
-        Node &n1 = node( 1 );
-        Node &n2 = node( 6 );
-        Node &n3 = node( 7 );
-        Node &nn = node( 2 );
-        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-        TF m1 = s0 / ( s1 - s0 );
-        TF m2 = s3 / ( s2 - s3 );
-        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
-        n1.x = n0.x - m1 * ( n1.x - n0.x );
-        n1.y = n0.y - m1 * ( n1.y - n0.y );
-        n1.cut_id.set( cut_id );
-        if ( store_the_normals ) { nn.dir_x = n2.dir_x; nn.dir_y = n2.dir_y; }
-        nn.x = n3.x - m2 * ( n2.x - n3.x );
-        nn.y = n3.y - m2 * ( n2.y - n3.y );
-        nn.cut_id.set( n2.cut_id.get() );
-        nodes->local_at( 3 ).get_straight_content_from( nodes->local_at( 7 ) );
-        size = 4;
-        return true;
-    }
-    case 2302: {
-        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
-            normal /= norm_2( normal );
-        Node &n0 = node( 0 );
-        Node &n1 = node( 1 );
-        Node &n2 = node( 7 );
-        Node &n3 = node( 0 );
-        Node &nn = node( 2 );
-        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-        TF m1 = s0 / ( s1 - s0 );
-        TF m2 = s3 / ( s2 - s3 );
-        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
-        n1.x = n0.x - m1 * ( n1.x - n0.x );
-        n1.y = n0.y - m1 * ( n1.y - n0.y );
-        n1.cut_id.set( cut_id );
-        if ( store_the_normals ) { nn.dir_x = n2.dir_x; nn.dir_y = n2.dir_y; }
-        nn.x = n3.x - m2 * ( n2.x - n3.x );
-        nn.y = n3.y - m2 * ( n2.y - n3.y );
-        nn.cut_id.set( n2.cut_id.get() );
-        size = 3;
-        return true;
-    }
-    case 1037:
-    case 1053:
-    case 1069:
-    case 1085:
-    case 1101:
-    case 1117:
-    case 1133:
-    case 1149:
-    case 1165:
-    case 1181:
-    case 1197:
-    case 1213:
-    case 1229:
-    case 1245:
-    case 1261:
-    case 1277:
-    case 1309:
-    case 1341:
-    case 1373:
-    case 1405:
-    case 1437:
-    case 1469:
-    case 1501:
-    case 1533:
-    case 1597:
-    case 1661:
-    case 1725:
-    case 1789:
-    case 1917:
-    case 2045:
-    case 2301: {
-        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
-            normal /= norm_2( normal );
-        Node &n0 = node( 1 );
-        Node &n1 = node( 2 );
-        Node &n2 = node( 0 );
-        Node &n3 = node( 1 );
-        Node &nn = node( 0 );
-        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-        TF m1 = s0 / ( s1 - s0 );
-        TF m2 = s3 / ( s2 - s3 );
-        if ( store_the_normals ) { n0.dir_x = n2.dir_x; n0.dir_y = n2.dir_y; }
-        nn.x = n3.x - m2 * ( n2.x - n3.x );
-        nn.y = n3.y - m2 * ( n2.y - n3.y );
-        nn.cut_id.set( n2.cut_id.get() );
-        nodes->local_at( 1 ).get_straight_content_from( nodes->local_at( 1 ) );
-        Node &no = node( 2 );
-        if ( store_the_normals ) { no.dir_x = normal.x; no.dir_y = normal.y; }
-        no.x = n0.x - m1 * ( n1.x - n0.x );
-        no.y = n0.y - m1 * ( n1.y - n0.y );
-        no.cut_id.set( cut_id );
-        size = 3;
         return true;
     }
     case 773:
@@ -845,6 +1542,7 @@ bool ConvexPolyhedron2<Pc>::plane_cut_simd_switch( Pt origin, Pt normal, CI cut_
     case 1005:
     case 1013:
     case 1021: {
+        bc[ 2 ]++;
         if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
             normal /= norm_2( normal );
         Node &n0 = node( 1 );
@@ -881,6 +1579,7 @@ bool ConvexPolyhedron2<Pc>::plane_cut_simd_switch( Pt origin, Pt normal, CI cut_
     case 1244:
     case 1260:
     case 1276: {
+        bc[ 2 ]++;
         if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
             normal /= norm_2( normal );
         Node &n0 = node( 1 );
@@ -942,6 +1641,7 @@ bool ConvexPolyhedron2<Pc>::plane_cut_simd_switch( Pt origin, Pt normal, CI cut_
     case 2084:
     case 2116:
     case 2180: {
+        bc[ 2 ]++;
         if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
             normal /= norm_2( normal );
         Node &n0 = node( 1 );
@@ -962,6 +1662,854 @@ bool ConvexPolyhedron2<Pc>::plane_cut_simd_switch( Pt origin, Pt normal, CI cut_
         n2.y = n3.y - m2 * ( n2.y - n3.y );
         return true;
     }
+    case 771:
+    case 779:
+    case 787:
+    case 795:
+    case 803:
+    case 811:
+    case 819:
+    case 827:
+    case 835:
+    case 843:
+    case 851:
+    case 859:
+    case 867:
+    case 875:
+    case 883:
+    case 891:
+    case 899:
+    case 907:
+    case 915:
+    case 923:
+    case 931:
+    case 939:
+    case 947:
+    case 955:
+    case 963:
+    case 971:
+    case 979:
+    case 987:
+    case 995:
+    case 1003:
+    case 1011:
+    case 1019: {
+        bc[ 2 ]++;
+        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
+            normal /= norm_2( normal );
+        Node &n0 = node( 2 );
+        Node &n1 = node( 0 );
+        Node &n2 = node( 1 );
+        Node &n3 = node( 2 );
+        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
+        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
+        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
+        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
+        TF m1 = s0 / ( s1 - s0 );
+        TF m2 = s3 / ( s2 - s3 );
+        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
+        n1.cut_id.set( cut_id );
+        n1.x = n0.x - m1 * ( n1.x - n0.x );
+        n1.y = n0.y - m1 * ( n1.y - n0.y );
+        n2.x = n3.x - m2 * ( n2.x - n3.x );
+        n2.y = n3.y - m2 * ( n2.y - n3.y );
+        return true;
+    }
+    case 1029:
+    case 1033:
+    case 1045:
+    case 1049:
+    case 1061:
+    case 1065:
+    case 1077:
+    case 1081:
+    case 1093:
+    case 1097:
+    case 1109:
+    case 1113:
+    case 1125:
+    case 1129:
+    case 1141:
+    case 1145:
+    case 1157:
+    case 1161:
+    case 1173:
+    case 1177:
+    case 1189:
+    case 1193:
+    case 1205:
+    case 1209:
+    case 1221:
+    case 1225:
+    case 1237:
+    case 1241:
+    case 1253:
+    case 1257:
+    case 1269:
+    case 1273: {
+        bc[ 2 ]++;
+        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
+            normal /= norm_2( normal );
+        Node &n0 = node( 2 );
+        Node &n1 = node( 3 );
+        Node &n2 = node( 0 );
+        Node &n3 = node( 1 );
+        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
+        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
+        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
+        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
+        TF m1 = s0 / ( s1 - s0 );
+        TF m2 = s3 / ( s2 - s3 );
+        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
+        n1.cut_id.set( cut_id );
+        n1.x = n0.x - m1 * ( n1.x - n0.x );
+        n1.y = n0.y - m1 * ( n1.y - n0.y );
+        n2.x = n3.x - m2 * ( n2.x - n3.x );
+        n2.y = n3.y - m2 * ( n2.y - n3.y );
+        return true;
+    }
+    case 1304:
+    case 1336:
+    case 1368:
+    case 1400:
+    case 1432:
+    case 1464:
+    case 1496:
+    case 1528: {
+        bc[ 2 ]++;
+        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
+            normal /= norm_2( normal );
+        Node &n0 = node( 2 );
+        Node &n1 = node( 3 );
+        Node &n2 = node( 4 );
+        Node &n3 = node( 0 );
+        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
+        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
+        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
+        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
+        TF m1 = s0 / ( s1 - s0 );
+        TF m2 = s3 / ( s2 - s3 );
+        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
+        n1.cut_id.set( cut_id );
+        n1.x = n0.x - m1 * ( n1.x - n0.x );
+        n1.y = n0.y - m1 * ( n1.y - n0.y );
+        n2.x = n3.x - m2 * ( n2.x - n3.x );
+        n2.y = n3.y - m2 * ( n2.y - n3.y );
+        return true;
+    }
+    case 1560:
+    case 1576:
+    case 1624:
+    case 1640:
+    case 1688:
+    case 1704:
+    case 1752:
+    case 1768:
+    case 1816:
+    case 1832:
+    case 1864:
+    case 1944:
+    case 1960:
+    case 1992:
+    case 2072:
+    case 2088:
+    case 2120:
+    case 2184: {
+        bc[ 2 ]++;
+        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
+            normal /= norm_2( normal );
+        Node &n0 = node( 2 );
+        Node &n1 = node( 3 );
+        Node &n2 = node( 4 );
+        Node &n3 = node( 5 );
+        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
+        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
+        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
+        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
+        TF m1 = s0 / ( s1 - s0 );
+        TF m2 = s3 / ( s2 - s3 );
+        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
+        n1.cut_id.set( cut_id );
+        n1.x = n0.x - m1 * ( n1.x - n0.x );
+        n1.y = n0.y - m1 * ( n1.y - n0.y );
+        n2.x = n3.x - m2 * ( n2.x - n3.x );
+        n2.y = n3.y - m2 * ( n2.y - n3.y );
+        return true;
+    }
+    case 1027:
+    case 1043:
+    case 1059:
+    case 1075:
+    case 1091:
+    case 1107:
+    case 1123:
+    case 1139:
+    case 1155:
+    case 1171:
+    case 1187:
+    case 1203:
+    case 1219:
+    case 1235:
+    case 1251:
+    case 1267: {
+        bc[ 2 ]++;
+        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
+            normal /= norm_2( normal );
+        Node &n0 = node( 3 );
+        Node &n1 = node( 0 );
+        Node &n2 = node( 1 );
+        Node &n3 = node( 2 );
+        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
+        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
+        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
+        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
+        TF m1 = s0 / ( s1 - s0 );
+        TF m2 = s3 / ( s2 - s3 );
+        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
+        n1.cut_id.set( cut_id );
+        n1.x = n0.x - m1 * ( n1.x - n0.x );
+        n1.y = n0.y - m1 * ( n1.y - n0.y );
+        n2.x = n3.x - m2 * ( n2.x - n3.x );
+        n2.y = n3.y - m2 * ( n2.y - n3.y );
+        return true;
+    }
+    case 1285:
+    case 1289:
+    case 1297:
+    case 1317:
+    case 1321:
+    case 1329:
+    case 1349:
+    case 1353:
+    case 1361:
+    case 1381:
+    case 1385:
+    case 1393:
+    case 1413:
+    case 1417:
+    case 1425:
+    case 1445:
+    case 1449:
+    case 1457:
+    case 1477:
+    case 1481:
+    case 1489:
+    case 1509:
+    case 1513:
+    case 1521: {
+        bc[ 2 ]++;
+        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
+            normal /= norm_2( normal );
+        Node &n0 = node( 3 );
+        Node &n1 = node( 4 );
+        Node &n2 = node( 0 );
+        Node &n3 = node( 1 );
+        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
+        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
+        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
+        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
+        TF m1 = s0 / ( s1 - s0 );
+        TF m2 = s3 / ( s2 - s3 );
+        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
+        n1.cut_id.set( cut_id );
+        n1.x = n0.x - m1 * ( n1.x - n0.x );
+        n1.y = n0.y - m1 * ( n1.y - n0.y );
+        n2.x = n3.x - m2 * ( n2.x - n3.x );
+        n2.y = n3.y - m2 * ( n2.y - n3.y );
+        return true;
+    }
+    case 1584:
+    case 1648:
+    case 1712:
+    case 1776: {
+        bc[ 2 ]++;
+        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
+            normal /= norm_2( normal );
+        Node &n0 = node( 3 );
+        Node &n1 = node( 4 );
+        Node &n2 = node( 5 );
+        Node &n3 = node( 0 );
+        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
+        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
+        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
+        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
+        TF m1 = s0 / ( s1 - s0 );
+        TF m2 = s3 / ( s2 - s3 );
+        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
+        n1.cut_id.set( cut_id );
+        n1.x = n0.x - m1 * ( n1.x - n0.x );
+        n1.y = n0.y - m1 * ( n1.y - n0.y );
+        n2.x = n3.x - m2 * ( n2.x - n3.x );
+        n2.y = n3.y - m2 * ( n2.y - n3.y );
+        return true;
+    }
+    case 1840:
+    case 1872:
+    case 1968:
+    case 2000:
+    case 2096:
+    case 2128:
+    case 2192: {
+        bc[ 2 ]++;
+        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
+            normal /= norm_2( normal );
+        Node &n0 = node( 3 );
+        Node &n1 = node( 4 );
+        Node &n2 = node( 5 );
+        Node &n3 = node( 6 );
+        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
+        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
+        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
+        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
+        TF m1 = s0 / ( s1 - s0 );
+        TF m2 = s3 / ( s2 - s3 );
+        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
+        n1.cut_id.set( cut_id );
+        n1.x = n0.x - m1 * ( n1.x - n0.x );
+        n1.y = n0.y - m1 * ( n1.y - n0.y );
+        n2.x = n3.x - m2 * ( n2.x - n3.x );
+        n2.y = n3.y - m2 * ( n2.y - n3.y );
+        return true;
+    }
+    case 1283:
+    case 1315:
+    case 1347:
+    case 1379:
+    case 1411:
+    case 1443:
+    case 1475:
+    case 1507: {
+        bc[ 2 ]++;
+        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
+            normal /= norm_2( normal );
+        Node &n0 = node( 4 );
+        Node &n1 = node( 0 );
+        Node &n2 = node( 1 );
+        Node &n3 = node( 2 );
+        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
+        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
+        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
+        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
+        TF m1 = s0 / ( s1 - s0 );
+        TF m2 = s3 / ( s2 - s3 );
+        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
+        n1.cut_id.set( cut_id );
+        n1.x = n0.x - m1 * ( n1.x - n0.x );
+        n1.y = n0.y - m1 * ( n1.y - n0.y );
+        n2.x = n3.x - m2 * ( n2.x - n3.x );
+        n2.y = n3.y - m2 * ( n2.y - n3.y );
+        return true;
+    }
+    case 1541:
+    case 1545:
+    case 1553:
+    case 1569:
+    case 1605:
+    case 1609:
+    case 1617:
+    case 1633:
+    case 1669:
+    case 1673:
+    case 1681:
+    case 1697:
+    case 1733:
+    case 1737:
+    case 1745:
+    case 1761: {
+        bc[ 2 ]++;
+        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
+            normal /= norm_2( normal );
+        Node &n0 = node( 4 );
+        Node &n1 = node( 5 );
+        Node &n2 = node( 0 );
+        Node &n3 = node( 1 );
+        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
+        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
+        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
+        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
+        TF m1 = s0 / ( s1 - s0 );
+        TF m2 = s3 / ( s2 - s3 );
+        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
+        n1.cut_id.set( cut_id );
+        n1.x = n0.x - m1 * ( n1.x - n0.x );
+        n1.y = n0.y - m1 * ( n1.y - n0.y );
+        n2.x = n3.x - m2 * ( n2.x - n3.x );
+        n2.y = n3.y - m2 * ( n2.y - n3.y );
+        return true;
+    }
+    case 1888:
+    case 2016: {
+        bc[ 2 ]++;
+        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
+            normal /= norm_2( normal );
+        Node &n0 = node( 4 );
+        Node &n1 = node( 5 );
+        Node &n2 = node( 6 );
+        Node &n3 = node( 0 );
+        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
+        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
+        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
+        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
+        TF m1 = s0 / ( s1 - s0 );
+        TF m2 = s3 / ( s2 - s3 );
+        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
+        n1.cut_id.set( cut_id );
+        n1.x = n0.x - m1 * ( n1.x - n0.x );
+        n1.y = n0.y - m1 * ( n1.y - n0.y );
+        n2.x = n3.x - m2 * ( n2.x - n3.x );
+        n2.y = n3.y - m2 * ( n2.y - n3.y );
+        return true;
+    }
+    case 2144:
+    case 2208: {
+        bc[ 2 ]++;
+        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
+            normal /= norm_2( normal );
+        Node &n0 = node( 4 );
+        Node &n1 = node( 5 );
+        Node &n2 = node( 6 );
+        Node &n3 = node( 7 );
+        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
+        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
+        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
+        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
+        TF m1 = s0 / ( s1 - s0 );
+        TF m2 = s3 / ( s2 - s3 );
+        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
+        n1.cut_id.set( cut_id );
+        n1.x = n0.x - m1 * ( n1.x - n0.x );
+        n1.y = n0.y - m1 * ( n1.y - n0.y );
+        n2.x = n3.x - m2 * ( n2.x - n3.x );
+        n2.y = n3.y - m2 * ( n2.y - n3.y );
+        return true;
+    }
+    case 1539:
+    case 1603:
+    case 1667:
+    case 1731: {
+        bc[ 2 ]++;
+        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
+            normal /= norm_2( normal );
+        Node &n0 = node( 5 );
+        Node &n1 = node( 0 );
+        Node &n2 = node( 1 );
+        Node &n3 = node( 2 );
+        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
+        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
+        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
+        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
+        TF m1 = s0 / ( s1 - s0 );
+        TF m2 = s3 / ( s2 - s3 );
+        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
+        n1.cut_id.set( cut_id );
+        n1.x = n0.x - m1 * ( n1.x - n0.x );
+        n1.y = n0.y - m1 * ( n1.y - n0.y );
+        n2.x = n3.x - m2 * ( n2.x - n3.x );
+        n2.y = n3.y - m2 * ( n2.y - n3.y );
+        return true;
+    }
+    case 1797:
+    case 1801:
+    case 1809:
+    case 1825:
+    case 1857:
+    case 1925:
+    case 1929:
+    case 1937:
+    case 1953:
+    case 1985: {
+        bc[ 2 ]++;
+        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
+            normal /= norm_2( normal );
+        Node &n0 = node( 5 );
+        Node &n1 = node( 6 );
+        Node &n2 = node( 0 );
+        Node &n3 = node( 1 );
+        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
+        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
+        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
+        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
+        TF m1 = s0 / ( s1 - s0 );
+        TF m2 = s3 / ( s2 - s3 );
+        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
+        n1.cut_id.set( cut_id );
+        n1.x = n0.x - m1 * ( n1.x - n0.x );
+        n1.y = n0.y - m1 * ( n1.y - n0.y );
+        n2.x = n3.x - m2 * ( n2.x - n3.x );
+        n2.y = n3.y - m2 * ( n2.y - n3.y );
+        return true;
+    }
+    case 2240: {
+        bc[ 2 ]++;
+        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
+            normal /= norm_2( normal );
+        Node &n0 = node( 5 );
+        Node &n1 = node( 6 );
+        Node &n2 = node( 7 );
+        Node &n3 = node( 0 );
+        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
+        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
+        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
+        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
+        TF m1 = s0 / ( s1 - s0 );
+        TF m2 = s3 / ( s2 - s3 );
+        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
+        n1.cut_id.set( cut_id );
+        n1.x = n0.x - m1 * ( n1.x - n0.x );
+        n1.y = n0.y - m1 * ( n1.y - n0.y );
+        n2.x = n3.x - m2 * ( n2.x - n3.x );
+        n2.y = n3.y - m2 * ( n2.y - n3.y );
+        return true;
+    }
+    case 1795:
+    case 1923: {
+        bc[ 2 ]++;
+        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
+            normal /= norm_2( normal );
+        Node &n0 = node( 6 );
+        Node &n1 = node( 0 );
+        Node &n2 = node( 1 );
+        Node &n3 = node( 2 );
+        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
+        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
+        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
+        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
+        TF m1 = s0 / ( s1 - s0 );
+        TF m2 = s3 / ( s2 - s3 );
+        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
+        n1.cut_id.set( cut_id );
+        n1.x = n0.x - m1 * ( n1.x - n0.x );
+        n1.y = n0.y - m1 * ( n1.y - n0.y );
+        n2.x = n3.x - m2 * ( n2.x - n3.x );
+        n2.y = n3.y - m2 * ( n2.y - n3.y );
+        return true;
+    }
+    case 2053:
+    case 2057:
+    case 2065:
+    case 2081:
+    case 2113:
+    case 2177: {
+        bc[ 2 ]++;
+        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
+            normal /= norm_2( normal );
+        Node &n0 = node( 6 );
+        Node &n1 = node( 7 );
+        Node &n2 = node( 0 );
+        Node &n3 = node( 1 );
+        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
+        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
+        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
+        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
+        TF m1 = s0 / ( s1 - s0 );
+        TF m2 = s3 / ( s2 - s3 );
+        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
+        n1.cut_id.set( cut_id );
+        n1.x = n0.x - m1 * ( n1.x - n0.x );
+        n1.y = n0.y - m1 * ( n1.y - n0.y );
+        n2.x = n3.x - m2 * ( n2.x - n3.x );
+        n2.y = n3.y - m2 * ( n2.y - n3.y );
+        return true;
+    }
+    case 2051: {
+        bc[ 2 ]++;
+        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
+            normal /= norm_2( normal );
+        Node &n0 = node( 7 );
+        Node &n1 = node( 0 );
+        Node &n2 = node( 1 );
+        Node &n3 = node( 2 );
+        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
+        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
+        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
+        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
+        TF m1 = s0 / ( s1 - s0 );
+        TF m2 = s3 / ( s2 - s3 );
+        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
+        n1.cut_id.set( cut_id );
+        n1.x = n0.x - m1 * ( n1.x - n0.x );
+        n1.y = n0.y - m1 * ( n1.y - n0.y );
+        n2.x = n3.x - m2 * ( n2.x - n3.x );
+        n2.y = n3.y - m2 * ( n2.y - n3.y );
+        return true;
+    }
+    case 1038:
+    case 1054:
+    case 1070:
+    case 1086:
+    case 1102:
+    case 1118:
+    case 1134:
+    case 1150:
+    case 1166:
+    case 1182:
+    case 1198:
+    case 1214:
+    case 1230:
+    case 1246:
+    case 1262:
+    case 1278: {
+        bc[ 3 ]++;
+        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
+            normal /= norm_2( normal );
+        Node &n0 = node( 0 );
+        Node &n1 = node( 1 );
+        Node &n2 = node( 3 );
+        Node &n3 = node( 0 );
+        Node &nn = node( 2 );
+        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
+        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
+        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
+        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
+        TF m1 = s0 / ( s1 - s0 );
+        TF m2 = s3 / ( s2 - s3 );
+        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
+        n1.x = n0.x - m1 * ( n1.x - n0.x );
+        n1.y = n0.y - m1 * ( n1.y - n0.y );
+        n1.cut_id.set( cut_id );
+        if ( store_the_normals ) { nn.dir_x = n2.dir_x; nn.dir_y = n2.dir_y; }
+        nn.x = n3.x - m2 * ( n2.x - n3.x );
+        nn.y = n3.y - m2 * ( n2.y - n3.y );
+        nn.cut_id.set( n2.cut_id.get() );
+        size = 3;
+        return true;
+    }
+    case 2062:
+    case 2070:
+    case 2074:
+    case 2086:
+    case 2090:
+    case 2098:
+    case 2118:
+    case 2122:
+    case 2130:
+    case 2146:
+    case 2182:
+    case 2186:
+    case 2194:
+    case 2210:
+    case 2242: {
+        bc[ 3 ]++;
+        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
+            normal /= norm_2( normal );
+        Node &n0 = node( 0 );
+        Node &n1 = node( 1 );
+        Node &n2 = node( 3 );
+        Node &n3 = node( 4 );
+        Node &nn = node( 2 );
+        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
+        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
+        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
+        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
+        TF m1 = s0 / ( s1 - s0 );
+        TF m2 = s3 / ( s2 - s3 );
+        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
+        n1.x = n0.x - m1 * ( n1.x - n0.x );
+        n1.y = n0.y - m1 * ( n1.y - n0.y );
+        n1.cut_id.set( cut_id );
+        if ( store_the_normals ) { nn.dir_x = n2.dir_x; nn.dir_y = n2.dir_y; }
+        nn.x = n3.x - m2 * ( n2.x - n3.x );
+        nn.y = n3.y - m2 * ( n2.y - n3.y );
+        nn.cut_id.set( n2.cut_id.get() );
+        nodes->local_at( 3 ).get_straight_content_from( nodes->local_at( 4 ) );
+        nodes->local_at( 4 ).get_straight_content_from( nodes->local_at( 5 ) );
+        nodes->local_at( 5 ).get_straight_content_from( nodes->local_at( 6 ) );
+        nodes->local_at( 6 ).get_straight_content_from( nodes->local_at( 7 ) );
+        size = 7;
+        return true;
+    }
+    case 1806:
+    case 1814:
+    case 1818:
+    case 1830:
+    case 1834:
+    case 1842:
+    case 1862:
+    case 1866:
+    case 1874:
+    case 1890:
+    case 1934:
+    case 1942:
+    case 1946:
+    case 1958:
+    case 1962:
+    case 1970:
+    case 1990:
+    case 1994:
+    case 2002:
+    case 2018: {
+        bc[ 3 ]++;
+        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
+            normal /= norm_2( normal );
+        Node &n0 = node( 0 );
+        Node &n1 = node( 1 );
+        Node &n2 = node( 3 );
+        Node &n3 = node( 4 );
+        Node &nn = node( 2 );
+        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
+        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
+        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
+        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
+        TF m1 = s0 / ( s1 - s0 );
+        TF m2 = s3 / ( s2 - s3 );
+        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
+        n1.x = n0.x - m1 * ( n1.x - n0.x );
+        n1.y = n0.y - m1 * ( n1.y - n0.y );
+        n1.cut_id.set( cut_id );
+        if ( store_the_normals ) { nn.dir_x = n2.dir_x; nn.dir_y = n2.dir_y; }
+        nn.x = n3.x - m2 * ( n2.x - n3.x );
+        nn.y = n3.y - m2 * ( n2.y - n3.y );
+        nn.cut_id.set( n2.cut_id.get() );
+        nodes->local_at( 3 ).get_straight_content_from( nodes->local_at( 4 ) );
+        nodes->local_at( 4 ).get_straight_content_from( nodes->local_at( 5 ) );
+        nodes->local_at( 5 ).get_straight_content_from( nodes->local_at( 6 ) );
+        size = 6;
+        return true;
+    }
+    case 1550:
+    case 1558:
+    case 1562:
+    case 1574:
+    case 1578:
+    case 1586:
+    case 1614:
+    case 1622:
+    case 1626:
+    case 1638:
+    case 1642:
+    case 1650:
+    case 1678:
+    case 1686:
+    case 1690:
+    case 1702:
+    case 1706:
+    case 1714:
+    case 1742:
+    case 1750:
+    case 1754:
+    case 1766:
+    case 1770:
+    case 1778: {
+        bc[ 3 ]++;
+        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
+            normal /= norm_2( normal );
+        Node &n0 = node( 0 );
+        Node &n1 = node( 1 );
+        Node &n2 = node( 3 );
+        Node &n3 = node( 4 );
+        Node &nn = node( 2 );
+        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
+        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
+        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
+        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
+        TF m1 = s0 / ( s1 - s0 );
+        TF m2 = s3 / ( s2 - s3 );
+        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
+        n1.x = n0.x - m1 * ( n1.x - n0.x );
+        n1.y = n0.y - m1 * ( n1.y - n0.y );
+        n1.cut_id.set( cut_id );
+        if ( store_the_normals ) { nn.dir_x = n2.dir_x; nn.dir_y = n2.dir_y; }
+        nn.x = n3.x - m2 * ( n2.x - n3.x );
+        nn.y = n3.y - m2 * ( n2.y - n3.y );
+        nn.cut_id.set( n2.cut_id.get() );
+        nodes->local_at( 3 ).get_straight_content_from( nodes->local_at( 4 ) );
+        nodes->local_at( 4 ).get_straight_content_from( nodes->local_at( 5 ) );
+        size = 5;
+        return true;
+    }
+    case 1294:
+    case 1302:
+    case 1306:
+    case 1326:
+    case 1334:
+    case 1338:
+    case 1358:
+    case 1366:
+    case 1370:
+    case 1390:
+    case 1398:
+    case 1402:
+    case 1422:
+    case 1430:
+    case 1434:
+    case 1454:
+    case 1462:
+    case 1466:
+    case 1486:
+    case 1494:
+    case 1498:
+    case 1518:
+    case 1526:
+    case 1530: {
+        bc[ 3 ]++;
+        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
+            normal /= norm_2( normal );
+        Node &n0 = node( 0 );
+        Node &n1 = node( 1 );
+        Node &n2 = node( 3 );
+        Node &n3 = node( 4 );
+        Node &nn = node( 2 );
+        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
+        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
+        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
+        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
+        TF m1 = s0 / ( s1 - s0 );
+        TF m2 = s3 / ( s2 - s3 );
+        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
+        n1.x = n0.x - m1 * ( n1.x - n0.x );
+        n1.y = n0.y - m1 * ( n1.y - n0.y );
+        n1.cut_id.set( cut_id );
+        if ( store_the_normals ) { nn.dir_x = n2.dir_x; nn.dir_y = n2.dir_y; }
+        nn.x = n3.x - m2 * ( n2.x - n3.x );
+        nn.y = n3.y - m2 * ( n2.y - n3.y );
+        nn.cut_id.set( n2.cut_id.get() );
+        nodes->local_at( 3 ).get_straight_content_from( nodes->local_at( 4 ) );
+        size = 4;
+        return true;
+    }
+    case 1037:
+    case 1053:
+    case 1069:
+    case 1085:
+    case 1101:
+    case 1117:
+    case 1133:
+    case 1149:
+    case 1165:
+    case 1181:
+    case 1197:
+    case 1213:
+    case 1229:
+    case 1245:
+    case 1261:
+    case 1277: {
+        bc[ 3 ]++;
+        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
+            normal /= norm_2( normal );
+        Node &n0 = node( 1 );
+        Node &n1 = node( 2 );
+        Node &n2 = node( 0 );
+        Node &n3 = node( 1 );
+        Node &nn = node( 0 );
+        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
+        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
+        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
+        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
+        TF m1 = s0 / ( s1 - s0 );
+        TF m2 = s3 / ( s2 - s3 );
+        if ( store_the_normals ) { n0.dir_x = n2.dir_x; n0.dir_y = n2.dir_y; }
+        nn.x = n3.x - m2 * ( n2.x - n3.x );
+        nn.y = n3.y - m2 * ( n2.y - n3.y );
+        nn.cut_id.set( n2.cut_id.get() );
+        nodes->local_at( 1 ).get_straight_content_from( nodes->local_at( 1 ) );
+        Node &no = node( 2 );
+        if ( store_the_normals ) { no.dir_x = normal.x; no.dir_y = normal.y; }
+        no.x = n0.x - m1 * ( n1.x - n0.x );
+        no.y = n0.y - m1 * ( n1.y - n0.y );
+        no.cut_id.set( cut_id );
+        size = 3;
+        return true;
+    }
     case 1308:
     case 1340:
     case 1372:
@@ -970,6 +2518,7 @@ bool ConvexPolyhedron2<Pc>::plane_cut_simd_switch( Pt origin, Pt normal, CI cut_
     case 1468:
     case 1500:
     case 1532: {
+        bc[ 3 ]++;
         if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
             normal /= norm_2( normal );
         Node &n0 = node( 1 );
@@ -1004,6 +2553,7 @@ bool ConvexPolyhedron2<Pc>::plane_cut_simd_switch( Pt origin, Pt normal, CI cut_
     case 2196:
     case 2212:
     case 2244: {
+        bc[ 3 ]++;
         if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
             normal /= norm_2( normal );
         Node &n0 = node( 1 );
@@ -1043,6 +2593,7 @@ bool ConvexPolyhedron2<Pc>::plane_cut_simd_switch( Pt origin, Pt normal, CI cut_
     case 1996:
     case 2004:
     case 2020: {
+        bc[ 3 ]++;
         if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
             normal /= norm_2( normal );
         Node &n0 = node( 1 );
@@ -1081,6 +2632,7 @@ bool ConvexPolyhedron2<Pc>::plane_cut_simd_switch( Pt origin, Pt normal, CI cut_
     case 1756:
     case 1772:
     case 1780: {
+        bc[ 3 ]++;
         if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
             normal /= norm_2( normal );
         Node &n0 = node( 1 );
@@ -1106,236 +2658,6 @@ bool ConvexPolyhedron2<Pc>::plane_cut_simd_switch( Pt origin, Pt normal, CI cut_
         size = 5;
         return true;
     }
-    case 1596:
-    case 1660:
-    case 1724:
-    case 1788: {
-        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
-            normal /= norm_2( normal );
-        Node &n0 = node( 1 );
-        Node &n1 = node( 2 );
-        Node &n2 = node( 5 );
-        Node &n3 = node( 0 );
-        Node &nn = node( 3 );
-        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-        TF m1 = s0 / ( s1 - s0 );
-        TF m2 = s3 / ( s2 - s3 );
-        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
-        n1.x = n0.x - m1 * ( n1.x - n0.x );
-        n1.y = n0.y - m1 * ( n1.y - n0.y );
-        n1.cut_id.set( cut_id );
-        if ( store_the_normals ) { nn.dir_x = n2.dir_x; nn.dir_y = n2.dir_y; }
-        nn.x = n3.x - m2 * ( n2.x - n3.x );
-        nn.y = n3.y - m2 * ( n2.y - n3.y );
-        nn.cut_id.set( n2.cut_id.get() );
-        size = 4;
-        return true;
-    }
-    case 2108:
-    case 2140:
-    case 2156:
-    case 2164:
-    case 2204:
-    case 2220:
-    case 2228:
-    case 2252:
-    case 2260:
-    case 2276: {
-        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
-            normal /= norm_2( normal );
-        Node &n0 = node( 1 );
-        Node &n1 = node( 2 );
-        Node &n2 = node( 5 );
-        Node &n3 = node( 6 );
-        Node &nn = node( 3 );
-        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-        TF m1 = s0 / ( s1 - s0 );
-        TF m2 = s3 / ( s2 - s3 );
-        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
-        n1.x = n0.x - m1 * ( n1.x - n0.x );
-        n1.y = n0.y - m1 * ( n1.y - n0.y );
-        n1.cut_id.set( cut_id );
-        if ( store_the_normals ) { nn.dir_x = n2.dir_x; nn.dir_y = n2.dir_y; }
-        nn.x = n3.x - m2 * ( n2.x - n3.x );
-        nn.y = n3.y - m2 * ( n2.y - n3.y );
-        nn.cut_id.set( n2.cut_id.get() );
-        nodes->local_at( 4 ).get_straight_content_from( nodes->local_at( 6 ) );
-        nodes->local_at( 5 ).get_straight_content_from( nodes->local_at( 7 ) );
-        size = 6;
-        return true;
-    }
-    case 1852:
-    case 1884:
-    case 1900:
-    case 1908:
-    case 1980:
-    case 2012:
-    case 2028:
-    case 2036: {
-        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
-            normal /= norm_2( normal );
-        Node &n0 = node( 1 );
-        Node &n1 = node( 2 );
-        Node &n2 = node( 5 );
-        Node &n3 = node( 6 );
-        Node &nn = node( 3 );
-        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-        TF m1 = s0 / ( s1 - s0 );
-        TF m2 = s3 / ( s2 - s3 );
-        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
-        n1.x = n0.x - m1 * ( n1.x - n0.x );
-        n1.y = n0.y - m1 * ( n1.y - n0.y );
-        n1.cut_id.set( cut_id );
-        if ( store_the_normals ) { nn.dir_x = n2.dir_x; nn.dir_y = n2.dir_y; }
-        nn.x = n3.x - m2 * ( n2.x - n3.x );
-        nn.y = n3.y - m2 * ( n2.y - n3.y );
-        nn.cut_id.set( n2.cut_id.get() );
-        nodes->local_at( 4 ).get_straight_content_from( nodes->local_at( 6 ) );
-        size = 5;
-        return true;
-    }
-    case 1916:
-    case 2044: {
-        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
-            normal /= norm_2( normal );
-        Node &n0 = node( 1 );
-        Node &n1 = node( 2 );
-        Node &n2 = node( 6 );
-        Node &n3 = node( 0 );
-        Node &nn = node( 3 );
-        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-        TF m1 = s0 / ( s1 - s0 );
-        TF m2 = s3 / ( s2 - s3 );
-        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
-        n1.x = n0.x - m1 * ( n1.x - n0.x );
-        n1.y = n0.y - m1 * ( n1.y - n0.y );
-        n1.cut_id.set( cut_id );
-        if ( store_the_normals ) { nn.dir_x = n2.dir_x; nn.dir_y = n2.dir_y; }
-        nn.x = n3.x - m2 * ( n2.x - n3.x );
-        nn.y = n3.y - m2 * ( n2.y - n3.y );
-        nn.cut_id.set( n2.cut_id.get() );
-        size = 4;
-        return true;
-    }
-    case 2172:
-    case 2236:
-    case 2268:
-    case 2284:
-    case 2292: {
-        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
-            normal /= norm_2( normal );
-        Node &n0 = node( 1 );
-        Node &n1 = node( 2 );
-        Node &n2 = node( 6 );
-        Node &n3 = node( 7 );
-        Node &nn = node( 3 );
-        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-        TF m1 = s0 / ( s1 - s0 );
-        TF m2 = s3 / ( s2 - s3 );
-        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
-        n1.x = n0.x - m1 * ( n1.x - n0.x );
-        n1.y = n0.y - m1 * ( n1.y - n0.y );
-        n1.cut_id.set( cut_id );
-        if ( store_the_normals ) { nn.dir_x = n2.dir_x; nn.dir_y = n2.dir_y; }
-        nn.x = n3.x - m2 * ( n2.x - n3.x );
-        nn.y = n3.y - m2 * ( n2.y - n3.y );
-        nn.cut_id.set( n2.cut_id.get() );
-        nodes->local_at( 4 ).get_straight_content_from( nodes->local_at( 7 ) );
-        size = 5;
-        return true;
-    }
-    case 2300: {
-        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
-            normal /= norm_2( normal );
-        Node &n0 = node( 1 );
-        Node &n1 = node( 2 );
-        Node &n2 = node( 7 );
-        Node &n3 = node( 0 );
-        Node &nn = node( 3 );
-        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-        TF m1 = s0 / ( s1 - s0 );
-        TF m2 = s3 / ( s2 - s3 );
-        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
-        n1.x = n0.x - m1 * ( n1.x - n0.x );
-        n1.y = n0.y - m1 * ( n1.y - n0.y );
-        n1.cut_id.set( cut_id );
-        if ( store_the_normals ) { nn.dir_x = n2.dir_x; nn.dir_y = n2.dir_y; }
-        nn.x = n3.x - m2 * ( n2.x - n3.x );
-        nn.y = n3.y - m2 * ( n2.y - n3.y );
-        nn.cut_id.set( n2.cut_id.get() );
-        size = 4;
-        return true;
-    }
-    case 771:
-    case 779:
-    case 787:
-    case 795:
-    case 803:
-    case 811:
-    case 819:
-    case 827:
-    case 835:
-    case 843:
-    case 851:
-    case 859:
-    case 867:
-    case 875:
-    case 883:
-    case 891:
-    case 899:
-    case 907:
-    case 915:
-    case 923:
-    case 931:
-    case 939:
-    case 947:
-    case 955:
-    case 963:
-    case 971:
-    case 979:
-    case 987:
-    case 995:
-    case 1003:
-    case 1011:
-    case 1019: {
-        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
-            normal /= norm_2( normal );
-        Node &n0 = node( 2 );
-        Node &n1 = node( 0 );
-        Node &n2 = node( 1 );
-        Node &n3 = node( 2 );
-        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-        TF m1 = s0 / ( s1 - s0 );
-        TF m2 = s3 / ( s2 - s3 );
-        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
-        n1.cut_id.set( cut_id );
-        n1.x = n0.x - m1 * ( n1.x - n0.x );
-        n1.y = n0.y - m1 * ( n1.y - n0.y );
-        n2.x = n3.x - m2 * ( n2.x - n3.x );
-        n2.y = n3.y - m2 * ( n2.y - n3.y );
-        return true;
-    }
     case 1301:
     case 1305:
     case 1333:
@@ -1351,32 +2673,8 @@ bool ConvexPolyhedron2<Pc>::plane_cut_simd_switch( Pt origin, Pt normal, CI cut_
     case 1493:
     case 1497:
     case 1525:
-    case 1529:
-    case 1581:
-    case 1589:
-    case 1593:
-    case 1645:
-    case 1653:
-    case 1657:
-    case 1709:
-    case 1717:
-    case 1721:
-    case 1773:
-    case 1781:
-    case 1785:
-    case 1885:
-    case 1901:
-    case 1909:
-    case 1913:
-    case 2013:
-    case 2029:
-    case 2037:
-    case 2041:
-    case 2237:
-    case 2269:
-    case 2285:
-    case 2293:
-    case 2297: {
+    case 1529: {
+        bc[ 3 ]++;
         if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
             normal /= norm_2( normal );
         Node &n0 = node( 2 );
@@ -1404,58 +2702,6 @@ bool ConvexPolyhedron2<Pc>::plane_cut_simd_switch( Pt origin, Pt normal, CI cut_
         size = 4;
         return true;
     }
-    case 1029:
-    case 1033:
-    case 1045:
-    case 1049:
-    case 1061:
-    case 1065:
-    case 1077:
-    case 1081:
-    case 1093:
-    case 1097:
-    case 1109:
-    case 1113:
-    case 1125:
-    case 1129:
-    case 1141:
-    case 1145:
-    case 1157:
-    case 1161:
-    case 1173:
-    case 1177:
-    case 1189:
-    case 1193:
-    case 1205:
-    case 1209:
-    case 1221:
-    case 1225:
-    case 1237:
-    case 1241:
-    case 1253:
-    case 1257:
-    case 1269:
-    case 1273: {
-        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
-            normal /= norm_2( normal );
-        Node &n0 = node( 2 );
-        Node &n1 = node( 3 );
-        Node &n2 = node( 0 );
-        Node &n3 = node( 1 );
-        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-        TF m1 = s0 / ( s1 - s0 );
-        TF m2 = s3 / ( s2 - s3 );
-        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
-        n1.cut_id.set( cut_id );
-        n1.x = n0.x - m1 * ( n1.x - n0.x );
-        n1.y = n0.y - m1 * ( n1.y - n0.y );
-        n2.x = n3.x - m2 * ( n2.x - n3.x );
-        n2.y = n3.y - m2 * ( n2.y - n3.y );
-        return true;
-    }
     case 1035:
     case 1051:
     case 1067:
@@ -1471,22 +2717,8 @@ bool ConvexPolyhedron2<Pc>::plane_cut_simd_switch( Pt origin, Pt normal, CI cut_
     case 1227:
     case 1243:
     case 1259:
-    case 1275:
-    case 1307:
-    case 1339:
-    case 1371:
-    case 1403:
-    case 1435:
-    case 1467:
-    case 1499:
-    case 1531:
-    case 1595:
-    case 1659:
-    case 1723:
-    case 1787:
-    case 1915:
-    case 2043:
-    case 2299: {
+    case 1275: {
+        bc[ 3 ]++;
         if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
             normal /= norm_2( normal );
         Node &n0 = node( 2 );
@@ -1513,76 +2745,11 @@ bool ConvexPolyhedron2<Pc>::plane_cut_simd_switch( Pt origin, Pt normal, CI cut_
         size = 3;
         return true;
     }
-    case 1304:
-    case 1336:
-    case 1368:
-    case 1400:
-    case 1432:
-    case 1464:
-    case 1496:
-    case 1528: {
-        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
-            normal /= norm_2( normal );
-        Node &n0 = node( 2 );
-        Node &n1 = node( 3 );
-        Node &n2 = node( 4 );
-        Node &n3 = node( 0 );
-        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-        TF m1 = s0 / ( s1 - s0 );
-        TF m2 = s3 / ( s2 - s3 );
-        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
-        n1.cut_id.set( cut_id );
-        n1.x = n0.x - m1 * ( n1.x - n0.x );
-        n1.y = n0.y - m1 * ( n1.y - n0.y );
-        n2.x = n3.x - m2 * ( n2.x - n3.x );
-        n2.y = n3.y - m2 * ( n2.y - n3.y );
-        return true;
-    }
-    case 1560:
-    case 1576:
-    case 1624:
-    case 1640:
-    case 1688:
-    case 1704:
-    case 1752:
-    case 1768:
-    case 1816:
-    case 1832:
-    case 1864:
-    case 1944:
-    case 1960:
-    case 1992:
-    case 2072:
-    case 2088:
-    case 2120:
-    case 2184: {
-        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
-            normal /= norm_2( normal );
-        Node &n0 = node( 2 );
-        Node &n1 = node( 3 );
-        Node &n2 = node( 4 );
-        Node &n3 = node( 5 );
-        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-        TF m1 = s0 / ( s1 - s0 );
-        TF m2 = s3 / ( s2 - s3 );
-        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
-        n1.cut_id.set( cut_id );
-        n1.x = n0.x - m1 * ( n1.x - n0.x );
-        n1.y = n0.y - m1 * ( n1.y - n0.y );
-        n2.x = n3.x - m2 * ( n2.x - n3.x );
-        n2.y = n3.y - m2 * ( n2.y - n3.y );
-        return true;
-    }
     case 1592:
     case 1656:
     case 1720:
     case 1784: {
+        bc[ 3 ]++;
         if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
             normal /= norm_2( normal );
         Node &n0 = node( 2 );
@@ -1613,6 +2780,7 @@ bool ConvexPolyhedron2<Pc>::plane_cut_simd_switch( Pt origin, Pt normal, CI cut_
     case 2200:
     case 2216:
     case 2248: {
+        bc[ 3 ]++;
         if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
             normal /= norm_2( normal );
         Node &n0 = node( 2 );
@@ -1645,6 +2813,7 @@ bool ConvexPolyhedron2<Pc>::plane_cut_simd_switch( Pt origin, Pt normal, CI cut_
     case 1976:
     case 2008:
     case 2024: {
+        bc[ 3 ]++;
         if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
             normal /= norm_2( normal );
         Node &n0 = node( 2 );
@@ -1670,122 +2839,6 @@ bool ConvexPolyhedron2<Pc>::plane_cut_simd_switch( Pt origin, Pt normal, CI cut_
         size = 6;
         return true;
     }
-    case 1912:
-    case 2040: {
-        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
-            normal /= norm_2( normal );
-        Node &n0 = node( 2 );
-        Node &n1 = node( 3 );
-        Node &n2 = node( 6 );
-        Node &n3 = node( 0 );
-        Node &nn = node( 4 );
-        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-        TF m1 = s0 / ( s1 - s0 );
-        TF m2 = s3 / ( s2 - s3 );
-        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
-        n1.x = n0.x - m1 * ( n1.x - n0.x );
-        n1.y = n0.y - m1 * ( n1.y - n0.y );
-        n1.cut_id.set( cut_id );
-        if ( store_the_normals ) { nn.dir_x = n2.dir_x; nn.dir_y = n2.dir_y; }
-        nn.x = n3.x - m2 * ( n2.x - n3.x );
-        nn.y = n3.y - m2 * ( n2.y - n3.y );
-        nn.cut_id.set( n2.cut_id.get() );
-        size = 5;
-        return true;
-    }
-    case 2168:
-    case 2232:
-    case 2264:
-    case 2280: {
-        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
-            normal /= norm_2( normal );
-        Node &n0 = node( 2 );
-        Node &n1 = node( 3 );
-        Node &n2 = node( 6 );
-        Node &n3 = node( 7 );
-        Node &nn = node( 4 );
-        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-        TF m1 = s0 / ( s1 - s0 );
-        TF m2 = s3 / ( s2 - s3 );
-        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
-        n1.x = n0.x - m1 * ( n1.x - n0.x );
-        n1.y = n0.y - m1 * ( n1.y - n0.y );
-        n1.cut_id.set( cut_id );
-        if ( store_the_normals ) { nn.dir_x = n2.dir_x; nn.dir_y = n2.dir_y; }
-        nn.x = n3.x - m2 * ( n2.x - n3.x );
-        nn.y = n3.y - m2 * ( n2.y - n3.y );
-        nn.cut_id.set( n2.cut_id.get() );
-        nodes->local_at( 5 ).get_straight_content_from( nodes->local_at( 7 ) );
-        size = 6;
-        return true;
-    }
-    case 2296: {
-        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
-            normal /= norm_2( normal );
-        Node &n0 = node( 2 );
-        Node &n1 = node( 3 );
-        Node &n2 = node( 7 );
-        Node &n3 = node( 0 );
-        Node &nn = node( 4 );
-        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-        TF m1 = s0 / ( s1 - s0 );
-        TF m2 = s3 / ( s2 - s3 );
-        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
-        n1.x = n0.x - m1 * ( n1.x - n0.x );
-        n1.y = n0.y - m1 * ( n1.y - n0.y );
-        n1.cut_id.set( cut_id );
-        if ( store_the_normals ) { nn.dir_x = n2.dir_x; nn.dir_y = n2.dir_y; }
-        nn.x = n3.x - m2 * ( n2.x - n3.x );
-        nn.y = n3.y - m2 * ( n2.y - n3.y );
-        nn.cut_id.set( n2.cut_id.get() );
-        size = 5;
-        return true;
-    }
-    case 1027:
-    case 1043:
-    case 1059:
-    case 1075:
-    case 1091:
-    case 1107:
-    case 1123:
-    case 1139:
-    case 1155:
-    case 1171:
-    case 1187:
-    case 1203:
-    case 1219:
-    case 1235:
-    case 1251:
-    case 1267: {
-        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
-            normal /= norm_2( normal );
-        Node &n0 = node( 3 );
-        Node &n1 = node( 0 );
-        Node &n2 = node( 1 );
-        Node &n3 = node( 2 );
-        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-        TF m1 = s0 / ( s1 - s0 );
-        TF m2 = s3 / ( s2 - s3 );
-        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
-        n1.cut_id.set( cut_id );
-        n1.x = n0.x - m1 * ( n1.x - n0.x );
-        n1.y = n0.y - m1 * ( n1.y - n0.y );
-        n2.x = n3.x - m2 * ( n2.x - n3.x );
-        n2.y = n3.y - m2 * ( n2.y - n3.y );
-        return true;
-    }
     case 1031:
     case 1047:
     case 1063:
@@ -1802,6 +2855,7 @@ bool ConvexPolyhedron2<Pc>::plane_cut_simd_switch( Pt origin, Pt normal, CI cut_
     case 1239:
     case 1255:
     case 1271: {
+        bc[ 3 ]++;
         if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
             normal /= norm_2( normal );
         Node &n0 = node( 3 );
@@ -1838,29 +2892,8 @@ bool ConvexPolyhedron2<Pc>::plane_cut_simd_switch( Pt origin, Pt normal, CI cut_
     case 1713:
     case 1765:
     case 1769:
-    case 1777:
-    case 1869:
-    case 1877:
-    case 1881:
-    case 1893:
-    case 1897:
-    case 1905:
-    case 1997:
-    case 2005:
-    case 2009:
-    case 2021:
-    case 2025:
-    case 2033:
-    case 2205:
-    case 2221:
-    case 2229:
-    case 2233:
-    case 2253:
-    case 2261:
-    case 2265:
-    case 2277:
-    case 2281:
-    case 2289: {
+    case 1777: {
+        bc[ 3 ]++;
         if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
             normal /= norm_2( normal );
         Node &n0 = node( 3 );
@@ -1889,50 +2922,6 @@ bool ConvexPolyhedron2<Pc>::plane_cut_simd_switch( Pt origin, Pt normal, CI cut_
         size = 5;
         return true;
     }
-    case 1285:
-    case 1289:
-    case 1297:
-    case 1317:
-    case 1321:
-    case 1329:
-    case 1349:
-    case 1353:
-    case 1361:
-    case 1381:
-    case 1385:
-    case 1393:
-    case 1413:
-    case 1417:
-    case 1425:
-    case 1445:
-    case 1449:
-    case 1457:
-    case 1477:
-    case 1481:
-    case 1489:
-    case 1509:
-    case 1513:
-    case 1521: {
-        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
-            normal /= norm_2( normal );
-        Node &n0 = node( 3 );
-        Node &n1 = node( 4 );
-        Node &n2 = node( 0 );
-        Node &n3 = node( 1 );
-        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-        TF m1 = s0 / ( s1 - s0 );
-        TF m2 = s3 / ( s2 - s3 );
-        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
-        n1.cut_id.set( cut_id );
-        n1.x = n0.x - m1 * ( n1.x - n0.x );
-        n1.y = n0.y - m1 * ( n1.y - n0.y );
-        n2.x = n3.x - m2 * ( n2.x - n3.x );
-        n2.y = n3.y - m2 * ( n2.y - n3.y );
-        return true;
-    }
     case 1299:
     case 1331:
     case 1363:
@@ -1940,7 +2929,963 @@ bool ConvexPolyhedron2<Pc>::plane_cut_simd_switch( Pt origin, Pt normal, CI cut_
     case 1427:
     case 1459:
     case 1491:
-    case 1523:
+    case 1523: {
+        bc[ 3 ]++;
+        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
+            normal /= norm_2( normal );
+        Node &n0 = node( 3 );
+        Node &n1 = node( 4 );
+        Node &n2 = node( 1 );
+        Node &n3 = node( 2 );
+        Node &nn = node( 0 );
+        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
+        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
+        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
+        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
+        TF m1 = s0 / ( s1 - s0 );
+        TF m2 = s3 / ( s2 - s3 );
+        if ( store_the_normals ) { n0.dir_x = n2.dir_x; n0.dir_y = n2.dir_y; }
+        nn.x = n3.x - m2 * ( n2.x - n3.x );
+        nn.y = n3.y - m2 * ( n2.y - n3.y );
+        nn.cut_id.set( n2.cut_id.get() );
+        nodes->local_at( 1 ).get_straight_content_from( nodes->local_at( 2 ) );
+        nodes->local_at( 2 ).get_straight_content_from( nodes->local_at( 3 ) );
+        Node &no = node( 3 );
+        if ( store_the_normals ) { no.dir_x = normal.x; no.dir_y = normal.y; }
+        no.x = n0.x - m1 * ( n1.x - n0.x );
+        no.y = n0.y - m1 * ( n1.y - n0.y );
+        no.cut_id.set( cut_id );
+        size = 4;
+        return true;
+    }
+    case 1904:
+    case 2032: {
+        bc[ 3 ]++;
+        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
+            normal /= norm_2( normal );
+        Node &n0 = node( 3 );
+        Node &n1 = node( 4 );
+        Node &n2 = node( 6 );
+        Node &n3 = node( 0 );
+        Node &nn = node( 5 );
+        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
+        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
+        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
+        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
+        TF m1 = s0 / ( s1 - s0 );
+        TF m2 = s3 / ( s2 - s3 );
+        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
+        n1.x = n0.x - m1 * ( n1.x - n0.x );
+        n1.y = n0.y - m1 * ( n1.y - n0.y );
+        n1.cut_id.set( cut_id );
+        if ( store_the_normals ) { nn.dir_x = n2.dir_x; nn.dir_y = n2.dir_y; }
+        nn.x = n3.x - m2 * ( n2.x - n3.x );
+        nn.y = n3.y - m2 * ( n2.y - n3.y );
+        nn.cut_id.set( n2.cut_id.get() );
+        size = 6;
+        return true;
+    }
+    case 2160:
+    case 2224:
+    case 2256: {
+        bc[ 3 ]++;
+        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
+            normal /= norm_2( normal );
+        Node &n0 = node( 3 );
+        Node &n1 = node( 4 );
+        Node &n2 = node( 6 );
+        Node &n3 = node( 7 );
+        Node &nn = node( 5 );
+        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
+        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
+        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
+        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
+        TF m1 = s0 / ( s1 - s0 );
+        TF m2 = s3 / ( s2 - s3 );
+        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
+        n1.x = n0.x - m1 * ( n1.x - n0.x );
+        n1.y = n0.y - m1 * ( n1.y - n0.y );
+        n1.cut_id.set( cut_id );
+        if ( store_the_normals ) { nn.dir_x = n2.dir_x; nn.dir_y = n2.dir_y; }
+        nn.x = n3.x - m2 * ( n2.x - n3.x );
+        nn.y = n3.y - m2 * ( n2.y - n3.y );
+        nn.cut_id.set( n2.cut_id.get() );
+        nodes->local_at( 6 ).get_straight_content_from( nodes->local_at( 7 ) );
+        size = 7;
+        return true;
+    }
+    case 1287:
+    case 1291:
+    case 1293:
+    case 1319:
+    case 1323:
+    case 1325:
+    case 1351:
+    case 1355:
+    case 1357:
+    case 1383:
+    case 1387:
+    case 1389:
+    case 1415:
+    case 1419:
+    case 1421:
+    case 1447:
+    case 1451:
+    case 1453:
+    case 1479:
+    case 1483:
+    case 1485:
+    case 1511:
+    case 1515:
+    case 1517: {
+        bc[ 3 ]++;
+        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
+            normal /= norm_2( normal );
+        Node &n0 = node( 4 );
+        Node &n1 = node( 0 );
+        Node &n2 = node( 2 );
+        Node &n3 = node( 3 );
+        Node &nn = node( 1 );
+        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
+        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
+        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
+        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
+        TF m1 = s0 / ( s1 - s0 );
+        TF m2 = s3 / ( s2 - s3 );
+        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
+        n1.x = n0.x - m1 * ( n1.x - n0.x );
+        n1.y = n0.y - m1 * ( n1.y - n0.y );
+        n1.cut_id.set( cut_id );
+        if ( store_the_normals ) { nn.dir_x = n2.dir_x; nn.dir_y = n2.dir_y; }
+        nn.x = n3.x - m2 * ( n2.x - n3.x );
+        nn.y = n3.y - m2 * ( n2.y - n3.y );
+        nn.cut_id.set( n2.cut_id.get() );
+        nodes->local_at( 2 ).get_straight_content_from( nodes->local_at( 3 ) );
+        nodes->local_at( 3 ).get_straight_content_from( nodes->local_at( 4 ) );
+        size = 4;
+        return true;
+    }
+    case 1861:
+    case 1865:
+    case 1873:
+    case 1889:
+    case 1989:
+    case 1993:
+    case 2001:
+    case 2017: {
+        bc[ 3 ]++;
+        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
+            normal /= norm_2( normal );
+        Node &n0 = node( 4 );
+        Node &n1 = node( 5 );
+        Node &n2 = node( 0 );
+        Node &n3 = node( 1 );
+        Node &nn = node( 0 );
+        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
+        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
+        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
+        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
+        TF m1 = s0 / ( s1 - s0 );
+        TF m2 = s3 / ( s2 - s3 );
+        if ( store_the_normals ) { n0.dir_x = n2.dir_x; n0.dir_y = n2.dir_y; }
+        nn.x = n3.x - m2 * ( n2.x - n3.x );
+        nn.y = n3.y - m2 * ( n2.y - n3.y );
+        nn.cut_id.set( n2.cut_id.get() );
+        nodes->local_at( 1 ).get_straight_content_from( nodes->local_at( 1 ) );
+        nodes->local_at( 2 ).get_straight_content_from( nodes->local_at( 2 ) );
+        nodes->local_at( 3 ).get_straight_content_from( nodes->local_at( 3 ) );
+        nodes->local_at( 4 ).get_straight_content_from( nodes->local_at( 4 ) );
+        Node &no = node( 5 );
+        if ( store_the_normals ) { no.dir_x = normal.x; no.dir_y = normal.y; }
+        no.x = n0.x - m1 * ( n1.x - n0.x );
+        no.y = n0.y - m1 * ( n1.y - n0.y );
+        no.cut_id.set( cut_id );
+        size = 6;
+        return true;
+    }
+    case 1571:
+    case 1635:
+    case 1699:
+    case 1763: {
+        bc[ 3 ]++;
+        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
+            normal /= norm_2( normal );
+        Node &n0 = node( 4 );
+        Node &n1 = node( 5 );
+        Node &n2 = node( 1 );
+        Node &n3 = node( 2 );
+        Node &nn = node( 0 );
+        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
+        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
+        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
+        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
+        TF m1 = s0 / ( s1 - s0 );
+        TF m2 = s3 / ( s2 - s3 );
+        if ( store_the_normals ) { n0.dir_x = n2.dir_x; n0.dir_y = n2.dir_y; }
+        nn.x = n3.x - m2 * ( n2.x - n3.x );
+        nn.y = n3.y - m2 * ( n2.y - n3.y );
+        nn.cut_id.set( n2.cut_id.get() );
+        nodes->local_at( 1 ).get_straight_content_from( nodes->local_at( 2 ) );
+        nodes->local_at( 2 ).get_straight_content_from( nodes->local_at( 3 ) );
+        nodes->local_at( 3 ).get_straight_content_from( nodes->local_at( 4 ) );
+        Node &no = node( 4 );
+        if ( store_the_normals ) { no.dir_x = normal.x; no.dir_y = normal.y; }
+        no.x = n0.x - m1 * ( n1.x - n0.x );
+        no.y = n0.y - m1 * ( n1.y - n0.y );
+        no.cut_id.set( cut_id );
+        size = 5;
+        return true;
+    }
+    case 2272: {
+        bc[ 3 ]++;
+        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
+            normal /= norm_2( normal );
+        Node &n0 = node( 4 );
+        Node &n1 = node( 5 );
+        Node &n2 = node( 7 );
+        Node &n3 = node( 0 );
+        Node &nn = node( 6 );
+        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
+        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
+        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
+        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
+        TF m1 = s0 / ( s1 - s0 );
+        TF m2 = s3 / ( s2 - s3 );
+        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
+        n1.x = n0.x - m1 * ( n1.x - n0.x );
+        n1.y = n0.y - m1 * ( n1.y - n0.y );
+        n1.cut_id.set( cut_id );
+        if ( store_the_normals ) { nn.dir_x = n2.dir_x; nn.dir_y = n2.dir_y; }
+        nn.x = n3.x - m2 * ( n2.x - n3.x );
+        nn.y = n3.y - m2 * ( n2.y - n3.y );
+        nn.cut_id.set( n2.cut_id.get() );
+        size = 7;
+        return true;
+    }
+    case 1543:
+    case 1547:
+    case 1549:
+    case 1555:
+    case 1557:
+    case 1561:
+    case 1607:
+    case 1611:
+    case 1613:
+    case 1619:
+    case 1621:
+    case 1625:
+    case 1671:
+    case 1675:
+    case 1677:
+    case 1683:
+    case 1685:
+    case 1689:
+    case 1735:
+    case 1739:
+    case 1741:
+    case 1747:
+    case 1749:
+    case 1753: {
+        bc[ 3 ]++;
+        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
+            normal /= norm_2( normal );
+        Node &n0 = node( 5 );
+        Node &n1 = node( 0 );
+        Node &n2 = node( 2 );
+        Node &n3 = node( 3 );
+        Node &nn = node( 1 );
+        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
+        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
+        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
+        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
+        TF m1 = s0 / ( s1 - s0 );
+        TF m2 = s3 / ( s2 - s3 );
+        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
+        n1.x = n0.x - m1 * ( n1.x - n0.x );
+        n1.y = n0.y - m1 * ( n1.y - n0.y );
+        n1.cut_id.set( cut_id );
+        if ( store_the_normals ) { nn.dir_x = n2.dir_x; nn.dir_y = n2.dir_y; }
+        nn.x = n3.x - m2 * ( n2.x - n3.x );
+        nn.y = n3.y - m2 * ( n2.y - n3.y );
+        nn.cut_id.set( n2.cut_id.get() );
+        nodes->local_at( 2 ).get_straight_content_from( nodes->local_at( 3 ) );
+        nodes->local_at( 3 ).get_straight_content_from( nodes->local_at( 4 ) );
+        nodes->local_at( 4 ).get_straight_content_from( nodes->local_at( 5 ) );
+        size = 5;
+        return true;
+    }
+    case 2181:
+    case 2185:
+    case 2193:
+    case 2209:
+    case 2241: {
+        bc[ 3 ]++;
+        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
+            normal /= norm_2( normal );
+        Node &n0 = node( 5 );
+        Node &n1 = node( 6 );
+        Node &n2 = node( 0 );
+        Node &n3 = node( 1 );
+        Node &nn = node( 0 );
+        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
+        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
+        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
+        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
+        TF m1 = s0 / ( s1 - s0 );
+        TF m2 = s3 / ( s2 - s3 );
+        if ( store_the_normals ) { n0.dir_x = n2.dir_x; n0.dir_y = n2.dir_y; }
+        nn.x = n3.x - m2 * ( n2.x - n3.x );
+        nn.y = n3.y - m2 * ( n2.y - n3.y );
+        nn.cut_id.set( n2.cut_id.get() );
+        nodes->local_at( 1 ).get_straight_content_from( nodes->local_at( 1 ) );
+        nodes->local_at( 2 ).get_straight_content_from( nodes->local_at( 2 ) );
+        nodes->local_at( 3 ).get_straight_content_from( nodes->local_at( 3 ) );
+        nodes->local_at( 4 ).get_straight_content_from( nodes->local_at( 4 ) );
+        nodes->local_at( 5 ).get_straight_content_from( nodes->local_at( 5 ) );
+        Node &no = node( 6 );
+        if ( store_the_normals ) { no.dir_x = normal.x; no.dir_y = normal.y; }
+        no.x = n0.x - m1 * ( n1.x - n0.x );
+        no.y = n0.y - m1 * ( n1.y - n0.y );
+        no.cut_id.set( cut_id );
+        size = 7;
+        return true;
+    }
+    case 1859:
+    case 1987: {
+        bc[ 3 ]++;
+        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
+            normal /= norm_2( normal );
+        Node &n0 = node( 5 );
+        Node &n1 = node( 6 );
+        Node &n2 = node( 1 );
+        Node &n3 = node( 2 );
+        Node &nn = node( 0 );
+        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
+        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
+        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
+        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
+        TF m1 = s0 / ( s1 - s0 );
+        TF m2 = s3 / ( s2 - s3 );
+        if ( store_the_normals ) { n0.dir_x = n2.dir_x; n0.dir_y = n2.dir_y; }
+        nn.x = n3.x - m2 * ( n2.x - n3.x );
+        nn.y = n3.y - m2 * ( n2.y - n3.y );
+        nn.cut_id.set( n2.cut_id.get() );
+        nodes->local_at( 1 ).get_straight_content_from( nodes->local_at( 2 ) );
+        nodes->local_at( 2 ).get_straight_content_from( nodes->local_at( 3 ) );
+        nodes->local_at( 3 ).get_straight_content_from( nodes->local_at( 4 ) );
+        nodes->local_at( 4 ).get_straight_content_from( nodes->local_at( 5 ) );
+        Node &no = node( 5 );
+        if ( store_the_normals ) { no.dir_x = normal.x; no.dir_y = normal.y; }
+        no.x = n0.x - m1 * ( n1.x - n0.x );
+        no.y = n0.y - m1 * ( n1.y - n0.y );
+        no.cut_id.set( cut_id );
+        size = 6;
+        return true;
+    }
+    case 1799:
+    case 1803:
+    case 1805:
+    case 1811:
+    case 1813:
+    case 1817:
+    case 1827:
+    case 1829:
+    case 1833:
+    case 1841:
+    case 1927:
+    case 1931:
+    case 1933:
+    case 1939:
+    case 1941:
+    case 1945:
+    case 1955:
+    case 1957:
+    case 1961:
+    case 1969: {
+        bc[ 3 ]++;
+        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
+            normal /= norm_2( normal );
+        Node &n0 = node( 6 );
+        Node &n1 = node( 0 );
+        Node &n2 = node( 2 );
+        Node &n3 = node( 3 );
+        Node &nn = node( 1 );
+        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
+        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
+        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
+        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
+        TF m1 = s0 / ( s1 - s0 );
+        TF m2 = s3 / ( s2 - s3 );
+        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
+        n1.x = n0.x - m1 * ( n1.x - n0.x );
+        n1.y = n0.y - m1 * ( n1.y - n0.y );
+        n1.cut_id.set( cut_id );
+        if ( store_the_normals ) { nn.dir_x = n2.dir_x; nn.dir_y = n2.dir_y; }
+        nn.x = n3.x - m2 * ( n2.x - n3.x );
+        nn.y = n3.y - m2 * ( n2.y - n3.y );
+        nn.cut_id.set( n2.cut_id.get() );
+        nodes->local_at( 2 ).get_straight_content_from( nodes->local_at( 3 ) );
+        nodes->local_at( 3 ).get_straight_content_from( nodes->local_at( 4 ) );
+        nodes->local_at( 4 ).get_straight_content_from( nodes->local_at( 5 ) );
+        nodes->local_at( 5 ).get_straight_content_from( nodes->local_at( 6 ) );
+        size = 6;
+        return true;
+    }
+    case 2179: {
+        bc[ 3 ]++;
+        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
+            normal /= norm_2( normal );
+        Node &n0 = node( 6 );
+        Node &n1 = node( 7 );
+        Node &n2 = node( 1 );
+        Node &n3 = node( 2 );
+        Node &nn = node( 0 );
+        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
+        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
+        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
+        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
+        TF m1 = s0 / ( s1 - s0 );
+        TF m2 = s3 / ( s2 - s3 );
+        if ( store_the_normals ) { n0.dir_x = n2.dir_x; n0.dir_y = n2.dir_y; }
+        nn.x = n3.x - m2 * ( n2.x - n3.x );
+        nn.y = n3.y - m2 * ( n2.y - n3.y );
+        nn.cut_id.set( n2.cut_id.get() );
+        nodes->local_at( 1 ).get_straight_content_from( nodes->local_at( 2 ) );
+        nodes->local_at( 2 ).get_straight_content_from( nodes->local_at( 3 ) );
+        nodes->local_at( 3 ).get_straight_content_from( nodes->local_at( 4 ) );
+        nodes->local_at( 4 ).get_straight_content_from( nodes->local_at( 5 ) );
+        nodes->local_at( 5 ).get_straight_content_from( nodes->local_at( 6 ) );
+        Node &no = node( 6 );
+        if ( store_the_normals ) { no.dir_x = normal.x; no.dir_y = normal.y; }
+        no.x = n0.x - m1 * ( n1.x - n0.x );
+        no.y = n0.y - m1 * ( n1.y - n0.y );
+        no.cut_id.set( cut_id );
+        size = 7;
+        return true;
+    }
+    case 2055:
+    case 2059:
+    case 2061:
+    case 2067:
+    case 2069:
+    case 2073:
+    case 2083:
+    case 2085:
+    case 2089:
+    case 2097:
+    case 2115:
+    case 2117:
+    case 2121:
+    case 2129:
+    case 2145: {
+        bc[ 3 ]++;
+        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
+            normal /= norm_2( normal );
+        Node &n0 = node( 7 );
+        Node &n1 = node( 0 );
+        Node &n2 = node( 2 );
+        Node &n3 = node( 3 );
+        Node &nn = node( 1 );
+        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
+        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
+        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
+        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
+        TF m1 = s0 / ( s1 - s0 );
+        TF m2 = s3 / ( s2 - s3 );
+        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
+        n1.x = n0.x - m1 * ( n1.x - n0.x );
+        n1.y = n0.y - m1 * ( n1.y - n0.y );
+        n1.cut_id.set( cut_id );
+        if ( store_the_normals ) { nn.dir_x = n2.dir_x; nn.dir_y = n2.dir_y; }
+        nn.x = n3.x - m2 * ( n2.x - n3.x );
+        nn.y = n3.y - m2 * ( n2.y - n3.y );
+        nn.cut_id.set( n2.cut_id.get() );
+        nodes->local_at( 2 ).get_straight_content_from( nodes->local_at( 3 ) );
+        nodes->local_at( 3 ).get_straight_content_from( nodes->local_at( 4 ) );
+        nodes->local_at( 4 ).get_straight_content_from( nodes->local_at( 5 ) );
+        nodes->local_at( 5 ).get_straight_content_from( nodes->local_at( 6 ) );
+        nodes->local_at( 6 ).get_straight_content_from( nodes->local_at( 7 ) );
+        size = 7;
+        return true;
+    }
+    case 1310:
+    case 1342:
+    case 1374:
+    case 1406:
+    case 1438:
+    case 1470:
+    case 1502:
+    case 1534: {
+        bc[ 4 ]++;
+        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
+            normal /= norm_2( normal );
+        Node &n0 = node( 0 );
+        Node &n1 = node( 1 );
+        Node &n2 = node( 4 );
+        Node &n3 = node( 0 );
+        Node &nn = node( 2 );
+        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
+        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
+        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
+        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
+        TF m1 = s0 / ( s1 - s0 );
+        TF m2 = s3 / ( s2 - s3 );
+        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
+        n1.x = n0.x - m1 * ( n1.x - n0.x );
+        n1.y = n0.y - m1 * ( n1.y - n0.y );
+        n1.cut_id.set( cut_id );
+        if ( store_the_normals ) { nn.dir_x = n2.dir_x; nn.dir_y = n2.dir_y; }
+        nn.x = n3.x - m2 * ( n2.x - n3.x );
+        nn.y = n3.y - m2 * ( n2.y - n3.y );
+        nn.cut_id.set( n2.cut_id.get() );
+        size = 3;
+        return true;
+    }
+    case 2078:
+    case 2094:
+    case 2102:
+    case 2106:
+    case 2126:
+    case 2134:
+    case 2138:
+    case 2150:
+    case 2154:
+    case 2162:
+    case 2190:
+    case 2198:
+    case 2202:
+    case 2214:
+    case 2218:
+    case 2226:
+    case 2246:
+    case 2250:
+    case 2258:
+    case 2274: {
+        bc[ 4 ]++;
+        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
+            normal /= norm_2( normal );
+        Node &n0 = node( 0 );
+        Node &n1 = node( 1 );
+        Node &n2 = node( 4 );
+        Node &n3 = node( 5 );
+        Node &nn = node( 2 );
+        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
+        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
+        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
+        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
+        TF m1 = s0 / ( s1 - s0 );
+        TF m2 = s3 / ( s2 - s3 );
+        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
+        n1.x = n0.x - m1 * ( n1.x - n0.x );
+        n1.y = n0.y - m1 * ( n1.y - n0.y );
+        n1.cut_id.set( cut_id );
+        if ( store_the_normals ) { nn.dir_x = n2.dir_x; nn.dir_y = n2.dir_y; }
+        nn.x = n3.x - m2 * ( n2.x - n3.x );
+        nn.y = n3.y - m2 * ( n2.y - n3.y );
+        nn.cut_id.set( n2.cut_id.get() );
+        nodes->local_at( 3 ).get_straight_content_from( nodes->local_at( 5 ) );
+        nodes->local_at( 4 ).get_straight_content_from( nodes->local_at( 6 ) );
+        nodes->local_at( 5 ).get_straight_content_from( nodes->local_at( 7 ) );
+        size = 6;
+        return true;
+    }
+    case 1822:
+    case 1838:
+    case 1846:
+    case 1850:
+    case 1870:
+    case 1878:
+    case 1882:
+    case 1894:
+    case 1898:
+    case 1906:
+    case 1950:
+    case 1966:
+    case 1974:
+    case 1978:
+    case 1998:
+    case 2006:
+    case 2010:
+    case 2022:
+    case 2026:
+    case 2034: {
+        bc[ 4 ]++;
+        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
+            normal /= norm_2( normal );
+        Node &n0 = node( 0 );
+        Node &n1 = node( 1 );
+        Node &n2 = node( 4 );
+        Node &n3 = node( 5 );
+        Node &nn = node( 2 );
+        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
+        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
+        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
+        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
+        TF m1 = s0 / ( s1 - s0 );
+        TF m2 = s3 / ( s2 - s3 );
+        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
+        n1.x = n0.x - m1 * ( n1.x - n0.x );
+        n1.y = n0.y - m1 * ( n1.y - n0.y );
+        n1.cut_id.set( cut_id );
+        if ( store_the_normals ) { nn.dir_x = n2.dir_x; nn.dir_y = n2.dir_y; }
+        nn.x = n3.x - m2 * ( n2.x - n3.x );
+        nn.y = n3.y - m2 * ( n2.y - n3.y );
+        nn.cut_id.set( n2.cut_id.get() );
+        nodes->local_at( 3 ).get_straight_content_from( nodes->local_at( 5 ) );
+        nodes->local_at( 4 ).get_straight_content_from( nodes->local_at( 6 ) );
+        size = 5;
+        return true;
+    }
+    case 1566:
+    case 1582:
+    case 1590:
+    case 1594:
+    case 1630:
+    case 1646:
+    case 1654:
+    case 1658:
+    case 1694:
+    case 1710:
+    case 1718:
+    case 1722:
+    case 1758:
+    case 1774:
+    case 1782:
+    case 1786: {
+        bc[ 4 ]++;
+        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
+            normal /= norm_2( normal );
+        Node &n0 = node( 0 );
+        Node &n1 = node( 1 );
+        Node &n2 = node( 4 );
+        Node &n3 = node( 5 );
+        Node &nn = node( 2 );
+        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
+        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
+        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
+        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
+        TF m1 = s0 / ( s1 - s0 );
+        TF m2 = s3 / ( s2 - s3 );
+        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
+        n1.x = n0.x - m1 * ( n1.x - n0.x );
+        n1.y = n0.y - m1 * ( n1.y - n0.y );
+        n1.cut_id.set( cut_id );
+        if ( store_the_normals ) { nn.dir_x = n2.dir_x; nn.dir_y = n2.dir_y; }
+        nn.x = n3.x - m2 * ( n2.x - n3.x );
+        nn.y = n3.y - m2 * ( n2.y - n3.y );
+        nn.cut_id.set( n2.cut_id.get() );
+        nodes->local_at( 3 ).get_straight_content_from( nodes->local_at( 5 ) );
+        size = 4;
+        return true;
+    }
+    case 1309:
+    case 1341:
+    case 1373:
+    case 1405:
+    case 1437:
+    case 1469:
+    case 1501:
+    case 1533: {
+        bc[ 4 ]++;
+        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
+            normal /= norm_2( normal );
+        Node &n0 = node( 1 );
+        Node &n1 = node( 2 );
+        Node &n2 = node( 0 );
+        Node &n3 = node( 1 );
+        Node &nn = node( 0 );
+        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
+        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
+        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
+        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
+        TF m1 = s0 / ( s1 - s0 );
+        TF m2 = s3 / ( s2 - s3 );
+        if ( store_the_normals ) { n0.dir_x = n2.dir_x; n0.dir_y = n2.dir_y; }
+        nn.x = n3.x - m2 * ( n2.x - n3.x );
+        nn.y = n3.y - m2 * ( n2.y - n3.y );
+        nn.cut_id.set( n2.cut_id.get() );
+        nodes->local_at( 1 ).get_straight_content_from( nodes->local_at( 1 ) );
+        Node &no = node( 2 );
+        if ( store_the_normals ) { no.dir_x = normal.x; no.dir_y = normal.y; }
+        no.x = n0.x - m1 * ( n1.x - n0.x );
+        no.y = n0.y - m1 * ( n1.y - n0.y );
+        no.cut_id.set( cut_id );
+        size = 3;
+        return true;
+    }
+    case 1596:
+    case 1660:
+    case 1724:
+    case 1788: {
+        bc[ 4 ]++;
+        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
+            normal /= norm_2( normal );
+        Node &n0 = node( 1 );
+        Node &n1 = node( 2 );
+        Node &n2 = node( 5 );
+        Node &n3 = node( 0 );
+        Node &nn = node( 3 );
+        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
+        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
+        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
+        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
+        TF m1 = s0 / ( s1 - s0 );
+        TF m2 = s3 / ( s2 - s3 );
+        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
+        n1.x = n0.x - m1 * ( n1.x - n0.x );
+        n1.y = n0.y - m1 * ( n1.y - n0.y );
+        n1.cut_id.set( cut_id );
+        if ( store_the_normals ) { nn.dir_x = n2.dir_x; nn.dir_y = n2.dir_y; }
+        nn.x = n3.x - m2 * ( n2.x - n3.x );
+        nn.y = n3.y - m2 * ( n2.y - n3.y );
+        nn.cut_id.set( n2.cut_id.get() );
+        size = 4;
+        return true;
+    }
+    case 2108:
+    case 2140:
+    case 2156:
+    case 2164:
+    case 2204:
+    case 2220:
+    case 2228:
+    case 2252:
+    case 2260:
+    case 2276: {
+        bc[ 4 ]++;
+        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
+            normal /= norm_2( normal );
+        Node &n0 = node( 1 );
+        Node &n1 = node( 2 );
+        Node &n2 = node( 5 );
+        Node &n3 = node( 6 );
+        Node &nn = node( 3 );
+        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
+        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
+        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
+        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
+        TF m1 = s0 / ( s1 - s0 );
+        TF m2 = s3 / ( s2 - s3 );
+        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
+        n1.x = n0.x - m1 * ( n1.x - n0.x );
+        n1.y = n0.y - m1 * ( n1.y - n0.y );
+        n1.cut_id.set( cut_id );
+        if ( store_the_normals ) { nn.dir_x = n2.dir_x; nn.dir_y = n2.dir_y; }
+        nn.x = n3.x - m2 * ( n2.x - n3.x );
+        nn.y = n3.y - m2 * ( n2.y - n3.y );
+        nn.cut_id.set( n2.cut_id.get() );
+        nodes->local_at( 4 ).get_straight_content_from( nodes->local_at( 6 ) );
+        nodes->local_at( 5 ).get_straight_content_from( nodes->local_at( 7 ) );
+        size = 6;
+        return true;
+    }
+    case 1852:
+    case 1884:
+    case 1900:
+    case 1908:
+    case 1980:
+    case 2012:
+    case 2028:
+    case 2036: {
+        bc[ 4 ]++;
+        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
+            normal /= norm_2( normal );
+        Node &n0 = node( 1 );
+        Node &n1 = node( 2 );
+        Node &n2 = node( 5 );
+        Node &n3 = node( 6 );
+        Node &nn = node( 3 );
+        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
+        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
+        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
+        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
+        TF m1 = s0 / ( s1 - s0 );
+        TF m2 = s3 / ( s2 - s3 );
+        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
+        n1.x = n0.x - m1 * ( n1.x - n0.x );
+        n1.y = n0.y - m1 * ( n1.y - n0.y );
+        n1.cut_id.set( cut_id );
+        if ( store_the_normals ) { nn.dir_x = n2.dir_x; nn.dir_y = n2.dir_y; }
+        nn.x = n3.x - m2 * ( n2.x - n3.x );
+        nn.y = n3.y - m2 * ( n2.y - n3.y );
+        nn.cut_id.set( n2.cut_id.get() );
+        nodes->local_at( 4 ).get_straight_content_from( nodes->local_at( 6 ) );
+        size = 5;
+        return true;
+    }
+    case 1581:
+    case 1589:
+    case 1593:
+    case 1645:
+    case 1653:
+    case 1657:
+    case 1709:
+    case 1717:
+    case 1721:
+    case 1773:
+    case 1781:
+    case 1785: {
+        bc[ 4 ]++;
+        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
+            normal /= norm_2( normal );
+        Node &n0 = node( 2 );
+        Node &n1 = node( 3 );
+        Node &n2 = node( 0 );
+        Node &n3 = node( 1 );
+        Node &nn = node( 0 );
+        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
+        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
+        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
+        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
+        TF m1 = s0 / ( s1 - s0 );
+        TF m2 = s3 / ( s2 - s3 );
+        if ( store_the_normals ) { n0.dir_x = n2.dir_x; n0.dir_y = n2.dir_y; }
+        nn.x = n3.x - m2 * ( n2.x - n3.x );
+        nn.y = n3.y - m2 * ( n2.y - n3.y );
+        nn.cut_id.set( n2.cut_id.get() );
+        nodes->local_at( 1 ).get_straight_content_from( nodes->local_at( 1 ) );
+        nodes->local_at( 2 ).get_straight_content_from( nodes->local_at( 2 ) );
+        Node &no = node( 3 );
+        if ( store_the_normals ) { no.dir_x = normal.x; no.dir_y = normal.y; }
+        no.x = n0.x - m1 * ( n1.x - n0.x );
+        no.y = n0.y - m1 * ( n1.y - n0.y );
+        no.cut_id.set( cut_id );
+        size = 4;
+        return true;
+    }
+    case 1307:
+    case 1339:
+    case 1371:
+    case 1403:
+    case 1435:
+    case 1467:
+    case 1499:
+    case 1531: {
+        bc[ 4 ]++;
+        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
+            normal /= norm_2( normal );
+        Node &n0 = node( 2 );
+        Node &n1 = node( 3 );
+        Node &n2 = node( 1 );
+        Node &n3 = node( 2 );
+        Node &nn = node( 0 );
+        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
+        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
+        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
+        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
+        TF m1 = s0 / ( s1 - s0 );
+        TF m2 = s3 / ( s2 - s3 );
+        if ( store_the_normals ) { n0.dir_x = n2.dir_x; n0.dir_y = n2.dir_y; }
+        nn.x = n3.x - m2 * ( n2.x - n3.x );
+        nn.y = n3.y - m2 * ( n2.y - n3.y );
+        nn.cut_id.set( n2.cut_id.get() );
+        nodes->local_at( 1 ).get_straight_content_from( nodes->local_at( 2 ) );
+        Node &no = node( 2 );
+        if ( store_the_normals ) { no.dir_x = normal.x; no.dir_y = normal.y; }
+        no.x = n0.x - m1 * ( n1.x - n0.x );
+        no.y = n0.y - m1 * ( n1.y - n0.y );
+        no.cut_id.set( cut_id );
+        size = 3;
+        return true;
+    }
+    case 1912:
+    case 2040: {
+        bc[ 4 ]++;
+        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
+            normal /= norm_2( normal );
+        Node &n0 = node( 2 );
+        Node &n1 = node( 3 );
+        Node &n2 = node( 6 );
+        Node &n3 = node( 0 );
+        Node &nn = node( 4 );
+        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
+        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
+        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
+        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
+        TF m1 = s0 / ( s1 - s0 );
+        TF m2 = s3 / ( s2 - s3 );
+        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
+        n1.x = n0.x - m1 * ( n1.x - n0.x );
+        n1.y = n0.y - m1 * ( n1.y - n0.y );
+        n1.cut_id.set( cut_id );
+        if ( store_the_normals ) { nn.dir_x = n2.dir_x; nn.dir_y = n2.dir_y; }
+        nn.x = n3.x - m2 * ( n2.x - n3.x );
+        nn.y = n3.y - m2 * ( n2.y - n3.y );
+        nn.cut_id.set( n2.cut_id.get() );
+        size = 5;
+        return true;
+    }
+    case 2168:
+    case 2232:
+    case 2264:
+    case 2280: {
+        bc[ 4 ]++;
+        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
+            normal /= norm_2( normal );
+        Node &n0 = node( 2 );
+        Node &n1 = node( 3 );
+        Node &n2 = node( 6 );
+        Node &n3 = node( 7 );
+        Node &nn = node( 4 );
+        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
+        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
+        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
+        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
+        TF m1 = s0 / ( s1 - s0 );
+        TF m2 = s3 / ( s2 - s3 );
+        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
+        n1.x = n0.x - m1 * ( n1.x - n0.x );
+        n1.y = n0.y - m1 * ( n1.y - n0.y );
+        n1.cut_id.set( cut_id );
+        if ( store_the_normals ) { nn.dir_x = n2.dir_x; nn.dir_y = n2.dir_y; }
+        nn.x = n3.x - m2 * ( n2.x - n3.x );
+        nn.y = n3.y - m2 * ( n2.y - n3.y );
+        nn.cut_id.set( n2.cut_id.get() );
+        nodes->local_at( 5 ).get_straight_content_from( nodes->local_at( 7 ) );
+        size = 6;
+        return true;
+    }
+    case 1869:
+    case 1877:
+    case 1881:
+    case 1893:
+    case 1897:
+    case 1905:
+    case 1997:
+    case 2005:
+    case 2009:
+    case 2021:
+    case 2025:
+    case 2033: {
+        bc[ 4 ]++;
+        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
+            normal /= norm_2( normal );
+        Node &n0 = node( 3 );
+        Node &n1 = node( 4 );
+        Node &n2 = node( 0 );
+        Node &n3 = node( 1 );
+        Node &nn = node( 0 );
+        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
+        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
+        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
+        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
+        TF m1 = s0 / ( s1 - s0 );
+        TF m2 = s3 / ( s2 - s3 );
+        if ( store_the_normals ) { n0.dir_x = n2.dir_x; n0.dir_y = n2.dir_y; }
+        nn.x = n3.x - m2 * ( n2.x - n3.x );
+        nn.y = n3.y - m2 * ( n2.y - n3.y );
+        nn.cut_id.set( n2.cut_id.get() );
+        nodes->local_at( 1 ).get_straight_content_from( nodes->local_at( 1 ) );
+        nodes->local_at( 2 ).get_straight_content_from( nodes->local_at( 2 ) );
+        nodes->local_at( 3 ).get_straight_content_from( nodes->local_at( 3 ) );
+        Node &no = node( 4 );
+        if ( store_the_normals ) { no.dir_x = normal.x; no.dir_y = normal.y; }
+        no.x = n0.x - m1 * ( n1.x - n0.x );
+        no.y = n0.y - m1 * ( n1.y - n0.y );
+        no.cut_id.set( cut_id );
+        size = 5;
+        return true;
+    }
     case 1579:
     case 1587:
     case 1643:
@@ -1948,17 +3893,8 @@ bool ConvexPolyhedron2<Pc>::plane_cut_simd_switch( Pt origin, Pt normal, CI cut_
     case 1707:
     case 1715:
     case 1771:
-    case 1779:
-    case 1883:
-    case 1899:
-    case 1907:
-    case 2011:
-    case 2027:
-    case 2035:
-    case 2235:
-    case 2267:
-    case 2283:
-    case 2291: {
+    case 1779: {
+        bc[ 4 ]++;
         if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
             normal /= norm_2( normal );
         Node &n0 = node( 3 );
@@ -1993,14 +3929,8 @@ bool ConvexPolyhedron2<Pc>::plane_cut_simd_switch( Pt origin, Pt normal, CI cut_
     case 1431:
     case 1463:
     case 1495:
-    case 1527:
-    case 1591:
-    case 1655:
-    case 1719:
-    case 1783:
-    case 1911:
-    case 2039:
-    case 2295: {
+    case 1527: {
+        bc[ 4 ]++;
         if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
             normal /= norm_2( normal );
         Node &n0 = node( 3 );
@@ -2027,112 +3957,8 @@ bool ConvexPolyhedron2<Pc>::plane_cut_simd_switch( Pt origin, Pt normal, CI cut_
         size = 3;
         return true;
     }
-    case 1584:
-    case 1648:
-    case 1712:
-    case 1776: {
-        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
-            normal /= norm_2( normal );
-        Node &n0 = node( 3 );
-        Node &n1 = node( 4 );
-        Node &n2 = node( 5 );
-        Node &n3 = node( 0 );
-        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-        TF m1 = s0 / ( s1 - s0 );
-        TF m2 = s3 / ( s2 - s3 );
-        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
-        n1.cut_id.set( cut_id );
-        n1.x = n0.x - m1 * ( n1.x - n0.x );
-        n1.y = n0.y - m1 * ( n1.y - n0.y );
-        n2.x = n3.x - m2 * ( n2.x - n3.x );
-        n2.y = n3.y - m2 * ( n2.y - n3.y );
-        return true;
-    }
-    case 1840:
-    case 1872:
-    case 1968:
-    case 2000:
-    case 2096:
-    case 2128:
-    case 2192: {
-        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
-            normal /= norm_2( normal );
-        Node &n0 = node( 3 );
-        Node &n1 = node( 4 );
-        Node &n2 = node( 5 );
-        Node &n3 = node( 6 );
-        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-        TF m1 = s0 / ( s1 - s0 );
-        TF m2 = s3 / ( s2 - s3 );
-        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
-        n1.cut_id.set( cut_id );
-        n1.x = n0.x - m1 * ( n1.x - n0.x );
-        n1.y = n0.y - m1 * ( n1.y - n0.y );
-        n2.x = n3.x - m2 * ( n2.x - n3.x );
-        n2.y = n3.y - m2 * ( n2.y - n3.y );
-        return true;
-    }
-    case 1904:
-    case 2032: {
-        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
-            normal /= norm_2( normal );
-        Node &n0 = node( 3 );
-        Node &n1 = node( 4 );
-        Node &n2 = node( 6 );
-        Node &n3 = node( 0 );
-        Node &nn = node( 5 );
-        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-        TF m1 = s0 / ( s1 - s0 );
-        TF m2 = s3 / ( s2 - s3 );
-        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
-        n1.x = n0.x - m1 * ( n1.x - n0.x );
-        n1.y = n0.y - m1 * ( n1.y - n0.y );
-        n1.cut_id.set( cut_id );
-        if ( store_the_normals ) { nn.dir_x = n2.dir_x; nn.dir_y = n2.dir_y; }
-        nn.x = n3.x - m2 * ( n2.x - n3.x );
-        nn.y = n3.y - m2 * ( n2.y - n3.y );
-        nn.cut_id.set( n2.cut_id.get() );
-        size = 6;
-        return true;
-    }
-    case 2160:
-    case 2224:
-    case 2256: {
-        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
-            normal /= norm_2( normal );
-        Node &n0 = node( 3 );
-        Node &n1 = node( 4 );
-        Node &n2 = node( 6 );
-        Node &n3 = node( 7 );
-        Node &nn = node( 5 );
-        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-        TF m1 = s0 / ( s1 - s0 );
-        TF m2 = s3 / ( s2 - s3 );
-        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
-        n1.x = n0.x - m1 * ( n1.x - n0.x );
-        n1.y = n0.y - m1 * ( n1.y - n0.y );
-        n1.cut_id.set( cut_id );
-        if ( store_the_normals ) { nn.dir_x = n2.dir_x; nn.dir_y = n2.dir_y; }
-        nn.x = n3.x - m2 * ( n2.x - n3.x );
-        nn.y = n3.y - m2 * ( n2.y - n3.y );
-        nn.cut_id.set( n2.cut_id.get() );
-        nodes->local_at( 6 ).get_straight_content_from( nodes->local_at( 7 ) );
-        size = 7;
-        return true;
-    }
     case 2288: {
+        bc[ 4 ]++;
         if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
             normal /= norm_2( normal );
         Node &n0 = node( 3 );
@@ -2157,84 +3983,6 @@ bool ConvexPolyhedron2<Pc>::plane_cut_simd_switch( Pt origin, Pt normal, CI cut_
         size = 6;
         return true;
     }
-    case 1283:
-    case 1315:
-    case 1347:
-    case 1379:
-    case 1411:
-    case 1443:
-    case 1475:
-    case 1507: {
-        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
-            normal /= norm_2( normal );
-        Node &n0 = node( 4 );
-        Node &n1 = node( 0 );
-        Node &n2 = node( 1 );
-        Node &n3 = node( 2 );
-        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-        TF m1 = s0 / ( s1 - s0 );
-        TF m2 = s3 / ( s2 - s3 );
-        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
-        n1.cut_id.set( cut_id );
-        n1.x = n0.x - m1 * ( n1.x - n0.x );
-        n1.y = n0.y - m1 * ( n1.y - n0.y );
-        n2.x = n3.x - m2 * ( n2.x - n3.x );
-        n2.y = n3.y - m2 * ( n2.y - n3.y );
-        return true;
-    }
-    case 1287:
-    case 1291:
-    case 1293:
-    case 1319:
-    case 1323:
-    case 1325:
-    case 1351:
-    case 1355:
-    case 1357:
-    case 1383:
-    case 1387:
-    case 1389:
-    case 1415:
-    case 1419:
-    case 1421:
-    case 1447:
-    case 1451:
-    case 1453:
-    case 1479:
-    case 1483:
-    case 1485:
-    case 1511:
-    case 1515:
-    case 1517: {
-        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
-            normal /= norm_2( normal );
-        Node &n0 = node( 4 );
-        Node &n1 = node( 0 );
-        Node &n2 = node( 2 );
-        Node &n3 = node( 3 );
-        Node &nn = node( 1 );
-        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-        TF m1 = s0 / ( s1 - s0 );
-        TF m2 = s3 / ( s2 - s3 );
-        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
-        n1.x = n0.x - m1 * ( n1.x - n0.x );
-        n1.y = n0.y - m1 * ( n1.y - n0.y );
-        n1.cut_id.set( cut_id );
-        if ( store_the_normals ) { nn.dir_x = n2.dir_x; nn.dir_y = n2.dir_y; }
-        nn.x = n3.x - m2 * ( n2.x - n3.x );
-        nn.y = n3.y - m2 * ( n2.y - n3.y );
-        nn.cut_id.set( n2.cut_id.get() );
-        nodes->local_at( 2 ).get_straight_content_from( nodes->local_at( 3 ) );
-        nodes->local_at( 3 ).get_straight_content_from( nodes->local_at( 4 ) );
-        size = 4;
-        return true;
-    }
     case 1295:
     case 1327:
     case 1359:
@@ -2243,6 +3991,7 @@ bool ConvexPolyhedron2<Pc>::plane_cut_simd_switch( Pt origin, Pt normal, CI cut_
     case 1455:
     case 1487:
     case 1519: {
+        bc[ 4 ]++;
         if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
             normal /= norm_2( normal );
         Node &n0 = node( 4 );
@@ -2268,14 +4017,6 @@ bool ConvexPolyhedron2<Pc>::plane_cut_simd_switch( Pt origin, Pt normal, CI cut_
         size = 3;
         return true;
     }
-    case 1861:
-    case 1865:
-    case 1873:
-    case 1889:
-    case 1989:
-    case 1993:
-    case 2001:
-    case 2017:
     case 2189:
     case 2197:
     case 2201:
@@ -2286,6 +4027,7 @@ bool ConvexPolyhedron2<Pc>::plane_cut_simd_switch( Pt origin, Pt normal, CI cut_
     case 2249:
     case 2257:
     case 2273: {
+        bc[ 4 ]++;
         if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
             normal /= norm_2( normal );
         Node &n0 = node( 4 );
@@ -2315,58 +4057,13 @@ bool ConvexPolyhedron2<Pc>::plane_cut_simd_switch( Pt origin, Pt normal, CI cut_
         size = 6;
         return true;
     }
-    case 1541:
-    case 1545:
-    case 1553:
-    case 1569:
-    case 1605:
-    case 1609:
-    case 1617:
-    case 1633:
-    case 1669:
-    case 1673:
-    case 1681:
-    case 1697:
-    case 1733:
-    case 1737:
-    case 1745:
-    case 1761: {
-        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
-            normal /= norm_2( normal );
-        Node &n0 = node( 4 );
-        Node &n1 = node( 5 );
-        Node &n2 = node( 0 );
-        Node &n3 = node( 1 );
-        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-        TF m1 = s0 / ( s1 - s0 );
-        TF m2 = s3 / ( s2 - s3 );
-        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
-        n1.cut_id.set( cut_id );
-        n1.x = n0.x - m1 * ( n1.x - n0.x );
-        n1.y = n0.y - m1 * ( n1.y - n0.y );
-        n2.x = n3.x - m2 * ( n2.x - n3.x );
-        n2.y = n3.y - m2 * ( n2.y - n3.y );
-        return true;
-    }
-    case 1571:
-    case 1635:
-    case 1699:
-    case 1763:
     case 1867:
     case 1875:
     case 1891:
     case 1995:
     case 2003:
-    case 2019:
-    case 2203:
-    case 2219:
-    case 2227:
-    case 2251:
-    case 2259:
-    case 2275: {
+    case 2019: {
+        bc[ 4 ]++;
         if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
             normal /= norm_2( normal );
         Node &n0 = node( 4 );
@@ -2398,14 +4095,8 @@ bool ConvexPolyhedron2<Pc>::plane_cut_simd_switch( Pt origin, Pt normal, CI cut_
     case 1575:
     case 1639:
     case 1703:
-    case 1767:
-    case 1879:
-    case 1895:
-    case 2007:
-    case 2023:
-    case 2231:
-    case 2263:
-    case 2279: {
+    case 1767: {
+        bc[ 4 ]++;
         if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
             normal /= norm_2( normal );
         Node &n0 = node( 4 );
@@ -2433,183 +4124,6 @@ bool ConvexPolyhedron2<Pc>::plane_cut_simd_switch( Pt origin, Pt normal, CI cut_
         size = 4;
         return true;
     }
-    case 1583:
-    case 1647:
-    case 1711:
-    case 1775:
-    case 1903:
-    case 2031:
-    case 2287: {
-        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
-            normal /= norm_2( normal );
-        Node &n0 = node( 4 );
-        Node &n1 = node( 5 );
-        Node &n2 = node( 3 );
-        Node &n3 = node( 4 );
-        Node &nn = node( 0 );
-        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-        TF m1 = s0 / ( s1 - s0 );
-        TF m2 = s3 / ( s2 - s3 );
-        if ( store_the_normals ) { n0.dir_x = n2.dir_x; n0.dir_y = n2.dir_y; }
-        nn.x = n3.x - m2 * ( n2.x - n3.x );
-        nn.y = n3.y - m2 * ( n2.y - n3.y );
-        nn.cut_id.set( n2.cut_id.get() );
-        nodes->local_at( 1 ).get_straight_content_from( nodes->local_at( 4 ) );
-        Node &no = node( 2 );
-        if ( store_the_normals ) { no.dir_x = normal.x; no.dir_y = normal.y; }
-        no.x = n0.x - m1 * ( n1.x - n0.x );
-        no.y = n0.y - m1 * ( n1.y - n0.y );
-        no.cut_id.set( cut_id );
-        size = 3;
-        return true;
-    }
-    case 1888:
-    case 2016: {
-        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
-            normal /= norm_2( normal );
-        Node &n0 = node( 4 );
-        Node &n1 = node( 5 );
-        Node &n2 = node( 6 );
-        Node &n3 = node( 0 );
-        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-        TF m1 = s0 / ( s1 - s0 );
-        TF m2 = s3 / ( s2 - s3 );
-        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
-        n1.cut_id.set( cut_id );
-        n1.x = n0.x - m1 * ( n1.x - n0.x );
-        n1.y = n0.y - m1 * ( n1.y - n0.y );
-        n2.x = n3.x - m2 * ( n2.x - n3.x );
-        n2.y = n3.y - m2 * ( n2.y - n3.y );
-        return true;
-    }
-    case 2144:
-    case 2208: {
-        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
-            normal /= norm_2( normal );
-        Node &n0 = node( 4 );
-        Node &n1 = node( 5 );
-        Node &n2 = node( 6 );
-        Node &n3 = node( 7 );
-        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-        TF m1 = s0 / ( s1 - s0 );
-        TF m2 = s3 / ( s2 - s3 );
-        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
-        n1.cut_id.set( cut_id );
-        n1.x = n0.x - m1 * ( n1.x - n0.x );
-        n1.y = n0.y - m1 * ( n1.y - n0.y );
-        n2.x = n3.x - m2 * ( n2.x - n3.x );
-        n2.y = n3.y - m2 * ( n2.y - n3.y );
-        return true;
-    }
-    case 2272: {
-        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
-            normal /= norm_2( normal );
-        Node &n0 = node( 4 );
-        Node &n1 = node( 5 );
-        Node &n2 = node( 7 );
-        Node &n3 = node( 0 );
-        Node &nn = node( 6 );
-        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-        TF m1 = s0 / ( s1 - s0 );
-        TF m2 = s3 / ( s2 - s3 );
-        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
-        n1.x = n0.x - m1 * ( n1.x - n0.x );
-        n1.y = n0.y - m1 * ( n1.y - n0.y );
-        n1.cut_id.set( cut_id );
-        if ( store_the_normals ) { nn.dir_x = n2.dir_x; nn.dir_y = n2.dir_y; }
-        nn.x = n3.x - m2 * ( n2.x - n3.x );
-        nn.y = n3.y - m2 * ( n2.y - n3.y );
-        nn.cut_id.set( n2.cut_id.get() );
-        size = 7;
-        return true;
-    }
-    case 1539:
-    case 1603:
-    case 1667:
-    case 1731: {
-        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
-            normal /= norm_2( normal );
-        Node &n0 = node( 5 );
-        Node &n1 = node( 0 );
-        Node &n2 = node( 1 );
-        Node &n3 = node( 2 );
-        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-        TF m1 = s0 / ( s1 - s0 );
-        TF m2 = s3 / ( s2 - s3 );
-        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
-        n1.cut_id.set( cut_id );
-        n1.x = n0.x - m1 * ( n1.x - n0.x );
-        n1.y = n0.y - m1 * ( n1.y - n0.y );
-        n2.x = n3.x - m2 * ( n2.x - n3.x );
-        n2.y = n3.y - m2 * ( n2.y - n3.y );
-        return true;
-    }
-    case 1543:
-    case 1547:
-    case 1549:
-    case 1555:
-    case 1557:
-    case 1561:
-    case 1607:
-    case 1611:
-    case 1613:
-    case 1619:
-    case 1621:
-    case 1625:
-    case 1671:
-    case 1675:
-    case 1677:
-    case 1683:
-    case 1685:
-    case 1689:
-    case 1735:
-    case 1739:
-    case 1741:
-    case 1747:
-    case 1749:
-    case 1753: {
-        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
-            normal /= norm_2( normal );
-        Node &n0 = node( 5 );
-        Node &n1 = node( 0 );
-        Node &n2 = node( 2 );
-        Node &n3 = node( 3 );
-        Node &nn = node( 1 );
-        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-        TF m1 = s0 / ( s1 - s0 );
-        TF m2 = s3 / ( s2 - s3 );
-        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
-        n1.x = n0.x - m1 * ( n1.x - n0.x );
-        n1.y = n0.y - m1 * ( n1.y - n0.y );
-        n1.cut_id.set( cut_id );
-        if ( store_the_normals ) { nn.dir_x = n2.dir_x; nn.dir_y = n2.dir_y; }
-        nn.x = n3.x - m2 * ( n2.x - n3.x );
-        nn.y = n3.y - m2 * ( n2.y - n3.y );
-        nn.cut_id.set( n2.cut_id.get() );
-        nodes->local_at( 2 ).get_straight_content_from( nodes->local_at( 3 ) );
-        nodes->local_at( 3 ).get_straight_content_from( nodes->local_at( 4 ) );
-        nodes->local_at( 4 ).get_straight_content_from( nodes->local_at( 5 ) );
-        size = 5;
-        return true;
-    }
     case 1551:
     case 1559:
     case 1563:
@@ -2626,6 +4140,7 @@ bool ConvexPolyhedron2<Pc>::plane_cut_simd_switch( Pt origin, Pt normal, CI cut_
     case 1751:
     case 1755:
     case 1757: {
+        bc[ 4 ]++;
         if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
             normal /= norm_2( normal );
         Node &n0 = node( 5 );
@@ -2652,106 +4167,11 @@ bool ConvexPolyhedron2<Pc>::plane_cut_simd_switch( Pt origin, Pt normal, CI cut_
         size = 4;
         return true;
     }
-    case 1567:
-    case 1631:
-    case 1695:
-    case 1759: {
-        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
-            normal /= norm_2( normal );
-        Node &n0 = node( 5 );
-        Node &n1 = node( 0 );
-        Node &n2 = node( 4 );
-        Node &n3 = node( 5 );
-        Node &nn = node( 1 );
-        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-        TF m1 = s0 / ( s1 - s0 );
-        TF m2 = s3 / ( s2 - s3 );
-        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
-        n1.x = n0.x - m1 * ( n1.x - n0.x );
-        n1.y = n0.y - m1 * ( n1.y - n0.y );
-        n1.cut_id.set( cut_id );
-        if ( store_the_normals ) { nn.dir_x = n2.dir_x; nn.dir_y = n2.dir_y; }
-        nn.x = n3.x - m2 * ( n2.x - n3.x );
-        nn.y = n3.y - m2 * ( n2.y - n3.y );
-        nn.cut_id.set( n2.cut_id.get() );
-        nodes->local_at( 2 ).get_straight_content_from( nodes->local_at( 5 ) );
-        size = 3;
-        return true;
-    }
-    case 2181:
-    case 2185:
-    case 2193:
-    case 2209:
-    case 2241: {
-        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
-            normal /= norm_2( normal );
-        Node &n0 = node( 5 );
-        Node &n1 = node( 6 );
-        Node &n2 = node( 0 );
-        Node &n3 = node( 1 );
-        Node &nn = node( 0 );
-        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-        TF m1 = s0 / ( s1 - s0 );
-        TF m2 = s3 / ( s2 - s3 );
-        if ( store_the_normals ) { n0.dir_x = n2.dir_x; n0.dir_y = n2.dir_y; }
-        nn.x = n3.x - m2 * ( n2.x - n3.x );
-        nn.y = n3.y - m2 * ( n2.y - n3.y );
-        nn.cut_id.set( n2.cut_id.get() );
-        nodes->local_at( 1 ).get_straight_content_from( nodes->local_at( 1 ) );
-        nodes->local_at( 2 ).get_straight_content_from( nodes->local_at( 2 ) );
-        nodes->local_at( 3 ).get_straight_content_from( nodes->local_at( 3 ) );
-        nodes->local_at( 4 ).get_straight_content_from( nodes->local_at( 4 ) );
-        nodes->local_at( 5 ).get_straight_content_from( nodes->local_at( 5 ) );
-        Node &no = node( 6 );
-        if ( store_the_normals ) { no.dir_x = normal.x; no.dir_y = normal.y; }
-        no.x = n0.x - m1 * ( n1.x - n0.x );
-        no.y = n0.y - m1 * ( n1.y - n0.y );
-        no.cut_id.set( cut_id );
-        size = 7;
-        return true;
-    }
-    case 1797:
-    case 1801:
-    case 1809:
-    case 1825:
-    case 1857:
-    case 1925:
-    case 1929:
-    case 1937:
-    case 1953:
-    case 1985: {
-        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
-            normal /= norm_2( normal );
-        Node &n0 = node( 5 );
-        Node &n1 = node( 6 );
-        Node &n2 = node( 0 );
-        Node &n3 = node( 1 );
-        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-        TF m1 = s0 / ( s1 - s0 );
-        TF m2 = s3 / ( s2 - s3 );
-        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
-        n1.cut_id.set( cut_id );
-        n1.x = n0.x - m1 * ( n1.x - n0.x );
-        n1.y = n0.y - m1 * ( n1.y - n0.y );
-        n2.x = n3.x - m2 * ( n2.x - n3.x );
-        n2.y = n3.y - m2 * ( n2.y - n3.y );
-        return true;
-    }
-    case 1859:
-    case 1987:
     case 2187:
     case 2195:
     case 2211:
     case 2243: {
+        bc[ 4 ]++;
         if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
             normal /= norm_2( normal );
         Node &n0 = node( 5 );
@@ -2782,10 +4202,8 @@ bool ConvexPolyhedron2<Pc>::plane_cut_simd_switch( Pt origin, Pt normal, CI cut_
         return true;
     }
     case 1863:
-    case 1991:
-    case 2199:
-    case 2215:
-    case 2247: {
+    case 1991: {
+        bc[ 4 ]++;
         if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
             normal /= norm_2( normal );
         Node &n0 = node( 5 );
@@ -2814,157 +4232,6 @@ bool ConvexPolyhedron2<Pc>::plane_cut_simd_switch( Pt origin, Pt normal, CI cut_
         size = 5;
         return true;
     }
-    case 1871:
-    case 1999:
-    case 2223:
-    case 2255: {
-        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
-            normal /= norm_2( normal );
-        Node &n0 = node( 5 );
-        Node &n1 = node( 6 );
-        Node &n2 = node( 3 );
-        Node &n3 = node( 4 );
-        Node &nn = node( 0 );
-        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-        TF m1 = s0 / ( s1 - s0 );
-        TF m2 = s3 / ( s2 - s3 );
-        if ( store_the_normals ) { n0.dir_x = n2.dir_x; n0.dir_y = n2.dir_y; }
-        nn.x = n3.x - m2 * ( n2.x - n3.x );
-        nn.y = n3.y - m2 * ( n2.y - n3.y );
-        nn.cut_id.set( n2.cut_id.get() );
-        nodes->local_at( 1 ).get_straight_content_from( nodes->local_at( 4 ) );
-        nodes->local_at( 2 ).get_straight_content_from( nodes->local_at( 5 ) );
-        Node &no = node( 3 );
-        if ( store_the_normals ) { no.dir_x = normal.x; no.dir_y = normal.y; }
-        no.x = n0.x - m1 * ( n1.x - n0.x );
-        no.y = n0.y - m1 * ( n1.y - n0.y );
-        no.cut_id.set( cut_id );
-        size = 4;
-        return true;
-    }
-    case 1887:
-    case 2015:
-    case 2271: {
-        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
-            normal /= norm_2( normal );
-        Node &n0 = node( 5 );
-        Node &n1 = node( 6 );
-        Node &n2 = node( 4 );
-        Node &n3 = node( 5 );
-        Node &nn = node( 0 );
-        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-        TF m1 = s0 / ( s1 - s0 );
-        TF m2 = s3 / ( s2 - s3 );
-        if ( store_the_normals ) { n0.dir_x = n2.dir_x; n0.dir_y = n2.dir_y; }
-        nn.x = n3.x - m2 * ( n2.x - n3.x );
-        nn.y = n3.y - m2 * ( n2.y - n3.y );
-        nn.cut_id.set( n2.cut_id.get() );
-        nodes->local_at( 1 ).get_straight_content_from( nodes->local_at( 5 ) );
-        Node &no = node( 2 );
-        if ( store_the_normals ) { no.dir_x = normal.x; no.dir_y = normal.y; }
-        no.x = n0.x - m1 * ( n1.x - n0.x );
-        no.y = n0.y - m1 * ( n1.y - n0.y );
-        no.cut_id.set( cut_id );
-        size = 3;
-        return true;
-    }
-    case 2240: {
-        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
-            normal /= norm_2( normal );
-        Node &n0 = node( 5 );
-        Node &n1 = node( 6 );
-        Node &n2 = node( 7 );
-        Node &n3 = node( 0 );
-        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-        TF m1 = s0 / ( s1 - s0 );
-        TF m2 = s3 / ( s2 - s3 );
-        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
-        n1.cut_id.set( cut_id );
-        n1.x = n0.x - m1 * ( n1.x - n0.x );
-        n1.y = n0.y - m1 * ( n1.y - n0.y );
-        n2.x = n3.x - m2 * ( n2.x - n3.x );
-        n2.y = n3.y - m2 * ( n2.y - n3.y );
-        return true;
-    }
-    case 1795:
-    case 1923: {
-        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
-            normal /= norm_2( normal );
-        Node &n0 = node( 6 );
-        Node &n1 = node( 0 );
-        Node &n2 = node( 1 );
-        Node &n3 = node( 2 );
-        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-        TF m1 = s0 / ( s1 - s0 );
-        TF m2 = s3 / ( s2 - s3 );
-        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
-        n1.cut_id.set( cut_id );
-        n1.x = n0.x - m1 * ( n1.x - n0.x );
-        n1.y = n0.y - m1 * ( n1.y - n0.y );
-        n2.x = n3.x - m2 * ( n2.x - n3.x );
-        n2.y = n3.y - m2 * ( n2.y - n3.y );
-        return true;
-    }
-    case 1799:
-    case 1803:
-    case 1805:
-    case 1811:
-    case 1813:
-    case 1817:
-    case 1827:
-    case 1829:
-    case 1833:
-    case 1841:
-    case 1927:
-    case 1931:
-    case 1933:
-    case 1939:
-    case 1941:
-    case 1945:
-    case 1955:
-    case 1957:
-    case 1961:
-    case 1969: {
-        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
-            normal /= norm_2( normal );
-        Node &n0 = node( 6 );
-        Node &n1 = node( 0 );
-        Node &n2 = node( 2 );
-        Node &n3 = node( 3 );
-        Node &nn = node( 1 );
-        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-        TF m1 = s0 / ( s1 - s0 );
-        TF m2 = s3 / ( s2 - s3 );
-        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
-        n1.x = n0.x - m1 * ( n1.x - n0.x );
-        n1.y = n0.y - m1 * ( n1.y - n0.y );
-        n1.cut_id.set( cut_id );
-        if ( store_the_normals ) { nn.dir_x = n2.dir_x; nn.dir_y = n2.dir_y; }
-        nn.x = n3.x - m2 * ( n2.x - n3.x );
-        nn.y = n3.y - m2 * ( n2.y - n3.y );
-        nn.cut_id.set( n2.cut_id.get() );
-        nodes->local_at( 2 ).get_straight_content_from( nodes->local_at( 3 ) );
-        nodes->local_at( 3 ).get_straight_content_from( nodes->local_at( 4 ) );
-        nodes->local_at( 4 ).get_straight_content_from( nodes->local_at( 5 ) );
-        nodes->local_at( 5 ).get_straight_content_from( nodes->local_at( 6 ) );
-        size = 6;
-        return true;
-    }
     case 1807:
     case 1815:
     case 1819:
@@ -2985,6 +4252,7 @@ bool ConvexPolyhedron2<Pc>::plane_cut_simd_switch( Pt origin, Pt normal, CI cut_
     case 1971:
     case 1973:
     case 1977: {
+        bc[ 4 ]++;
         if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
             normal /= norm_2( normal );
         Node &n0 = node( 6 );
@@ -3012,127 +4280,8 @@ bool ConvexPolyhedron2<Pc>::plane_cut_simd_switch( Pt origin, Pt normal, CI cut_
         size = 5;
         return true;
     }
-    case 1823:
-    case 1839:
-    case 1847:
-    case 1851:
-    case 1853:
-    case 1951:
-    case 1967:
-    case 1975:
-    case 1979:
-    case 1981: {
-        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
-            normal /= norm_2( normal );
-        Node &n0 = node( 6 );
-        Node &n1 = node( 0 );
-        Node &n2 = node( 4 );
-        Node &n3 = node( 5 );
-        Node &nn = node( 1 );
-        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-        TF m1 = s0 / ( s1 - s0 );
-        TF m2 = s3 / ( s2 - s3 );
-        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
-        n1.x = n0.x - m1 * ( n1.x - n0.x );
-        n1.y = n0.y - m1 * ( n1.y - n0.y );
-        n1.cut_id.set( cut_id );
-        if ( store_the_normals ) { nn.dir_x = n2.dir_x; nn.dir_y = n2.dir_y; }
-        nn.x = n3.x - m2 * ( n2.x - n3.x );
-        nn.y = n3.y - m2 * ( n2.y - n3.y );
-        nn.cut_id.set( n2.cut_id.get() );
-        nodes->local_at( 2 ).get_straight_content_from( nodes->local_at( 5 ) );
-        nodes->local_at( 3 ).get_straight_content_from( nodes->local_at( 6 ) );
-        size = 4;
-        return true;
-    }
-    case 1855:
-    case 1983: {
-        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
-            normal /= norm_2( normal );
-        Node &n0 = node( 6 );
-        Node &n1 = node( 0 );
-        Node &n2 = node( 5 );
-        Node &n3 = node( 6 );
-        Node &nn = node( 1 );
-        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-        TF m1 = s0 / ( s1 - s0 );
-        TF m2 = s3 / ( s2 - s3 );
-        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
-        n1.x = n0.x - m1 * ( n1.x - n0.x );
-        n1.y = n0.y - m1 * ( n1.y - n0.y );
-        n1.cut_id.set( cut_id );
-        if ( store_the_normals ) { nn.dir_x = n2.dir_x; nn.dir_y = n2.dir_y; }
-        nn.x = n3.x - m2 * ( n2.x - n3.x );
-        nn.y = n3.y - m2 * ( n2.y - n3.y );
-        nn.cut_id.set( n2.cut_id.get() );
-        nodes->local_at( 2 ).get_straight_content_from( nodes->local_at( 6 ) );
-        size = 3;
-        return true;
-    }
-    case 2053:
-    case 2057:
-    case 2065:
-    case 2081:
-    case 2113:
-    case 2177: {
-        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
-            normal /= norm_2( normal );
-        Node &n0 = node( 6 );
-        Node &n1 = node( 7 );
-        Node &n2 = node( 0 );
-        Node &n3 = node( 1 );
-        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-        TF m1 = s0 / ( s1 - s0 );
-        TF m2 = s3 / ( s2 - s3 );
-        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
-        n1.cut_id.set( cut_id );
-        n1.x = n0.x - m1 * ( n1.x - n0.x );
-        n1.y = n0.y - m1 * ( n1.y - n0.y );
-        n2.x = n3.x - m2 * ( n2.x - n3.x );
-        n2.y = n3.y - m2 * ( n2.y - n3.y );
-        return true;
-    }
-    case 2179: {
-        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
-            normal /= norm_2( normal );
-        Node &n0 = node( 6 );
-        Node &n1 = node( 7 );
-        Node &n2 = node( 1 );
-        Node &n3 = node( 2 );
-        Node &nn = node( 0 );
-        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-        TF m1 = s0 / ( s1 - s0 );
-        TF m2 = s3 / ( s2 - s3 );
-        if ( store_the_normals ) { n0.dir_x = n2.dir_x; n0.dir_y = n2.dir_y; }
-        nn.x = n3.x - m2 * ( n2.x - n3.x );
-        nn.y = n3.y - m2 * ( n2.y - n3.y );
-        nn.cut_id.set( n2.cut_id.get() );
-        nodes->local_at( 1 ).get_straight_content_from( nodes->local_at( 2 ) );
-        nodes->local_at( 2 ).get_straight_content_from( nodes->local_at( 3 ) );
-        nodes->local_at( 3 ).get_straight_content_from( nodes->local_at( 4 ) );
-        nodes->local_at( 4 ).get_straight_content_from( nodes->local_at( 5 ) );
-        nodes->local_at( 5 ).get_straight_content_from( nodes->local_at( 6 ) );
-        Node &no = node( 6 );
-        if ( store_the_normals ) { no.dir_x = normal.x; no.dir_y = normal.y; }
-        no.x = n0.x - m1 * ( n1.x - n0.x );
-        no.y = n0.y - m1 * ( n1.y - n0.y );
-        no.cut_id.set( cut_id );
-        size = 7;
-        return true;
-    }
     case 2183: {
+        bc[ 4 ]++;
         if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
             normal /= norm_2( normal );
         Node &n0 = node( 6 );
@@ -3162,155 +4311,6 @@ bool ConvexPolyhedron2<Pc>::plane_cut_simd_switch( Pt origin, Pt normal, CI cut_
         size = 6;
         return true;
     }
-    case 2191: {
-        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
-            normal /= norm_2( normal );
-        Node &n0 = node( 6 );
-        Node &n1 = node( 7 );
-        Node &n2 = node( 3 );
-        Node &n3 = node( 4 );
-        Node &nn = node( 0 );
-        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-        TF m1 = s0 / ( s1 - s0 );
-        TF m2 = s3 / ( s2 - s3 );
-        if ( store_the_normals ) { n0.dir_x = n2.dir_x; n0.dir_y = n2.dir_y; }
-        nn.x = n3.x - m2 * ( n2.x - n3.x );
-        nn.y = n3.y - m2 * ( n2.y - n3.y );
-        nn.cut_id.set( n2.cut_id.get() );
-        nodes->local_at( 1 ).get_straight_content_from( nodes->local_at( 4 ) );
-        nodes->local_at( 2 ).get_straight_content_from( nodes->local_at( 5 ) );
-        nodes->local_at( 3 ).get_straight_content_from( nodes->local_at( 6 ) );
-        Node &no = node( 4 );
-        if ( store_the_normals ) { no.dir_x = normal.x; no.dir_y = normal.y; }
-        no.x = n0.x - m1 * ( n1.x - n0.x );
-        no.y = n0.y - m1 * ( n1.y - n0.y );
-        no.cut_id.set( cut_id );
-        size = 5;
-        return true;
-    }
-    case 2207: {
-        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
-            normal /= norm_2( normal );
-        Node &n0 = node( 6 );
-        Node &n1 = node( 7 );
-        Node &n2 = node( 4 );
-        Node &n3 = node( 5 );
-        Node &nn = node( 0 );
-        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-        TF m1 = s0 / ( s1 - s0 );
-        TF m2 = s3 / ( s2 - s3 );
-        if ( store_the_normals ) { n0.dir_x = n2.dir_x; n0.dir_y = n2.dir_y; }
-        nn.x = n3.x - m2 * ( n2.x - n3.x );
-        nn.y = n3.y - m2 * ( n2.y - n3.y );
-        nn.cut_id.set( n2.cut_id.get() );
-        nodes->local_at( 1 ).get_straight_content_from( nodes->local_at( 5 ) );
-        nodes->local_at( 2 ).get_straight_content_from( nodes->local_at( 6 ) );
-        Node &no = node( 3 );
-        if ( store_the_normals ) { no.dir_x = normal.x; no.dir_y = normal.y; }
-        no.x = n0.x - m1 * ( n1.x - n0.x );
-        no.y = n0.y - m1 * ( n1.y - n0.y );
-        no.cut_id.set( cut_id );
-        size = 4;
-        return true;
-    }
-    case 2239: {
-        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
-            normal /= norm_2( normal );
-        Node &n0 = node( 6 );
-        Node &n1 = node( 7 );
-        Node &n2 = node( 5 );
-        Node &n3 = node( 6 );
-        Node &nn = node( 0 );
-        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-        TF m1 = s0 / ( s1 - s0 );
-        TF m2 = s3 / ( s2 - s3 );
-        if ( store_the_normals ) { n0.dir_x = n2.dir_x; n0.dir_y = n2.dir_y; }
-        nn.x = n3.x - m2 * ( n2.x - n3.x );
-        nn.y = n3.y - m2 * ( n2.y - n3.y );
-        nn.cut_id.set( n2.cut_id.get() );
-        nodes->local_at( 1 ).get_straight_content_from( nodes->local_at( 6 ) );
-        Node &no = node( 2 );
-        if ( store_the_normals ) { no.dir_x = normal.x; no.dir_y = normal.y; }
-        no.x = n0.x - m1 * ( n1.x - n0.x );
-        no.y = n0.y - m1 * ( n1.y - n0.y );
-        no.cut_id.set( cut_id );
-        size = 3;
-        return true;
-    }
-    case 2051: {
-        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
-            normal /= norm_2( normal );
-        Node &n0 = node( 7 );
-        Node &n1 = node( 0 );
-        Node &n2 = node( 1 );
-        Node &n3 = node( 2 );
-        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-        TF m1 = s0 / ( s1 - s0 );
-        TF m2 = s3 / ( s2 - s3 );
-        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
-        n1.cut_id.set( cut_id );
-        n1.x = n0.x - m1 * ( n1.x - n0.x );
-        n1.y = n0.y - m1 * ( n1.y - n0.y );
-        n2.x = n3.x - m2 * ( n2.x - n3.x );
-        n2.y = n3.y - m2 * ( n2.y - n3.y );
-        return true;
-    }
-    case 2055:
-    case 2059:
-    case 2061:
-    case 2067:
-    case 2069:
-    case 2073:
-    case 2083:
-    case 2085:
-    case 2089:
-    case 2097:
-    case 2115:
-    case 2117:
-    case 2121:
-    case 2129:
-    case 2145: {
-        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
-            normal /= norm_2( normal );
-        Node &n0 = node( 7 );
-        Node &n1 = node( 0 );
-        Node &n2 = node( 2 );
-        Node &n3 = node( 3 );
-        Node &nn = node( 1 );
-        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-        TF m1 = s0 / ( s1 - s0 );
-        TF m2 = s3 / ( s2 - s3 );
-        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
-        n1.x = n0.x - m1 * ( n1.x - n0.x );
-        n1.y = n0.y - m1 * ( n1.y - n0.y );
-        n1.cut_id.set( cut_id );
-        if ( store_the_normals ) { nn.dir_x = n2.dir_x; nn.dir_y = n2.dir_y; }
-        nn.x = n3.x - m2 * ( n2.x - n3.x );
-        nn.y = n3.y - m2 * ( n2.y - n3.y );
-        nn.cut_id.set( n2.cut_id.get() );
-        nodes->local_at( 2 ).get_straight_content_from( nodes->local_at( 3 ) );
-        nodes->local_at( 3 ).get_straight_content_from( nodes->local_at( 4 ) );
-        nodes->local_at( 4 ).get_straight_content_from( nodes->local_at( 5 ) );
-        nodes->local_at( 5 ).get_straight_content_from( nodes->local_at( 6 ) );
-        nodes->local_at( 6 ).get_straight_content_from( nodes->local_at( 7 ) );
-        size = 7;
-        return true;
-    }
     case 2063:
     case 2071:
     case 2075:
@@ -3331,6 +4331,7 @@ bool ConvexPolyhedron2<Pc>::plane_cut_simd_switch( Pt origin, Pt normal, CI cut_
     case 2149:
     case 2153:
     case 2161: {
+        bc[ 4 ]++;
         if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
             normal /= norm_2( normal );
         Node &n0 = node( 7 );
@@ -3359,6 +4360,656 @@ bool ConvexPolyhedron2<Pc>::plane_cut_simd_switch( Pt origin, Pt normal, CI cut_
         size = 6;
         return true;
     }
+    case 1598:
+    case 1662:
+    case 1726:
+    case 1790: {
+        bc[ 5 ]++;
+        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
+            normal /= norm_2( normal );
+        Node &n0 = node( 0 );
+        Node &n1 = node( 1 );
+        Node &n2 = node( 5 );
+        Node &n3 = node( 0 );
+        Node &nn = node( 2 );
+        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
+        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
+        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
+        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
+        TF m1 = s0 / ( s1 - s0 );
+        TF m2 = s3 / ( s2 - s3 );
+        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
+        n1.x = n0.x - m1 * ( n1.x - n0.x );
+        n1.y = n0.y - m1 * ( n1.y - n0.y );
+        n1.cut_id.set( cut_id );
+        if ( store_the_normals ) { nn.dir_x = n2.dir_x; nn.dir_y = n2.dir_y; }
+        nn.x = n3.x - m2 * ( n2.x - n3.x );
+        nn.y = n3.y - m2 * ( n2.y - n3.y );
+        nn.cut_id.set( n2.cut_id.get() );
+        size = 3;
+        return true;
+    }
+    case 2110:
+    case 2142:
+    case 2158:
+    case 2166:
+    case 2170:
+    case 2206:
+    case 2222:
+    case 2230:
+    case 2234:
+    case 2254:
+    case 2262:
+    case 2266:
+    case 2278:
+    case 2282:
+    case 2290: {
+        bc[ 5 ]++;
+        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
+            normal /= norm_2( normal );
+        Node &n0 = node( 0 );
+        Node &n1 = node( 1 );
+        Node &n2 = node( 5 );
+        Node &n3 = node( 6 );
+        Node &nn = node( 2 );
+        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
+        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
+        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
+        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
+        TF m1 = s0 / ( s1 - s0 );
+        TF m2 = s3 / ( s2 - s3 );
+        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
+        n1.x = n0.x - m1 * ( n1.x - n0.x );
+        n1.y = n0.y - m1 * ( n1.y - n0.y );
+        n1.cut_id.set( cut_id );
+        if ( store_the_normals ) { nn.dir_x = n2.dir_x; nn.dir_y = n2.dir_y; }
+        nn.x = n3.x - m2 * ( n2.x - n3.x );
+        nn.y = n3.y - m2 * ( n2.y - n3.y );
+        nn.cut_id.set( n2.cut_id.get() );
+        nodes->local_at( 3 ).get_straight_content_from( nodes->local_at( 6 ) );
+        nodes->local_at( 4 ).get_straight_content_from( nodes->local_at( 7 ) );
+        size = 5;
+        return true;
+    }
+    case 1854:
+    case 1886:
+    case 1902:
+    case 1910:
+    case 1914:
+    case 1982:
+    case 2014:
+    case 2030:
+    case 2038:
+    case 2042: {
+        bc[ 5 ]++;
+        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
+            normal /= norm_2( normal );
+        Node &n0 = node( 0 );
+        Node &n1 = node( 1 );
+        Node &n2 = node( 5 );
+        Node &n3 = node( 6 );
+        Node &nn = node( 2 );
+        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
+        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
+        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
+        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
+        TF m1 = s0 / ( s1 - s0 );
+        TF m2 = s3 / ( s2 - s3 );
+        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
+        n1.x = n0.x - m1 * ( n1.x - n0.x );
+        n1.y = n0.y - m1 * ( n1.y - n0.y );
+        n1.cut_id.set( cut_id );
+        if ( store_the_normals ) { nn.dir_x = n2.dir_x; nn.dir_y = n2.dir_y; }
+        nn.x = n3.x - m2 * ( n2.x - n3.x );
+        nn.y = n3.y - m2 * ( n2.y - n3.y );
+        nn.cut_id.set( n2.cut_id.get() );
+        nodes->local_at( 3 ).get_straight_content_from( nodes->local_at( 6 ) );
+        size = 4;
+        return true;
+    }
+    case 1597:
+    case 1661:
+    case 1725:
+    case 1789: {
+        bc[ 5 ]++;
+        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
+            normal /= norm_2( normal );
+        Node &n0 = node( 1 );
+        Node &n1 = node( 2 );
+        Node &n2 = node( 0 );
+        Node &n3 = node( 1 );
+        Node &nn = node( 0 );
+        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
+        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
+        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
+        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
+        TF m1 = s0 / ( s1 - s0 );
+        TF m2 = s3 / ( s2 - s3 );
+        if ( store_the_normals ) { n0.dir_x = n2.dir_x; n0.dir_y = n2.dir_y; }
+        nn.x = n3.x - m2 * ( n2.x - n3.x );
+        nn.y = n3.y - m2 * ( n2.y - n3.y );
+        nn.cut_id.set( n2.cut_id.get() );
+        nodes->local_at( 1 ).get_straight_content_from( nodes->local_at( 1 ) );
+        Node &no = node( 2 );
+        if ( store_the_normals ) { no.dir_x = normal.x; no.dir_y = normal.y; }
+        no.x = n0.x - m1 * ( n1.x - n0.x );
+        no.y = n0.y - m1 * ( n1.y - n0.y );
+        no.cut_id.set( cut_id );
+        size = 3;
+        return true;
+    }
+    case 1916:
+    case 2044: {
+        bc[ 5 ]++;
+        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
+            normal /= norm_2( normal );
+        Node &n0 = node( 1 );
+        Node &n1 = node( 2 );
+        Node &n2 = node( 6 );
+        Node &n3 = node( 0 );
+        Node &nn = node( 3 );
+        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
+        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
+        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
+        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
+        TF m1 = s0 / ( s1 - s0 );
+        TF m2 = s3 / ( s2 - s3 );
+        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
+        n1.x = n0.x - m1 * ( n1.x - n0.x );
+        n1.y = n0.y - m1 * ( n1.y - n0.y );
+        n1.cut_id.set( cut_id );
+        if ( store_the_normals ) { nn.dir_x = n2.dir_x; nn.dir_y = n2.dir_y; }
+        nn.x = n3.x - m2 * ( n2.x - n3.x );
+        nn.y = n3.y - m2 * ( n2.y - n3.y );
+        nn.cut_id.set( n2.cut_id.get() );
+        size = 4;
+        return true;
+    }
+    case 2172:
+    case 2236:
+    case 2268:
+    case 2284:
+    case 2292: {
+        bc[ 5 ]++;
+        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
+            normal /= norm_2( normal );
+        Node &n0 = node( 1 );
+        Node &n1 = node( 2 );
+        Node &n2 = node( 6 );
+        Node &n3 = node( 7 );
+        Node &nn = node( 3 );
+        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
+        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
+        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
+        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
+        TF m1 = s0 / ( s1 - s0 );
+        TF m2 = s3 / ( s2 - s3 );
+        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
+        n1.x = n0.x - m1 * ( n1.x - n0.x );
+        n1.y = n0.y - m1 * ( n1.y - n0.y );
+        n1.cut_id.set( cut_id );
+        if ( store_the_normals ) { nn.dir_x = n2.dir_x; nn.dir_y = n2.dir_y; }
+        nn.x = n3.x - m2 * ( n2.x - n3.x );
+        nn.y = n3.y - m2 * ( n2.y - n3.y );
+        nn.cut_id.set( n2.cut_id.get() );
+        nodes->local_at( 4 ).get_straight_content_from( nodes->local_at( 7 ) );
+        size = 5;
+        return true;
+    }
+    case 1885:
+    case 1901:
+    case 1909:
+    case 1913:
+    case 2013:
+    case 2029:
+    case 2037:
+    case 2041: {
+        bc[ 5 ]++;
+        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
+            normal /= norm_2( normal );
+        Node &n0 = node( 2 );
+        Node &n1 = node( 3 );
+        Node &n2 = node( 0 );
+        Node &n3 = node( 1 );
+        Node &nn = node( 0 );
+        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
+        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
+        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
+        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
+        TF m1 = s0 / ( s1 - s0 );
+        TF m2 = s3 / ( s2 - s3 );
+        if ( store_the_normals ) { n0.dir_x = n2.dir_x; n0.dir_y = n2.dir_y; }
+        nn.x = n3.x - m2 * ( n2.x - n3.x );
+        nn.y = n3.y - m2 * ( n2.y - n3.y );
+        nn.cut_id.set( n2.cut_id.get() );
+        nodes->local_at( 1 ).get_straight_content_from( nodes->local_at( 1 ) );
+        nodes->local_at( 2 ).get_straight_content_from( nodes->local_at( 2 ) );
+        Node &no = node( 3 );
+        if ( store_the_normals ) { no.dir_x = normal.x; no.dir_y = normal.y; }
+        no.x = n0.x - m1 * ( n1.x - n0.x );
+        no.y = n0.y - m1 * ( n1.y - n0.y );
+        no.cut_id.set( cut_id );
+        size = 4;
+        return true;
+    }
+    case 1595:
+    case 1659:
+    case 1723:
+    case 1787: {
+        bc[ 5 ]++;
+        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
+            normal /= norm_2( normal );
+        Node &n0 = node( 2 );
+        Node &n1 = node( 3 );
+        Node &n2 = node( 1 );
+        Node &n3 = node( 2 );
+        Node &nn = node( 0 );
+        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
+        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
+        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
+        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
+        TF m1 = s0 / ( s1 - s0 );
+        TF m2 = s3 / ( s2 - s3 );
+        if ( store_the_normals ) { n0.dir_x = n2.dir_x; n0.dir_y = n2.dir_y; }
+        nn.x = n3.x - m2 * ( n2.x - n3.x );
+        nn.y = n3.y - m2 * ( n2.y - n3.y );
+        nn.cut_id.set( n2.cut_id.get() );
+        nodes->local_at( 1 ).get_straight_content_from( nodes->local_at( 2 ) );
+        Node &no = node( 2 );
+        if ( store_the_normals ) { no.dir_x = normal.x; no.dir_y = normal.y; }
+        no.x = n0.x - m1 * ( n1.x - n0.x );
+        no.y = n0.y - m1 * ( n1.y - n0.y );
+        no.cut_id.set( cut_id );
+        size = 3;
+        return true;
+    }
+    case 2296: {
+        bc[ 5 ]++;
+        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
+            normal /= norm_2( normal );
+        Node &n0 = node( 2 );
+        Node &n1 = node( 3 );
+        Node &n2 = node( 7 );
+        Node &n3 = node( 0 );
+        Node &nn = node( 4 );
+        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
+        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
+        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
+        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
+        TF m1 = s0 / ( s1 - s0 );
+        TF m2 = s3 / ( s2 - s3 );
+        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
+        n1.x = n0.x - m1 * ( n1.x - n0.x );
+        n1.y = n0.y - m1 * ( n1.y - n0.y );
+        n1.cut_id.set( cut_id );
+        if ( store_the_normals ) { nn.dir_x = n2.dir_x; nn.dir_y = n2.dir_y; }
+        nn.x = n3.x - m2 * ( n2.x - n3.x );
+        nn.y = n3.y - m2 * ( n2.y - n3.y );
+        nn.cut_id.set( n2.cut_id.get() );
+        size = 5;
+        return true;
+    }
+    case 2205:
+    case 2221:
+    case 2229:
+    case 2233:
+    case 2253:
+    case 2261:
+    case 2265:
+    case 2277:
+    case 2281:
+    case 2289: {
+        bc[ 5 ]++;
+        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
+            normal /= norm_2( normal );
+        Node &n0 = node( 3 );
+        Node &n1 = node( 4 );
+        Node &n2 = node( 0 );
+        Node &n3 = node( 1 );
+        Node &nn = node( 0 );
+        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
+        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
+        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
+        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
+        TF m1 = s0 / ( s1 - s0 );
+        TF m2 = s3 / ( s2 - s3 );
+        if ( store_the_normals ) { n0.dir_x = n2.dir_x; n0.dir_y = n2.dir_y; }
+        nn.x = n3.x - m2 * ( n2.x - n3.x );
+        nn.y = n3.y - m2 * ( n2.y - n3.y );
+        nn.cut_id.set( n2.cut_id.get() );
+        nodes->local_at( 1 ).get_straight_content_from( nodes->local_at( 1 ) );
+        nodes->local_at( 2 ).get_straight_content_from( nodes->local_at( 2 ) );
+        nodes->local_at( 3 ).get_straight_content_from( nodes->local_at( 3 ) );
+        Node &no = node( 4 );
+        if ( store_the_normals ) { no.dir_x = normal.x; no.dir_y = normal.y; }
+        no.x = n0.x - m1 * ( n1.x - n0.x );
+        no.y = n0.y - m1 * ( n1.y - n0.y );
+        no.cut_id.set( cut_id );
+        size = 5;
+        return true;
+    }
+    case 1883:
+    case 1899:
+    case 1907:
+    case 2011:
+    case 2027:
+    case 2035: {
+        bc[ 5 ]++;
+        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
+            normal /= norm_2( normal );
+        Node &n0 = node( 3 );
+        Node &n1 = node( 4 );
+        Node &n2 = node( 1 );
+        Node &n3 = node( 2 );
+        Node &nn = node( 0 );
+        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
+        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
+        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
+        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
+        TF m1 = s0 / ( s1 - s0 );
+        TF m2 = s3 / ( s2 - s3 );
+        if ( store_the_normals ) { n0.dir_x = n2.dir_x; n0.dir_y = n2.dir_y; }
+        nn.x = n3.x - m2 * ( n2.x - n3.x );
+        nn.y = n3.y - m2 * ( n2.y - n3.y );
+        nn.cut_id.set( n2.cut_id.get() );
+        nodes->local_at( 1 ).get_straight_content_from( nodes->local_at( 2 ) );
+        nodes->local_at( 2 ).get_straight_content_from( nodes->local_at( 3 ) );
+        Node &no = node( 3 );
+        if ( store_the_normals ) { no.dir_x = normal.x; no.dir_y = normal.y; }
+        no.x = n0.x - m1 * ( n1.x - n0.x );
+        no.y = n0.y - m1 * ( n1.y - n0.y );
+        no.cut_id.set( cut_id );
+        size = 4;
+        return true;
+    }
+    case 1591:
+    case 1655:
+    case 1719:
+    case 1783: {
+        bc[ 5 ]++;
+        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
+            normal /= norm_2( normal );
+        Node &n0 = node( 3 );
+        Node &n1 = node( 4 );
+        Node &n2 = node( 2 );
+        Node &n3 = node( 3 );
+        Node &nn = node( 0 );
+        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
+        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
+        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
+        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
+        TF m1 = s0 / ( s1 - s0 );
+        TF m2 = s3 / ( s2 - s3 );
+        if ( store_the_normals ) { n0.dir_x = n2.dir_x; n0.dir_y = n2.dir_y; }
+        nn.x = n3.x - m2 * ( n2.x - n3.x );
+        nn.y = n3.y - m2 * ( n2.y - n3.y );
+        nn.cut_id.set( n2.cut_id.get() );
+        nodes->local_at( 1 ).get_straight_content_from( nodes->local_at( 3 ) );
+        Node &no = node( 2 );
+        if ( store_the_normals ) { no.dir_x = normal.x; no.dir_y = normal.y; }
+        no.x = n0.x - m1 * ( n1.x - n0.x );
+        no.y = n0.y - m1 * ( n1.y - n0.y );
+        no.cut_id.set( cut_id );
+        size = 3;
+        return true;
+    }
+    case 2203:
+    case 2219:
+    case 2227:
+    case 2251:
+    case 2259:
+    case 2275: {
+        bc[ 5 ]++;
+        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
+            normal /= norm_2( normal );
+        Node &n0 = node( 4 );
+        Node &n1 = node( 5 );
+        Node &n2 = node( 1 );
+        Node &n3 = node( 2 );
+        Node &nn = node( 0 );
+        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
+        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
+        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
+        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
+        TF m1 = s0 / ( s1 - s0 );
+        TF m2 = s3 / ( s2 - s3 );
+        if ( store_the_normals ) { n0.dir_x = n2.dir_x; n0.dir_y = n2.dir_y; }
+        nn.x = n3.x - m2 * ( n2.x - n3.x );
+        nn.y = n3.y - m2 * ( n2.y - n3.y );
+        nn.cut_id.set( n2.cut_id.get() );
+        nodes->local_at( 1 ).get_straight_content_from( nodes->local_at( 2 ) );
+        nodes->local_at( 2 ).get_straight_content_from( nodes->local_at( 3 ) );
+        nodes->local_at( 3 ).get_straight_content_from( nodes->local_at( 4 ) );
+        Node &no = node( 4 );
+        if ( store_the_normals ) { no.dir_x = normal.x; no.dir_y = normal.y; }
+        no.x = n0.x - m1 * ( n1.x - n0.x );
+        no.y = n0.y - m1 * ( n1.y - n0.y );
+        no.cut_id.set( cut_id );
+        size = 5;
+        return true;
+    }
+    case 1879:
+    case 1895:
+    case 2007:
+    case 2023: {
+        bc[ 5 ]++;
+        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
+            normal /= norm_2( normal );
+        Node &n0 = node( 4 );
+        Node &n1 = node( 5 );
+        Node &n2 = node( 2 );
+        Node &n3 = node( 3 );
+        Node &nn = node( 0 );
+        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
+        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
+        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
+        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
+        TF m1 = s0 / ( s1 - s0 );
+        TF m2 = s3 / ( s2 - s3 );
+        if ( store_the_normals ) { n0.dir_x = n2.dir_x; n0.dir_y = n2.dir_y; }
+        nn.x = n3.x - m2 * ( n2.x - n3.x );
+        nn.y = n3.y - m2 * ( n2.y - n3.y );
+        nn.cut_id.set( n2.cut_id.get() );
+        nodes->local_at( 1 ).get_straight_content_from( nodes->local_at( 3 ) );
+        nodes->local_at( 2 ).get_straight_content_from( nodes->local_at( 4 ) );
+        Node &no = node( 3 );
+        if ( store_the_normals ) { no.dir_x = normal.x; no.dir_y = normal.y; }
+        no.x = n0.x - m1 * ( n1.x - n0.x );
+        no.y = n0.y - m1 * ( n1.y - n0.y );
+        no.cut_id.set( cut_id );
+        size = 4;
+        return true;
+    }
+    case 1583:
+    case 1647:
+    case 1711:
+    case 1775: {
+        bc[ 5 ]++;
+        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
+            normal /= norm_2( normal );
+        Node &n0 = node( 4 );
+        Node &n1 = node( 5 );
+        Node &n2 = node( 3 );
+        Node &n3 = node( 4 );
+        Node &nn = node( 0 );
+        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
+        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
+        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
+        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
+        TF m1 = s0 / ( s1 - s0 );
+        TF m2 = s3 / ( s2 - s3 );
+        if ( store_the_normals ) { n0.dir_x = n2.dir_x; n0.dir_y = n2.dir_y; }
+        nn.x = n3.x - m2 * ( n2.x - n3.x );
+        nn.y = n3.y - m2 * ( n2.y - n3.y );
+        nn.cut_id.set( n2.cut_id.get() );
+        nodes->local_at( 1 ).get_straight_content_from( nodes->local_at( 4 ) );
+        Node &no = node( 2 );
+        if ( store_the_normals ) { no.dir_x = normal.x; no.dir_y = normal.y; }
+        no.x = n0.x - m1 * ( n1.x - n0.x );
+        no.y = n0.y - m1 * ( n1.y - n0.y );
+        no.cut_id.set( cut_id );
+        size = 3;
+        return true;
+    }
+    case 1567:
+    case 1631:
+    case 1695:
+    case 1759: {
+        bc[ 5 ]++;
+        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
+            normal /= norm_2( normal );
+        Node &n0 = node( 5 );
+        Node &n1 = node( 0 );
+        Node &n2 = node( 4 );
+        Node &n3 = node( 5 );
+        Node &nn = node( 1 );
+        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
+        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
+        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
+        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
+        TF m1 = s0 / ( s1 - s0 );
+        TF m2 = s3 / ( s2 - s3 );
+        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
+        n1.x = n0.x - m1 * ( n1.x - n0.x );
+        n1.y = n0.y - m1 * ( n1.y - n0.y );
+        n1.cut_id.set( cut_id );
+        if ( store_the_normals ) { nn.dir_x = n2.dir_x; nn.dir_y = n2.dir_y; }
+        nn.x = n3.x - m2 * ( n2.x - n3.x );
+        nn.y = n3.y - m2 * ( n2.y - n3.y );
+        nn.cut_id.set( n2.cut_id.get() );
+        nodes->local_at( 2 ).get_straight_content_from( nodes->local_at( 5 ) );
+        size = 3;
+        return true;
+    }
+    case 2199:
+    case 2215:
+    case 2247: {
+        bc[ 5 ]++;
+        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
+            normal /= norm_2( normal );
+        Node &n0 = node( 5 );
+        Node &n1 = node( 6 );
+        Node &n2 = node( 2 );
+        Node &n3 = node( 3 );
+        Node &nn = node( 0 );
+        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
+        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
+        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
+        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
+        TF m1 = s0 / ( s1 - s0 );
+        TF m2 = s3 / ( s2 - s3 );
+        if ( store_the_normals ) { n0.dir_x = n2.dir_x; n0.dir_y = n2.dir_y; }
+        nn.x = n3.x - m2 * ( n2.x - n3.x );
+        nn.y = n3.y - m2 * ( n2.y - n3.y );
+        nn.cut_id.set( n2.cut_id.get() );
+        nodes->local_at( 1 ).get_straight_content_from( nodes->local_at( 3 ) );
+        nodes->local_at( 2 ).get_straight_content_from( nodes->local_at( 4 ) );
+        nodes->local_at( 3 ).get_straight_content_from( nodes->local_at( 5 ) );
+        Node &no = node( 4 );
+        if ( store_the_normals ) { no.dir_x = normal.x; no.dir_y = normal.y; }
+        no.x = n0.x - m1 * ( n1.x - n0.x );
+        no.y = n0.y - m1 * ( n1.y - n0.y );
+        no.cut_id.set( cut_id );
+        size = 5;
+        return true;
+    }
+    case 1871:
+    case 1999: {
+        bc[ 5 ]++;
+        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
+            normal /= norm_2( normal );
+        Node &n0 = node( 5 );
+        Node &n1 = node( 6 );
+        Node &n2 = node( 3 );
+        Node &n3 = node( 4 );
+        Node &nn = node( 0 );
+        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
+        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
+        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
+        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
+        TF m1 = s0 / ( s1 - s0 );
+        TF m2 = s3 / ( s2 - s3 );
+        if ( store_the_normals ) { n0.dir_x = n2.dir_x; n0.dir_y = n2.dir_y; }
+        nn.x = n3.x - m2 * ( n2.x - n3.x );
+        nn.y = n3.y - m2 * ( n2.y - n3.y );
+        nn.cut_id.set( n2.cut_id.get() );
+        nodes->local_at( 1 ).get_straight_content_from( nodes->local_at( 4 ) );
+        nodes->local_at( 2 ).get_straight_content_from( nodes->local_at( 5 ) );
+        Node &no = node( 3 );
+        if ( store_the_normals ) { no.dir_x = normal.x; no.dir_y = normal.y; }
+        no.x = n0.x - m1 * ( n1.x - n0.x );
+        no.y = n0.y - m1 * ( n1.y - n0.y );
+        no.cut_id.set( cut_id );
+        size = 4;
+        return true;
+    }
+    case 1823:
+    case 1839:
+    case 1847:
+    case 1851:
+    case 1853:
+    case 1951:
+    case 1967:
+    case 1975:
+    case 1979:
+    case 1981: {
+        bc[ 5 ]++;
+        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
+            normal /= norm_2( normal );
+        Node &n0 = node( 6 );
+        Node &n1 = node( 0 );
+        Node &n2 = node( 4 );
+        Node &n3 = node( 5 );
+        Node &nn = node( 1 );
+        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
+        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
+        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
+        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
+        TF m1 = s0 / ( s1 - s0 );
+        TF m2 = s3 / ( s2 - s3 );
+        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
+        n1.x = n0.x - m1 * ( n1.x - n0.x );
+        n1.y = n0.y - m1 * ( n1.y - n0.y );
+        n1.cut_id.set( cut_id );
+        if ( store_the_normals ) { nn.dir_x = n2.dir_x; nn.dir_y = n2.dir_y; }
+        nn.x = n3.x - m2 * ( n2.x - n3.x );
+        nn.y = n3.y - m2 * ( n2.y - n3.y );
+        nn.cut_id.set( n2.cut_id.get() );
+        nodes->local_at( 2 ).get_straight_content_from( nodes->local_at( 5 ) );
+        nodes->local_at( 3 ).get_straight_content_from( nodes->local_at( 6 ) );
+        size = 4;
+        return true;
+    }
+    case 2191: {
+        bc[ 5 ]++;
+        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
+            normal /= norm_2( normal );
+        Node &n0 = node( 6 );
+        Node &n1 = node( 7 );
+        Node &n2 = node( 3 );
+        Node &n3 = node( 4 );
+        Node &nn = node( 0 );
+        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
+        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
+        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
+        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
+        TF m1 = s0 / ( s1 - s0 );
+        TF m2 = s3 / ( s2 - s3 );
+        if ( store_the_normals ) { n0.dir_x = n2.dir_x; n0.dir_y = n2.dir_y; }
+        nn.x = n3.x - m2 * ( n2.x - n3.x );
+        nn.y = n3.y - m2 * ( n2.y - n3.y );
+        nn.cut_id.set( n2.cut_id.get() );
+        nodes->local_at( 1 ).get_straight_content_from( nodes->local_at( 4 ) );
+        nodes->local_at( 2 ).get_straight_content_from( nodes->local_at( 5 ) );
+        nodes->local_at( 3 ).get_straight_content_from( nodes->local_at( 6 ) );
+        Node &no = node( 4 );
+        if ( store_the_normals ) { no.dir_x = normal.x; no.dir_y = normal.y; }
+        no.x = n0.x - m1 * ( n1.x - n0.x );
+        no.y = n0.y - m1 * ( n1.y - n0.y );
+        no.cut_id.set( cut_id );
+        size = 5;
+        return true;
+    }
     case 2079:
     case 2095:
     case 2103:
@@ -3374,6 +5025,7 @@ bool ConvexPolyhedron2<Pc>::plane_cut_simd_switch( Pt origin, Pt normal, CI cut_
     case 2163:
     case 2165:
     case 2169: {
+        bc[ 5 ]++;
         if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
             normal /= norm_2( normal );
         Node &n0 = node( 7 );
@@ -3401,12 +5053,426 @@ bool ConvexPolyhedron2<Pc>::plane_cut_simd_switch( Pt origin, Pt normal, CI cut_
         size = 5;
         return true;
     }
+    case 1918:
+    case 2046: {
+        bc[ 6 ]++;
+        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
+            normal /= norm_2( normal );
+        Node &n0 = node( 0 );
+        Node &n1 = node( 1 );
+        Node &n2 = node( 6 );
+        Node &n3 = node( 0 );
+        Node &nn = node( 2 );
+        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
+        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
+        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
+        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
+        TF m1 = s0 / ( s1 - s0 );
+        TF m2 = s3 / ( s2 - s3 );
+        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
+        n1.x = n0.x - m1 * ( n1.x - n0.x );
+        n1.y = n0.y - m1 * ( n1.y - n0.y );
+        n1.cut_id.set( cut_id );
+        if ( store_the_normals ) { nn.dir_x = n2.dir_x; nn.dir_y = n2.dir_y; }
+        nn.x = n3.x - m2 * ( n2.x - n3.x );
+        nn.y = n3.y - m2 * ( n2.y - n3.y );
+        nn.cut_id.set( n2.cut_id.get() );
+        size = 3;
+        return true;
+    }
+    case 2174:
+    case 2238:
+    case 2270:
+    case 2286:
+    case 2294:
+    case 2298: {
+        bc[ 6 ]++;
+        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
+            normal /= norm_2( normal );
+        Node &n0 = node( 0 );
+        Node &n1 = node( 1 );
+        Node &n2 = node( 6 );
+        Node &n3 = node( 7 );
+        Node &nn = node( 2 );
+        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
+        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
+        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
+        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
+        TF m1 = s0 / ( s1 - s0 );
+        TF m2 = s3 / ( s2 - s3 );
+        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
+        n1.x = n0.x - m1 * ( n1.x - n0.x );
+        n1.y = n0.y - m1 * ( n1.y - n0.y );
+        n1.cut_id.set( cut_id );
+        if ( store_the_normals ) { nn.dir_x = n2.dir_x; nn.dir_y = n2.dir_y; }
+        nn.x = n3.x - m2 * ( n2.x - n3.x );
+        nn.y = n3.y - m2 * ( n2.y - n3.y );
+        nn.cut_id.set( n2.cut_id.get() );
+        nodes->local_at( 3 ).get_straight_content_from( nodes->local_at( 7 ) );
+        size = 4;
+        return true;
+    }
+    case 1917:
+    case 2045: {
+        bc[ 6 ]++;
+        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
+            normal /= norm_2( normal );
+        Node &n0 = node( 1 );
+        Node &n1 = node( 2 );
+        Node &n2 = node( 0 );
+        Node &n3 = node( 1 );
+        Node &nn = node( 0 );
+        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
+        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
+        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
+        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
+        TF m1 = s0 / ( s1 - s0 );
+        TF m2 = s3 / ( s2 - s3 );
+        if ( store_the_normals ) { n0.dir_x = n2.dir_x; n0.dir_y = n2.dir_y; }
+        nn.x = n3.x - m2 * ( n2.x - n3.x );
+        nn.y = n3.y - m2 * ( n2.y - n3.y );
+        nn.cut_id.set( n2.cut_id.get() );
+        nodes->local_at( 1 ).get_straight_content_from( nodes->local_at( 1 ) );
+        Node &no = node( 2 );
+        if ( store_the_normals ) { no.dir_x = normal.x; no.dir_y = normal.y; }
+        no.x = n0.x - m1 * ( n1.x - n0.x );
+        no.y = n0.y - m1 * ( n1.y - n0.y );
+        no.cut_id.set( cut_id );
+        size = 3;
+        return true;
+    }
+    case 2300: {
+        bc[ 6 ]++;
+        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
+            normal /= norm_2( normal );
+        Node &n0 = node( 1 );
+        Node &n1 = node( 2 );
+        Node &n2 = node( 7 );
+        Node &n3 = node( 0 );
+        Node &nn = node( 3 );
+        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
+        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
+        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
+        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
+        TF m1 = s0 / ( s1 - s0 );
+        TF m2 = s3 / ( s2 - s3 );
+        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
+        n1.x = n0.x - m1 * ( n1.x - n0.x );
+        n1.y = n0.y - m1 * ( n1.y - n0.y );
+        n1.cut_id.set( cut_id );
+        if ( store_the_normals ) { nn.dir_x = n2.dir_x; nn.dir_y = n2.dir_y; }
+        nn.x = n3.x - m2 * ( n2.x - n3.x );
+        nn.y = n3.y - m2 * ( n2.y - n3.y );
+        nn.cut_id.set( n2.cut_id.get() );
+        size = 4;
+        return true;
+    }
+    case 2237:
+    case 2269:
+    case 2285:
+    case 2293:
+    case 2297: {
+        bc[ 6 ]++;
+        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
+            normal /= norm_2( normal );
+        Node &n0 = node( 2 );
+        Node &n1 = node( 3 );
+        Node &n2 = node( 0 );
+        Node &n3 = node( 1 );
+        Node &nn = node( 0 );
+        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
+        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
+        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
+        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
+        TF m1 = s0 / ( s1 - s0 );
+        TF m2 = s3 / ( s2 - s3 );
+        if ( store_the_normals ) { n0.dir_x = n2.dir_x; n0.dir_y = n2.dir_y; }
+        nn.x = n3.x - m2 * ( n2.x - n3.x );
+        nn.y = n3.y - m2 * ( n2.y - n3.y );
+        nn.cut_id.set( n2.cut_id.get() );
+        nodes->local_at( 1 ).get_straight_content_from( nodes->local_at( 1 ) );
+        nodes->local_at( 2 ).get_straight_content_from( nodes->local_at( 2 ) );
+        Node &no = node( 3 );
+        if ( store_the_normals ) { no.dir_x = normal.x; no.dir_y = normal.y; }
+        no.x = n0.x - m1 * ( n1.x - n0.x );
+        no.y = n0.y - m1 * ( n1.y - n0.y );
+        no.cut_id.set( cut_id );
+        size = 4;
+        return true;
+    }
+    case 1915:
+    case 2043: {
+        bc[ 6 ]++;
+        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
+            normal /= norm_2( normal );
+        Node &n0 = node( 2 );
+        Node &n1 = node( 3 );
+        Node &n2 = node( 1 );
+        Node &n3 = node( 2 );
+        Node &nn = node( 0 );
+        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
+        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
+        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
+        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
+        TF m1 = s0 / ( s1 - s0 );
+        TF m2 = s3 / ( s2 - s3 );
+        if ( store_the_normals ) { n0.dir_x = n2.dir_x; n0.dir_y = n2.dir_y; }
+        nn.x = n3.x - m2 * ( n2.x - n3.x );
+        nn.y = n3.y - m2 * ( n2.y - n3.y );
+        nn.cut_id.set( n2.cut_id.get() );
+        nodes->local_at( 1 ).get_straight_content_from( nodes->local_at( 2 ) );
+        Node &no = node( 2 );
+        if ( store_the_normals ) { no.dir_x = normal.x; no.dir_y = normal.y; }
+        no.x = n0.x - m1 * ( n1.x - n0.x );
+        no.y = n0.y - m1 * ( n1.y - n0.y );
+        no.cut_id.set( cut_id );
+        size = 3;
+        return true;
+    }
+    case 2235:
+    case 2267:
+    case 2283:
+    case 2291: {
+        bc[ 6 ]++;
+        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
+            normal /= norm_2( normal );
+        Node &n0 = node( 3 );
+        Node &n1 = node( 4 );
+        Node &n2 = node( 1 );
+        Node &n3 = node( 2 );
+        Node &nn = node( 0 );
+        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
+        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
+        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
+        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
+        TF m1 = s0 / ( s1 - s0 );
+        TF m2 = s3 / ( s2 - s3 );
+        if ( store_the_normals ) { n0.dir_x = n2.dir_x; n0.dir_y = n2.dir_y; }
+        nn.x = n3.x - m2 * ( n2.x - n3.x );
+        nn.y = n3.y - m2 * ( n2.y - n3.y );
+        nn.cut_id.set( n2.cut_id.get() );
+        nodes->local_at( 1 ).get_straight_content_from( nodes->local_at( 2 ) );
+        nodes->local_at( 2 ).get_straight_content_from( nodes->local_at( 3 ) );
+        Node &no = node( 3 );
+        if ( store_the_normals ) { no.dir_x = normal.x; no.dir_y = normal.y; }
+        no.x = n0.x - m1 * ( n1.x - n0.x );
+        no.y = n0.y - m1 * ( n1.y - n0.y );
+        no.cut_id.set( cut_id );
+        size = 4;
+        return true;
+    }
+    case 1911:
+    case 2039: {
+        bc[ 6 ]++;
+        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
+            normal /= norm_2( normal );
+        Node &n0 = node( 3 );
+        Node &n1 = node( 4 );
+        Node &n2 = node( 2 );
+        Node &n3 = node( 3 );
+        Node &nn = node( 0 );
+        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
+        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
+        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
+        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
+        TF m1 = s0 / ( s1 - s0 );
+        TF m2 = s3 / ( s2 - s3 );
+        if ( store_the_normals ) { n0.dir_x = n2.dir_x; n0.dir_y = n2.dir_y; }
+        nn.x = n3.x - m2 * ( n2.x - n3.x );
+        nn.y = n3.y - m2 * ( n2.y - n3.y );
+        nn.cut_id.set( n2.cut_id.get() );
+        nodes->local_at( 1 ).get_straight_content_from( nodes->local_at( 3 ) );
+        Node &no = node( 2 );
+        if ( store_the_normals ) { no.dir_x = normal.x; no.dir_y = normal.y; }
+        no.x = n0.x - m1 * ( n1.x - n0.x );
+        no.y = n0.y - m1 * ( n1.y - n0.y );
+        no.cut_id.set( cut_id );
+        size = 3;
+        return true;
+    }
+    case 2231:
+    case 2263:
+    case 2279: {
+        bc[ 6 ]++;
+        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
+            normal /= norm_2( normal );
+        Node &n0 = node( 4 );
+        Node &n1 = node( 5 );
+        Node &n2 = node( 2 );
+        Node &n3 = node( 3 );
+        Node &nn = node( 0 );
+        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
+        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
+        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
+        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
+        TF m1 = s0 / ( s1 - s0 );
+        TF m2 = s3 / ( s2 - s3 );
+        if ( store_the_normals ) { n0.dir_x = n2.dir_x; n0.dir_y = n2.dir_y; }
+        nn.x = n3.x - m2 * ( n2.x - n3.x );
+        nn.y = n3.y - m2 * ( n2.y - n3.y );
+        nn.cut_id.set( n2.cut_id.get() );
+        nodes->local_at( 1 ).get_straight_content_from( nodes->local_at( 3 ) );
+        nodes->local_at( 2 ).get_straight_content_from( nodes->local_at( 4 ) );
+        Node &no = node( 3 );
+        if ( store_the_normals ) { no.dir_x = normal.x; no.dir_y = normal.y; }
+        no.x = n0.x - m1 * ( n1.x - n0.x );
+        no.y = n0.y - m1 * ( n1.y - n0.y );
+        no.cut_id.set( cut_id );
+        size = 4;
+        return true;
+    }
+    case 1903:
+    case 2031: {
+        bc[ 6 ]++;
+        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
+            normal /= norm_2( normal );
+        Node &n0 = node( 4 );
+        Node &n1 = node( 5 );
+        Node &n2 = node( 3 );
+        Node &n3 = node( 4 );
+        Node &nn = node( 0 );
+        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
+        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
+        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
+        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
+        TF m1 = s0 / ( s1 - s0 );
+        TF m2 = s3 / ( s2 - s3 );
+        if ( store_the_normals ) { n0.dir_x = n2.dir_x; n0.dir_y = n2.dir_y; }
+        nn.x = n3.x - m2 * ( n2.x - n3.x );
+        nn.y = n3.y - m2 * ( n2.y - n3.y );
+        nn.cut_id.set( n2.cut_id.get() );
+        nodes->local_at( 1 ).get_straight_content_from( nodes->local_at( 4 ) );
+        Node &no = node( 2 );
+        if ( store_the_normals ) { no.dir_x = normal.x; no.dir_y = normal.y; }
+        no.x = n0.x - m1 * ( n1.x - n0.x );
+        no.y = n0.y - m1 * ( n1.y - n0.y );
+        no.cut_id.set( cut_id );
+        size = 3;
+        return true;
+    }
+    case 2223:
+    case 2255: {
+        bc[ 6 ]++;
+        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
+            normal /= norm_2( normal );
+        Node &n0 = node( 5 );
+        Node &n1 = node( 6 );
+        Node &n2 = node( 3 );
+        Node &n3 = node( 4 );
+        Node &nn = node( 0 );
+        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
+        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
+        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
+        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
+        TF m1 = s0 / ( s1 - s0 );
+        TF m2 = s3 / ( s2 - s3 );
+        if ( store_the_normals ) { n0.dir_x = n2.dir_x; n0.dir_y = n2.dir_y; }
+        nn.x = n3.x - m2 * ( n2.x - n3.x );
+        nn.y = n3.y - m2 * ( n2.y - n3.y );
+        nn.cut_id.set( n2.cut_id.get() );
+        nodes->local_at( 1 ).get_straight_content_from( nodes->local_at( 4 ) );
+        nodes->local_at( 2 ).get_straight_content_from( nodes->local_at( 5 ) );
+        Node &no = node( 3 );
+        if ( store_the_normals ) { no.dir_x = normal.x; no.dir_y = normal.y; }
+        no.x = n0.x - m1 * ( n1.x - n0.x );
+        no.y = n0.y - m1 * ( n1.y - n0.y );
+        no.cut_id.set( cut_id );
+        size = 4;
+        return true;
+    }
+    case 1887:
+    case 2015: {
+        bc[ 6 ]++;
+        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
+            normal /= norm_2( normal );
+        Node &n0 = node( 5 );
+        Node &n1 = node( 6 );
+        Node &n2 = node( 4 );
+        Node &n3 = node( 5 );
+        Node &nn = node( 0 );
+        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
+        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
+        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
+        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
+        TF m1 = s0 / ( s1 - s0 );
+        TF m2 = s3 / ( s2 - s3 );
+        if ( store_the_normals ) { n0.dir_x = n2.dir_x; n0.dir_y = n2.dir_y; }
+        nn.x = n3.x - m2 * ( n2.x - n3.x );
+        nn.y = n3.y - m2 * ( n2.y - n3.y );
+        nn.cut_id.set( n2.cut_id.get() );
+        nodes->local_at( 1 ).get_straight_content_from( nodes->local_at( 5 ) );
+        Node &no = node( 2 );
+        if ( store_the_normals ) { no.dir_x = normal.x; no.dir_y = normal.y; }
+        no.x = n0.x - m1 * ( n1.x - n0.x );
+        no.y = n0.y - m1 * ( n1.y - n0.y );
+        no.cut_id.set( cut_id );
+        size = 3;
+        return true;
+    }
+    case 1855:
+    case 1983: {
+        bc[ 6 ]++;
+        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
+            normal /= norm_2( normal );
+        Node &n0 = node( 6 );
+        Node &n1 = node( 0 );
+        Node &n2 = node( 5 );
+        Node &n3 = node( 6 );
+        Node &nn = node( 1 );
+        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
+        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
+        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
+        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
+        TF m1 = s0 / ( s1 - s0 );
+        TF m2 = s3 / ( s2 - s3 );
+        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
+        n1.x = n0.x - m1 * ( n1.x - n0.x );
+        n1.y = n0.y - m1 * ( n1.y - n0.y );
+        n1.cut_id.set( cut_id );
+        if ( store_the_normals ) { nn.dir_x = n2.dir_x; nn.dir_y = n2.dir_y; }
+        nn.x = n3.x - m2 * ( n2.x - n3.x );
+        nn.y = n3.y - m2 * ( n2.y - n3.y );
+        nn.cut_id.set( n2.cut_id.get() );
+        nodes->local_at( 2 ).get_straight_content_from( nodes->local_at( 6 ) );
+        size = 3;
+        return true;
+    }
+    case 2207: {
+        bc[ 6 ]++;
+        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
+            normal /= norm_2( normal );
+        Node &n0 = node( 6 );
+        Node &n1 = node( 7 );
+        Node &n2 = node( 4 );
+        Node &n3 = node( 5 );
+        Node &nn = node( 0 );
+        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
+        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
+        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
+        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
+        TF m1 = s0 / ( s1 - s0 );
+        TF m2 = s3 / ( s2 - s3 );
+        if ( store_the_normals ) { n0.dir_x = n2.dir_x; n0.dir_y = n2.dir_y; }
+        nn.x = n3.x - m2 * ( n2.x - n3.x );
+        nn.y = n3.y - m2 * ( n2.y - n3.y );
+        nn.cut_id.set( n2.cut_id.get() );
+        nodes->local_at( 1 ).get_straight_content_from( nodes->local_at( 5 ) );
+        nodes->local_at( 2 ).get_straight_content_from( nodes->local_at( 6 ) );
+        Node &no = node( 3 );
+        if ( store_the_normals ) { no.dir_x = normal.x; no.dir_y = normal.y; }
+        no.x = n0.x - m1 * ( n1.x - n0.x );
+        no.y = n0.y - m1 * ( n1.y - n0.y );
+        no.cut_id.set( cut_id );
+        size = 4;
+        return true;
+    }
     case 2111:
     case 2143:
     case 2159:
     case 2167:
     case 2171:
     case 2173: {
+        bc[ 6 ]++;
         if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
             normal /= norm_2( normal );
         Node &n0 = node( 7 );
@@ -3433,7 +5499,202 @@ bool ConvexPolyhedron2<Pc>::plane_cut_simd_switch( Pt origin, Pt normal, CI cut_
         size = 4;
         return true;
     }
+    case 2302: {
+        bc[ 7 ]++;
+        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
+            normal /= norm_2( normal );
+        Node &n0 = node( 0 );
+        Node &n1 = node( 1 );
+        Node &n2 = node( 7 );
+        Node &n3 = node( 0 );
+        Node &nn = node( 2 );
+        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
+        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
+        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
+        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
+        TF m1 = s0 / ( s1 - s0 );
+        TF m2 = s3 / ( s2 - s3 );
+        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
+        n1.x = n0.x - m1 * ( n1.x - n0.x );
+        n1.y = n0.y - m1 * ( n1.y - n0.y );
+        n1.cut_id.set( cut_id );
+        if ( store_the_normals ) { nn.dir_x = n2.dir_x; nn.dir_y = n2.dir_y; }
+        nn.x = n3.x - m2 * ( n2.x - n3.x );
+        nn.y = n3.y - m2 * ( n2.y - n3.y );
+        nn.cut_id.set( n2.cut_id.get() );
+        size = 3;
+        return true;
+    }
+    case 2301: {
+        bc[ 7 ]++;
+        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
+            normal /= norm_2( normal );
+        Node &n0 = node( 1 );
+        Node &n1 = node( 2 );
+        Node &n2 = node( 0 );
+        Node &n3 = node( 1 );
+        Node &nn = node( 0 );
+        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
+        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
+        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
+        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
+        TF m1 = s0 / ( s1 - s0 );
+        TF m2 = s3 / ( s2 - s3 );
+        if ( store_the_normals ) { n0.dir_x = n2.dir_x; n0.dir_y = n2.dir_y; }
+        nn.x = n3.x - m2 * ( n2.x - n3.x );
+        nn.y = n3.y - m2 * ( n2.y - n3.y );
+        nn.cut_id.set( n2.cut_id.get() );
+        nodes->local_at( 1 ).get_straight_content_from( nodes->local_at( 1 ) );
+        Node &no = node( 2 );
+        if ( store_the_normals ) { no.dir_x = normal.x; no.dir_y = normal.y; }
+        no.x = n0.x - m1 * ( n1.x - n0.x );
+        no.y = n0.y - m1 * ( n1.y - n0.y );
+        no.cut_id.set( cut_id );
+        size = 3;
+        return true;
+    }
+    case 2299: {
+        bc[ 7 ]++;
+        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
+            normal /= norm_2( normal );
+        Node &n0 = node( 2 );
+        Node &n1 = node( 3 );
+        Node &n2 = node( 1 );
+        Node &n3 = node( 2 );
+        Node &nn = node( 0 );
+        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
+        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
+        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
+        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
+        TF m1 = s0 / ( s1 - s0 );
+        TF m2 = s3 / ( s2 - s3 );
+        if ( store_the_normals ) { n0.dir_x = n2.dir_x; n0.dir_y = n2.dir_y; }
+        nn.x = n3.x - m2 * ( n2.x - n3.x );
+        nn.y = n3.y - m2 * ( n2.y - n3.y );
+        nn.cut_id.set( n2.cut_id.get() );
+        nodes->local_at( 1 ).get_straight_content_from( nodes->local_at( 2 ) );
+        Node &no = node( 2 );
+        if ( store_the_normals ) { no.dir_x = normal.x; no.dir_y = normal.y; }
+        no.x = n0.x - m1 * ( n1.x - n0.x );
+        no.y = n0.y - m1 * ( n1.y - n0.y );
+        no.cut_id.set( cut_id );
+        size = 3;
+        return true;
+    }
+    case 2295: {
+        bc[ 7 ]++;
+        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
+            normal /= norm_2( normal );
+        Node &n0 = node( 3 );
+        Node &n1 = node( 4 );
+        Node &n2 = node( 2 );
+        Node &n3 = node( 3 );
+        Node &nn = node( 0 );
+        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
+        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
+        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
+        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
+        TF m1 = s0 / ( s1 - s0 );
+        TF m2 = s3 / ( s2 - s3 );
+        if ( store_the_normals ) { n0.dir_x = n2.dir_x; n0.dir_y = n2.dir_y; }
+        nn.x = n3.x - m2 * ( n2.x - n3.x );
+        nn.y = n3.y - m2 * ( n2.y - n3.y );
+        nn.cut_id.set( n2.cut_id.get() );
+        nodes->local_at( 1 ).get_straight_content_from( nodes->local_at( 3 ) );
+        Node &no = node( 2 );
+        if ( store_the_normals ) { no.dir_x = normal.x; no.dir_y = normal.y; }
+        no.x = n0.x - m1 * ( n1.x - n0.x );
+        no.y = n0.y - m1 * ( n1.y - n0.y );
+        no.cut_id.set( cut_id );
+        size = 3;
+        return true;
+    }
+    case 2287: {
+        bc[ 7 ]++;
+        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
+            normal /= norm_2( normal );
+        Node &n0 = node( 4 );
+        Node &n1 = node( 5 );
+        Node &n2 = node( 3 );
+        Node &n3 = node( 4 );
+        Node &nn = node( 0 );
+        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
+        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
+        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
+        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
+        TF m1 = s0 / ( s1 - s0 );
+        TF m2 = s3 / ( s2 - s3 );
+        if ( store_the_normals ) { n0.dir_x = n2.dir_x; n0.dir_y = n2.dir_y; }
+        nn.x = n3.x - m2 * ( n2.x - n3.x );
+        nn.y = n3.y - m2 * ( n2.y - n3.y );
+        nn.cut_id.set( n2.cut_id.get() );
+        nodes->local_at( 1 ).get_straight_content_from( nodes->local_at( 4 ) );
+        Node &no = node( 2 );
+        if ( store_the_normals ) { no.dir_x = normal.x; no.dir_y = normal.y; }
+        no.x = n0.x - m1 * ( n1.x - n0.x );
+        no.y = n0.y - m1 * ( n1.y - n0.y );
+        no.cut_id.set( cut_id );
+        size = 3;
+        return true;
+    }
+    case 2271: {
+        bc[ 7 ]++;
+        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
+            normal /= norm_2( normal );
+        Node &n0 = node( 5 );
+        Node &n1 = node( 6 );
+        Node &n2 = node( 4 );
+        Node &n3 = node( 5 );
+        Node &nn = node( 0 );
+        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
+        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
+        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
+        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
+        TF m1 = s0 / ( s1 - s0 );
+        TF m2 = s3 / ( s2 - s3 );
+        if ( store_the_normals ) { n0.dir_x = n2.dir_x; n0.dir_y = n2.dir_y; }
+        nn.x = n3.x - m2 * ( n2.x - n3.x );
+        nn.y = n3.y - m2 * ( n2.y - n3.y );
+        nn.cut_id.set( n2.cut_id.get() );
+        nodes->local_at( 1 ).get_straight_content_from( nodes->local_at( 5 ) );
+        Node &no = node( 2 );
+        if ( store_the_normals ) { no.dir_x = normal.x; no.dir_y = normal.y; }
+        no.x = n0.x - m1 * ( n1.x - n0.x );
+        no.y = n0.y - m1 * ( n1.y - n0.y );
+        no.cut_id.set( cut_id );
+        size = 3;
+        return true;
+    }
+    case 2239: {
+        bc[ 7 ]++;
+        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
+            normal /= norm_2( normal );
+        Node &n0 = node( 6 );
+        Node &n1 = node( 7 );
+        Node &n2 = node( 5 );
+        Node &n3 = node( 6 );
+        Node &nn = node( 0 );
+        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
+        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
+        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
+        TF s3 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
+        TF m1 = s0 / ( s1 - s0 );
+        TF m2 = s3 / ( s2 - s3 );
+        if ( store_the_normals ) { n0.dir_x = n2.dir_x; n0.dir_y = n2.dir_y; }
+        nn.x = n3.x - m2 * ( n2.x - n3.x );
+        nn.y = n3.y - m2 * ( n2.y - n3.y );
+        nn.cut_id.set( n2.cut_id.get() );
+        nodes->local_at( 1 ).get_straight_content_from( nodes->local_at( 6 ) );
+        Node &no = node( 2 );
+        if ( store_the_normals ) { no.dir_x = normal.x; no.dir_y = normal.y; }
+        no.x = n0.x - m1 * ( n1.x - n0.x );
+        no.y = n0.y - m1 * ( n1.y - n0.y );
+        no.cut_id.set( cut_id );
+        size = 3;
+        return true;
+    }
     case 2175: {
+        bc[ 7 ]++;
         if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
             normal /= norm_2( normal );
         Node &n0 = node( 7 );
@@ -3457,1304 +5718,6 @@ bool ConvexPolyhedron2<Pc>::plane_cut_simd_switch( Pt origin, Pt normal, CI cut_
         nn.cut_id.set( n2.cut_id.get() );
         nodes->local_at( 2 ).get_straight_content_from( nodes->local_at( 7 ) );
         size = 3;
-        return true;
-    }
-    case 514:
-    case 518:
-    case 522:
-    case 526:
-    case 530:
-    case 534:
-    case 538:
-    case 542:
-    case 546:
-    case 550:
-    case 554:
-    case 558:
-    case 562:
-    case 566:
-    case 570:
-    case 574:
-    case 578:
-    case 582:
-    case 586:
-    case 590:
-    case 594:
-    case 598:
-    case 602:
-    case 606:
-    case 610:
-    case 614:
-    case 618:
-    case 622:
-    case 626:
-    case 630:
-    case 634:
-    case 638:
-    case 642:
-    case 646:
-    case 650:
-    case 654:
-    case 658:
-    case 662:
-    case 666:
-    case 670:
-    case 674:
-    case 678:
-    case 682:
-    case 686:
-    case 690:
-    case 694:
-    case 698:
-    case 702:
-    case 706:
-    case 710:
-    case 714:
-    case 718:
-    case 722:
-    case 726:
-    case 730:
-    case 734:
-    case 738:
-    case 742:
-    case 746:
-    case 750:
-    case 754:
-    case 758:
-    case 762:
-    case 766: {
-        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
-            normal /= norm_2( normal );
-        size = 3;
-        Node &n0 = node( 0 );
-        Node &n1 = node( 1 );
-        Node &n2 = node( 0 );
-        Node &nn = node( 2 );
-        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-        TF m0 = s0 / ( s1 - s0 );
-        TF m1 = s2 / ( s1 - s2 );
-        TF n0_x = n0.x;
-        TF n0_y = n0.y;
-        if ( store_the_normals ) { nn.dir_x = n1.dir_x; nn.dir_y = n1.dir_y; }
-        nn.x = n2.x - m1 * ( n1.x - n2.x );
-        nn.y = n2.y - m1 * ( n1.y - n2.y );
-        nn.cut_id.set( n1.cut_id.get() );
-        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
-        n1.x = n0_x - m0 * ( n1.x - n0_x );
-        n1.y = n0_y - m0 * ( n1.y - n0_y );
-        n1.cut_id.set( cut_id );
-        return true;
-    }
-    case 513:
-    case 517:
-    case 521:
-    case 525:
-    case 529:
-    case 533:
-    case 537:
-    case 541:
-    case 545:
-    case 549:
-    case 553:
-    case 557:
-    case 561:
-    case 565:
-    case 569:
-    case 573:
-    case 577:
-    case 581:
-    case 585:
-    case 589:
-    case 593:
-    case 597:
-    case 601:
-    case 605:
-    case 609:
-    case 613:
-    case 617:
-    case 621:
-    case 625:
-    case 629:
-    case 633:
-    case 637:
-    case 641:
-    case 645:
-    case 649:
-    case 653:
-    case 657:
-    case 661:
-    case 665:
-    case 669:
-    case 673:
-    case 677:
-    case 681:
-    case 685:
-    case 689:
-    case 693:
-    case 697:
-    case 701:
-    case 705:
-    case 709:
-    case 713:
-    case 717:
-    case 721:
-    case 725:
-    case 729:
-    case 733:
-    case 737:
-    case 741:
-    case 745:
-    case 749:
-    case 753:
-    case 757:
-    case 761:
-    case 765: {
-        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
-            normal /= norm_2( normal );
-        size = 3;
-        Node &n0 = node( 1 );
-        Node &n1 = node( 0 );
-        Node &n2 = node( 1 );
-        Node &nn = node( 1 );
-        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-        TF m0 = s0 / ( s1 - s0 );
-        TF m1 = s2 / ( s1 - s2 );
-        TF n0_x = n0.x;
-        TF n0_y = n0.y;
-        node( 2 ).get_straight_content_from( node( 1 ) );
-        if ( store_the_normals ) { nn.dir_x = n1.dir_x; nn.dir_y = n1.dir_y; }
-        nn.x = n2.x - m1 * ( n1.x - n2.x );
-        nn.y = n2.y - m1 * ( n1.y - n2.y );
-        nn.cut_id.set( n1.cut_id.get() );
-        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
-        n1.x = n0_x - m0 * ( n1.x - n0_x );
-        n1.y = n0_y - m0 * ( n1.y - n0_y );
-        n1.cut_id.set( cut_id );
-        return true;
-    }
-    case 770:
-    case 778:
-    case 786:
-    case 794:
-    case 802:
-    case 810:
-    case 818:
-    case 826:
-    case 834:
-    case 842:
-    case 850:
-    case 858:
-    case 866:
-    case 874:
-    case 882:
-    case 890:
-    case 898:
-    case 906:
-    case 914:
-    case 922:
-    case 930:
-    case 938:
-    case 946:
-    case 954:
-    case 962:
-    case 970:
-    case 978:
-    case 986:
-    case 994:
-    case 1002:
-    case 1010:
-    case 1018: {
-        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
-            normal /= norm_2( normal );
-        size = 4;
-        Node &n0 = node( 0 );
-        Node &n1 = node( 1 );
-        Node &n2 = node( 2 );
-        Node &nn = node( 2 );
-        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-        TF m0 = s0 / ( s1 - s0 );
-        TF m1 = s2 / ( s1 - s2 );
-        TF n0_x = n0.x;
-        TF n0_y = n0.y;
-        node( 3 ).get_straight_content_from( node( 2 ) );
-        if ( store_the_normals ) { nn.dir_x = n1.dir_x; nn.dir_y = n1.dir_y; }
-        nn.x = n2.x - m1 * ( n1.x - n2.x );
-        nn.y = n2.y - m1 * ( n1.y - n2.y );
-        nn.cut_id.set( n1.cut_id.get() );
-        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
-        n1.x = n0_x - m0 * ( n1.x - n0_x );
-        n1.y = n0_y - m0 * ( n1.y - n0_y );
-        n1.cut_id.set( cut_id );
-        return true;
-    }
-    case 772:
-    case 780:
-    case 788:
-    case 796:
-    case 804:
-    case 812:
-    case 820:
-    case 828:
-    case 836:
-    case 844:
-    case 852:
-    case 860:
-    case 868:
-    case 876:
-    case 884:
-    case 892:
-    case 900:
-    case 908:
-    case 916:
-    case 924:
-    case 932:
-    case 940:
-    case 948:
-    case 956:
-    case 964:
-    case 972:
-    case 980:
-    case 988:
-    case 996:
-    case 1004:
-    case 1012:
-    case 1020: {
-        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
-            normal /= norm_2( normal );
-        size = 4;
-        Node &n0 = node( 1 );
-        Node &n1 = node( 2 );
-        Node &n2 = node( 0 );
-        Node &nn = node( 3 );
-        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-        TF m0 = s0 / ( s1 - s0 );
-        TF m1 = s2 / ( s1 - s2 );
-        TF n0_x = n0.x;
-        TF n0_y = n0.y;
-        if ( store_the_normals ) { nn.dir_x = n1.dir_x; nn.dir_y = n1.dir_y; }
-        nn.x = n2.x - m1 * ( n1.x - n2.x );
-        nn.y = n2.y - m1 * ( n1.y - n2.y );
-        nn.cut_id.set( n1.cut_id.get() );
-        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
-        n1.x = n0_x - m0 * ( n1.x - n0_x );
-        n1.y = n0_y - m0 * ( n1.y - n0_y );
-        n1.cut_id.set( cut_id );
-        return true;
-    }
-    case 769:
-    case 777:
-    case 785:
-    case 793:
-    case 801:
-    case 809:
-    case 817:
-    case 825:
-    case 833:
-    case 841:
-    case 849:
-    case 857:
-    case 865:
-    case 873:
-    case 881:
-    case 889:
-    case 897:
-    case 905:
-    case 913:
-    case 921:
-    case 929:
-    case 937:
-    case 945:
-    case 953:
-    case 961:
-    case 969:
-    case 977:
-    case 985:
-    case 993:
-    case 1001:
-    case 1009:
-    case 1017: {
-        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
-            normal /= norm_2( normal );
-        size = 4;
-        Node &n0 = node( 2 );
-        Node &n1 = node( 0 );
-        Node &n2 = node( 1 );
-        Node &nn = node( 1 );
-        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-        TF m0 = s0 / ( s1 - s0 );
-        TF m1 = s2 / ( s1 - s2 );
-        TF n0_x = n0.x;
-        TF n0_y = n0.y;
-        node( 3 ).get_straight_content_from( node( 2 ) );
-        node( 2 ).get_straight_content_from( node( 1 ) );
-        if ( store_the_normals ) { nn.dir_x = n1.dir_x; nn.dir_y = n1.dir_y; }
-        nn.x = n2.x - m1 * ( n1.x - n2.x );
-        nn.y = n2.y - m1 * ( n1.y - n2.y );
-        nn.cut_id.set( n1.cut_id.get() );
-        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
-        n1.x = n0_x - m0 * ( n1.x - n0_x );
-        n1.y = n0_y - m0 * ( n1.y - n0_y );
-        n1.cut_id.set( cut_id );
-        return true;
-    }
-    case 1026:
-    case 1042:
-    case 1058:
-    case 1074:
-    case 1090:
-    case 1106:
-    case 1122:
-    case 1138:
-    case 1154:
-    case 1170:
-    case 1186:
-    case 1202:
-    case 1218:
-    case 1234:
-    case 1250:
-    case 1266: {
-        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
-            normal /= norm_2( normal );
-        size = 5;
-        Node &n0 = node( 0 );
-        Node &n1 = node( 1 );
-        Node &n2 = node( 2 );
-        Node &nn = node( 2 );
-        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-        TF m0 = s0 / ( s1 - s0 );
-        TF m1 = s2 / ( s1 - s2 );
-        TF n0_x = n0.x;
-        TF n0_y = n0.y;
-        node( 4 ).get_straight_content_from( node( 3 ) );
-        node( 3 ).get_straight_content_from( node( 2 ) );
-        if ( store_the_normals ) { nn.dir_x = n1.dir_x; nn.dir_y = n1.dir_y; }
-        nn.x = n2.x - m1 * ( n1.x - n2.x );
-        nn.y = n2.y - m1 * ( n1.y - n2.y );
-        nn.cut_id.set( n1.cut_id.get() );
-        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
-        n1.x = n0_x - m0 * ( n1.x - n0_x );
-        n1.y = n0_y - m0 * ( n1.y - n0_y );
-        n1.cut_id.set( cut_id );
-        return true;
-    }
-    case 1028:
-    case 1044:
-    case 1060:
-    case 1076:
-    case 1092:
-    case 1108:
-    case 1124:
-    case 1140:
-    case 1156:
-    case 1172:
-    case 1188:
-    case 1204:
-    case 1220:
-    case 1236:
-    case 1252:
-    case 1268: {
-        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
-            normal /= norm_2( normal );
-        size = 5;
-        Node &n0 = node( 1 );
-        Node &n1 = node( 2 );
-        Node &n2 = node( 3 );
-        Node &nn = node( 3 );
-        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-        TF m0 = s0 / ( s1 - s0 );
-        TF m1 = s2 / ( s1 - s2 );
-        TF n0_x = n0.x;
-        TF n0_y = n0.y;
-        node( 4 ).get_straight_content_from( node( 3 ) );
-        if ( store_the_normals ) { nn.dir_x = n1.dir_x; nn.dir_y = n1.dir_y; }
-        nn.x = n2.x - m1 * ( n1.x - n2.x );
-        nn.y = n2.y - m1 * ( n1.y - n2.y );
-        nn.cut_id.set( n1.cut_id.get() );
-        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
-        n1.x = n0_x - m0 * ( n1.x - n0_x );
-        n1.y = n0_y - m0 * ( n1.y - n0_y );
-        n1.cut_id.set( cut_id );
-        return true;
-    }
-    case 1032:
-    case 1048:
-    case 1064:
-    case 1080:
-    case 1096:
-    case 1112:
-    case 1128:
-    case 1144:
-    case 1160:
-    case 1176:
-    case 1192:
-    case 1208:
-    case 1224:
-    case 1240:
-    case 1256:
-    case 1272: {
-        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
-            normal /= norm_2( normal );
-        size = 5;
-        Node &n0 = node( 2 );
-        Node &n1 = node( 3 );
-        Node &n2 = node( 0 );
-        Node &nn = node( 4 );
-        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-        TF m0 = s0 / ( s1 - s0 );
-        TF m1 = s2 / ( s1 - s2 );
-        TF n0_x = n0.x;
-        TF n0_y = n0.y;
-        if ( store_the_normals ) { nn.dir_x = n1.dir_x; nn.dir_y = n1.dir_y; }
-        nn.x = n2.x - m1 * ( n1.x - n2.x );
-        nn.y = n2.y - m1 * ( n1.y - n2.y );
-        nn.cut_id.set( n1.cut_id.get() );
-        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
-        n1.x = n0_x - m0 * ( n1.x - n0_x );
-        n1.y = n0_y - m0 * ( n1.y - n0_y );
-        n1.cut_id.set( cut_id );
-        return true;
-    }
-    case 1025:
-    case 1041:
-    case 1057:
-    case 1073:
-    case 1089:
-    case 1105:
-    case 1121:
-    case 1137:
-    case 1153:
-    case 1169:
-    case 1185:
-    case 1201:
-    case 1217:
-    case 1233:
-    case 1249:
-    case 1265: {
-        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
-            normal /= norm_2( normal );
-        size = 5;
-        Node &n0 = node( 3 );
-        Node &n1 = node( 0 );
-        Node &n2 = node( 1 );
-        Node &nn = node( 1 );
-        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-        TF m0 = s0 / ( s1 - s0 );
-        TF m1 = s2 / ( s1 - s2 );
-        TF n0_x = n0.x;
-        TF n0_y = n0.y;
-        node( 4 ).get_straight_content_from( node( 3 ) );
-        node( 3 ).get_straight_content_from( node( 2 ) );
-        node( 2 ).get_straight_content_from( node( 1 ) );
-        if ( store_the_normals ) { nn.dir_x = n1.dir_x; nn.dir_y = n1.dir_y; }
-        nn.x = n2.x - m1 * ( n1.x - n2.x );
-        nn.y = n2.y - m1 * ( n1.y - n2.y );
-        nn.cut_id.set( n1.cut_id.get() );
-        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
-        n1.x = n0_x - m0 * ( n1.x - n0_x );
-        n1.y = n0_y - m0 * ( n1.y - n0_y );
-        n1.cut_id.set( cut_id );
-        return true;
-    }
-    case 1282:
-    case 1314:
-    case 1346:
-    case 1378:
-    case 1410:
-    case 1442:
-    case 1474:
-    case 1506: {
-        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
-            normal /= norm_2( normal );
-        size = 6;
-        Node &n0 = node( 0 );
-        Node &n1 = node( 1 );
-        Node &n2 = node( 2 );
-        Node &nn = node( 2 );
-        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-        TF m0 = s0 / ( s1 - s0 );
-        TF m1 = s2 / ( s1 - s2 );
-        TF n0_x = n0.x;
-        TF n0_y = n0.y;
-        node( 5 ).get_straight_content_from( node( 4 ) );
-        node( 4 ).get_straight_content_from( node( 3 ) );
-        node( 3 ).get_straight_content_from( node( 2 ) );
-        if ( store_the_normals ) { nn.dir_x = n1.dir_x; nn.dir_y = n1.dir_y; }
-        nn.x = n2.x - m1 * ( n1.x - n2.x );
-        nn.y = n2.y - m1 * ( n1.y - n2.y );
-        nn.cut_id.set( n1.cut_id.get() );
-        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
-        n1.x = n0_x - m0 * ( n1.x - n0_x );
-        n1.y = n0_y - m0 * ( n1.y - n0_y );
-        n1.cut_id.set( cut_id );
-        return true;
-    }
-    case 1284:
-    case 1316:
-    case 1348:
-    case 1380:
-    case 1412:
-    case 1444:
-    case 1476:
-    case 1508: {
-        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
-            normal /= norm_2( normal );
-        size = 6;
-        Node &n0 = node( 1 );
-        Node &n1 = node( 2 );
-        Node &n2 = node( 3 );
-        Node &nn = node( 3 );
-        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-        TF m0 = s0 / ( s1 - s0 );
-        TF m1 = s2 / ( s1 - s2 );
-        TF n0_x = n0.x;
-        TF n0_y = n0.y;
-        node( 5 ).get_straight_content_from( node( 4 ) );
-        node( 4 ).get_straight_content_from( node( 3 ) );
-        if ( store_the_normals ) { nn.dir_x = n1.dir_x; nn.dir_y = n1.dir_y; }
-        nn.x = n2.x - m1 * ( n1.x - n2.x );
-        nn.y = n2.y - m1 * ( n1.y - n2.y );
-        nn.cut_id.set( n1.cut_id.get() );
-        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
-        n1.x = n0_x - m0 * ( n1.x - n0_x );
-        n1.y = n0_y - m0 * ( n1.y - n0_y );
-        n1.cut_id.set( cut_id );
-        return true;
-    }
-    case 1288:
-    case 1320:
-    case 1352:
-    case 1384:
-    case 1416:
-    case 1448:
-    case 1480:
-    case 1512: {
-        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
-            normal /= norm_2( normal );
-        size = 6;
-        Node &n0 = node( 2 );
-        Node &n1 = node( 3 );
-        Node &n2 = node( 4 );
-        Node &nn = node( 4 );
-        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-        TF m0 = s0 / ( s1 - s0 );
-        TF m1 = s2 / ( s1 - s2 );
-        TF n0_x = n0.x;
-        TF n0_y = n0.y;
-        node( 5 ).get_straight_content_from( node( 4 ) );
-        if ( store_the_normals ) { nn.dir_x = n1.dir_x; nn.dir_y = n1.dir_y; }
-        nn.x = n2.x - m1 * ( n1.x - n2.x );
-        nn.y = n2.y - m1 * ( n1.y - n2.y );
-        nn.cut_id.set( n1.cut_id.get() );
-        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
-        n1.x = n0_x - m0 * ( n1.x - n0_x );
-        n1.y = n0_y - m0 * ( n1.y - n0_y );
-        n1.cut_id.set( cut_id );
-        return true;
-    }
-    case 1296:
-    case 1328:
-    case 1360:
-    case 1392:
-    case 1424:
-    case 1456:
-    case 1488:
-    case 1520: {
-        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
-            normal /= norm_2( normal );
-        size = 6;
-        Node &n0 = node( 3 );
-        Node &n1 = node( 4 );
-        Node &n2 = node( 0 );
-        Node &nn = node( 5 );
-        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-        TF m0 = s0 / ( s1 - s0 );
-        TF m1 = s2 / ( s1 - s2 );
-        TF n0_x = n0.x;
-        TF n0_y = n0.y;
-        if ( store_the_normals ) { nn.dir_x = n1.dir_x; nn.dir_y = n1.dir_y; }
-        nn.x = n2.x - m1 * ( n1.x - n2.x );
-        nn.y = n2.y - m1 * ( n1.y - n2.y );
-        nn.cut_id.set( n1.cut_id.get() );
-        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
-        n1.x = n0_x - m0 * ( n1.x - n0_x );
-        n1.y = n0_y - m0 * ( n1.y - n0_y );
-        n1.cut_id.set( cut_id );
-        return true;
-    }
-    case 1281:
-    case 1313:
-    case 1345:
-    case 1377:
-    case 1409:
-    case 1441:
-    case 1473:
-    case 1505: {
-        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
-            normal /= norm_2( normal );
-        size = 6;
-        Node &n0 = node( 4 );
-        Node &n1 = node( 0 );
-        Node &n2 = node( 1 );
-        Node &nn = node( 1 );
-        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-        TF m0 = s0 / ( s1 - s0 );
-        TF m1 = s2 / ( s1 - s2 );
-        TF n0_x = n0.x;
-        TF n0_y = n0.y;
-        node( 5 ).get_straight_content_from( node( 4 ) );
-        node( 4 ).get_straight_content_from( node( 3 ) );
-        node( 3 ).get_straight_content_from( node( 2 ) );
-        node( 2 ).get_straight_content_from( node( 1 ) );
-        if ( store_the_normals ) { nn.dir_x = n1.dir_x; nn.dir_y = n1.dir_y; }
-        nn.x = n2.x - m1 * ( n1.x - n2.x );
-        nn.y = n2.y - m1 * ( n1.y - n2.y );
-        nn.cut_id.set( n1.cut_id.get() );
-        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
-        n1.x = n0_x - m0 * ( n1.x - n0_x );
-        n1.y = n0_y - m0 * ( n1.y - n0_y );
-        n1.cut_id.set( cut_id );
-        return true;
-    }
-    case 1538:
-    case 1602:
-    case 1666:
-    case 1730: {
-        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
-            normal /= norm_2( normal );
-        size = 7;
-        Node &n0 = node( 0 );
-        Node &n1 = node( 1 );
-        Node &n2 = node( 2 );
-        Node &nn = node( 2 );
-        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-        TF m0 = s0 / ( s1 - s0 );
-        TF m1 = s2 / ( s1 - s2 );
-        TF n0_x = n0.x;
-        TF n0_y = n0.y;
-        node( 6 ).get_straight_content_from( node( 5 ) );
-        node( 5 ).get_straight_content_from( node( 4 ) );
-        node( 4 ).get_straight_content_from( node( 3 ) );
-        node( 3 ).get_straight_content_from( node( 2 ) );
-        if ( store_the_normals ) { nn.dir_x = n1.dir_x; nn.dir_y = n1.dir_y; }
-        nn.x = n2.x - m1 * ( n1.x - n2.x );
-        nn.y = n2.y - m1 * ( n1.y - n2.y );
-        nn.cut_id.set( n1.cut_id.get() );
-        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
-        n1.x = n0_x - m0 * ( n1.x - n0_x );
-        n1.y = n0_y - m0 * ( n1.y - n0_y );
-        n1.cut_id.set( cut_id );
-        return true;
-    }
-    case 1540:
-    case 1604:
-    case 1668:
-    case 1732: {
-        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
-            normal /= norm_2( normal );
-        size = 7;
-        Node &n0 = node( 1 );
-        Node &n1 = node( 2 );
-        Node &n2 = node( 3 );
-        Node &nn = node( 3 );
-        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-        TF m0 = s0 / ( s1 - s0 );
-        TF m1 = s2 / ( s1 - s2 );
-        TF n0_x = n0.x;
-        TF n0_y = n0.y;
-        node( 6 ).get_straight_content_from( node( 5 ) );
-        node( 5 ).get_straight_content_from( node( 4 ) );
-        node( 4 ).get_straight_content_from( node( 3 ) );
-        if ( store_the_normals ) { nn.dir_x = n1.dir_x; nn.dir_y = n1.dir_y; }
-        nn.x = n2.x - m1 * ( n1.x - n2.x );
-        nn.y = n2.y - m1 * ( n1.y - n2.y );
-        nn.cut_id.set( n1.cut_id.get() );
-        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
-        n1.x = n0_x - m0 * ( n1.x - n0_x );
-        n1.y = n0_y - m0 * ( n1.y - n0_y );
-        n1.cut_id.set( cut_id );
-        return true;
-    }
-    case 1544:
-    case 1608:
-    case 1672:
-    case 1736: {
-        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
-            normal /= norm_2( normal );
-        size = 7;
-        Node &n0 = node( 2 );
-        Node &n1 = node( 3 );
-        Node &n2 = node( 4 );
-        Node &nn = node( 4 );
-        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-        TF m0 = s0 / ( s1 - s0 );
-        TF m1 = s2 / ( s1 - s2 );
-        TF n0_x = n0.x;
-        TF n0_y = n0.y;
-        node( 6 ).get_straight_content_from( node( 5 ) );
-        node( 5 ).get_straight_content_from( node( 4 ) );
-        if ( store_the_normals ) { nn.dir_x = n1.dir_x; nn.dir_y = n1.dir_y; }
-        nn.x = n2.x - m1 * ( n1.x - n2.x );
-        nn.y = n2.y - m1 * ( n1.y - n2.y );
-        nn.cut_id.set( n1.cut_id.get() );
-        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
-        n1.x = n0_x - m0 * ( n1.x - n0_x );
-        n1.y = n0_y - m0 * ( n1.y - n0_y );
-        n1.cut_id.set( cut_id );
-        return true;
-    }
-    case 1552:
-    case 1616:
-    case 1680:
-    case 1744: {
-        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
-            normal /= norm_2( normal );
-        size = 7;
-        Node &n0 = node( 3 );
-        Node &n1 = node( 4 );
-        Node &n2 = node( 5 );
-        Node &nn = node( 5 );
-        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-        TF m0 = s0 / ( s1 - s0 );
-        TF m1 = s2 / ( s1 - s2 );
-        TF n0_x = n0.x;
-        TF n0_y = n0.y;
-        node( 6 ).get_straight_content_from( node( 5 ) );
-        if ( store_the_normals ) { nn.dir_x = n1.dir_x; nn.dir_y = n1.dir_y; }
-        nn.x = n2.x - m1 * ( n1.x - n2.x );
-        nn.y = n2.y - m1 * ( n1.y - n2.y );
-        nn.cut_id.set( n1.cut_id.get() );
-        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
-        n1.x = n0_x - m0 * ( n1.x - n0_x );
-        n1.y = n0_y - m0 * ( n1.y - n0_y );
-        n1.cut_id.set( cut_id );
-        return true;
-    }
-    case 1568:
-    case 1632:
-    case 1696:
-    case 1760: {
-        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
-            normal /= norm_2( normal );
-        size = 7;
-        Node &n0 = node( 4 );
-        Node &n1 = node( 5 );
-        Node &n2 = node( 0 );
-        Node &nn = node( 6 );
-        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-        TF m0 = s0 / ( s1 - s0 );
-        TF m1 = s2 / ( s1 - s2 );
-        TF n0_x = n0.x;
-        TF n0_y = n0.y;
-        if ( store_the_normals ) { nn.dir_x = n1.dir_x; nn.dir_y = n1.dir_y; }
-        nn.x = n2.x - m1 * ( n1.x - n2.x );
-        nn.y = n2.y - m1 * ( n1.y - n2.y );
-        nn.cut_id.set( n1.cut_id.get() );
-        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
-        n1.x = n0_x - m0 * ( n1.x - n0_x );
-        n1.y = n0_y - m0 * ( n1.y - n0_y );
-        n1.cut_id.set( cut_id );
-        return true;
-    }
-    case 1537:
-    case 1601:
-    case 1665:
-    case 1729: {
-        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
-            normal /= norm_2( normal );
-        size = 7;
-        Node &n0 = node( 5 );
-        Node &n1 = node( 0 );
-        Node &n2 = node( 1 );
-        Node &nn = node( 1 );
-        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-        TF m0 = s0 / ( s1 - s0 );
-        TF m1 = s2 / ( s1 - s2 );
-        TF n0_x = n0.x;
-        TF n0_y = n0.y;
-        node( 6 ).get_straight_content_from( node( 5 ) );
-        node( 5 ).get_straight_content_from( node( 4 ) );
-        node( 4 ).get_straight_content_from( node( 3 ) );
-        node( 3 ).get_straight_content_from( node( 2 ) );
-        node( 2 ).get_straight_content_from( node( 1 ) );
-        if ( store_the_normals ) { nn.dir_x = n1.dir_x; nn.dir_y = n1.dir_y; }
-        nn.x = n2.x - m1 * ( n1.x - n2.x );
-        nn.y = n2.y - m1 * ( n1.y - n2.y );
-        nn.cut_id.set( n1.cut_id.get() );
-        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
-        n1.x = n0_x - m0 * ( n1.x - n0_x );
-        n1.y = n0_y - m0 * ( n1.y - n0_y );
-        n1.cut_id.set( cut_id );
-        return true;
-    }
-    case 1794:
-    case 1922: {
-        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
-            normal /= norm_2( normal );
-        size = 8;
-        Node &n0 = node( 0 );
-        Node &n1 = node( 1 );
-        Node &n2 = node( 2 );
-        Node &nn = node( 2 );
-        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-        TF m0 = s0 / ( s1 - s0 );
-        TF m1 = s2 / ( s1 - s2 );
-        TF n0_x = n0.x;
-        TF n0_y = n0.y;
-        node( 7 ).get_straight_content_from( node( 6 ) );
-        node( 6 ).get_straight_content_from( node( 5 ) );
-        node( 5 ).get_straight_content_from( node( 4 ) );
-        node( 4 ).get_straight_content_from( node( 3 ) );
-        node( 3 ).get_straight_content_from( node( 2 ) );
-        if ( store_the_normals ) { nn.dir_x = n1.dir_x; nn.dir_y = n1.dir_y; }
-        nn.x = n2.x - m1 * ( n1.x - n2.x );
-        nn.y = n2.y - m1 * ( n1.y - n2.y );
-        nn.cut_id.set( n1.cut_id.get() );
-        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
-        n1.x = n0_x - m0 * ( n1.x - n0_x );
-        n1.y = n0_y - m0 * ( n1.y - n0_y );
-        n1.cut_id.set( cut_id );
-        return true;
-    }
-    case 1796:
-    case 1924: {
-        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
-            normal /= norm_2( normal );
-        size = 8;
-        Node &n0 = node( 1 );
-        Node &n1 = node( 2 );
-        Node &n2 = node( 3 );
-        Node &nn = node( 3 );
-        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-        TF m0 = s0 / ( s1 - s0 );
-        TF m1 = s2 / ( s1 - s2 );
-        TF n0_x = n0.x;
-        TF n0_y = n0.y;
-        node( 7 ).get_straight_content_from( node( 6 ) );
-        node( 6 ).get_straight_content_from( node( 5 ) );
-        node( 5 ).get_straight_content_from( node( 4 ) );
-        node( 4 ).get_straight_content_from( node( 3 ) );
-        if ( store_the_normals ) { nn.dir_x = n1.dir_x; nn.dir_y = n1.dir_y; }
-        nn.x = n2.x - m1 * ( n1.x - n2.x );
-        nn.y = n2.y - m1 * ( n1.y - n2.y );
-        nn.cut_id.set( n1.cut_id.get() );
-        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
-        n1.x = n0_x - m0 * ( n1.x - n0_x );
-        n1.y = n0_y - m0 * ( n1.y - n0_y );
-        n1.cut_id.set( cut_id );
-        return true;
-    }
-    case 1800:
-    case 1928: {
-        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
-            normal /= norm_2( normal );
-        size = 8;
-        Node &n0 = node( 2 );
-        Node &n1 = node( 3 );
-        Node &n2 = node( 4 );
-        Node &nn = node( 4 );
-        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-        TF m0 = s0 / ( s1 - s0 );
-        TF m1 = s2 / ( s1 - s2 );
-        TF n0_x = n0.x;
-        TF n0_y = n0.y;
-        node( 7 ).get_straight_content_from( node( 6 ) );
-        node( 6 ).get_straight_content_from( node( 5 ) );
-        node( 5 ).get_straight_content_from( node( 4 ) );
-        if ( store_the_normals ) { nn.dir_x = n1.dir_x; nn.dir_y = n1.dir_y; }
-        nn.x = n2.x - m1 * ( n1.x - n2.x );
-        nn.y = n2.y - m1 * ( n1.y - n2.y );
-        nn.cut_id.set( n1.cut_id.get() );
-        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
-        n1.x = n0_x - m0 * ( n1.x - n0_x );
-        n1.y = n0_y - m0 * ( n1.y - n0_y );
-        n1.cut_id.set( cut_id );
-        return true;
-    }
-    case 1808:
-    case 1936: {
-        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
-            normal /= norm_2( normal );
-        size = 8;
-        Node &n0 = node( 3 );
-        Node &n1 = node( 4 );
-        Node &n2 = node( 5 );
-        Node &nn = node( 5 );
-        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-        TF m0 = s0 / ( s1 - s0 );
-        TF m1 = s2 / ( s1 - s2 );
-        TF n0_x = n0.x;
-        TF n0_y = n0.y;
-        node( 7 ).get_straight_content_from( node( 6 ) );
-        node( 6 ).get_straight_content_from( node( 5 ) );
-        if ( store_the_normals ) { nn.dir_x = n1.dir_x; nn.dir_y = n1.dir_y; }
-        nn.x = n2.x - m1 * ( n1.x - n2.x );
-        nn.y = n2.y - m1 * ( n1.y - n2.y );
-        nn.cut_id.set( n1.cut_id.get() );
-        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
-        n1.x = n0_x - m0 * ( n1.x - n0_x );
-        n1.y = n0_y - m0 * ( n1.y - n0_y );
-        n1.cut_id.set( cut_id );
-        return true;
-    }
-    case 1824:
-    case 1952: {
-        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
-            normal /= norm_2( normal );
-        size = 8;
-        Node &n0 = node( 4 );
-        Node &n1 = node( 5 );
-        Node &n2 = node( 6 );
-        Node &nn = node( 6 );
-        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-        TF m0 = s0 / ( s1 - s0 );
-        TF m1 = s2 / ( s1 - s2 );
-        TF n0_x = n0.x;
-        TF n0_y = n0.y;
-        node( 7 ).get_straight_content_from( node( 6 ) );
-        if ( store_the_normals ) { nn.dir_x = n1.dir_x; nn.dir_y = n1.dir_y; }
-        nn.x = n2.x - m1 * ( n1.x - n2.x );
-        nn.y = n2.y - m1 * ( n1.y - n2.y );
-        nn.cut_id.set( n1.cut_id.get() );
-        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
-        n1.x = n0_x - m0 * ( n1.x - n0_x );
-        n1.y = n0_y - m0 * ( n1.y - n0_y );
-        n1.cut_id.set( cut_id );
-        return true;
-    }
-    case 1856:
-    case 1984: {
-        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
-            normal /= norm_2( normal );
-        size = 8;
-        Node &n0 = node( 5 );
-        Node &n1 = node( 6 );
-        Node &n2 = node( 0 );
-        Node &nn = node( 7 );
-        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-        TF m0 = s0 / ( s1 - s0 );
-        TF m1 = s2 / ( s1 - s2 );
-        TF n0_x = n0.x;
-        TF n0_y = n0.y;
-        if ( store_the_normals ) { nn.dir_x = n1.dir_x; nn.dir_y = n1.dir_y; }
-        nn.x = n2.x - m1 * ( n1.x - n2.x );
-        nn.y = n2.y - m1 * ( n1.y - n2.y );
-        nn.cut_id.set( n1.cut_id.get() );
-        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
-        n1.x = n0_x - m0 * ( n1.x - n0_x );
-        n1.y = n0_y - m0 * ( n1.y - n0_y );
-        n1.cut_id.set( cut_id );
-        return true;
-    }
-    case 1793:
-    case 1921: {
-        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
-            normal /= norm_2( normal );
-        size = 8;
-        Node &n0 = node( 6 );
-        Node &n1 = node( 0 );
-        Node &n2 = node( 1 );
-        Node &nn = node( 1 );
-        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-        TF m0 = s0 / ( s1 - s0 );
-        TF m1 = s2 / ( s1 - s2 );
-        TF n0_x = n0.x;
-        TF n0_y = n0.y;
-        node( 7 ).get_straight_content_from( node( 6 ) );
-        node( 6 ).get_straight_content_from( node( 5 ) );
-        node( 5 ).get_straight_content_from( node( 4 ) );
-        node( 4 ).get_straight_content_from( node( 3 ) );
-        node( 3 ).get_straight_content_from( node( 2 ) );
-        node( 2 ).get_straight_content_from( node( 1 ) );
-        if ( store_the_normals ) { nn.dir_x = n1.dir_x; nn.dir_y = n1.dir_y; }
-        nn.x = n2.x - m1 * ( n1.x - n2.x );
-        nn.y = n2.y - m1 * ( n1.y - n2.y );
-        nn.cut_id.set( n1.cut_id.get() );
-        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
-        n1.x = n0_x - m0 * ( n1.x - n0_x );
-        n1.y = n0_y - m0 * ( n1.y - n0_y );
-        n1.cut_id.set( cut_id );
-        return true;
-    }
-    case 2050: {
-        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
-            normal /= norm_2( normal );
-        size = 9;
-        Node &n0 = node( 0 );
-        Node &n1 = node( 1 );
-        Node &n2 = node( 2 );
-        Node &nn = node( 2 );
-        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-        TF m0 = s0 / ( s1 - s0 );
-        TF m1 = s2 / ( s1 - s2 );
-        TF n0_x = n0.x;
-        TF n0_y = n0.y;
-        node( 8 ).get_straight_content_from( node( 7 ) );
-        node( 7 ).get_straight_content_from( node( 6 ) );
-        node( 6 ).get_straight_content_from( node( 5 ) );
-        node( 5 ).get_straight_content_from( node( 4 ) );
-        node( 4 ).get_straight_content_from( node( 3 ) );
-        node( 3 ).get_straight_content_from( node( 2 ) );
-        if ( store_the_normals ) { nn.dir_x = n1.dir_x; nn.dir_y = n1.dir_y; }
-        nn.x = n2.x - m1 * ( n1.x - n2.x );
-        nn.y = n2.y - m1 * ( n1.y - n2.y );
-        nn.cut_id.set( n1.cut_id.get() );
-        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
-        n1.x = n0_x - m0 * ( n1.x - n0_x );
-        n1.y = n0_y - m0 * ( n1.y - n0_y );
-        n1.cut_id.set( cut_id );
-        return true;
-    }
-    case 2052: {
-        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
-            normal /= norm_2( normal );
-        size = 9;
-        Node &n0 = node( 1 );
-        Node &n1 = node( 2 );
-        Node &n2 = node( 3 );
-        Node &nn = node( 3 );
-        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-        TF m0 = s0 / ( s1 - s0 );
-        TF m1 = s2 / ( s1 - s2 );
-        TF n0_x = n0.x;
-        TF n0_y = n0.y;
-        node( 8 ).get_straight_content_from( node( 7 ) );
-        node( 7 ).get_straight_content_from( node( 6 ) );
-        node( 6 ).get_straight_content_from( node( 5 ) );
-        node( 5 ).get_straight_content_from( node( 4 ) );
-        node( 4 ).get_straight_content_from( node( 3 ) );
-        if ( store_the_normals ) { nn.dir_x = n1.dir_x; nn.dir_y = n1.dir_y; }
-        nn.x = n2.x - m1 * ( n1.x - n2.x );
-        nn.y = n2.y - m1 * ( n1.y - n2.y );
-        nn.cut_id.set( n1.cut_id.get() );
-        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
-        n1.x = n0_x - m0 * ( n1.x - n0_x );
-        n1.y = n0_y - m0 * ( n1.y - n0_y );
-        n1.cut_id.set( cut_id );
-        return true;
-    }
-    case 2056: {
-        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
-            normal /= norm_2( normal );
-        size = 9;
-        Node &n0 = node( 2 );
-        Node &n1 = node( 3 );
-        Node &n2 = node( 4 );
-        Node &nn = node( 4 );
-        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-        TF m0 = s0 / ( s1 - s0 );
-        TF m1 = s2 / ( s1 - s2 );
-        TF n0_x = n0.x;
-        TF n0_y = n0.y;
-        node( 8 ).get_straight_content_from( node( 7 ) );
-        node( 7 ).get_straight_content_from( node( 6 ) );
-        node( 6 ).get_straight_content_from( node( 5 ) );
-        node( 5 ).get_straight_content_from( node( 4 ) );
-        if ( store_the_normals ) { nn.dir_x = n1.dir_x; nn.dir_y = n1.dir_y; }
-        nn.x = n2.x - m1 * ( n1.x - n2.x );
-        nn.y = n2.y - m1 * ( n1.y - n2.y );
-        nn.cut_id.set( n1.cut_id.get() );
-        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
-        n1.x = n0_x - m0 * ( n1.x - n0_x );
-        n1.y = n0_y - m0 * ( n1.y - n0_y );
-        n1.cut_id.set( cut_id );
-        return true;
-    }
-    case 2064: {
-        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
-            normal /= norm_2( normal );
-        size = 9;
-        Node &n0 = node( 3 );
-        Node &n1 = node( 4 );
-        Node &n2 = node( 5 );
-        Node &nn = node( 5 );
-        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-        TF m0 = s0 / ( s1 - s0 );
-        TF m1 = s2 / ( s1 - s2 );
-        TF n0_x = n0.x;
-        TF n0_y = n0.y;
-        node( 8 ).get_straight_content_from( node( 7 ) );
-        node( 7 ).get_straight_content_from( node( 6 ) );
-        node( 6 ).get_straight_content_from( node( 5 ) );
-        if ( store_the_normals ) { nn.dir_x = n1.dir_x; nn.dir_y = n1.dir_y; }
-        nn.x = n2.x - m1 * ( n1.x - n2.x );
-        nn.y = n2.y - m1 * ( n1.y - n2.y );
-        nn.cut_id.set( n1.cut_id.get() );
-        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
-        n1.x = n0_x - m0 * ( n1.x - n0_x );
-        n1.y = n0_y - m0 * ( n1.y - n0_y );
-        n1.cut_id.set( cut_id );
-        return true;
-    }
-    case 2080: {
-        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
-            normal /= norm_2( normal );
-        size = 9;
-        Node &n0 = node( 4 );
-        Node &n1 = node( 5 );
-        Node &n2 = node( 6 );
-        Node &nn = node( 6 );
-        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-        TF m0 = s0 / ( s1 - s0 );
-        TF m1 = s2 / ( s1 - s2 );
-        TF n0_x = n0.x;
-        TF n0_y = n0.y;
-        node( 8 ).get_straight_content_from( node( 7 ) );
-        node( 7 ).get_straight_content_from( node( 6 ) );
-        if ( store_the_normals ) { nn.dir_x = n1.dir_x; nn.dir_y = n1.dir_y; }
-        nn.x = n2.x - m1 * ( n1.x - n2.x );
-        nn.y = n2.y - m1 * ( n1.y - n2.y );
-        nn.cut_id.set( n1.cut_id.get() );
-        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
-        n1.x = n0_x - m0 * ( n1.x - n0_x );
-        n1.y = n0_y - m0 * ( n1.y - n0_y );
-        n1.cut_id.set( cut_id );
-        return true;
-    }
-    case 2112: {
-        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
-            normal /= norm_2( normal );
-        size = 9;
-        Node &n0 = node( 5 );
-        Node &n1 = node( 6 );
-        Node &n2 = node( 7 );
-        Node &nn = node( 7 );
-        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-        TF m0 = s0 / ( s1 - s0 );
-        TF m1 = s2 / ( s1 - s2 );
-        TF n0_x = n0.x;
-        TF n0_y = n0.y;
-        node( 8 ).get_straight_content_from( node( 7 ) );
-        if ( store_the_normals ) { nn.dir_x = n1.dir_x; nn.dir_y = n1.dir_y; }
-        nn.x = n2.x - m1 * ( n1.x - n2.x );
-        nn.y = n2.y - m1 * ( n1.y - n2.y );
-        nn.cut_id.set( n1.cut_id.get() );
-        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
-        n1.x = n0_x - m0 * ( n1.x - n0_x );
-        n1.y = n0_y - m0 * ( n1.y - n0_y );
-        n1.cut_id.set( cut_id );
-        return true;
-    }
-    case 2176: {
-        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
-            normal /= norm_2( normal );
-        size = 9;
-        Node &n0 = node( 6 );
-        Node &n1 = node( 7 );
-        Node &n2 = node( 0 );
-        Node &nn = node( 8 );
-        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-        TF m0 = s0 / ( s1 - s0 );
-        TF m1 = s2 / ( s1 - s2 );
-        TF n0_x = n0.x;
-        TF n0_y = n0.y;
-        if ( store_the_normals ) { nn.dir_x = n1.dir_x; nn.dir_y = n1.dir_y; }
-        nn.x = n2.x - m1 * ( n1.x - n2.x );
-        nn.y = n2.y - m1 * ( n1.y - n2.y );
-        nn.cut_id.set( n1.cut_id.get() );
-        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
-        n1.x = n0_x - m0 * ( n1.x - n0_x );
-        n1.y = n0_y - m0 * ( n1.y - n0_y );
-        n1.cut_id.set( cut_id );
-        return true;
-    }
-    case 2049: {
-        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
-            normal /= norm_2( normal );
-        size = 9;
-        Node &n0 = node( 7 );
-        Node &n1 = node( 0 );
-        Node &n2 = node( 1 );
-        Node &nn = node( 1 );
-        TF s0 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-        TF s1 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-        TF s2 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-        TF m0 = s0 / ( s1 - s0 );
-        TF m1 = s2 / ( s1 - s2 );
-        TF n0_x = n0.x;
-        TF n0_y = n0.y;
-        node( 8 ).get_straight_content_from( node( 7 ) );
-        node( 7 ).get_straight_content_from( node( 6 ) );
-        node( 6 ).get_straight_content_from( node( 5 ) );
-        node( 5 ).get_straight_content_from( node( 4 ) );
-        node( 4 ).get_straight_content_from( node( 3 ) );
-        node( 3 ).get_straight_content_from( node( 2 ) );
-        node( 2 ).get_straight_content_from( node( 1 ) );
-        if ( store_the_normals ) { nn.dir_x = n1.dir_x; nn.dir_y = n1.dir_y; }
-        nn.x = n2.x - m1 * ( n1.x - n2.x );
-        nn.y = n2.y - m1 * ( n1.y - n2.y );
-        nn.cut_id.set( n1.cut_id.get() );
-        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
-        n1.x = n0_x - m0 * ( n1.x - n0_x );
-        n1.y = n0_y - m0 * ( n1.y - n0_y );
-        n1.cut_id.set( cut_id );
         return true;
     }
     case 0:

@@ -24,6 +24,7 @@ void get_code( std::ostringstream &code, int index, int max_size_included, int s
     }
 
     // update normal
+    // code << "        bc[ " << nb_outside << " ]++;\n";
     code << "        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )\n";
     code << "            normal /= norm_2( normal );\n";
 
