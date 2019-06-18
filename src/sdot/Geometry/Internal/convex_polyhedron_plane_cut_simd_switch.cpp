@@ -103,7 +103,7 @@ struct Mod {
 
         if ( ops.size() != old_size )
             code << "        size = " << ops.size() << ";\n";
-        code << "        return true;\n";
+        code << "        continue;\n";
     }
 
     std::size_t old_size;
