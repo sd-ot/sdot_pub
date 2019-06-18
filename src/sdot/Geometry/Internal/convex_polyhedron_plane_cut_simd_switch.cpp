@@ -1,4 +1,3 @@
-// #include <immintrin.h>
 #include "../../Support/bit_handling.h"
 #include <iostream>
 #include <sstream>
@@ -7,7 +6,7 @@
 
 
 
-void get_code( std::ostringstream &code, int index, int max_size_included, int simd_size ) {
+void get_code( std::ostringstream &code, int index, int max_size_included, int simd_size, bool simd_edge_cut = false ) {
     int mul_size = 1 << max_size_included;
 
     int size = index / mul_size;
@@ -38,36 +37,74 @@ void get_code( std::ostringstream &code, int index, int max_size_included, int s
         int i2 = ( i1 + 1 ) % size;
         int in = i1 + 1;
 
-        code << "        Node &n0 = node( " << i0 << " );\n";
-        code << "        Node &n1 = node( " << i1 << " );\n";
-        code << "        Node &n2 = node( " << i2 << " );\n";
-        code << "        Node &nn = node( " << in << " );\n";
+        code << "        Node &n0 = nodes->local_at( " << i0 << " );\n";
+        code << "        Node &n1 = nodes->local_at( " << i1 << " );\n";
+        code << "        Node &n2 = nodes->local_at( " << i2 << " );\n";
+        code << "        Node &nn = nodes->local_at( " << in << " );\n";
 
         code << "        TF s0 = reinterpret_cast<const TF *>( &di_" << i0 / simd_size << " )[ " << i0 % simd_size << " ];\n";
         code << "        TF s1 = reinterpret_cast<const TF *>( &di_" << i1 / simd_size << " )[ " << i1 % simd_size << " ];\n";
         code << "        TF s2 = reinterpret_cast<const TF *>( &di_" << i2 / simd_size << " )[ " << i2 % simd_size << " ];\n";
 
-        code << "        TF m0 = s0 / ( s1 - s0 );\n";
-        code << "        TF m1 = s2 / ( s1 - s2 );\n";
+        if ( simd_edge_cut && i1 % 2 == 0 ) {
+            code << "        __m128d s11 = _mm_set_pd1( s1 );\n";
+            code << "        __m128d s02 = MM_SET_PD( s0, s2 );\n";
 
-        // save coordinates that can be modified
-        code << "        TF n0_x = n0.x;\n";
-        code << "        TF n0_y = n0.y;\n";
+            code << "        __m128d m02 = _mm_div_pd( s02, _mm_sub_pd( s11, s02 ) );\n";
+
+            code << "        __m128d x11 = _mm_set_pd1( n1.x );\n";
+            code << "        __m128d y11 = _mm_set_pd1( n1.y );\n";
+            code << "        __m128d x02 = MM_SET_PD( n0.x, n2.x );\n";
+            code << "        __m128d y02 = MM_SET_PD( n0.y, n2.y );\n";
+        } else {
+            code << "        TF m0 = s0 / ( s1 - s0 );\n";
+            code << "        TF m1 = s2 / ( s1 - s2 );\n";
+
+            // save coordinates that can be modified
+            code << "        TF n0_x = n0.x;\n";
+            code << "        TF n0_y = n0.y;\n";
+        }
 
         // shift points
         for( int i = size; i > in; --i )
-            code << "        node( " << i << " ).get_straight_content_from( node( " << i - 1 << " ) );\n";
+            code << "        nodes->local_at( " << i << " ).get_straight_content_from( nodes->local_at( " << i - 1 << " ) );\n";
+        //        if ( size > in ) {
+        //            code << "        memmove( &nodes->x + " << in + 1 << ", &nodes->x + " << in << ", " << size - in << " * sizeof( TF ) );\n";
+        //            code << "        memmove( &nodes->y + " << in + 1 << ", &nodes->y + " << in << ", " << size - in << " * sizeof( TF ) );\n";
+        //        }
 
         // modified or added points
-        code << "        if ( store_the_normals ) { nn.dir_x = n1.dir_x; nn.dir_y = n1.dir_y; }\n";
-        code << "        nn.x = n2.x - m1 * ( n1.x - n2.x );\n";
-        code << "        nn.y = n2.y - m1 * ( n1.y - n2.y );\n";
-        code << "        nn.cut_id.set( n1.cut_id.get() );\n";
+        if ( simd_edge_cut && i1 % 2 == 0 ) {
+            code << "        if ( store_the_normals ) { nn.dir_x = n1.dir_x; nn.dir_y = n1.dir_y; }\n";
+            code << "        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }\n";
 
-        code << "        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }\n";
-        code << "        n1.x = n0_x - m0 * ( n1.x - n0_x );\n";
-        code << "        n1.y = n0_y - m0 * ( n1.y - n0_y );\n";
-        code << "        n1.cut_id.set( cut_id );\n";
+            code << "        nn.cut_id.set( n1.cut_id.get() );\n";
+            code << "        n1.cut_id.set( cut_id );\n";
+
+            code << "        __m128d x1n = _mm_sub_pd( x02, _mm_mul_pd( m02, _mm_sub_pd( x11, x02 ) ) );\n";
+            code << "        __m128d y1n = _mm_sub_pd( y02, _mm_mul_pd( m02, _mm_sub_pd( y11, y02 ) ) );\n";
+
+            if ( i1 % 2 ) {
+                code << "        n1.x = reinterpret_cast<const TF *>( &x1n )[ 0 ];\n";
+                code << "        n1.y = reinterpret_cast<const TF *>( &y1n )[ 0 ];\n";
+
+                code << "        nn.x = reinterpret_cast<const TF *>( &x1n )[ 1 ];\n";
+                code << "        nn.y = reinterpret_cast<const TF *>( &y1n )[ 1 ];\n";
+            } else {
+                code << "        _mm_store_pd( &n1.x, x1n );\n";
+                code << "        _mm_store_pd( &n1.y, y1n );\n";
+            }
+        } else {
+            code << "        if ( store_the_normals ) { nn.dir_x = n1.dir_x; nn.dir_y = n1.dir_y; }\n";
+            code << "        nn.x = n2.x - m1 * ( n1.x - n2.x );\n";
+            code << "        nn.y = n2.y - m1 * ( n1.y - n2.y );\n";
+            code << "        nn.cut_id.set( n1.cut_id.get() );\n";
+
+            code << "        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }\n";
+            code << "        n1.x = n0_x - m0 * ( n1.x - n0_x );\n";
+            code << "        n1.y = n0_y - m0 * ( n1.y - n0_y );\n";
+            code << "        n1.cut_id.set( cut_id );\n";
+        }
 
         code << "        return true;\n";
         return;
@@ -82,10 +119,10 @@ void get_code( std::ostringstream &code, int index, int max_size_included, int s
         int i2 = ( i1 + 1 )        % size;
         int i3 = ( i1 + 2 )        % size;
 
-        code << "        Node &n0 = node( " << i0 << " );\n";
-        code << "        Node &n1 = node( " << i1 << " );\n";
-        code << "        Node &n2 = node( " << i2 << " );\n";
-        code << "        Node &n3 = node( " << i3 << " );\n";
+        code << "        Node &n0 = nodes->local_at( " << i0 << " );\n";
+        code << "        Node &n1 = nodes->local_at( " << i1 << " );\n";
+        code << "        Node &n2 = nodes->local_at( " << i2 << " );\n";
+        code << "        Node &n3 = nodes->local_at( " << i3 << " );\n";
 
         code << "        TF s0 = reinterpret_cast<const TF *>( &di_" << i0 / simd_size << " )[ " << i0 % simd_size << " ];\n";
         code << "        TF s1 = reinterpret_cast<const TF *>( &di_" << i1 / simd_size << " )[ " << i1 % simd_size << " ];\n";
@@ -117,11 +154,11 @@ void get_code( std::ostringstream &code, int index, int max_size_included, int s
         int i2 = i3 - 1;
         int in = 0;
 
-        code << "        Node &n0 = node( " << i0 << " );\n";
-        code << "        Node &n1 = node( " << i1 << " );\n";
-        code << "        Node &n2 = node( " << i2 << " );\n";
-        code << "        Node &n3 = node( " << i3 << " );\n";
-        code << "        Node &nn = node( " << in << " );\n";
+        code << "        Node &n0 = nodes->local_at( " << i0 << " );\n";
+        code << "        Node &n1 = nodes->local_at( " << i1 << " );\n";
+        code << "        Node &n2 = nodes->local_at( " << i2 << " );\n";
+        code << "        Node &n3 = nodes->local_at( " << i3 << " );\n";
+        code << "        Node &nn = nodes->local_at( " << in << " );\n";
 
         code << "        TF s0 = reinterpret_cast<const TF *>( &di_" << i0 / simd_size << " )[ " << i0 % simd_size << " ];\n";
         code << "        TF s1 = reinterpret_cast<const TF *>( &di_" << i1 / simd_size << " )[ " << i1 % simd_size << " ];\n";
@@ -140,7 +177,7 @@ void get_code( std::ostringstream &code, int index, int max_size_included, int s
         int o = 1;
         for( ; o <= nb_inside; ++o )
             code << "        nodes->local_at( " << o << " ).get_straight_content_from( nodes->local_at( " << i2 + o << " ) );\n";
-        code << "        Node &no = node( " << o << " );\n";
+        code << "        Node &no = nodes->local_at( " << o << " );\n";
 
         code << "        if ( store_the_normals ) { no.dir_x = normal.x; no.dir_y = normal.y; }\n";
         code << "        no.x = n0.x - m1 * ( n1.x - n0.x );\n";
@@ -158,11 +195,11 @@ void get_code( std::ostringstream &code, int index, int max_size_included, int s
     int i3 = ( i1 + nb_outside     ) % size;
     int in = i1 + 1;
 
-    code << "        Node &n0 = node( " << i0 << " );\n";
-    code << "        Node &n1 = node( " << i1 << " );\n";
-    code << "        Node &n2 = node( " << i2 << " );\n";
-    code << "        Node &n3 = node( " << i3 << " );\n";
-    code << "        Node &nn = node( " << in << " );\n";
+    code << "        Node &n0 = nodes->local_at( " << i0 << " );\n";
+    code << "        Node &n1 = nodes->local_at( " << i1 << " );\n";
+    code << "        Node &n2 = nodes->local_at( " << i2 << " );\n";
+    code << "        Node &n3 = nodes->local_at( " << i3 << " );\n";
+    code << "        Node &nn = nodes->local_at( " << in << " );\n";
 
     code << "        TF s0 = reinterpret_cast<const TF *>( &di_" << i0 / simd_size << " )[ " << i0 % simd_size << " ];\n";
     code << "        TF s1 = reinterpret_cast<const TF *>( &di_" << i1 / simd_size << " )[ " << i1 % simd_size << " ];\n";
@@ -206,8 +243,8 @@ void generate( int simd_size, std::string /*ext*/, int max_size_included = 8 ) {
         std::cout << "    __m512d px_" << i << " = _mm512_load_pd( &nodes->x + " << simd_size * i << " );\n";
         std::cout << "    __m512d py_" << i << " = _mm512_load_pd( &nodes->y + " << simd_size * i << " );\n";
         std::cout << "    __m512d di_" << i << " = _mm512_add_pd( _mm512_mul_pd( _mm512_sub_pd( ox, px_" << i << " ), nx ), _mm512_mul_pd( _mm512_sub_pd( oy, py_" << i << " ), ny ) );\n";
-        std::cout << "    std::uint8_t outside_" << i << " = _mm512_cmp_pd_mask( di_" << i << ", _mm512_set1_pd( 0.0 ), _CMP_LT_OQ ); // OS?\n";
-        // std::cout << "    std::uint8_t outside = _mm512_movepi64_mask( di_" << i << " );\n";
+        std::cout << "    std::uint8_t outside_" << i << " = _mm512_cmp_pd_mask( di_" << i << ", _mm512_set1_pd( 0.0 ), _CMP_LT_OQ ); // OS?\n"; // OQ => 46.9, QS => 47.1
+        // std::cout << "    std::uint8_t outside_" << i << " = _mm512_movepi64_mask( __m512i( di_" << i << " ) );\n"; // => 47.1
     }
     std::cout << "    \n";
 
@@ -239,6 +276,7 @@ int main() {
     //        #include "Internal/(convex_polyhedron_plane_cut_simd_switch.cpp).h"
     //    }
     std::cout << "#include \"../ConvexPolyhedron2.h\"\n";
+    std::cout << "#define MM_SET_PD( A, B ) _mm_set_pd( B, A ) \n";
     std::cout << "namespace sdot {\n";
 
     //

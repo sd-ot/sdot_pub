@@ -64,7 +64,7 @@ public:
     void                                 resize                    ( TI new_nb_nodes );
 
     // geometric modifications
-    template<int flags> bool             plane_cut                 ( Pt origin, Pt dir, CI cut_id, N<flags> ); ///< return true if effective cut
+    template<int flags>  __attribute__ ((noinline)) bool             plane_cut                 ( Pt origin, Pt dir, CI cut_id, N<flags> ); ///< return true if effective cut
     bool                                 plane_cut                 ( Pt origin, Pt dir, CI cut_id = {} ); ///< return true if effective cut
     void                                 ball_cut                  ( Pt center, TF radius, CI cut_id = {} ); ///< beware: only one sphere cut is authorized, and it must be done after all the plane cuts.
 

@@ -1,5 +1,6 @@
-//#include <vector>
-//static std::vector<int> bc( 24, 0 );
+#include <vector>
+static std::vector<int> bc( 4096, 0 );
+
 #include "../../src/sdot/Geometry/ConvexPolyhedron2.h"
 #include "../../src/sdot/Support/StaticRange.h"
 #include "../../src/sdot/Support/ASSERT.h"
@@ -13,12 +14,11 @@ using namespace sdot;
 // // nsmake cxx_name clang++
 
 //// nsmake cpp_flag -march=native
-//// nsmake lib_flag -O3
-//// nsmake cpp_flag -O3
+//// nsmake cpp_flag -O2
 
 static __attribute__ ((noinline))
-std::uint64_t rdtsc_overhead_func( std::uint64_t dummy ) {
-    return dummy;
+double fake_cp_plane_cut( Point2<double> origin, Point2<double> dir ) {
+    return origin.x + dir.x + origin.y + dir.y;
 }
 
 template<class Cp,class Pt,int Simd,int Switch>
@@ -27,31 +27,36 @@ void bench( const std::vector<std::size_t> &offsets, const std::vector<std::pair
                           ConvexPolyhedron::do_not_use_switches * ( Switch == 0 );
     using TF = typename Cp::TF;
 
-    //
-    std::uint64_t t0 = 0, t1 = 0;
-    std::uint64_t rdtsc_overhead = (uint64_t)UINT64_MAX;
-    for( std::size_t rep = 0; rep < 128; ++rep ) {
-        RDTSC_START( t0 );
-        rdtsc_overhead_func( 1 );
-        RDTSC_FINAL( t1 );
-        rdtsc_overhead = std::min( rdtsc_overhead, t1 - t0 );
-    }
-
-    // initial cell
-    std::uint64_t dt = 0;
+    // cells
     Cp lc( typename Cp::Box{ { 0, 0 }, { 1, 1 } } ), cp;
+
+    // ovverhead
+    double sum = 0;
+    std::uint64_t t0 = 0, t1 = 0, nb_reps = 1280;
     RDTSC_START( t0 );
-    for( std::size_t num_point = 1; num_point < offsets.size(); ++num_point ) {
-        cp = lc;
-        for( std::size_t i = offsets[ num_point - 1 ]; i < offsets[ num_point ]; ++i ) {
-            // bc[ cp.nb_nodes() ]++;
-            cp.plane_cut( cuts[ i ].first, cuts[ i ].second, 17, N<flags>() );
+    for( std::size_t rep = 0; rep < nb_reps; ++rep ) {
+        for( std::size_t num_point = 1; num_point < offsets.size(); ++num_point ) {
+            cp = lc;
+            for( std::size_t i = offsets[ num_point - 1 ]; i < offsets[ num_point ]; ++i )
+                sum += fake_cp_plane_cut( cuts[ i ].first, cuts[ i ].second );
         }
     }
     RDTSC_FINAL( t1 );
-    dt += t1 - t0 - rdtsc_overhead;
+    std::uint64_t overhead = ( t1 - t0 ) / nb_reps;
 
-    P( dt / double( cuts.size() ) );
+    // cuts
+    RDTSC_START( t0 );
+    for( std::size_t rep = 0; rep < nb_reps; ++rep ) {
+        for( std::size_t num_point = 1; num_point < offsets.size(); ++num_point ) {
+            cp = lc;
+            for( std::size_t i = offsets[ num_point - 1 ]; i < offsets[ num_point ]; ++i )
+                cp.plane_cut( cuts[ i ].first, cuts[ i ].second, 17, N<flags>() );
+        }
+    }
+    RDTSC_FINAL( t1 );
+    std::uint64_t dt = ( t1 - t0 ) / nb_reps - overhead;
+
+    P( sum, dt, overhead, dt / double( cuts.size() ) );
     // P( bc );
 }
 
@@ -101,7 +106,7 @@ int main() {
     offsets.push_back( cuts.size() );
 
 
-    bench<Cp>( offsets, cuts, /*simd*/ N<0>(), /*switch*/ N<0>() );
-    bench<Cp>( offsets, cuts, /*simd*/ N<1>(), /*switch*/ N<0>() );
+    //    bench<Cp>( offsets, cuts, /*simd*/ N<0>(), /*switch*/ N<0>() );
+    //    bench<Cp>( offsets, cuts, /*simd*/ N<1>(), /*switch*/ N<0>() );
     bench<Cp>( offsets, cuts, /*simd*/ N<1>(), /*switch*/ N<1>() );
 }
