@@ -121,4 +121,14 @@ inline unsigned tocnt( std::uint64_t val ) {
 }
 
 
+template<std::size_t N>
+inline void reset( std::bitset<N> &bs ) {
+    bs.reset();
+}
+
+inline void reset( std::vector<bool> &bs ) {
+    for( unsigned i = 0; i < bs.size(); ++i )
+       bs[ i ] = 0;
+}
+
 }

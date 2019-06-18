@@ -71,8 +71,8 @@ void bench( const std::vector<std::size_t> &offsets, const std::vector<Cut> &cut
     for( std::size_t rep = 0; rep < nb_reps; ++rep ) {
         for( std::size_t num_point = 1; num_point < offsets.size(); ++num_point ) {
             cp = lc;
-            for( std::size_t i = offsets[ num_point - 1 ]; i < offsets[ num_point ]; ++i )
-                cp.plane_cut( cuts.data() + offsets[ num_point - 1 ], offsets[ num_point ] - offsets[ num_point - 1 ], 17, N<flags>() );
+            cp.plane_cut( cuts.data() + offsets[ num_point - 1 ], offsets[ num_point ] - offsets[ num_point - 1 ], N<flags>() );
+            sum += cp.nb_nodes();
         }
     }
     RDTSC_FINAL( t1 );
@@ -95,7 +95,7 @@ int main() {
             >> n.x >> n.y;
         if ( ! fin )
             break;
-        pt_map[ { phase, pos } ].emplace_back( n, dot( o, n ), 17 );
+        pt_map[ { phase, pos } ].push_back( { n, dot( o, n ), 17 } );
     }
 
     //
@@ -108,8 +108,7 @@ int main() {
     }
     offsets.push_back( cuts.size() );
 
-
-    //    bench<Cp>( offsets, cuts, /*simd*/ N<0>(), /*switch*/ N<0>() );
-    //    bench<Cp>( offsets, cuts, /*simd*/ N<1>(), /*switch*/ N<0>() );
-    bench( offsets, cuts, /*simd*/ N<1>(), /*switch*/ N<1>() );
+    bench( offsets, cuts, /*simd*/ N<0>(), /*switch*/ N<0>() );
+    // bench( offsets, cuts, /*simd*/ N<1>(), /*switch*/ N<0>() );
+    // bench( offsets, cuts, /*simd*/ N<1>(), /*switch*/ N<1>() );
 }

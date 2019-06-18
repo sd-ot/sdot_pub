@@ -42,7 +42,7 @@ public:
     static constexpr TI                  block_size                = 64;
     using                                Node                      = ConvexPolyhedron2NodeBlock<TF,TI,block_size,store_the_normals,allow_ball_cut>;
     struct                               Edge                      { Node *nodes[ 2 ]; }; ///< tmp structure
-    struct                               Cut                       { Pt dir; TF dist; CI id; };
+    struct                               Cut                       { Pt dir; TF dist; CI id; void write_to_stream( std::ostream &os ) const { os << dir << " " << dist; } };
 
     // types for the ctor
     struct                               Box                       { Pt p0, p1; };
@@ -75,9 +75,9 @@ public:
 private:
     template<int f> void                 plane_cut_simd_switch     ( const Cut *cuts, std::size_t nb_cuts, N<f>, S<double> );
     template<int f,class T> void         plane_cut_simd_switch     ( const Cut *cuts, std::size_t nb_cuts, N<f>, S<T> );
-    template<int f> void                 plane_cut_simd_tzcnt      ( const Cut *cuts, std::size_t nb_cuts, N<f> );
-    template<int f> void                 plane_cut_gen             ( const Cut *cuts, std::size_t nb_cuts, N<f> );
-    template<int f,class B,class D> void plane_cut_gen             ( const Cut *cuts, std::size_t nb_cuts, N<f>, B &outside, D &distances );
+    template<int f> void                 plane_cut_simd_tzcnt      ( const Cut &cut, N<f> );
+    template<int f> void                 plane_cut_gen             ( const Cut &cut, N<f> );
+    template<int f,class B,class D> void plane_cut_gen             ( const Cut &cut, N<f>, B &outside, D &distances );
 
     Node*                                nodes;                    ///< aligned data. @see ConvexPolyhedron2
     TI                                   size;                     ///< nb nodes

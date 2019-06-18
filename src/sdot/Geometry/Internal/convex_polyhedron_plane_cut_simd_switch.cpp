@@ -70,13 +70,13 @@ struct Mod {
             }
         }
         for( int nd : needed_distances )
-            code << "        TF d_" << nd << " = reinterpret_cast<const TF *>( &di_" << nd / simd_size << " )[ " << nd % simd_size << " ];\n";
+            code << "            TF d_" << nd << " = reinterpret_cast<const TF *>( &di_" << nd / simd_size << " )[ " << nd % simd_size << " ];\n";
 
         // ratios
         for( std::size_t i = 0; i < ops.size(); ++i ) {
             const Op &op = ops[ i ];
             if ( op.i1 >= 0 ) {
-                code << "        TF m_" << op.i0 << "_" << op.i1 << " = d_" << op.i0 << " / ( d_" << op.i1 << " - d_" << op.i0 << " );\n";
+                code << "            TF m_" << op.i0 << "_" << op.i1 << " = d_" << op.i0 << " / ( d_" << op.i1 << " - d_" << op.i0 << " );\n";
             }
         }
 
@@ -84,11 +84,11 @@ struct Mod {
         for( std::size_t i = 0; i < ops.size(); ++i ) {
             const Op &op = ops[ i ];
             if ( op.i1 >= 0 ) {
-                code << "        TF x_" << i << " = x[ " << op.i0 << " ] - m_" << op.i0 << "_" << op.i1 << " * ( x[ " << op.i1 << " ] - x[ " << op.i0 << " ] );\n";
-                code << "        TF y_" << i << " = y[ " << op.i0 << " ] - m_" << op.i0 << "_" << op.i1 << " * ( y[ " << op.i1 << " ] - y[ " << op.i0 << " ] );\n";
+                code << "            TF x_" << i << " = x[ " << op.i0 << " ] - m_" << op.i0 << "_" << op.i1 << " * ( x[ " << op.i1 << " ] - x[ " << op.i0 << " ] );\n";
+                code << "            TF y_" << i << " = y[ " << op.i0 << " ] - m_" << op.i0 << "_" << op.i1 << " * ( y[ " << op.i1 << " ] - y[ " << op.i0 << " ] );\n";
             } else if ( op.i0 != int( i ) ) {
-                code << "        TF x_" << i << " = x[ " << op.i0 << " ];\n";
-                code << "        TF y_" << i << " = y[ " << op.i0 << " ];\n";
+                code << "            TF x_" << i << " = x[ " << op.i0 << " ];\n";
+                code << "            TF y_" << i << " = y[ " << op.i0 << " ];\n";
             }
         }
 
@@ -96,14 +96,14 @@ struct Mod {
         for( std::size_t i = 0; i < ops.size(); ++i ) {
             const Op &op = ops[ i ];
             if ( op.i1 >= 0 || op.i0 != int( i ) ) {
-                code << "        x[ " << i << " ] = x_" << i << ";\n";
-                code << "        y[ " << i << " ] = y_" << i << ";\n";
+                code << "            x[ " << i << " ] = x_" << i << ";\n";
+                code << "            y[ " << i << " ] = y_" << i << ";\n";
             }
         }
 
         if ( ops.size() != old_size )
-            code << "        size = " << ops.size() << ";\n";
-        code << "        continue;\n";
+            code << "            size = " << ops.size() << ";\n";
+        code << "            continue;\n";
     }
 
     std::size_t old_size;
@@ -120,17 +120,16 @@ void get_code( std::ostringstream &code, int index, int max_size_included, int s
 
     if ( size <= 2 || nb_outside == size ) {
         if ( size )
-            code << "        size = 0;\n";
-        code << "        return;\n";
+            code << "            size = 0;\n";
+        code << "            return;\n";
         return;
     }
 
     if ( nb_outside == 0 ) {
-        code << "        continue;\n";
+        code << "            continue;\n";
         return;
     }
 
-    code << "        // size=" << size << " outside=" << outside << "\n";
 
     Mod mod;
     mod.old_size = size;
@@ -152,7 +151,7 @@ void get_code( std::ostringstream &code, int index, int max_size_included, int s
     }
     mod.find_best_rotation();
 
-    code << "        // " << mod << "\n";
+    code << "            // size=" << size << " outside=" << outside << " mod=" << mod << "\n";
     mod.write_code( code, simd_size );
 }
 
@@ -161,23 +160,23 @@ void generate( int simd_size, std::string /*ext*/, int max_size_included = 8 ) {
     int max_index = mul_size * ( max_size_included + 1 );
     int nb_regs = ( max_size_included + simd_size - 1 ) / simd_size;
 
-    std::cout << "  // outsize list\n";
-    std::cout << "  TF *x = &nodes->x;\n";
-    std::cout << "  TF *y = &nodes->y;\n";
-    std::cout << "  for( std::size_t num_cut = 0; num_cut < nb_cuts; ++num_cut ) {\n";
-    std::cout << "    const Cut &cut = cuts[ num_cut ];\n";
-    std::cout << "    __m512d rd = _mm512_set1_pd( cut.dist );\n";
-    std::cout << "    __m512d nx = _mm512_set1_pd( cut.dir.x );\n";
-    std::cout << "    __m512d ny = _mm512_set1_pd( cut.dir.y );\n";
+    std::cout << "    // outsize list\n";
+    std::cout << "    TF *x = &nodes->x;\n";
+    std::cout << "    TF *y = &nodes->y;\n";
+    std::cout << "    for( std::size_t num_cut = 0; num_cut < nb_cuts; ++num_cut ) {\n";
+    std::cout << "        const Cut &cut = cuts[ num_cut ];\n";
+    std::cout << "        __m512d rd = _mm512_set1_pd( cut.dist );\n";
+    std::cout << "        __m512d nx = _mm512_set1_pd( cut.dir.x );\n";
+    std::cout << "        __m512d ny = _mm512_set1_pd( cut.dir.y );\n";
     for( int i = 0; i < nb_regs; ++i ) {
-        std::cout << "    __m512d px_" << i << " = _mm512_load_pd( x + " << simd_size * i << " );\n";
-        std::cout << "    __m512d py_" << i << " = _mm512_load_pd( y + " << simd_size * i << " );\n";
-        std::cout << "    __m512d bi_" << i << " = _mm512_add_pd( _mm512_mul_pd( px_" << i << ", nx ), _mm512_mul_pd( py_" << i << ", ny ) );\n";
-        std::cout << "    std::uint8_t outside_" << i << " = _mm512_cmp_pd_mask( bi_" << i << ", rd, _CMP_GT_OQ );\n"; // OQ => 46.9, QS => 47.1
-        std::cout << "    __m512d di_" << i << " = _mm512_sub_pd( bi_" << i << ", rd );\n";
+        std::cout << "        __m512d px_" << i << " = _mm512_load_pd( x + " << simd_size * i << " );\n";
+        std::cout << "        __m512d py_" << i << " = _mm512_load_pd( y + " << simd_size * i << " );\n";
+        std::cout << "        __m512d bi_" << i << " = _mm512_add_pd( _mm512_mul_pd( px_" << i << ", nx ), _mm512_mul_pd( py_" << i << ", ny ) );\n";
+        std::cout << "        std::uint8_t outside_" << i << " = _mm512_cmp_pd_mask( bi_" << i << ", rd, _CMP_GT_OQ );\n"; // OQ => 46.9, QS => 47.1
+        std::cout << "        __m512d di_" << i << " = _mm512_sub_pd( bi_" << i << ", rd );\n";
         // std::cout << "    std::uint8_t outside_" << i << " = _mm512_movepi64_mask( __m512i( di_" << i << " ) );\n"; // => 47.1
     }
-    std::cout << "    \n";
+    std::cout << "\n";
 
     // gather
     std::map<std::string,std::vector<int>> cases;
@@ -188,18 +187,18 @@ void generate( int simd_size, std::string /*ext*/, int max_size_included = 8 ) {
     }
 
     // write
-    std::cout << "    switch( " << mul_size << " * size + ";
+    std::cout << "        switch( " << mul_size << " * size + ";
     for( int i = 0; i < nb_regs; ++i )
         std::cout << ( 1 << ( i * simd_size ) ) <<  " * outside_" << i;
     std::cout << " ) {";
     for( std::pair<std::string,std::vector<int>> c : cases ) {
         for( int index : c.second )
-            std::cout << "\n    case " << index << ":";
-        std::cout << " {\n" << c.first << "    }";
+            std::cout << "\n        case " << index << ":";
+        std::cout << " {\n" << c.first << "        }";
     }
-    std::cout << "    default: break;\n";
+    std::cout << "        default: break;\n";
+    std::cout << "        }\n";
     std::cout << "    }\n";
-    std::cout << "  }\n";
 }
 
 int main() {
@@ -214,15 +213,18 @@ int main() {
     std::cout << "void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t nb_cuts, N<flags>, S<double> ) {\n";
     std::cout << "    #ifdef __AVX512F__\n";
     generate( 8, "AVX512", 8 );
+    std::cout << "    #else // __AVX512F__\n";
+    std::cout << "    for( std::size_t i = 0; i < nb_cuts; ++i )\n";
+    std::cout << "        return plane_cut_gen( cuts[ i ], N<flags>() );\n";
     std::cout << "    #endif // __AVX512F__\n";
-    std::cout << "    return plane_cut_gen( cuts, nb_cuts, N<flags>() );\n";
     std::cout << "}\n";
 
     // generic version
     std::cout << "\n";
     std::cout << "template<class Pc> template<int flags,class T>\n";
     std::cout << "void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t nb_cuts, N<flags>, S<T> ) {\n";
-    std::cout << "    return plane_cut_gen( cuts, nb_cuts, N<flags>() );\n";
+    std::cout << "    for( std::size_t i = 0; i < nb_cuts; ++i )\n";
+    std::cout << "        plane_cut_gen( cuts[ i ], N<flags>() );\n";
     std::cout << "}\n";
 
     std::cout << "\n";

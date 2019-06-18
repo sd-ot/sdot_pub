@@ -19,7 +19,7 @@ using namespace sdot;
 
 template<class Cp,int Simd,int Switch>
 void test( VtkOutput &vo, int &cpt_vo, std::size_t nb_nodes, N<Simd>, N<Switch> ) {
-    using Pt = typename Cp::Pt;
+    using Cut = typename Cp::Cut;
     using TF = typename Cp::TF;
 
     // initial cell
@@ -28,8 +28,8 @@ void test( VtkOutput &vo, int &cpt_vo, std::size_t nb_nodes, N<Simd>, N<Switch> 
                           ConvexPolyhedron::do_not_use_switches * ( Switch == 0 );
     for( std::size_t i = 0; i < nb_nodes; ++i ) {
         TF a = i * 2 * M_PI / nb_nodes;
-        Pt n( cos( a ), sin( a ) );
-        lc.plane_cut( n, 1, 17, N<flags>() );
+        Cut cut{ { cos( a ), sin( a ) }, 1.0, 17 };
+        lc.plane_cut( &cut, 1, N<flags>() );
     }
 
     P( lc.nb_nodes() );
