@@ -57,7 +57,7 @@ void bench( const std::vector<std::size_t> &offsets, const std::vector<std::pair
     std::uint64_t dt = ( t1 - t0 ) / nb_reps - overhead;
 
     P( sum, dt, overhead, dt / double( cuts.size() ) );
-    // P( bc );
+    P( bc );
 }
 
 

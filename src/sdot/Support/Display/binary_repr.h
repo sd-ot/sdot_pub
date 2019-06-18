@@ -2,6 +2,8 @@
 
 #include <ostream>
 
+namespace sdot {
+
 template<class T>
 struct BinaryRepr {
     const T &val;
@@ -19,3 +21,4 @@ BinaryRepr<T> binary_repr( const T &val ) {
     return { val };
 }
 
+}

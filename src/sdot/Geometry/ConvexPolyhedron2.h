@@ -64,17 +64,18 @@ public:
     void                                 resize                    ( TI new_nb_nodes );
 
     // geometric modifications
-    template<int flags>  __attribute__ ((noinline)) bool             plane_cut                 ( Pt origin, Pt dir, CI cut_id, N<flags> ); ///< return true if effective cut
-    bool                                 plane_cut                 ( Pt origin, Pt dir, CI cut_id = {} ); ///< return true if effective cut
+    template<int flags>                  __attribute__             ((noinline))
+    bool                                 plane_cut                 ( Pt dir, TF dist, CI cut_id, N<flags> ); ///< return true if effective cut
+    bool                                 plane_cut                 ( Pt dir, TF dist, CI cut_id = {} ); ///< return true if effective cut
     void                                 ball_cut                  ( Pt center, TF radius, CI cut_id = {} ); ///< beware: only one sphere cut is authorized, and it must be done after all the plane cuts.
 
 
 private:
-    template<int f> bool                 plane_cut_simd_switch     ( Pt origin, Pt normal, CI cut_id, N<f>, S<double> );
-    template<int f,class T> bool         plane_cut_simd_switch     ( Pt origin, Pt normal, CI cut_id, N<f>, S<T> );
-    template<int f> bool                 plane_cut_simd_tzcnt      ( Pt origin, Pt normal, CI cut_id, N<f> );
-    template<int f> bool                 plane_cut_gen             ( Pt origin, Pt normal, CI cut_id, N<f> );
-    template<int f,class B,class D> bool plane_cut_gen             ( Pt origin, Pt normal, CI cut_id, N<f>, B &outside, D &distances );
+    template<int f> bool                 plane_cut_simd_switch     ( Pt dir, TF dist, CI cut_id, N<f>, S<double> );
+    template<int f,class T> bool         plane_cut_simd_switch     ( Pt dir, TF dist, CI cut_id, N<f>, S<T> );
+    template<int f> bool                 plane_cut_simd_tzcnt      ( Pt dir, TF dist, CI cut_id, N<f> );
+    template<int f> bool                 plane_cut_gen             ( Pt dir, TF dist, CI cut_id, N<f> );
+    template<int f,class B,class D> bool plane_cut_gen             ( Pt dir, TF dist, CI cut_id, N<f>, B &outside, D &distances );
 
     Node*                                nodes;                    ///< aligned data. @see ConvexPolyhedron2
     TI                                   size;                     ///< nb nodes

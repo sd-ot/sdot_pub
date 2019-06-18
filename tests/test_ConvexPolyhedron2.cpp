@@ -33,7 +33,7 @@ void test( VtkOutput &vo, int &cpt_vo, std::size_t nb_nodes, N<Simd>, N<Switch> 
     }
 
     lc.display( vo, { TF( cpt_vo ) }, { 2.5 * TF( cpt_vo % 8 ), 2.5 * TF( cpt_vo / 8 ) } );
-    ++cpt_vo;;
+    ++cpt_vo;
 }
 
 int main() {
