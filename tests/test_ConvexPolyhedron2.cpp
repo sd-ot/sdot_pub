@@ -29,10 +29,11 @@ void test( VtkOutput &vo, int &cpt_vo, std::size_t nb_nodes, N<Simd>, N<Switch> 
     for( std::size_t i = 0; i < nb_nodes; ++i ) {
         TF a = i * 2 * M_PI / nb_nodes;
         Pt n( cos( a ), sin( a ) );
-        lc.plane_cut( n, n, 17, N<flags>() );
+        lc.plane_cut( n, 1, 17, N<flags>() );
     }
 
-    lc.display( vo, { TF( cpt_vo ) }, { 2.5 * TF( cpt_vo % 8 ), 2.5 * TF( cpt_vo / 8 ) } );
+    P( lc.nb_nodes() );
+    lc.display( vo, { TF( cpt_vo ) }, { 4.5 * TF( cpt_vo % 8 ), 4.5 * TF( cpt_vo / 8 ) } );
     ++cpt_vo;
 }
 

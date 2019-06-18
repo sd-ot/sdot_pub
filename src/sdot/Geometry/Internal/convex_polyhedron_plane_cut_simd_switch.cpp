@@ -1,22 +1,125 @@
+#include "../../Support/Display/generic_ostream_output.h"
 #include "../../Support/bit_handling.h"
 #include <iostream>
 #include <sstream>
 #include <vector>
 #include <map>
+#include <set>
 
+/**
+  Single operations
+*/
+struct Op {
+    void write_to_stream( std::ostream &os ) const {
+        if ( i1 >= 0 )
+            os << "[ " << i0 << ", " << i1 << " ]";
+        else
+            os << i0;
+    }
+
+    double cost( int i ) const {
+        if ( i1 >= 0 )
+            return 1e-2 * ( i0 != i && i1 != i );
+        return i0 != i;
+    }
+
+    int i0; ///<
+    int i1; ///< -1 means we take the values only from i0
+};
+
+/**
+  Operations
+*/
+struct Mod {
+    void write_to_stream( std::ostream &os ) const {
+        os << ops;
+    }
+
+    void find_best_rotation() {
+        double best_cost = 1e6;
+        std::size_t best_offset = 0;
+        for( std::size_t i = 0; i < ops.size(); ++i ) {
+            double c = cost( i );
+            if ( best_cost > c ) {
+                best_cost = c;
+                best_offset = i;
+            }
+        }
+
+        std::vector<Op> new_ops;
+        for( std::size_t i = 0; i < ops.size(); ++i )
+            new_ops.push_back( ops[ ( i + best_offset ) % ops.size() ] );
+        ops = std::move( new_ops );
+    }
+
+    double cost( std::size_t offset ) const {
+        double res = 0;
+        for( std::size_t i = 0; i < ops.size(); ++i )
+            res += ops[ ( i + offset ) % ops.size() ].cost( i );
+        return res;
+    }
+
+    void write_code( std::ostream &code, int simd_size ) {
+        // get the needed distances
+        std::set<int> needed_distances;
+        for( std::size_t i = 0; i < ops.size(); ++i ) {
+            const Op &op = ops[ i ];
+            if ( op.i1 >= 0 ) {
+                needed_distances.insert( op.i0 );
+                needed_distances.insert( op.i1 );
+            }
+        }
+        for( int nd : needed_distances )
+            code << "        TF d_" << nd << " = reinterpret_cast<const TF *>( &di_" << nd / simd_size << " )[ " << nd % simd_size << " ];\n";
+
+        // ratios
+        for( std::size_t i = 0; i < ops.size(); ++i ) {
+            const Op &op = ops[ i ];
+            if ( op.i1 >= 0 ) {
+                code << "        TF m_" << op.i0 << "_" << op.i1 << " = d_" << op.i0 << " / ( d_" << op.i1 << " - d_" << op.i0 << " );\n";
+            }
+        }
+
+        // coordinates
+        for( std::size_t i = 0; i < ops.size(); ++i ) {
+            const Op &op = ops[ i ];
+            if ( op.i1 >= 0 ) {
+                code << "        TF x_" << i << " = x[ " << op.i0 << " ] - m_" << op.i0 << "_" << op.i1 << " * ( x[ " << op.i1 << " ] - x[ " << op.i0 << " ] );\n";
+                code << "        TF y_" << i << " = y[ " << op.i0 << " ] - m_" << op.i0 << "_" << op.i1 << " * ( y[ " << op.i1 << " ] - y[ " << op.i0 << " ] );\n";
+            } else if ( op.i0 != int( i ) ) {
+                code << "        TF x_" << i << " = x[ " << op.i0 << " ];\n";
+                code << "        TF y_" << i << " = y[ " << op.i0 << " ];\n";
+            }
+        }
+
+        // save
+        for( std::size_t i = 0; i < ops.size(); ++i ) {
+            const Op &op = ops[ i ];
+            if ( op.i1 >= 0 || op.i0 != int( i ) ) {
+                code << "        x[ " << i << " ] = x_" << i << ";\n";
+                code << "        y[ " << i << " ] = y_" << i << ";\n";
+            }
+        }
+
+        if ( ops.size() != old_size )
+            code << "        size = " << ops.size() << ";\n";
+        code << "        return true;\n";
+    }
+
+    std::size_t old_size;
+    std::vector<Op> ops;
+};
 
 
 void get_code( std::ostringstream &code, int index, int max_size_included, int simd_size, bool simd_edge_cut = true, bool loc_reg = true ) {
-    int mul_size = 1 << max_size_included;
+    const int mul_size = 1 << max_size_included;
+    const int size = index / mul_size;
 
-    int size = index / mul_size;
     std::bitset<64> outside = index & ( ( 1 << size ) - 1 );
-    int nb_outside = sdot::popcnt( outside );
-
-    code << "        // size=" << size << " outside=" << outside << "\n";
-    // code << "        ++bc[ " << nb_outside << " ];\n";
+    const int nb_outside = sdot::popcnt( outside );
 
     if ( size <= 2 || nb_outside == 0 ) {
+        code << "        // size <= 2 outside=" << outside << "\n";
         code << "        return false;\n";
         return;
     }
@@ -27,345 +130,30 @@ void get_code( std::ostringstream &code, int index, int max_size_included, int s
         return;
     }
 
-    // update normal
-    // code << "        bc[ " << nb_outside << " ]++;\n";
-    code << "        if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )\n";
-    code << "            normal /= norm_2( normal );\n";
+    code << "        // size=" << size << " outside=" << outside << "\n";
 
-    //
-    int i1 = sdot::tzcnt( outside );
+    Mod mod;
+    mod.old_size = size;
+    for( int i = 0; i < size; ++i ) {
+        int h = ( i + size - 1 ) % size;
+        int j = ( i + 1 ) % size;
 
-    // only 1 outside ?
-    if ( nb_outside == 1 ) {
-        code << "        size = " << size + 1 << ";\n";
-        int i0 = ( i1 + size - 1 ) % size;
-        int i2 = ( i1 + 1 ) % size;
-        int in = i1 + 1;
-
-        code << "        TF s0 = reinterpret_cast<const TF *>( &di_" << i0 / simd_size << " )[ " << i0 % simd_size << " ];\n";
-        code << "        TF s1 = reinterpret_cast<const TF *>( &di_" << i1 / simd_size << " )[ " << i1 % simd_size << " ];\n";
-        code << "        TF s2 = reinterpret_cast<const TF *>( &di_" << i2 / simd_size << " )[ " << i2 % simd_size << " ];\n";
-
-        //
-        //        if ( simd_edge_cut ) {
-        //            code << "        Node &n0 = nodes->local_at( " << i0 << " );\n";
-        //            code << "        Node &n1 = nodes->local_at( " << i1 << " );\n";
-        //            code << "        Node &n2 = nodes->local_at( " << i2 << " );\n";
-        //            code << "        Node &nn = nodes->local_at( " << in << " );\n";
-
-        //            code << "        __m256d s0202 = MM256_SET_PD( s0, s2, s0, s2 );\n";
-        //            code << "        __m256d s1111 = _mm256_set1_pd( s1 );\n";
-        //            code << "        __m256d m0202 = s0202 / ( s1111 - s0202 );\n";
-
-        //            code << "        __m256d n02xy = MM256_SET_PD( n0.x, n2.x, n0.y, n2.y );\n";
-        //            code << "        __m256d n11xy = MM256_SET_PD( n1.x, n1.x, n1.y, n1.y );\n";
-
-        //            // shift points
-        //            for( int i = size; i > in; --i )
-        //                code << "        nodes->local_at( " << i << " ).get_straight_content_from( nodes->local_at( " << i - 1 << " ) );\n";
-
-        //            code << "        if ( store_the_normals ) { nn.dir_x = n1.dir_x; nn.dir_y = n1.dir_y; }\n";
-        //            code << "        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }\n";
-        //            code << "        nn.cut_id.set( n1.cut_id.get() );\n";
-        //            code << "        n1.cut_id.set( cut_id );\n";
-
-        //            code << "        __m256d n1nxy = n02xy - m0202 * ( n11xy - n02xy );\n";
-
-        //            code << "        n1.x = reinterpret_cast<const double *>( &n1nxy )[ 0 ];\n";
-        //            code << "        nn.x = reinterpret_cast<const double *>( &n1nxy )[ 1 ];\n";
-
-        //            code << "        n1.y = reinterpret_cast<const double *>( &n1nxy )[ 2 ];\n";
-        //            code << "        nn.y = reinterpret_cast<const double *>( &n1nxy )[ 3 ];\n";
-        //            code << "        P( n1.x );\n";
-        //            code << "        P( nn.x );\n";
-        //            code << "        P( n1.y );\n";
-        //            code << "        P( nn.y );\n";
-
-        //            code << "        return true;\n";
-        //            return;
-        //        }
-
-
-        // generic case (for 1 point outside)
-        code << "        Node &n0 = nodes->local_at( " << i0 << " );\n";
-        code << "        Node &n1 = nodes->local_at( " << i1 << " );\n";
-        code << "        Node &n2 = nodes->local_at( " << i2 << " );\n";
-        code << "        Node &nn = nodes->local_at( " << in << " );\n";
-
-        code << "        TF m0 = s0 / ( s1 - s0 );\n";
-        code << "        TF m1 = s2 / ( s1 - s2 );\n";
-
-        // save coordinates that can be modified
-        code << "        TF n0_x = n0.x;\n";
-        code << "        TF n0_y = n0.y;\n";
-
-        // shift points
-        for( int i = size; i > in; --i )
-            code << "        nodes->local_at( " << i << " ).get_straight_content_from( nodes->local_at( " << i - 1 << " ) );\n";
-
-        code << "        if ( store_the_normals ) { nn.dir_x = n1.dir_x; nn.dir_y = n1.dir_y; }\n";
-        code << "        nn.x = n2.x - m1 * ( n1.x - n2.x );\n";
-        code << "        nn.y = n2.y - m1 * ( n1.y - n2.y );\n";
-        code << "        nn.cut_id.set( n1.cut_id.get() );\n";
-
-        code << "        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }\n";
-        code << "        n1.x = n0_x - m0 * ( n1.x - n0_x );\n";
-        code << "        n1.y = n0_y - m0 * ( n1.y - n0_y );\n";
-        code << "        n1.cut_id.set( cut_id );\n";
-        code << "        return true;\n";
-        return;
-
-
-        //        if ( loc_reg && size < 8 && i1 % 2 == 0 ) {
-        //            code << "        // loc_reg\n";
-        //            code << "        TF m0 = s0 / ( s1 - s0 );\n";
-        //            code << "        TF m1 = s2 / ( s1 - s2 );\n";
-
-        //            code << "        Node &n0 = nodes->local_at( " << i0 << " );\n";
-        //            code << "        Node &n1 = nodes->local_at( " << i1 << " );\n";
-        //            code << "        Node &n2 = nodes->local_at( " << i2 << " );\n";
-        //            code << "        Node &nn = nodes->local_at( " << in << " );\n";
-
-
-        //            code << "        if ( store_the_normals ) { nn.dir_x = n1.dir_x; nn.dir_y = n1.dir_y; }\n";
-        //            code << "        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }\n";
-        //            code << "        nn.cut_id.set( n1.cut_id.get() );\n";
-        //            code << "        n1.cut_id.set( cut_id );\n";
-
-        //            // get the new coordinates
-        //            code << "        TF nn_x = n2.x - m1 * ( n1.x - n2.x );\n";
-        //            code << "        TF nn_y = n2.y - m1 * ( n1.y - n2.y );\n";
-        //            code << "        TF n1_x = n0.x - m0 * ( n1.x - n0.x );\n";
-        //            code << "        TF n1_y = n0.y - m0 * ( n1.y - n0.y );\n";
-
-        //            // expand x, y
-        //            int expand_mask = 0;
-        //            for( int i = 0; i <= size; ++i )
-        //                if ( i != in )
-        //                    expand_mask |= ( 1 << i );
-
-        //            // __m512d _mm512_insertf64x2 (__m512d a, __m128d b, int imm8) lorsque i1 est pair
-        //            code << "        px_0 = _mm512_maskz_expand_pd( " << expand_mask << ", px_0 );\n";
-        //            code << "        py_0 = _mm512_maskz_expand_pd( " << expand_mask << ", py_0 );\n";
-
-        //            code << "        px_0 = _mm512_insertf64x2( px_0, MM_SET_PD( n1_x, nn_x ), " << i1 / 2 << " );\n";
-        //            code << "        py_0 = _mm512_insertf64x2( py_0, MM_SET_PD( n1_y, nn_y ), " << i1 / 2 << " );\n";
-
-        //            code << "        _mm512_store_pd( &nodes->x, px_0 );\n";
-        //            code << "        _mm512_store_pd( &nodes->y, py_0 );\n";
-
-        //            //            for( int i = 0; i < size + 1; ++i )
-        //            //                code << "        P( 'reint''erpret_cast<double *>( &px_0 )[ " << i << " ] );\n";
-        //        } else {
-        //            //            code << "        Node &n0 = nodes->local_at( " << i0 << " );\n";
-        //            //            code << "        Node &n1 = nodes->local_at( " << i1 << " );\n";
-        //            //            code << "        Node &n2 = nodes->local_at( " << i2 << " );\n";
-        //            //            code << "        Node &nn = nodes->local_at( " << in << " );\n";
-
-        //            //            if ( simd_edge_cut && i1 % 2 == 0 ) {
-        //            //                code << "        __m128d s11 = _mm_set_pd1( s1 );\n";
-        //            //                code << "        __m128d s02 = MM_SET_PD( s0, s2 );\n";
-
-        //            //                code << "        __m128d m02 = _mm_div_pd( s02, _mm_sub_pd( s11, s02 ) );\n";
-
-        //            //                code << "        __m128d x11 = _mm_set_pd1( n1.x );\n";
-        //            //                code << "        __m128d y11 = _mm_set_pd1( n1.y );\n";
-        //            //                code << "        __m128d x02 = MM_SET_PD( n0.x, n2.x );\n";
-        //            //                code << "        __m128d y02 = MM_SET_PD( n0.y, n2.y );\n";
-        //            //            } else {
-        //            //                code << "        TF m0 = s0 / ( s1 - s0 );\n";
-        //            //                code << "        TF m1 = s2 / ( s1 - s2 );\n";
-
-        //            //                // save coordinates that can be modified
-        //            //                code << "        TF n0_x = n0.x;\n";
-        //            //                code << "        TF n0_y = n0.y;\n";
-        //            //            }
-
-        //            //            // shift points
-        //            //            for( int i = size; i > in; --i )
-        //            //                code << "        nodes->local_at( " << i << " ).get_straight_content_from( nodes->local_at( " << i - 1 << " ) );\n";
-
-        //            //            // modified or added points
-        //            //            if ( simd_edge_cut && i1 % 2 == 0 ) {
-        //            //                code << "        if ( store_the_normals ) { nn.dir_x = n1.dir_x; nn.dir_y = n1.dir_y; }\n";
-        //            //                code << "        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }\n";
-
-        //            //                code << "        nn.cut_id.set( n1.cut_id.get() );\n";
-        //            //                code << "        n1.cut_id.set( cut_id );\n";
-
-        //            //                code << "        __m128d x1n = _mm_sub_pd( x02, _mm_mul_pd( m02, _mm_sub_pd( x11, x02 ) ) );\n";
-        //            //                code << "        __m128d y1n = _mm_sub_pd( y02, _mm_mul_pd( m02, _mm_sub_pd( y11, y02 ) ) );\n";
-
-        //            //                if ( i1 % 2 ) {
-        //            //                    code << "        n1.x = reinterpret_cast<const TF *>( &x1n )[ 0 ];\n";
-        //            //                    code << "        n1.y = reinterpret_cast<const TF *>( &y1n )[ 0 ];\n";
-
-        //            //                    code << "        nn.x = reinterpret_cast<const TF *>( &x1n )[ 1 ];\n";
-        //            //                    code << "        nn.y = reinterpret_cast<const TF *>( &y1n )[ 1 ];\n";
-        //            //                } else {
-        //            //                    code << "        _mm_store_pd( &n1.x, x1n );\n";
-        //            //                    code << "        _mm_store_pd( &n1.y, y1n );\n";
-        //            //                }
-        //            //            } else {
-        //            //                code << "        if ( store_the_normals ) { nn.dir_x = n1.dir_x; nn.dir_y = n1.dir_y; }\n";
-        //            //                code << "        nn.x = n2.x - m1 * ( n1.x - n2.x );\n";
-        //            //                code << "        nn.y = n2.y - m1 * ( n1.y - n2.y );\n";
-        //            //                code << "        nn.cut_id.set( n1.cut_id.get() );\n";
-
-        //            //                code << "        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }\n";
-        //            //                code << "        n1.x = n0_x - m0 * ( n1.x - n0_x );\n";
-        //            //                code << "        n1.y = n0_y - m0 * ( n1.y - n0_y );\n";
-        //            //                code << "        n1.cut_id.set( cut_id );\n";
-        //            //            }
-        //        }
-    }
-
-    // 2 points are outside ?
-    if ( nb_outside == 2 ) {
-        if ( i1 == 0 && ! outside[ 1 ] )
-            i1 = size - 1;
-
-        int i0 = ( i1 + size - 1 ) % size;
-        int i2 = ( i1 + 1 )        % size;
-        int i3 = ( i1 + 2 )        % size;
-
-        code << "        Node &n0 = nodes->local_at( " << i0 << " );\n";
-        code << "        Node &n1 = nodes->local_at( " << i1 << " );\n";
-        code << "        Node &n2 = nodes->local_at( " << i2 << " );\n";
-        code << "        Node &n3 = nodes->local_at( " << i3 << " );\n";
-
-        code << "        TF s0 = reinterpret_cast<const TF *>( &di_" << i0 / simd_size << " )[ " << i0 % simd_size << " ];\n";
-        code << "        TF s1 = reinterpret_cast<const TF *>( &di_" << i1 / simd_size << " )[ " << i1 % simd_size << " ];\n";
-        code << "        TF s2 = reinterpret_cast<const TF *>( &di_" << i2 / simd_size << " )[ " << i2 % simd_size << " ];\n";
-        code << "        TF s3 = reinterpret_cast<const TF *>( &di_" << i3 / simd_size << " )[ " << i3 % simd_size << " ];\n";
-
-        if ( simd_edge_cut && false ) {
-            code << "        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }\n";
-            code << "        n1.cut_id.set( cut_id );\n";
-
-            code << "        __m128d s03 = MM_SET_PD( s0, s3 );\n";
-            code << "        __m128d s12 = MM_SET_PD( s1, s2 );\n";
-
-            code << "        __m128d x03 = MM_SET_PD( n0.x, n3.x );\n";
-            code << "        __m128d y03 = MM_SET_PD( n0.y, n3.y );\n";
-
-            code << "        __m128d x12 = MM_SET_PD( n1.x, n2.x );\n";
-            code << "        __m128d y12 = MM_SET_PD( n1.y, n2.y );\n";
-
-            code << "        __m128d m12 = _mm_div_pd( s03, _mm_sub_pd( s12, s03 ) );\n";
-
-            code << "        __m128d xnn = _mm_sub_pd( x03, _mm_mul_pd( m12, _mm_sub_pd( x12, x03 ) ) );\n";
-            code << "        __m128d ynn = _mm_sub_pd( y03, _mm_mul_pd( m12, _mm_sub_pd( y12, y03 ) ) );\n";
-
-            if ( i1 % 2 || i2 != i1 + 1 ) {
-                code << "        n1.x = reinterpret_cast<const TF *>( &xnn )[ 0 ];\n";
-                code << "        n1.y = reinterpret_cast<const TF *>( &ynn )[ 0 ];\n";
-
-                code << "        n2.x = reinterpret_cast<const TF *>( &xnn )[ 1 ];\n";
-                code << "        n2.y = reinterpret_cast<const TF *>( &ynn )[ 1 ];\n";
-            } else {
-                code << "        _mm_store_pd( &n1.x, xnn );\n";
-                code << "        _mm_store_pd( &n1.y, ynn );\n";
-            }
-        } else {
-            code << "        TF m1 = s0 / ( s1 - s0 );\n";
-            code << "        TF m2 = s3 / ( s2 - s3 );\n";
-
-            code << "        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }\n";
-            code << "        n1.cut_id.set( cut_id );\n";
-            code << "        n1.x = n0.x - m1 * ( n1.x - n0.x );\n";
-            code << "        n1.y = n0.y - m1 * ( n1.y - n0.y );\n";
-            code << "        n2.x = n3.x - m2 * ( n2.x - n3.x );\n";
-            code << "        n2.y = n3.y - m2 * ( n2.y - n3.y );\n";
+        // inside point => we keep it
+        if ( outside[ i ] == 0 ) {
+            mod.ops.push_back( { i, -1 } );
+            continue;
         }
 
-        code << "        return true;\n";
-        return;
+        // outside point => create points on boundaries
+        if ( ! outside[ h ] )
+            mod.ops.push_back( { i, h } );
+        if ( ! outside[ j ] )
+            mod.ops.push_back( { i, j } );
     }
+    mod.find_best_rotation();
 
-    // more than 2 points are outside, outside points are before and after bit 0
-    if ( i1 == 0 && outside[ size - 1 ] ) {
-        int nb_inside = size - nb_outside;
-        int i3 = sdot::tocnt( outside );
-        i1 = nb_inside + i3;
-
-        int i0 = i1 - 1;
-        int i2 = i3 - 1;
-        int in = 0;
-
-        code << "        Node &n0 = nodes->local_at( " << i0 << " );\n";
-        code << "        Node &n1 = nodes->local_at( " << i1 << " );\n";
-        code << "        Node &n2 = nodes->local_at( " << i2 << " );\n";
-        code << "        Node &n3 = nodes->local_at( " << i3 << " );\n";
-        code << "        Node &nn = nodes->local_at( " << in << " );\n";
-
-        code << "        TF s0 = reinterpret_cast<const TF *>( &di_" << i0 / simd_size << " )[ " << i0 % simd_size << " ];\n";
-        code << "        TF s1 = reinterpret_cast<const TF *>( &di_" << i1 / simd_size << " )[ " << i1 % simd_size << " ];\n";
-        code << "        TF s2 = reinterpret_cast<const TF *>( &di_" << i2 / simd_size << " )[ " << i2 % simd_size << " ];\n";
-        code << "        TF s3 = reinterpret_cast<const TF *>( &di_" << i3 / simd_size << " )[ " << i3 % simd_size << " ];\n";
-
-        code << "        TF m1 = s0 / ( s1 - s0 );\n";
-        code << "        TF m2 = s3 / ( s2 - s3 );\n";
-
-        // modified and shifted points
-        code << "        if ( store_the_normals ) { n0.dir_x = n2.dir_x; n0.dir_y = n2.dir_y; }\n";
-        code << "        nn.x = n3.x - m2 * ( n2.x - n3.x );\n";
-        code << "        nn.y = n3.y - m2 * ( n2.y - n3.y );\n";
-        code << "        nn.cut_id.set( n2.cut_id.get() );\n";
-
-        int o = 1;
-        for( ; o <= nb_inside; ++o )
-            code << "        nodes->local_at( " << o << " ).get_straight_content_from( nodes->local_at( " << i2 + o << " ) );\n";
-        code << "        Node &no = nodes->local_at( " << o << " );\n";
-
-        code << "        if ( store_the_normals ) { no.dir_x = normal.x; no.dir_y = normal.y; }\n";
-        code << "        no.x = n0.x - m1 * ( n1.x - n0.x );\n";
-        code << "        no.y = n0.y - m1 * ( n1.y - n0.y );\n";
-        code << "        no.cut_id.set( cut_id );\n";
-
-        code << "        size = " << size - ( nb_outside - 2 ) << ";\n";
-        code << "        return true;\n";
-        return;
-    }
-
-    // more than 2 points are outside, outside points do not cross `nb_points`
-    int i0 = ( i1 + size - 1       ) % size;
-    int i2 = ( i1 + nb_outside - 1 ) % size;
-    int i3 = ( i1 + nb_outside     ) % size;
-    int in = i1 + 1;
-
-    code << "        Node &n0 = nodes->local_at( " << i0 << " );\n";
-    code << "        Node &n1 = nodes->local_at( " << i1 << " );\n";
-    code << "        Node &n2 = nodes->local_at( " << i2 << " );\n";
-    code << "        Node &n3 = nodes->local_at( " << i3 << " );\n";
-    code << "        Node &nn = nodes->local_at( " << in << " );\n";
-
-    code << "        TF s0 = reinterpret_cast<const TF *>( &di_" << i0 / simd_size << " )[ " << i0 % simd_size << " ];\n";
-    code << "        TF s1 = reinterpret_cast<const TF *>( &di_" << i1 / simd_size << " )[ " << i1 % simd_size << " ];\n";
-    code << "        TF s2 = reinterpret_cast<const TF *>( &di_" << i2 / simd_size << " )[ " << i2 % simd_size << " ];\n";
-    code << "        TF s3 = reinterpret_cast<const TF *>( &di_" << i3 / simd_size << " )[ " << i3 % simd_size << " ];\n";
-
-    code << "        TF m1 = s0 / ( s1 - s0 );\n";
-    code << "        TF m2 = s3 / ( s2 - s3 );\n";
-
-    // modified and deleted points
-    code << "        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }\n";
-    code << "        n1.x = n0.x - m1 * ( n1.x - n0.x );\n";
-    code << "        n1.y = n0.y - m1 * ( n1.y - n0.y );\n";
-    code << "        n1.cut_id.set( cut_id );\n";
-
-    code << "        if ( store_the_normals ) { nn.dir_x = n2.dir_x; nn.dir_y = n2.dir_y; }\n";
-    code << "        nn.x = n3.x - m2 * ( n2.x - n3.x );\n";
-    code << "        nn.y = n3.y - m2 * ( n2.y - n3.y );\n";
-    code << "        nn.cut_id.set( n2.cut_id.get() );\n";
-
-    std::size_t nb_to_rem = nb_outside - 2;
-    for( int i = i2 + 1; i < size; ++i )
-        code << "        nodes->local_at( " << i - nb_to_rem << " ).get_straight_content_from( nodes->local_at( " << i << " ) );\n";
-
-    // modification of the number of points
-    code << "        size = " << size - nb_to_rem << ";\n";
-    code << "        return true;\n";
+    code << "        // " << mod << "\n";
+    mod.write_code( code, simd_size );
 }
 
 void generate( int simd_size, std::string /*ext*/, int max_size_included = 8 ) {
@@ -374,15 +162,17 @@ void generate( int simd_size, std::string /*ext*/, int max_size_included = 8 ) {
     int nb_regs = ( max_size_included + simd_size - 1 ) / simd_size;
 
     std::cout << "    // outsize list\n";
-    std::cout << "    __m512d ox = _mm512_set1_pd( origin.x );\n";
-    std::cout << "    __m512d oy = _mm512_set1_pd( origin.y );\n";
-    std::cout << "    __m512d nx = _mm512_set1_pd( normal.x );\n";
-    std::cout << "    __m512d ny = _mm512_set1_pd( normal.y );\n";
+    std::cout << "    TF *x = &nodes->x;\n";
+    std::cout << "    TF *y = &nodes->y;\n";
+    std::cout << "    __m512d rd = _mm512_set1_pd( dist );\n";
+    std::cout << "    __m512d nx = _mm512_set1_pd( dir.x );\n";
+    std::cout << "    __m512d ny = _mm512_set1_pd( dir.y );\n";
     for( int i = 0; i < nb_regs; ++i ) {
-        std::cout << "    __m512d px_" << i << " = _mm512_load_pd( &nodes->x + " << simd_size * i << " );\n";
-        std::cout << "    __m512d py_" << i << " = _mm512_load_pd( &nodes->y + " << simd_size * i << " );\n";
-        std::cout << "    __m512d di_" << i << " = _mm512_add_pd( _mm512_mul_pd( _mm512_sub_pd( ox, px_" << i << " ), nx ), _mm512_mul_pd( _mm512_sub_pd( oy, py_" << i << " ), ny ) );\n";
-        std::cout << "    std::uint8_t outside_" << i << " = _mm512_cmp_pd_mask( di_" << i << ", _mm512_set1_pd( 0.0 ), _CMP_LT_OQ ); // OS?\n"; // OQ => 46.9, QS => 47.1
+        std::cout << "    __m512d px_" << i << " = _mm512_load_pd( x + " << simd_size * i << " );\n";
+        std::cout << "    __m512d py_" << i << " = _mm512_load_pd( y + " << simd_size * i << " );\n";
+        std::cout << "    __m512d bi_" << i << " = _mm512_add_pd( _mm512_mul_pd( px_" << i << ", nx ), _mm512_mul_pd( py_" << i << ", ny ) );\n";
+        std::cout << "    std::uint8_t outside_" << i << " = _mm512_cmp_pd_mask( bi_" << i << ", rd, _CMP_GT_OQ );\n"; // OQ => 46.9, QS => 47.1
+        std::cout << "    __m512d di_" << i << " = _mm512_sub_pd( bi_" << i << ", rd );\n";
         // std::cout << "    std::uint8_t outside_" << i << " = _mm512_movepi64_mask( __m512i( di_" << i << " ) );\n"; // => 47.1
     }
     std::cout << "    \n";
@@ -411,25 +201,25 @@ void generate( int simd_size, std::string /*ext*/, int max_size_included = 8 ) {
 
 int main() {
     std::cout << "#include \"../ConvexPolyhedron2.h\"\n";
-    std::cout << "#define MM_SET_PD( A, B ) _mm_set_pd( B, A ) \n";
     std::cout << "#define MM256_SET_PD( A, B, C, D ) _mm256_set_pd( D, C, B, A ) \n";
+    std::cout << "#define MM128_SET_PD( A, B ) _mm_set_pd( B, A ) \n";
     std::cout << "namespace sdot {\n";
 
     //
     std::cout << "\n";
     std::cout << "template<class Pc> template<int flags>\n";
-    std::cout << "bool ConvexPolyhedron2<Pc>::plane_cut_simd_switch( Pt origin, Pt normal, CI cut_id, N<flags>, S<double> ) {\n";
+    std::cout << "bool ConvexPolyhedron2<Pc>::plane_cut_simd_switch( Pt dir, TF dist, CI cut_id, N<flags>, S<double> ) {\n";
     std::cout << "    #ifdef __AVX512F__\n";
     generate( 8, "AVX512", 8 );
     std::cout << "    #endif // __AVX512F__\n";
-    std::cout << "    return plane_cut_gen( origin, normal, cut_id, N<flags>() );\n";
+    std::cout << "    return plane_cut_gen( dir, dist, cut_id, N<flags>() );\n";
     std::cout << "}\n";
 
     // generic version
     std::cout << "\n";
     std::cout << "template<class Pc> template<int flags,class T>\n";
-    std::cout << "bool ConvexPolyhedron2<Pc>::plane_cut_simd_switch( Pt origin, Pt normal, CI cut_id, N<flags>, S<T> ) {\n";
-    std::cout << "    return plane_cut_gen( origin, normal, cut_id, N<flags>() );\n";
+    std::cout << "bool ConvexPolyhedron2<Pc>::plane_cut_simd_switch( Pt dir, TF dist, CI cut_id, N<flags>, S<T> ) {\n";
+    std::cout << "    return plane_cut_gen( dir, dist, cut_id, N<flags>() );\n";
     std::cout << "}\n";
 
     std::cout << "\n";

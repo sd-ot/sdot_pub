@@ -1,3 +1,4 @@
+#include "../Support/Display/generic_ostream_output.h"
 #include "../Support/Display/binary_repr.h"
 #include "../Support/aligned_memory.h"
 // #include "../Support/xsimd_util.h"
@@ -184,13 +185,13 @@ void ConvexPolyhedron2<Pc>::resize( TI new_size ) {
 }
 
 template<class Pc>
-bool ConvexPolyhedron2<Pc>::plane_cut( Pt origin, Pt normal, CI cut_id ) {
-    return plane_cut( origin, normal, cut_id, N<0>() );
+bool ConvexPolyhedron2<Pc>::plane_cut( Pt dir, TF dist, CI cut_id ) {
+    return plane_cut( dir, dist, cut_id, N<0>() );
 }
 
 template<class Pc> template<int flags>
-bool ConvexPolyhedron2<Pc>::plane_cut_simd_tzcnt( Pt origin, Pt normal, CI cut_id, N<flags> ) {
-    return plane_cut_gen( origin, normal, cut_id, N<flags>() );
+bool ConvexPolyhedron2<Pc>::plane_cut_simd_tzcnt( Pt dir, TF dist, CI cut_id, N<flags> ) {
+    return plane_cut_gen( dir, dist, cut_id, N<flags>() );
 
 //    constexpr std::size_t simd_size = xsimd::simd_type<TF>::size;
 //    using BB = xsimd::batch_bool<TF,simd_size>;
@@ -394,12 +395,12 @@ bool ConvexPolyhedron2<Pc>::plane_cut_simd_tzcnt( Pt origin, Pt normal, CI cut_i
 }
 
 template<class Pc> template<int flags,class BS,class DS>
-bool ConvexPolyhedron2<Pc>::plane_cut_gen( Pt origin, Pt normal, CI cut_id, N<flags>, BS &outside, DS &distances ) {
+bool ConvexPolyhedron2<Pc>::plane_cut_gen( Pt dir, TF dist, CI cut_id, N<flags>, BS &outside, DS &distances ) {
     std::size_t cpt_node = 0;
     for_each_node( [&]( const Node &node ) {
-        TF d = dot( origin - node.pos(), normal );
-        distances[ cpt_node ] = d;
-        outside[ cpt_node ] = d < 0;
+        TF d = dot( node.pos(), dir );
+        outside[ cpt_node ] = d > dist;
+        distances[ cpt_node ] = d - dist;
         ++cpt_node;
     } );
 
@@ -415,12 +416,8 @@ bool ConvexPolyhedron2<Pc>::plane_cut_gen( Pt origin, Pt normal, CI cut_id, N<fl
     }
 
     // => we will need a normalized direction
-    if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 ) {
-        TF n = 1 / norm_2( normal );
-        for( std::size_t i = 0; i < size; ++i )
-            distances[ i ] *= n;
-        normal = n * normal;
-    }
+    if ( store_the_normals && ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized ) == 0 )
+        dir = normalized( dir );
 
     // => we will need index of the first outside point
     std::size_t i1 = tzcnt( outside );
@@ -461,7 +458,7 @@ bool ConvexPolyhedron2<Pc>::plane_cut_gen( Pt origin, Pt normal, CI cut_id, N<fl
         nn.y = n2.y - m1 * ( n1.y - n2.y );
         nn.cut_id.set( n1.cut_id.get() );
 
-        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
+        if ( store_the_normals ) { n1.dir_x = dir.x; n1.dir_y = dir.y; }
         n1.x = n0_x - m0 * ( n1.x - n0_x );
         n1.y = n0_y - m0 * ( n1.y - n0_y );
         n1.cut_id.set( cut_id );
@@ -492,7 +489,7 @@ bool ConvexPolyhedron2<Pc>::plane_cut_gen( Pt origin, Pt normal, CI cut_id, N<fl
         TF m2 = s3 / ( s2 - s3 );
 
         // modified points
-        if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
+        if ( store_the_normals ) { n1.dir_x = dir.x; n1.dir_y = dir.y; }
         n1.cut_id.set( cut_id );
         n1.x = n0.x - m1 * ( n1.x - n0.x );
         n1.y = n0.y - m1 * ( n1.y - n0.y );
@@ -536,7 +533,7 @@ bool ConvexPolyhedron2<Pc>::plane_cut_gen( Pt origin, Pt normal, CI cut_id, N<fl
             node( o ).get_straight_content_from( node( i2 + o ) );
         Node &no = node( o );
 
-        if ( store_the_normals ) { no.dir_x = normal.x; no.dir_y = normal.y; }
+        if ( store_the_normals ) { no.dir_x = dir.x; no.dir_y = dir.y; }
         no.x = n0.x - m1 * ( n1.x - n0.x );
         no.y = n0.y - m1 * ( n1.y - n0.y );
         no.cut_id.set( cut_id );
@@ -566,7 +563,7 @@ bool ConvexPolyhedron2<Pc>::plane_cut_gen( Pt origin, Pt normal, CI cut_id, N<fl
     TF m2 = s3 / ( s2 - s3 );
 
     // modified and deleted points
-    if ( store_the_normals ) { n1.dir_x = normal.x; n1.dir_y = normal.y; }
+    if ( store_the_normals ) { n1.dir_x = dir.x; n1.dir_y = dir.y; }
     n1.x = n0.x - m1 * ( n1.x - n0.x );
     n1.y = n0.y - m1 * ( n1.y - n0.y );
     n1.cut_id.set( cut_id );

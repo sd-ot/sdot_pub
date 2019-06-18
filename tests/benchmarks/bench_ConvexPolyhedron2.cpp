@@ -22,7 +22,7 @@ double fake_cp_plane_cut( Point2<double> origin, Point2<double> dir ) {
 }
 
 template<class Cp,class Pt,int Simd,int Switch>
-void bench( const std::vector<std::size_t> &offsets, const std::vector<std::pair<Pt,Pt>> &cuts, N<Simd>, N<Switch> ) {
+void bench( const std::vector<std::size_t> &offsets, const std::vector<std::pair<Pt,double>> &cuts, N<Simd>, N<Switch> ) {
     constexpr int flags = ConvexPolyhedron::do_not_use_simd     * ( Simd   == 0 ) +
                           ConvexPolyhedron::do_not_use_switches * ( Switch == 0 );
     using TF = typename Cp::TF;
@@ -57,7 +57,7 @@ void bench( const std::vector<std::size_t> &offsets, const std::vector<std::pair
     std::uint64_t dt = ( t1 - t0 ) / nb_reps - overhead;
 
     P( sum, dt, overhead, dt / double( cuts.size() ) );
-    P( bc );
+    // P( bc );
 }
 
 
@@ -83,7 +83,7 @@ int main() {
 
     // read file
     std::ifstream fin( "tests/benchmarks/cuts.txt" );
-    std::map<Dirac,std::vector<std::pair<Pt,Pt>>> pt_map;
+    std::map<Dirac,std::vector<std::pair<Pt,double>>> pt_map;
     while ( true ) {
         Pt pos, o, n;
         std::size_t phase;
@@ -92,11 +92,11 @@ int main() {
             >> n.x >> n.y;
         if ( ! fin )
             break;
-        pt_map[ { phase, pos } ].emplace_back( o, n );
+        pt_map[ { phase, pos } ].emplace_back( n, dot( o, n ) );
     }
 
     //
-    std::vector<std::pair<Pt,Pt>> cuts;
+    std::vector<std::pair<Pt,double>> cuts;
     std::vector<std::size_t> offsets;
     for( const auto &p : pt_map ) {
         offsets.push_back( cuts.size() );
