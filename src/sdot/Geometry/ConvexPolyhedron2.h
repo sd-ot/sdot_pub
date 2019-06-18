@@ -42,6 +42,8 @@ public:
     static constexpr TI                  block_size                = 64;
     using                                Node                      = ConvexPolyhedron2NodeBlock<TF,TI,block_size,store_the_normals,allow_ball_cut>;
     struct                               Edge                      { Node *nodes[ 2 ]; }; ///< tmp structure
+    struct                               Cut                       { Pt dir; TF dist; CI id; };
+
     // types for the ctor
     struct                               Box                       { Pt p0, p1; };
 
@@ -65,17 +67,17 @@ public:
 
     // geometric modifications
     template<int flags>                  __attribute__             ((noinline))
-    bool                                 plane_cut                 ( Pt dir, TF dist, CI cut_id, N<flags> ); ///< return true if effective cut
-    bool                                 plane_cut                 ( Pt dir, TF dist, CI cut_id = {} ); ///< return true if effective cut
+    void                                 plane_cut                 ( const Cut *cuts, std::size_t nb_cuts, N<flags> ); ///< return true if effective cut
+    void                                 plane_cut                 ( const Cut *cuts, std::size_t nb_cuts ); ///< return true if effective cut
     void                                 ball_cut                  ( Pt center, TF radius, CI cut_id = {} ); ///< beware: only one sphere cut is authorized, and it must be done after all the plane cuts.
 
 
 private:
-    template<int f> bool                 plane_cut_simd_switch     ( Pt dir, TF dist, CI cut_id, N<f>, S<double> );
-    template<int f,class T> bool         plane_cut_simd_switch     ( Pt dir, TF dist, CI cut_id, N<f>, S<T> );
-    template<int f> bool                 plane_cut_simd_tzcnt      ( Pt dir, TF dist, CI cut_id, N<f> );
-    template<int f> bool                 plane_cut_gen             ( Pt dir, TF dist, CI cut_id, N<f> );
-    template<int f,class B,class D> bool plane_cut_gen             ( Pt dir, TF dist, CI cut_id, N<f>, B &outside, D &distances );
+    template<int f> void                 plane_cut_simd_switch     ( const Cut *cuts, std::size_t nb_cuts, N<f>, S<double> );
+    template<int f,class T> void         plane_cut_simd_switch     ( const Cut *cuts, std::size_t nb_cuts, N<f>, S<T> );
+    template<int f> void                 plane_cut_simd_tzcnt      ( const Cut *cuts, std::size_t nb_cuts, N<f> );
+    template<int f> void                 plane_cut_gen             ( const Cut *cuts, std::size_t nb_cuts, N<f> );
+    template<int f,class B,class D> void plane_cut_gen             ( const Cut *cuts, std::size_t nb_cuts, N<f>, B &outside, D &distances );
 
     Node*                                nodes;                    ///< aligned data. @see ConvexPolyhedron2
     TI                                   size;                     ///< nb nodes

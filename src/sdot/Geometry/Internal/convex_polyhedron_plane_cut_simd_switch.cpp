@@ -111,22 +111,22 @@ struct Mod {
 };
 
 
-void get_code( std::ostringstream &code, int index, int max_size_included, int simd_size, bool simd_edge_cut = true, bool loc_reg = true ) {
+void get_code( std::ostringstream &code, int index, int max_size_included, int simd_size ) {
     const int mul_size = 1 << max_size_included;
     const int size = index / mul_size;
 
     std::bitset<64> outside = index & ( ( 1 << size ) - 1 );
     const int nb_outside = sdot::popcnt( outside );
 
-    if ( size <= 2 || nb_outside == 0 ) {
-        code << "        // size <= 2 outside=" << outside << "\n";
-        code << "        return false;\n";
+    if ( size <= 2 || nb_outside == size ) {
+        if ( size )
+            code << "        size = 0;\n";
+        code << "        return;\n";
         return;
     }
 
-    if ( nb_outside == size ) {
-        code << "        size = 0;\n";
-        code << "        return true;\n";
+    if ( nb_outside == 0 ) {
+        code << "        continue;\n";
         return;
     }
 
@@ -161,12 +161,14 @@ void generate( int simd_size, std::string /*ext*/, int max_size_included = 8 ) {
     int max_index = mul_size * ( max_size_included + 1 );
     int nb_regs = ( max_size_included + simd_size - 1 ) / simd_size;
 
-    std::cout << "    // outsize list\n";
-    std::cout << "    TF *x = &nodes->x;\n";
-    std::cout << "    TF *y = &nodes->y;\n";
-    std::cout << "    __m512d rd = _mm512_set1_pd( dist );\n";
-    std::cout << "    __m512d nx = _mm512_set1_pd( dir.x );\n";
-    std::cout << "    __m512d ny = _mm512_set1_pd( dir.y );\n";
+    std::cout << "  // outsize list\n";
+    std::cout << "  TF *x = &nodes->x;\n";
+    std::cout << "  TF *y = &nodes->y;\n";
+    std::cout << "  for( std::size_t num_cut = 0; num_cut < nb_cuts; ++num_cut ) {\n";
+    std::cout << "    const Cut &cut = cuts[ num_cut ];\n";
+    std::cout << "    __m512d rd = _mm512_set1_pd( cut.dist );\n";
+    std::cout << "    __m512d nx = _mm512_set1_pd( cut.dir.x );\n";
+    std::cout << "    __m512d ny = _mm512_set1_pd( cut.dir.y );\n";
     for( int i = 0; i < nb_regs; ++i ) {
         std::cout << "    __m512d px_" << i << " = _mm512_load_pd( x + " << simd_size * i << " );\n";
         std::cout << "    __m512d py_" << i << " = _mm512_load_pd( y + " << simd_size * i << " );\n";
@@ -197,6 +199,7 @@ void generate( int simd_size, std::string /*ext*/, int max_size_included = 8 ) {
     }
     std::cout << "    default: break;\n";
     std::cout << "    }\n";
+    std::cout << "  }\n";
 }
 
 int main() {
@@ -208,18 +211,18 @@ int main() {
     //
     std::cout << "\n";
     std::cout << "template<class Pc> template<int flags>\n";
-    std::cout << "bool ConvexPolyhedron2<Pc>::plane_cut_simd_switch( Pt dir, TF dist, CI cut_id, N<flags>, S<double> ) {\n";
+    std::cout << "void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t nb_cuts, N<flags>, S<double> ) {\n";
     std::cout << "    #ifdef __AVX512F__\n";
     generate( 8, "AVX512", 8 );
     std::cout << "    #endif // __AVX512F__\n";
-    std::cout << "    return plane_cut_gen( dir, dist, cut_id, N<flags>() );\n";
+    std::cout << "    return plane_cut_gen( cuts, nb_cuts, N<flags>() );\n";
     std::cout << "}\n";
 
     // generic version
     std::cout << "\n";
     std::cout << "template<class Pc> template<int flags,class T>\n";
-    std::cout << "bool ConvexPolyhedron2<Pc>::plane_cut_simd_switch( Pt dir, TF dist, CI cut_id, N<flags>, S<T> ) {\n";
-    std::cout << "    return plane_cut_gen( dir, dist, cut_id, N<flags>() );\n";
+    std::cout << "void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t nb_cuts, N<flags>, S<T> ) {\n";
+    std::cout << "    return plane_cut_gen( cuts, nb_cuts, N<flags>() );\n";
     std::cout << "}\n";
 
     std::cout << "\n";
