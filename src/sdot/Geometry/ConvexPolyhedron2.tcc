@@ -5,6 +5,7 @@
 #include "../Support/bit_handling.h"
 #include "../Support/ASSERT.h"
 #include "../Support/TODO.h"
+#include "../Support/pi.h"
 #include "../Support/P.h"
 #include "ConvexPolyhedron2.h"
 //#include <xsimd/xsimd.hpp>
@@ -52,6 +53,8 @@ ConvexPolyhedron2<Pc>::ConvexPolyhedron2() {
     size = 0;
     rese = block_size;
     nodes = new ( aligned_malloc( rese / block_size * sizeof( Node ), 64 ) ) Node;
+
+    sphere_radius = 0;
 }
 
 template<class Pc>
@@ -63,6 +66,7 @@ ConvexPolyhedron2<Pc>::~ConvexPolyhedron2() {
 template<class Pc>
 ConvexPolyhedron2<Pc> &ConvexPolyhedron2<Pc>::operator=( const ConvexPolyhedron2 &that ) {
     resize( that.nb_nodes() );
+
     for( std::size_t i = 0; ; i += block_size ) {
         Node &n = nodes[ i / block_size ];
         const Node &t = that.nodes[ i / block_size ];
@@ -99,6 +103,9 @@ ConvexPolyhedron2<Pc> &ConvexPolyhedron2<Pc>::operator=( const ConvexPolyhedron2
             n.local_at( j ).cut_id.set( t.local_at( j ).cut_id.get() );
     }
 
+    sphere_radius = that.sphere_radius;
+    sphere_center = that.sphere_center;
+    sphere_id     = that.sphere_id;
 
     return *this;
 }
@@ -599,7 +606,7 @@ void ConvexPolyhedron2<Pc>::plane_cut( const Cut *cuts, std::size_t nb_cuts, N<f
     }
 
     // no switch version ?
-    if ( flags & ConvexPolyhedron::do_not_use_switches ) {
+    if ( flags & ConvexPolyhedron::do_not_use_switch ) {
         for( std::size_t i = 0; i < nb_cuts; ++i )
             plane_cut_simd_tzcnt( cuts[ i ], N<flags>(), S<TF>(), S<CI>() );
         return;
@@ -612,6 +619,61 @@ void ConvexPolyhedron2<Pc>::plane_cut( const Cut *cuts, std::size_t nb_cuts, N<f
 template<class Pc>
 void ConvexPolyhedron2<Pc>::plane_cut( const Cut *cuts, std::size_t nb_cuts ) {
     return plane_cut( cuts, nb_cuts, N<0>() );
+}
+
+template<class Pc>
+typename ConvexPolyhedron2<Pc>::TF ConvexPolyhedron2<Pc>::integral() const {
+    //    // nsmake run -g3 src/PowerDiagram/offline_integration/gen_approx_integration.cpp --function Unit --end-log-scale 100 --precision 1e-10 -r 100 -l 100
+    //    if ( _cuts.empty() )
+    //        return _sphere_radius > 0 ? 2 * pi() * 0.5 * pow( _sphere_radius, 2 ) : 0;
+
+    //    auto arc_val = []( PT P0, PT P1 ) {
+    //        using std::atan2;
+    //        using std::pow;
+    //        TF a0 = atan2( P0.y, P0.x );
+    //        TF a1 = atan2( P1.y, P1.x );
+    //        if ( a1 < a0 )
+    //            a1 += 2 * pi();
+    //        return ( a1 - a0 ) * 0.5 * pow( dot( P0, P0 ), 1 );
+    //    };
+
+    //    auto seg_val = []( PT P0, PT P1 ) {
+    //        return -0.25 * ( ( P0.x + P1.x ) * ( P0.y - P1.y ) - ( P0.x - P1.x ) * ( P0.y + P1.y ) );
+    //    };
+
+    //    TF res = 0;
+    //    for( size_t i1 = 0, i0 = _cuts.size() - 1; i1 < _cuts.size(); i0 = i1++ ) {
+    //        if ( _cuts[ i0 ].seg_type == SegType::arc )
+    //            res += arc_val( _cuts[ i0 ].point - _sphere_center, _cuts[ i1 ].point - _sphere_center );
+    //        else
+    //            res += seg_val( _cuts[ i0 ].point - _sphere_center, _cuts[ i1 ].point - _sphere_center );
+    //    }
+    //    return res;
+
+    // hand coded version:
+    if ( nb_nodes() == 0 )
+        return allow_ball_cut ? pi( S<TF>() ) * pow( sphere_radius, 2 ) : TF( 0 );
+
+    // triangles
+    TF res = 0;
+    Pt A = node( 0 ).pos();
+    for( size_t i = 2; i < nb_nodes(); ++i ) {
+        Pt B = node( i - 1 ).pos();
+        Pt C = node( i - 0 ).pos();
+        TF tr2_area = A.x * ( B.y - C.y ) + B.x * ( C.y - A.y ) + C.x * ( A.y - B.y );
+        res += tr2_area;
+    }
+    res *= 0.5;
+
+    // arcs
+    if ( allow_ball_cut ) {
+        TODO;
+        //        for( size_t i0 = nb_nodes() - 1, i1 = 0; i1 < nb_nodes(); i0 = i1++ )
+        //            if ( arcs[ i0 ] )
+        //                res += _arc_area( point( i0 ), point( i1 ) );
+    }
+
+    return res;
 }
 
 } // namespace sdot

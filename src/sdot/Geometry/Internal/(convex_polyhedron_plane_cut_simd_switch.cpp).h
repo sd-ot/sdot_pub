@@ -9,13 +9,13 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
     // outsize list
     TF *x = &nodes->x;
     TF *y = &nodes->y;
+    __m512d px_0 = _mm512_load_pd( x + 0 );
+    __m512d py_0 = _mm512_load_pd( y + 0 );
     for( std::size_t num_cut = 0; num_cut < nb_cuts; ++num_cut ) {
         const Cut &cut = cuts[ num_cut ];
         __m512d rd = _mm512_set1_pd( cut.dist );
         __m512d nx = _mm512_set1_pd( cut.dir.x );
         __m512d ny = _mm512_set1_pd( cut.dir.y );
-        __m512d px_0 = _mm512_load_pd( x + 0 );
-        __m512d py_0 = _mm512_load_pd( y + 0 );
         __m512d bi_0 = _mm512_add_pd( _mm512_mul_pd( px_0, nx ), _mm512_mul_pd( py_0, ny ) );
         std::uint8_t outside_0 = _mm512_cmp_pd_mask( bi_0, rd, _CMP_GT_OQ );
         __m512d di_0 = _mm512_sub_pd( bi_0, rd );
@@ -57,16 +57,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF m_0_1 = d_0 / ( d_1 - d_0 );
-            TF m_0_2 = d_0 / ( d_2 - d_0 );
-            TF x_0 = x[ 0 ] - m_0_1 * ( x[ 1 ] - x[ 0 ] );
-            TF y_0 = y[ 0 ] - m_0_1 * ( y[ 1 ] - y[ 0 ] );
-            TF x_3 = x[ 0 ] - m_0_2 * ( x[ 2 ] - x[ 0 ] );
-            TF y_3 = y[ 0 ] - m_0_2 * ( y[ 2 ] - y[ 0 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
+            TF m_0 = d_0 / ( d_1 - d_0 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 1 ] - reinterpret_cast<double *>( &px_0 )[ 0 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 1 ] - reinterpret_cast<double *>( &py_0 )[ 0 ] );
+            TF m_1 = d_0 / ( d_2 - d_0 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 0 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 2 ] - reinterpret_cast<double *>( &px_0 )[ 0 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 0 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 2 ] - reinterpret_cast<double *>( &py_0 )[ 0 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x9020108ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             size = 4;
             break;
         }
@@ -106,20 +107,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF m_1_0 = d_1 / ( d_0 - d_1 );
-            TF m_1_2 = d_1 / ( d_2 - d_1 );
-            TF x_1 = x[ 1 ] - m_1_0 * ( x[ 0 ] - x[ 1 ] );
-            TF y_1 = y[ 1 ] - m_1_0 * ( y[ 0 ] - y[ 1 ] );
-            TF x_2 = x[ 1 ] - m_1_2 * ( x[ 2 ] - x[ 1 ] );
-            TF y_2 = y[ 1 ] - m_1_2 * ( y[ 2 ] - y[ 1 ] );
-            TF x_3 = x[ 2 ];
-            TF y_3 = y[ 2 ];
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
+            TF m_0 = d_1 / ( d_0 - d_1 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 1 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 0 ] - reinterpret_cast<double *>( &px_0 )[ 1 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 1 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 0 ] - reinterpret_cast<double *>( &py_0 )[ 1 ] );
+            TF m_1 = d_1 / ( d_2 - d_1 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 1 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 2 ] - reinterpret_cast<double *>( &px_0 )[ 1 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 1 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 2 ] - reinterpret_cast<double *>( &py_0 )[ 1 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x2090800ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             size = 4;
             break;
         }
@@ -159,16 +157,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF m_0_2 = d_0 / ( d_2 - d_0 );
-            TF m_1_2 = d_1 / ( d_2 - d_1 );
-            TF x_0 = x[ 0 ] - m_0_2 * ( x[ 2 ] - x[ 0 ] );
-            TF y_0 = y[ 0 ] - m_0_2 * ( y[ 2 ] - y[ 0 ] );
-            TF x_1 = x[ 1 ] - m_1_2 * ( x[ 2 ] - x[ 1 ] );
-            TF y_1 = y[ 1 ] - m_1_2 * ( y[ 2 ] - y[ 1 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
+            TF m_0 = d_0 / ( d_2 - d_0 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 2 ] - reinterpret_cast<double *>( &px_0 )[ 0 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 2 ] - reinterpret_cast<double *>( &py_0 )[ 0 ] );
+            TF m_1 = d_1 / ( d_2 - d_1 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 1 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 2 ] - reinterpret_cast<double *>( &px_0 )[ 1 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 1 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 2 ] - reinterpret_cast<double *>( &py_0 )[ 1 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x20908ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             break;
         }
         case 772:
@@ -207,16 +206,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF m_2_1 = d_2 / ( d_1 - d_2 );
-            TF m_2_0 = d_2 / ( d_0 - d_2 );
-            TF x_2 = x[ 2 ] - m_2_1 * ( x[ 1 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_1 * ( y[ 1 ] - y[ 2 ] );
-            TF x_3 = x[ 2 ] - m_2_0 * ( x[ 0 ] - x[ 2 ] );
-            TF y_3 = y[ 2 ] - m_2_0 * ( y[ 0 ] - y[ 2 ] );
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
+            TF m_0 = d_2 / ( d_1 - d_2 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 2 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 1 ] - reinterpret_cast<double *>( &px_0 )[ 2 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 2 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 1 ] - reinterpret_cast<double *>( &py_0 )[ 2 ] );
+            TF m_1 = d_2 / ( d_0 - d_2 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 2 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 0 ] - reinterpret_cast<double *>( &px_0 )[ 2 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 2 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 0 ] - reinterpret_cast<double *>( &py_0 )[ 2 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x9080100ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             size = 4;
             break;
         }
@@ -256,16 +256,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF m_0_1 = d_0 / ( d_1 - d_0 );
-            TF m_2_1 = d_2 / ( d_1 - d_2 );
-            TF x_0 = x[ 0 ] - m_0_1 * ( x[ 1 ] - x[ 0 ] );
-            TF y_0 = y[ 0 ] - m_0_1 * ( y[ 1 ] - y[ 0 ] );
-            TF x_2 = x[ 2 ] - m_2_1 * ( x[ 1 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_1 * ( y[ 1 ] - y[ 2 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
+            TF m_0 = d_0 / ( d_1 - d_0 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 1 ] - reinterpret_cast<double *>( &px_0 )[ 0 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 1 ] - reinterpret_cast<double *>( &py_0 )[ 0 ] );
+            TF m_1 = d_2 / ( d_1 - d_2 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 2 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 1 ] - reinterpret_cast<double *>( &px_0 )[ 2 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 2 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 1 ] - reinterpret_cast<double *>( &py_0 )[ 2 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x90108ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             break;
         }
         case 774:
@@ -304,16 +305,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF m_1_0 = d_1 / ( d_0 - d_1 );
-            TF m_2_0 = d_2 / ( d_0 - d_2 );
-            TF x_1 = x[ 1 ] - m_1_0 * ( x[ 0 ] - x[ 1 ] );
-            TF y_1 = y[ 1 ] - m_1_0 * ( y[ 0 ] - y[ 1 ] );
-            TF x_2 = x[ 2 ] - m_2_0 * ( x[ 0 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_0 * ( y[ 0 ] - y[ 2 ] );
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
+            TF m_0 = d_1 / ( d_0 - d_1 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 1 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 0 ] - reinterpret_cast<double *>( &px_0 )[ 1 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 1 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 0 ] - reinterpret_cast<double *>( &py_0 )[ 1 ] );
+            TF m_1 = d_2 / ( d_0 - d_2 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 2 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 0 ] - reinterpret_cast<double *>( &px_0 )[ 2 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 2 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 0 ] - reinterpret_cast<double *>( &py_0 )[ 2 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x90800ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             break;
         }
         case 1025:
@@ -336,16 +338,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF m_0_1 = d_0 / ( d_1 - d_0 );
-            TF m_0_3 = d_0 / ( d_3 - d_0 );
-            TF x_0 = x[ 0 ] - m_0_1 * ( x[ 1 ] - x[ 0 ] );
-            TF y_0 = y[ 0 ] - m_0_1 * ( y[ 1 ] - y[ 0 ] );
-            TF x_4 = x[ 0 ] - m_0_3 * ( x[ 3 ] - x[ 0 ] );
-            TF y_4 = y[ 0 ] - m_0_3 * ( y[ 3 ] - y[ 0 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
+            TF m_0 = d_0 / ( d_1 - d_0 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 1 ] - reinterpret_cast<double *>( &px_0 )[ 0 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 1 ] - reinterpret_cast<double *>( &py_0 )[ 0 ] );
+            TF m_1 = d_0 / ( d_3 - d_0 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 0 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 3 ] - reinterpret_cast<double *>( &px_0 )[ 0 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 0 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 3 ] - reinterpret_cast<double *>( &py_0 )[ 0 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x903020108ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             size = 5;
             break;
         }
@@ -369,20 +372,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF m_1_0 = d_1 / ( d_0 - d_1 );
-            TF m_1_2 = d_1 / ( d_2 - d_1 );
-            TF x_0 = x[ 1 ] - m_1_0 * ( x[ 0 ] - x[ 1 ] );
-            TF y_0 = y[ 1 ] - m_1_0 * ( y[ 0 ] - y[ 1 ] );
-            TF x_1 = x[ 1 ] - m_1_2 * ( x[ 2 ] - x[ 1 ] );
-            TF y_1 = y[ 1 ] - m_1_2 * ( y[ 2 ] - y[ 1 ] );
-            TF x_4 = x[ 0 ];
-            TF y_4 = y[ 0 ];
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
+            TF m_0 = d_1 / ( d_0 - d_1 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 1 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 0 ] - reinterpret_cast<double *>( &px_0 )[ 1 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 1 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 0 ] - reinterpret_cast<double *>( &py_0 )[ 1 ] );
+            TF m_1 = d_1 / ( d_2 - d_1 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 1 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 2 ] - reinterpret_cast<double *>( &px_0 )[ 1 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 1 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 2 ] - reinterpret_cast<double *>( &py_0 )[ 1 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x3020908ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             size = 5;
             break;
         }
@@ -407,16 +407,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF m_0_3 = d_0 / ( d_3 - d_0 );
-            TF m_1_2 = d_1 / ( d_2 - d_1 );
-            TF x_0 = x[ 0 ] - m_0_3 * ( x[ 3 ] - x[ 0 ] );
-            TF y_0 = y[ 0 ] - m_0_3 * ( y[ 3 ] - y[ 0 ] );
-            TF x_1 = x[ 1 ] - m_1_2 * ( x[ 2 ] - x[ 1 ] );
-            TF y_1 = y[ 1 ] - m_1_2 * ( y[ 2 ] - y[ 1 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
+            TF m_0 = d_0 / ( d_3 - d_0 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 3 ] - reinterpret_cast<double *>( &px_0 )[ 0 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 3 ] - reinterpret_cast<double *>( &py_0 )[ 0 ] );
+            TF m_1 = d_1 / ( d_2 - d_1 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 1 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 2 ] - reinterpret_cast<double *>( &px_0 )[ 1 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 1 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 2 ] - reinterpret_cast<double *>( &py_0 )[ 1 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x3020908ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             break;
         }
         case 1028:
@@ -439,20 +440,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF m_2_1 = d_2 / ( d_1 - d_2 );
-            TF m_2_3 = d_2 / ( d_3 - d_2 );
-            TF x_2 = x[ 2 ] - m_2_1 * ( x[ 1 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_1 * ( y[ 1 ] - y[ 2 ] );
-            TF x_3 = x[ 2 ] - m_2_3 * ( x[ 3 ] - x[ 2 ] );
-            TF y_3 = y[ 2 ] - m_2_3 * ( y[ 3 ] - y[ 2 ] );
-            TF x_4 = x[ 3 ];
-            TF y_4 = y[ 3 ];
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
+            TF m_0 = d_2 / ( d_1 - d_2 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 2 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 1 ] - reinterpret_cast<double *>( &px_0 )[ 2 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 2 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 1 ] - reinterpret_cast<double *>( &py_0 )[ 2 ] );
+            TF m_1 = d_2 / ( d_3 - d_2 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 2 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 3 ] - reinterpret_cast<double *>( &px_0 )[ 2 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 2 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 3 ] - reinterpret_cast<double *>( &py_0 )[ 2 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x309080100ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             size = 5;
             break;
         }
@@ -477,16 +475,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF m_1_0 = d_1 / ( d_0 - d_1 );
-            TF m_2_3 = d_2 / ( d_3 - d_2 );
-            TF x_1 = x[ 1 ] - m_1_0 * ( x[ 0 ] - x[ 1 ] );
-            TF y_1 = y[ 1 ] - m_1_0 * ( y[ 0 ] - y[ 1 ] );
-            TF x_2 = x[ 2 ] - m_2_3 * ( x[ 3 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_3 * ( y[ 3 ] - y[ 2 ] );
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
+            TF m_0 = d_1 / ( d_0 - d_1 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 1 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 0 ] - reinterpret_cast<double *>( &px_0 )[ 1 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 1 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 0 ] - reinterpret_cast<double *>( &py_0 )[ 1 ] );
+            TF m_1 = d_2 / ( d_3 - d_2 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 2 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 3 ] - reinterpret_cast<double *>( &px_0 )[ 2 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 2 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 3 ] - reinterpret_cast<double *>( &py_0 )[ 2 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x3090800ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             break;
         }
         case 1031:
@@ -509,20 +508,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF m_0_3 = d_0 / ( d_3 - d_0 );
-            TF m_2_3 = d_2 / ( d_3 - d_2 );
-            TF x_0 = x[ 0 ] - m_0_3 * ( x[ 3 ] - x[ 0 ] );
-            TF y_0 = y[ 0 ] - m_0_3 * ( y[ 3 ] - y[ 0 ] );
-            TF x_1 = x[ 2 ] - m_2_3 * ( x[ 3 ] - x[ 2 ] );
-            TF y_1 = y[ 2 ] - m_2_3 * ( y[ 3 ] - y[ 2 ] );
-            TF x_2 = x[ 3 ];
-            TF y_2 = y[ 3 ];
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
+            TF m_0 = d_0 / ( d_3 - d_0 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 3 ] - reinterpret_cast<double *>( &px_0 )[ 0 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 3 ] - reinterpret_cast<double *>( &py_0 )[ 0 ] );
+            TF m_1 = d_2 / ( d_3 - d_2 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 2 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 3 ] - reinterpret_cast<double *>( &px_0 )[ 2 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 2 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 3 ] - reinterpret_cast<double *>( &py_0 )[ 2 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x30908ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             size = 3;
             break;
         }
@@ -546,16 +542,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF m_3_2 = d_3 / ( d_2 - d_3 );
-            TF m_3_0 = d_3 / ( d_0 - d_3 );
-            TF x_3 = x[ 3 ] - m_3_2 * ( x[ 2 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_2 * ( y[ 2 ] - y[ 3 ] );
-            TF x_4 = x[ 3 ] - m_3_0 * ( x[ 0 ] - x[ 3 ] );
-            TF y_4 = y[ 3 ] - m_3_0 * ( y[ 0 ] - y[ 3 ] );
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
+            TF m_0 = d_3 / ( d_2 - d_3 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 3 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 2 ] - reinterpret_cast<double *>( &px_0 )[ 3 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 3 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 2 ] - reinterpret_cast<double *>( &py_0 )[ 3 ] );
+            TF m_1 = d_3 / ( d_0 - d_3 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 3 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 0 ] - reinterpret_cast<double *>( &px_0 )[ 3 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 3 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 0 ] - reinterpret_cast<double *>( &py_0 )[ 3 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x908020100ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             size = 5;
             break;
         }
@@ -580,16 +577,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF m_0_1 = d_0 / ( d_1 - d_0 );
-            TF m_3_2 = d_3 / ( d_2 - d_3 );
-            TF x_0 = x[ 0 ] - m_0_1 * ( x[ 1 ] - x[ 0 ] );
-            TF y_0 = y[ 0 ] - m_0_1 * ( y[ 1 ] - y[ 0 ] );
-            TF x_3 = x[ 3 ] - m_3_2 * ( x[ 2 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_2 * ( y[ 2 ] - y[ 3 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
+            TF m_0 = d_0 / ( d_1 - d_0 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 1 ] - reinterpret_cast<double *>( &px_0 )[ 0 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 1 ] - reinterpret_cast<double *>( &py_0 )[ 0 ] );
+            TF m_1 = d_3 / ( d_2 - d_3 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 3 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 2 ] - reinterpret_cast<double *>( &px_0 )[ 3 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 3 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 2 ] - reinterpret_cast<double *>( &py_0 )[ 3 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x9020108ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             break;
         }
         case 1035:
@@ -612,16 +610,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF m_3_2 = d_3 / ( d_2 - d_3 );
-            TF m_1_2 = d_1 / ( d_2 - d_1 );
-            TF x_0 = x[ 3 ] - m_3_2 * ( x[ 2 ] - x[ 3 ] );
-            TF y_0 = y[ 3 ] - m_3_2 * ( y[ 2 ] - y[ 3 ] );
-            TF x_1 = x[ 1 ] - m_1_2 * ( x[ 2 ] - x[ 1 ] );
-            TF y_1 = y[ 1 ] - m_1_2 * ( y[ 2 ] - y[ 1 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
+            TF m_0 = d_3 / ( d_2 - d_3 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 3 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 2 ] - reinterpret_cast<double *>( &px_0 )[ 3 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 3 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 2 ] - reinterpret_cast<double *>( &py_0 )[ 3 ] );
+            TF m_1 = d_1 / ( d_2 - d_1 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 1 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 2 ] - reinterpret_cast<double *>( &px_0 )[ 1 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 1 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 2 ] - reinterpret_cast<double *>( &py_0 )[ 1 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x20908ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             size = 3;
             break;
         }
@@ -646,16 +645,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF m_2_1 = d_2 / ( d_1 - d_2 );
-            TF m_3_0 = d_3 / ( d_0 - d_3 );
-            TF x_2 = x[ 2 ] - m_2_1 * ( x[ 1 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_1 * ( y[ 1 ] - y[ 2 ] );
-            TF x_3 = x[ 3 ] - m_3_0 * ( x[ 0 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_0 * ( y[ 0 ] - y[ 3 ] );
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
+            TF m_0 = d_2 / ( d_1 - d_2 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 2 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 1 ] - reinterpret_cast<double *>( &px_0 )[ 2 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 2 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 1 ] - reinterpret_cast<double *>( &py_0 )[ 2 ] );
+            TF m_1 = d_3 / ( d_0 - d_3 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 3 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 0 ] - reinterpret_cast<double *>( &px_0 )[ 3 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 3 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 0 ] - reinterpret_cast<double *>( &py_0 )[ 3 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x9080100ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             break;
         }
         case 1037:
@@ -678,16 +678,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF m_0_1 = d_0 / ( d_1 - d_0 );
-            TF m_2_1 = d_2 / ( d_1 - d_2 );
-            TF x_0 = x[ 0 ] - m_0_1 * ( x[ 1 ] - x[ 0 ] );
-            TF y_0 = y[ 0 ] - m_0_1 * ( y[ 1 ] - y[ 0 ] );
-            TF x_2 = x[ 2 ] - m_2_1 * ( x[ 1 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_1 * ( y[ 1 ] - y[ 2 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
+            TF m_0 = d_0 / ( d_1 - d_0 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 1 ] - reinterpret_cast<double *>( &px_0 )[ 0 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 1 ] - reinterpret_cast<double *>( &py_0 )[ 0 ] );
+            TF m_1 = d_2 / ( d_1 - d_2 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 2 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 1 ] - reinterpret_cast<double *>( &px_0 )[ 2 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 2 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 1 ] - reinterpret_cast<double *>( &py_0 )[ 2 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x90108ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             size = 3;
             break;
         }
@@ -711,16 +712,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF m_1_0 = d_1 / ( d_0 - d_1 );
-            TF m_3_0 = d_3 / ( d_0 - d_3 );
-            TF x_1 = x[ 1 ] - m_1_0 * ( x[ 0 ] - x[ 1 ] );
-            TF y_1 = y[ 1 ] - m_1_0 * ( y[ 0 ] - y[ 1 ] );
-            TF x_2 = x[ 3 ] - m_3_0 * ( x[ 0 ] - x[ 3 ] );
-            TF y_2 = y[ 3 ] - m_3_0 * ( y[ 0 ] - y[ 3 ] );
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
+            TF m_0 = d_1 / ( d_0 - d_1 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 1 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 0 ] - reinterpret_cast<double *>( &px_0 )[ 1 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 1 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 0 ] - reinterpret_cast<double *>( &py_0 )[ 1 ] );
+            TF m_1 = d_3 / ( d_0 - d_3 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 3 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 0 ] - reinterpret_cast<double *>( &px_0 )[ 3 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 3 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 0 ] - reinterpret_cast<double *>( &py_0 )[ 3 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x90800ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             size = 3;
             break;
         }
@@ -736,16 +738,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF m_0_1 = d_0 / ( d_1 - d_0 );
-            TF m_0_4 = d_0 / ( d_4 - d_0 );
-            TF x_0 = x[ 0 ] - m_0_1 * ( x[ 1 ] - x[ 0 ] );
-            TF y_0 = y[ 0 ] - m_0_1 * ( y[ 1 ] - y[ 0 ] );
-            TF x_5 = x[ 0 ] - m_0_4 * ( x[ 4 ] - x[ 0 ] );
-            TF y_5 = y[ 0 ] - m_0_4 * ( y[ 4 ] - y[ 0 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
+            TF m_0 = d_0 / ( d_1 - d_0 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 1 ] - reinterpret_cast<double *>( &px_0 )[ 0 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 1 ] - reinterpret_cast<double *>( &py_0 )[ 0 ] );
+            TF m_1 = d_0 / ( d_4 - d_0 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 0 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 4 ] - reinterpret_cast<double *>( &px_0 )[ 0 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 0 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 4 ] - reinterpret_cast<double *>( &py_0 )[ 0 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x90403020108ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             size = 6;
             break;
         }
@@ -761,20 +764,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF m_1_0 = d_1 / ( d_0 - d_1 );
-            TF m_1_2 = d_1 / ( d_2 - d_1 );
-            TF x_0 = x[ 1 ] - m_1_0 * ( x[ 0 ] - x[ 1 ] );
-            TF y_0 = y[ 1 ] - m_1_0 * ( y[ 0 ] - y[ 1 ] );
-            TF x_1 = x[ 1 ] - m_1_2 * ( x[ 2 ] - x[ 1 ] );
-            TF y_1 = y[ 1 ] - m_1_2 * ( y[ 2 ] - y[ 1 ] );
-            TF x_5 = x[ 0 ];
-            TF y_5 = y[ 0 ];
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
+            TF m_0 = d_1 / ( d_0 - d_1 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 1 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 0 ] - reinterpret_cast<double *>( &px_0 )[ 1 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 1 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 0 ] - reinterpret_cast<double *>( &py_0 )[ 1 ] );
+            TF m_1 = d_1 / ( d_2 - d_1 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 1 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 2 ] - reinterpret_cast<double *>( &px_0 )[ 1 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 1 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 2 ] - reinterpret_cast<double *>( &py_0 )[ 1 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x403020908ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             size = 6;
             break;
         }
@@ -791,16 +791,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF m_0_4 = d_0 / ( d_4 - d_0 );
-            TF m_1_2 = d_1 / ( d_2 - d_1 );
-            TF x_0 = x[ 0 ] - m_0_4 * ( x[ 4 ] - x[ 0 ] );
-            TF y_0 = y[ 0 ] - m_0_4 * ( y[ 4 ] - y[ 0 ] );
-            TF x_1 = x[ 1 ] - m_1_2 * ( x[ 2 ] - x[ 1 ] );
-            TF y_1 = y[ 1 ] - m_1_2 * ( y[ 2 ] - y[ 1 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
+            TF m_0 = d_0 / ( d_4 - d_0 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 4 ] - reinterpret_cast<double *>( &px_0 )[ 0 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 4 ] - reinterpret_cast<double *>( &py_0 )[ 0 ] );
+            TF m_1 = d_1 / ( d_2 - d_1 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 1 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 2 ] - reinterpret_cast<double *>( &px_0 )[ 1 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 1 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 2 ] - reinterpret_cast<double *>( &py_0 )[ 1 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x403020908ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             break;
         }
         case 1284:
@@ -815,24 +816,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF m_2_1 = d_2 / ( d_1 - d_2 );
-            TF m_2_3 = d_2 / ( d_3 - d_2 );
-            TF x_2 = x[ 2 ] - m_2_1 * ( x[ 1 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_1 * ( y[ 1 ] - y[ 2 ] );
-            TF x_3 = x[ 2 ] - m_2_3 * ( x[ 3 ] - x[ 2 ] );
-            TF y_3 = y[ 2 ] - m_2_3 * ( y[ 3 ] - y[ 2 ] );
-            TF x_4 = x[ 3 ];
-            TF y_4 = y[ 3 ];
-            TF x_5 = x[ 4 ];
-            TF y_5 = y[ 4 ];
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
+            TF m_0 = d_2 / ( d_1 - d_2 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 2 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 1 ] - reinterpret_cast<double *>( &px_0 )[ 2 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 2 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 1 ] - reinterpret_cast<double *>( &py_0 )[ 2 ] );
+            TF m_1 = d_2 / ( d_3 - d_2 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 2 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 3 ] - reinterpret_cast<double *>( &px_0 )[ 2 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 2 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 3 ] - reinterpret_cast<double *>( &py_0 )[ 2 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x40309080100ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             size = 6;
             break;
         }
@@ -849,16 +843,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF m_1_0 = d_1 / ( d_0 - d_1 );
-            TF m_2_3 = d_2 / ( d_3 - d_2 );
-            TF x_1 = x[ 1 ] - m_1_0 * ( x[ 0 ] - x[ 1 ] );
-            TF y_1 = y[ 1 ] - m_1_0 * ( y[ 0 ] - y[ 1 ] );
-            TF x_2 = x[ 2 ] - m_2_3 * ( x[ 3 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_3 * ( y[ 3 ] - y[ 2 ] );
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
+            TF m_0 = d_1 / ( d_0 - d_1 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 1 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 0 ] - reinterpret_cast<double *>( &px_0 )[ 1 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 1 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 0 ] - reinterpret_cast<double *>( &py_0 )[ 1 ] );
+            TF m_1 = d_2 / ( d_3 - d_2 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 2 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 3 ] - reinterpret_cast<double *>( &px_0 )[ 2 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 2 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 3 ] - reinterpret_cast<double *>( &py_0 )[ 2 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x403090800ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             break;
         }
         case 1287:
@@ -874,20 +869,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF m_0_4 = d_0 / ( d_4 - d_0 );
-            TF m_2_3 = d_2 / ( d_3 - d_2 );
-            TF x_0 = x[ 4 ];
-            TF y_0 = y[ 4 ];
-            TF x_1 = x[ 0 ] - m_0_4 * ( x[ 4 ] - x[ 0 ] );
-            TF y_1 = y[ 0 ] - m_0_4 * ( y[ 4 ] - y[ 0 ] );
-            TF x_2 = x[ 2 ] - m_2_3 * ( x[ 3 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_3 * ( y[ 3 ] - y[ 2 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
+            TF m_0 = d_0 / ( d_4 - d_0 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 4 ] - reinterpret_cast<double *>( &px_0 )[ 0 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 4 ] - reinterpret_cast<double *>( &py_0 )[ 0 ] );
+            TF m_1 = d_2 / ( d_3 - d_2 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 2 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 3 ] - reinterpret_cast<double *>( &px_0 )[ 2 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 2 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 3 ] - reinterpret_cast<double *>( &py_0 )[ 2 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x3090804ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             size = 4;
             break;
         }
@@ -903,20 +895,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF m_3_2 = d_3 / ( d_2 - d_3 );
-            TF m_3_4 = d_3 / ( d_4 - d_3 );
-            TF x_3 = x[ 3 ] - m_3_2 * ( x[ 2 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_2 * ( y[ 2 ] - y[ 3 ] );
-            TF x_4 = x[ 3 ] - m_3_4 * ( x[ 4 ] - x[ 3 ] );
-            TF y_4 = y[ 3 ] - m_3_4 * ( y[ 4 ] - y[ 3 ] );
-            TF x_5 = x[ 4 ];
-            TF y_5 = y[ 4 ];
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
+            TF m_0 = d_3 / ( d_2 - d_3 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 3 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 2 ] - reinterpret_cast<double *>( &px_0 )[ 3 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 3 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 2 ] - reinterpret_cast<double *>( &py_0 )[ 3 ] );
+            TF m_1 = d_3 / ( d_4 - d_3 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 3 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 4 ] - reinterpret_cast<double *>( &px_0 )[ 3 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 3 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 4 ] - reinterpret_cast<double *>( &py_0 )[ 3 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x40908020100ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             size = 6;
             break;
         }
@@ -933,16 +922,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF m_2_1 = d_2 / ( d_1 - d_2 );
-            TF m_3_4 = d_3 / ( d_4 - d_3 );
-            TF x_2 = x[ 2 ] - m_2_1 * ( x[ 1 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_1 * ( y[ 1 ] - y[ 2 ] );
-            TF x_3 = x[ 3 ] - m_3_4 * ( x[ 4 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_4 * ( y[ 4 ] - y[ 3 ] );
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
+            TF m_0 = d_2 / ( d_1 - d_2 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 2 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 1 ] - reinterpret_cast<double *>( &px_0 )[ 2 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 2 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 1 ] - reinterpret_cast<double *>( &py_0 )[ 2 ] );
+            TF m_1 = d_3 / ( d_4 - d_3 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 3 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 4 ] - reinterpret_cast<double *>( &px_0 )[ 3 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 3 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 4 ] - reinterpret_cast<double *>( &py_0 )[ 3 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x409080100ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             break;
         }
         case 1294:
@@ -958,20 +948,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF m_1_0 = d_1 / ( d_0 - d_1 );
-            TF m_3_4 = d_3 / ( d_4 - d_3 );
-            TF x_1 = x[ 1 ] - m_1_0 * ( x[ 0 ] - x[ 1 ] );
-            TF y_1 = y[ 1 ] - m_1_0 * ( y[ 0 ] - y[ 1 ] );
-            TF x_2 = x[ 3 ] - m_3_4 * ( x[ 4 ] - x[ 3 ] );
-            TF y_2 = y[ 3 ] - m_3_4 * ( y[ 4 ] - y[ 3 ] );
-            TF x_3 = x[ 4 ];
-            TF y_3 = y[ 4 ];
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
+            TF m_0 = d_1 / ( d_0 - d_1 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 1 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 0 ] - reinterpret_cast<double *>( &px_0 )[ 1 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 1 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 0 ] - reinterpret_cast<double *>( &py_0 )[ 1 ] );
+            TF m_1 = d_3 / ( d_4 - d_3 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 3 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 4 ] - reinterpret_cast<double *>( &px_0 )[ 3 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 3 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 4 ] - reinterpret_cast<double *>( &py_0 )[ 3 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x4090800ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             size = 4;
             break;
         }
@@ -987,20 +974,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF m_0_4 = d_0 / ( d_4 - d_0 );
-            TF m_3_4 = d_3 / ( d_4 - d_3 );
-            TF x_0 = x[ 0 ] - m_0_4 * ( x[ 4 ] - x[ 0 ] );
-            TF y_0 = y[ 0 ] - m_0_4 * ( y[ 4 ] - y[ 0 ] );
-            TF x_1 = x[ 3 ] - m_3_4 * ( x[ 4 ] - x[ 3 ] );
-            TF y_1 = y[ 3 ] - m_3_4 * ( y[ 4 ] - y[ 3 ] );
-            TF x_2 = x[ 4 ];
-            TF y_2 = y[ 4 ];
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
+            TF m_0 = d_0 / ( d_4 - d_0 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 4 ] - reinterpret_cast<double *>( &px_0 )[ 0 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 4 ] - reinterpret_cast<double *>( &py_0 )[ 0 ] );
+            TF m_1 = d_3 / ( d_4 - d_3 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 3 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 4 ] - reinterpret_cast<double *>( &px_0 )[ 3 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 3 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 4 ] - reinterpret_cast<double *>( &py_0 )[ 3 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x40908ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             size = 3;
             break;
         }
@@ -1016,16 +1000,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF m_4_3 = d_4 / ( d_3 - d_4 );
-            TF m_4_0 = d_4 / ( d_0 - d_4 );
-            TF x_4 = x[ 4 ] - m_4_3 * ( x[ 3 ] - x[ 4 ] );
-            TF y_4 = y[ 4 ] - m_4_3 * ( y[ 3 ] - y[ 4 ] );
-            TF x_5 = x[ 4 ] - m_4_0 * ( x[ 0 ] - x[ 4 ] );
-            TF y_5 = y[ 4 ] - m_4_0 * ( y[ 0 ] - y[ 4 ] );
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
+            TF m_0 = d_4 / ( d_3 - d_4 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 4 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 3 ] - reinterpret_cast<double *>( &px_0 )[ 4 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 4 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 3 ] - reinterpret_cast<double *>( &py_0 )[ 4 ] );
+            TF m_1 = d_4 / ( d_0 - d_4 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 4 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 0 ] - reinterpret_cast<double *>( &px_0 )[ 4 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 4 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 0 ] - reinterpret_cast<double *>( &py_0 )[ 4 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x90803020100ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             size = 6;
             break;
         }
@@ -1042,16 +1027,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF m_0_1 = d_0 / ( d_1 - d_0 );
-            TF m_4_3 = d_4 / ( d_3 - d_4 );
-            TF x_0 = x[ 0 ] - m_0_1 * ( x[ 1 ] - x[ 0 ] );
-            TF y_0 = y[ 0 ] - m_0_1 * ( y[ 1 ] - y[ 0 ] );
-            TF x_4 = x[ 4 ] - m_4_3 * ( x[ 3 ] - x[ 4 ] );
-            TF y_4 = y[ 4 ] - m_4_3 * ( y[ 3 ] - y[ 4 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
+            TF m_0 = d_0 / ( d_1 - d_0 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 1 ] - reinterpret_cast<double *>( &px_0 )[ 0 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 1 ] - reinterpret_cast<double *>( &py_0 )[ 0 ] );
+            TF m_1 = d_4 / ( d_3 - d_4 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 4 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 3 ] - reinterpret_cast<double *>( &px_0 )[ 4 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 4 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 3 ] - reinterpret_cast<double *>( &py_0 )[ 4 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x903020108ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             break;
         }
         case 1299:
@@ -1067,16 +1053,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF m_4_3 = d_4 / ( d_3 - d_4 );
-            TF m_1_2 = d_1 / ( d_2 - d_1 );
-            TF x_0 = x[ 4 ] - m_4_3 * ( x[ 3 ] - x[ 4 ] );
-            TF y_0 = y[ 4 ] - m_4_3 * ( y[ 3 ] - y[ 4 ] );
-            TF x_1 = x[ 1 ] - m_1_2 * ( x[ 2 ] - x[ 1 ] );
-            TF y_1 = y[ 1 ] - m_1_2 * ( y[ 2 ] - y[ 1 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
+            TF m_0 = d_4 / ( d_3 - d_4 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 4 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 3 ] - reinterpret_cast<double *>( &px_0 )[ 4 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 4 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 3 ] - reinterpret_cast<double *>( &py_0 )[ 4 ] );
+            TF m_1 = d_1 / ( d_2 - d_1 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 1 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 2 ] - reinterpret_cast<double *>( &px_0 )[ 1 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 1 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 2 ] - reinterpret_cast<double *>( &py_0 )[ 1 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x3020908ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             size = 4;
             break;
         }
@@ -1092,20 +1079,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF m_4_3 = d_4 / ( d_3 - d_4 );
-            TF m_2_3 = d_2 / ( d_3 - d_2 );
-            TF x_0 = x[ 3 ];
-            TF y_0 = y[ 3 ];
-            TF x_1 = x[ 4 ] - m_4_3 * ( x[ 3 ] - x[ 4 ] );
-            TF y_1 = y[ 4 ] - m_4_3 * ( y[ 3 ] - y[ 4 ] );
-            TF x_2 = x[ 2 ] - m_2_3 * ( x[ 3 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_3 * ( y[ 3 ] - y[ 2 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
+            TF m_0 = d_4 / ( d_3 - d_4 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 4 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 3 ] - reinterpret_cast<double *>( &px_0 )[ 4 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 4 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 3 ] - reinterpret_cast<double *>( &py_0 )[ 4 ] );
+            TF m_1 = d_2 / ( d_3 - d_2 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 2 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 3 ] - reinterpret_cast<double *>( &px_0 )[ 2 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 2 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 3 ] - reinterpret_cast<double *>( &py_0 )[ 2 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x90803ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             size = 3;
             break;
         }
@@ -1122,16 +1106,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF m_3_2 = d_3 / ( d_2 - d_3 );
-            TF m_4_0 = d_4 / ( d_0 - d_4 );
-            TF x_3 = x[ 3 ] - m_3_2 * ( x[ 2 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_2 * ( y[ 2 ] - y[ 3 ] );
-            TF x_4 = x[ 4 ] - m_4_0 * ( x[ 0 ] - x[ 4 ] );
-            TF y_4 = y[ 4 ] - m_4_0 * ( y[ 0 ] - y[ 4 ] );
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
+            TF m_0 = d_3 / ( d_2 - d_3 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 3 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 2 ] - reinterpret_cast<double *>( &px_0 )[ 3 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 3 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 2 ] - reinterpret_cast<double *>( &py_0 )[ 3 ] );
+            TF m_1 = d_4 / ( d_0 - d_4 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 4 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 0 ] - reinterpret_cast<double *>( &px_0 )[ 4 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 4 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 0 ] - reinterpret_cast<double *>( &py_0 )[ 4 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x908020100ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             break;
         }
         case 1305:
@@ -1147,16 +1132,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF m_0_1 = d_0 / ( d_1 - d_0 );
-            TF m_3_2 = d_3 / ( d_2 - d_3 );
-            TF x_0 = x[ 0 ] - m_0_1 * ( x[ 1 ] - x[ 0 ] );
-            TF y_0 = y[ 0 ] - m_0_1 * ( y[ 1 ] - y[ 0 ] );
-            TF x_3 = x[ 3 ] - m_3_2 * ( x[ 2 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_2 * ( y[ 2 ] - y[ 3 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
+            TF m_0 = d_0 / ( d_1 - d_0 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 1 ] - reinterpret_cast<double *>( &px_0 )[ 0 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 1 ] - reinterpret_cast<double *>( &py_0 )[ 0 ] );
+            TF m_1 = d_3 / ( d_2 - d_3 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 3 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 2 ] - reinterpret_cast<double *>( &px_0 )[ 3 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 3 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 2 ] - reinterpret_cast<double *>( &py_0 )[ 3 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x9020108ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             size = 4;
             break;
         }
@@ -1172,16 +1158,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF m_3_2 = d_3 / ( d_2 - d_3 );
-            TF m_1_2 = d_1 / ( d_2 - d_1 );
-            TF x_0 = x[ 3 ] - m_3_2 * ( x[ 2 ] - x[ 3 ] );
-            TF y_0 = y[ 3 ] - m_3_2 * ( y[ 2 ] - y[ 3 ] );
-            TF x_1 = x[ 1 ] - m_1_2 * ( x[ 2 ] - x[ 1 ] );
-            TF y_1 = y[ 1 ] - m_1_2 * ( y[ 2 ] - y[ 1 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
+            TF m_0 = d_3 / ( d_2 - d_3 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 3 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 2 ] - reinterpret_cast<double *>( &px_0 )[ 3 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 3 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 2 ] - reinterpret_cast<double *>( &py_0 )[ 3 ] );
+            TF m_1 = d_1 / ( d_2 - d_1 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 1 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 2 ] - reinterpret_cast<double *>( &px_0 )[ 1 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 1 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 2 ] - reinterpret_cast<double *>( &py_0 )[ 1 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x20908ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             size = 3;
             break;
         }
@@ -1198,16 +1185,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF m_2_1 = d_2 / ( d_1 - d_2 );
-            TF m_4_0 = d_4 / ( d_0 - d_4 );
-            TF x_2 = x[ 2 ] - m_2_1 * ( x[ 1 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_1 * ( y[ 1 ] - y[ 2 ] );
-            TF x_3 = x[ 4 ] - m_4_0 * ( x[ 0 ] - x[ 4 ] );
-            TF y_3 = y[ 4 ] - m_4_0 * ( y[ 0 ] - y[ 4 ] );
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
+            TF m_0 = d_2 / ( d_1 - d_2 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 2 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 1 ] - reinterpret_cast<double *>( &px_0 )[ 2 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 2 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 1 ] - reinterpret_cast<double *>( &py_0 )[ 2 ] );
+            TF m_1 = d_4 / ( d_0 - d_4 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 4 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 0 ] - reinterpret_cast<double *>( &px_0 )[ 4 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 4 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 0 ] - reinterpret_cast<double *>( &py_0 )[ 4 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x9080100ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             size = 4;
             break;
         }
@@ -1223,16 +1211,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF m_0_1 = d_0 / ( d_1 - d_0 );
-            TF m_2_1 = d_2 / ( d_1 - d_2 );
-            TF x_0 = x[ 0 ] - m_0_1 * ( x[ 1 ] - x[ 0 ] );
-            TF y_0 = y[ 0 ] - m_0_1 * ( y[ 1 ] - y[ 0 ] );
-            TF x_2 = x[ 2 ] - m_2_1 * ( x[ 1 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_1 * ( y[ 1 ] - y[ 2 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
+            TF m_0 = d_0 / ( d_1 - d_0 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 1 ] - reinterpret_cast<double *>( &px_0 )[ 0 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 1 ] - reinterpret_cast<double *>( &py_0 )[ 0 ] );
+            TF m_1 = d_2 / ( d_1 - d_2 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 2 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 1 ] - reinterpret_cast<double *>( &px_0 )[ 2 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 2 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 1 ] - reinterpret_cast<double *>( &py_0 )[ 2 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x90108ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             size = 3;
             break;
         }
@@ -1248,16 +1237,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF m_1_0 = d_1 / ( d_0 - d_1 );
-            TF m_4_0 = d_4 / ( d_0 - d_4 );
-            TF x_1 = x[ 1 ] - m_1_0 * ( x[ 0 ] - x[ 1 ] );
-            TF y_1 = y[ 1 ] - m_1_0 * ( y[ 0 ] - y[ 1 ] );
-            TF x_2 = x[ 4 ] - m_4_0 * ( x[ 0 ] - x[ 4 ] );
-            TF y_2 = y[ 4 ] - m_4_0 * ( y[ 0 ] - y[ 4 ] );
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
+            TF m_0 = d_1 / ( d_0 - d_1 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 1 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 0 ] - reinterpret_cast<double *>( &px_0 )[ 1 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 1 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 0 ] - reinterpret_cast<double *>( &py_0 )[ 1 ] );
+            TF m_1 = d_4 / ( d_0 - d_4 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 4 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 0 ] - reinterpret_cast<double *>( &px_0 )[ 4 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 4 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 0 ] - reinterpret_cast<double *>( &py_0 )[ 4 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x90800ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             size = 3;
             break;
         }
@@ -1269,16 +1259,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF m_0_1 = d_0 / ( d_1 - d_0 );
-            TF m_0_5 = d_0 / ( d_5 - d_0 );
-            TF x_0 = x[ 0 ] - m_0_1 * ( x[ 1 ] - x[ 0 ] );
-            TF y_0 = y[ 0 ] - m_0_1 * ( y[ 1 ] - y[ 0 ] );
-            TF x_6 = x[ 0 ] - m_0_5 * ( x[ 5 ] - x[ 0 ] );
-            TF y_6 = y[ 0 ] - m_0_5 * ( y[ 5 ] - y[ 0 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
+            TF m_0 = d_0 / ( d_1 - d_0 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 1 ] - reinterpret_cast<double *>( &px_0 )[ 0 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 1 ] - reinterpret_cast<double *>( &py_0 )[ 0 ] );
+            TF m_1 = d_0 / ( d_5 - d_0 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 0 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 5 ] - reinterpret_cast<double *>( &px_0 )[ 0 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 0 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 5 ] - reinterpret_cast<double *>( &py_0 )[ 0 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x9050403020108ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             size = 7;
             break;
         }
@@ -1290,20 +1281,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF m_1_0 = d_1 / ( d_0 - d_1 );
-            TF m_1_2 = d_1 / ( d_2 - d_1 );
-            TF x_0 = x[ 1 ] - m_1_0 * ( x[ 0 ] - x[ 1 ] );
-            TF y_0 = y[ 1 ] - m_1_0 * ( y[ 0 ] - y[ 1 ] );
-            TF x_1 = x[ 1 ] - m_1_2 * ( x[ 2 ] - x[ 1 ] );
-            TF y_1 = y[ 1 ] - m_1_2 * ( y[ 2 ] - y[ 1 ] );
-            TF x_6 = x[ 0 ];
-            TF y_6 = y[ 0 ];
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
+            TF m_0 = d_1 / ( d_0 - d_1 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 1 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 0 ] - reinterpret_cast<double *>( &px_0 )[ 1 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 1 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 0 ] - reinterpret_cast<double *>( &py_0 )[ 1 ] );
+            TF m_1 = d_1 / ( d_2 - d_1 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 1 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 2 ] - reinterpret_cast<double *>( &px_0 )[ 1 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 1 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 2 ] - reinterpret_cast<double *>( &py_0 )[ 1 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x50403020908ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             size = 7;
             break;
         }
@@ -1316,16 +1304,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
             TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF m_0_5 = d_0 / ( d_5 - d_0 );
-            TF m_1_2 = d_1 / ( d_2 - d_1 );
-            TF x_0 = x[ 0 ] - m_0_5 * ( x[ 5 ] - x[ 0 ] );
-            TF y_0 = y[ 0 ] - m_0_5 * ( y[ 5 ] - y[ 0 ] );
-            TF x_1 = x[ 1 ] - m_1_2 * ( x[ 2 ] - x[ 1 ] );
-            TF y_1 = y[ 1 ] - m_1_2 * ( y[ 2 ] - y[ 1 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
+            TF m_0 = d_0 / ( d_5 - d_0 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 5 ] - reinterpret_cast<double *>( &px_0 )[ 0 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 5 ] - reinterpret_cast<double *>( &py_0 )[ 0 ] );
+            TF m_1 = d_1 / ( d_2 - d_1 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 1 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 2 ] - reinterpret_cast<double *>( &px_0 )[ 1 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 1 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 2 ] - reinterpret_cast<double *>( &py_0 )[ 1 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x50403020908ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             break;
         }
         case 1540:
@@ -1336,24 +1325,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF m_2_1 = d_2 / ( d_1 - d_2 );
-            TF m_2_3 = d_2 / ( d_3 - d_2 );
-            TF x_0 = x[ 1 ];
-            TF y_0 = y[ 1 ];
-            TF x_1 = x[ 2 ] - m_2_1 * ( x[ 1 ] - x[ 2 ] );
-            TF y_1 = y[ 2 ] - m_2_1 * ( y[ 1 ] - y[ 2 ] );
-            TF x_2 = x[ 2 ] - m_2_3 * ( x[ 3 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_3 * ( y[ 3 ] - y[ 2 ] );
-            TF x_6 = x[ 0 ];
-            TF y_6 = y[ 0 ];
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
+            TF m_0 = d_2 / ( d_1 - d_2 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 2 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 1 ] - reinterpret_cast<double *>( &px_0 )[ 2 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 2 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 1 ] - reinterpret_cast<double *>( &py_0 )[ 2 ] );
+            TF m_1 = d_2 / ( d_3 - d_2 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 2 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 3 ] - reinterpret_cast<double *>( &px_0 )[ 2 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 2 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 3 ] - reinterpret_cast<double *>( &py_0 )[ 2 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x50403090801ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             size = 7;
             break;
         }
@@ -1366,16 +1348,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF m_1_0 = d_1 / ( d_0 - d_1 );
-            TF m_2_3 = d_2 / ( d_3 - d_2 );
-            TF x_1 = x[ 1 ] - m_1_0 * ( x[ 0 ] - x[ 1 ] );
-            TF y_1 = y[ 1 ] - m_1_0 * ( y[ 0 ] - y[ 1 ] );
-            TF x_2 = x[ 2 ] - m_2_3 * ( x[ 3 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_3 * ( y[ 3 ] - y[ 2 ] );
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
+            TF m_0 = d_1 / ( d_0 - d_1 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 1 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 0 ] - reinterpret_cast<double *>( &px_0 )[ 1 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 1 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 0 ] - reinterpret_cast<double *>( &py_0 )[ 1 ] );
+            TF m_1 = d_2 / ( d_3 - d_2 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 2 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 3 ] - reinterpret_cast<double *>( &px_0 )[ 2 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 2 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 3 ] - reinterpret_cast<double *>( &py_0 )[ 2 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x50403090800ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             break;
         }
         case 1543:
@@ -1387,20 +1370,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
             TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF m_0_5 = d_0 / ( d_5 - d_0 );
-            TF m_2_3 = d_2 / ( d_3 - d_2 );
-            TF x_0 = x[ 5 ];
-            TF y_0 = y[ 5 ];
-            TF x_1 = x[ 0 ] - m_0_5 * ( x[ 5 ] - x[ 0 ] );
-            TF y_1 = y[ 0 ] - m_0_5 * ( y[ 5 ] - y[ 0 ] );
-            TF x_2 = x[ 2 ] - m_2_3 * ( x[ 3 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_3 * ( y[ 3 ] - y[ 2 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
+            TF m_0 = d_0 / ( d_5 - d_0 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 5 ] - reinterpret_cast<double *>( &px_0 )[ 0 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 5 ] - reinterpret_cast<double *>( &py_0 )[ 0 ] );
+            TF m_1 = d_2 / ( d_3 - d_2 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 2 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 3 ] - reinterpret_cast<double *>( &px_0 )[ 2 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 2 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 3 ] - reinterpret_cast<double *>( &py_0 )[ 2 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x403090805ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             size = 5;
             break;
         }
@@ -1412,24 +1392,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF m_3_2 = d_3 / ( d_2 - d_3 );
-            TF m_3_4 = d_3 / ( d_4 - d_3 );
-            TF x_3 = x[ 3 ] - m_3_2 * ( x[ 2 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_2 * ( y[ 2 ] - y[ 3 ] );
-            TF x_4 = x[ 3 ] - m_3_4 * ( x[ 4 ] - x[ 3 ] );
-            TF y_4 = y[ 3 ] - m_3_4 * ( y[ 4 ] - y[ 3 ] );
-            TF x_5 = x[ 4 ];
-            TF y_5 = y[ 4 ];
-            TF x_6 = x[ 5 ];
-            TF y_6 = y[ 5 ];
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
+            TF m_0 = d_3 / ( d_2 - d_3 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 3 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 2 ] - reinterpret_cast<double *>( &px_0 )[ 3 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 3 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 2 ] - reinterpret_cast<double *>( &py_0 )[ 3 ] );
+            TF m_1 = d_3 / ( d_4 - d_3 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 3 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 4 ] - reinterpret_cast<double *>( &px_0 )[ 3 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 3 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 4 ] - reinterpret_cast<double *>( &py_0 )[ 3 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x5040908020100ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             size = 7;
             break;
         }
@@ -1442,16 +1415,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF m_2_1 = d_2 / ( d_1 - d_2 );
-            TF m_3_4 = d_3 / ( d_4 - d_3 );
-            TF x_2 = x[ 2 ] - m_2_1 * ( x[ 1 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_1 * ( y[ 1 ] - y[ 2 ] );
-            TF x_3 = x[ 3 ] - m_3_4 * ( x[ 4 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_4 * ( y[ 4 ] - y[ 3 ] );
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
+            TF m_0 = d_2 / ( d_1 - d_2 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 2 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 1 ] - reinterpret_cast<double *>( &px_0 )[ 2 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 2 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 1 ] - reinterpret_cast<double *>( &py_0 )[ 2 ] );
+            TF m_1 = d_3 / ( d_4 - d_3 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 3 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 4 ] - reinterpret_cast<double *>( &px_0 )[ 3 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 3 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 4 ] - reinterpret_cast<double *>( &py_0 )[ 3 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x50409080100ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             break;
         }
         case 1550:
@@ -1463,24 +1437,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF m_1_0 = d_1 / ( d_0 - d_1 );
-            TF m_3_4 = d_3 / ( d_4 - d_3 );
-            TF x_1 = x[ 1 ] - m_1_0 * ( x[ 0 ] - x[ 1 ] );
-            TF y_1 = y[ 1 ] - m_1_0 * ( y[ 0 ] - y[ 1 ] );
-            TF x_2 = x[ 3 ] - m_3_4 * ( x[ 4 ] - x[ 3 ] );
-            TF y_2 = y[ 3 ] - m_3_4 * ( y[ 4 ] - y[ 3 ] );
-            TF x_3 = x[ 4 ];
-            TF y_3 = y[ 4 ];
-            TF x_4 = x[ 5 ];
-            TF y_4 = y[ 5 ];
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
+            TF m_0 = d_1 / ( d_0 - d_1 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 1 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 0 ] - reinterpret_cast<double *>( &px_0 )[ 1 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 1 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 0 ] - reinterpret_cast<double *>( &py_0 )[ 1 ] );
+            TF m_1 = d_3 / ( d_4 - d_3 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 3 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 4 ] - reinterpret_cast<double *>( &px_0 )[ 3 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 3 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 4 ] - reinterpret_cast<double *>( &py_0 )[ 3 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x504090800ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             size = 5;
             break;
         }
@@ -1493,24 +1460,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
             TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF m_0_5 = d_0 / ( d_5 - d_0 );
-            TF m_3_4 = d_3 / ( d_4 - d_3 );
-            TF x_0 = x[ 0 ] - m_0_5 * ( x[ 5 ] - x[ 0 ] );
-            TF y_0 = y[ 0 ] - m_0_5 * ( y[ 5 ] - y[ 0 ] );
-            TF x_1 = x[ 3 ] - m_3_4 * ( x[ 4 ] - x[ 3 ] );
-            TF y_1 = y[ 3 ] - m_3_4 * ( y[ 4 ] - y[ 3 ] );
-            TF x_2 = x[ 4 ];
-            TF y_2 = y[ 4 ];
-            TF x_3 = x[ 5 ];
-            TF y_3 = y[ 5 ];
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
+            TF m_0 = d_0 / ( d_5 - d_0 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 5 ] - reinterpret_cast<double *>( &px_0 )[ 0 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 5 ] - reinterpret_cast<double *>( &py_0 )[ 0 ] );
+            TF m_1 = d_3 / ( d_4 - d_3 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 3 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 4 ] - reinterpret_cast<double *>( &px_0 )[ 3 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 3 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 4 ] - reinterpret_cast<double *>( &py_0 )[ 3 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x5040908ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             size = 4;
             break;
         }
@@ -1522,20 +1482,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
             TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF m_4_3 = d_4 / ( d_3 - d_4 );
-            TF m_4_5 = d_4 / ( d_5 - d_4 );
-            TF x_4 = x[ 4 ] - m_4_3 * ( x[ 3 ] - x[ 4 ] );
-            TF y_4 = y[ 4 ] - m_4_3 * ( y[ 3 ] - y[ 4 ] );
-            TF x_5 = x[ 4 ] - m_4_5 * ( x[ 5 ] - x[ 4 ] );
-            TF y_5 = y[ 4 ] - m_4_5 * ( y[ 5 ] - y[ 4 ] );
-            TF x_6 = x[ 5 ];
-            TF y_6 = y[ 5 ];
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
+            TF m_0 = d_4 / ( d_3 - d_4 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 4 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 3 ] - reinterpret_cast<double *>( &px_0 )[ 4 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 4 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 3 ] - reinterpret_cast<double *>( &py_0 )[ 4 ] );
+            TF m_1 = d_4 / ( d_5 - d_4 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 4 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 5 ] - reinterpret_cast<double *>( &px_0 )[ 4 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 4 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 5 ] - reinterpret_cast<double *>( &py_0 )[ 4 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x5090803020100ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             size = 7;
             break;
         }
@@ -1548,16 +1505,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
             TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF m_3_2 = d_3 / ( d_2 - d_3 );
-            TF m_4_5 = d_4 / ( d_5 - d_4 );
-            TF x_3 = x[ 3 ] - m_3_2 * ( x[ 2 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_2 * ( y[ 2 ] - y[ 3 ] );
-            TF x_4 = x[ 4 ] - m_4_5 * ( x[ 5 ] - x[ 4 ] );
-            TF y_4 = y[ 4 ] - m_4_5 * ( y[ 5 ] - y[ 4 ] );
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
+            TF m_0 = d_3 / ( d_2 - d_3 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 3 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 2 ] - reinterpret_cast<double *>( &px_0 )[ 3 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 3 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 2 ] - reinterpret_cast<double *>( &py_0 )[ 3 ] );
+            TF m_1 = d_4 / ( d_5 - d_4 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 4 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 5 ] - reinterpret_cast<double *>( &px_0 )[ 4 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 4 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 5 ] - reinterpret_cast<double *>( &py_0 )[ 4 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x50908020100ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             break;
         }
         case 1564:
@@ -1569,20 +1527,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
             TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF m_2_1 = d_2 / ( d_1 - d_2 );
-            TF m_4_5 = d_4 / ( d_5 - d_4 );
-            TF x_2 = x[ 2 ] - m_2_1 * ( x[ 1 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_1 * ( y[ 1 ] - y[ 2 ] );
-            TF x_3 = x[ 4 ] - m_4_5 * ( x[ 5 ] - x[ 4 ] );
-            TF y_3 = y[ 4 ] - m_4_5 * ( y[ 5 ] - y[ 4 ] );
-            TF x_4 = x[ 5 ];
-            TF y_4 = y[ 5 ];
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
+            TF m_0 = d_2 / ( d_1 - d_2 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 2 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 1 ] - reinterpret_cast<double *>( &px_0 )[ 2 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 2 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 1 ] - reinterpret_cast<double *>( &py_0 )[ 2 ] );
+            TF m_1 = d_4 / ( d_5 - d_4 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 4 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 5 ] - reinterpret_cast<double *>( &px_0 )[ 4 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 4 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 5 ] - reinterpret_cast<double *>( &py_0 )[ 4 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x509080100ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             size = 5;
             break;
         }
@@ -1595,20 +1550,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
             TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF m_1_0 = d_1 / ( d_0 - d_1 );
-            TF m_4_5 = d_4 / ( d_5 - d_4 );
-            TF x_1 = x[ 1 ] - m_1_0 * ( x[ 0 ] - x[ 1 ] );
-            TF y_1 = y[ 1 ] - m_1_0 * ( y[ 0 ] - y[ 1 ] );
-            TF x_2 = x[ 4 ] - m_4_5 * ( x[ 5 ] - x[ 4 ] );
-            TF y_2 = y[ 4 ] - m_4_5 * ( y[ 5 ] - y[ 4 ] );
-            TF x_3 = x[ 5 ];
-            TF y_3 = y[ 5 ];
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
+            TF m_0 = d_1 / ( d_0 - d_1 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 1 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 0 ] - reinterpret_cast<double *>( &px_0 )[ 1 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 1 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 0 ] - reinterpret_cast<double *>( &py_0 )[ 1 ] );
+            TF m_1 = d_4 / ( d_5 - d_4 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 4 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 5 ] - reinterpret_cast<double *>( &px_0 )[ 4 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 4 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 5 ] - reinterpret_cast<double *>( &py_0 )[ 4 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x5090800ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             size = 4;
             break;
         }
@@ -1620,20 +1572,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
             TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF m_0_5 = d_0 / ( d_5 - d_0 );
-            TF m_4_5 = d_4 / ( d_5 - d_4 );
-            TF x_0 = x[ 0 ] - m_0_5 * ( x[ 5 ] - x[ 0 ] );
-            TF y_0 = y[ 0 ] - m_0_5 * ( y[ 5 ] - y[ 0 ] );
-            TF x_1 = x[ 4 ] - m_4_5 * ( x[ 5 ] - x[ 4 ] );
-            TF y_1 = y[ 4 ] - m_4_5 * ( y[ 5 ] - y[ 4 ] );
-            TF x_2 = x[ 5 ];
-            TF y_2 = y[ 5 ];
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
+            TF m_0 = d_0 / ( d_5 - d_0 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 5 ] - reinterpret_cast<double *>( &px_0 )[ 0 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 5 ] - reinterpret_cast<double *>( &py_0 )[ 0 ] );
+            TF m_1 = d_4 / ( d_5 - d_4 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 4 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 5 ] - reinterpret_cast<double *>( &px_0 )[ 4 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 4 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 5 ] - reinterpret_cast<double *>( &py_0 )[ 4 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x50908ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             size = 3;
             break;
         }
@@ -1645,16 +1594,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
             TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF m_5_4 = d_5 / ( d_4 - d_5 );
-            TF m_5_0 = d_5 / ( d_0 - d_5 );
-            TF x_5 = x[ 5 ] - m_5_4 * ( x[ 4 ] - x[ 5 ] );
-            TF y_5 = y[ 5 ] - m_5_4 * ( y[ 4 ] - y[ 5 ] );
-            TF x_6 = x[ 5 ] - m_5_0 * ( x[ 0 ] - x[ 5 ] );
-            TF y_6 = y[ 5 ] - m_5_0 * ( y[ 0 ] - y[ 5 ] );
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
+            TF m_0 = d_5 / ( d_4 - d_5 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 5 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 4 ] - reinterpret_cast<double *>( &px_0 )[ 5 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 5 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 4 ] - reinterpret_cast<double *>( &py_0 )[ 5 ] );
+            TF m_1 = d_5 / ( d_0 - d_5 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 5 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 0 ] - reinterpret_cast<double *>( &px_0 )[ 5 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 5 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 0 ] - reinterpret_cast<double *>( &py_0 )[ 5 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x9080403020100ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             size = 7;
             break;
         }
@@ -1667,16 +1617,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
             TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF m_0_1 = d_0 / ( d_1 - d_0 );
-            TF m_5_4 = d_5 / ( d_4 - d_5 );
-            TF x_0 = x[ 0 ] - m_0_1 * ( x[ 1 ] - x[ 0 ] );
-            TF y_0 = y[ 0 ] - m_0_1 * ( y[ 1 ] - y[ 0 ] );
-            TF x_5 = x[ 5 ] - m_5_4 * ( x[ 4 ] - x[ 5 ] );
-            TF y_5 = y[ 5 ] - m_5_4 * ( y[ 4 ] - y[ 5 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
+            TF m_0 = d_0 / ( d_1 - d_0 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 1 ] - reinterpret_cast<double *>( &px_0 )[ 0 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 1 ] - reinterpret_cast<double *>( &py_0 )[ 0 ] );
+            TF m_1 = d_5 / ( d_4 - d_5 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 5 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 4 ] - reinterpret_cast<double *>( &px_0 )[ 5 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 5 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 4 ] - reinterpret_cast<double *>( &py_0 )[ 5 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x90403020108ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             break;
         }
         case 1571:
@@ -1688,16 +1639,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
             TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF m_5_4 = d_5 / ( d_4 - d_5 );
-            TF m_1_2 = d_1 / ( d_2 - d_1 );
-            TF x_0 = x[ 5 ] - m_5_4 * ( x[ 4 ] - x[ 5 ] );
-            TF y_0 = y[ 5 ] - m_5_4 * ( y[ 4 ] - y[ 5 ] );
-            TF x_1 = x[ 1 ] - m_1_2 * ( x[ 2 ] - x[ 1 ] );
-            TF y_1 = y[ 1 ] - m_1_2 * ( y[ 2 ] - y[ 1 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
+            TF m_0 = d_5 / ( d_4 - d_5 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 5 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 4 ] - reinterpret_cast<double *>( &px_0 )[ 5 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 5 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 4 ] - reinterpret_cast<double *>( &py_0 )[ 5 ] );
+            TF m_1 = d_1 / ( d_2 - d_1 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 1 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 2 ] - reinterpret_cast<double *>( &px_0 )[ 1 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 1 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 2 ] - reinterpret_cast<double *>( &py_0 )[ 1 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x403020908ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             size = 5;
             break;
         }
@@ -1710,20 +1662,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
             TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF m_5_4 = d_5 / ( d_4 - d_5 );
-            TF m_2_3 = d_2 / ( d_3 - d_2 );
-            TF x_0 = x[ 4 ];
-            TF y_0 = y[ 4 ];
-            TF x_1 = x[ 5 ] - m_5_4 * ( x[ 4 ] - x[ 5 ] );
-            TF y_1 = y[ 5 ] - m_5_4 * ( y[ 4 ] - y[ 5 ] );
-            TF x_2 = x[ 2 ] - m_2_3 * ( x[ 3 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_3 * ( y[ 3 ] - y[ 2 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
+            TF m_0 = d_5 / ( d_4 - d_5 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 5 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 4 ] - reinterpret_cast<double *>( &px_0 )[ 5 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 5 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 4 ] - reinterpret_cast<double *>( &py_0 )[ 5 ] );
+            TF m_1 = d_2 / ( d_3 - d_2 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 2 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 3 ] - reinterpret_cast<double *>( &px_0 )[ 2 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 2 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 3 ] - reinterpret_cast<double *>( &py_0 )[ 2 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x3090804ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             size = 4;
             break;
         }
@@ -1735,20 +1684,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
             TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF m_3_4 = d_3 / ( d_4 - d_3 );
-            TF m_5_4 = d_5 / ( d_4 - d_5 );
-            TF x_0 = x[ 3 ] - m_3_4 * ( x[ 4 ] - x[ 3 ] );
-            TF y_0 = y[ 3 ] - m_3_4 * ( y[ 4 ] - y[ 3 ] );
-            TF x_1 = x[ 4 ];
-            TF y_1 = y[ 4 ];
-            TF x_2 = x[ 5 ] - m_5_4 * ( x[ 4 ] - x[ 5 ] );
-            TF y_2 = y[ 5 ] - m_5_4 * ( y[ 4 ] - y[ 5 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
+            TF m_0 = d_3 / ( d_4 - d_3 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 3 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 4 ] - reinterpret_cast<double *>( &px_0 )[ 3 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 3 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 4 ] - reinterpret_cast<double *>( &py_0 )[ 3 ] );
+            TF m_1 = d_5 / ( d_4 - d_5 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 5 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 4 ] - reinterpret_cast<double *>( &px_0 )[ 5 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 5 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 4 ] - reinterpret_cast<double *>( &py_0 )[ 5 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x90408ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             size = 3;
             break;
         }
@@ -1761,16 +1707,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
             TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF m_4_3 = d_4 / ( d_3 - d_4 );
-            TF m_5_0 = d_5 / ( d_0 - d_5 );
-            TF x_4 = x[ 4 ] - m_4_3 * ( x[ 3 ] - x[ 4 ] );
-            TF y_4 = y[ 4 ] - m_4_3 * ( y[ 3 ] - y[ 4 ] );
-            TF x_5 = x[ 5 ] - m_5_0 * ( x[ 0 ] - x[ 5 ] );
-            TF y_5 = y[ 5 ] - m_5_0 * ( y[ 0 ] - y[ 5 ] );
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
+            TF m_0 = d_4 / ( d_3 - d_4 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 4 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 3 ] - reinterpret_cast<double *>( &px_0 )[ 4 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 4 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 3 ] - reinterpret_cast<double *>( &py_0 )[ 4 ] );
+            TF m_1 = d_5 / ( d_0 - d_5 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 5 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 0 ] - reinterpret_cast<double *>( &px_0 )[ 5 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 5 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 0 ] - reinterpret_cast<double *>( &py_0 )[ 5 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x90803020100ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             break;
         }
         case 1585:
@@ -1782,16 +1729,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF m_0_1 = d_0 / ( d_1 - d_0 );
-            TF m_4_3 = d_4 / ( d_3 - d_4 );
-            TF x_0 = x[ 0 ] - m_0_1 * ( x[ 1 ] - x[ 0 ] );
-            TF y_0 = y[ 0 ] - m_0_1 * ( y[ 1 ] - y[ 0 ] );
-            TF x_4 = x[ 4 ] - m_4_3 * ( x[ 3 ] - x[ 4 ] );
-            TF y_4 = y[ 4 ] - m_4_3 * ( y[ 3 ] - y[ 4 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
+            TF m_0 = d_0 / ( d_1 - d_0 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 1 ] - reinterpret_cast<double *>( &px_0 )[ 0 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 1 ] - reinterpret_cast<double *>( &py_0 )[ 0 ] );
+            TF m_1 = d_4 / ( d_3 - d_4 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 4 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 3 ] - reinterpret_cast<double *>( &px_0 )[ 4 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 4 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 3 ] - reinterpret_cast<double *>( &py_0 )[ 4 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x903020108ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             size = 5;
             break;
         }
@@ -1804,16 +1752,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF m_4_3 = d_4 / ( d_3 - d_4 );
-            TF m_1_2 = d_1 / ( d_2 - d_1 );
-            TF x_0 = x[ 4 ] - m_4_3 * ( x[ 3 ] - x[ 4 ] );
-            TF y_0 = y[ 4 ] - m_4_3 * ( y[ 3 ] - y[ 4 ] );
-            TF x_1 = x[ 1 ] - m_1_2 * ( x[ 2 ] - x[ 1 ] );
-            TF y_1 = y[ 1 ] - m_1_2 * ( y[ 2 ] - y[ 1 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
+            TF m_0 = d_4 / ( d_3 - d_4 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 4 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 3 ] - reinterpret_cast<double *>( &px_0 )[ 4 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 4 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 3 ] - reinterpret_cast<double *>( &py_0 )[ 4 ] );
+            TF m_1 = d_1 / ( d_2 - d_1 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 1 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 2 ] - reinterpret_cast<double *>( &px_0 )[ 1 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 1 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 2 ] - reinterpret_cast<double *>( &py_0 )[ 1 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x3020908ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             size = 4;
             break;
         }
@@ -1825,20 +1774,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF m_4_3 = d_4 / ( d_3 - d_4 );
-            TF m_2_3 = d_2 / ( d_3 - d_2 );
-            TF x_0 = x[ 3 ];
-            TF y_0 = y[ 3 ];
-            TF x_1 = x[ 4 ] - m_4_3 * ( x[ 3 ] - x[ 4 ] );
-            TF y_1 = y[ 4 ] - m_4_3 * ( y[ 3 ] - y[ 4 ] );
-            TF x_2 = x[ 2 ] - m_2_3 * ( x[ 3 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_3 * ( y[ 3 ] - y[ 2 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
+            TF m_0 = d_4 / ( d_3 - d_4 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 4 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 3 ] - reinterpret_cast<double *>( &px_0 )[ 4 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 4 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 3 ] - reinterpret_cast<double *>( &py_0 )[ 4 ] );
+            TF m_1 = d_2 / ( d_3 - d_2 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 2 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 3 ] - reinterpret_cast<double *>( &px_0 )[ 2 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 2 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 3 ] - reinterpret_cast<double *>( &py_0 )[ 2 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x90803ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             size = 3;
             break;
         }
@@ -1851,16 +1797,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
             TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF m_3_2 = d_3 / ( d_2 - d_3 );
-            TF m_5_0 = d_5 / ( d_0 - d_5 );
-            TF x_3 = x[ 3 ] - m_3_2 * ( x[ 2 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_2 * ( y[ 2 ] - y[ 3 ] );
-            TF x_4 = x[ 5 ] - m_5_0 * ( x[ 0 ] - x[ 5 ] );
-            TF y_4 = y[ 5 ] - m_5_0 * ( y[ 0 ] - y[ 5 ] );
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
+            TF m_0 = d_3 / ( d_2 - d_3 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 3 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 2 ] - reinterpret_cast<double *>( &px_0 )[ 3 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 3 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 2 ] - reinterpret_cast<double *>( &py_0 )[ 3 ] );
+            TF m_1 = d_5 / ( d_0 - d_5 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 5 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 0 ] - reinterpret_cast<double *>( &px_0 )[ 5 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 5 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 0 ] - reinterpret_cast<double *>( &py_0 )[ 5 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x908020100ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             size = 5;
             break;
         }
@@ -1873,16 +1820,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF m_0_1 = d_0 / ( d_1 - d_0 );
-            TF m_3_2 = d_3 / ( d_2 - d_3 );
-            TF x_0 = x[ 0 ] - m_0_1 * ( x[ 1 ] - x[ 0 ] );
-            TF y_0 = y[ 0 ] - m_0_1 * ( y[ 1 ] - y[ 0 ] );
-            TF x_3 = x[ 3 ] - m_3_2 * ( x[ 2 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_2 * ( y[ 2 ] - y[ 3 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
+            TF m_0 = d_0 / ( d_1 - d_0 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 1 ] - reinterpret_cast<double *>( &px_0 )[ 0 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 1 ] - reinterpret_cast<double *>( &py_0 )[ 0 ] );
+            TF m_1 = d_3 / ( d_2 - d_3 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 3 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 2 ] - reinterpret_cast<double *>( &px_0 )[ 3 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 3 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 2 ] - reinterpret_cast<double *>( &py_0 )[ 3 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x9020108ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             size = 4;
             break;
         }
@@ -1894,16 +1842,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF m_3_2 = d_3 / ( d_2 - d_3 );
-            TF m_1_2 = d_1 / ( d_2 - d_1 );
-            TF x_0 = x[ 3 ] - m_3_2 * ( x[ 2 ] - x[ 3 ] );
-            TF y_0 = y[ 3 ] - m_3_2 * ( y[ 2 ] - y[ 3 ] );
-            TF x_1 = x[ 1 ] - m_1_2 * ( x[ 2 ] - x[ 1 ] );
-            TF y_1 = y[ 1 ] - m_1_2 * ( y[ 2 ] - y[ 1 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
+            TF m_0 = d_3 / ( d_2 - d_3 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 3 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 2 ] - reinterpret_cast<double *>( &px_0 )[ 3 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 3 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 2 ] - reinterpret_cast<double *>( &py_0 )[ 3 ] );
+            TF m_1 = d_1 / ( d_2 - d_1 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 1 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 2 ] - reinterpret_cast<double *>( &px_0 )[ 1 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 1 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 2 ] - reinterpret_cast<double *>( &py_0 )[ 1 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x20908ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             size = 3;
             break;
         }
@@ -1916,16 +1865,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
             TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF m_2_1 = d_2 / ( d_1 - d_2 );
-            TF m_5_0 = d_5 / ( d_0 - d_5 );
-            TF x_2 = x[ 2 ] - m_2_1 * ( x[ 1 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_1 * ( y[ 1 ] - y[ 2 ] );
-            TF x_3 = x[ 5 ] - m_5_0 * ( x[ 0 ] - x[ 5 ] );
-            TF y_3 = y[ 5 ] - m_5_0 * ( y[ 0 ] - y[ 5 ] );
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
+            TF m_0 = d_2 / ( d_1 - d_2 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 2 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 1 ] - reinterpret_cast<double *>( &px_0 )[ 2 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 2 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 1 ] - reinterpret_cast<double *>( &py_0 )[ 2 ] );
+            TF m_1 = d_5 / ( d_0 - d_5 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 5 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 0 ] - reinterpret_cast<double *>( &px_0 )[ 5 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 5 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 0 ] - reinterpret_cast<double *>( &py_0 )[ 5 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x9080100ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             size = 4;
             break;
         }
@@ -1937,16 +1887,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF m_0_1 = d_0 / ( d_1 - d_0 );
-            TF m_2_1 = d_2 / ( d_1 - d_2 );
-            TF x_0 = x[ 0 ] - m_0_1 * ( x[ 1 ] - x[ 0 ] );
-            TF y_0 = y[ 0 ] - m_0_1 * ( y[ 1 ] - y[ 0 ] );
-            TF x_2 = x[ 2 ] - m_2_1 * ( x[ 1 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_1 * ( y[ 1 ] - y[ 2 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
+            TF m_0 = d_0 / ( d_1 - d_0 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 1 ] - reinterpret_cast<double *>( &px_0 )[ 0 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 1 ] - reinterpret_cast<double *>( &py_0 )[ 0 ] );
+            TF m_1 = d_2 / ( d_1 - d_2 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 2 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 1 ] - reinterpret_cast<double *>( &px_0 )[ 2 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 2 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 1 ] - reinterpret_cast<double *>( &py_0 )[ 2 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x90108ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             size = 3;
             break;
         }
@@ -1958,16 +1909,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF m_1_0 = d_1 / ( d_0 - d_1 );
-            TF m_5_0 = d_5 / ( d_0 - d_5 );
-            TF x_1 = x[ 1 ] - m_1_0 * ( x[ 0 ] - x[ 1 ] );
-            TF y_1 = y[ 1 ] - m_1_0 * ( y[ 0 ] - y[ 1 ] );
-            TF x_2 = x[ 5 ] - m_5_0 * ( x[ 0 ] - x[ 5 ] );
-            TF y_2 = y[ 5 ] - m_5_0 * ( y[ 0 ] - y[ 5 ] );
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
+            TF m_0 = d_1 / ( d_0 - d_1 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 1 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 0 ] - reinterpret_cast<double *>( &px_0 )[ 1 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 1 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 0 ] - reinterpret_cast<double *>( &py_0 )[ 1 ] );
+            TF m_1 = d_5 / ( d_0 - d_5 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 5 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 0 ] - reinterpret_cast<double *>( &px_0 )[ 5 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 5 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 0 ] - reinterpret_cast<double *>( &py_0 )[ 5 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x90800ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             size = 3;
             break;
         }
@@ -1977,16 +1929,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_0_1 = d_0 / ( d_1 - d_0 );
-            TF m_0_6 = d_0 / ( d_6 - d_0 );
-            TF x_0 = x[ 0 ] - m_0_1 * ( x[ 1 ] - x[ 0 ] );
-            TF y_0 = y[ 0 ] - m_0_1 * ( y[ 1 ] - y[ 0 ] );
-            TF x_7 = x[ 0 ] - m_0_6 * ( x[ 6 ] - x[ 0 ] );
-            TF y_7 = y[ 0 ] - m_0_6 * ( y[ 6 ] - y[ 0 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
+            TF m_0 = d_0 / ( d_1 - d_0 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 1 ] - reinterpret_cast<double *>( &px_0 )[ 0 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 1 ] - reinterpret_cast<double *>( &py_0 )[ 0 ] );
+            TF m_1 = d_0 / ( d_6 - d_0 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 0 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 6 ] - reinterpret_cast<double *>( &px_0 )[ 0 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 0 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 6 ] - reinterpret_cast<double *>( &py_0 )[ 0 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x906050403020108ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             size = 8;
             break;
         }
@@ -1996,20 +1949,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF m_1_0 = d_1 / ( d_0 - d_1 );
-            TF m_1_2 = d_1 / ( d_2 - d_1 );
-            TF x_0 = x[ 1 ] - m_1_0 * ( x[ 0 ] - x[ 1 ] );
-            TF y_0 = y[ 1 ] - m_1_0 * ( y[ 0 ] - y[ 1 ] );
-            TF x_1 = x[ 1 ] - m_1_2 * ( x[ 2 ] - x[ 1 ] );
-            TF y_1 = y[ 1 ] - m_1_2 * ( y[ 2 ] - y[ 1 ] );
-            TF x_7 = x[ 0 ];
-            TF y_7 = y[ 0 ];
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
+            TF m_0 = d_1 / ( d_0 - d_1 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 1 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 0 ] - reinterpret_cast<double *>( &px_0 )[ 1 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 1 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 0 ] - reinterpret_cast<double *>( &py_0 )[ 1 ] );
+            TF m_1 = d_1 / ( d_2 - d_1 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 1 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 2 ] - reinterpret_cast<double *>( &px_0 )[ 1 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 1 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 2 ] - reinterpret_cast<double *>( &py_0 )[ 1 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x6050403020908ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             size = 8;
             break;
         }
@@ -2020,16 +1970,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
             TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_0_6 = d_0 / ( d_6 - d_0 );
-            TF m_1_2 = d_1 / ( d_2 - d_1 );
-            TF x_0 = x[ 0 ] - m_0_6 * ( x[ 6 ] - x[ 0 ] );
-            TF y_0 = y[ 0 ] - m_0_6 * ( y[ 6 ] - y[ 0 ] );
-            TF x_1 = x[ 1 ] - m_1_2 * ( x[ 2 ] - x[ 1 ] );
-            TF y_1 = y[ 1 ] - m_1_2 * ( y[ 2 ] - y[ 1 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
+            TF m_0 = d_0 / ( d_6 - d_0 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 6 ] - reinterpret_cast<double *>( &px_0 )[ 0 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 6 ] - reinterpret_cast<double *>( &py_0 )[ 0 ] );
+            TF m_1 = d_1 / ( d_2 - d_1 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 1 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 2 ] - reinterpret_cast<double *>( &px_0 )[ 1 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 1 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 2 ] - reinterpret_cast<double *>( &py_0 )[ 1 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x6050403020908ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             break;
         }
         case 1796:
@@ -2038,24 +1989,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF m_2_1 = d_2 / ( d_1 - d_2 );
-            TF m_2_3 = d_2 / ( d_3 - d_2 );
-            TF x_0 = x[ 1 ];
-            TF y_0 = y[ 1 ];
-            TF x_1 = x[ 2 ] - m_2_1 * ( x[ 1 ] - x[ 2 ] );
-            TF y_1 = y[ 2 ] - m_2_1 * ( y[ 1 ] - y[ 2 ] );
-            TF x_2 = x[ 2 ] - m_2_3 * ( x[ 3 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_3 * ( y[ 3 ] - y[ 2 ] );
-            TF x_7 = x[ 0 ];
-            TF y_7 = y[ 0 ];
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
+            TF m_0 = d_2 / ( d_1 - d_2 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 2 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 1 ] - reinterpret_cast<double *>( &px_0 )[ 2 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 2 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 1 ] - reinterpret_cast<double *>( &py_0 )[ 2 ] );
+            TF m_1 = d_2 / ( d_3 - d_2 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 2 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 3 ] - reinterpret_cast<double *>( &px_0 )[ 2 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 2 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 3 ] - reinterpret_cast<double *>( &py_0 )[ 2 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x6050403090801ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             size = 8;
             break;
         }
@@ -2066,16 +2010,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF m_1_0 = d_1 / ( d_0 - d_1 );
-            TF m_2_3 = d_2 / ( d_3 - d_2 );
-            TF x_1 = x[ 1 ] - m_1_0 * ( x[ 0 ] - x[ 1 ] );
-            TF y_1 = y[ 1 ] - m_1_0 * ( y[ 0 ] - y[ 1 ] );
-            TF x_2 = x[ 2 ] - m_2_3 * ( x[ 3 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_3 * ( y[ 3 ] - y[ 2 ] );
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
+            TF m_0 = d_1 / ( d_0 - d_1 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 1 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 0 ] - reinterpret_cast<double *>( &px_0 )[ 1 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 1 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 0 ] - reinterpret_cast<double *>( &py_0 )[ 1 ] );
+            TF m_1 = d_2 / ( d_3 - d_2 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 2 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 3 ] - reinterpret_cast<double *>( &px_0 )[ 2 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 2 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 3 ] - reinterpret_cast<double *>( &py_0 )[ 2 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x6050403090800ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             break;
         }
         case 1799:
@@ -2085,20 +2030,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
             TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_0_6 = d_0 / ( d_6 - d_0 );
-            TF m_2_3 = d_2 / ( d_3 - d_2 );
-            TF x_0 = x[ 6 ];
-            TF y_0 = y[ 6 ];
-            TF x_1 = x[ 0 ] - m_0_6 * ( x[ 6 ] - x[ 0 ] );
-            TF y_1 = y[ 0 ] - m_0_6 * ( y[ 6 ] - y[ 0 ] );
-            TF x_2 = x[ 2 ] - m_2_3 * ( x[ 3 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_3 * ( y[ 3 ] - y[ 2 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
+            TF m_0 = d_0 / ( d_6 - d_0 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 6 ] - reinterpret_cast<double *>( &px_0 )[ 0 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 6 ] - reinterpret_cast<double *>( &py_0 )[ 0 ] );
+            TF m_1 = d_2 / ( d_3 - d_2 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 2 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 3 ] - reinterpret_cast<double *>( &px_0 )[ 2 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 2 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 3 ] - reinterpret_cast<double *>( &py_0 )[ 2 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x50403090806ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             size = 6;
             break;
         }
@@ -2108,28 +2050,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF m_3_2 = d_3 / ( d_2 - d_3 );
-            TF m_3_4 = d_3 / ( d_4 - d_3 );
-            TF x_3 = x[ 3 ] - m_3_2 * ( x[ 2 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_2 * ( y[ 2 ] - y[ 3 ] );
-            TF x_4 = x[ 3 ] - m_3_4 * ( x[ 4 ] - x[ 3 ] );
-            TF y_4 = y[ 3 ] - m_3_4 * ( y[ 4 ] - y[ 3 ] );
-            TF x_5 = x[ 4 ];
-            TF y_5 = y[ 4 ];
-            TF x_6 = x[ 5 ];
-            TF y_6 = y[ 5 ];
-            TF x_7 = x[ 6 ];
-            TF y_7 = y[ 6 ];
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
+            TF m_0 = d_3 / ( d_2 - d_3 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 3 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 2 ] - reinterpret_cast<double *>( &px_0 )[ 3 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 3 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 2 ] - reinterpret_cast<double *>( &py_0 )[ 3 ] );
+            TF m_1 = d_3 / ( d_4 - d_3 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 3 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 4 ] - reinterpret_cast<double *>( &px_0 )[ 3 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 3 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 4 ] - reinterpret_cast<double *>( &py_0 )[ 3 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x605040908020100ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             size = 8;
             break;
         }
@@ -2140,16 +2071,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF m_2_1 = d_2 / ( d_1 - d_2 );
-            TF m_3_4 = d_3 / ( d_4 - d_3 );
-            TF x_2 = x[ 2 ] - m_2_1 * ( x[ 1 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_1 * ( y[ 1 ] - y[ 2 ] );
-            TF x_3 = x[ 3 ] - m_3_4 * ( x[ 4 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_4 * ( y[ 4 ] - y[ 3 ] );
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
+            TF m_0 = d_2 / ( d_1 - d_2 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 2 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 1 ] - reinterpret_cast<double *>( &px_0 )[ 2 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 2 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 1 ] - reinterpret_cast<double *>( &py_0 )[ 2 ] );
+            TF m_1 = d_3 / ( d_4 - d_3 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 3 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 4 ] - reinterpret_cast<double *>( &px_0 )[ 3 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 3 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 4 ] - reinterpret_cast<double *>( &py_0 )[ 3 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x6050409080100ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             break;
         }
         case 1806:
@@ -2159,24 +2091,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF m_1_0 = d_1 / ( d_0 - d_1 );
-            TF m_3_4 = d_3 / ( d_4 - d_3 );
-            TF x_0 = x[ 6 ];
-            TF y_0 = y[ 6 ];
-            TF x_1 = x[ 0 ];
-            TF y_1 = y[ 0 ];
-            TF x_2 = x[ 1 ] - m_1_0 * ( x[ 0 ] - x[ 1 ] );
-            TF y_2 = y[ 1 ] - m_1_0 * ( y[ 0 ] - y[ 1 ] );
-            TF x_3 = x[ 3 ] - m_3_4 * ( x[ 4 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_4 * ( y[ 4 ] - y[ 3 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
+            TF m_0 = d_1 / ( d_0 - d_1 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 1 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 0 ] - reinterpret_cast<double *>( &px_0 )[ 1 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 1 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 0 ] - reinterpret_cast<double *>( &py_0 )[ 1 ] );
+            TF m_1 = d_3 / ( d_4 - d_3 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 3 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 4 ] - reinterpret_cast<double *>( &px_0 )[ 3 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 3 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 4 ] - reinterpret_cast<double *>( &py_0 )[ 3 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x50409080006ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             size = 6;
             break;
         }
@@ -2187,24 +2112,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
             TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_0_6 = d_0 / ( d_6 - d_0 );
-            TF m_3_4 = d_3 / ( d_4 - d_3 );
-            TF x_0 = x[ 5 ];
-            TF y_0 = y[ 5 ];
-            TF x_1 = x[ 6 ];
-            TF y_1 = y[ 6 ];
-            TF x_2 = x[ 0 ] - m_0_6 * ( x[ 6 ] - x[ 0 ] );
-            TF y_2 = y[ 0 ] - m_0_6 * ( y[ 6 ] - y[ 0 ] );
-            TF x_3 = x[ 3 ] - m_3_4 * ( x[ 4 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_4 * ( y[ 4 ] - y[ 3 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
+            TF m_0 = d_0 / ( d_6 - d_0 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 6 ] - reinterpret_cast<double *>( &px_0 )[ 0 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 6 ] - reinterpret_cast<double *>( &py_0 )[ 0 ] );
+            TF m_1 = d_3 / ( d_4 - d_3 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 3 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 4 ] - reinterpret_cast<double *>( &px_0 )[ 3 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 3 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 4 ] - reinterpret_cast<double *>( &py_0 )[ 3 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x409080605ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             size = 5;
             break;
         }
@@ -2214,24 +2132,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
             TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF m_4_3 = d_4 / ( d_3 - d_4 );
-            TF m_4_5 = d_4 / ( d_5 - d_4 );
-            TF x_4 = x[ 4 ] - m_4_3 * ( x[ 3 ] - x[ 4 ] );
-            TF y_4 = y[ 4 ] - m_4_3 * ( y[ 3 ] - y[ 4 ] );
-            TF x_5 = x[ 4 ] - m_4_5 * ( x[ 5 ] - x[ 4 ] );
-            TF y_5 = y[ 4 ] - m_4_5 * ( y[ 5 ] - y[ 4 ] );
-            TF x_6 = x[ 5 ];
-            TF y_6 = y[ 5 ];
-            TF x_7 = x[ 6 ];
-            TF y_7 = y[ 6 ];
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
+            TF m_0 = d_4 / ( d_3 - d_4 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 4 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 3 ] - reinterpret_cast<double *>( &px_0 )[ 4 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 4 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 3 ] - reinterpret_cast<double *>( &py_0 )[ 4 ] );
+            TF m_1 = d_4 / ( d_5 - d_4 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 4 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 5 ] - reinterpret_cast<double *>( &px_0 )[ 4 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 4 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 5 ] - reinterpret_cast<double *>( &py_0 )[ 4 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x605090803020100ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             size = 8;
             break;
         }
@@ -2242,16 +2153,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
             TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF m_3_2 = d_3 / ( d_2 - d_3 );
-            TF m_4_5 = d_4 / ( d_5 - d_4 );
-            TF x_3 = x[ 3 ] - m_3_2 * ( x[ 2 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_2 * ( y[ 2 ] - y[ 3 ] );
-            TF x_4 = x[ 4 ] - m_4_5 * ( x[ 5 ] - x[ 4 ] );
-            TF y_4 = y[ 4 ] - m_4_5 * ( y[ 5 ] - y[ 4 ] );
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
+            TF m_0 = d_3 / ( d_2 - d_3 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 3 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 2 ] - reinterpret_cast<double *>( &px_0 )[ 3 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 3 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 2 ] - reinterpret_cast<double *>( &py_0 )[ 3 ] );
+            TF m_1 = d_4 / ( d_5 - d_4 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 4 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 5 ] - reinterpret_cast<double *>( &px_0 )[ 4 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 4 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 5 ] - reinterpret_cast<double *>( &py_0 )[ 4 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x6050908020100ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             break;
         }
         case 1820:
@@ -2261,24 +2173,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
             TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF m_2_1 = d_2 / ( d_1 - d_2 );
-            TF m_4_5 = d_4 / ( d_5 - d_4 );
-            TF x_2 = x[ 2 ] - m_2_1 * ( x[ 1 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_1 * ( y[ 1 ] - y[ 2 ] );
-            TF x_3 = x[ 4 ] - m_4_5 * ( x[ 5 ] - x[ 4 ] );
-            TF y_3 = y[ 4 ] - m_4_5 * ( y[ 5 ] - y[ 4 ] );
-            TF x_4 = x[ 5 ];
-            TF y_4 = y[ 5 ];
-            TF x_5 = x[ 6 ];
-            TF y_5 = y[ 6 ];
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
+            TF m_0 = d_2 / ( d_1 - d_2 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 2 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 1 ] - reinterpret_cast<double *>( &px_0 )[ 2 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 2 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 1 ] - reinterpret_cast<double *>( &py_0 )[ 2 ] );
+            TF m_1 = d_4 / ( d_5 - d_4 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 4 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 5 ] - reinterpret_cast<double *>( &px_0 )[ 4 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 4 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 5 ] - reinterpret_cast<double *>( &py_0 )[ 4 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x60509080100ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             size = 6;
             break;
         }
@@ -2289,24 +2194,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
             TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF m_1_0 = d_1 / ( d_0 - d_1 );
-            TF m_4_5 = d_4 / ( d_5 - d_4 );
-            TF x_1 = x[ 1 ] - m_1_0 * ( x[ 0 ] - x[ 1 ] );
-            TF y_1 = y[ 1 ] - m_1_0 * ( y[ 0 ] - y[ 1 ] );
-            TF x_2 = x[ 4 ] - m_4_5 * ( x[ 5 ] - x[ 4 ] );
-            TF y_2 = y[ 4 ] - m_4_5 * ( y[ 5 ] - y[ 4 ] );
-            TF x_3 = x[ 5 ];
-            TF y_3 = y[ 5 ];
-            TF x_4 = x[ 6 ];
-            TF y_4 = y[ 6 ];
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
+            TF m_0 = d_1 / ( d_0 - d_1 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 1 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 0 ] - reinterpret_cast<double *>( &px_0 )[ 1 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 1 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 0 ] - reinterpret_cast<double *>( &py_0 )[ 1 ] );
+            TF m_1 = d_4 / ( d_5 - d_4 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 4 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 5 ] - reinterpret_cast<double *>( &px_0 )[ 4 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 4 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 5 ] - reinterpret_cast<double *>( &py_0 )[ 4 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x605090800ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             size = 5;
             break;
         }
@@ -2317,24 +2215,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
             TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
             TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_0_6 = d_0 / ( d_6 - d_0 );
-            TF m_4_5 = d_4 / ( d_5 - d_4 );
-            TF x_0 = x[ 0 ] - m_0_6 * ( x[ 6 ] - x[ 0 ] );
-            TF y_0 = y[ 0 ] - m_0_6 * ( y[ 6 ] - y[ 0 ] );
-            TF x_1 = x[ 4 ] - m_4_5 * ( x[ 5 ] - x[ 4 ] );
-            TF y_1 = y[ 4 ] - m_4_5 * ( y[ 5 ] - y[ 4 ] );
-            TF x_2 = x[ 5 ];
-            TF y_2 = y[ 5 ];
-            TF x_3 = x[ 6 ];
-            TF y_3 = y[ 6 ];
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
+            TF m_0 = d_0 / ( d_6 - d_0 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 6 ] - reinterpret_cast<double *>( &px_0 )[ 0 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 6 ] - reinterpret_cast<double *>( &py_0 )[ 0 ] );
+            TF m_1 = d_4 / ( d_5 - d_4 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 4 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 5 ] - reinterpret_cast<double *>( &px_0 )[ 4 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 4 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 5 ] - reinterpret_cast<double *>( &py_0 )[ 4 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x6050908ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             size = 4;
             break;
         }
@@ -2344,20 +2235,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
             TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
             TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_5_4 = d_5 / ( d_4 - d_5 );
-            TF m_5_6 = d_5 / ( d_6 - d_5 );
-            TF x_5 = x[ 5 ] - m_5_4 * ( x[ 4 ] - x[ 5 ] );
-            TF y_5 = y[ 5 ] - m_5_4 * ( y[ 4 ] - y[ 5 ] );
-            TF x_6 = x[ 5 ] - m_5_6 * ( x[ 6 ] - x[ 5 ] );
-            TF y_6 = y[ 5 ] - m_5_6 * ( y[ 6 ] - y[ 5 ] );
-            TF x_7 = x[ 6 ];
-            TF y_7 = y[ 6 ];
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
+            TF m_0 = d_5 / ( d_4 - d_5 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 5 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 4 ] - reinterpret_cast<double *>( &px_0 )[ 5 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 5 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 4 ] - reinterpret_cast<double *>( &py_0 )[ 5 ] );
+            TF m_1 = d_5 / ( d_6 - d_5 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 5 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 6 ] - reinterpret_cast<double *>( &px_0 )[ 5 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 5 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 6 ] - reinterpret_cast<double *>( &py_0 )[ 5 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x609080403020100ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             size = 8;
             break;
         }
@@ -2368,16 +2256,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
             TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
             TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_4_3 = d_4 / ( d_3 - d_4 );
-            TF m_5_6 = d_5 / ( d_6 - d_5 );
-            TF x_4 = x[ 4 ] - m_4_3 * ( x[ 3 ] - x[ 4 ] );
-            TF y_4 = y[ 4 ] - m_4_3 * ( y[ 3 ] - y[ 4 ] );
-            TF x_5 = x[ 5 ] - m_5_6 * ( x[ 6 ] - x[ 5 ] );
-            TF y_5 = y[ 5 ] - m_5_6 * ( y[ 6 ] - y[ 5 ] );
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
+            TF m_0 = d_4 / ( d_3 - d_4 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 4 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 3 ] - reinterpret_cast<double *>( &px_0 )[ 4 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 4 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 3 ] - reinterpret_cast<double *>( &py_0 )[ 4 ] );
+            TF m_1 = d_5 / ( d_6 - d_5 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 5 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 6 ] - reinterpret_cast<double *>( &px_0 )[ 5 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 5 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 6 ] - reinterpret_cast<double *>( &py_0 )[ 5 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x6090803020100ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             break;
         }
         case 1848:
@@ -2387,20 +2276,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
             TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
             TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_3_2 = d_3 / ( d_2 - d_3 );
-            TF m_5_6 = d_5 / ( d_6 - d_5 );
-            TF x_3 = x[ 3 ] - m_3_2 * ( x[ 2 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_2 * ( y[ 2 ] - y[ 3 ] );
-            TF x_4 = x[ 5 ] - m_5_6 * ( x[ 6 ] - x[ 5 ] );
-            TF y_4 = y[ 5 ] - m_5_6 * ( y[ 6 ] - y[ 5 ] );
-            TF x_5 = x[ 6 ];
-            TF y_5 = y[ 6 ];
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
+            TF m_0 = d_3 / ( d_2 - d_3 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 3 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 2 ] - reinterpret_cast<double *>( &px_0 )[ 3 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 3 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 2 ] - reinterpret_cast<double *>( &py_0 )[ 3 ] );
+            TF m_1 = d_5 / ( d_6 - d_5 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 5 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 6 ] - reinterpret_cast<double *>( &px_0 )[ 5 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 5 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 6 ] - reinterpret_cast<double *>( &py_0 )[ 5 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x60908020100ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             size = 6;
             break;
         }
@@ -2411,20 +2297,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
             TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
             TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_2_1 = d_2 / ( d_1 - d_2 );
-            TF m_5_6 = d_5 / ( d_6 - d_5 );
-            TF x_2 = x[ 2 ] - m_2_1 * ( x[ 1 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_1 * ( y[ 1 ] - y[ 2 ] );
-            TF x_3 = x[ 5 ] - m_5_6 * ( x[ 6 ] - x[ 5 ] );
-            TF y_3 = y[ 5 ] - m_5_6 * ( y[ 6 ] - y[ 5 ] );
-            TF x_4 = x[ 6 ];
-            TF y_4 = y[ 6 ];
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
+            TF m_0 = d_2 / ( d_1 - d_2 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 2 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 1 ] - reinterpret_cast<double *>( &px_0 )[ 2 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 2 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 1 ] - reinterpret_cast<double *>( &py_0 )[ 2 ] );
+            TF m_1 = d_5 / ( d_6 - d_5 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 5 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 6 ] - reinterpret_cast<double *>( &px_0 )[ 5 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 5 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 6 ] - reinterpret_cast<double *>( &py_0 )[ 5 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x609080100ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             size = 5;
             break;
         }
@@ -2435,20 +2318,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
             TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_1_0 = d_1 / ( d_0 - d_1 );
-            TF m_5_6 = d_5 / ( d_6 - d_5 );
-            TF x_1 = x[ 1 ] - m_1_0 * ( x[ 0 ] - x[ 1 ] );
-            TF y_1 = y[ 1 ] - m_1_0 * ( y[ 0 ] - y[ 1 ] );
-            TF x_2 = x[ 5 ] - m_5_6 * ( x[ 6 ] - x[ 5 ] );
-            TF y_2 = y[ 5 ] - m_5_6 * ( y[ 6 ] - y[ 5 ] );
-            TF x_3 = x[ 6 ];
-            TF y_3 = y[ 6 ];
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
+            TF m_0 = d_1 / ( d_0 - d_1 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 1 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 0 ] - reinterpret_cast<double *>( &px_0 )[ 1 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 1 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 0 ] - reinterpret_cast<double *>( &py_0 )[ 1 ] );
+            TF m_1 = d_5 / ( d_6 - d_5 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 5 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 6 ] - reinterpret_cast<double *>( &px_0 )[ 5 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 5 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 6 ] - reinterpret_cast<double *>( &py_0 )[ 5 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x6090800ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             size = 4;
             break;
         }
@@ -2458,20 +2338,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
             TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
             TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_0_6 = d_0 / ( d_6 - d_0 );
-            TF m_5_6 = d_5 / ( d_6 - d_5 );
-            TF x_0 = x[ 0 ] - m_0_6 * ( x[ 6 ] - x[ 0 ] );
-            TF y_0 = y[ 0 ] - m_0_6 * ( y[ 6 ] - y[ 0 ] );
-            TF x_1 = x[ 5 ] - m_5_6 * ( x[ 6 ] - x[ 5 ] );
-            TF y_1 = y[ 5 ] - m_5_6 * ( y[ 6 ] - y[ 5 ] );
-            TF x_2 = x[ 6 ];
-            TF y_2 = y[ 6 ];
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
+            TF m_0 = d_0 / ( d_6 - d_0 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 6 ] - reinterpret_cast<double *>( &px_0 )[ 0 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 6 ] - reinterpret_cast<double *>( &py_0 )[ 0 ] );
+            TF m_1 = d_5 / ( d_6 - d_5 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 5 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 6 ] - reinterpret_cast<double *>( &px_0 )[ 5 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 5 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 6 ] - reinterpret_cast<double *>( &py_0 )[ 5 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x60908ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             size = 3;
             break;
         }
@@ -2481,16 +2358,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
             TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
             TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_6_5 = d_6 / ( d_5 - d_6 );
-            TF m_6_0 = d_6 / ( d_0 - d_6 );
-            TF x_6 = x[ 6 ] - m_6_5 * ( x[ 5 ] - x[ 6 ] );
-            TF y_6 = y[ 6 ] - m_6_5 * ( y[ 5 ] - y[ 6 ] );
-            TF x_7 = x[ 6 ] - m_6_0 * ( x[ 0 ] - x[ 6 ] );
-            TF y_7 = y[ 6 ] - m_6_0 * ( y[ 0 ] - y[ 6 ] );
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
+            TF m_0 = d_6 / ( d_5 - d_6 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 6 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 5 ] - reinterpret_cast<double *>( &px_0 )[ 6 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 6 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 5 ] - reinterpret_cast<double *>( &py_0 )[ 6 ] );
+            TF m_1 = d_6 / ( d_0 - d_6 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 6 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 0 ] - reinterpret_cast<double *>( &px_0 )[ 6 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 6 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 0 ] - reinterpret_cast<double *>( &py_0 )[ 6 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x908050403020100ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             size = 8;
             break;
         }
@@ -2501,16 +2379,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
             TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_0_1 = d_0 / ( d_1 - d_0 );
-            TF m_6_5 = d_6 / ( d_5 - d_6 );
-            TF x_0 = x[ 0 ] - m_0_1 * ( x[ 1 ] - x[ 0 ] );
-            TF y_0 = y[ 0 ] - m_0_1 * ( y[ 1 ] - y[ 0 ] );
-            TF x_6 = x[ 6 ] - m_6_5 * ( x[ 5 ] - x[ 6 ] );
-            TF y_6 = y[ 6 ] - m_6_5 * ( y[ 5 ] - y[ 6 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
+            TF m_0 = d_0 / ( d_1 - d_0 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 1 ] - reinterpret_cast<double *>( &px_0 )[ 0 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 1 ] - reinterpret_cast<double *>( &py_0 )[ 0 ] );
+            TF m_1 = d_6 / ( d_5 - d_6 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 6 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 5 ] - reinterpret_cast<double *>( &px_0 )[ 6 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 6 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 5 ] - reinterpret_cast<double *>( &py_0 )[ 6 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x9050403020108ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             break;
         }
         case 1859:
@@ -2520,16 +2399,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
             TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
             TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_6_5 = d_6 / ( d_5 - d_6 );
-            TF m_1_2 = d_1 / ( d_2 - d_1 );
-            TF x_0 = x[ 6 ] - m_6_5 * ( x[ 5 ] - x[ 6 ] );
-            TF y_0 = y[ 6 ] - m_6_5 * ( y[ 5 ] - y[ 6 ] );
-            TF x_1 = x[ 1 ] - m_1_2 * ( x[ 2 ] - x[ 1 ] );
-            TF y_1 = y[ 1 ] - m_1_2 * ( y[ 2 ] - y[ 1 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
+            TF m_0 = d_6 / ( d_5 - d_6 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 6 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 5 ] - reinterpret_cast<double *>( &px_0 )[ 6 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 6 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 5 ] - reinterpret_cast<double *>( &py_0 )[ 6 ] );
+            TF m_1 = d_1 / ( d_2 - d_1 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 1 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 2 ] - reinterpret_cast<double *>( &px_0 )[ 1 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 1 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 2 ] - reinterpret_cast<double *>( &py_0 )[ 1 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x50403020908ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             size = 6;
             break;
         }
@@ -2540,20 +2420,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
             TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
             TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_6_5 = d_6 / ( d_5 - d_6 );
-            TF m_2_3 = d_2 / ( d_3 - d_2 );
-            TF x_0 = x[ 5 ];
-            TF y_0 = y[ 5 ];
-            TF x_1 = x[ 6 ] - m_6_5 * ( x[ 5 ] - x[ 6 ] );
-            TF y_1 = y[ 6 ] - m_6_5 * ( y[ 5 ] - y[ 6 ] );
-            TF x_2 = x[ 2 ] - m_2_3 * ( x[ 3 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_3 * ( y[ 3 ] - y[ 2 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
+            TF m_0 = d_6 / ( d_5 - d_6 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 6 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 5 ] - reinterpret_cast<double *>( &px_0 )[ 6 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 6 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 5 ] - reinterpret_cast<double *>( &py_0 )[ 6 ] );
+            TF m_1 = d_2 / ( d_3 - d_2 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 2 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 3 ] - reinterpret_cast<double *>( &px_0 )[ 2 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 2 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 3 ] - reinterpret_cast<double *>( &py_0 )[ 2 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x403090805ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             size = 5;
             break;
         }
@@ -2564,24 +2441,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
             TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
             TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_6_5 = d_6 / ( d_5 - d_6 );
-            TF m_3_4 = d_3 / ( d_4 - d_3 );
-            TF x_0 = x[ 4 ];
-            TF y_0 = y[ 4 ];
-            TF x_1 = x[ 5 ];
-            TF y_1 = y[ 5 ];
-            TF x_2 = x[ 6 ] - m_6_5 * ( x[ 5 ] - x[ 6 ] );
-            TF y_2 = y[ 6 ] - m_6_5 * ( y[ 5 ] - y[ 6 ] );
-            TF x_3 = x[ 3 ] - m_3_4 * ( x[ 4 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_4 * ( y[ 4 ] - y[ 3 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
+            TF m_0 = d_6 / ( d_5 - d_6 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 6 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 5 ] - reinterpret_cast<double *>( &px_0 )[ 6 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 6 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 5 ] - reinterpret_cast<double *>( &py_0 )[ 6 ] );
+            TF m_1 = d_3 / ( d_4 - d_3 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 3 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 4 ] - reinterpret_cast<double *>( &px_0 )[ 3 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 3 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 4 ] - reinterpret_cast<double *>( &py_0 )[ 3 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x9080504ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             size = 4;
             break;
         }
@@ -2591,20 +2461,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
             TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
             TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_4_5 = d_4 / ( d_5 - d_4 );
-            TF m_6_5 = d_6 / ( d_5 - d_6 );
-            TF x_0 = x[ 4 ] - m_4_5 * ( x[ 5 ] - x[ 4 ] );
-            TF y_0 = y[ 4 ] - m_4_5 * ( y[ 5 ] - y[ 4 ] );
-            TF x_1 = x[ 5 ];
-            TF y_1 = y[ 5 ];
-            TF x_2 = x[ 6 ] - m_6_5 * ( x[ 5 ] - x[ 6 ] );
-            TF y_2 = y[ 6 ] - m_6_5 * ( y[ 5 ] - y[ 6 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
+            TF m_0 = d_4 / ( d_5 - d_4 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 4 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 5 ] - reinterpret_cast<double *>( &px_0 )[ 4 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 4 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 5 ] - reinterpret_cast<double *>( &py_0 )[ 4 ] );
+            TF m_1 = d_6 / ( d_5 - d_6 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 6 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 5 ] - reinterpret_cast<double *>( &px_0 )[ 6 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 6 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 5 ] - reinterpret_cast<double *>( &py_0 )[ 6 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x90508ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             size = 3;
             break;
         }
@@ -2615,16 +2482,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
             TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
             TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_5_4 = d_5 / ( d_4 - d_5 );
-            TF m_6_0 = d_6 / ( d_0 - d_6 );
-            TF x_5 = x[ 5 ] - m_5_4 * ( x[ 4 ] - x[ 5 ] );
-            TF y_5 = y[ 5 ] - m_5_4 * ( y[ 4 ] - y[ 5 ] );
-            TF x_6 = x[ 6 ] - m_6_0 * ( x[ 0 ] - x[ 6 ] );
-            TF y_6 = y[ 6 ] - m_6_0 * ( y[ 0 ] - y[ 6 ] );
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
+            TF m_0 = d_5 / ( d_4 - d_5 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 5 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 4 ] - reinterpret_cast<double *>( &px_0 )[ 5 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 5 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 4 ] - reinterpret_cast<double *>( &py_0 )[ 5 ] );
+            TF m_1 = d_6 / ( d_0 - d_6 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 6 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 0 ] - reinterpret_cast<double *>( &px_0 )[ 6 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 6 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 0 ] - reinterpret_cast<double *>( &py_0 )[ 6 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x9080403020100ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             break;
         }
         case 1889:
@@ -2634,16 +2502,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
             TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF m_0_1 = d_0 / ( d_1 - d_0 );
-            TF m_5_4 = d_5 / ( d_4 - d_5 );
-            TF x_0 = x[ 0 ] - m_0_1 * ( x[ 1 ] - x[ 0 ] );
-            TF y_0 = y[ 0 ] - m_0_1 * ( y[ 1 ] - y[ 0 ] );
-            TF x_5 = x[ 5 ] - m_5_4 * ( x[ 4 ] - x[ 5 ] );
-            TF y_5 = y[ 5 ] - m_5_4 * ( y[ 4 ] - y[ 5 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
+            TF m_0 = d_0 / ( d_1 - d_0 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 1 ] - reinterpret_cast<double *>( &px_0 )[ 0 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 1 ] - reinterpret_cast<double *>( &py_0 )[ 0 ] );
+            TF m_1 = d_5 / ( d_4 - d_5 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 5 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 4 ] - reinterpret_cast<double *>( &px_0 )[ 5 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 5 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 4 ] - reinterpret_cast<double *>( &py_0 )[ 5 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x90403020108ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             size = 6;
             break;
         }
@@ -2654,16 +2523,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
             TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF m_5_4 = d_5 / ( d_4 - d_5 );
-            TF m_1_2 = d_1 / ( d_2 - d_1 );
-            TF x_0 = x[ 5 ] - m_5_4 * ( x[ 4 ] - x[ 5 ] );
-            TF y_0 = y[ 5 ] - m_5_4 * ( y[ 4 ] - y[ 5 ] );
-            TF x_1 = x[ 1 ] - m_1_2 * ( x[ 2 ] - x[ 1 ] );
-            TF y_1 = y[ 1 ] - m_1_2 * ( y[ 2 ] - y[ 1 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
+            TF m_0 = d_5 / ( d_4 - d_5 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 5 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 4 ] - reinterpret_cast<double *>( &px_0 )[ 5 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 5 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 4 ] - reinterpret_cast<double *>( &py_0 )[ 5 ] );
+            TF m_1 = d_1 / ( d_2 - d_1 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 1 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 2 ] - reinterpret_cast<double *>( &px_0 )[ 1 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 1 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 2 ] - reinterpret_cast<double *>( &py_0 )[ 1 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x403020908ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             size = 5;
             break;
         }
@@ -2674,20 +2544,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
             TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF m_5_4 = d_5 / ( d_4 - d_5 );
-            TF m_2_3 = d_2 / ( d_3 - d_2 );
-            TF x_0 = x[ 4 ];
-            TF y_0 = y[ 4 ];
-            TF x_1 = x[ 5 ] - m_5_4 * ( x[ 4 ] - x[ 5 ] );
-            TF y_1 = y[ 5 ] - m_5_4 * ( y[ 4 ] - y[ 5 ] );
-            TF x_2 = x[ 2 ] - m_2_3 * ( x[ 3 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_3 * ( y[ 3 ] - y[ 2 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
+            TF m_0 = d_5 / ( d_4 - d_5 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 5 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 4 ] - reinterpret_cast<double *>( &px_0 )[ 5 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 5 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 4 ] - reinterpret_cast<double *>( &py_0 )[ 5 ] );
+            TF m_1 = d_2 / ( d_3 - d_2 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 2 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 3 ] - reinterpret_cast<double *>( &px_0 )[ 2 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 2 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 3 ] - reinterpret_cast<double *>( &py_0 )[ 2 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x3090804ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             size = 4;
             break;
         }
@@ -2697,20 +2564,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
             TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF m_3_4 = d_3 / ( d_4 - d_3 );
-            TF m_5_4 = d_5 / ( d_4 - d_5 );
-            TF x_0 = x[ 3 ] - m_3_4 * ( x[ 4 ] - x[ 3 ] );
-            TF y_0 = y[ 3 ] - m_3_4 * ( y[ 4 ] - y[ 3 ] );
-            TF x_1 = x[ 4 ];
-            TF y_1 = y[ 4 ];
-            TF x_2 = x[ 5 ] - m_5_4 * ( x[ 4 ] - x[ 5 ] );
-            TF y_2 = y[ 5 ] - m_5_4 * ( y[ 4 ] - y[ 5 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
+            TF m_0 = d_3 / ( d_4 - d_3 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 3 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 4 ] - reinterpret_cast<double *>( &px_0 )[ 3 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 3 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 4 ] - reinterpret_cast<double *>( &py_0 )[ 3 ] );
+            TF m_1 = d_5 / ( d_4 - d_5 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 5 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 4 ] - reinterpret_cast<double *>( &px_0 )[ 5 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 5 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 4 ] - reinterpret_cast<double *>( &py_0 )[ 5 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x90408ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             size = 3;
             break;
         }
@@ -2721,16 +2585,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
             TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_4_3 = d_4 / ( d_3 - d_4 );
-            TF m_6_0 = d_6 / ( d_0 - d_6 );
-            TF x_4 = x[ 4 ] - m_4_3 * ( x[ 3 ] - x[ 4 ] );
-            TF y_4 = y[ 4 ] - m_4_3 * ( y[ 3 ] - y[ 4 ] );
-            TF x_5 = x[ 6 ] - m_6_0 * ( x[ 0 ] - x[ 6 ] );
-            TF y_5 = y[ 6 ] - m_6_0 * ( y[ 0 ] - y[ 6 ] );
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
+            TF m_0 = d_4 / ( d_3 - d_4 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 4 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 3 ] - reinterpret_cast<double *>( &px_0 )[ 4 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 4 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 3 ] - reinterpret_cast<double *>( &py_0 )[ 4 ] );
+            TF m_1 = d_6 / ( d_0 - d_6 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 6 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 0 ] - reinterpret_cast<double *>( &px_0 )[ 6 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 6 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 0 ] - reinterpret_cast<double *>( &py_0 )[ 6 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x90803020100ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             size = 6;
             break;
         }
@@ -2741,16 +2606,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF m_0_1 = d_0 / ( d_1 - d_0 );
-            TF m_4_3 = d_4 / ( d_3 - d_4 );
-            TF x_0 = x[ 0 ] - m_0_1 * ( x[ 1 ] - x[ 0 ] );
-            TF y_0 = y[ 0 ] - m_0_1 * ( y[ 1 ] - y[ 0 ] );
-            TF x_4 = x[ 4 ] - m_4_3 * ( x[ 3 ] - x[ 4 ] );
-            TF y_4 = y[ 4 ] - m_4_3 * ( y[ 3 ] - y[ 4 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
+            TF m_0 = d_0 / ( d_1 - d_0 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 1 ] - reinterpret_cast<double *>( &px_0 )[ 0 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 1 ] - reinterpret_cast<double *>( &py_0 )[ 0 ] );
+            TF m_1 = d_4 / ( d_3 - d_4 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 4 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 3 ] - reinterpret_cast<double *>( &px_0 )[ 4 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 4 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 3 ] - reinterpret_cast<double *>( &py_0 )[ 4 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x903020108ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             size = 5;
             break;
         }
@@ -2761,16 +2627,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF m_4_3 = d_4 / ( d_3 - d_4 );
-            TF m_1_2 = d_1 / ( d_2 - d_1 );
-            TF x_0 = x[ 4 ] - m_4_3 * ( x[ 3 ] - x[ 4 ] );
-            TF y_0 = y[ 4 ] - m_4_3 * ( y[ 3 ] - y[ 4 ] );
-            TF x_1 = x[ 1 ] - m_1_2 * ( x[ 2 ] - x[ 1 ] );
-            TF y_1 = y[ 1 ] - m_1_2 * ( y[ 2 ] - y[ 1 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
+            TF m_0 = d_4 / ( d_3 - d_4 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 4 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 3 ] - reinterpret_cast<double *>( &px_0 )[ 4 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 4 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 3 ] - reinterpret_cast<double *>( &py_0 )[ 4 ] );
+            TF m_1 = d_1 / ( d_2 - d_1 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 1 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 2 ] - reinterpret_cast<double *>( &px_0 )[ 1 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 1 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 2 ] - reinterpret_cast<double *>( &py_0 )[ 1 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x3020908ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             size = 4;
             break;
         }
@@ -2780,20 +2647,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF m_4_3 = d_4 / ( d_3 - d_4 );
-            TF m_2_3 = d_2 / ( d_3 - d_2 );
-            TF x_0 = x[ 3 ];
-            TF y_0 = y[ 3 ];
-            TF x_1 = x[ 4 ] - m_4_3 * ( x[ 3 ] - x[ 4 ] );
-            TF y_1 = y[ 4 ] - m_4_3 * ( y[ 3 ] - y[ 4 ] );
-            TF x_2 = x[ 2 ] - m_2_3 * ( x[ 3 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_3 * ( y[ 3 ] - y[ 2 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
+            TF m_0 = d_4 / ( d_3 - d_4 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 4 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 3 ] - reinterpret_cast<double *>( &px_0 )[ 4 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 4 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 3 ] - reinterpret_cast<double *>( &py_0 )[ 4 ] );
+            TF m_1 = d_2 / ( d_3 - d_2 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 2 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 3 ] - reinterpret_cast<double *>( &px_0 )[ 2 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 2 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 3 ] - reinterpret_cast<double *>( &py_0 )[ 2 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x90803ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             size = 3;
             break;
         }
@@ -2804,16 +2668,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
             TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_3_2 = d_3 / ( d_2 - d_3 );
-            TF m_6_0 = d_6 / ( d_0 - d_6 );
-            TF x_3 = x[ 3 ] - m_3_2 * ( x[ 2 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_2 * ( y[ 2 ] - y[ 3 ] );
-            TF x_4 = x[ 6 ] - m_6_0 * ( x[ 0 ] - x[ 6 ] );
-            TF y_4 = y[ 6 ] - m_6_0 * ( y[ 0 ] - y[ 6 ] );
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
+            TF m_0 = d_3 / ( d_2 - d_3 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 3 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 2 ] - reinterpret_cast<double *>( &px_0 )[ 3 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 3 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 2 ] - reinterpret_cast<double *>( &py_0 )[ 3 ] );
+            TF m_1 = d_6 / ( d_0 - d_6 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 6 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 0 ] - reinterpret_cast<double *>( &px_0 )[ 6 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 6 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 0 ] - reinterpret_cast<double *>( &py_0 )[ 6 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x908020100ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             size = 5;
             break;
         }
@@ -2824,16 +2689,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF m_0_1 = d_0 / ( d_1 - d_0 );
-            TF m_3_2 = d_3 / ( d_2 - d_3 );
-            TF x_0 = x[ 0 ] - m_0_1 * ( x[ 1 ] - x[ 0 ] );
-            TF y_0 = y[ 0 ] - m_0_1 * ( y[ 1 ] - y[ 0 ] );
-            TF x_3 = x[ 3 ] - m_3_2 * ( x[ 2 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_2 * ( y[ 2 ] - y[ 3 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
+            TF m_0 = d_0 / ( d_1 - d_0 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 1 ] - reinterpret_cast<double *>( &px_0 )[ 0 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 1 ] - reinterpret_cast<double *>( &py_0 )[ 0 ] );
+            TF m_1 = d_3 / ( d_2 - d_3 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 3 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 2 ] - reinterpret_cast<double *>( &px_0 )[ 3 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 3 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 2 ] - reinterpret_cast<double *>( &py_0 )[ 3 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x9020108ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             size = 4;
             break;
         }
@@ -2843,16 +2709,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF m_3_2 = d_3 / ( d_2 - d_3 );
-            TF m_1_2 = d_1 / ( d_2 - d_1 );
-            TF x_0 = x[ 3 ] - m_3_2 * ( x[ 2 ] - x[ 3 ] );
-            TF y_0 = y[ 3 ] - m_3_2 * ( y[ 2 ] - y[ 3 ] );
-            TF x_1 = x[ 1 ] - m_1_2 * ( x[ 2 ] - x[ 1 ] );
-            TF y_1 = y[ 1 ] - m_1_2 * ( y[ 2 ] - y[ 1 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
+            TF m_0 = d_3 / ( d_2 - d_3 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 3 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 2 ] - reinterpret_cast<double *>( &px_0 )[ 3 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 3 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 2 ] - reinterpret_cast<double *>( &py_0 )[ 3 ] );
+            TF m_1 = d_1 / ( d_2 - d_1 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 1 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 2 ] - reinterpret_cast<double *>( &px_0 )[ 1 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 1 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 2 ] - reinterpret_cast<double *>( &py_0 )[ 1 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x20908ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             size = 3;
             break;
         }
@@ -2863,16 +2730,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
             TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_2_1 = d_2 / ( d_1 - d_2 );
-            TF m_6_0 = d_6 / ( d_0 - d_6 );
-            TF x_2 = x[ 2 ] - m_2_1 * ( x[ 1 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_1 * ( y[ 1 ] - y[ 2 ] );
-            TF x_3 = x[ 6 ] - m_6_0 * ( x[ 0 ] - x[ 6 ] );
-            TF y_3 = y[ 6 ] - m_6_0 * ( y[ 0 ] - y[ 6 ] );
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
+            TF m_0 = d_2 / ( d_1 - d_2 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 2 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 1 ] - reinterpret_cast<double *>( &px_0 )[ 2 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 2 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 1 ] - reinterpret_cast<double *>( &py_0 )[ 2 ] );
+            TF m_1 = d_6 / ( d_0 - d_6 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 6 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 0 ] - reinterpret_cast<double *>( &px_0 )[ 6 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 6 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 0 ] - reinterpret_cast<double *>( &py_0 )[ 6 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x9080100ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             size = 4;
             break;
         }
@@ -2882,16 +2750,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF m_0_1 = d_0 / ( d_1 - d_0 );
-            TF m_2_1 = d_2 / ( d_1 - d_2 );
-            TF x_0 = x[ 0 ] - m_0_1 * ( x[ 1 ] - x[ 0 ] );
-            TF y_0 = y[ 0 ] - m_0_1 * ( y[ 1 ] - y[ 0 ] );
-            TF x_2 = x[ 2 ] - m_2_1 * ( x[ 1 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_1 * ( y[ 1 ] - y[ 2 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
+            TF m_0 = d_0 / ( d_1 - d_0 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 1 ] - reinterpret_cast<double *>( &px_0 )[ 0 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 1 ] - reinterpret_cast<double *>( &py_0 )[ 0 ] );
+            TF m_1 = d_2 / ( d_1 - d_2 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 2 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 1 ] - reinterpret_cast<double *>( &px_0 )[ 2 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 2 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 1 ] - reinterpret_cast<double *>( &py_0 )[ 2 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x90108ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             size = 3;
             break;
         }
@@ -2901,16 +2770,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_1_0 = d_1 / ( d_0 - d_1 );
-            TF m_6_0 = d_6 / ( d_0 - d_6 );
-            TF x_1 = x[ 1 ] - m_1_0 * ( x[ 0 ] - x[ 1 ] );
-            TF y_1 = y[ 1 ] - m_1_0 * ( y[ 0 ] - y[ 1 ] );
-            TF x_2 = x[ 6 ] - m_6_0 * ( x[ 0 ] - x[ 6 ] );
-            TF y_2 = y[ 6 ] - m_6_0 * ( y[ 0 ] - y[ 6 ] );
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
+            TF m_0 = d_1 / ( d_0 - d_1 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 1 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 0 ] - reinterpret_cast<double *>( &px_0 )[ 1 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 1 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 0 ] - reinterpret_cast<double *>( &py_0 )[ 1 ] );
+            TF m_1 = d_6 / ( d_0 - d_6 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 6 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 0 ] - reinterpret_cast<double *>( &px_0 )[ 6 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 6 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 0 ] - reinterpret_cast<double *>( &py_0 )[ 6 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x90800ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             size = 3;
             break;
         }
@@ -2919,16 +2789,19 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_0_1 = d_0 / ( d_1 - d_0 );
+            TF m_0 = d_0 / ( d_1 - d_0 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 1 ] - reinterpret_cast<double *>( &px_0 )[ 0 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 1 ] - reinterpret_cast<double *>( &py_0 )[ 0 ] );
             TF m_0_7 = d_0 / ( d_7 - d_0 );
-            TF x_0 = x[ 0 ] - m_0_1 * ( x[ 1 ] - x[ 0 ] );
-            TF y_0 = y[ 0 ] - m_0_1 * ( y[ 1 ] - y[ 0 ] );
             TF x_8 = x[ 0 ] - m_0_7 * ( x[ 7 ] - x[ 0 ] );
             TF y_8 = y[ 0 ] - m_0_7 * ( y[ 7 ] - y[ 0 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
             x[ 8 ] = x_8;
             y[ 8 ] = y_8;
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x706050403020108ul ) );
+            __m512d inter_x = _mm512_set1_pd( x_0 );
+            __m512d inter_y = _mm512_set1_pd( y_0 );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             size = 9;
             break;
         }
@@ -2937,20 +2810,21 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF m_1_0 = d_1 / ( d_0 - d_1 );
-            TF m_1_2 = d_1 / ( d_2 - d_1 );
-            TF x_0 = x[ 1 ] - m_1_0 * ( x[ 0 ] - x[ 1 ] );
-            TF y_0 = y[ 1 ] - m_1_0 * ( y[ 0 ] - y[ 1 ] );
-            TF x_1 = x[ 1 ] - m_1_2 * ( x[ 2 ] - x[ 1 ] );
-            TF y_1 = y[ 1 ] - m_1_2 * ( y[ 2 ] - y[ 1 ] );
+            TF m_0 = d_1 / ( d_0 - d_1 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 1 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 0 ] - reinterpret_cast<double *>( &px_0 )[ 1 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 1 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 0 ] - reinterpret_cast<double *>( &py_0 )[ 1 ] );
+            TF m_1 = d_1 / ( d_2 - d_1 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 1 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 2 ] - reinterpret_cast<double *>( &px_0 )[ 1 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 1 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 2 ] - reinterpret_cast<double *>( &py_0 )[ 1 ] );
             TF x_8 = x[ 0 ];
             TF y_8 = y[ 0 ];
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
             x[ 8 ] = x_8;
             y[ 8 ] = y_8;
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x706050403020908ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             size = 9;
             break;
         }
@@ -2960,16 +2834,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
             TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_0_7 = d_0 / ( d_7 - d_0 );
-            TF m_1_2 = d_1 / ( d_2 - d_1 );
-            TF x_0 = x[ 0 ] - m_0_7 * ( x[ 7 ] - x[ 0 ] );
-            TF y_0 = y[ 0 ] - m_0_7 * ( y[ 7 ] - y[ 0 ] );
-            TF x_1 = x[ 1 ] - m_1_2 * ( x[ 2 ] - x[ 1 ] );
-            TF y_1 = y[ 1 ] - m_1_2 * ( y[ 2 ] - y[ 1 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
+            TF m_0 = d_0 / ( d_7 - d_0 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 7 ] - reinterpret_cast<double *>( &px_0 )[ 0 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 7 ] - reinterpret_cast<double *>( &py_0 )[ 0 ] );
+            TF m_1 = d_1 / ( d_2 - d_1 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 1 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 2 ] - reinterpret_cast<double *>( &px_0 )[ 1 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 1 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 2 ] - reinterpret_cast<double *>( &py_0 )[ 1 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x706050403020908ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             break;
         }
         case 2052: {
@@ -2977,24 +2852,21 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF m_2_1 = d_2 / ( d_1 - d_2 );
-            TF m_2_3 = d_2 / ( d_3 - d_2 );
-            TF x_0 = x[ 1 ];
-            TF y_0 = y[ 1 ];
-            TF x_1 = x[ 2 ] - m_2_1 * ( x[ 1 ] - x[ 2 ] );
-            TF y_1 = y[ 2 ] - m_2_1 * ( y[ 1 ] - y[ 2 ] );
-            TF x_2 = x[ 2 ] - m_2_3 * ( x[ 3 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_3 * ( y[ 3 ] - y[ 2 ] );
+            TF m_0 = d_2 / ( d_1 - d_2 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 2 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 1 ] - reinterpret_cast<double *>( &px_0 )[ 2 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 2 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 1 ] - reinterpret_cast<double *>( &py_0 )[ 2 ] );
+            TF m_1 = d_2 / ( d_3 - d_2 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 2 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 3 ] - reinterpret_cast<double *>( &px_0 )[ 2 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 2 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 3 ] - reinterpret_cast<double *>( &py_0 )[ 2 ] );
             TF x_8 = x[ 0 ];
             TF y_8 = y[ 0 ];
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
             x[ 8 ] = x_8;
             y[ 8 ] = y_8;
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x706050403090801ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             size = 9;
             break;
         }
@@ -3004,16 +2876,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF m_1_0 = d_1 / ( d_0 - d_1 );
-            TF m_2_3 = d_2 / ( d_3 - d_2 );
-            TF x_1 = x[ 1 ] - m_1_0 * ( x[ 0 ] - x[ 1 ] );
-            TF y_1 = y[ 1 ] - m_1_0 * ( y[ 0 ] - y[ 1 ] );
-            TF x_2 = x[ 2 ] - m_2_3 * ( x[ 3 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_3 * ( y[ 3 ] - y[ 2 ] );
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
+            TF m_0 = d_1 / ( d_0 - d_1 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 1 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 0 ] - reinterpret_cast<double *>( &px_0 )[ 1 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 1 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 0 ] - reinterpret_cast<double *>( &py_0 )[ 1 ] );
+            TF m_1 = d_2 / ( d_3 - d_2 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 2 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 3 ] - reinterpret_cast<double *>( &px_0 )[ 2 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 2 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 3 ] - reinterpret_cast<double *>( &py_0 )[ 2 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x706050403090800ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             break;
         }
         case 2055: {
@@ -3022,20 +2895,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
             TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_0_7 = d_0 / ( d_7 - d_0 );
-            TF m_2_3 = d_2 / ( d_3 - d_2 );
-            TF x_0 = x[ 7 ];
-            TF y_0 = y[ 7 ];
-            TF x_1 = x[ 0 ] - m_0_7 * ( x[ 7 ] - x[ 0 ] );
-            TF y_1 = y[ 0 ] - m_0_7 * ( y[ 7 ] - y[ 0 ] );
-            TF x_2 = x[ 2 ] - m_2_3 * ( x[ 3 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_3 * ( y[ 3 ] - y[ 2 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
+            TF m_0 = d_0 / ( d_7 - d_0 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 7 ] - reinterpret_cast<double *>( &px_0 )[ 0 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 7 ] - reinterpret_cast<double *>( &py_0 )[ 0 ] );
+            TF m_1 = d_2 / ( d_3 - d_2 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 2 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 3 ] - reinterpret_cast<double *>( &px_0 )[ 2 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 2 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 3 ] - reinterpret_cast<double *>( &py_0 )[ 2 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x6050403090807ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             size = 7;
             break;
         }
@@ -3044,28 +2914,21 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF m_3_2 = d_3 / ( d_2 - d_3 );
-            TF m_3_4 = d_3 / ( d_4 - d_3 );
-            TF x_0 = x[ 1 ];
-            TF y_0 = y[ 1 ];
-            TF x_1 = x[ 2 ];
-            TF y_1 = y[ 2 ];
-            TF x_2 = x[ 3 ] - m_3_2 * ( x[ 2 ] - x[ 3 ] );
-            TF y_2 = y[ 3 ] - m_3_2 * ( y[ 2 ] - y[ 3 ] );
-            TF x_3 = x[ 3 ] - m_3_4 * ( x[ 4 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_4 * ( y[ 4 ] - y[ 3 ] );
+            TF m_0 = d_3 / ( d_2 - d_3 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 3 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 2 ] - reinterpret_cast<double *>( &px_0 )[ 3 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 3 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 2 ] - reinterpret_cast<double *>( &py_0 )[ 3 ] );
+            TF m_1 = d_3 / ( d_4 - d_3 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 3 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 4 ] - reinterpret_cast<double *>( &px_0 )[ 3 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 3 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 4 ] - reinterpret_cast<double *>( &py_0 )[ 3 ] );
             TF x_8 = x[ 0 ];
             TF y_8 = y[ 0 ];
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
             x[ 8 ] = x_8;
             y[ 8 ] = y_8;
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x706050409080201ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             size = 9;
             break;
         }
@@ -3075,16 +2938,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF m_2_1 = d_2 / ( d_1 - d_2 );
-            TF m_3_4 = d_3 / ( d_4 - d_3 );
-            TF x_2 = x[ 2 ] - m_2_1 * ( x[ 1 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_1 * ( y[ 1 ] - y[ 2 ] );
-            TF x_3 = x[ 3 ] - m_3_4 * ( x[ 4 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_4 * ( y[ 4 ] - y[ 3 ] );
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
+            TF m_0 = d_2 / ( d_1 - d_2 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 2 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 1 ] - reinterpret_cast<double *>( &px_0 )[ 2 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 2 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 1 ] - reinterpret_cast<double *>( &py_0 )[ 2 ] );
+            TF m_1 = d_3 / ( d_4 - d_3 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 3 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 4 ] - reinterpret_cast<double *>( &px_0 )[ 3 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 3 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 4 ] - reinterpret_cast<double *>( &py_0 )[ 3 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x706050409080100ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             break;
         }
         case 2062: {
@@ -3093,24 +2957,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF m_1_0 = d_1 / ( d_0 - d_1 );
-            TF m_3_4 = d_3 / ( d_4 - d_3 );
-            TF x_0 = x[ 7 ];
-            TF y_0 = y[ 7 ];
-            TF x_1 = x[ 0 ];
-            TF y_1 = y[ 0 ];
-            TF x_2 = x[ 1 ] - m_1_0 * ( x[ 0 ] - x[ 1 ] );
-            TF y_2 = y[ 1 ] - m_1_0 * ( y[ 0 ] - y[ 1 ] );
-            TF x_3 = x[ 3 ] - m_3_4 * ( x[ 4 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_4 * ( y[ 4 ] - y[ 3 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
+            TF m_0 = d_1 / ( d_0 - d_1 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 1 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 0 ] - reinterpret_cast<double *>( &px_0 )[ 1 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 1 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 0 ] - reinterpret_cast<double *>( &py_0 )[ 1 ] );
+            TF m_1 = d_3 / ( d_4 - d_3 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 3 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 4 ] - reinterpret_cast<double *>( &px_0 )[ 3 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 3 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 4 ] - reinterpret_cast<double *>( &py_0 )[ 3 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x6050409080007ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             size = 7;
             break;
         }
@@ -3120,24 +2977,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
             TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_0_7 = d_0 / ( d_7 - d_0 );
-            TF m_3_4 = d_3 / ( d_4 - d_3 );
-            TF x_0 = x[ 6 ];
-            TF y_0 = y[ 6 ];
-            TF x_1 = x[ 7 ];
-            TF y_1 = y[ 7 ];
-            TF x_2 = x[ 0 ] - m_0_7 * ( x[ 7 ] - x[ 0 ] );
-            TF y_2 = y[ 0 ] - m_0_7 * ( y[ 7 ] - y[ 0 ] );
-            TF x_3 = x[ 3 ] - m_3_4 * ( x[ 4 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_4 * ( y[ 4 ] - y[ 3 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
+            TF m_0 = d_0 / ( d_7 - d_0 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 7 ] - reinterpret_cast<double *>( &px_0 )[ 0 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 7 ] - reinterpret_cast<double *>( &py_0 )[ 0 ] );
+            TF m_1 = d_3 / ( d_4 - d_3 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 3 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 4 ] - reinterpret_cast<double *>( &px_0 )[ 3 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 3 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 4 ] - reinterpret_cast<double *>( &py_0 )[ 3 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x50409080706ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             size = 6;
             break;
         }
@@ -3146,28 +2996,21 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
             TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF m_4_3 = d_4 / ( d_3 - d_4 );
-            TF m_4_5 = d_4 / ( d_5 - d_4 );
-            TF x_4 = x[ 4 ] - m_4_3 * ( x[ 3 ] - x[ 4 ] );
-            TF y_4 = y[ 4 ] - m_4_3 * ( y[ 3 ] - y[ 4 ] );
-            TF x_5 = x[ 4 ] - m_4_5 * ( x[ 5 ] - x[ 4 ] );
-            TF y_5 = y[ 4 ] - m_4_5 * ( y[ 5 ] - y[ 4 ] );
-            TF x_6 = x[ 5 ];
-            TF y_6 = y[ 5 ];
-            TF x_7 = x[ 6 ];
-            TF y_7 = y[ 6 ];
+            TF m_0 = d_4 / ( d_3 - d_4 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 4 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 3 ] - reinterpret_cast<double *>( &px_0 )[ 4 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 4 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 3 ] - reinterpret_cast<double *>( &py_0 )[ 4 ] );
+            TF m_1 = d_4 / ( d_5 - d_4 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 4 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 5 ] - reinterpret_cast<double *>( &px_0 )[ 4 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 4 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 5 ] - reinterpret_cast<double *>( &py_0 )[ 4 ] );
             TF x_8 = x[ 7 ];
             TF y_8 = y[ 7 ];
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
             x[ 8 ] = x_8;
             y[ 8 ] = y_8;
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x605090803020100ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             size = 9;
             break;
         }
@@ -3177,16 +3020,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
             TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF m_3_2 = d_3 / ( d_2 - d_3 );
-            TF m_4_5 = d_4 / ( d_5 - d_4 );
-            TF x_3 = x[ 3 ] - m_3_2 * ( x[ 2 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_2 * ( y[ 2 ] - y[ 3 ] );
-            TF x_4 = x[ 4 ] - m_4_5 * ( x[ 5 ] - x[ 4 ] );
-            TF y_4 = y[ 4 ] - m_4_5 * ( y[ 5 ] - y[ 4 ] );
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
+            TF m_0 = d_3 / ( d_2 - d_3 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 3 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 2 ] - reinterpret_cast<double *>( &px_0 )[ 3 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 3 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 2 ] - reinterpret_cast<double *>( &py_0 )[ 3 ] );
+            TF m_1 = d_4 / ( d_5 - d_4 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 4 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 5 ] - reinterpret_cast<double *>( &px_0 )[ 4 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 4 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 5 ] - reinterpret_cast<double *>( &py_0 )[ 4 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x706050908020100ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             break;
         }
         case 2076: {
@@ -3195,28 +3039,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
             TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF m_2_1 = d_2 / ( d_1 - d_2 );
-            TF m_4_5 = d_4 / ( d_5 - d_4 );
-            TF x_2 = x[ 2 ] - m_2_1 * ( x[ 1 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_1 * ( y[ 1 ] - y[ 2 ] );
-            TF x_3 = x[ 4 ] - m_4_5 * ( x[ 5 ] - x[ 4 ] );
-            TF y_3 = y[ 4 ] - m_4_5 * ( y[ 5 ] - y[ 4 ] );
-            TF x_4 = x[ 5 ];
-            TF y_4 = y[ 5 ];
-            TF x_5 = x[ 6 ];
-            TF y_5 = y[ 6 ];
-            TF x_6 = x[ 7 ];
-            TF y_6 = y[ 7 ];
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
+            TF m_0 = d_2 / ( d_1 - d_2 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 2 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 1 ] - reinterpret_cast<double *>( &px_0 )[ 2 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 2 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 1 ] - reinterpret_cast<double *>( &py_0 )[ 2 ] );
+            TF m_1 = d_4 / ( d_5 - d_4 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 4 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 5 ] - reinterpret_cast<double *>( &px_0 )[ 4 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 4 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 5 ] - reinterpret_cast<double *>( &py_0 )[ 4 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x7060509080100ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             size = 7;
             break;
         }
@@ -3226,28 +3059,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
             TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF m_1_0 = d_1 / ( d_0 - d_1 );
-            TF m_4_5 = d_4 / ( d_5 - d_4 );
-            TF x_1 = x[ 1 ] - m_1_0 * ( x[ 0 ] - x[ 1 ] );
-            TF y_1 = y[ 1 ] - m_1_0 * ( y[ 0 ] - y[ 1 ] );
-            TF x_2 = x[ 4 ] - m_4_5 * ( x[ 5 ] - x[ 4 ] );
-            TF y_2 = y[ 4 ] - m_4_5 * ( y[ 5 ] - y[ 4 ] );
-            TF x_3 = x[ 5 ];
-            TF y_3 = y[ 5 ];
-            TF x_4 = x[ 6 ];
-            TF y_4 = y[ 6 ];
-            TF x_5 = x[ 7 ];
-            TF y_5 = y[ 7 ];
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
+            TF m_0 = d_1 / ( d_0 - d_1 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 1 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 0 ] - reinterpret_cast<double *>( &px_0 )[ 1 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 1 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 0 ] - reinterpret_cast<double *>( &py_0 )[ 1 ] );
+            TF m_1 = d_4 / ( d_5 - d_4 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 4 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 5 ] - reinterpret_cast<double *>( &px_0 )[ 4 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 4 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 5 ] - reinterpret_cast<double *>( &py_0 )[ 4 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x70605090800ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             size = 6;
             break;
         }
@@ -3257,28 +3079,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
             TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
             TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_0_7 = d_0 / ( d_7 - d_0 );
-            TF m_4_5 = d_4 / ( d_5 - d_4 );
-            TF x_0 = x[ 0 ] - m_0_7 * ( x[ 7 ] - x[ 0 ] );
-            TF y_0 = y[ 0 ] - m_0_7 * ( y[ 7 ] - y[ 0 ] );
-            TF x_1 = x[ 4 ] - m_4_5 * ( x[ 5 ] - x[ 4 ] );
-            TF y_1 = y[ 4 ] - m_4_5 * ( y[ 5 ] - y[ 4 ] );
-            TF x_2 = x[ 5 ];
-            TF y_2 = y[ 5 ];
-            TF x_3 = x[ 6 ];
-            TF y_3 = y[ 6 ];
-            TF x_4 = x[ 7 ];
-            TF y_4 = y[ 7 ];
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
+            TF m_0 = d_0 / ( d_7 - d_0 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 7 ] - reinterpret_cast<double *>( &px_0 )[ 0 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 7 ] - reinterpret_cast<double *>( &py_0 )[ 0 ] );
+            TF m_1 = d_4 / ( d_5 - d_4 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 4 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 5 ] - reinterpret_cast<double *>( &px_0 )[ 4 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 4 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 5 ] - reinterpret_cast<double *>( &py_0 )[ 4 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x706050908ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             size = 5;
             break;
         }
@@ -3287,24 +3098,21 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
             TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
             TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_5_4 = d_5 / ( d_4 - d_5 );
-            TF m_5_6 = d_5 / ( d_6 - d_5 );
-            TF x_5 = x[ 5 ] - m_5_4 * ( x[ 4 ] - x[ 5 ] );
-            TF y_5 = y[ 5 ] - m_5_4 * ( y[ 4 ] - y[ 5 ] );
-            TF x_6 = x[ 5 ] - m_5_6 * ( x[ 6 ] - x[ 5 ] );
-            TF y_6 = y[ 5 ] - m_5_6 * ( y[ 6 ] - y[ 5 ] );
-            TF x_7 = x[ 6 ];
-            TF y_7 = y[ 6 ];
+            TF m_0 = d_5 / ( d_4 - d_5 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 5 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 4 ] - reinterpret_cast<double *>( &px_0 )[ 5 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 5 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 4 ] - reinterpret_cast<double *>( &py_0 )[ 5 ] );
+            TF m_1 = d_5 / ( d_6 - d_5 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 5 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 6 ] - reinterpret_cast<double *>( &px_0 )[ 5 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 5 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 6 ] - reinterpret_cast<double *>( &py_0 )[ 5 ] );
             TF x_8 = x[ 7 ];
             TF y_8 = y[ 7 ];
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
             x[ 8 ] = x_8;
             y[ 8 ] = y_8;
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x609080403020100ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             size = 9;
             break;
         }
@@ -3314,16 +3122,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
             TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
             TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_4_3 = d_4 / ( d_3 - d_4 );
-            TF m_5_6 = d_5 / ( d_6 - d_5 );
-            TF x_4 = x[ 4 ] - m_4_3 * ( x[ 3 ] - x[ 4 ] );
-            TF y_4 = y[ 4 ] - m_4_3 * ( y[ 3 ] - y[ 4 ] );
-            TF x_5 = x[ 5 ] - m_5_6 * ( x[ 6 ] - x[ 5 ] );
-            TF y_5 = y[ 5 ] - m_5_6 * ( y[ 6 ] - y[ 5 ] );
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
+            TF m_0 = d_4 / ( d_3 - d_4 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 4 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 3 ] - reinterpret_cast<double *>( &px_0 )[ 4 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 4 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 3 ] - reinterpret_cast<double *>( &py_0 )[ 4 ] );
+            TF m_1 = d_5 / ( d_6 - d_5 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 5 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 6 ] - reinterpret_cast<double *>( &px_0 )[ 5 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 5 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 6 ] - reinterpret_cast<double *>( &py_0 )[ 5 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x706090803020100ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             break;
         }
         case 2104: {
@@ -3332,24 +3141,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
             TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
             TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_3_2 = d_3 / ( d_2 - d_3 );
-            TF m_5_6 = d_5 / ( d_6 - d_5 );
-            TF x_3 = x[ 3 ] - m_3_2 * ( x[ 2 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_2 * ( y[ 2 ] - y[ 3 ] );
-            TF x_4 = x[ 5 ] - m_5_6 * ( x[ 6 ] - x[ 5 ] );
-            TF y_4 = y[ 5 ] - m_5_6 * ( y[ 6 ] - y[ 5 ] );
-            TF x_5 = x[ 6 ];
-            TF y_5 = y[ 6 ];
-            TF x_6 = x[ 7 ];
-            TF y_6 = y[ 7 ];
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
+            TF m_0 = d_3 / ( d_2 - d_3 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 3 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 2 ] - reinterpret_cast<double *>( &px_0 )[ 3 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 3 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 2 ] - reinterpret_cast<double *>( &py_0 )[ 3 ] );
+            TF m_1 = d_5 / ( d_6 - d_5 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 5 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 6 ] - reinterpret_cast<double *>( &px_0 )[ 5 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 5 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 6 ] - reinterpret_cast<double *>( &py_0 )[ 5 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x7060908020100ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             size = 7;
             break;
         }
@@ -3359,24 +3161,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
             TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
             TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_2_1 = d_2 / ( d_1 - d_2 );
-            TF m_5_6 = d_5 / ( d_6 - d_5 );
-            TF x_2 = x[ 2 ] - m_2_1 * ( x[ 1 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_1 * ( y[ 1 ] - y[ 2 ] );
-            TF x_3 = x[ 5 ] - m_5_6 * ( x[ 6 ] - x[ 5 ] );
-            TF y_3 = y[ 5 ] - m_5_6 * ( y[ 6 ] - y[ 5 ] );
-            TF x_4 = x[ 6 ];
-            TF y_4 = y[ 6 ];
-            TF x_5 = x[ 7 ];
-            TF y_5 = y[ 7 ];
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
+            TF m_0 = d_2 / ( d_1 - d_2 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 2 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 1 ] - reinterpret_cast<double *>( &px_0 )[ 2 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 2 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 1 ] - reinterpret_cast<double *>( &py_0 )[ 2 ] );
+            TF m_1 = d_5 / ( d_6 - d_5 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 5 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 6 ] - reinterpret_cast<double *>( &px_0 )[ 5 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 5 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 6 ] - reinterpret_cast<double *>( &py_0 )[ 5 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x70609080100ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             size = 6;
             break;
         }
@@ -3386,24 +3181,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
             TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_1_0 = d_1 / ( d_0 - d_1 );
-            TF m_5_6 = d_5 / ( d_6 - d_5 );
-            TF x_1 = x[ 1 ] - m_1_0 * ( x[ 0 ] - x[ 1 ] );
-            TF y_1 = y[ 1 ] - m_1_0 * ( y[ 0 ] - y[ 1 ] );
-            TF x_2 = x[ 5 ] - m_5_6 * ( x[ 6 ] - x[ 5 ] );
-            TF y_2 = y[ 5 ] - m_5_6 * ( y[ 6 ] - y[ 5 ] );
-            TF x_3 = x[ 6 ];
-            TF y_3 = y[ 6 ];
-            TF x_4 = x[ 7 ];
-            TF y_4 = y[ 7 ];
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
+            TF m_0 = d_1 / ( d_0 - d_1 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 1 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 0 ] - reinterpret_cast<double *>( &px_0 )[ 1 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 1 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 0 ] - reinterpret_cast<double *>( &py_0 )[ 1 ] );
+            TF m_1 = d_5 / ( d_6 - d_5 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 5 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 6 ] - reinterpret_cast<double *>( &px_0 )[ 5 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 5 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 6 ] - reinterpret_cast<double *>( &py_0 )[ 5 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x706090800ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             size = 5;
             break;
         }
@@ -3413,24 +3201,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
             TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
             TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_0_7 = d_0 / ( d_7 - d_0 );
-            TF m_5_6 = d_5 / ( d_6 - d_5 );
-            TF x_0 = x[ 0 ] - m_0_7 * ( x[ 7 ] - x[ 0 ] );
-            TF y_0 = y[ 0 ] - m_0_7 * ( y[ 7 ] - y[ 0 ] );
-            TF x_1 = x[ 5 ] - m_5_6 * ( x[ 6 ] - x[ 5 ] );
-            TF y_1 = y[ 5 ] - m_5_6 * ( y[ 6 ] - y[ 5 ] );
-            TF x_2 = x[ 6 ];
-            TF y_2 = y[ 6 ];
-            TF x_3 = x[ 7 ];
-            TF y_3 = y[ 7 ];
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
+            TF m_0 = d_0 / ( d_7 - d_0 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 7 ] - reinterpret_cast<double *>( &px_0 )[ 0 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 7 ] - reinterpret_cast<double *>( &py_0 )[ 0 ] );
+            TF m_1 = d_5 / ( d_6 - d_5 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 5 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 6 ] - reinterpret_cast<double *>( &px_0 )[ 5 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 5 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 6 ] - reinterpret_cast<double *>( &py_0 )[ 5 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x7060908ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             size = 4;
             break;
         }
@@ -3439,20 +3220,21 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
             TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
             TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_6_5 = d_6 / ( d_5 - d_6 );
-            TF m_6_7 = d_6 / ( d_7 - d_6 );
-            TF x_6 = x[ 6 ] - m_6_5 * ( x[ 5 ] - x[ 6 ] );
-            TF y_6 = y[ 6 ] - m_6_5 * ( y[ 5 ] - y[ 6 ] );
-            TF x_7 = x[ 6 ] - m_6_7 * ( x[ 7 ] - x[ 6 ] );
-            TF y_7 = y[ 6 ] - m_6_7 * ( y[ 7 ] - y[ 6 ] );
+            TF m_0 = d_6 / ( d_5 - d_6 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 6 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 5 ] - reinterpret_cast<double *>( &px_0 )[ 6 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 6 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 5 ] - reinterpret_cast<double *>( &py_0 )[ 6 ] );
+            TF m_1 = d_6 / ( d_7 - d_6 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 6 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 7 ] - reinterpret_cast<double *>( &px_0 )[ 6 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 6 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 7 ] - reinterpret_cast<double *>( &py_0 )[ 6 ] );
             TF x_8 = x[ 7 ];
             TF y_8 = y[ 7 ];
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
             x[ 8 ] = x_8;
             y[ 8 ] = y_8;
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x908050403020100ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             size = 9;
             break;
         }
@@ -3462,16 +3244,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
             TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
             TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_5_4 = d_5 / ( d_4 - d_5 );
-            TF m_6_7 = d_6 / ( d_7 - d_6 );
-            TF x_5 = x[ 5 ] - m_5_4 * ( x[ 4 ] - x[ 5 ] );
-            TF y_5 = y[ 5 ] - m_5_4 * ( y[ 4 ] - y[ 5 ] );
-            TF x_6 = x[ 6 ] - m_6_7 * ( x[ 7 ] - x[ 6 ] );
-            TF y_6 = y[ 6 ] - m_6_7 * ( y[ 7 ] - y[ 6 ] );
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
+            TF m_0 = d_5 / ( d_4 - d_5 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 5 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 4 ] - reinterpret_cast<double *>( &px_0 )[ 5 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 5 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 4 ] - reinterpret_cast<double *>( &py_0 )[ 5 ] );
+            TF m_1 = d_6 / ( d_7 - d_6 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 6 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 7 ] - reinterpret_cast<double *>( &px_0 )[ 6 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 6 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 7 ] - reinterpret_cast<double *>( &py_0 )[ 6 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x709080403020100ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             break;
         }
         case 2160: {
@@ -3480,20 +3263,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
             TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
             TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_4_3 = d_4 / ( d_3 - d_4 );
-            TF m_6_7 = d_6 / ( d_7 - d_6 );
-            TF x_4 = x[ 4 ] - m_4_3 * ( x[ 3 ] - x[ 4 ] );
-            TF y_4 = y[ 4 ] - m_4_3 * ( y[ 3 ] - y[ 4 ] );
-            TF x_5 = x[ 6 ] - m_6_7 * ( x[ 7 ] - x[ 6 ] );
-            TF y_5 = y[ 6 ] - m_6_7 * ( y[ 7 ] - y[ 6 ] );
-            TF x_6 = x[ 7 ];
-            TF y_6 = y[ 7 ];
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
+            TF m_0 = d_4 / ( d_3 - d_4 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 4 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 3 ] - reinterpret_cast<double *>( &px_0 )[ 4 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 4 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 3 ] - reinterpret_cast<double *>( &py_0 )[ 4 ] );
+            TF m_1 = d_6 / ( d_7 - d_6 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 6 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 7 ] - reinterpret_cast<double *>( &px_0 )[ 6 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 6 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 7 ] - reinterpret_cast<double *>( &py_0 )[ 6 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x7090803020100ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             size = 7;
             break;
         }
@@ -3503,20 +3283,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
             TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
             TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_3_2 = d_3 / ( d_2 - d_3 );
-            TF m_6_7 = d_6 / ( d_7 - d_6 );
-            TF x_3 = x[ 3 ] - m_3_2 * ( x[ 2 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_2 * ( y[ 2 ] - y[ 3 ] );
-            TF x_4 = x[ 6 ] - m_6_7 * ( x[ 7 ] - x[ 6 ] );
-            TF y_4 = y[ 6 ] - m_6_7 * ( y[ 7 ] - y[ 6 ] );
-            TF x_5 = x[ 7 ];
-            TF y_5 = y[ 7 ];
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
+            TF m_0 = d_3 / ( d_2 - d_3 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 3 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 2 ] - reinterpret_cast<double *>( &px_0 )[ 3 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 3 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 2 ] - reinterpret_cast<double *>( &py_0 )[ 3 ] );
+            TF m_1 = d_6 / ( d_7 - d_6 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 6 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 7 ] - reinterpret_cast<double *>( &px_0 )[ 6 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 6 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 7 ] - reinterpret_cast<double *>( &py_0 )[ 6 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x70908020100ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             size = 6;
             break;
         }
@@ -3526,20 +3303,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
             TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
             TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_2_1 = d_2 / ( d_1 - d_2 );
-            TF m_6_7 = d_6 / ( d_7 - d_6 );
-            TF x_2 = x[ 2 ] - m_2_1 * ( x[ 1 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_1 * ( y[ 1 ] - y[ 2 ] );
-            TF x_3 = x[ 6 ] - m_6_7 * ( x[ 7 ] - x[ 6 ] );
-            TF y_3 = y[ 6 ] - m_6_7 * ( y[ 7 ] - y[ 6 ] );
-            TF x_4 = x[ 7 ];
-            TF y_4 = y[ 7 ];
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
+            TF m_0 = d_2 / ( d_1 - d_2 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 2 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 1 ] - reinterpret_cast<double *>( &px_0 )[ 2 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 2 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 1 ] - reinterpret_cast<double *>( &py_0 )[ 2 ] );
+            TF m_1 = d_6 / ( d_7 - d_6 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 6 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 7 ] - reinterpret_cast<double *>( &px_0 )[ 6 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 6 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 7 ] - reinterpret_cast<double *>( &py_0 )[ 6 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x709080100ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             size = 5;
             break;
         }
@@ -3549,20 +3323,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
             TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_1_0 = d_1 / ( d_0 - d_1 );
-            TF m_6_7 = d_6 / ( d_7 - d_6 );
-            TF x_1 = x[ 1 ] - m_1_0 * ( x[ 0 ] - x[ 1 ] );
-            TF y_1 = y[ 1 ] - m_1_0 * ( y[ 0 ] - y[ 1 ] );
-            TF x_2 = x[ 6 ] - m_6_7 * ( x[ 7 ] - x[ 6 ] );
-            TF y_2 = y[ 6 ] - m_6_7 * ( y[ 7 ] - y[ 6 ] );
-            TF x_3 = x[ 7 ];
-            TF y_3 = y[ 7 ];
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
+            TF m_0 = d_1 / ( d_0 - d_1 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 1 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 0 ] - reinterpret_cast<double *>( &px_0 )[ 1 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 1 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 0 ] - reinterpret_cast<double *>( &py_0 )[ 1 ] );
+            TF m_1 = d_6 / ( d_7 - d_6 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 6 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 7 ] - reinterpret_cast<double *>( &px_0 )[ 6 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 6 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 7 ] - reinterpret_cast<double *>( &py_0 )[ 6 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x7090800ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             size = 4;
             break;
         }
@@ -3571,20 +3342,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
             TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
             TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_0_7 = d_0 / ( d_7 - d_0 );
-            TF m_6_7 = d_6 / ( d_7 - d_6 );
-            TF x_0 = x[ 0 ] - m_0_7 * ( x[ 7 ] - x[ 0 ] );
-            TF y_0 = y[ 0 ] - m_0_7 * ( y[ 7 ] - y[ 0 ] );
-            TF x_1 = x[ 6 ] - m_6_7 * ( x[ 7 ] - x[ 6 ] );
-            TF y_1 = y[ 6 ] - m_6_7 * ( y[ 7 ] - y[ 6 ] );
-            TF x_2 = x[ 7 ];
-            TF y_2 = y[ 7 ];
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
+            TF m_0 = d_0 / ( d_7 - d_0 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 7 ] - reinterpret_cast<double *>( &px_0 )[ 0 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 7 ] - reinterpret_cast<double *>( &py_0 )[ 0 ] );
+            TF m_1 = d_6 / ( d_7 - d_6 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 6 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 7 ] - reinterpret_cast<double *>( &px_0 )[ 6 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 6 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 7 ] - reinterpret_cast<double *>( &py_0 )[ 6 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x70908ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             size = 3;
             break;
         }
@@ -3593,16 +3361,19 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
             TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
             TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_7_6 = d_7 / ( d_6 - d_7 );
+            TF m_0 = d_7 / ( d_6 - d_7 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 7 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 6 ] - reinterpret_cast<double *>( &px_0 )[ 7 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 7 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 6 ] - reinterpret_cast<double *>( &py_0 )[ 7 ] );
             TF m_7_0 = d_7 / ( d_0 - d_7 );
-            TF x_7 = x[ 7 ] - m_7_6 * ( x[ 6 ] - x[ 7 ] );
-            TF y_7 = y[ 7 ] - m_7_6 * ( y[ 6 ] - y[ 7 ] );
             TF x_8 = x[ 7 ] - m_7_0 * ( x[ 0 ] - x[ 7 ] );
             TF y_8 = y[ 7 ] - m_7_0 * ( y[ 0 ] - y[ 7 ] );
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
             x[ 8 ] = x_8;
             y[ 8 ] = y_8;
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x806050403020100ul ) );
+            __m512d inter_x = _mm512_set1_pd( x_0 );
+            __m512d inter_y = _mm512_set1_pd( y_0 );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             size = 9;
             break;
         }
@@ -3612,16 +3383,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
             TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_0_1 = d_0 / ( d_1 - d_0 );
-            TF m_7_6 = d_7 / ( d_6 - d_7 );
-            TF x_0 = x[ 0 ] - m_0_1 * ( x[ 1 ] - x[ 0 ] );
-            TF y_0 = y[ 0 ] - m_0_1 * ( y[ 1 ] - y[ 0 ] );
-            TF x_7 = x[ 7 ] - m_7_6 * ( x[ 6 ] - x[ 7 ] );
-            TF y_7 = y[ 7 ] - m_7_6 * ( y[ 6 ] - y[ 7 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
+            TF m_0 = d_0 / ( d_1 - d_0 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 1 ] - reinterpret_cast<double *>( &px_0 )[ 0 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 1 ] - reinterpret_cast<double *>( &py_0 )[ 0 ] );
+            TF m_1 = d_7 / ( d_6 - d_7 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 7 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 6 ] - reinterpret_cast<double *>( &px_0 )[ 7 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 7 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 6 ] - reinterpret_cast<double *>( &py_0 )[ 7 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x906050403020108ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             break;
         }
         case 2179: {
@@ -3630,16 +3402,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
             TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
             TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_7_6 = d_7 / ( d_6 - d_7 );
-            TF m_1_2 = d_1 / ( d_2 - d_1 );
-            TF x_0 = x[ 7 ] - m_7_6 * ( x[ 6 ] - x[ 7 ] );
-            TF y_0 = y[ 7 ] - m_7_6 * ( y[ 6 ] - y[ 7 ] );
-            TF x_1 = x[ 1 ] - m_1_2 * ( x[ 2 ] - x[ 1 ] );
-            TF y_1 = y[ 1 ] - m_1_2 * ( y[ 2 ] - y[ 1 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
+            TF m_0 = d_7 / ( d_6 - d_7 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 7 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 6 ] - reinterpret_cast<double *>( &px_0 )[ 7 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 7 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 6 ] - reinterpret_cast<double *>( &py_0 )[ 7 ] );
+            TF m_1 = d_1 / ( d_2 - d_1 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 1 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 2 ] - reinterpret_cast<double *>( &px_0 )[ 1 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 1 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 2 ] - reinterpret_cast<double *>( &py_0 )[ 1 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x6050403020908ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             size = 7;
             break;
         }
@@ -3649,20 +3422,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
             TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
             TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_7_6 = d_7 / ( d_6 - d_7 );
-            TF m_2_3 = d_2 / ( d_3 - d_2 );
-            TF x_0 = x[ 6 ];
-            TF y_0 = y[ 6 ];
-            TF x_1 = x[ 7 ] - m_7_6 * ( x[ 6 ] - x[ 7 ] );
-            TF y_1 = y[ 7 ] - m_7_6 * ( y[ 6 ] - y[ 7 ] );
-            TF x_2 = x[ 2 ] - m_2_3 * ( x[ 3 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_3 * ( y[ 3 ] - y[ 2 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
+            TF m_0 = d_7 / ( d_6 - d_7 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 7 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 6 ] - reinterpret_cast<double *>( &px_0 )[ 7 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 7 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 6 ] - reinterpret_cast<double *>( &py_0 )[ 7 ] );
+            TF m_1 = d_2 / ( d_3 - d_2 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 2 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 3 ] - reinterpret_cast<double *>( &px_0 )[ 2 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 2 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 3 ] - reinterpret_cast<double *>( &py_0 )[ 2 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x50403090806ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             size = 6;
             break;
         }
@@ -3672,24 +3442,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
             TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
             TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_7_6 = d_7 / ( d_6 - d_7 );
-            TF m_3_4 = d_3 / ( d_4 - d_3 );
-            TF x_0 = x[ 5 ];
-            TF y_0 = y[ 5 ];
-            TF x_1 = x[ 6 ];
-            TF y_1 = y[ 6 ];
-            TF x_2 = x[ 7 ] - m_7_6 * ( x[ 6 ] - x[ 7 ] );
-            TF y_2 = y[ 7 ] - m_7_6 * ( y[ 6 ] - y[ 7 ] );
-            TF x_3 = x[ 3 ] - m_3_4 * ( x[ 4 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_4 * ( y[ 4 ] - y[ 3 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
+            TF m_0 = d_7 / ( d_6 - d_7 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 7 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 6 ] - reinterpret_cast<double *>( &px_0 )[ 7 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 7 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 6 ] - reinterpret_cast<double *>( &py_0 )[ 7 ] );
+            TF m_1 = d_3 / ( d_4 - d_3 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 3 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 4 ] - reinterpret_cast<double *>( &px_0 )[ 3 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 3 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 4 ] - reinterpret_cast<double *>( &py_0 )[ 3 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x409080605ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             size = 5;
             break;
         }
@@ -3699,24 +3462,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
             TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
             TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_4_5 = d_4 / ( d_5 - d_4 );
-            TF m_7_6 = d_7 / ( d_6 - d_7 );
-            TF x_0 = x[ 4 ] - m_4_5 * ( x[ 5 ] - x[ 4 ] );
-            TF y_0 = y[ 4 ] - m_4_5 * ( y[ 5 ] - y[ 4 ] );
-            TF x_1 = x[ 5 ];
-            TF y_1 = y[ 5 ];
-            TF x_2 = x[ 6 ];
-            TF y_2 = y[ 6 ];
-            TF x_3 = x[ 7 ] - m_7_6 * ( x[ 6 ] - x[ 7 ] );
-            TF y_3 = y[ 7 ] - m_7_6 * ( y[ 6 ] - y[ 7 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
+            TF m_0 = d_4 / ( d_5 - d_4 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 4 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 5 ] - reinterpret_cast<double *>( &px_0 )[ 4 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 4 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 5 ] - reinterpret_cast<double *>( &py_0 )[ 4 ] );
+            TF m_1 = d_7 / ( d_6 - d_7 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 7 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 6 ] - reinterpret_cast<double *>( &px_0 )[ 7 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 7 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 6 ] - reinterpret_cast<double *>( &py_0 )[ 7 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x9060508ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             size = 4;
             break;
         }
@@ -3725,20 +3481,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
             TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
             TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_5_6 = d_5 / ( d_6 - d_5 );
-            TF m_7_6 = d_7 / ( d_6 - d_7 );
-            TF x_0 = x[ 5 ] - m_5_6 * ( x[ 6 ] - x[ 5 ] );
-            TF y_0 = y[ 5 ] - m_5_6 * ( y[ 6 ] - y[ 5 ] );
-            TF x_1 = x[ 6 ];
-            TF y_1 = y[ 6 ];
-            TF x_2 = x[ 7 ] - m_7_6 * ( x[ 6 ] - x[ 7 ] );
-            TF y_2 = y[ 7 ] - m_7_6 * ( y[ 6 ] - y[ 7 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
+            TF m_0 = d_5 / ( d_6 - d_5 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 5 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 6 ] - reinterpret_cast<double *>( &px_0 )[ 5 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 5 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 6 ] - reinterpret_cast<double *>( &py_0 )[ 5 ] );
+            TF m_1 = d_7 / ( d_6 - d_7 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 7 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 6 ] - reinterpret_cast<double *>( &px_0 )[ 7 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 7 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 6 ] - reinterpret_cast<double *>( &py_0 )[ 7 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x90608ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             size = 3;
             break;
         }
@@ -3748,16 +3501,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
             TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
             TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_6_5 = d_6 / ( d_5 - d_6 );
-            TF m_7_0 = d_7 / ( d_0 - d_7 );
-            TF x_6 = x[ 6 ] - m_6_5 * ( x[ 5 ] - x[ 6 ] );
-            TF y_6 = y[ 6 ] - m_6_5 * ( y[ 5 ] - y[ 6 ] );
-            TF x_7 = x[ 7 ] - m_7_0 * ( x[ 0 ] - x[ 7 ] );
-            TF y_7 = y[ 7 ] - m_7_0 * ( y[ 0 ] - y[ 7 ] );
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
+            TF m_0 = d_6 / ( d_5 - d_6 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 6 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 5 ] - reinterpret_cast<double *>( &px_0 )[ 6 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 6 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 5 ] - reinterpret_cast<double *>( &py_0 )[ 6 ] );
+            TF m_1 = d_7 / ( d_0 - d_7 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 7 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 0 ] - reinterpret_cast<double *>( &px_0 )[ 7 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 7 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 0 ] - reinterpret_cast<double *>( &py_0 )[ 7 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x908050403020100ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             break;
         }
         case 2241: {
@@ -3766,16 +3520,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
             TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_0_1 = d_0 / ( d_1 - d_0 );
-            TF m_6_5 = d_6 / ( d_5 - d_6 );
-            TF x_0 = x[ 0 ] - m_0_1 * ( x[ 1 ] - x[ 0 ] );
-            TF y_0 = y[ 0 ] - m_0_1 * ( y[ 1 ] - y[ 0 ] );
-            TF x_6 = x[ 6 ] - m_6_5 * ( x[ 5 ] - x[ 6 ] );
-            TF y_6 = y[ 6 ] - m_6_5 * ( y[ 5 ] - y[ 6 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
+            TF m_0 = d_0 / ( d_1 - d_0 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 1 ] - reinterpret_cast<double *>( &px_0 )[ 0 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 1 ] - reinterpret_cast<double *>( &py_0 )[ 0 ] );
+            TF m_1 = d_6 / ( d_5 - d_6 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 6 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 5 ] - reinterpret_cast<double *>( &px_0 )[ 6 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 6 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 5 ] - reinterpret_cast<double *>( &py_0 )[ 6 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x9050403020108ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             size = 7;
             break;
         }
@@ -3785,16 +3540,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
             TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
             TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_6_5 = d_6 / ( d_5 - d_6 );
-            TF m_1_2 = d_1 / ( d_2 - d_1 );
-            TF x_0 = x[ 6 ] - m_6_5 * ( x[ 5 ] - x[ 6 ] );
-            TF y_0 = y[ 6 ] - m_6_5 * ( y[ 5 ] - y[ 6 ] );
-            TF x_1 = x[ 1 ] - m_1_2 * ( x[ 2 ] - x[ 1 ] );
-            TF y_1 = y[ 1 ] - m_1_2 * ( y[ 2 ] - y[ 1 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
+            TF m_0 = d_6 / ( d_5 - d_6 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 6 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 5 ] - reinterpret_cast<double *>( &px_0 )[ 6 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 6 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 5 ] - reinterpret_cast<double *>( &py_0 )[ 6 ] );
+            TF m_1 = d_1 / ( d_2 - d_1 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 1 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 2 ] - reinterpret_cast<double *>( &px_0 )[ 1 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 1 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 2 ] - reinterpret_cast<double *>( &py_0 )[ 1 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x50403020908ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             size = 6;
             break;
         }
@@ -3804,20 +3560,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
             TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
             TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_6_5 = d_6 / ( d_5 - d_6 );
-            TF m_2_3 = d_2 / ( d_3 - d_2 );
-            TF x_0 = x[ 5 ];
-            TF y_0 = y[ 5 ];
-            TF x_1 = x[ 6 ] - m_6_5 * ( x[ 5 ] - x[ 6 ] );
-            TF y_1 = y[ 6 ] - m_6_5 * ( y[ 5 ] - y[ 6 ] );
-            TF x_2 = x[ 2 ] - m_2_3 * ( x[ 3 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_3 * ( y[ 3 ] - y[ 2 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
+            TF m_0 = d_6 / ( d_5 - d_6 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 6 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 5 ] - reinterpret_cast<double *>( &px_0 )[ 6 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 6 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 5 ] - reinterpret_cast<double *>( &py_0 )[ 6 ] );
+            TF m_1 = d_2 / ( d_3 - d_2 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 2 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 3 ] - reinterpret_cast<double *>( &px_0 )[ 2 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 2 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 3 ] - reinterpret_cast<double *>( &py_0 )[ 2 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x403090805ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             size = 5;
             break;
         }
@@ -3827,24 +3580,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
             TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
             TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_6_5 = d_6 / ( d_5 - d_6 );
-            TF m_3_4 = d_3 / ( d_4 - d_3 );
-            TF x_0 = x[ 4 ];
-            TF y_0 = y[ 4 ];
-            TF x_1 = x[ 5 ];
-            TF y_1 = y[ 5 ];
-            TF x_2 = x[ 6 ] - m_6_5 * ( x[ 5 ] - x[ 6 ] );
-            TF y_2 = y[ 6 ] - m_6_5 * ( y[ 5 ] - y[ 6 ] );
-            TF x_3 = x[ 3 ] - m_3_4 * ( x[ 4 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_4 * ( y[ 4 ] - y[ 3 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
+            TF m_0 = d_6 / ( d_5 - d_6 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 6 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 5 ] - reinterpret_cast<double *>( &px_0 )[ 6 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 6 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 5 ] - reinterpret_cast<double *>( &py_0 )[ 6 ] );
+            TF m_1 = d_3 / ( d_4 - d_3 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 3 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 4 ] - reinterpret_cast<double *>( &px_0 )[ 3 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 3 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 4 ] - reinterpret_cast<double *>( &py_0 )[ 3 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x9080504ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             size = 4;
             break;
         }
@@ -3853,20 +3599,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
             TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
             TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_4_5 = d_4 / ( d_5 - d_4 );
-            TF m_6_5 = d_6 / ( d_5 - d_6 );
-            TF x_0 = x[ 4 ] - m_4_5 * ( x[ 5 ] - x[ 4 ] );
-            TF y_0 = y[ 4 ] - m_4_5 * ( y[ 5 ] - y[ 4 ] );
-            TF x_1 = x[ 5 ];
-            TF y_1 = y[ 5 ];
-            TF x_2 = x[ 6 ] - m_6_5 * ( x[ 5 ] - x[ 6 ] );
-            TF y_2 = y[ 6 ] - m_6_5 * ( y[ 5 ] - y[ 6 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
+            TF m_0 = d_4 / ( d_5 - d_4 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 4 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 5 ] - reinterpret_cast<double *>( &px_0 )[ 4 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 4 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 5 ] - reinterpret_cast<double *>( &py_0 )[ 4 ] );
+            TF m_1 = d_6 / ( d_5 - d_6 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 6 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 5 ] - reinterpret_cast<double *>( &px_0 )[ 6 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 6 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 5 ] - reinterpret_cast<double *>( &py_0 )[ 6 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x90508ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             size = 3;
             break;
         }
@@ -3876,16 +3619,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
             TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
             TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_5_4 = d_5 / ( d_4 - d_5 );
-            TF m_7_0 = d_7 / ( d_0 - d_7 );
-            TF x_5 = x[ 5 ] - m_5_4 * ( x[ 4 ] - x[ 5 ] );
-            TF y_5 = y[ 5 ] - m_5_4 * ( y[ 4 ] - y[ 5 ] );
-            TF x_6 = x[ 7 ] - m_7_0 * ( x[ 0 ] - x[ 7 ] );
-            TF y_6 = y[ 7 ] - m_7_0 * ( y[ 0 ] - y[ 7 ] );
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
+            TF m_0 = d_5 / ( d_4 - d_5 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 5 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 4 ] - reinterpret_cast<double *>( &px_0 )[ 5 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 5 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 4 ] - reinterpret_cast<double *>( &py_0 )[ 5 ] );
+            TF m_1 = d_7 / ( d_0 - d_7 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 7 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 0 ] - reinterpret_cast<double *>( &px_0 )[ 7 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 7 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 0 ] - reinterpret_cast<double *>( &py_0 )[ 7 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x9080403020100ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             size = 7;
             break;
         }
@@ -3895,16 +3639,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
             TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF m_0_1 = d_0 / ( d_1 - d_0 );
-            TF m_5_4 = d_5 / ( d_4 - d_5 );
-            TF x_0 = x[ 0 ] - m_0_1 * ( x[ 1 ] - x[ 0 ] );
-            TF y_0 = y[ 0 ] - m_0_1 * ( y[ 1 ] - y[ 0 ] );
-            TF x_5 = x[ 5 ] - m_5_4 * ( x[ 4 ] - x[ 5 ] );
-            TF y_5 = y[ 5 ] - m_5_4 * ( y[ 4 ] - y[ 5 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
+            TF m_0 = d_0 / ( d_1 - d_0 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 1 ] - reinterpret_cast<double *>( &px_0 )[ 0 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 1 ] - reinterpret_cast<double *>( &py_0 )[ 0 ] );
+            TF m_1 = d_5 / ( d_4 - d_5 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 5 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 4 ] - reinterpret_cast<double *>( &px_0 )[ 5 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 5 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 4 ] - reinterpret_cast<double *>( &py_0 )[ 5 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x90403020108ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             size = 6;
             break;
         }
@@ -3914,16 +3659,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
             TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF m_5_4 = d_5 / ( d_4 - d_5 );
-            TF m_1_2 = d_1 / ( d_2 - d_1 );
-            TF x_0 = x[ 5 ] - m_5_4 * ( x[ 4 ] - x[ 5 ] );
-            TF y_0 = y[ 5 ] - m_5_4 * ( y[ 4 ] - y[ 5 ] );
-            TF x_1 = x[ 1 ] - m_1_2 * ( x[ 2 ] - x[ 1 ] );
-            TF y_1 = y[ 1 ] - m_1_2 * ( y[ 2 ] - y[ 1 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
+            TF m_0 = d_5 / ( d_4 - d_5 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 5 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 4 ] - reinterpret_cast<double *>( &px_0 )[ 5 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 5 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 4 ] - reinterpret_cast<double *>( &py_0 )[ 5 ] );
+            TF m_1 = d_1 / ( d_2 - d_1 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 1 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 2 ] - reinterpret_cast<double *>( &px_0 )[ 1 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 1 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 2 ] - reinterpret_cast<double *>( &py_0 )[ 1 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x403020908ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             size = 5;
             break;
         }
@@ -3933,20 +3679,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
             TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF m_5_4 = d_5 / ( d_4 - d_5 );
-            TF m_2_3 = d_2 / ( d_3 - d_2 );
-            TF x_0 = x[ 4 ];
-            TF y_0 = y[ 4 ];
-            TF x_1 = x[ 5 ] - m_5_4 * ( x[ 4 ] - x[ 5 ] );
-            TF y_1 = y[ 5 ] - m_5_4 * ( y[ 4 ] - y[ 5 ] );
-            TF x_2 = x[ 2 ] - m_2_3 * ( x[ 3 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_3 * ( y[ 3 ] - y[ 2 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
+            TF m_0 = d_5 / ( d_4 - d_5 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 5 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 4 ] - reinterpret_cast<double *>( &px_0 )[ 5 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 5 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 4 ] - reinterpret_cast<double *>( &py_0 )[ 5 ] );
+            TF m_1 = d_2 / ( d_3 - d_2 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 2 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 3 ] - reinterpret_cast<double *>( &px_0 )[ 2 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 2 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 3 ] - reinterpret_cast<double *>( &py_0 )[ 2 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x3090804ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             size = 4;
             break;
         }
@@ -3955,20 +3698,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
             TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF m_3_4 = d_3 / ( d_4 - d_3 );
-            TF m_5_4 = d_5 / ( d_4 - d_5 );
-            TF x_0 = x[ 3 ] - m_3_4 * ( x[ 4 ] - x[ 3 ] );
-            TF y_0 = y[ 3 ] - m_3_4 * ( y[ 4 ] - y[ 3 ] );
-            TF x_1 = x[ 4 ];
-            TF y_1 = y[ 4 ];
-            TF x_2 = x[ 5 ] - m_5_4 * ( x[ 4 ] - x[ 5 ] );
-            TF y_2 = y[ 5 ] - m_5_4 * ( y[ 4 ] - y[ 5 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
+            TF m_0 = d_3 / ( d_4 - d_3 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 3 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 4 ] - reinterpret_cast<double *>( &px_0 )[ 3 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 3 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 4 ] - reinterpret_cast<double *>( &py_0 )[ 3 ] );
+            TF m_1 = d_5 / ( d_4 - d_5 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 5 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 4 ] - reinterpret_cast<double *>( &px_0 )[ 5 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 5 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 4 ] - reinterpret_cast<double *>( &py_0 )[ 5 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x90408ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             size = 3;
             break;
         }
@@ -3978,16 +3718,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
             TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_4_3 = d_4 / ( d_3 - d_4 );
-            TF m_7_0 = d_7 / ( d_0 - d_7 );
-            TF x_4 = x[ 4 ] - m_4_3 * ( x[ 3 ] - x[ 4 ] );
-            TF y_4 = y[ 4 ] - m_4_3 * ( y[ 3 ] - y[ 4 ] );
-            TF x_5 = x[ 7 ] - m_7_0 * ( x[ 0 ] - x[ 7 ] );
-            TF y_5 = y[ 7 ] - m_7_0 * ( y[ 0 ] - y[ 7 ] );
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
+            TF m_0 = d_4 / ( d_3 - d_4 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 4 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 3 ] - reinterpret_cast<double *>( &px_0 )[ 4 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 4 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 3 ] - reinterpret_cast<double *>( &py_0 )[ 4 ] );
+            TF m_1 = d_7 / ( d_0 - d_7 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 7 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 0 ] - reinterpret_cast<double *>( &px_0 )[ 7 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 7 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 0 ] - reinterpret_cast<double *>( &py_0 )[ 7 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x90803020100ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             size = 6;
             break;
         }
@@ -3997,16 +3738,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF m_0_1 = d_0 / ( d_1 - d_0 );
-            TF m_4_3 = d_4 / ( d_3 - d_4 );
-            TF x_0 = x[ 0 ] - m_0_1 * ( x[ 1 ] - x[ 0 ] );
-            TF y_0 = y[ 0 ] - m_0_1 * ( y[ 1 ] - y[ 0 ] );
-            TF x_4 = x[ 4 ] - m_4_3 * ( x[ 3 ] - x[ 4 ] );
-            TF y_4 = y[ 4 ] - m_4_3 * ( y[ 3 ] - y[ 4 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
+            TF m_0 = d_0 / ( d_1 - d_0 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 1 ] - reinterpret_cast<double *>( &px_0 )[ 0 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 1 ] - reinterpret_cast<double *>( &py_0 )[ 0 ] );
+            TF m_1 = d_4 / ( d_3 - d_4 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 4 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 3 ] - reinterpret_cast<double *>( &px_0 )[ 4 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 4 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 3 ] - reinterpret_cast<double *>( &py_0 )[ 4 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x903020108ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             size = 5;
             break;
         }
@@ -4016,16 +3758,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF m_4_3 = d_4 / ( d_3 - d_4 );
-            TF m_1_2 = d_1 / ( d_2 - d_1 );
-            TF x_0 = x[ 4 ] - m_4_3 * ( x[ 3 ] - x[ 4 ] );
-            TF y_0 = y[ 4 ] - m_4_3 * ( y[ 3 ] - y[ 4 ] );
-            TF x_1 = x[ 1 ] - m_1_2 * ( x[ 2 ] - x[ 1 ] );
-            TF y_1 = y[ 1 ] - m_1_2 * ( y[ 2 ] - y[ 1 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
+            TF m_0 = d_4 / ( d_3 - d_4 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 4 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 3 ] - reinterpret_cast<double *>( &px_0 )[ 4 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 4 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 3 ] - reinterpret_cast<double *>( &py_0 )[ 4 ] );
+            TF m_1 = d_1 / ( d_2 - d_1 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 1 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 2 ] - reinterpret_cast<double *>( &px_0 )[ 1 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 1 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 2 ] - reinterpret_cast<double *>( &py_0 )[ 1 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x3020908ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             size = 4;
             break;
         }
@@ -4034,20 +3777,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF m_4_3 = d_4 / ( d_3 - d_4 );
-            TF m_2_3 = d_2 / ( d_3 - d_2 );
-            TF x_0 = x[ 3 ];
-            TF y_0 = y[ 3 ];
-            TF x_1 = x[ 4 ] - m_4_3 * ( x[ 3 ] - x[ 4 ] );
-            TF y_1 = y[ 4 ] - m_4_3 * ( y[ 3 ] - y[ 4 ] );
-            TF x_2 = x[ 2 ] - m_2_3 * ( x[ 3 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_3 * ( y[ 3 ] - y[ 2 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
+            TF m_0 = d_4 / ( d_3 - d_4 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 4 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 3 ] - reinterpret_cast<double *>( &px_0 )[ 4 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 4 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 3 ] - reinterpret_cast<double *>( &py_0 )[ 4 ] );
+            TF m_1 = d_2 / ( d_3 - d_2 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 2 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 3 ] - reinterpret_cast<double *>( &px_0 )[ 2 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 2 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 3 ] - reinterpret_cast<double *>( &py_0 )[ 2 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x90803ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             size = 3;
             break;
         }
@@ -4057,16 +3797,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
             TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_3_2 = d_3 / ( d_2 - d_3 );
-            TF m_7_0 = d_7 / ( d_0 - d_7 );
-            TF x_3 = x[ 3 ] - m_3_2 * ( x[ 2 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_2 * ( y[ 2 ] - y[ 3 ] );
-            TF x_4 = x[ 7 ] - m_7_0 * ( x[ 0 ] - x[ 7 ] );
-            TF y_4 = y[ 7 ] - m_7_0 * ( y[ 0 ] - y[ 7 ] );
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
+            TF m_0 = d_3 / ( d_2 - d_3 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 3 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 2 ] - reinterpret_cast<double *>( &px_0 )[ 3 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 3 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 2 ] - reinterpret_cast<double *>( &py_0 )[ 3 ] );
+            TF m_1 = d_7 / ( d_0 - d_7 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 7 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 0 ] - reinterpret_cast<double *>( &px_0 )[ 7 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 7 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 0 ] - reinterpret_cast<double *>( &py_0 )[ 7 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x908020100ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             size = 5;
             break;
         }
@@ -4076,16 +3817,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF m_0_1 = d_0 / ( d_1 - d_0 );
-            TF m_3_2 = d_3 / ( d_2 - d_3 );
-            TF x_0 = x[ 0 ] - m_0_1 * ( x[ 1 ] - x[ 0 ] );
-            TF y_0 = y[ 0 ] - m_0_1 * ( y[ 1 ] - y[ 0 ] );
-            TF x_3 = x[ 3 ] - m_3_2 * ( x[ 2 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_2 * ( y[ 2 ] - y[ 3 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
+            TF m_0 = d_0 / ( d_1 - d_0 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 1 ] - reinterpret_cast<double *>( &px_0 )[ 0 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 1 ] - reinterpret_cast<double *>( &py_0 )[ 0 ] );
+            TF m_1 = d_3 / ( d_2 - d_3 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 3 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 2 ] - reinterpret_cast<double *>( &px_0 )[ 3 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 3 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 2 ] - reinterpret_cast<double *>( &py_0 )[ 3 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x9020108ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             size = 4;
             break;
         }
@@ -4094,16 +3836,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF m_3_2 = d_3 / ( d_2 - d_3 );
-            TF m_1_2 = d_1 / ( d_2 - d_1 );
-            TF x_0 = x[ 3 ] - m_3_2 * ( x[ 2 ] - x[ 3 ] );
-            TF y_0 = y[ 3 ] - m_3_2 * ( y[ 2 ] - y[ 3 ] );
-            TF x_1 = x[ 1 ] - m_1_2 * ( x[ 2 ] - x[ 1 ] );
-            TF y_1 = y[ 1 ] - m_1_2 * ( y[ 2 ] - y[ 1 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
+            TF m_0 = d_3 / ( d_2 - d_3 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 3 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 2 ] - reinterpret_cast<double *>( &px_0 )[ 3 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 3 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 2 ] - reinterpret_cast<double *>( &py_0 )[ 3 ] );
+            TF m_1 = d_1 / ( d_2 - d_1 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 1 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 2 ] - reinterpret_cast<double *>( &px_0 )[ 1 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 1 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 2 ] - reinterpret_cast<double *>( &py_0 )[ 1 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x20908ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             size = 3;
             break;
         }
@@ -4113,16 +3856,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
             TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_2_1 = d_2 / ( d_1 - d_2 );
-            TF m_7_0 = d_7 / ( d_0 - d_7 );
-            TF x_2 = x[ 2 ] - m_2_1 * ( x[ 1 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_1 * ( y[ 1 ] - y[ 2 ] );
-            TF x_3 = x[ 7 ] - m_7_0 * ( x[ 0 ] - x[ 7 ] );
-            TF y_3 = y[ 7 ] - m_7_0 * ( y[ 0 ] - y[ 7 ] );
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
+            TF m_0 = d_2 / ( d_1 - d_2 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 2 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 1 ] - reinterpret_cast<double *>( &px_0 )[ 2 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 2 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 1 ] - reinterpret_cast<double *>( &py_0 )[ 2 ] );
+            TF m_1 = d_7 / ( d_0 - d_7 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 7 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 0 ] - reinterpret_cast<double *>( &px_0 )[ 7 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 7 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 0 ] - reinterpret_cast<double *>( &py_0 )[ 7 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x9080100ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             size = 4;
             break;
         }
@@ -4131,16 +3875,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF m_0_1 = d_0 / ( d_1 - d_0 );
-            TF m_2_1 = d_2 / ( d_1 - d_2 );
-            TF x_0 = x[ 0 ] - m_0_1 * ( x[ 1 ] - x[ 0 ] );
-            TF y_0 = y[ 0 ] - m_0_1 * ( y[ 1 ] - y[ 0 ] );
-            TF x_2 = x[ 2 ] - m_2_1 * ( x[ 1 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_1 * ( y[ 1 ] - y[ 2 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
+            TF m_0 = d_0 / ( d_1 - d_0 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 1 ] - reinterpret_cast<double *>( &px_0 )[ 0 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 1 ] - reinterpret_cast<double *>( &py_0 )[ 0 ] );
+            TF m_1 = d_2 / ( d_1 - d_2 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 2 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 1 ] - reinterpret_cast<double *>( &px_0 )[ 2 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 2 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 1 ] - reinterpret_cast<double *>( &py_0 )[ 2 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x90108ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             size = 3;
             break;
         }
@@ -4149,16 +3894,17 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_1_0 = d_1 / ( d_0 - d_1 );
-            TF m_7_0 = d_7 / ( d_0 - d_7 );
-            TF x_1 = x[ 1 ] - m_1_0 * ( x[ 0 ] - x[ 1 ] );
-            TF y_1 = y[ 1 ] - m_1_0 * ( y[ 0 ] - y[ 1 ] );
-            TF x_2 = x[ 7 ] - m_7_0 * ( x[ 0 ] - x[ 7 ] );
-            TF y_2 = y[ 7 ] - m_7_0 * ( y[ 0 ] - y[ 7 ] );
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
+            TF m_0 = d_1 / ( d_0 - d_1 );
+            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 1 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 0 ] - reinterpret_cast<double *>( &px_0 )[ 1 ] );
+            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 1 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 0 ] - reinterpret_cast<double *>( &py_0 )[ 1 ] );
+            TF m_1 = d_7 / ( d_0 - d_7 );
+            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 7 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 0 ] - reinterpret_cast<double *>( &px_0 )[ 7 ] );
+            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 7 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 0 ] - reinterpret_cast<double *>( &py_0 )[ 7 ] );
+            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x90800ul ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
+            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             size = 3;
             break;
         }
@@ -4483,6 +4229,584 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
         case 253:
         case 254:
         case 255: {
+            break; // totally outside
+        }
+        case 256:
+        case 257:
+        case 258:
+        case 259:
+        case 260:
+        case 261:
+        case 262:
+        case 263:
+        case 264:
+        case 265:
+        case 266:
+        case 267:
+        case 268:
+        case 269:
+        case 270:
+        case 271:
+        case 272:
+        case 273:
+        case 274:
+        case 275:
+        case 276:
+        case 277:
+        case 278:
+        case 279:
+        case 280:
+        case 281:
+        case 282:
+        case 283:
+        case 284:
+        case 285:
+        case 286:
+        case 287:
+        case 288:
+        case 289:
+        case 290:
+        case 291:
+        case 292:
+        case 293:
+        case 294:
+        case 295:
+        case 296:
+        case 297:
+        case 298:
+        case 299:
+        case 300:
+        case 301:
+        case 302:
+        case 303:
+        case 304:
+        case 305:
+        case 306:
+        case 307:
+        case 308:
+        case 309:
+        case 310:
+        case 311:
+        case 312:
+        case 313:
+        case 314:
+        case 315:
+        case 316:
+        case 317:
+        case 318:
+        case 319:
+        case 320:
+        case 321:
+        case 322:
+        case 323:
+        case 324:
+        case 325:
+        case 326:
+        case 327:
+        case 328:
+        case 329:
+        case 330:
+        case 331:
+        case 332:
+        case 333:
+        case 334:
+        case 335:
+        case 336:
+        case 337:
+        case 338:
+        case 339:
+        case 340:
+        case 341:
+        case 342:
+        case 343:
+        case 344:
+        case 345:
+        case 346:
+        case 347:
+        case 348:
+        case 349:
+        case 350:
+        case 351:
+        case 352:
+        case 353:
+        case 354:
+        case 355:
+        case 356:
+        case 357:
+        case 358:
+        case 359:
+        case 360:
+        case 361:
+        case 362:
+        case 363:
+        case 364:
+        case 365:
+        case 366:
+        case 367:
+        case 368:
+        case 369:
+        case 370:
+        case 371:
+        case 372:
+        case 373:
+        case 374:
+        case 375:
+        case 376:
+        case 377:
+        case 378:
+        case 379:
+        case 380:
+        case 381:
+        case 382:
+        case 383:
+        case 384:
+        case 385:
+        case 386:
+        case 387:
+        case 388:
+        case 389:
+        case 390:
+        case 391:
+        case 392:
+        case 393:
+        case 394:
+        case 395:
+        case 396:
+        case 397:
+        case 398:
+        case 399:
+        case 400:
+        case 401:
+        case 402:
+        case 403:
+        case 404:
+        case 405:
+        case 406:
+        case 407:
+        case 408:
+        case 409:
+        case 410:
+        case 411:
+        case 412:
+        case 413:
+        case 414:
+        case 415:
+        case 416:
+        case 417:
+        case 418:
+        case 419:
+        case 420:
+        case 421:
+        case 422:
+        case 423:
+        case 424:
+        case 425:
+        case 426:
+        case 427:
+        case 428:
+        case 429:
+        case 430:
+        case 431:
+        case 432:
+        case 433:
+        case 434:
+        case 435:
+        case 436:
+        case 437:
+        case 438:
+        case 439:
+        case 440:
+        case 441:
+        case 442:
+        case 443:
+        case 444:
+        case 445:
+        case 446:
+        case 447:
+        case 448:
+        case 449:
+        case 450:
+        case 451:
+        case 452:
+        case 453:
+        case 454:
+        case 455:
+        case 456:
+        case 457:
+        case 458:
+        case 459:
+        case 460:
+        case 461:
+        case 462:
+        case 463:
+        case 464:
+        case 465:
+        case 466:
+        case 467:
+        case 468:
+        case 469:
+        case 470:
+        case 471:
+        case 472:
+        case 473:
+        case 474:
+        case 475:
+        case 476:
+        case 477:
+        case 478:
+        case 479:
+        case 480:
+        case 481:
+        case 482:
+        case 483:
+        case 484:
+        case 485:
+        case 486:
+        case 487:
+        case 488:
+        case 489:
+        case 490:
+        case 491:
+        case 492:
+        case 493:
+        case 494:
+        case 495:
+        case 496:
+        case 497:
+        case 498:
+        case 499:
+        case 500:
+        case 501:
+        case 502:
+        case 503:
+        case 504:
+        case 505:
+        case 506:
+        case 507:
+        case 508:
+        case 509:
+        case 510:
+        case 511:
+        case 512:
+        case 513:
+        case 514:
+        case 515:
+        case 516:
+        case 517:
+        case 518:
+        case 519:
+        case 520:
+        case 521:
+        case 522:
+        case 523:
+        case 524:
+        case 525:
+        case 526:
+        case 527:
+        case 528:
+        case 529:
+        case 530:
+        case 531:
+        case 532:
+        case 533:
+        case 534:
+        case 535:
+        case 536:
+        case 537:
+        case 538:
+        case 539:
+        case 540:
+        case 541:
+        case 542:
+        case 543:
+        case 544:
+        case 545:
+        case 546:
+        case 547:
+        case 548:
+        case 549:
+        case 550:
+        case 551:
+        case 552:
+        case 553:
+        case 554:
+        case 555:
+        case 556:
+        case 557:
+        case 558:
+        case 559:
+        case 560:
+        case 561:
+        case 562:
+        case 563:
+        case 564:
+        case 565:
+        case 566:
+        case 567:
+        case 568:
+        case 569:
+        case 570:
+        case 571:
+        case 572:
+        case 573:
+        case 574:
+        case 575:
+        case 576:
+        case 577:
+        case 578:
+        case 579:
+        case 580:
+        case 581:
+        case 582:
+        case 583:
+        case 584:
+        case 585:
+        case 586:
+        case 587:
+        case 588:
+        case 589:
+        case 590:
+        case 591:
+        case 592:
+        case 593:
+        case 594:
+        case 595:
+        case 596:
+        case 597:
+        case 598:
+        case 599:
+        case 600:
+        case 601:
+        case 602:
+        case 603:
+        case 604:
+        case 605:
+        case 606:
+        case 607:
+        case 608:
+        case 609:
+        case 610:
+        case 611:
+        case 612:
+        case 613:
+        case 614:
+        case 615:
+        case 616:
+        case 617:
+        case 618:
+        case 619:
+        case 620:
+        case 621:
+        case 622:
+        case 623:
+        case 624:
+        case 625:
+        case 626:
+        case 627:
+        case 628:
+        case 629:
+        case 630:
+        case 631:
+        case 632:
+        case 633:
+        case 634:
+        case 635:
+        case 636:
+        case 637:
+        case 638:
+        case 639:
+        case 640:
+        case 641:
+        case 642:
+        case 643:
+        case 644:
+        case 645:
+        case 646:
+        case 647:
+        case 648:
+        case 649:
+        case 650:
+        case 651:
+        case 652:
+        case 653:
+        case 654:
+        case 655:
+        case 656:
+        case 657:
+        case 658:
+        case 659:
+        case 660:
+        case 661:
+        case 662:
+        case 663:
+        case 664:
+        case 665:
+        case 666:
+        case 667:
+        case 668:
+        case 669:
+        case 670:
+        case 671:
+        case 672:
+        case 673:
+        case 674:
+        case 675:
+        case 676:
+        case 677:
+        case 678:
+        case 679:
+        case 680:
+        case 681:
+        case 682:
+        case 683:
+        case 684:
+        case 685:
+        case 686:
+        case 687:
+        case 688:
+        case 689:
+        case 690:
+        case 691:
+        case 692:
+        case 693:
+        case 694:
+        case 695:
+        case 696:
+        case 697:
+        case 698:
+        case 699:
+        case 700:
+        case 701:
+        case 702:
+        case 703:
+        case 704:
+        case 705:
+        case 706:
+        case 707:
+        case 708:
+        case 709:
+        case 710:
+        case 711:
+        case 712:
+        case 713:
+        case 714:
+        case 715:
+        case 716:
+        case 717:
+        case 718:
+        case 719:
+        case 720:
+        case 721:
+        case 722:
+        case 723:
+        case 724:
+        case 725:
+        case 726:
+        case 727:
+        case 728:
+        case 729:
+        case 730:
+        case 731:
+        case 732:
+        case 733:
+        case 734:
+        case 735:
+        case 736:
+        case 737:
+        case 738:
+        case 739:
+        case 740:
+        case 741:
+        case 742:
+        case 743:
+        case 744:
+        case 745:
+        case 746:
+        case 747:
+        case 748:
+        case 749:
+        case 750:
+        case 751:
+        case 752:
+        case 753:
+        case 754:
+        case 755:
+        case 756:
+        case 757:
+        case 758:
+        case 759:
+        case 760:
+        case 761:
+        case 762:
+        case 763:
+        case 764:
+        case 765:
+        case 766:
+        case 767:
+        case 775:
+        case 783:
+        case 791:
+        case 799:
+        case 807:
+        case 815:
+        case 823:
+        case 831:
+        case 839:
+        case 847:
+        case 855:
+        case 863:
+        case 871:
+        case 879:
+        case 887:
+        case 895:
+        case 903:
+        case 911:
+        case 919:
+        case 927:
+        case 935:
+        case 943:
+        case 951:
+        case 959:
+        case 967:
+        case 975:
+        case 983:
+        case 991:
+        case 999:
+        case 1007:
+        case 1015:
+        case 1023:
+        case 1039:
+        case 1055:
+        case 1071:
+        case 1087:
+        case 1103:
+        case 1119:
+        case 1135:
+        case 1151:
+        case 1167:
+        case 1183:
+        case 1199:
+        case 1215:
+        case 1231:
+        case 1247:
+        case 1263:
+        case 1279:
+        case 1311:
+        case 1343:
+        case 1375:
+        case 1407:
+        case 1439:
+        case 1471:
+        case 1503:
+        case 1535:
+        case 1599:
+        case 1663:
+        case 1727:
+        case 1791:
+        case 1919:
+        case 2047:
+        case 2303: {
+            size = 0;
             break; // totally outside
         }
         case 1029:
@@ -5091,591 +5415,19 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
         case 2293:
         case 2294:
         case 2298: {
-            plane_cut_gen( cut, N<flags>() );
-        }
-        case 256:
-        case 257:
-        case 258:
-        case 259:
-        case 260:
-        case 261:
-        case 262:
-        case 263:
-        case 264:
-        case 265:
-        case 266:
-        case 267:
-        case 268:
-        case 269:
-        case 270:
-        case 271:
-        case 272:
-        case 273:
-        case 274:
-        case 275:
-        case 276:
-        case 277:
-        case 278:
-        case 279:
-        case 280:
-        case 281:
-        case 282:
-        case 283:
-        case 284:
-        case 285:
-        case 286:
-        case 287:
-        case 288:
-        case 289:
-        case 290:
-        case 291:
-        case 292:
-        case 293:
-        case 294:
-        case 295:
-        case 296:
-        case 297:
-        case 298:
-        case 299:
-        case 300:
-        case 301:
-        case 302:
-        case 303:
-        case 304:
-        case 305:
-        case 306:
-        case 307:
-        case 308:
-        case 309:
-        case 310:
-        case 311:
-        case 312:
-        case 313:
-        case 314:
-        case 315:
-        case 316:
-        case 317:
-        case 318:
-        case 319:
-        case 320:
-        case 321:
-        case 322:
-        case 323:
-        case 324:
-        case 325:
-        case 326:
-        case 327:
-        case 328:
-        case 329:
-        case 330:
-        case 331:
-        case 332:
-        case 333:
-        case 334:
-        case 335:
-        case 336:
-        case 337:
-        case 338:
-        case 339:
-        case 340:
-        case 341:
-        case 342:
-        case 343:
-        case 344:
-        case 345:
-        case 346:
-        case 347:
-        case 348:
-        case 349:
-        case 350:
-        case 351:
-        case 352:
-        case 353:
-        case 354:
-        case 355:
-        case 356:
-        case 357:
-        case 358:
-        case 359:
-        case 360:
-        case 361:
-        case 362:
-        case 363:
-        case 364:
-        case 365:
-        case 366:
-        case 367:
-        case 368:
-        case 369:
-        case 370:
-        case 371:
-        case 372:
-        case 373:
-        case 374:
-        case 375:
-        case 376:
-        case 377:
-        case 378:
-        case 379:
-        case 380:
-        case 381:
-        case 382:
-        case 383:
-        case 384:
-        case 385:
-        case 386:
-        case 387:
-        case 388:
-        case 389:
-        case 390:
-        case 391:
-        case 392:
-        case 393:
-        case 394:
-        case 395:
-        case 396:
-        case 397:
-        case 398:
-        case 399:
-        case 400:
-        case 401:
-        case 402:
-        case 403:
-        case 404:
-        case 405:
-        case 406:
-        case 407:
-        case 408:
-        case 409:
-        case 410:
-        case 411:
-        case 412:
-        case 413:
-        case 414:
-        case 415:
-        case 416:
-        case 417:
-        case 418:
-        case 419:
-        case 420:
-        case 421:
-        case 422:
-        case 423:
-        case 424:
-        case 425:
-        case 426:
-        case 427:
-        case 428:
-        case 429:
-        case 430:
-        case 431:
-        case 432:
-        case 433:
-        case 434:
-        case 435:
-        case 436:
-        case 437:
-        case 438:
-        case 439:
-        case 440:
-        case 441:
-        case 442:
-        case 443:
-        case 444:
-        case 445:
-        case 446:
-        case 447:
-        case 448:
-        case 449:
-        case 450:
-        case 451:
-        case 452:
-        case 453:
-        case 454:
-        case 455:
-        case 456:
-        case 457:
-        case 458:
-        case 459:
-        case 460:
-        case 461:
-        case 462:
-        case 463:
-        case 464:
-        case 465:
-        case 466:
-        case 467:
-        case 468:
-        case 469:
-        case 470:
-        case 471:
-        case 472:
-        case 473:
-        case 474:
-        case 475:
-        case 476:
-        case 477:
-        case 478:
-        case 479:
-        case 480:
-        case 481:
-        case 482:
-        case 483:
-        case 484:
-        case 485:
-        case 486:
-        case 487:
-        case 488:
-        case 489:
-        case 490:
-        case 491:
-        case 492:
-        case 493:
-        case 494:
-        case 495:
-        case 496:
-        case 497:
-        case 498:
-        case 499:
-        case 500:
-        case 501:
-        case 502:
-        case 503:
-        case 504:
-        case 505:
-        case 506:
-        case 507:
-        case 508:
-        case 509:
-        case 510:
-        case 511:
-        case 512:
-        case 513:
-        case 514:
-        case 515:
-        case 516:
-        case 517:
-        case 518:
-        case 519:
-        case 520:
-        case 521:
-        case 522:
-        case 523:
-        case 524:
-        case 525:
-        case 526:
-        case 527:
-        case 528:
-        case 529:
-        case 530:
-        case 531:
-        case 532:
-        case 533:
-        case 534:
-        case 535:
-        case 536:
-        case 537:
-        case 538:
-        case 539:
-        case 540:
-        case 541:
-        case 542:
-        case 543:
-        case 544:
-        case 545:
-        case 546:
-        case 547:
-        case 548:
-        case 549:
-        case 550:
-        case 551:
-        case 552:
-        case 553:
-        case 554:
-        case 555:
-        case 556:
-        case 557:
-        case 558:
-        case 559:
-        case 560:
-        case 561:
-        case 562:
-        case 563:
-        case 564:
-        case 565:
-        case 566:
-        case 567:
-        case 568:
-        case 569:
-        case 570:
-        case 571:
-        case 572:
-        case 573:
-        case 574:
-        case 575:
-        case 576:
-        case 577:
-        case 578:
-        case 579:
-        case 580:
-        case 581:
-        case 582:
-        case 583:
-        case 584:
-        case 585:
-        case 586:
-        case 587:
-        case 588:
-        case 589:
-        case 590:
-        case 591:
-        case 592:
-        case 593:
-        case 594:
-        case 595:
-        case 596:
-        case 597:
-        case 598:
-        case 599:
-        case 600:
-        case 601:
-        case 602:
-        case 603:
-        case 604:
-        case 605:
-        case 606:
-        case 607:
-        case 608:
-        case 609:
-        case 610:
-        case 611:
-        case 612:
-        case 613:
-        case 614:
-        case 615:
-        case 616:
-        case 617:
-        case 618:
-        case 619:
-        case 620:
-        case 621:
-        case 622:
-        case 623:
-        case 624:
-        case 625:
-        case 626:
-        case 627:
-        case 628:
-        case 629:
-        case 630:
-        case 631:
-        case 632:
-        case 633:
-        case 634:
-        case 635:
-        case 636:
-        case 637:
-        case 638:
-        case 639:
-        case 640:
-        case 641:
-        case 642:
-        case 643:
-        case 644:
-        case 645:
-        case 646:
-        case 647:
-        case 648:
-        case 649:
-        case 650:
-        case 651:
-        case 652:
-        case 653:
-        case 654:
-        case 655:
-        case 656:
-        case 657:
-        case 658:
-        case 659:
-        case 660:
-        case 661:
-        case 662:
-        case 663:
-        case 664:
-        case 665:
-        case 666:
-        case 667:
-        case 668:
-        case 669:
-        case 670:
-        case 671:
-        case 672:
-        case 673:
-        case 674:
-        case 675:
-        case 676:
-        case 677:
-        case 678:
-        case 679:
-        case 680:
-        case 681:
-        case 682:
-        case 683:
-        case 684:
-        case 685:
-        case 686:
-        case 687:
-        case 688:
-        case 689:
-        case 690:
-        case 691:
-        case 692:
-        case 693:
-        case 694:
-        case 695:
-        case 696:
-        case 697:
-        case 698:
-        case 699:
-        case 700:
-        case 701:
-        case 702:
-        case 703:
-        case 704:
-        case 705:
-        case 706:
-        case 707:
-        case 708:
-        case 709:
-        case 710:
-        case 711:
-        case 712:
-        case 713:
-        case 714:
-        case 715:
-        case 716:
-        case 717:
-        case 718:
-        case 719:
-        case 720:
-        case 721:
-        case 722:
-        case 723:
-        case 724:
-        case 725:
-        case 726:
-        case 727:
-        case 728:
-        case 729:
-        case 730:
-        case 731:
-        case 732:
-        case 733:
-        case 734:
-        case 735:
-        case 736:
-        case 737:
-        case 738:
-        case 739:
-        case 740:
-        case 741:
-        case 742:
-        case 743:
-        case 744:
-        case 745:
-        case 746:
-        case 747:
-        case 748:
-        case 749:
-        case 750:
-        case 751:
-        case 752:
-        case 753:
-        case 754:
-        case 755:
-        case 756:
-        case 757:
-        case 758:
-        case 759:
-        case 760:
-        case 761:
-        case 762:
-        case 763:
-        case 764:
-        case 765:
-        case 766:
-        case 767:
-        case 775:
-        case 783:
-        case 791:
-        case 799:
-        case 807:
-        case 815:
-        case 823:
-        case 831:
-        case 839:
-        case 847:
-        case 855:
-        case 863:
-        case 871:
-        case 879:
-        case 887:
-        case 895:
-        case 903:
-        case 911:
-        case 919:
-        case 927:
-        case 935:
-        case 943:
-        case 951:
-        case 959:
-        case 967:
-        case 975:
-        case 983:
-        case 991:
-        case 999:
-        case 1007:
-        case 1015:
-        case 1023:
-        case 1039:
-        case 1055:
-        case 1071:
-        case 1087:
-        case 1103:
-        case 1119:
-        case 1135:
-        case 1151:
-        case 1167:
-        case 1183:
-        case 1199:
-        case 1215:
-        case 1231:
-        case 1247:
-        case 1263:
-        case 1279:
-        case 1311:
-        case 1343:
-        case 1375:
-        case 1407:
-        case 1439:
-        case 1471:
-        case 1503:
-        case 1535:
-        case 1599:
-        case 1663:
-        case 1727:
-        case 1791:
-        case 1919:
-        case 2047:
-        case 2303: {
-            size = 0;
-            break; // totally outside
+        plane_cut_gen( cut, N<flags>() );
+        px_0 = _mm512_load_pd( x + 0 );
+        py_0 = _mm512_load_pd( y + 0 );
         }
         default:
           plane_cut_gen( cut, N<flags>() );
+          px_0 = _mm512_load_pd( x + 0 );
+          py_0 = _mm512_load_pd( y + 0 );
           break;
         }
     }
+    _mm512_store_pd( x + 0, px_0 );
+    _mm512_store_pd( y + 0, py_0 );
     #else // __AVX512F__
     for( std::size_t i = 0; i < nb_cuts; ++i )
         plane_cut_gen( cuts[ i ], N<flags>() );

@@ -1,5 +1,6 @@
 #include "../../Support/Display/generic_ostream_output.h"
 #include "../../Support/bit_handling.h"
+#include "../../Support/TODO.h"
 #include <iostream>
 #include <sstream>
 #include <vector>
@@ -59,7 +60,7 @@ struct Mod {
         return res;
     }
 
-    void write_code( std::ostream &code, int simd_size ) {
+    void write_code( std::ostream &code, int simd_size, int nb_regs, bool scalar = false ) {
         // get the needed distances
         std::set<int> needed_distances;
         for( std::size_t i = 0; i < ops.size(); ++i ) {
@@ -72,32 +73,108 @@ struct Mod {
         for( int nd : needed_distances )
             code << "            TF d_" << nd << " = reinterpret_cast<const TF *>( &di_" << nd / simd_size << " )[ " << nd % simd_size << " ];\n";
 
-        // ratios
-        for( std::size_t i = 0; i < ops.size(); ++i ) {
-            const Op &op = ops[ i ];
-            if ( op.i1 >= 0 ) {
-                code << "            TF m_" << op.i0 << "_" << op.i1 << " = d_" << op.i0 << " / ( d_" << op.i1 << " - d_" << op.i0 << " );\n";
+        if ( scalar ) {
+            // ratios
+            for( std::size_t i = 0; i < ops.size(); ++i ) {
+                const Op &op = ops[ i ];
+                if ( op.i1 >= 0 ) {
+                    code << "            TF m_" << op.i0 << "_" << op.i1 << " = d_" << op.i0 << " / ( d_" << op.i1 << " - d_" << op.i0 << " );\n";
+                }
             }
-        }
 
-        // coordinates
-        for( std::size_t i = 0; i < ops.size(); ++i ) {
-            const Op &op = ops[ i ];
-            if ( op.i1 >= 0 ) {
-                code << "            TF x_" << i << " = x[ " << op.i0 << " ] - m_" << op.i0 << "_" << op.i1 << " * ( x[ " << op.i1 << " ] - x[ " << op.i0 << " ] );\n";
-                code << "            TF y_" << i << " = y[ " << op.i0 << " ] - m_" << op.i0 << "_" << op.i1 << " * ( y[ " << op.i1 << " ] - y[ " << op.i0 << " ] );\n";
-            } else if ( op.i0 != int( i ) ) {
-                code << "            TF x_" << i << " = x[ " << op.i0 << " ];\n";
-                code << "            TF y_" << i << " = y[ " << op.i0 << " ];\n";
+            // coordinates
+            for( std::size_t i = 0; i < ops.size(); ++i ) {
+                const Op &op = ops[ i ];
+                if ( op.i1 >= 0 ) {
+                    code << "            TF x_" << i << " = x[ " << op.i0 << " ] - m_" << op.i0 << "_" << op.i1 << " * ( x[ " << op.i1 << " ] - x[ " << op.i0 << " ] );\n";
+                    code << "            TF y_" << i << " = y[ " << op.i0 << " ] - m_" << op.i0 << "_" << op.i1 << " * ( y[ " << op.i1 << " ] - y[ " << op.i0 << " ] );\n";
+                } else if ( op.i0 != int( i ) ) {
+                    code << "            TF x_" << i << " = x[ " << op.i0 << " ];\n";
+                    code << "            TF y_" << i << " = y[ " << op.i0 << " ];\n";
+                }
             }
-        }
 
-        // save
-        for( std::size_t i = 0; i < ops.size(); ++i ) {
-            const Op &op = ops[ i ];
-            if ( op.i1 >= 0 || op.i0 != int( i ) ) {
-                code << "            x[ " << i << " ] = x_" << i << ";\n";
-                code << "            y[ " << i << " ] = y_" << i << ";\n";
+            // save
+            for( std::size_t i = 0; i < ops.size(); ++i ) {
+                const Op &op = ops[ i ];
+                if ( op.i1 >= 0 || op.i0 != int( i ) ) {
+                    code << "            x[ " << i << " ] = x_" << i << ";\n";
+                    code << "            y[ " << i << " ] = y_" << i << ";\n";
+                }
+            }
+        } else {
+            // Prop: on fait des permutations
+            bool has_permutations = false, has_interpolations = false;
+            for( std::size_t i = 0; i < ops.size(); ++i ) {
+                if ( ops[ i ].i1 < 0 && ops[ i ].i0 != int( i ) )
+                    has_permutations = true;
+                if ( ops[ i ].i1 >= 0 )
+                    has_interpolations = true;
+            }
+
+            // _mm512_permutex2var_pd
+            if ( has_permutations || has_interpolations ) {
+                int num_interpolation = 0;
+                std::uint64_t permutations = 0;
+                for( std::size_t i = 0; i < ops.size(); ++i ) {
+                    const Op &op = ops[ i ];
+
+                    // if it does not fit into the registers, make intermediate variables
+                    if ( int( i ) >= nb_regs * simd_size ) {
+                        if ( op.i1 >= 0 ) {
+                            code << "            TF m_" << op.i0 << "_" << op.i1 << " = d_" << op.i0 << " / ( d_" << op.i1 << " - d_" << op.i0 << " );\n";
+                            code << "            TF x_" << i << " = x[ " << op.i0 << " ] - m_" << op.i0 << "_" << op.i1 << " * ( x[ " << op.i1 << " ] - x[ " << op.i0 << " ] );\n";
+                            code << "            TF y_" << i << " = y[ " << op.i0 << " ] - m_" << op.i0 << "_" << op.i1 << " * ( y[ " << op.i1 << " ] - y[ " << op.i0 << " ] );\n";
+                        } else if ( op.i0 != int( i ) ) {
+                            code << "            TF x_" << i << " = x[ " << op.i0 << " ];\n";
+                            code << "            TF y_" << i << " = y[ " << op.i0 << " ];\n";
+                        }
+                    } else if ( op.i1 >= 0 ) { // variables for interpolation
+                        code << "            TF m_" << num_interpolation << " = d_" << op.i0 << " / ( d_" << op.i1 << " - d_" << op.i0 << " );\n";
+                        code << "            TF x_" << num_interpolation << " = reinterpret_cast<double *>( &px_" << op.i0 / simd_size << " )[ " << op.i0 % simd_size << " ] - m_" << num_interpolation << " * ( reinterpret_cast<double *>( &px_" << op.i1 / simd_size << " )[ " << op.i1 % simd_size << " ] - reinterpret_cast<double *>( &px_" << op.i0 / simd_size << " )[ " << op.i0 % simd_size << " ] );\n";
+                        code << "            TF y_" << num_interpolation << " = reinterpret_cast<double *>( &py_" << op.i0 / simd_size << " )[ " << op.i0 % simd_size << " ] - m_" << num_interpolation << " * ( reinterpret_cast<double *>( &py_" << op.i1 / simd_size << " )[ " << op.i1 % simd_size << " ] - reinterpret_cast<double *>( &py_" << op.i0 / simd_size << " )[ " << op.i0 % simd_size << " ] );\n";
+
+                        permutations += std::uint64_t( 8 + num_interpolation++ ) << 8 * i;
+                    } else
+                        permutations += std::uint64_t( op.i0 ) << 8 * i;
+                }
+
+                // save value outside the registers
+                for( std::size_t i = 0; i < ops.size(); ++i ) {
+                    const Op &op = ops[ i ];
+                    if ( int( i ) >= nb_regs * simd_size && ( op.i1 >= 0 || op.i0 != int( i ) ) ) {
+                        code << "            x[ " << i << " ] = x_" << i << ";\n";
+                        code << "            y[ " << i << " ] = y_" << i << ";\n";
+                    }
+                }
+
+                if ( nb_regs > 1 )
+                    TODO;
+                code << "            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x" << std::hex << permutations << "ul ) );\n";
+
+                if ( num_interpolation ) {
+                    if ( num_interpolation == 1 ) {
+                        code << "            __m512d inter_x = _mm512_set1_pd( x_0 );\n";
+                        code << "            __m512d inter_y = _mm512_set1_pd( y_0 );\n";
+                    } else if ( num_interpolation == 2 ) {
+                        code << "            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );\n";
+                        code << "            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );\n";
+                    } else {
+                        std::cerr << num_interpolation << std::endl;
+                        TODO;
+                    }
+                    code << "            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );\n";
+                    code << "            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );\n";
+                } else {
+                    code << "            px_0 = _mm512_permutex2var_pd( px_0, idx_0, px_0 );\n";
+                    code << "            py_0 = _mm512_permutex2var_pd( py_0, idx_0, py_0 );\n";
+                }
+
+                //                if ( ops.size() == 4 && old_size == 4 ) {
+                //                    code << "            P( reinterpret_cast<std::uint64_t *>( &idx_0 )[ 0 ], reinterpret_cast<std::uint64_t *>( &idx_0 )[ 1 ], reinterpret_cast<std::uint64_t *>( &idx_0 )[ 2 ], reinterpret_cast<std::uint64_t *>( &idx_0 )[ 3 ] );\n";
+                //                    code << "            P( reinterpret_cast<double *>( &inter_x )[ 0 ], reinterpret_cast<double *>( &inter_x )[ 1 ] );\n";
+                //                    code << "            P( reinterpret_cast<double *>( &px_0 )[ 0 ], reinterpret_cast<double *>( &px_0 )[ 1 ], reinterpret_cast<double *>( &px_0 )[ 2 ], reinterpret_cast<double *>( &px_0 )[ 3 ] );\n";
+                //                }
             }
         }
 
@@ -112,6 +189,7 @@ struct Mod {
 
 
 void get_code( std::ostringstream &code, int index, int max_size_included, int simd_size ) {
+    int nb_regs = ( max_size_included + simd_size - 1 ) / simd_size;
     const int mul_size = 1 << max_size_included;
     const int size = index / mul_size;
 
@@ -155,14 +233,18 @@ void get_code( std::ostringstream &code, int index, int max_size_included, int s
     int nb_interp = 0;
     for( Op op : mod.ops )
         nb_interp += op.i1 >= 0;
-    if ( nb_interp >= 4 ) {
-        code << "            plane_cut_gen( cut, N<flags>() );\n";
+    if ( nb_interp > 2 ) {
+        code << "        plane_cut_gen( cut, N<flags>() );\n";
+        for( int i = 0; i < nb_regs; ++i ) {
+            code << "        px_" << i << " = _mm512_load_pd( x + " << simd_size * i << " );\n";
+            code << "        py_" << i << " = _mm512_load_pd( y + " << simd_size * i << " );\n";
+        }
         return;
     }
 
     // write code
     code << "            // size=" << size << " outside=" << outside << " mod=" << mod << "\n";
-    mod.write_code( code, simd_size );
+    mod.write_code( code, simd_size, nb_regs );
 }
 
 void generate( int simd_size, std::string /*ext*/, int max_size_included = 8 ) {
@@ -173,19 +255,21 @@ void generate( int simd_size, std::string /*ext*/, int max_size_included = 8 ) {
     std::cout << "    // outsize list\n";
     std::cout << "    TF *x = &nodes->x;\n";
     std::cout << "    TF *y = &nodes->y;\n";
+    for( int i = 0; i < nb_regs; ++i ) {
+        std::cout << "    __m512d px_" << i << " = _mm512_load_pd( x + " << simd_size * i << " );\n";
+        std::cout << "    __m512d py_" << i << " = _mm512_load_pd( y + " << simd_size * i << " );\n";
+    }
     std::cout << "    for( std::size_t num_cut = 0; num_cut < nb_cuts; ++num_cut ) {\n";
     std::cout << "        const Cut &cut = cuts[ num_cut ];\n";
     std::cout << "        __m512d rd = _mm512_set1_pd( cut.dist );\n";
     std::cout << "        __m512d nx = _mm512_set1_pd( cut.dir.x );\n";
     std::cout << "        __m512d ny = _mm512_set1_pd( cut.dir.y );\n";
     for( int i = 0; i < nb_regs; ++i ) {
-        std::cout << "        __m512d px_" << i << " = _mm512_load_pd( x + " << simd_size * i << " );\n";
-        std::cout << "        __m512d py_" << i << " = _mm512_load_pd( y + " << simd_size * i << " );\n";
         std::cout << "        __m512d bi_" << i << " = _mm512_add_pd( _mm512_mul_pd( px_" << i << ", nx ), _mm512_mul_pd( py_" << i << ", ny ) );\n";
         std::cout << "        std::uint8_t outside_" << i << " = _mm512_cmp_pd_mask( bi_" << i << ", rd, _CMP_GT_OQ );\n"; // OQ => 46.9, QS => 47.1
         std::cout << "        __m512d di_" << i << " = _mm512_sub_pd( bi_" << i << ", rd );\n";
         // std::cout << "        outside_" << i << " &= ( 1 << size ) - 1;\n";
-        // std::cout << "    std::uint8_t outside_" << i << " = _mm512_movepi64_mask( __m512i( di_" << i << " ) );\n"; // => 47.1
+        // std::cout << "        std::uint8_t outside_" << i << " = _mm512_movepi64_mask( __m512i( di_" << i << " ) );\n"; // => 47.1
     }
     std::cout << "\n";
 
@@ -197,7 +281,7 @@ void generate( int simd_size, std::string /*ext*/, int max_size_included = 8 ) {
         cases[ code.str() ].push_back( index );
     }
 
-    // write
+    // cases
     std::cout << "        switch( " << mul_size << " * size + ";
     for( int i = 0; i < nb_regs; ++i )
         std::cout << ( 1 << ( i * simd_size ) ) <<  " * outside_" << i;
@@ -209,9 +293,19 @@ void generate( int simd_size, std::string /*ext*/, int max_size_included = 8 ) {
     }
     std::cout << "\n        default:\n";
     std::cout << "          plane_cut_gen( cut, N<flags>() );\n";
+    for( int i = 0; i < nb_regs; ++i ) {
+        std::cout << "          px_" << i << " = _mm512_load_pd( x + " << simd_size * i << " );\n";
+        std::cout << "          py_" << i << " = _mm512_load_pd( y + " << simd_size * i << " );\n";
+    }
     std::cout << "          break;\n";
     std::cout << "        }\n";
     std::cout << "    }\n";
+
+    // save regs
+    for( int i = 0; i < nb_regs; ++i ) {
+        std::cout << "    _mm512_store_pd( x + " << simd_size * i << ", px_" << i << " );\n";
+        std::cout << "    _mm512_store_pd( y + " << simd_size * i << ", py_" << i << " );\n";
+    }
 }
 
 int main() {

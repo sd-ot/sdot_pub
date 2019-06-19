@@ -71,6 +71,12 @@ public:
     void                                 plane_cut                 ( const Cut *cuts, std::size_t nb_cuts ); ///< return true if effective cut
     void                                 ball_cut                  ( Pt center, TF radius, CI cut_id = {} ); ///< beware: only one sphere cut is authorized, and it must be done after all the plane cuts.
 
+    //
+    TF                                   integral                  () const;
+
+    TF                                   sphere_radius;
+    Pt                                   sphere_center;
+    CI                                   sphere_id;
 
 private:
     template<int f> void                 plane_cut_simd_switch     ( const Cut *cuts, std::size_t nb_cuts, N<f>, S<double>, S<std::uint64_t> );

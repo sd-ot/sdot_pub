@@ -48,7 +48,7 @@ double fake_cp_plane_cut( const Cut *cuts, std::size_t nb_cuts ) {
 template<int Simd,int Switch>
 void bench( const std::vector<std::size_t> &offsets, const std::vector<Cut> &cuts, N<Simd>, N<Switch> ) {
     constexpr int flags = ConvexPolyhedron::do_not_use_simd     * ( Simd   == 0 ) +
-                          ConvexPolyhedron::do_not_use_switches * ( Switch == 0 );
+                          ConvexPolyhedron::do_not_use_switch * ( Switch == 0 );
 
     // cells
     Cp lc( typename Cp::Box{ { 0, 0 }, { 1, 1 } } ), cp;
