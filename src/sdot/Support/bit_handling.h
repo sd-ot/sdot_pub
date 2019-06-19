@@ -32,7 +32,7 @@ inline unsigned popcnt( const std::vector<bool> &bs ) {
     return res;
 }
 
-inline unsigned popcnt( std::uint32_t val ) {
+inline unsigned popcnt( std::uint8_t val ) {
     #ifdef __AVX2__
     return _mm_popcnt_u32( val );
     #else
@@ -41,6 +41,17 @@ inline unsigned popcnt( std::uint32_t val ) {
         res += bool( val & 1 );
     return res;
     #endif
+}
+
+inline unsigned popcnt( std::uint32_t val ) {
+#ifdef __AVX2__
+    return _mm_popcnt_u32( val );
+#else
+    unsigned res = 0;
+    for( ; val; val /= 2 )
+        res += bool( val & 1 );
+    return res;
+#endif
 }
 
 inline unsigned popcnt( std::uint64_t val ) {
@@ -70,7 +81,7 @@ inline unsigned tzcnt( const std::vector<bool> &bs ) {
     return bs.size();
 }
 
-inline unsigned tzcnt( std::uint32_t val ) {
+inline unsigned tzcnt( std::uint8_t val ) {
     #ifdef __AVX2__
     return _tzcnt_u32( val );
     #else
@@ -81,6 +92,32 @@ inline unsigned tzcnt( std::uint32_t val ) {
         val /= 2;
     return res;
     #endif
+}
+
+inline unsigned tzcnt( std::uint16_t val ) {
+    #ifdef __AVX2__
+    return _tzcnt_u32( val );
+    #else
+    if ( val == 0 )
+        return 32;
+    unsigned res = 0;
+    for( ; ( val & 1 ) == 0; ++res )
+        val /= 2;
+    return res;
+    #endif
+}
+
+inline unsigned tzcnt( std::uint32_t val ) {
+#ifdef __AVX2__
+    return _tzcnt_u32( val );
+#else
+    if ( val == 0 )
+        return 32;
+    unsigned res = 0;
+    for( ; ( val & 1 ) == 0; ++res )
+        val /= 2;
+    return res;
+#endif
 }
 
 inline unsigned tzcnt( std::uint64_t val ) {
@@ -110,6 +147,10 @@ inline unsigned tocnt( const std::vector<bool> &bs ) {
         if ( ! bs[ i ] )
            return i;
     return bs.size();
+}
+
+inline unsigned tocnt( std::uint8_t val ) {
+    return tzcnt( std::uint8_t( ~ val ) );
 }
 
 inline unsigned tocnt( std::uint32_t val ) {

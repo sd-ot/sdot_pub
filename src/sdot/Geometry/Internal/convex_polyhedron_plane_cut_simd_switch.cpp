@@ -121,7 +121,7 @@ void get_code( std::ostringstream &code, int index, int max_size_included, int s
     if ( size <= 2 || nb_outside == size ) {
         if ( size )
             code << "            size = 0;\n";
-        code << "            return;\n";
+        code << "            return; // totally outside\n";
         return;
     }
 
@@ -196,7 +196,7 @@ void generate( int simd_size, std::string /*ext*/, int max_size_included = 8 ) {
             std::cout << "\n        case " << index << ":";
         std::cout << " {\n" << c.first << "        }";
     }
-    std::cout << "        default: break;\n";
+    std::cout << "\n        default: break;\n";
     std::cout << "        }\n";
     std::cout << "    }\n";
 }
@@ -210,19 +210,19 @@ int main() {
     //
     std::cout << "\n";
     std::cout << "template<class Pc> template<int flags>\n";
-    std::cout << "void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t nb_cuts, N<flags>, S<double> ) {\n";
+    std::cout << "void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t nb_cuts, N<flags>, S<double>, S<std::uint64_t> ) {\n";
     std::cout << "    #ifdef __AVX512F__\n";
     generate( 8, "AVX512", 8 );
     std::cout << "    #else // __AVX512F__\n";
     std::cout << "    for( std::size_t i = 0; i < nb_cuts; ++i )\n";
-    std::cout << "        return plane_cut_gen( cuts[ i ], N<flags>() );\n";
+    std::cout << "        plane_cut_gen( cuts[ i ], N<flags>() );\n";
     std::cout << "    #endif // __AVX512F__\n";
     std::cout << "}\n";
 
     // generic version
     std::cout << "\n";
-    std::cout << "template<class Pc> template<int flags,class T>\n";
-    std::cout << "void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t nb_cuts, N<flags>, S<T> ) {\n";
+    std::cout << "template<class Pc> template<int flags,class T,class U>\n";
+    std::cout << "void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t nb_cuts, N<flags>, S<T>, S<U> ) {\n";
     std::cout << "    for( std::size_t i = 0; i < nb_cuts; ++i )\n";
     std::cout << "        plane_cut_gen( cuts[ i ], N<flags>() );\n";
     std::cout << "}\n";

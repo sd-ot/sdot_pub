@@ -73,9 +73,10 @@ public:
 
 
 private:
-    template<int f> void                 plane_cut_simd_switch     ( const Cut *cuts, std::size_t nb_cuts, N<f>, S<double> );
-    template<int f,class T> void         plane_cut_simd_switch     ( const Cut *cuts, std::size_t nb_cuts, N<f>, S<T> );
-    template<int f> void                 plane_cut_simd_tzcnt      ( const Cut &cut, N<f> );
+    template<int f> void                 plane_cut_simd_switch     ( const Cut *cuts, std::size_t nb_cuts, N<f>, S<double>, S<std::uint64_t> );
+    template<int f,class T,class U> void plane_cut_simd_switch     ( const Cut *cuts, std::size_t nb_cuts, N<f>, S<T>, S<U> );
+    template<int f> void                 plane_cut_simd_tzcnt      ( const Cut &cut, N<f>, S<double>, S<std::uint64_t> );
+    template<int f,class T,class U> void plane_cut_simd_tzcnt      ( const Cut &cut, N<f>, S<T>, S<U> );
     template<int f> void                 plane_cut_gen             ( const Cut &cut, N<f> );
     template<int f,class B,class D> void plane_cut_gen             ( const Cut &cut, N<f>, B &outside, D &distances );
 

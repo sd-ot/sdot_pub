@@ -4,7 +4,7 @@
 namespace sdot {
 
 template<class Pc> template<int flags>
-void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t nb_cuts, N<flags>, S<double> ) {
+void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t nb_cuts, N<flags>, S<double>, S<std::uint64_t> ) {
     #ifdef __AVX512F__
     // outsize list
     TF *x = &nodes->x;
@@ -17327,7 +17327,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
         case 253:
         case 254:
         case 255: {
-            return;
+            return; // totally outside
         }
         case 256:
         case 257:
@@ -17905,18 +17905,19 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
         case 2047:
         case 2303: {
             size = 0;
-            return;
-        }        default: break;
+            return; // totally outside
+        }
+        default: break;
         }
     }
     #else // __AVX512F__
     for( std::size_t i = 0; i < nb_cuts; ++i )
-        return plane_cut_gen( cuts[ i ], N<flags>() );
+        plane_cut_gen( cuts[ i ], N<flags>() );
     #endif // __AVX512F__
 }
 
-template<class Pc> template<int flags,class T>
-void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t nb_cuts, N<flags>, S<T> ) {
+template<class Pc> template<int flags,class T,class U>
+void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t nb_cuts, N<flags>, S<T>, S<U> ) {
     for( std::size_t i = 0; i < nb_cuts; ++i )
         plane_cut_gen( cuts[ i ], N<flags>() );
 }
