@@ -68,7 +68,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             x[ 3 ] = x_3;
             y[ 3 ] = y_3;
             size = 4;
-            continue;
+            break;
         }
         case 770:
         case 778:
@@ -121,7 +121,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             x[ 3 ] = x_3;
             y[ 3 ] = y_3;
             size = 4;
-            continue;
+            break;
         }
         case 771:
         case 779:
@@ -169,7 +169,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             y[ 0 ] = y_0;
             x[ 1 ] = x_1;
             y[ 1 ] = y_1;
-            continue;
+            break;
         }
         case 772:
         case 780:
@@ -218,7 +218,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             x[ 3 ] = x_3;
             y[ 3 ] = y_3;
             size = 4;
-            continue;
+            break;
         }
         case 773:
         case 781:
@@ -266,7 +266,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             y[ 0 ] = y_0;
             x[ 2 ] = x_2;
             y[ 2 ] = y_2;
-            continue;
+            break;
         }
         case 774:
         case 782:
@@ -314,7 +314,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             y[ 1 ] = y_1;
             x[ 2 ] = x_2;
             y[ 2 ] = y_2;
-            continue;
+            break;
         }
         case 1025:
         case 1041:
@@ -347,7 +347,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             x[ 4 ] = x_4;
             y[ 4 ] = y_4;
             size = 5;
-            continue;
+            break;
         }
         case 1026:
         case 1042:
@@ -384,7 +384,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             x[ 4 ] = x_4;
             y[ 4 ] = y_4;
             size = 5;
-            continue;
+            break;
         }
         case 1027:
         case 1043:
@@ -417,7 +417,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             y[ 0 ] = y_0;
             x[ 1 ] = x_1;
             y[ 1 ] = y_1;
-            continue;
+            break;
         }
         case 1028:
         case 1044:
@@ -454,55 +454,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             x[ 4 ] = x_4;
             y[ 4 ] = y_4;
             size = 5;
-            continue;
-        }
-        case 1029:
-        case 1045:
-        case 1061:
-        case 1077:
-        case 1093:
-        case 1109:
-        case 1125:
-        case 1141:
-        case 1157:
-        case 1173:
-        case 1189:
-        case 1205:
-        case 1221:
-        case 1237:
-        case 1253:
-        case 1269: {
-            // size=4 outside=0000000000000000000000000000000000000000000000000000000000000101 mod=[ 0, 1 ],1,[ 2, 1 ],[ 2, 3 ],3,[ 0, 3 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF m_0_1 = d_0 / ( d_1 - d_0 );
-            TF m_2_1 = d_2 / ( d_1 - d_2 );
-            TF m_2_3 = d_2 / ( d_3 - d_2 );
-            TF m_0_3 = d_0 / ( d_3 - d_0 );
-            TF x_0 = x[ 0 ] - m_0_1 * ( x[ 1 ] - x[ 0 ] );
-            TF y_0 = y[ 0 ] - m_0_1 * ( y[ 1 ] - y[ 0 ] );
-            TF x_2 = x[ 2 ] - m_2_1 * ( x[ 1 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_1 * ( y[ 1 ] - y[ 2 ] );
-            TF x_3 = x[ 2 ] - m_2_3 * ( x[ 3 ] - x[ 2 ] );
-            TF y_3 = y[ 2 ] - m_2_3 * ( y[ 3 ] - y[ 2 ] );
-            TF x_4 = x[ 3 ];
-            TF y_4 = y[ 3 ];
-            TF x_5 = x[ 0 ] - m_0_3 * ( x[ 3 ] - x[ 0 ] );
-            TF y_5 = y[ 0 ] - m_0_3 * ( y[ 3 ] - y[ 0 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            size = 6;
-            continue;
+            break;
         }
         case 1030:
         case 1046:
@@ -535,7 +487,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             y[ 1 ] = y_1;
             x[ 2 ] = x_2;
             y[ 2 ] = y_2;
-            continue;
+            break;
         }
         case 1031:
         case 1047:
@@ -572,7 +524,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             x[ 2 ] = x_2;
             y[ 2 ] = y_2;
             size = 3;
-            continue;
+            break;
         }
         case 1032:
         case 1048:
@@ -605,7 +557,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             x[ 4 ] = x_4;
             y[ 4 ] = y_4;
             size = 5;
-            continue;
+            break;
         }
         case 1033:
         case 1049:
@@ -638,55 +590,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             y[ 0 ] = y_0;
             x[ 3 ] = x_3;
             y[ 3 ] = y_3;
-            continue;
-        }
-        case 1034:
-        case 1050:
-        case 1066:
-        case 1082:
-        case 1098:
-        case 1114:
-        case 1130:
-        case 1146:
-        case 1162:
-        case 1178:
-        case 1194:
-        case 1210:
-        case 1226:
-        case 1242:
-        case 1258:
-        case 1274: {
-            // size=4 outside=0000000000000000000000000000000000000000000000000000000000001010 mod=[ 1, 0 ],[ 1, 2 ],2,[ 3, 2 ],[ 3, 0 ],0
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF m_1_0 = d_1 / ( d_0 - d_1 );
-            TF m_1_2 = d_1 / ( d_2 - d_1 );
-            TF m_3_2 = d_3 / ( d_2 - d_3 );
-            TF m_3_0 = d_3 / ( d_0 - d_3 );
-            TF x_0 = x[ 1 ] - m_1_0 * ( x[ 0 ] - x[ 1 ] );
-            TF y_0 = y[ 1 ] - m_1_0 * ( y[ 0 ] - y[ 1 ] );
-            TF x_1 = x[ 1 ] - m_1_2 * ( x[ 2 ] - x[ 1 ] );
-            TF y_1 = y[ 1 ] - m_1_2 * ( y[ 2 ] - y[ 1 ] );
-            TF x_3 = x[ 3 ] - m_3_2 * ( x[ 2 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_2 * ( y[ 2 ] - y[ 3 ] );
-            TF x_4 = x[ 3 ] - m_3_0 * ( x[ 0 ] - x[ 3 ] );
-            TF y_4 = y[ 3 ] - m_3_0 * ( y[ 0 ] - y[ 3 ] );
-            TF x_5 = x[ 0 ];
-            TF y_5 = y[ 0 ];
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            size = 6;
-            continue;
+            break;
         }
         case 1035:
         case 1051:
@@ -719,7 +623,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             x[ 1 ] = x_1;
             y[ 1 ] = y_1;
             size = 3;
-            continue;
+            break;
         }
         case 1036:
         case 1052:
@@ -752,7 +656,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             y[ 2 ] = y_2;
             x[ 3 ] = x_3;
             y[ 3 ] = y_3;
-            continue;
+            break;
         }
         case 1037:
         case 1053:
@@ -785,7 +689,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             x[ 2 ] = x_2;
             y[ 2 ] = y_2;
             size = 3;
-            continue;
+            break;
         }
         case 1038:
         case 1054:
@@ -818,7 +722,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             x[ 2 ] = x_2;
             y[ 2 ] = y_2;
             size = 3;
-            continue;
+            break;
         }
         case 1281:
         case 1313:
@@ -843,7 +747,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             x[ 5 ] = x_5;
             y[ 5 ] = y_5;
             size = 6;
-            continue;
+            break;
         }
         case 1282:
         case 1314:
@@ -872,7 +776,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             x[ 5 ] = x_5;
             y[ 5 ] = y_5;
             size = 6;
-            continue;
+            break;
         }
         case 1283:
         case 1315:
@@ -897,7 +801,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             y[ 0 ] = y_0;
             x[ 1 ] = x_1;
             y[ 1 ] = y_1;
-            continue;
+            break;
         }
         case 1284:
         case 1316:
@@ -930,48 +834,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             x[ 5 ] = x_5;
             y[ 5 ] = y_5;
             size = 6;
-            continue;
-        }
-        case 1285:
-        case 1317:
-        case 1349:
-        case 1381:
-        case 1413:
-        case 1445:
-        case 1477:
-        case 1509: {
-            // size=5 outside=0000000000000000000000000000000000000000000000000000000000000101 mod=1,[ 2, 1 ],[ 2, 3 ],3,4,[ 0, 4 ],[ 0, 1 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF m_2_1 = d_2 / ( d_1 - d_2 );
-            TF m_2_3 = d_2 / ( d_3 - d_2 );
-            TF m_0_4 = d_0 / ( d_4 - d_0 );
-            TF m_0_1 = d_0 / ( d_1 - d_0 );
-            TF x_0 = x[ 1 ];
-            TF y_0 = y[ 1 ];
-            TF x_1 = x[ 2 ] - m_2_1 * ( x[ 1 ] - x[ 2 ] );
-            TF y_1 = y[ 2 ] - m_2_1 * ( y[ 1 ] - y[ 2 ] );
-            TF x_2 = x[ 2 ] - m_2_3 * ( x[ 3 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_3 * ( y[ 3 ] - y[ 2 ] );
-            TF x_5 = x[ 0 ] - m_0_4 * ( x[ 4 ] - x[ 0 ] );
-            TF y_5 = y[ 0 ] - m_0_4 * ( y[ 4 ] - y[ 0 ] );
-            TF x_6 = x[ 0 ] - m_0_1 * ( x[ 1 ] - x[ 0 ] );
-            TF y_6 = y[ 0 ] - m_0_1 * ( y[ 1 ] - y[ 0 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            size = 7;
-            continue;
+            break;
         }
         case 1286:
         case 1318:
@@ -996,7 +859,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             y[ 1 ] = y_1;
             x[ 2 ] = x_2;
             y[ 2 ] = y_2;
-            continue;
+            break;
         }
         case 1287:
         case 1319:
@@ -1026,7 +889,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             x[ 2 ] = x_2;
             y[ 2 ] = y_2;
             size = 4;
-            continue;
+            break;
         }
         case 1288:
         case 1320:
@@ -1055,134 +918,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             x[ 5 ] = x_5;
             y[ 5 ] = y_5;
             size = 6;
-            continue;
-        }
-        case 1289:
-        case 1321:
-        case 1353:
-        case 1385:
-        case 1417:
-        case 1449:
-        case 1481:
-        case 1513: {
-            // size=5 outside=0000000000000000000000000000000000000000000000000000000000001001 mod=[ 0, 1 ],1,2,[ 3, 2 ],[ 3, 4 ],4,[ 0, 4 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF m_0_1 = d_0 / ( d_1 - d_0 );
-            TF m_3_2 = d_3 / ( d_2 - d_3 );
-            TF m_3_4 = d_3 / ( d_4 - d_3 );
-            TF m_0_4 = d_0 / ( d_4 - d_0 );
-            TF x_0 = x[ 0 ] - m_0_1 * ( x[ 1 ] - x[ 0 ] );
-            TF y_0 = y[ 0 ] - m_0_1 * ( y[ 1 ] - y[ 0 ] );
-            TF x_3 = x[ 3 ] - m_3_2 * ( x[ 2 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_2 * ( y[ 2 ] - y[ 3 ] );
-            TF x_4 = x[ 3 ] - m_3_4 * ( x[ 4 ] - x[ 3 ] );
-            TF y_4 = y[ 3 ] - m_3_4 * ( y[ 4 ] - y[ 3 ] );
-            TF x_5 = x[ 4 ];
-            TF y_5 = y[ 4 ];
-            TF x_6 = x[ 0 ] - m_0_4 * ( x[ 4 ] - x[ 0 ] );
-            TF y_6 = y[ 0 ] - m_0_4 * ( y[ 4 ] - y[ 0 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            size = 7;
-            continue;
-        }
-        case 1290:
-        case 1322:
-        case 1354:
-        case 1386:
-        case 1418:
-        case 1450:
-        case 1482:
-        case 1514: {
-            // size=5 outside=0000000000000000000000000000000000000000000000000000000000001010 mod=[ 1, 0 ],[ 1, 2 ],2,[ 3, 2 ],[ 3, 4 ],4,0
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF m_1_0 = d_1 / ( d_0 - d_1 );
-            TF m_1_2 = d_1 / ( d_2 - d_1 );
-            TF m_3_2 = d_3 / ( d_2 - d_3 );
-            TF m_3_4 = d_3 / ( d_4 - d_3 );
-            TF x_0 = x[ 1 ] - m_1_0 * ( x[ 0 ] - x[ 1 ] );
-            TF y_0 = y[ 1 ] - m_1_0 * ( y[ 0 ] - y[ 1 ] );
-            TF x_1 = x[ 1 ] - m_1_2 * ( x[ 2 ] - x[ 1 ] );
-            TF y_1 = y[ 1 ] - m_1_2 * ( y[ 2 ] - y[ 1 ] );
-            TF x_3 = x[ 3 ] - m_3_2 * ( x[ 2 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_2 * ( y[ 2 ] - y[ 3 ] );
-            TF x_4 = x[ 3 ] - m_3_4 * ( x[ 4 ] - x[ 3 ] );
-            TF y_4 = y[ 3 ] - m_3_4 * ( y[ 4 ] - y[ 3 ] );
-            TF x_5 = x[ 4 ];
-            TF y_5 = y[ 4 ];
-            TF x_6 = x[ 0 ];
-            TF y_6 = y[ 0 ];
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            size = 7;
-            continue;
-        }
-        case 1291:
-        case 1323:
-        case 1355:
-        case 1387:
-        case 1419:
-        case 1451:
-        case 1483:
-        case 1515: {
-            // size=5 outside=0000000000000000000000000000000000000000000000000000000000001011 mod=[ 0, 4 ],[ 1, 2 ],2,[ 3, 2 ],[ 3, 4 ],4
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF m_0_4 = d_0 / ( d_4 - d_0 );
-            TF m_1_2 = d_1 / ( d_2 - d_1 );
-            TF m_3_2 = d_3 / ( d_2 - d_3 );
-            TF m_3_4 = d_3 / ( d_4 - d_3 );
-            TF x_0 = x[ 0 ] - m_0_4 * ( x[ 4 ] - x[ 0 ] );
-            TF y_0 = y[ 0 ] - m_0_4 * ( y[ 4 ] - y[ 0 ] );
-            TF x_1 = x[ 1 ] - m_1_2 * ( x[ 2 ] - x[ 1 ] );
-            TF y_1 = y[ 1 ] - m_1_2 * ( y[ 2 ] - y[ 1 ] );
-            TF x_3 = x[ 3 ] - m_3_2 * ( x[ 2 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_2 * ( y[ 2 ] - y[ 3 ] );
-            TF x_4 = x[ 3 ] - m_3_4 * ( x[ 4 ] - x[ 3 ] );
-            TF y_4 = y[ 3 ] - m_3_4 * ( y[ 4 ] - y[ 3 ] );
-            TF x_5 = x[ 4 ];
-            TF y_5 = y[ 4 ];
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            size = 6;
-            continue;
+            break;
         }
         case 1292:
         case 1324:
@@ -1207,44 +943,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             y[ 2 ] = y_2;
             x[ 3 ] = x_3;
             y[ 3 ] = y_3;
-            continue;
-        }
-        case 1293:
-        case 1325:
-        case 1357:
-        case 1389:
-        case 1421:
-        case 1453:
-        case 1485:
-        case 1517: {
-            // size=5 outside=0000000000000000000000000000000000000000000000000000000000001101 mod=[ 0, 1 ],1,[ 2, 1 ],[ 3, 4 ],4,[ 0, 4 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF m_0_1 = d_0 / ( d_1 - d_0 );
-            TF m_2_1 = d_2 / ( d_1 - d_2 );
-            TF m_3_4 = d_3 / ( d_4 - d_3 );
-            TF m_0_4 = d_0 / ( d_4 - d_0 );
-            TF x_0 = x[ 0 ] - m_0_1 * ( x[ 1 ] - x[ 0 ] );
-            TF y_0 = y[ 0 ] - m_0_1 * ( y[ 1 ] - y[ 0 ] );
-            TF x_2 = x[ 2 ] - m_2_1 * ( x[ 1 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_1 * ( y[ 1 ] - y[ 2 ] );
-            TF x_3 = x[ 3 ] - m_3_4 * ( x[ 4 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_4 * ( y[ 4 ] - y[ 3 ] );
-            TF x_5 = x[ 0 ] - m_0_4 * ( x[ 4 ] - x[ 0 ] );
-            TF y_5 = y[ 0 ] - m_0_4 * ( y[ 4 ] - y[ 0 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            size = 6;
-            continue;
+            break;
         }
         case 1294:
         case 1326:
@@ -1274,7 +973,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             x[ 3 ] = x_3;
             y[ 3 ] = y_3;
             size = 4;
-            continue;
+            break;
         }
         case 1295:
         case 1327:
@@ -1303,7 +1002,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             x[ 2 ] = x_2;
             y[ 2 ] = y_2;
             size = 3;
-            continue;
+            break;
         }
         case 1296:
         case 1328:
@@ -1328,7 +1027,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             x[ 5 ] = x_5;
             y[ 5 ] = y_5;
             size = 6;
-            continue;
+            break;
         }
         case 1297:
         case 1329:
@@ -1353,48 +1052,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             y[ 0 ] = y_0;
             x[ 4 ] = x_4;
             y[ 4 ] = y_4;
-            continue;
-        }
-        case 1298:
-        case 1330:
-        case 1362:
-        case 1394:
-        case 1426:
-        case 1458:
-        case 1490:
-        case 1522: {
-            // size=5 outside=0000000000000000000000000000000000000000000000000000000000010010 mod=[ 1, 0 ],[ 1, 2 ],2,3,[ 4, 3 ],[ 4, 0 ],0
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF m_1_0 = d_1 / ( d_0 - d_1 );
-            TF m_1_2 = d_1 / ( d_2 - d_1 );
-            TF m_4_3 = d_4 / ( d_3 - d_4 );
-            TF m_4_0 = d_4 / ( d_0 - d_4 );
-            TF x_0 = x[ 1 ] - m_1_0 * ( x[ 0 ] - x[ 1 ] );
-            TF y_0 = y[ 1 ] - m_1_0 * ( y[ 0 ] - y[ 1 ] );
-            TF x_1 = x[ 1 ] - m_1_2 * ( x[ 2 ] - x[ 1 ] );
-            TF y_1 = y[ 1 ] - m_1_2 * ( y[ 2 ] - y[ 1 ] );
-            TF x_4 = x[ 4 ] - m_4_3 * ( x[ 3 ] - x[ 4 ] );
-            TF y_4 = y[ 4 ] - m_4_3 * ( y[ 3 ] - y[ 4 ] );
-            TF x_5 = x[ 4 ] - m_4_0 * ( x[ 0 ] - x[ 4 ] );
-            TF y_5 = y[ 4 ] - m_4_0 * ( y[ 0 ] - y[ 4 ] );
-            TF x_6 = x[ 0 ];
-            TF y_6 = y[ 0 ];
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            size = 7;
-            continue;
+            break;
         }
         case 1299:
         case 1331:
@@ -1420,126 +1078,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             x[ 1 ] = x_1;
             y[ 1 ] = y_1;
             size = 4;
-            continue;
-        }
-        case 1300:
-        case 1332:
-        case 1364:
-        case 1396:
-        case 1428:
-        case 1460:
-        case 1492:
-        case 1524: {
-            // size=5 outside=0000000000000000000000000000000000000000000000000000000000010100 mod=0,1,[ 2, 1 ],[ 2, 3 ],3,[ 4, 3 ],[ 4, 0 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF m_2_1 = d_2 / ( d_1 - d_2 );
-            TF m_2_3 = d_2 / ( d_3 - d_2 );
-            TF m_4_3 = d_4 / ( d_3 - d_4 );
-            TF m_4_0 = d_4 / ( d_0 - d_4 );
-            TF x_2 = x[ 2 ] - m_2_1 * ( x[ 1 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_1 * ( y[ 1 ] - y[ 2 ] );
-            TF x_3 = x[ 2 ] - m_2_3 * ( x[ 3 ] - x[ 2 ] );
-            TF y_3 = y[ 2 ] - m_2_3 * ( y[ 3 ] - y[ 2 ] );
-            TF x_4 = x[ 3 ];
-            TF y_4 = y[ 3 ];
-            TF x_5 = x[ 4 ] - m_4_3 * ( x[ 3 ] - x[ 4 ] );
-            TF y_5 = y[ 4 ] - m_4_3 * ( y[ 3 ] - y[ 4 ] );
-            TF x_6 = x[ 4 ] - m_4_0 * ( x[ 0 ] - x[ 4 ] );
-            TF y_6 = y[ 4 ] - m_4_0 * ( y[ 0 ] - y[ 4 ] );
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            size = 7;
-            continue;
-        }
-        case 1301:
-        case 1333:
-        case 1365:
-        case 1397:
-        case 1429:
-        case 1461:
-        case 1493:
-        case 1525: {
-            // size=5 outside=0000000000000000000000000000000000000000000000000000000000010101 mod=[ 0, 1 ],1,[ 2, 1 ],[ 2, 3 ],3,[ 4, 3 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF m_0_1 = d_0 / ( d_1 - d_0 );
-            TF m_2_1 = d_2 / ( d_1 - d_2 );
-            TF m_2_3 = d_2 / ( d_3 - d_2 );
-            TF m_4_3 = d_4 / ( d_3 - d_4 );
-            TF x_0 = x[ 0 ] - m_0_1 * ( x[ 1 ] - x[ 0 ] );
-            TF y_0 = y[ 0 ] - m_0_1 * ( y[ 1 ] - y[ 0 ] );
-            TF x_2 = x[ 2 ] - m_2_1 * ( x[ 1 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_1 * ( y[ 1 ] - y[ 2 ] );
-            TF x_3 = x[ 2 ] - m_2_3 * ( x[ 3 ] - x[ 2 ] );
-            TF y_3 = y[ 2 ] - m_2_3 * ( y[ 3 ] - y[ 2 ] );
-            TF x_4 = x[ 3 ];
-            TF y_4 = y[ 3 ];
-            TF x_5 = x[ 4 ] - m_4_3 * ( x[ 3 ] - x[ 4 ] );
-            TF y_5 = y[ 4 ] - m_4_3 * ( y[ 3 ] - y[ 4 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            size = 6;
-            continue;
-        }
-        case 1302:
-        case 1334:
-        case 1366:
-        case 1398:
-        case 1430:
-        case 1462:
-        case 1494:
-        case 1526: {
-            // size=5 outside=0000000000000000000000000000000000000000000000000000000000010110 mod=0,[ 1, 0 ],[ 2, 3 ],3,[ 4, 3 ],[ 4, 0 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF m_1_0 = d_1 / ( d_0 - d_1 );
-            TF m_2_3 = d_2 / ( d_3 - d_2 );
-            TF m_4_3 = d_4 / ( d_3 - d_4 );
-            TF m_4_0 = d_4 / ( d_0 - d_4 );
-            TF x_1 = x[ 1 ] - m_1_0 * ( x[ 0 ] - x[ 1 ] );
-            TF y_1 = y[ 1 ] - m_1_0 * ( y[ 0 ] - y[ 1 ] );
-            TF x_2 = x[ 2 ] - m_2_3 * ( x[ 3 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_3 * ( y[ 3 ] - y[ 2 ] );
-            TF x_4 = x[ 4 ] - m_4_3 * ( x[ 3 ] - x[ 4 ] );
-            TF y_4 = y[ 4 ] - m_4_3 * ( y[ 3 ] - y[ 4 ] );
-            TF x_5 = x[ 4 ] - m_4_0 * ( x[ 0 ] - x[ 4 ] );
-            TF y_5 = y[ 4 ] - m_4_0 * ( y[ 0 ] - y[ 4 ] );
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            size = 6;
-            continue;
+            break;
         }
         case 1303:
         case 1335:
@@ -1568,7 +1107,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             x[ 2 ] = x_2;
             y[ 2 ] = y_2;
             size = 3;
-            continue;
+            break;
         }
         case 1304:
         case 1336:
@@ -1593,7 +1132,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             y[ 3 ] = y_3;
             x[ 4 ] = x_4;
             y[ 4 ] = y_4;
-            continue;
+            break;
         }
         case 1305:
         case 1337:
@@ -1619,48 +1158,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             x[ 3 ] = x_3;
             y[ 3 ] = y_3;
             size = 4;
-            continue;
-        }
-        case 1306:
-        case 1338:
-        case 1370:
-        case 1402:
-        case 1434:
-        case 1466:
-        case 1498:
-        case 1530: {
-            // size=5 outside=0000000000000000000000000000000000000000000000000000000000011010 mod=[ 1, 0 ],[ 1, 2 ],2,[ 3, 2 ],[ 4, 0 ],0
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF m_1_0 = d_1 / ( d_0 - d_1 );
-            TF m_1_2 = d_1 / ( d_2 - d_1 );
-            TF m_3_2 = d_3 / ( d_2 - d_3 );
-            TF m_4_0 = d_4 / ( d_0 - d_4 );
-            TF x_0 = x[ 1 ] - m_1_0 * ( x[ 0 ] - x[ 1 ] );
-            TF y_0 = y[ 1 ] - m_1_0 * ( y[ 0 ] - y[ 1 ] );
-            TF x_1 = x[ 1 ] - m_1_2 * ( x[ 2 ] - x[ 1 ] );
-            TF y_1 = y[ 1 ] - m_1_2 * ( y[ 2 ] - y[ 1 ] );
-            TF x_3 = x[ 3 ] - m_3_2 * ( x[ 2 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_2 * ( y[ 2 ] - y[ 3 ] );
-            TF x_4 = x[ 4 ] - m_4_0 * ( x[ 0 ] - x[ 4 ] );
-            TF y_4 = y[ 4 ] - m_4_0 * ( y[ 0 ] - y[ 4 ] );
-            TF x_5 = x[ 0 ];
-            TF y_5 = y[ 0 ];
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            size = 6;
-            continue;
+            break;
         }
         case 1307:
         case 1339:
@@ -1685,7 +1183,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             x[ 1 ] = x_1;
             y[ 1 ] = y_1;
             size = 3;
-            continue;
+            break;
         }
         case 1308:
         case 1340:
@@ -1711,7 +1209,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             x[ 3 ] = x_3;
             y[ 3 ] = y_3;
             size = 4;
-            continue;
+            break;
         }
         case 1309:
         case 1341:
@@ -1736,7 +1234,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             x[ 2 ] = x_2;
             y[ 2 ] = y_2;
             size = 3;
-            continue;
+            break;
         }
         case 1310:
         case 1342:
@@ -1761,7 +1259,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             x[ 2 ] = x_2;
             y[ 2 ] = y_2;
             size = 3;
-            continue;
+            break;
         }
         case 1537:
         case 1601:
@@ -1782,7 +1280,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             x[ 6 ] = x_6;
             y[ 6 ] = y_6;
             size = 7;
-            continue;
+            break;
         }
         case 1538:
         case 1602:
@@ -1807,7 +1305,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             x[ 6 ] = x_6;
             y[ 6 ] = y_6;
             size = 7;
-            continue;
+            break;
         }
         case 1539:
         case 1603:
@@ -1828,7 +1326,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             y[ 0 ] = y_0;
             x[ 1 ] = x_1;
             y[ 1 ] = y_1;
-            continue;
+            break;
         }
         case 1540:
         case 1604:
@@ -1857,44 +1355,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             x[ 6 ] = x_6;
             y[ 6 ] = y_6;
             size = 7;
-            continue;
-        }
-        case 1541:
-        case 1605:
-        case 1669:
-        case 1733: {
-            // size=6 outside=0000000000000000000000000000000000000000000000000000000000000101 mod=1,[ 2, 1 ],[ 2, 3 ],3,4,5,[ 0, 5 ],[ 0, 1 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF m_2_1 = d_2 / ( d_1 - d_2 );
-            TF m_2_3 = d_2 / ( d_3 - d_2 );
-            TF m_0_5 = d_0 / ( d_5 - d_0 );
-            TF m_0_1 = d_0 / ( d_1 - d_0 );
-            TF x_0 = x[ 1 ];
-            TF y_0 = y[ 1 ];
-            TF x_1 = x[ 2 ] - m_2_1 * ( x[ 1 ] - x[ 2 ] );
-            TF y_1 = y[ 2 ] - m_2_1 * ( y[ 1 ] - y[ 2 ] );
-            TF x_2 = x[ 2 ] - m_2_3 * ( x[ 3 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_3 * ( y[ 3 ] - y[ 2 ] );
-            TF x_6 = x[ 0 ] - m_0_5 * ( x[ 5 ] - x[ 0 ] );
-            TF y_6 = y[ 0 ] - m_0_5 * ( y[ 5 ] - y[ 0 ] );
-            TF x_7 = x[ 0 ] - m_0_1 * ( x[ 1 ] - x[ 0 ] );
-            TF y_7 = y[ 0 ] - m_0_1 * ( y[ 1 ] - y[ 0 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            size = 8;
-            continue;
+            break;
         }
         case 1542:
         case 1606:
@@ -1915,7 +1376,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             y[ 1 ] = y_1;
             x[ 2 ] = x_2;
             y[ 2 ] = y_2;
-            continue;
+            break;
         }
         case 1543:
         case 1607:
@@ -1941,7 +1402,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             x[ 2 ] = x_2;
             y[ 2 ] = y_2;
             size = 5;
-            continue;
+            break;
         }
         case 1544:
         case 1608:
@@ -1970,128 +1431,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             x[ 6 ] = x_6;
             y[ 6 ] = y_6;
             size = 7;
-            continue;
-        }
-        case 1545:
-        case 1609:
-        case 1673:
-        case 1737: {
-            // size=6 outside=0000000000000000000000000000000000000000000000000000000000001001 mod=[ 0, 1 ],1,2,[ 3, 2 ],[ 3, 4 ],4,5,[ 0, 5 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF m_0_1 = d_0 / ( d_1 - d_0 );
-            TF m_3_2 = d_3 / ( d_2 - d_3 );
-            TF m_3_4 = d_3 / ( d_4 - d_3 );
-            TF m_0_5 = d_0 / ( d_5 - d_0 );
-            TF x_0 = x[ 0 ] - m_0_1 * ( x[ 1 ] - x[ 0 ] );
-            TF y_0 = y[ 0 ] - m_0_1 * ( y[ 1 ] - y[ 0 ] );
-            TF x_3 = x[ 3 ] - m_3_2 * ( x[ 2 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_2 * ( y[ 2 ] - y[ 3 ] );
-            TF x_4 = x[ 3 ] - m_3_4 * ( x[ 4 ] - x[ 3 ] );
-            TF y_4 = y[ 3 ] - m_3_4 * ( y[ 4 ] - y[ 3 ] );
-            TF x_5 = x[ 4 ];
-            TF y_5 = y[ 4 ];
-            TF x_6 = x[ 5 ];
-            TF y_6 = y[ 5 ];
-            TF x_7 = x[ 0 ] - m_0_5 * ( x[ 5 ] - x[ 0 ] );
-            TF y_7 = y[ 0 ] - m_0_5 * ( y[ 5 ] - y[ 0 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            size = 8;
-            continue;
-        }
-        case 1546:
-        case 1610:
-        case 1674:
-        case 1738: {
-            // size=6 outside=0000000000000000000000000000000000000000000000000000000000001010 mod=[ 1, 2 ],2,[ 3, 2 ],[ 3, 4 ],4,5,0,[ 1, 0 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF m_1_2 = d_1 / ( d_2 - d_1 );
-            TF m_3_2 = d_3 / ( d_2 - d_3 );
-            TF m_3_4 = d_3 / ( d_4 - d_3 );
-            TF m_1_0 = d_1 / ( d_0 - d_1 );
-            TF x_0 = x[ 1 ] - m_1_2 * ( x[ 2 ] - x[ 1 ] );
-            TF y_0 = y[ 1 ] - m_1_2 * ( y[ 2 ] - y[ 1 ] );
-            TF x_1 = x[ 2 ];
-            TF y_1 = y[ 2 ];
-            TF x_2 = x[ 3 ] - m_3_2 * ( x[ 2 ] - x[ 3 ] );
-            TF y_2 = y[ 3 ] - m_3_2 * ( y[ 2 ] - y[ 3 ] );
-            TF x_3 = x[ 3 ] - m_3_4 * ( x[ 4 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_4 * ( y[ 4 ] - y[ 3 ] );
-            TF x_6 = x[ 0 ];
-            TF y_6 = y[ 0 ];
-            TF x_7 = x[ 1 ] - m_1_0 * ( x[ 0 ] - x[ 1 ] );
-            TF y_7 = y[ 1 ] - m_1_0 * ( y[ 0 ] - y[ 1 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            size = 8;
-            continue;
-        }
-        case 1547:
-        case 1611:
-        case 1675:
-        case 1739: {
-            // size=6 outside=0000000000000000000000000000000000000000000000000000000000001011 mod=[ 1, 2 ],2,[ 3, 2 ],[ 3, 4 ],4,5,[ 0, 5 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF m_1_2 = d_1 / ( d_2 - d_1 );
-            TF m_3_2 = d_3 / ( d_2 - d_3 );
-            TF m_3_4 = d_3 / ( d_4 - d_3 );
-            TF m_0_5 = d_0 / ( d_5 - d_0 );
-            TF x_0 = x[ 1 ] - m_1_2 * ( x[ 2 ] - x[ 1 ] );
-            TF y_0 = y[ 1 ] - m_1_2 * ( y[ 2 ] - y[ 1 ] );
-            TF x_1 = x[ 2 ];
-            TF y_1 = y[ 2 ];
-            TF x_2 = x[ 3 ] - m_3_2 * ( x[ 2 ] - x[ 3 ] );
-            TF y_2 = y[ 3 ] - m_3_2 * ( y[ 2 ] - y[ 3 ] );
-            TF x_3 = x[ 3 ] - m_3_4 * ( x[ 4 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_4 * ( y[ 4 ] - y[ 3 ] );
-            TF x_6 = x[ 0 ] - m_0_5 * ( x[ 5 ] - x[ 0 ] );
-            TF y_6 = y[ 0 ] - m_0_5 * ( y[ 5 ] - y[ 0 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            size = 7;
-            continue;
+            break;
         }
         case 1548:
         case 1612:
@@ -2112,41 +1452,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             y[ 2 ] = y_2;
             x[ 3 ] = x_3;
             y[ 3 ] = y_3;
-            continue;
-        }
-        case 1549:
-        case 1613:
-        case 1677:
-        case 1741: {
-            // size=6 outside=0000000000000000000000000000000000000000000000000000000000001101 mod=[ 0, 1 ],1,[ 2, 1 ],[ 3, 4 ],4,5,[ 0, 5 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF m_0_1 = d_0 / ( d_1 - d_0 );
-            TF m_2_1 = d_2 / ( d_1 - d_2 );
-            TF m_3_4 = d_3 / ( d_4 - d_3 );
-            TF m_0_5 = d_0 / ( d_5 - d_0 );
-            TF x_0 = x[ 0 ] - m_0_1 * ( x[ 1 ] - x[ 0 ] );
-            TF y_0 = y[ 0 ] - m_0_1 * ( y[ 1 ] - y[ 0 ] );
-            TF x_2 = x[ 2 ] - m_2_1 * ( x[ 1 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_1 * ( y[ 1 ] - y[ 2 ] );
-            TF x_3 = x[ 3 ] - m_3_4 * ( x[ 4 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_4 * ( y[ 4 ] - y[ 3 ] );
-            TF x_6 = x[ 0 ] - m_0_5 * ( x[ 5 ] - x[ 0 ] );
-            TF y_6 = y[ 0 ] - m_0_5 * ( y[ 5 ] - y[ 0 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            size = 7;
-            continue;
+            break;
         }
         case 1550:
         case 1614:
@@ -2176,7 +1482,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             x[ 4 ] = x_4;
             y[ 4 ] = y_4;
             size = 5;
-            continue;
+            break;
         }
         case 1551:
         case 1615:
@@ -2206,7 +1512,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             x[ 3 ] = x_3;
             y[ 3 ] = y_3;
             size = 4;
-            continue;
+            break;
         }
         case 1552:
         case 1616:
@@ -2231,291 +1537,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             x[ 6 ] = x_6;
             y[ 6 ] = y_6;
             size = 7;
-            continue;
-        }
-        case 1553:
-        case 1617:
-        case 1681:
-        case 1745: {
-            // size=6 outside=0000000000000000000000000000000000000000000000000000000000010001 mod=[ 0, 1 ],1,2,3,[ 4, 3 ],[ 4, 5 ],5,[ 0, 5 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF m_0_1 = d_0 / ( d_1 - d_0 );
-            TF m_4_3 = d_4 / ( d_3 - d_4 );
-            TF m_4_5 = d_4 / ( d_5 - d_4 );
-            TF m_0_5 = d_0 / ( d_5 - d_0 );
-            TF x_0 = x[ 0 ] - m_0_1 * ( x[ 1 ] - x[ 0 ] );
-            TF y_0 = y[ 0 ] - m_0_1 * ( y[ 1 ] - y[ 0 ] );
-            TF x_4 = x[ 4 ] - m_4_3 * ( x[ 3 ] - x[ 4 ] );
-            TF y_4 = y[ 4 ] - m_4_3 * ( y[ 3 ] - y[ 4 ] );
-            TF x_5 = x[ 4 ] - m_4_5 * ( x[ 5 ] - x[ 4 ] );
-            TF y_5 = y[ 4 ] - m_4_5 * ( y[ 5 ] - y[ 4 ] );
-            TF x_6 = x[ 5 ];
-            TF y_6 = y[ 5 ];
-            TF x_7 = x[ 0 ] - m_0_5 * ( x[ 5 ] - x[ 0 ] );
-            TF y_7 = y[ 0 ] - m_0_5 * ( y[ 5 ] - y[ 0 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            size = 8;
-            continue;
-        }
-        case 1554:
-        case 1618:
-        case 1682:
-        case 1746: {
-            // size=6 outside=0000000000000000000000000000000000000000000000000000000000010010 mod=[ 1, 0 ],[ 1, 2 ],2,3,[ 4, 3 ],[ 4, 5 ],5,0
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF m_1_0 = d_1 / ( d_0 - d_1 );
-            TF m_1_2 = d_1 / ( d_2 - d_1 );
-            TF m_4_3 = d_4 / ( d_3 - d_4 );
-            TF m_4_5 = d_4 / ( d_5 - d_4 );
-            TF x_0 = x[ 1 ] - m_1_0 * ( x[ 0 ] - x[ 1 ] );
-            TF y_0 = y[ 1 ] - m_1_0 * ( y[ 0 ] - y[ 1 ] );
-            TF x_1 = x[ 1 ] - m_1_2 * ( x[ 2 ] - x[ 1 ] );
-            TF y_1 = y[ 1 ] - m_1_2 * ( y[ 2 ] - y[ 1 ] );
-            TF x_4 = x[ 4 ] - m_4_3 * ( x[ 3 ] - x[ 4 ] );
-            TF y_4 = y[ 4 ] - m_4_3 * ( y[ 3 ] - y[ 4 ] );
-            TF x_5 = x[ 4 ] - m_4_5 * ( x[ 5 ] - x[ 4 ] );
-            TF y_5 = y[ 4 ] - m_4_5 * ( y[ 5 ] - y[ 4 ] );
-            TF x_6 = x[ 5 ];
-            TF y_6 = y[ 5 ];
-            TF x_7 = x[ 0 ];
-            TF y_7 = y[ 0 ];
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            size = 8;
-            continue;
-        }
-        case 1555:
-        case 1619:
-        case 1683:
-        case 1747: {
-            // size=6 outside=0000000000000000000000000000000000000000000000000000000000010011 mod=[ 0, 5 ],[ 1, 2 ],2,3,[ 4, 3 ],[ 4, 5 ],5
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF m_0_5 = d_0 / ( d_5 - d_0 );
-            TF m_1_2 = d_1 / ( d_2 - d_1 );
-            TF m_4_3 = d_4 / ( d_3 - d_4 );
-            TF m_4_5 = d_4 / ( d_5 - d_4 );
-            TF x_0 = x[ 0 ] - m_0_5 * ( x[ 5 ] - x[ 0 ] );
-            TF y_0 = y[ 0 ] - m_0_5 * ( y[ 5 ] - y[ 0 ] );
-            TF x_1 = x[ 1 ] - m_1_2 * ( x[ 2 ] - x[ 1 ] );
-            TF y_1 = y[ 1 ] - m_1_2 * ( y[ 2 ] - y[ 1 ] );
-            TF x_4 = x[ 4 ] - m_4_3 * ( x[ 3 ] - x[ 4 ] );
-            TF y_4 = y[ 4 ] - m_4_3 * ( y[ 3 ] - y[ 4 ] );
-            TF x_5 = x[ 4 ] - m_4_5 * ( x[ 5 ] - x[ 4 ] );
-            TF y_5 = y[ 4 ] - m_4_5 * ( y[ 5 ] - y[ 4 ] );
-            TF x_6 = x[ 5 ];
-            TF y_6 = y[ 5 ];
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            size = 7;
-            continue;
-        }
-        case 1556:
-        case 1620:
-        case 1684:
-        case 1748: {
-            // size=6 outside=0000000000000000000000000000000000000000000000000000000000010100 mod=0,1,[ 2, 1 ],[ 2, 3 ],3,[ 4, 3 ],[ 4, 5 ],5
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF m_2_1 = d_2 / ( d_1 - d_2 );
-            TF m_2_3 = d_2 / ( d_3 - d_2 );
-            TF m_4_3 = d_4 / ( d_3 - d_4 );
-            TF m_4_5 = d_4 / ( d_5 - d_4 );
-            TF x_2 = x[ 2 ] - m_2_1 * ( x[ 1 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_1 * ( y[ 1 ] - y[ 2 ] );
-            TF x_3 = x[ 2 ] - m_2_3 * ( x[ 3 ] - x[ 2 ] );
-            TF y_3 = y[ 2 ] - m_2_3 * ( y[ 3 ] - y[ 2 ] );
-            TF x_4 = x[ 3 ];
-            TF y_4 = y[ 3 ];
-            TF x_5 = x[ 4 ] - m_4_3 * ( x[ 3 ] - x[ 4 ] );
-            TF y_5 = y[ 4 ] - m_4_3 * ( y[ 3 ] - y[ 4 ] );
-            TF x_6 = x[ 4 ] - m_4_5 * ( x[ 5 ] - x[ 4 ] );
-            TF y_6 = y[ 4 ] - m_4_5 * ( y[ 5 ] - y[ 4 ] );
-            TF x_7 = x[ 5 ];
-            TF y_7 = y[ 5 ];
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            size = 8;
-            continue;
-        }
-        case 1557:
-        case 1621:
-        case 1685:
-        case 1749: {
-            // size=6 outside=0000000000000000000000000000000000000000000000000000000000010101 mod=1,[ 2, 1 ],[ 2, 3 ],3,[ 4, 3 ],[ 4, 5 ],5,[ 0, 5 ],[ 0, 1 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF m_2_1 = d_2 / ( d_1 - d_2 );
-            TF m_2_3 = d_2 / ( d_3 - d_2 );
-            TF m_4_3 = d_4 / ( d_3 - d_4 );
-            TF m_4_5 = d_4 / ( d_5 - d_4 );
-            TF m_0_5 = d_0 / ( d_5 - d_0 );
-            TF m_0_1 = d_0 / ( d_1 - d_0 );
-            TF x_0 = x[ 1 ];
-            TF y_0 = y[ 1 ];
-            TF x_1 = x[ 2 ] - m_2_1 * ( x[ 1 ] - x[ 2 ] );
-            TF y_1 = y[ 2 ] - m_2_1 * ( y[ 1 ] - y[ 2 ] );
-            TF x_2 = x[ 2 ] - m_2_3 * ( x[ 3 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_3 * ( y[ 3 ] - y[ 2 ] );
-            TF x_4 = x[ 4 ] - m_4_3 * ( x[ 3 ] - x[ 4 ] );
-            TF y_4 = y[ 4 ] - m_4_3 * ( y[ 3 ] - y[ 4 ] );
-            TF x_5 = x[ 4 ] - m_4_5 * ( x[ 5 ] - x[ 4 ] );
-            TF y_5 = y[ 4 ] - m_4_5 * ( y[ 5 ] - y[ 4 ] );
-            TF x_6 = x[ 5 ];
-            TF y_6 = y[ 5 ];
-            TF x_7 = x[ 0 ] - m_0_5 * ( x[ 5 ] - x[ 0 ] );
-            TF y_7 = y[ 0 ] - m_0_5 * ( y[ 5 ] - y[ 0 ] );
-            TF x_8 = x[ 0 ] - m_0_1 * ( x[ 1 ] - x[ 0 ] );
-            TF y_8 = y[ 0 ] - m_0_1 * ( y[ 1 ] - y[ 0 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            x[ 8 ] = x_8;
-            y[ 8 ] = y_8;
-            size = 9;
-            continue;
-        }
-        case 1558:
-        case 1622:
-        case 1686:
-        case 1750: {
-            // size=6 outside=0000000000000000000000000000000000000000000000000000000000010110 mod=0,[ 1, 0 ],[ 2, 3 ],3,[ 4, 3 ],[ 4, 5 ],5
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF m_1_0 = d_1 / ( d_0 - d_1 );
-            TF m_2_3 = d_2 / ( d_3 - d_2 );
-            TF m_4_3 = d_4 / ( d_3 - d_4 );
-            TF m_4_5 = d_4 / ( d_5 - d_4 );
-            TF x_1 = x[ 1 ] - m_1_0 * ( x[ 0 ] - x[ 1 ] );
-            TF y_1 = y[ 1 ] - m_1_0 * ( y[ 0 ] - y[ 1 ] );
-            TF x_2 = x[ 2 ] - m_2_3 * ( x[ 3 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_3 * ( y[ 3 ] - y[ 2 ] );
-            TF x_4 = x[ 4 ] - m_4_3 * ( x[ 3 ] - x[ 4 ] );
-            TF y_4 = y[ 4 ] - m_4_3 * ( y[ 3 ] - y[ 4 ] );
-            TF x_5 = x[ 4 ] - m_4_5 * ( x[ 5 ] - x[ 4 ] );
-            TF y_5 = y[ 4 ] - m_4_5 * ( y[ 5 ] - y[ 4 ] );
-            TF x_6 = x[ 5 ];
-            TF y_6 = y[ 5 ];
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            size = 7;
-            continue;
-        }
-        case 1559:
-        case 1623:
-        case 1687:
-        case 1751: {
-            // size=6 outside=0000000000000000000000000000000000000000000000000000000000010111 mod=[ 0, 5 ],[ 2, 3 ],3,[ 4, 3 ],[ 4, 5 ],5
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF m_0_5 = d_0 / ( d_5 - d_0 );
-            TF m_2_3 = d_2 / ( d_3 - d_2 );
-            TF m_4_3 = d_4 / ( d_3 - d_4 );
-            TF m_4_5 = d_4 / ( d_5 - d_4 );
-            TF x_0 = x[ 0 ] - m_0_5 * ( x[ 5 ] - x[ 0 ] );
-            TF y_0 = y[ 0 ] - m_0_5 * ( y[ 5 ] - y[ 0 ] );
-            TF x_1 = x[ 2 ] - m_2_3 * ( x[ 3 ] - x[ 2 ] );
-            TF y_1 = y[ 2 ] - m_2_3 * ( y[ 3 ] - y[ 2 ] );
-            TF x_2 = x[ 3 ];
-            TF y_2 = y[ 3 ];
-            TF x_3 = x[ 4 ] - m_4_3 * ( x[ 3 ] - x[ 4 ] );
-            TF y_3 = y[ 4 ] - m_4_3 * ( y[ 3 ] - y[ 4 ] );
-            TF x_4 = x[ 4 ] - m_4_5 * ( x[ 5 ] - x[ 4 ] );
-            TF y_4 = y[ 4 ] - m_4_5 * ( y[ 5 ] - y[ 4 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            continue;
+            break;
         }
         case 1560:
         case 1624:
@@ -2536,112 +1558,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             y[ 3 ] = y_3;
             x[ 4 ] = x_4;
             y[ 4 ] = y_4;
-            continue;
-        }
-        case 1561:
-        case 1625:
-        case 1689:
-        case 1753: {
-            // size=6 outside=0000000000000000000000000000000000000000000000000000000000011001 mod=[ 0, 1 ],1,2,[ 3, 2 ],[ 4, 5 ],5,[ 0, 5 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF m_0_1 = d_0 / ( d_1 - d_0 );
-            TF m_3_2 = d_3 / ( d_2 - d_3 );
-            TF m_4_5 = d_4 / ( d_5 - d_4 );
-            TF m_0_5 = d_0 / ( d_5 - d_0 );
-            TF x_0 = x[ 0 ] - m_0_1 * ( x[ 1 ] - x[ 0 ] );
-            TF y_0 = y[ 0 ] - m_0_1 * ( y[ 1 ] - y[ 0 ] );
-            TF x_3 = x[ 3 ] - m_3_2 * ( x[ 2 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_2 * ( y[ 2 ] - y[ 3 ] );
-            TF x_4 = x[ 4 ] - m_4_5 * ( x[ 5 ] - x[ 4 ] );
-            TF y_4 = y[ 4 ] - m_4_5 * ( y[ 5 ] - y[ 4 ] );
-            TF x_6 = x[ 0 ] - m_0_5 * ( x[ 5 ] - x[ 0 ] );
-            TF y_6 = y[ 0 ] - m_0_5 * ( y[ 5 ] - y[ 0 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            size = 7;
-            continue;
-        }
-        case 1562:
-        case 1626:
-        case 1690:
-        case 1754: {
-            // size=6 outside=0000000000000000000000000000000000000000000000000000000000011010 mod=[ 1, 0 ],[ 1, 2 ],2,[ 3, 2 ],[ 4, 5 ],5,0
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF m_1_0 = d_1 / ( d_0 - d_1 );
-            TF m_1_2 = d_1 / ( d_2 - d_1 );
-            TF m_3_2 = d_3 / ( d_2 - d_3 );
-            TF m_4_5 = d_4 / ( d_5 - d_4 );
-            TF x_0 = x[ 1 ] - m_1_0 * ( x[ 0 ] - x[ 1 ] );
-            TF y_0 = y[ 1 ] - m_1_0 * ( y[ 0 ] - y[ 1 ] );
-            TF x_1 = x[ 1 ] - m_1_2 * ( x[ 2 ] - x[ 1 ] );
-            TF y_1 = y[ 1 ] - m_1_2 * ( y[ 2 ] - y[ 1 ] );
-            TF x_3 = x[ 3 ] - m_3_2 * ( x[ 2 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_2 * ( y[ 2 ] - y[ 3 ] );
-            TF x_4 = x[ 4 ] - m_4_5 * ( x[ 5 ] - x[ 4 ] );
-            TF y_4 = y[ 4 ] - m_4_5 * ( y[ 5 ] - y[ 4 ] );
-            TF x_6 = x[ 0 ];
-            TF y_6 = y[ 0 ];
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            size = 7;
-            continue;
-        }
-        case 1563:
-        case 1627:
-        case 1691:
-        case 1755: {
-            // size=6 outside=0000000000000000000000000000000000000000000000000000000000011011 mod=[ 0, 5 ],[ 1, 2 ],2,[ 3, 2 ],[ 4, 5 ],5
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF m_0_5 = d_0 / ( d_5 - d_0 );
-            TF m_1_2 = d_1 / ( d_2 - d_1 );
-            TF m_3_2 = d_3 / ( d_2 - d_3 );
-            TF m_4_5 = d_4 / ( d_5 - d_4 );
-            TF x_0 = x[ 0 ] - m_0_5 * ( x[ 5 ] - x[ 0 ] );
-            TF y_0 = y[ 0 ] - m_0_5 * ( y[ 5 ] - y[ 0 ] );
-            TF x_1 = x[ 1 ] - m_1_2 * ( x[ 2 ] - x[ 1 ] );
-            TF y_1 = y[ 1 ] - m_1_2 * ( y[ 2 ] - y[ 1 ] );
-            TF x_3 = x[ 3 ] - m_3_2 * ( x[ 2 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_2 * ( y[ 2 ] - y[ 3 ] );
-            TF x_4 = x[ 4 ] - m_4_5 * ( x[ 5 ] - x[ 4 ] );
-            TF y_4 = y[ 4 ] - m_4_5 * ( y[ 5 ] - y[ 4 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            continue;
+            break;
         }
         case 1564:
         case 1628:
@@ -2667,43 +1584,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             x[ 4 ] = x_4;
             y[ 4 ] = y_4;
             size = 5;
-            continue;
-        }
-        case 1565:
-        case 1629:
-        case 1693:
-        case 1757: {
-            // size=6 outside=0000000000000000000000000000000000000000000000000000000000011101 mod=[ 0, 5 ],[ 0, 1 ],1,[ 2, 1 ],[ 4, 5 ],5
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF m_0_5 = d_0 / ( d_5 - d_0 );
-            TF m_0_1 = d_0 / ( d_1 - d_0 );
-            TF m_2_1 = d_2 / ( d_1 - d_2 );
-            TF m_4_5 = d_4 / ( d_5 - d_4 );
-            TF x_0 = x[ 0 ] - m_0_5 * ( x[ 5 ] - x[ 0 ] );
-            TF y_0 = y[ 0 ] - m_0_5 * ( y[ 5 ] - y[ 0 ] );
-            TF x_1 = x[ 0 ] - m_0_1 * ( x[ 1 ] - x[ 0 ] );
-            TF y_1 = y[ 0 ] - m_0_1 * ( y[ 1 ] - y[ 0 ] );
-            TF x_2 = x[ 1 ];
-            TF y_2 = y[ 1 ];
-            TF x_3 = x[ 2 ] - m_2_1 * ( x[ 1 ] - x[ 2 ] );
-            TF y_3 = y[ 2 ] - m_2_1 * ( y[ 1 ] - y[ 2 ] );
-            TF x_4 = x[ 4 ] - m_4_5 * ( x[ 5 ] - x[ 4 ] );
-            TF y_4 = y[ 4 ] - m_4_5 * ( y[ 5 ] - y[ 4 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            continue;
+            break;
         }
         case 1566:
         case 1630:
@@ -2729,7 +1610,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             x[ 3 ] = x_3;
             y[ 3 ] = y_3;
             size = 4;
-            continue;
+            break;
         }
         case 1567:
         case 1631:
@@ -2754,7 +1635,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             x[ 2 ] = x_2;
             y[ 2 ] = y_2;
             size = 3;
-            continue;
+            break;
         }
         case 1568:
         case 1632:
@@ -2775,7 +1656,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             x[ 6 ] = x_6;
             y[ 6 ] = y_6;
             size = 7;
-            continue;
+            break;
         }
         case 1569:
         case 1633:
@@ -2796,44 +1677,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             y[ 0 ] = y_0;
             x[ 5 ] = x_5;
             y[ 5 ] = y_5;
-            continue;
-        }
-        case 1570:
-        case 1634:
-        case 1698:
-        case 1762: {
-            // size=6 outside=0000000000000000000000000000000000000000000000000000000000100010 mod=[ 1, 0 ],[ 1, 2 ],2,3,4,[ 5, 4 ],[ 5, 0 ],0
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF m_1_0 = d_1 / ( d_0 - d_1 );
-            TF m_1_2 = d_1 / ( d_2 - d_1 );
-            TF m_5_4 = d_5 / ( d_4 - d_5 );
-            TF m_5_0 = d_5 / ( d_0 - d_5 );
-            TF x_0 = x[ 1 ] - m_1_0 * ( x[ 0 ] - x[ 1 ] );
-            TF y_0 = y[ 1 ] - m_1_0 * ( y[ 0 ] - y[ 1 ] );
-            TF x_1 = x[ 1 ] - m_1_2 * ( x[ 2 ] - x[ 1 ] );
-            TF y_1 = y[ 1 ] - m_1_2 * ( y[ 2 ] - y[ 1 ] );
-            TF x_5 = x[ 5 ] - m_5_4 * ( x[ 4 ] - x[ 5 ] );
-            TF y_5 = y[ 5 ] - m_5_4 * ( y[ 4 ] - y[ 5 ] );
-            TF x_6 = x[ 5 ] - m_5_0 * ( x[ 0 ] - x[ 5 ] );
-            TF y_6 = y[ 5 ] - m_5_0 * ( y[ 0 ] - y[ 5 ] );
-            TF x_7 = x[ 0 ];
-            TF y_7 = y[ 0 ];
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            size = 8;
-            continue;
+            break;
         }
         case 1571:
         case 1635:
@@ -2855,121 +1699,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             x[ 1 ] = x_1;
             y[ 1 ] = y_1;
             size = 5;
-            continue;
-        }
-        case 1572:
-        case 1636:
-        case 1700:
-        case 1764: {
-            // size=6 outside=0000000000000000000000000000000000000000000000000000000000100100 mod=1,[ 2, 1 ],[ 2, 3 ],3,4,[ 5, 4 ],[ 5, 0 ],0
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF m_2_1 = d_2 / ( d_1 - d_2 );
-            TF m_2_3 = d_2 / ( d_3 - d_2 );
-            TF m_5_4 = d_5 / ( d_4 - d_5 );
-            TF m_5_0 = d_5 / ( d_0 - d_5 );
-            TF x_0 = x[ 1 ];
-            TF y_0 = y[ 1 ];
-            TF x_1 = x[ 2 ] - m_2_1 * ( x[ 1 ] - x[ 2 ] );
-            TF y_1 = y[ 2 ] - m_2_1 * ( y[ 1 ] - y[ 2 ] );
-            TF x_2 = x[ 2 ] - m_2_3 * ( x[ 3 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_3 * ( y[ 3 ] - y[ 2 ] );
-            TF x_5 = x[ 5 ] - m_5_4 * ( x[ 4 ] - x[ 5 ] );
-            TF y_5 = y[ 5 ] - m_5_4 * ( y[ 4 ] - y[ 5 ] );
-            TF x_6 = x[ 5 ] - m_5_0 * ( x[ 0 ] - x[ 5 ] );
-            TF y_6 = y[ 5 ] - m_5_0 * ( y[ 0 ] - y[ 5 ] );
-            TF x_7 = x[ 0 ];
-            TF y_7 = y[ 0 ];
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            size = 8;
-            continue;
-        }
-        case 1573:
-        case 1637:
-        case 1701:
-        case 1765: {
-            // size=6 outside=0000000000000000000000000000000000000000000000000000000000100101 mod=1,[ 2, 1 ],[ 2, 3 ],3,4,[ 5, 4 ],[ 0, 1 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF m_2_1 = d_2 / ( d_1 - d_2 );
-            TF m_2_3 = d_2 / ( d_3 - d_2 );
-            TF m_5_4 = d_5 / ( d_4 - d_5 );
-            TF m_0_1 = d_0 / ( d_1 - d_0 );
-            TF x_0 = x[ 1 ];
-            TF y_0 = y[ 1 ];
-            TF x_1 = x[ 2 ] - m_2_1 * ( x[ 1 ] - x[ 2 ] );
-            TF y_1 = y[ 2 ] - m_2_1 * ( y[ 1 ] - y[ 2 ] );
-            TF x_2 = x[ 2 ] - m_2_3 * ( x[ 3 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_3 * ( y[ 3 ] - y[ 2 ] );
-            TF x_5 = x[ 5 ] - m_5_4 * ( x[ 4 ] - x[ 5 ] );
-            TF y_5 = y[ 5 ] - m_5_4 * ( y[ 4 ] - y[ 5 ] );
-            TF x_6 = x[ 0 ] - m_0_1 * ( x[ 1 ] - x[ 0 ] );
-            TF y_6 = y[ 0 ] - m_0_1 * ( y[ 1 ] - y[ 0 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            size = 7;
-            continue;
-        }
-        case 1574:
-        case 1638:
-        case 1702:
-        case 1766: {
-            // size=6 outside=0000000000000000000000000000000000000000000000000000000000100110 mod=0,[ 1, 0 ],[ 2, 3 ],3,4,[ 5, 4 ],[ 5, 0 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF m_1_0 = d_1 / ( d_0 - d_1 );
-            TF m_2_3 = d_2 / ( d_3 - d_2 );
-            TF m_5_4 = d_5 / ( d_4 - d_5 );
-            TF m_5_0 = d_5 / ( d_0 - d_5 );
-            TF x_1 = x[ 1 ] - m_1_0 * ( x[ 0 ] - x[ 1 ] );
-            TF y_1 = y[ 1 ] - m_1_0 * ( y[ 0 ] - y[ 1 ] );
-            TF x_2 = x[ 2 ] - m_2_3 * ( x[ 3 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_3 * ( y[ 3 ] - y[ 2 ] );
-            TF x_5 = x[ 5 ] - m_5_4 * ( x[ 4 ] - x[ 5 ] );
-            TF y_5 = y[ 5 ] - m_5_4 * ( y[ 4 ] - y[ 5 ] );
-            TF x_6 = x[ 5 ] - m_5_0 * ( x[ 0 ] - x[ 5 ] );
-            TF y_6 = y[ 5 ] - m_5_0 * ( y[ 0 ] - y[ 5 ] );
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            size = 7;
-            continue;
+            break;
         }
         case 1575:
         case 1639:
@@ -2995,273 +1725,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             x[ 2 ] = x_2;
             y[ 2 ] = y_2;
             size = 4;
-            continue;
-        }
-        case 1576:
-        case 1640:
-        case 1704:
-        case 1768: {
-            // size=6 outside=0000000000000000000000000000000000000000000000000000000000101000 mod=0,1,2,[ 3, 2 ],[ 3, 4 ],4,[ 5, 4 ],[ 5, 0 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF m_3_2 = d_3 / ( d_2 - d_3 );
-            TF m_3_4 = d_3 / ( d_4 - d_3 );
-            TF m_5_4 = d_5 / ( d_4 - d_5 );
-            TF m_5_0 = d_5 / ( d_0 - d_5 );
-            TF x_3 = x[ 3 ] - m_3_2 * ( x[ 2 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_2 * ( y[ 2 ] - y[ 3 ] );
-            TF x_4 = x[ 3 ] - m_3_4 * ( x[ 4 ] - x[ 3 ] );
-            TF y_4 = y[ 3 ] - m_3_4 * ( y[ 4 ] - y[ 3 ] );
-            TF x_5 = x[ 4 ];
-            TF y_5 = y[ 4 ];
-            TF x_6 = x[ 5 ] - m_5_4 * ( x[ 4 ] - x[ 5 ] );
-            TF y_6 = y[ 5 ] - m_5_4 * ( y[ 4 ] - y[ 5 ] );
-            TF x_7 = x[ 5 ] - m_5_0 * ( x[ 0 ] - x[ 5 ] );
-            TF y_7 = y[ 5 ] - m_5_0 * ( y[ 0 ] - y[ 5 ] );
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            size = 8;
-            continue;
-        }
-        case 1577:
-        case 1641:
-        case 1705:
-        case 1769: {
-            // size=6 outside=0000000000000000000000000000000000000000000000000000000000101001 mod=[ 0, 1 ],1,2,[ 3, 2 ],[ 3, 4 ],4,[ 5, 4 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF m_0_1 = d_0 / ( d_1 - d_0 );
-            TF m_3_2 = d_3 / ( d_2 - d_3 );
-            TF m_3_4 = d_3 / ( d_4 - d_3 );
-            TF m_5_4 = d_5 / ( d_4 - d_5 );
-            TF x_0 = x[ 0 ] - m_0_1 * ( x[ 1 ] - x[ 0 ] );
-            TF y_0 = y[ 0 ] - m_0_1 * ( y[ 1 ] - y[ 0 ] );
-            TF x_3 = x[ 3 ] - m_3_2 * ( x[ 2 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_2 * ( y[ 2 ] - y[ 3 ] );
-            TF x_4 = x[ 3 ] - m_3_4 * ( x[ 4 ] - x[ 3 ] );
-            TF y_4 = y[ 3 ] - m_3_4 * ( y[ 4 ] - y[ 3 ] );
-            TF x_5 = x[ 4 ];
-            TF y_5 = y[ 4 ];
-            TF x_6 = x[ 5 ] - m_5_4 * ( x[ 4 ] - x[ 5 ] );
-            TF y_6 = y[ 5 ] - m_5_4 * ( y[ 4 ] - y[ 5 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            size = 7;
-            continue;
-        }
-        case 1578:
-        case 1642:
-        case 1706:
-        case 1770: {
-            // size=6 outside=0000000000000000000000000000000000000000000000000000000000101010 mod=[ 1, 0 ],[ 1, 2 ],2,[ 3, 2 ],[ 3, 4 ],4,[ 5, 4 ],[ 5, 0 ],0
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF m_1_0 = d_1 / ( d_0 - d_1 );
-            TF m_1_2 = d_1 / ( d_2 - d_1 );
-            TF m_3_2 = d_3 / ( d_2 - d_3 );
-            TF m_3_4 = d_3 / ( d_4 - d_3 );
-            TF m_5_4 = d_5 / ( d_4 - d_5 );
-            TF m_5_0 = d_5 / ( d_0 - d_5 );
-            TF x_0 = x[ 1 ] - m_1_0 * ( x[ 0 ] - x[ 1 ] );
-            TF y_0 = y[ 1 ] - m_1_0 * ( y[ 0 ] - y[ 1 ] );
-            TF x_1 = x[ 1 ] - m_1_2 * ( x[ 2 ] - x[ 1 ] );
-            TF y_1 = y[ 1 ] - m_1_2 * ( y[ 2 ] - y[ 1 ] );
-            TF x_3 = x[ 3 ] - m_3_2 * ( x[ 2 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_2 * ( y[ 2 ] - y[ 3 ] );
-            TF x_4 = x[ 3 ] - m_3_4 * ( x[ 4 ] - x[ 3 ] );
-            TF y_4 = y[ 3 ] - m_3_4 * ( y[ 4 ] - y[ 3 ] );
-            TF x_5 = x[ 4 ];
-            TF y_5 = y[ 4 ];
-            TF x_6 = x[ 5 ] - m_5_4 * ( x[ 4 ] - x[ 5 ] );
-            TF y_6 = y[ 5 ] - m_5_4 * ( y[ 4 ] - y[ 5 ] );
-            TF x_7 = x[ 5 ] - m_5_0 * ( x[ 0 ] - x[ 5 ] );
-            TF y_7 = y[ 5 ] - m_5_0 * ( y[ 0 ] - y[ 5 ] );
-            TF x_8 = x[ 0 ];
-            TF y_8 = y[ 0 ];
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            x[ 8 ] = x_8;
-            y[ 8 ] = y_8;
-            size = 9;
-            continue;
-        }
-        case 1579:
-        case 1643:
-        case 1707:
-        case 1771: {
-            // size=6 outside=0000000000000000000000000000000000000000000000000000000000101011 mod=[ 1, 2 ],2,[ 3, 2 ],[ 3, 4 ],4,[ 5, 4 ]
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF m_1_2 = d_1 / ( d_2 - d_1 );
-            TF m_3_2 = d_3 / ( d_2 - d_3 );
-            TF m_3_4 = d_3 / ( d_4 - d_3 );
-            TF m_5_4 = d_5 / ( d_4 - d_5 );
-            TF x_0 = x[ 1 ] - m_1_2 * ( x[ 2 ] - x[ 1 ] );
-            TF y_0 = y[ 1 ] - m_1_2 * ( y[ 2 ] - y[ 1 ] );
-            TF x_1 = x[ 2 ];
-            TF y_1 = y[ 2 ];
-            TF x_2 = x[ 3 ] - m_3_2 * ( x[ 2 ] - x[ 3 ] );
-            TF y_2 = y[ 3 ] - m_3_2 * ( y[ 2 ] - y[ 3 ] );
-            TF x_3 = x[ 3 ] - m_3_4 * ( x[ 4 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_4 * ( y[ 4 ] - y[ 3 ] );
-            TF x_5 = x[ 5 ] - m_5_4 * ( x[ 4 ] - x[ 5 ] );
-            TF y_5 = y[ 5 ] - m_5_4 * ( y[ 4 ] - y[ 5 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            continue;
-        }
-        case 1580:
-        case 1644:
-        case 1708:
-        case 1772: {
-            // size=6 outside=0000000000000000000000000000000000000000000000000000000000101100 mod=0,1,[ 2, 1 ],[ 3, 4 ],4,[ 5, 4 ],[ 5, 0 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF m_2_1 = d_2 / ( d_1 - d_2 );
-            TF m_3_4 = d_3 / ( d_4 - d_3 );
-            TF m_5_4 = d_5 / ( d_4 - d_5 );
-            TF m_5_0 = d_5 / ( d_0 - d_5 );
-            TF x_2 = x[ 2 ] - m_2_1 * ( x[ 1 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_1 * ( y[ 1 ] - y[ 2 ] );
-            TF x_3 = x[ 3 ] - m_3_4 * ( x[ 4 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_4 * ( y[ 4 ] - y[ 3 ] );
-            TF x_5 = x[ 5 ] - m_5_4 * ( x[ 4 ] - x[ 5 ] );
-            TF y_5 = y[ 5 ] - m_5_4 * ( y[ 4 ] - y[ 5 ] );
-            TF x_6 = x[ 5 ] - m_5_0 * ( x[ 0 ] - x[ 5 ] );
-            TF y_6 = y[ 5 ] - m_5_0 * ( y[ 0 ] - y[ 5 ] );
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            size = 7;
-            continue;
-        }
-        case 1581:
-        case 1645:
-        case 1709:
-        case 1773: {
-            // size=6 outside=0000000000000000000000000000000000000000000000000000000000101101 mod=[ 0, 1 ],1,[ 2, 1 ],[ 3, 4 ],4,[ 5, 4 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF m_0_1 = d_0 / ( d_1 - d_0 );
-            TF m_2_1 = d_2 / ( d_1 - d_2 );
-            TF m_3_4 = d_3 / ( d_4 - d_3 );
-            TF m_5_4 = d_5 / ( d_4 - d_5 );
-            TF x_0 = x[ 0 ] - m_0_1 * ( x[ 1 ] - x[ 0 ] );
-            TF y_0 = y[ 0 ] - m_0_1 * ( y[ 1 ] - y[ 0 ] );
-            TF x_2 = x[ 2 ] - m_2_1 * ( x[ 1 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_1 * ( y[ 1 ] - y[ 2 ] );
-            TF x_3 = x[ 3 ] - m_3_4 * ( x[ 4 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_4 * ( y[ 4 ] - y[ 3 ] );
-            TF x_5 = x[ 5 ] - m_5_4 * ( x[ 4 ] - x[ 5 ] );
-            TF y_5 = y[ 5 ] - m_5_4 * ( y[ 4 ] - y[ 5 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            continue;
-        }
-        case 1582:
-        case 1646:
-        case 1710:
-        case 1774: {
-            // size=6 outside=0000000000000000000000000000000000000000000000000000000000101110 mod=0,[ 1, 0 ],[ 3, 4 ],4,[ 5, 4 ],[ 5, 0 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF m_1_0 = d_1 / ( d_0 - d_1 );
-            TF m_3_4 = d_3 / ( d_4 - d_3 );
-            TF m_5_4 = d_5 / ( d_4 - d_5 );
-            TF m_5_0 = d_5 / ( d_0 - d_5 );
-            TF x_1 = x[ 1 ] - m_1_0 * ( x[ 0 ] - x[ 1 ] );
-            TF y_1 = y[ 1 ] - m_1_0 * ( y[ 0 ] - y[ 1 ] );
-            TF x_2 = x[ 3 ] - m_3_4 * ( x[ 4 ] - x[ 3 ] );
-            TF y_2 = y[ 3 ] - m_3_4 * ( y[ 4 ] - y[ 3 ] );
-            TF x_3 = x[ 4 ];
-            TF y_3 = y[ 4 ];
-            TF x_4 = x[ 5 ] - m_5_4 * ( x[ 4 ] - x[ 5 ] );
-            TF y_4 = y[ 5 ] - m_5_4 * ( y[ 4 ] - y[ 5 ] );
-            TF x_5 = x[ 5 ] - m_5_0 * ( x[ 0 ] - x[ 5 ] );
-            TF y_5 = y[ 5 ] - m_5_0 * ( y[ 0 ] - y[ 5 ] );
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            continue;
+            break;
         }
         case 1583:
         case 1647:
@@ -3286,7 +1750,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             x[ 2 ] = x_2;
             y[ 2 ] = y_2;
             size = 3;
-            continue;
+            break;
         }
         case 1584:
         case 1648:
@@ -3307,7 +1771,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             y[ 4 ] = y_4;
             x[ 5 ] = x_5;
             y[ 5 ] = y_5;
-            continue;
+            break;
         }
         case 1585:
         case 1649:
@@ -3329,45 +1793,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             x[ 4 ] = x_4;
             y[ 4 ] = y_4;
             size = 5;
-            continue;
-        }
-        case 1586:
-        case 1650:
-        case 1714:
-        case 1778: {
-            // size=6 outside=0000000000000000000000000000000000000000000000000000000000110010 mod=[ 1, 0 ],[ 1, 2 ],2,3,[ 4, 3 ],[ 5, 0 ],0
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF m_1_0 = d_1 / ( d_0 - d_1 );
-            TF m_1_2 = d_1 / ( d_2 - d_1 );
-            TF m_4_3 = d_4 / ( d_3 - d_4 );
-            TF m_5_0 = d_5 / ( d_0 - d_5 );
-            TF x_0 = x[ 1 ] - m_1_0 * ( x[ 0 ] - x[ 1 ] );
-            TF y_0 = y[ 1 ] - m_1_0 * ( y[ 0 ] - y[ 1 ] );
-            TF x_1 = x[ 1 ] - m_1_2 * ( x[ 2 ] - x[ 1 ] );
-            TF y_1 = y[ 1 ] - m_1_2 * ( y[ 2 ] - y[ 1 ] );
-            TF x_4 = x[ 4 ] - m_4_3 * ( x[ 3 ] - x[ 4 ] );
-            TF y_4 = y[ 4 ] - m_4_3 * ( y[ 3 ] - y[ 4 ] );
-            TF x_5 = x[ 5 ] - m_5_0 * ( x[ 0 ] - x[ 5 ] );
-            TF y_5 = y[ 5 ] - m_5_0 * ( y[ 0 ] - y[ 5 ] );
-            TF x_6 = x[ 0 ];
-            TF y_6 = y[ 0 ];
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            size = 7;
-            continue;
+            break;
         }
         case 1587:
         case 1651:
@@ -3389,114 +1815,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             x[ 1 ] = x_1;
             y[ 1 ] = y_1;
             size = 4;
-            continue;
-        }
-        case 1588:
-        case 1652:
-        case 1716:
-        case 1780: {
-            // size=6 outside=0000000000000000000000000000000000000000000000000000000000110100 mod=0,1,[ 2, 1 ],[ 2, 3 ],3,[ 4, 3 ],[ 5, 0 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF m_2_1 = d_2 / ( d_1 - d_2 );
-            TF m_2_3 = d_2 / ( d_3 - d_2 );
-            TF m_4_3 = d_4 / ( d_3 - d_4 );
-            TF m_5_0 = d_5 / ( d_0 - d_5 );
-            TF x_2 = x[ 2 ] - m_2_1 * ( x[ 1 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_1 * ( y[ 1 ] - y[ 2 ] );
-            TF x_3 = x[ 2 ] - m_2_3 * ( x[ 3 ] - x[ 2 ] );
-            TF y_3 = y[ 2 ] - m_2_3 * ( y[ 3 ] - y[ 2 ] );
-            TF x_4 = x[ 3 ];
-            TF y_4 = y[ 3 ];
-            TF x_5 = x[ 4 ] - m_4_3 * ( x[ 3 ] - x[ 4 ] );
-            TF y_5 = y[ 4 ] - m_4_3 * ( y[ 3 ] - y[ 4 ] );
-            TF x_6 = x[ 5 ] - m_5_0 * ( x[ 0 ] - x[ 5 ] );
-            TF y_6 = y[ 5 ] - m_5_0 * ( y[ 0 ] - y[ 5 ] );
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            size = 7;
-            continue;
-        }
-        case 1589:
-        case 1653:
-        case 1717:
-        case 1781: {
-            // size=6 outside=0000000000000000000000000000000000000000000000000000000000110101 mod=[ 0, 1 ],1,[ 2, 1 ],[ 2, 3 ],3,[ 4, 3 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF m_0_1 = d_0 / ( d_1 - d_0 );
-            TF m_2_1 = d_2 / ( d_1 - d_2 );
-            TF m_2_3 = d_2 / ( d_3 - d_2 );
-            TF m_4_3 = d_4 / ( d_3 - d_4 );
-            TF x_0 = x[ 0 ] - m_0_1 * ( x[ 1 ] - x[ 0 ] );
-            TF y_0 = y[ 0 ] - m_0_1 * ( y[ 1 ] - y[ 0 ] );
-            TF x_2 = x[ 2 ] - m_2_1 * ( x[ 1 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_1 * ( y[ 1 ] - y[ 2 ] );
-            TF x_3 = x[ 2 ] - m_2_3 * ( x[ 3 ] - x[ 2 ] );
-            TF y_3 = y[ 2 ] - m_2_3 * ( y[ 3 ] - y[ 2 ] );
-            TF x_4 = x[ 3 ];
-            TF y_4 = y[ 3 ];
-            TF x_5 = x[ 4 ] - m_4_3 * ( x[ 3 ] - x[ 4 ] );
-            TF y_5 = y[ 4 ] - m_4_3 * ( y[ 3 ] - y[ 4 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            continue;
-        }
-        case 1590:
-        case 1654:
-        case 1718:
-        case 1782: {
-            // size=6 outside=0000000000000000000000000000000000000000000000000000000000110110 mod=0,[ 1, 0 ],[ 2, 3 ],3,[ 4, 3 ],[ 5, 0 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF m_1_0 = d_1 / ( d_0 - d_1 );
-            TF m_2_3 = d_2 / ( d_3 - d_2 );
-            TF m_4_3 = d_4 / ( d_3 - d_4 );
-            TF m_5_0 = d_5 / ( d_0 - d_5 );
-            TF x_1 = x[ 1 ] - m_1_0 * ( x[ 0 ] - x[ 1 ] );
-            TF y_1 = y[ 1 ] - m_1_0 * ( y[ 0 ] - y[ 1 ] );
-            TF x_2 = x[ 2 ] - m_2_3 * ( x[ 3 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_3 * ( y[ 3 ] - y[ 2 ] );
-            TF x_4 = x[ 4 ] - m_4_3 * ( x[ 3 ] - x[ 4 ] );
-            TF y_4 = y[ 4 ] - m_4_3 * ( y[ 3 ] - y[ 4 ] );
-            TF x_5 = x[ 5 ] - m_5_0 * ( x[ 0 ] - x[ 5 ] );
-            TF y_5 = y[ 5 ] - m_5_0 * ( y[ 0 ] - y[ 5 ] );
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            continue;
+            break;
         }
         case 1591:
         case 1655:
@@ -3521,7 +1840,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             x[ 2 ] = x_2;
             y[ 2 ] = y_2;
             size = 3;
-            continue;
+            break;
         }
         case 1592:
         case 1656:
@@ -3543,7 +1862,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             x[ 4 ] = x_4;
             y[ 4 ] = y_4;
             size = 5;
-            continue;
+            break;
         }
         case 1593:
         case 1657:
@@ -3565,43 +1884,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             x[ 3 ] = x_3;
             y[ 3 ] = y_3;
             size = 4;
-            continue;
-        }
-        case 1594:
-        case 1658:
-        case 1722:
-        case 1786: {
-            // size=6 outside=0000000000000000000000000000000000000000000000000000000000111010 mod=0,[ 1, 0 ],[ 1, 2 ],2,[ 3, 2 ],[ 5, 0 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF m_1_0 = d_1 / ( d_0 - d_1 );
-            TF m_1_2 = d_1 / ( d_2 - d_1 );
-            TF m_3_2 = d_3 / ( d_2 - d_3 );
-            TF m_5_0 = d_5 / ( d_0 - d_5 );
-            TF x_1 = x[ 1 ] - m_1_0 * ( x[ 0 ] - x[ 1 ] );
-            TF y_1 = y[ 1 ] - m_1_0 * ( y[ 0 ] - y[ 1 ] );
-            TF x_2 = x[ 1 ] - m_1_2 * ( x[ 2 ] - x[ 1 ] );
-            TF y_2 = y[ 1 ] - m_1_2 * ( y[ 2 ] - y[ 1 ] );
-            TF x_3 = x[ 2 ];
-            TF y_3 = y[ 2 ];
-            TF x_4 = x[ 3 ] - m_3_2 * ( x[ 2 ] - x[ 3 ] );
-            TF y_4 = y[ 3 ] - m_3_2 * ( y[ 2 ] - y[ 3 ] );
-            TF x_5 = x[ 5 ] - m_5_0 * ( x[ 0 ] - x[ 5 ] );
-            TF y_5 = y[ 5 ] - m_5_0 * ( y[ 0 ] - y[ 5 ] );
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            continue;
+            break;
         }
         case 1595:
         case 1659:
@@ -3622,7 +1905,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             x[ 1 ] = x_1;
             y[ 1 ] = y_1;
             size = 3;
-            continue;
+            break;
         }
         case 1596:
         case 1660:
@@ -3644,7 +1927,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             x[ 3 ] = x_3;
             y[ 3 ] = y_3;
             size = 4;
-            continue;
+            break;
         }
         case 1597:
         case 1661:
@@ -3665,7 +1948,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             x[ 2 ] = x_2;
             y[ 2 ] = y_2;
             size = 3;
-            continue;
+            break;
         }
         case 1598:
         case 1662:
@@ -3686,7 +1969,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             x[ 2 ] = x_2;
             y[ 2 ] = y_2;
             size = 3;
-            continue;
+            break;
         }
         case 1793:
         case 1921: {
@@ -3705,7 +1988,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             x[ 7 ] = x_7;
             y[ 7 ] = y_7;
             size = 8;
-            continue;
+            break;
         }
         case 1794:
         case 1922: {
@@ -3728,7 +2011,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             x[ 7 ] = x_7;
             y[ 7 ] = y_7;
             size = 8;
-            continue;
+            break;
         }
         case 1795:
         case 1923: {
@@ -3747,7 +2030,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             y[ 0 ] = y_0;
             x[ 1 ] = x_1;
             y[ 1 ] = y_1;
-            continue;
+            break;
         }
         case 1796:
         case 1924: {
@@ -3774,42 +2057,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             x[ 7 ] = x_7;
             y[ 7 ] = y_7;
             size = 8;
-            continue;
-        }
-        case 1797:
-        case 1925: {
-            // size=7 outside=0000000000000000000000000000000000000000000000000000000000000101 mod=1,[ 2, 1 ],[ 2, 3 ],3,4,5,6,[ 0, 6 ],[ 0, 1 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_2_1 = d_2 / ( d_1 - d_2 );
-            TF m_2_3 = d_2 / ( d_3 - d_2 );
-            TF m_0_6 = d_0 / ( d_6 - d_0 );
-            TF m_0_1 = d_0 / ( d_1 - d_0 );
-            TF x_0 = x[ 1 ];
-            TF y_0 = y[ 1 ];
-            TF x_1 = x[ 2 ] - m_2_1 * ( x[ 1 ] - x[ 2 ] );
-            TF y_1 = y[ 2 ] - m_2_1 * ( y[ 1 ] - y[ 2 ] );
-            TF x_2 = x[ 2 ] - m_2_3 * ( x[ 3 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_3 * ( y[ 3 ] - y[ 2 ] );
-            TF x_7 = x[ 0 ] - m_0_6 * ( x[ 6 ] - x[ 0 ] );
-            TF y_7 = y[ 0 ] - m_0_6 * ( y[ 6 ] - y[ 0 ] );
-            TF x_8 = x[ 0 ] - m_0_1 * ( x[ 1 ] - x[ 0 ] );
-            TF y_8 = y[ 0 ] - m_0_1 * ( y[ 1 ] - y[ 0 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            x[ 8 ] = x_8;
-            y[ 8 ] = y_8;
-            size = 9;
-            continue;
+            break;
         }
         case 1798:
         case 1926: {
@@ -3828,7 +2076,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             y[ 1 ] = y_1;
             x[ 2 ] = x_2;
             y[ 2 ] = y_2;
-            continue;
+            break;
         }
         case 1799:
         case 1927: {
@@ -3852,7 +2100,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             x[ 2 ] = x_2;
             y[ 2 ] = y_2;
             size = 6;
-            continue;
+            break;
         }
         case 1800:
         case 1928: {
@@ -3883,122 +2131,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             x[ 7 ] = x_7;
             y[ 7 ] = y_7;
             size = 8;
-            continue;
-        }
-        case 1801:
-        case 1929: {
-            // size=7 outside=0000000000000000000000000000000000000000000000000000000000001001 mod=1,2,[ 3, 2 ],[ 3, 4 ],4,5,6,[ 0, 6 ],[ 0, 1 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_3_2 = d_3 / ( d_2 - d_3 );
-            TF m_3_4 = d_3 / ( d_4 - d_3 );
-            TF m_0_6 = d_0 / ( d_6 - d_0 );
-            TF m_0_1 = d_0 / ( d_1 - d_0 );
-            TF x_0 = x[ 1 ];
-            TF y_0 = y[ 1 ];
-            TF x_1 = x[ 2 ];
-            TF y_1 = y[ 2 ];
-            TF x_2 = x[ 3 ] - m_3_2 * ( x[ 2 ] - x[ 3 ] );
-            TF y_2 = y[ 3 ] - m_3_2 * ( y[ 2 ] - y[ 3 ] );
-            TF x_3 = x[ 3 ] - m_3_4 * ( x[ 4 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_4 * ( y[ 4 ] - y[ 3 ] );
-            TF x_7 = x[ 0 ] - m_0_6 * ( x[ 6 ] - x[ 0 ] );
-            TF y_7 = y[ 0 ] - m_0_6 * ( y[ 6 ] - y[ 0 ] );
-            TF x_8 = x[ 0 ] - m_0_1 * ( x[ 1 ] - x[ 0 ] );
-            TF y_8 = y[ 0 ] - m_0_1 * ( y[ 1 ] - y[ 0 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            x[ 8 ] = x_8;
-            y[ 8 ] = y_8;
-            size = 9;
-            continue;
-        }
-        case 1802:
-        case 1930: {
-            // size=7 outside=0000000000000000000000000000000000000000000000000000000000001010 mod=[ 1, 2 ],2,[ 3, 2 ],[ 3, 4 ],4,5,6,0,[ 1, 0 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF m_1_2 = d_1 / ( d_2 - d_1 );
-            TF m_3_2 = d_3 / ( d_2 - d_3 );
-            TF m_3_4 = d_3 / ( d_4 - d_3 );
-            TF m_1_0 = d_1 / ( d_0 - d_1 );
-            TF x_0 = x[ 1 ] - m_1_2 * ( x[ 2 ] - x[ 1 ] );
-            TF y_0 = y[ 1 ] - m_1_2 * ( y[ 2 ] - y[ 1 ] );
-            TF x_1 = x[ 2 ];
-            TF y_1 = y[ 2 ];
-            TF x_2 = x[ 3 ] - m_3_2 * ( x[ 2 ] - x[ 3 ] );
-            TF y_2 = y[ 3 ] - m_3_2 * ( y[ 2 ] - y[ 3 ] );
-            TF x_3 = x[ 3 ] - m_3_4 * ( x[ 4 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_4 * ( y[ 4 ] - y[ 3 ] );
-            TF x_7 = x[ 0 ];
-            TF y_7 = y[ 0 ];
-            TF x_8 = x[ 1 ] - m_1_0 * ( x[ 0 ] - x[ 1 ] );
-            TF y_8 = y[ 1 ] - m_1_0 * ( y[ 0 ] - y[ 1 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            x[ 8 ] = x_8;
-            y[ 8 ] = y_8;
-            size = 9;
-            continue;
-        }
-        case 1803:
-        case 1931: {
-            // size=7 outside=0000000000000000000000000000000000000000000000000000000000001011 mod=[ 1, 2 ],2,[ 3, 2 ],[ 3, 4 ],4,5,6,[ 0, 6 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_1_2 = d_1 / ( d_2 - d_1 );
-            TF m_3_2 = d_3 / ( d_2 - d_3 );
-            TF m_3_4 = d_3 / ( d_4 - d_3 );
-            TF m_0_6 = d_0 / ( d_6 - d_0 );
-            TF x_0 = x[ 1 ] - m_1_2 * ( x[ 2 ] - x[ 1 ] );
-            TF y_0 = y[ 1 ] - m_1_2 * ( y[ 2 ] - y[ 1 ] );
-            TF x_1 = x[ 2 ];
-            TF y_1 = y[ 2 ];
-            TF x_2 = x[ 3 ] - m_3_2 * ( x[ 2 ] - x[ 3 ] );
-            TF y_2 = y[ 3 ] - m_3_2 * ( y[ 2 ] - y[ 3 ] );
-            TF x_3 = x[ 3 ] - m_3_4 * ( x[ 4 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_4 * ( y[ 4 ] - y[ 3 ] );
-            TF x_7 = x[ 0 ] - m_0_6 * ( x[ 6 ] - x[ 0 ] );
-            TF y_7 = y[ 0 ] - m_0_6 * ( y[ 6 ] - y[ 0 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            size = 8;
-            continue;
+            break;
         }
         case 1804:
         case 1932: {
@@ -4017,39 +2150,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             y[ 2 ] = y_2;
             x[ 3 ] = x_3;
             y[ 3 ] = y_3;
-            continue;
-        }
-        case 1805:
-        case 1933: {
-            // size=7 outside=0000000000000000000000000000000000000000000000000000000000001101 mod=[ 0, 1 ],1,[ 2, 1 ],[ 3, 4 ],4,5,6,[ 0, 6 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_0_1 = d_0 / ( d_1 - d_0 );
-            TF m_2_1 = d_2 / ( d_1 - d_2 );
-            TF m_3_4 = d_3 / ( d_4 - d_3 );
-            TF m_0_6 = d_0 / ( d_6 - d_0 );
-            TF x_0 = x[ 0 ] - m_0_1 * ( x[ 1 ] - x[ 0 ] );
-            TF y_0 = y[ 0 ] - m_0_1 * ( y[ 1 ] - y[ 0 ] );
-            TF x_2 = x[ 2 ] - m_2_1 * ( x[ 1 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_1 * ( y[ 1 ] - y[ 2 ] );
-            TF x_3 = x[ 3 ] - m_3_4 * ( x[ 4 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_4 * ( y[ 4 ] - y[ 3 ] );
-            TF x_7 = x[ 0 ] - m_0_6 * ( x[ 6 ] - x[ 0 ] );
-            TF y_7 = y[ 0 ] - m_0_6 * ( y[ 6 ] - y[ 0 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            size = 8;
-            continue;
+            break;
         }
         case 1806:
         case 1934: {
@@ -4077,7 +2178,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             x[ 3 ] = x_3;
             y[ 3 ] = y_3;
             size = 6;
-            continue;
+            break;
         }
         case 1807:
         case 1935: {
@@ -4105,7 +2206,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             x[ 3 ] = x_3;
             y[ 3 ] = y_3;
             size = 5;
-            continue;
+            break;
         }
         case 1808:
         case 1936: {
@@ -4132,301 +2233,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             x[ 7 ] = x_7;
             y[ 7 ] = y_7;
             size = 8;
-            continue;
-        }
-        case 1809:
-        case 1937: {
-            // size=7 outside=0000000000000000000000000000000000000000000000000000000000010001 mod=[ 0, 1 ],1,2,3,[ 4, 3 ],[ 4, 5 ],5,6,[ 0, 6 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_0_1 = d_0 / ( d_1 - d_0 );
-            TF m_4_3 = d_4 / ( d_3 - d_4 );
-            TF m_4_5 = d_4 / ( d_5 - d_4 );
-            TF m_0_6 = d_0 / ( d_6 - d_0 );
-            TF x_0 = x[ 0 ] - m_0_1 * ( x[ 1 ] - x[ 0 ] );
-            TF y_0 = y[ 0 ] - m_0_1 * ( y[ 1 ] - y[ 0 ] );
-            TF x_4 = x[ 4 ] - m_4_3 * ( x[ 3 ] - x[ 4 ] );
-            TF y_4 = y[ 4 ] - m_4_3 * ( y[ 3 ] - y[ 4 ] );
-            TF x_5 = x[ 4 ] - m_4_5 * ( x[ 5 ] - x[ 4 ] );
-            TF y_5 = y[ 4 ] - m_4_5 * ( y[ 5 ] - y[ 4 ] );
-            TF x_6 = x[ 5 ];
-            TF y_6 = y[ 5 ];
-            TF x_7 = x[ 6 ];
-            TF y_7 = y[ 6 ];
-            TF x_8 = x[ 0 ] - m_0_6 * ( x[ 6 ] - x[ 0 ] );
-            TF y_8 = y[ 0 ] - m_0_6 * ( y[ 6 ] - y[ 0 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            x[ 8 ] = x_8;
-            y[ 8 ] = y_8;
-            size = 9;
-            continue;
-        }
-        case 1810:
-        case 1938: {
-            // size=7 outside=0000000000000000000000000000000000000000000000000000000000010010 mod=[ 1, 0 ],[ 1, 2 ],2,3,[ 4, 3 ],[ 4, 5 ],5,6,0
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF m_1_0 = d_1 / ( d_0 - d_1 );
-            TF m_1_2 = d_1 / ( d_2 - d_1 );
-            TF m_4_3 = d_4 / ( d_3 - d_4 );
-            TF m_4_5 = d_4 / ( d_5 - d_4 );
-            TF x_0 = x[ 1 ] - m_1_0 * ( x[ 0 ] - x[ 1 ] );
-            TF y_0 = y[ 1 ] - m_1_0 * ( y[ 0 ] - y[ 1 ] );
-            TF x_1 = x[ 1 ] - m_1_2 * ( x[ 2 ] - x[ 1 ] );
-            TF y_1 = y[ 1 ] - m_1_2 * ( y[ 2 ] - y[ 1 ] );
-            TF x_4 = x[ 4 ] - m_4_3 * ( x[ 3 ] - x[ 4 ] );
-            TF y_4 = y[ 4 ] - m_4_3 * ( y[ 3 ] - y[ 4 ] );
-            TF x_5 = x[ 4 ] - m_4_5 * ( x[ 5 ] - x[ 4 ] );
-            TF y_5 = y[ 4 ] - m_4_5 * ( y[ 5 ] - y[ 4 ] );
-            TF x_6 = x[ 5 ];
-            TF y_6 = y[ 5 ];
-            TF x_7 = x[ 6 ];
-            TF y_7 = y[ 6 ];
-            TF x_8 = x[ 0 ];
-            TF y_8 = y[ 0 ];
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            x[ 8 ] = x_8;
-            y[ 8 ] = y_8;
-            size = 9;
-            continue;
-        }
-        case 1811:
-        case 1939: {
-            // size=7 outside=0000000000000000000000000000000000000000000000000000000000010011 mod=[ 0, 6 ],[ 1, 2 ],2,3,[ 4, 3 ],[ 4, 5 ],5,6
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_0_6 = d_0 / ( d_6 - d_0 );
-            TF m_1_2 = d_1 / ( d_2 - d_1 );
-            TF m_4_3 = d_4 / ( d_3 - d_4 );
-            TF m_4_5 = d_4 / ( d_5 - d_4 );
-            TF x_0 = x[ 0 ] - m_0_6 * ( x[ 6 ] - x[ 0 ] );
-            TF y_0 = y[ 0 ] - m_0_6 * ( y[ 6 ] - y[ 0 ] );
-            TF x_1 = x[ 1 ] - m_1_2 * ( x[ 2 ] - x[ 1 ] );
-            TF y_1 = y[ 1 ] - m_1_2 * ( y[ 2 ] - y[ 1 ] );
-            TF x_4 = x[ 4 ] - m_4_3 * ( x[ 3 ] - x[ 4 ] );
-            TF y_4 = y[ 4 ] - m_4_3 * ( y[ 3 ] - y[ 4 ] );
-            TF x_5 = x[ 4 ] - m_4_5 * ( x[ 5 ] - x[ 4 ] );
-            TF y_5 = y[ 4 ] - m_4_5 * ( y[ 5 ] - y[ 4 ] );
-            TF x_6 = x[ 5 ];
-            TF y_6 = y[ 5 ];
-            TF x_7 = x[ 6 ];
-            TF y_7 = y[ 6 ];
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            size = 8;
-            continue;
-        }
-        case 1812:
-        case 1940: {
-            // size=7 outside=0000000000000000000000000000000000000000000000000000000000010100 mod=0,1,[ 2, 1 ],[ 2, 3 ],3,[ 4, 3 ],[ 4, 5 ],5,6
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF m_2_1 = d_2 / ( d_1 - d_2 );
-            TF m_2_3 = d_2 / ( d_3 - d_2 );
-            TF m_4_3 = d_4 / ( d_3 - d_4 );
-            TF m_4_5 = d_4 / ( d_5 - d_4 );
-            TF x_2 = x[ 2 ] - m_2_1 * ( x[ 1 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_1 * ( y[ 1 ] - y[ 2 ] );
-            TF x_3 = x[ 2 ] - m_2_3 * ( x[ 3 ] - x[ 2 ] );
-            TF y_3 = y[ 2 ] - m_2_3 * ( y[ 3 ] - y[ 2 ] );
-            TF x_4 = x[ 3 ];
-            TF y_4 = y[ 3 ];
-            TF x_5 = x[ 4 ] - m_4_3 * ( x[ 3 ] - x[ 4 ] );
-            TF y_5 = y[ 4 ] - m_4_3 * ( y[ 3 ] - y[ 4 ] );
-            TF x_6 = x[ 4 ] - m_4_5 * ( x[ 5 ] - x[ 4 ] );
-            TF y_6 = y[ 4 ] - m_4_5 * ( y[ 5 ] - y[ 4 ] );
-            TF x_7 = x[ 5 ];
-            TF y_7 = y[ 5 ];
-            TF x_8 = x[ 6 ];
-            TF y_8 = y[ 6 ];
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            x[ 8 ] = x_8;
-            y[ 8 ] = y_8;
-            size = 9;
-            continue;
-        }
-        case 1813:
-        case 1941: {
-            // size=7 outside=0000000000000000000000000000000000000000000000000000000000010101 mod=[ 2, 1 ],[ 2, 3 ],3,[ 4, 3 ],[ 4, 5 ],5,6,[ 0, 6 ],[ 0, 1 ],1
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_2_1 = d_2 / ( d_1 - d_2 );
-            TF m_2_3 = d_2 / ( d_3 - d_2 );
-            TF m_4_3 = d_4 / ( d_3 - d_4 );
-            TF m_4_5 = d_4 / ( d_5 - d_4 );
-            TF m_0_6 = d_0 / ( d_6 - d_0 );
-            TF m_0_1 = d_0 / ( d_1 - d_0 );
-            TF x_0 = x[ 2 ] - m_2_1 * ( x[ 1 ] - x[ 2 ] );
-            TF y_0 = y[ 2 ] - m_2_1 * ( y[ 1 ] - y[ 2 ] );
-            TF x_1 = x[ 2 ] - m_2_3 * ( x[ 3 ] - x[ 2 ] );
-            TF y_1 = y[ 2 ] - m_2_3 * ( y[ 3 ] - y[ 2 ] );
-            TF x_2 = x[ 3 ];
-            TF y_2 = y[ 3 ];
-            TF x_3 = x[ 4 ] - m_4_3 * ( x[ 3 ] - x[ 4 ] );
-            TF y_3 = y[ 4 ] - m_4_3 * ( y[ 3 ] - y[ 4 ] );
-            TF x_4 = x[ 4 ] - m_4_5 * ( x[ 5 ] - x[ 4 ] );
-            TF y_4 = y[ 4 ] - m_4_5 * ( y[ 5 ] - y[ 4 ] );
-            TF x_7 = x[ 0 ] - m_0_6 * ( x[ 6 ] - x[ 0 ] );
-            TF y_7 = y[ 0 ] - m_0_6 * ( y[ 6 ] - y[ 0 ] );
-            TF x_8 = x[ 0 ] - m_0_1 * ( x[ 1 ] - x[ 0 ] );
-            TF y_8 = y[ 0 ] - m_0_1 * ( y[ 1 ] - y[ 0 ] );
-            TF x_9 = x[ 1 ];
-            TF y_9 = y[ 1 ];
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            x[ 8 ] = x_8;
-            y[ 8 ] = y_8;
-            x[ 9 ] = x_9;
-            y[ 9 ] = y_9;
-            size = 10;
-            continue;
-        }
-        case 1814:
-        case 1942: {
-            // size=7 outside=0000000000000000000000000000000000000000000000000000000000010110 mod=0,[ 1, 0 ],[ 2, 3 ],3,[ 4, 3 ],[ 4, 5 ],5,6
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF m_1_0 = d_1 / ( d_0 - d_1 );
-            TF m_2_3 = d_2 / ( d_3 - d_2 );
-            TF m_4_3 = d_4 / ( d_3 - d_4 );
-            TF m_4_5 = d_4 / ( d_5 - d_4 );
-            TF x_1 = x[ 1 ] - m_1_0 * ( x[ 0 ] - x[ 1 ] );
-            TF y_1 = y[ 1 ] - m_1_0 * ( y[ 0 ] - y[ 1 ] );
-            TF x_2 = x[ 2 ] - m_2_3 * ( x[ 3 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_3 * ( y[ 3 ] - y[ 2 ] );
-            TF x_4 = x[ 4 ] - m_4_3 * ( x[ 3 ] - x[ 4 ] );
-            TF y_4 = y[ 4 ] - m_4_3 * ( y[ 3 ] - y[ 4 ] );
-            TF x_5 = x[ 4 ] - m_4_5 * ( x[ 5 ] - x[ 4 ] );
-            TF y_5 = y[ 4 ] - m_4_5 * ( y[ 5 ] - y[ 4 ] );
-            TF x_6 = x[ 5 ];
-            TF y_6 = y[ 5 ];
-            TF x_7 = x[ 6 ];
-            TF y_7 = y[ 6 ];
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            size = 8;
-            continue;
-        }
-        case 1815:
-        case 1943: {
-            // size=7 outside=0000000000000000000000000000000000000000000000000000000000010111 mod=[ 0, 6 ],[ 2, 3 ],3,[ 4, 3 ],[ 4, 5 ],5,6
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_0_6 = d_0 / ( d_6 - d_0 );
-            TF m_2_3 = d_2 / ( d_3 - d_2 );
-            TF m_4_3 = d_4 / ( d_3 - d_4 );
-            TF m_4_5 = d_4 / ( d_5 - d_4 );
-            TF x_0 = x[ 0 ] - m_0_6 * ( x[ 6 ] - x[ 0 ] );
-            TF y_0 = y[ 0 ] - m_0_6 * ( y[ 6 ] - y[ 0 ] );
-            TF x_1 = x[ 2 ] - m_2_3 * ( x[ 3 ] - x[ 2 ] );
-            TF y_1 = y[ 2 ] - m_2_3 * ( y[ 3 ] - y[ 2 ] );
-            TF x_2 = x[ 3 ];
-            TF y_2 = y[ 3 ];
-            TF x_3 = x[ 4 ] - m_4_3 * ( x[ 3 ] - x[ 4 ] );
-            TF y_3 = y[ 4 ] - m_4_3 * ( y[ 3 ] - y[ 4 ] );
-            TF x_4 = x[ 4 ] - m_4_5 * ( x[ 5 ] - x[ 4 ] );
-            TF y_4 = y[ 4 ] - m_4_5 * ( y[ 5 ] - y[ 4 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            continue;
+            break;
         }
         case 1816:
         case 1944: {
@@ -4445,108 +2252,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             y[ 3 ] = y_3;
             x[ 4 ] = x_4;
             y[ 4 ] = y_4;
-            continue;
-        }
-        case 1817:
-        case 1945: {
-            // size=7 outside=0000000000000000000000000000000000000000000000000000000000011001 mod=[ 0, 1 ],1,2,[ 3, 2 ],[ 4, 5 ],5,6,[ 0, 6 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_0_1 = d_0 / ( d_1 - d_0 );
-            TF m_3_2 = d_3 / ( d_2 - d_3 );
-            TF m_4_5 = d_4 / ( d_5 - d_4 );
-            TF m_0_6 = d_0 / ( d_6 - d_0 );
-            TF x_0 = x[ 0 ] - m_0_1 * ( x[ 1 ] - x[ 0 ] );
-            TF y_0 = y[ 0 ] - m_0_1 * ( y[ 1 ] - y[ 0 ] );
-            TF x_3 = x[ 3 ] - m_3_2 * ( x[ 2 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_2 * ( y[ 2 ] - y[ 3 ] );
-            TF x_4 = x[ 4 ] - m_4_5 * ( x[ 5 ] - x[ 4 ] );
-            TF y_4 = y[ 4 ] - m_4_5 * ( y[ 5 ] - y[ 4 ] );
-            TF x_7 = x[ 0 ] - m_0_6 * ( x[ 6 ] - x[ 0 ] );
-            TF y_7 = y[ 0 ] - m_0_6 * ( y[ 6 ] - y[ 0 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            size = 8;
-            continue;
-        }
-        case 1818:
-        case 1946: {
-            // size=7 outside=0000000000000000000000000000000000000000000000000000000000011010 mod=[ 1, 0 ],[ 1, 2 ],2,[ 3, 2 ],[ 4, 5 ],5,6,0
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF m_1_0 = d_1 / ( d_0 - d_1 );
-            TF m_1_2 = d_1 / ( d_2 - d_1 );
-            TF m_3_2 = d_3 / ( d_2 - d_3 );
-            TF m_4_5 = d_4 / ( d_5 - d_4 );
-            TF x_0 = x[ 1 ] - m_1_0 * ( x[ 0 ] - x[ 1 ] );
-            TF y_0 = y[ 1 ] - m_1_0 * ( y[ 0 ] - y[ 1 ] );
-            TF x_1 = x[ 1 ] - m_1_2 * ( x[ 2 ] - x[ 1 ] );
-            TF y_1 = y[ 1 ] - m_1_2 * ( y[ 2 ] - y[ 1 ] );
-            TF x_3 = x[ 3 ] - m_3_2 * ( x[ 2 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_2 * ( y[ 2 ] - y[ 3 ] );
-            TF x_4 = x[ 4 ] - m_4_5 * ( x[ 5 ] - x[ 4 ] );
-            TF y_4 = y[ 4 ] - m_4_5 * ( y[ 5 ] - y[ 4 ] );
-            TF x_7 = x[ 0 ];
-            TF y_7 = y[ 0 ];
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            size = 8;
-            continue;
-        }
-        case 1819:
-        case 1947: {
-            // size=7 outside=0000000000000000000000000000000000000000000000000000000000011011 mod=[ 0, 6 ],[ 1, 2 ],2,[ 3, 2 ],[ 4, 5 ],5,6
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_0_6 = d_0 / ( d_6 - d_0 );
-            TF m_1_2 = d_1 / ( d_2 - d_1 );
-            TF m_3_2 = d_3 / ( d_2 - d_3 );
-            TF m_4_5 = d_4 / ( d_5 - d_4 );
-            TF x_0 = x[ 0 ] - m_0_6 * ( x[ 6 ] - x[ 0 ] );
-            TF y_0 = y[ 0 ] - m_0_6 * ( y[ 6 ] - y[ 0 ] );
-            TF x_1 = x[ 1 ] - m_1_2 * ( x[ 2 ] - x[ 1 ] );
-            TF y_1 = y[ 1 ] - m_1_2 * ( y[ 2 ] - y[ 1 ] );
-            TF x_3 = x[ 3 ] - m_3_2 * ( x[ 2 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_2 * ( y[ 2 ] - y[ 3 ] );
-            TF x_4 = x[ 4 ] - m_4_5 * ( x[ 5 ] - x[ 4 ] );
-            TF y_4 = y[ 4 ] - m_4_5 * ( y[ 5 ] - y[ 4 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            continue;
+            break;
         }
         case 1820:
         case 1948: {
@@ -4574,42 +2280,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             x[ 5 ] = x_5;
             y[ 5 ] = y_5;
             size = 6;
-            continue;
-        }
-        case 1821:
-        case 1949: {
-            // size=7 outside=0000000000000000000000000000000000000000000000000000000000011101 mod=[ 0, 6 ],[ 0, 1 ],1,[ 2, 1 ],[ 4, 5 ],5,6
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_0_6 = d_0 / ( d_6 - d_0 );
-            TF m_0_1 = d_0 / ( d_1 - d_0 );
-            TF m_2_1 = d_2 / ( d_1 - d_2 );
-            TF m_4_5 = d_4 / ( d_5 - d_4 );
-            TF x_0 = x[ 0 ] - m_0_6 * ( x[ 6 ] - x[ 0 ] );
-            TF y_0 = y[ 0 ] - m_0_6 * ( y[ 6 ] - y[ 0 ] );
-            TF x_1 = x[ 0 ] - m_0_1 * ( x[ 1 ] - x[ 0 ] );
-            TF y_1 = y[ 0 ] - m_0_1 * ( y[ 1 ] - y[ 0 ] );
-            TF x_2 = x[ 1 ];
-            TF y_2 = y[ 1 ];
-            TF x_3 = x[ 2 ] - m_2_1 * ( x[ 1 ] - x[ 2 ] );
-            TF y_3 = y[ 2 ] - m_2_1 * ( y[ 1 ] - y[ 2 ] );
-            TF x_4 = x[ 4 ] - m_4_5 * ( x[ 5 ] - x[ 4 ] );
-            TF y_4 = y[ 4 ] - m_4_5 * ( y[ 5 ] - y[ 4 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            continue;
+            break;
         }
         case 1822:
         case 1950: {
@@ -4637,7 +2308,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             x[ 4 ] = x_4;
             y[ 4 ] = y_4;
             size = 5;
-            continue;
+            break;
         }
         case 1823:
         case 1951: {
@@ -4665,7 +2336,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             x[ 3 ] = x_3;
             y[ 3 ] = y_3;
             size = 4;
-            continue;
+            break;
         }
         case 1824:
         case 1952: {
@@ -4688,634 +2359,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             x[ 7 ] = x_7;
             y[ 7 ] = y_7;
             size = 8;
-            continue;
-        }
-        case 1825:
-        case 1953: {
-            // size=7 outside=0000000000000000000000000000000000000000000000000000000000100001 mod=[ 0, 1 ],1,2,3,4,[ 5, 4 ],[ 5, 6 ],6,[ 0, 6 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_0_1 = d_0 / ( d_1 - d_0 );
-            TF m_5_4 = d_5 / ( d_4 - d_5 );
-            TF m_5_6 = d_5 / ( d_6 - d_5 );
-            TF m_0_6 = d_0 / ( d_6 - d_0 );
-            TF x_0 = x[ 0 ] - m_0_1 * ( x[ 1 ] - x[ 0 ] );
-            TF y_0 = y[ 0 ] - m_0_1 * ( y[ 1 ] - y[ 0 ] );
-            TF x_5 = x[ 5 ] - m_5_4 * ( x[ 4 ] - x[ 5 ] );
-            TF y_5 = y[ 5 ] - m_5_4 * ( y[ 4 ] - y[ 5 ] );
-            TF x_6 = x[ 5 ] - m_5_6 * ( x[ 6 ] - x[ 5 ] );
-            TF y_6 = y[ 5 ] - m_5_6 * ( y[ 6 ] - y[ 5 ] );
-            TF x_7 = x[ 6 ];
-            TF y_7 = y[ 6 ];
-            TF x_8 = x[ 0 ] - m_0_6 * ( x[ 6 ] - x[ 0 ] );
-            TF y_8 = y[ 0 ] - m_0_6 * ( y[ 6 ] - y[ 0 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            x[ 8 ] = x_8;
-            y[ 8 ] = y_8;
-            size = 9;
-            continue;
-        }
-        case 1826:
-        case 1954: {
-            // size=7 outside=0000000000000000000000000000000000000000000000000000000000100010 mod=[ 1, 0 ],[ 1, 2 ],2,3,4,[ 5, 4 ],[ 5, 6 ],6,0
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_1_0 = d_1 / ( d_0 - d_1 );
-            TF m_1_2 = d_1 / ( d_2 - d_1 );
-            TF m_5_4 = d_5 / ( d_4 - d_5 );
-            TF m_5_6 = d_5 / ( d_6 - d_5 );
-            TF x_0 = x[ 1 ] - m_1_0 * ( x[ 0 ] - x[ 1 ] );
-            TF y_0 = y[ 1 ] - m_1_0 * ( y[ 0 ] - y[ 1 ] );
-            TF x_1 = x[ 1 ] - m_1_2 * ( x[ 2 ] - x[ 1 ] );
-            TF y_1 = y[ 1 ] - m_1_2 * ( y[ 2 ] - y[ 1 ] );
-            TF x_5 = x[ 5 ] - m_5_4 * ( x[ 4 ] - x[ 5 ] );
-            TF y_5 = y[ 5 ] - m_5_4 * ( y[ 4 ] - y[ 5 ] );
-            TF x_6 = x[ 5 ] - m_5_6 * ( x[ 6 ] - x[ 5 ] );
-            TF y_6 = y[ 5 ] - m_5_6 * ( y[ 6 ] - y[ 5 ] );
-            TF x_7 = x[ 6 ];
-            TF y_7 = y[ 6 ];
-            TF x_8 = x[ 0 ];
-            TF y_8 = y[ 0 ];
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            x[ 8 ] = x_8;
-            y[ 8 ] = y_8;
-            size = 9;
-            continue;
-        }
-        case 1827:
-        case 1955: {
-            // size=7 outside=0000000000000000000000000000000000000000000000000000000000100011 mod=[ 0, 6 ],[ 1, 2 ],2,3,4,[ 5, 4 ],[ 5, 6 ],6
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_0_6 = d_0 / ( d_6 - d_0 );
-            TF m_1_2 = d_1 / ( d_2 - d_1 );
-            TF m_5_4 = d_5 / ( d_4 - d_5 );
-            TF m_5_6 = d_5 / ( d_6 - d_5 );
-            TF x_0 = x[ 0 ] - m_0_6 * ( x[ 6 ] - x[ 0 ] );
-            TF y_0 = y[ 0 ] - m_0_6 * ( y[ 6 ] - y[ 0 ] );
-            TF x_1 = x[ 1 ] - m_1_2 * ( x[ 2 ] - x[ 1 ] );
-            TF y_1 = y[ 1 ] - m_1_2 * ( y[ 2 ] - y[ 1 ] );
-            TF x_5 = x[ 5 ] - m_5_4 * ( x[ 4 ] - x[ 5 ] );
-            TF y_5 = y[ 5 ] - m_5_4 * ( y[ 4 ] - y[ 5 ] );
-            TF x_6 = x[ 5 ] - m_5_6 * ( x[ 6 ] - x[ 5 ] );
-            TF y_6 = y[ 5 ] - m_5_6 * ( y[ 6 ] - y[ 5 ] );
-            TF x_7 = x[ 6 ];
-            TF y_7 = y[ 6 ];
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            size = 8;
-            continue;
-        }
-        case 1828:
-        case 1956: {
-            // size=7 outside=0000000000000000000000000000000000000000000000000000000000100100 mod=1,[ 2, 1 ],[ 2, 3 ],3,4,[ 5, 4 ],[ 5, 6 ],6,0
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_2_1 = d_2 / ( d_1 - d_2 );
-            TF m_2_3 = d_2 / ( d_3 - d_2 );
-            TF m_5_4 = d_5 / ( d_4 - d_5 );
-            TF m_5_6 = d_5 / ( d_6 - d_5 );
-            TF x_0 = x[ 1 ];
-            TF y_0 = y[ 1 ];
-            TF x_1 = x[ 2 ] - m_2_1 * ( x[ 1 ] - x[ 2 ] );
-            TF y_1 = y[ 2 ] - m_2_1 * ( y[ 1 ] - y[ 2 ] );
-            TF x_2 = x[ 2 ] - m_2_3 * ( x[ 3 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_3 * ( y[ 3 ] - y[ 2 ] );
-            TF x_5 = x[ 5 ] - m_5_4 * ( x[ 4 ] - x[ 5 ] );
-            TF y_5 = y[ 5 ] - m_5_4 * ( y[ 4 ] - y[ 5 ] );
-            TF x_6 = x[ 5 ] - m_5_6 * ( x[ 6 ] - x[ 5 ] );
-            TF y_6 = y[ 5 ] - m_5_6 * ( y[ 6 ] - y[ 5 ] );
-            TF x_7 = x[ 6 ];
-            TF y_7 = y[ 6 ];
-            TF x_8 = x[ 0 ];
-            TF y_8 = y[ 0 ];
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            x[ 8 ] = x_8;
-            y[ 8 ] = y_8;
-            size = 9;
-            continue;
-        }
-        case 1829:
-        case 1957: {
-            // size=7 outside=0000000000000000000000000000000000000000000000000000000000100101 mod=1,[ 2, 1 ],[ 2, 3 ],3,4,[ 5, 4 ],[ 5, 6 ],6,[ 0, 6 ],[ 0, 1 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_2_1 = d_2 / ( d_1 - d_2 );
-            TF m_2_3 = d_2 / ( d_3 - d_2 );
-            TF m_5_4 = d_5 / ( d_4 - d_5 );
-            TF m_5_6 = d_5 / ( d_6 - d_5 );
-            TF m_0_6 = d_0 / ( d_6 - d_0 );
-            TF m_0_1 = d_0 / ( d_1 - d_0 );
-            TF x_0 = x[ 1 ];
-            TF y_0 = y[ 1 ];
-            TF x_1 = x[ 2 ] - m_2_1 * ( x[ 1 ] - x[ 2 ] );
-            TF y_1 = y[ 2 ] - m_2_1 * ( y[ 1 ] - y[ 2 ] );
-            TF x_2 = x[ 2 ] - m_2_3 * ( x[ 3 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_3 * ( y[ 3 ] - y[ 2 ] );
-            TF x_5 = x[ 5 ] - m_5_4 * ( x[ 4 ] - x[ 5 ] );
-            TF y_5 = y[ 5 ] - m_5_4 * ( y[ 4 ] - y[ 5 ] );
-            TF x_6 = x[ 5 ] - m_5_6 * ( x[ 6 ] - x[ 5 ] );
-            TF y_6 = y[ 5 ] - m_5_6 * ( y[ 6 ] - y[ 5 ] );
-            TF x_7 = x[ 6 ];
-            TF y_7 = y[ 6 ];
-            TF x_8 = x[ 0 ] - m_0_6 * ( x[ 6 ] - x[ 0 ] );
-            TF y_8 = y[ 0 ] - m_0_6 * ( y[ 6 ] - y[ 0 ] );
-            TF x_9 = x[ 0 ] - m_0_1 * ( x[ 1 ] - x[ 0 ] );
-            TF y_9 = y[ 0 ] - m_0_1 * ( y[ 1 ] - y[ 0 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            x[ 8 ] = x_8;
-            y[ 8 ] = y_8;
-            x[ 9 ] = x_9;
-            y[ 9 ] = y_9;
-            size = 10;
-            continue;
-        }
-        case 1830:
-        case 1958: {
-            // size=7 outside=0000000000000000000000000000000000000000000000000000000000100110 mod=0,[ 1, 0 ],[ 2, 3 ],3,4,[ 5, 4 ],[ 5, 6 ],6
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_1_0 = d_1 / ( d_0 - d_1 );
-            TF m_2_3 = d_2 / ( d_3 - d_2 );
-            TF m_5_4 = d_5 / ( d_4 - d_5 );
-            TF m_5_6 = d_5 / ( d_6 - d_5 );
-            TF x_1 = x[ 1 ] - m_1_0 * ( x[ 0 ] - x[ 1 ] );
-            TF y_1 = y[ 1 ] - m_1_0 * ( y[ 0 ] - y[ 1 ] );
-            TF x_2 = x[ 2 ] - m_2_3 * ( x[ 3 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_3 * ( y[ 3 ] - y[ 2 ] );
-            TF x_5 = x[ 5 ] - m_5_4 * ( x[ 4 ] - x[ 5 ] );
-            TF y_5 = y[ 5 ] - m_5_4 * ( y[ 4 ] - y[ 5 ] );
-            TF x_6 = x[ 5 ] - m_5_6 * ( x[ 6 ] - x[ 5 ] );
-            TF y_6 = y[ 5 ] - m_5_6 * ( y[ 6 ] - y[ 5 ] );
-            TF x_7 = x[ 6 ];
-            TF y_7 = y[ 6 ];
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            size = 8;
-            continue;
-        }
-        case 1831:
-        case 1959: {
-            // size=7 outside=0000000000000000000000000000000000000000000000000000000000100111 mod=6,[ 0, 6 ],[ 2, 3 ],3,4,[ 5, 4 ],[ 5, 6 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_0_6 = d_0 / ( d_6 - d_0 );
-            TF m_2_3 = d_2 / ( d_3 - d_2 );
-            TF m_5_4 = d_5 / ( d_4 - d_5 );
-            TF m_5_6 = d_5 / ( d_6 - d_5 );
-            TF x_0 = x[ 6 ];
-            TF y_0 = y[ 6 ];
-            TF x_1 = x[ 0 ] - m_0_6 * ( x[ 6 ] - x[ 0 ] );
-            TF y_1 = y[ 0 ] - m_0_6 * ( y[ 6 ] - y[ 0 ] );
-            TF x_2 = x[ 2 ] - m_2_3 * ( x[ 3 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_3 * ( y[ 3 ] - y[ 2 ] );
-            TF x_5 = x[ 5 ] - m_5_4 * ( x[ 4 ] - x[ 5 ] );
-            TF y_5 = y[ 5 ] - m_5_4 * ( y[ 4 ] - y[ 5 ] );
-            TF x_6 = x[ 5 ] - m_5_6 * ( x[ 6 ] - x[ 5 ] );
-            TF y_6 = y[ 5 ] - m_5_6 * ( y[ 6 ] - y[ 5 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            continue;
-        }
-        case 1832:
-        case 1960: {
-            // size=7 outside=0000000000000000000000000000000000000000000000000000000000101000 mod=0,1,2,[ 3, 2 ],[ 3, 4 ],4,[ 5, 4 ],[ 5, 6 ],6
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_3_2 = d_3 / ( d_2 - d_3 );
-            TF m_3_4 = d_3 / ( d_4 - d_3 );
-            TF m_5_4 = d_5 / ( d_4 - d_5 );
-            TF m_5_6 = d_5 / ( d_6 - d_5 );
-            TF x_3 = x[ 3 ] - m_3_2 * ( x[ 2 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_2 * ( y[ 2 ] - y[ 3 ] );
-            TF x_4 = x[ 3 ] - m_3_4 * ( x[ 4 ] - x[ 3 ] );
-            TF y_4 = y[ 3 ] - m_3_4 * ( y[ 4 ] - y[ 3 ] );
-            TF x_5 = x[ 4 ];
-            TF y_5 = y[ 4 ];
-            TF x_6 = x[ 5 ] - m_5_4 * ( x[ 4 ] - x[ 5 ] );
-            TF y_6 = y[ 5 ] - m_5_4 * ( y[ 4 ] - y[ 5 ] );
-            TF x_7 = x[ 5 ] - m_5_6 * ( x[ 6 ] - x[ 5 ] );
-            TF y_7 = y[ 5 ] - m_5_6 * ( y[ 6 ] - y[ 5 ] );
-            TF x_8 = x[ 6 ];
-            TF y_8 = y[ 6 ];
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            x[ 8 ] = x_8;
-            y[ 8 ] = y_8;
-            size = 9;
-            continue;
-        }
-        case 1833:
-        case 1961: {
-            // size=7 outside=0000000000000000000000000000000000000000000000000000000000101001 mod=[ 0, 1 ],1,2,[ 3, 2 ],[ 3, 4 ],4,[ 5, 4 ],[ 5, 6 ],6,[ 0, 6 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_0_1 = d_0 / ( d_1 - d_0 );
-            TF m_3_2 = d_3 / ( d_2 - d_3 );
-            TF m_3_4 = d_3 / ( d_4 - d_3 );
-            TF m_5_4 = d_5 / ( d_4 - d_5 );
-            TF m_5_6 = d_5 / ( d_6 - d_5 );
-            TF m_0_6 = d_0 / ( d_6 - d_0 );
-            TF x_0 = x[ 0 ] - m_0_1 * ( x[ 1 ] - x[ 0 ] );
-            TF y_0 = y[ 0 ] - m_0_1 * ( y[ 1 ] - y[ 0 ] );
-            TF x_3 = x[ 3 ] - m_3_2 * ( x[ 2 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_2 * ( y[ 2 ] - y[ 3 ] );
-            TF x_4 = x[ 3 ] - m_3_4 * ( x[ 4 ] - x[ 3 ] );
-            TF y_4 = y[ 3 ] - m_3_4 * ( y[ 4 ] - y[ 3 ] );
-            TF x_5 = x[ 4 ];
-            TF y_5 = y[ 4 ];
-            TF x_6 = x[ 5 ] - m_5_4 * ( x[ 4 ] - x[ 5 ] );
-            TF y_6 = y[ 5 ] - m_5_4 * ( y[ 4 ] - y[ 5 ] );
-            TF x_7 = x[ 5 ] - m_5_6 * ( x[ 6 ] - x[ 5 ] );
-            TF y_7 = y[ 5 ] - m_5_6 * ( y[ 6 ] - y[ 5 ] );
-            TF x_8 = x[ 6 ];
-            TF y_8 = y[ 6 ];
-            TF x_9 = x[ 0 ] - m_0_6 * ( x[ 6 ] - x[ 0 ] );
-            TF y_9 = y[ 0 ] - m_0_6 * ( y[ 6 ] - y[ 0 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            x[ 8 ] = x_8;
-            y[ 8 ] = y_8;
-            x[ 9 ] = x_9;
-            y[ 9 ] = y_9;
-            size = 10;
-            continue;
-        }
-        case 1834:
-        case 1962: {
-            // size=7 outside=0000000000000000000000000000000000000000000000000000000000101010 mod=[ 1, 2 ],2,[ 3, 2 ],[ 3, 4 ],4,[ 5, 4 ],[ 5, 6 ],6,0,[ 1, 0 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_1_2 = d_1 / ( d_2 - d_1 );
-            TF m_3_2 = d_3 / ( d_2 - d_3 );
-            TF m_3_4 = d_3 / ( d_4 - d_3 );
-            TF m_5_4 = d_5 / ( d_4 - d_5 );
-            TF m_5_6 = d_5 / ( d_6 - d_5 );
-            TF m_1_0 = d_1 / ( d_0 - d_1 );
-            TF x_0 = x[ 1 ] - m_1_2 * ( x[ 2 ] - x[ 1 ] );
-            TF y_0 = y[ 1 ] - m_1_2 * ( y[ 2 ] - y[ 1 ] );
-            TF x_1 = x[ 2 ];
-            TF y_1 = y[ 2 ];
-            TF x_2 = x[ 3 ] - m_3_2 * ( x[ 2 ] - x[ 3 ] );
-            TF y_2 = y[ 3 ] - m_3_2 * ( y[ 2 ] - y[ 3 ] );
-            TF x_3 = x[ 3 ] - m_3_4 * ( x[ 4 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_4 * ( y[ 4 ] - y[ 3 ] );
-            TF x_5 = x[ 5 ] - m_5_4 * ( x[ 4 ] - x[ 5 ] );
-            TF y_5 = y[ 5 ] - m_5_4 * ( y[ 4 ] - y[ 5 ] );
-            TF x_6 = x[ 5 ] - m_5_6 * ( x[ 6 ] - x[ 5 ] );
-            TF y_6 = y[ 5 ] - m_5_6 * ( y[ 6 ] - y[ 5 ] );
-            TF x_7 = x[ 6 ];
-            TF y_7 = y[ 6 ];
-            TF x_8 = x[ 0 ];
-            TF y_8 = y[ 0 ];
-            TF x_9 = x[ 1 ] - m_1_0 * ( x[ 0 ] - x[ 1 ] );
-            TF y_9 = y[ 1 ] - m_1_0 * ( y[ 0 ] - y[ 1 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            x[ 8 ] = x_8;
-            y[ 8 ] = y_8;
-            x[ 9 ] = x_9;
-            y[ 9 ] = y_9;
-            size = 10;
-            continue;
-        }
-        case 1835:
-        case 1963: {
-            // size=7 outside=0000000000000000000000000000000000000000000000000000000000101011 mod=[ 1, 2 ],2,[ 3, 2 ],[ 3, 4 ],4,[ 5, 4 ],[ 5, 6 ],6,[ 0, 6 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_1_2 = d_1 / ( d_2 - d_1 );
-            TF m_3_2 = d_3 / ( d_2 - d_3 );
-            TF m_3_4 = d_3 / ( d_4 - d_3 );
-            TF m_5_4 = d_5 / ( d_4 - d_5 );
-            TF m_5_6 = d_5 / ( d_6 - d_5 );
-            TF m_0_6 = d_0 / ( d_6 - d_0 );
-            TF x_0 = x[ 1 ] - m_1_2 * ( x[ 2 ] - x[ 1 ] );
-            TF y_0 = y[ 1 ] - m_1_2 * ( y[ 2 ] - y[ 1 ] );
-            TF x_1 = x[ 2 ];
-            TF y_1 = y[ 2 ];
-            TF x_2 = x[ 3 ] - m_3_2 * ( x[ 2 ] - x[ 3 ] );
-            TF y_2 = y[ 3 ] - m_3_2 * ( y[ 2 ] - y[ 3 ] );
-            TF x_3 = x[ 3 ] - m_3_4 * ( x[ 4 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_4 * ( y[ 4 ] - y[ 3 ] );
-            TF x_5 = x[ 5 ] - m_5_4 * ( x[ 4 ] - x[ 5 ] );
-            TF y_5 = y[ 5 ] - m_5_4 * ( y[ 4 ] - y[ 5 ] );
-            TF x_6 = x[ 5 ] - m_5_6 * ( x[ 6 ] - x[ 5 ] );
-            TF y_6 = y[ 5 ] - m_5_6 * ( y[ 6 ] - y[ 5 ] );
-            TF x_7 = x[ 6 ];
-            TF y_7 = y[ 6 ];
-            TF x_8 = x[ 0 ] - m_0_6 * ( x[ 6 ] - x[ 0 ] );
-            TF y_8 = y[ 0 ] - m_0_6 * ( y[ 6 ] - y[ 0 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            x[ 8 ] = x_8;
-            y[ 8 ] = y_8;
-            size = 9;
-            continue;
-        }
-        case 1836:
-        case 1964: {
-            // size=7 outside=0000000000000000000000000000000000000000000000000000000000101100 mod=0,1,[ 2, 1 ],[ 3, 4 ],4,[ 5, 4 ],[ 5, 6 ],6
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_2_1 = d_2 / ( d_1 - d_2 );
-            TF m_3_4 = d_3 / ( d_4 - d_3 );
-            TF m_5_4 = d_5 / ( d_4 - d_5 );
-            TF m_5_6 = d_5 / ( d_6 - d_5 );
-            TF x_2 = x[ 2 ] - m_2_1 * ( x[ 1 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_1 * ( y[ 1 ] - y[ 2 ] );
-            TF x_3 = x[ 3 ] - m_3_4 * ( x[ 4 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_4 * ( y[ 4 ] - y[ 3 ] );
-            TF x_5 = x[ 5 ] - m_5_4 * ( x[ 4 ] - x[ 5 ] );
-            TF y_5 = y[ 5 ] - m_5_4 * ( y[ 4 ] - y[ 5 ] );
-            TF x_6 = x[ 5 ] - m_5_6 * ( x[ 6 ] - x[ 5 ] );
-            TF y_6 = y[ 5 ] - m_5_6 * ( y[ 6 ] - y[ 5 ] );
-            TF x_7 = x[ 6 ];
-            TF y_7 = y[ 6 ];
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            size = 8;
-            continue;
-        }
-        case 1837:
-        case 1965: {
-            // size=7 outside=0000000000000000000000000000000000000000000000000000000000101101 mod=[ 0, 1 ],1,[ 2, 1 ],[ 3, 4 ],4,[ 5, 4 ],[ 5, 6 ],6,[ 0, 6 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_0_1 = d_0 / ( d_1 - d_0 );
-            TF m_2_1 = d_2 / ( d_1 - d_2 );
-            TF m_3_4 = d_3 / ( d_4 - d_3 );
-            TF m_5_4 = d_5 / ( d_4 - d_5 );
-            TF m_5_6 = d_5 / ( d_6 - d_5 );
-            TF m_0_6 = d_0 / ( d_6 - d_0 );
-            TF x_0 = x[ 0 ] - m_0_1 * ( x[ 1 ] - x[ 0 ] );
-            TF y_0 = y[ 0 ] - m_0_1 * ( y[ 1 ] - y[ 0 ] );
-            TF x_2 = x[ 2 ] - m_2_1 * ( x[ 1 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_1 * ( y[ 1 ] - y[ 2 ] );
-            TF x_3 = x[ 3 ] - m_3_4 * ( x[ 4 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_4 * ( y[ 4 ] - y[ 3 ] );
-            TF x_5 = x[ 5 ] - m_5_4 * ( x[ 4 ] - x[ 5 ] );
-            TF y_5 = y[ 5 ] - m_5_4 * ( y[ 4 ] - y[ 5 ] );
-            TF x_6 = x[ 5 ] - m_5_6 * ( x[ 6 ] - x[ 5 ] );
-            TF y_6 = y[ 5 ] - m_5_6 * ( y[ 6 ] - y[ 5 ] );
-            TF x_7 = x[ 6 ];
-            TF y_7 = y[ 6 ];
-            TF x_8 = x[ 0 ] - m_0_6 * ( x[ 6 ] - x[ 0 ] );
-            TF y_8 = y[ 0 ] - m_0_6 * ( y[ 6 ] - y[ 0 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            x[ 8 ] = x_8;
-            y[ 8 ] = y_8;
-            size = 9;
-            continue;
-        }
-        case 1838:
-        case 1966: {
-            // size=7 outside=0000000000000000000000000000000000000000000000000000000000101110 mod=0,[ 1, 0 ],[ 3, 4 ],4,[ 5, 4 ],[ 5, 6 ],6
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_1_0 = d_1 / ( d_0 - d_1 );
-            TF m_3_4 = d_3 / ( d_4 - d_3 );
-            TF m_5_4 = d_5 / ( d_4 - d_5 );
-            TF m_5_6 = d_5 / ( d_6 - d_5 );
-            TF x_1 = x[ 1 ] - m_1_0 * ( x[ 0 ] - x[ 1 ] );
-            TF y_1 = y[ 1 ] - m_1_0 * ( y[ 0 ] - y[ 1 ] );
-            TF x_2 = x[ 3 ] - m_3_4 * ( x[ 4 ] - x[ 3 ] );
-            TF y_2 = y[ 3 ] - m_3_4 * ( y[ 4 ] - y[ 3 ] );
-            TF x_3 = x[ 4 ];
-            TF y_3 = y[ 4 ];
-            TF x_4 = x[ 5 ] - m_5_4 * ( x[ 4 ] - x[ 5 ] );
-            TF y_4 = y[ 5 ] - m_5_4 * ( y[ 4 ] - y[ 5 ] );
-            TF x_5 = x[ 5 ] - m_5_6 * ( x[ 6 ] - x[ 5 ] );
-            TF y_5 = y[ 5 ] - m_5_6 * ( y[ 6 ] - y[ 5 ] );
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            continue;
-        }
-        case 1839:
-        case 1967: {
-            // size=7 outside=0000000000000000000000000000000000000000000000000000000000101111 mod=[ 5, 6 ],6,[ 0, 6 ],[ 3, 4 ],4,[ 5, 4 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_5_6 = d_5 / ( d_6 - d_5 );
-            TF m_0_6 = d_0 / ( d_6 - d_0 );
-            TF m_3_4 = d_3 / ( d_4 - d_3 );
-            TF m_5_4 = d_5 / ( d_4 - d_5 );
-            TF x_0 = x[ 5 ] - m_5_6 * ( x[ 6 ] - x[ 5 ] );
-            TF y_0 = y[ 5 ] - m_5_6 * ( y[ 6 ] - y[ 5 ] );
-            TF x_1 = x[ 6 ];
-            TF y_1 = y[ 6 ];
-            TF x_2 = x[ 0 ] - m_0_6 * ( x[ 6 ] - x[ 0 ] );
-            TF y_2 = y[ 0 ] - m_0_6 * ( y[ 6 ] - y[ 0 ] );
-            TF x_3 = x[ 3 ] - m_3_4 * ( x[ 4 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_4 * ( y[ 4 ] - y[ 3 ] );
-            TF x_5 = x[ 5 ] - m_5_4 * ( x[ 4 ] - x[ 5 ] );
-            TF y_5 = y[ 5 ] - m_5_4 * ( y[ 4 ] - y[ 5 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            size = 6;
-            continue;
+            break;
         }
         case 1840:
         case 1968: {
@@ -5334,263 +2378,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             y[ 4 ] = y_4;
             x[ 5 ] = x_5;
             y[ 5 ] = y_5;
-            continue;
-        }
-        case 1841:
-        case 1969: {
-            // size=7 outside=0000000000000000000000000000000000000000000000000000000000110001 mod=[ 0, 1 ],1,2,3,[ 4, 3 ],[ 5, 6 ],6,[ 0, 6 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_0_1 = d_0 / ( d_1 - d_0 );
-            TF m_4_3 = d_4 / ( d_3 - d_4 );
-            TF m_5_6 = d_5 / ( d_6 - d_5 );
-            TF m_0_6 = d_0 / ( d_6 - d_0 );
-            TF x_0 = x[ 0 ] - m_0_1 * ( x[ 1 ] - x[ 0 ] );
-            TF y_0 = y[ 0 ] - m_0_1 * ( y[ 1 ] - y[ 0 ] );
-            TF x_4 = x[ 4 ] - m_4_3 * ( x[ 3 ] - x[ 4 ] );
-            TF y_4 = y[ 4 ] - m_4_3 * ( y[ 3 ] - y[ 4 ] );
-            TF x_5 = x[ 5 ] - m_5_6 * ( x[ 6 ] - x[ 5 ] );
-            TF y_5 = y[ 5 ] - m_5_6 * ( y[ 6 ] - y[ 5 ] );
-            TF x_7 = x[ 0 ] - m_0_6 * ( x[ 6 ] - x[ 0 ] );
-            TF y_7 = y[ 0 ] - m_0_6 * ( y[ 6 ] - y[ 0 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            size = 8;
-            continue;
-        }
-        case 1842:
-        case 1970: {
-            // size=7 outside=0000000000000000000000000000000000000000000000000000000000110010 mod=[ 1, 0 ],[ 1, 2 ],2,3,[ 4, 3 ],[ 5, 6 ],6,0
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_1_0 = d_1 / ( d_0 - d_1 );
-            TF m_1_2 = d_1 / ( d_2 - d_1 );
-            TF m_4_3 = d_4 / ( d_3 - d_4 );
-            TF m_5_6 = d_5 / ( d_6 - d_5 );
-            TF x_0 = x[ 1 ] - m_1_0 * ( x[ 0 ] - x[ 1 ] );
-            TF y_0 = y[ 1 ] - m_1_0 * ( y[ 0 ] - y[ 1 ] );
-            TF x_1 = x[ 1 ] - m_1_2 * ( x[ 2 ] - x[ 1 ] );
-            TF y_1 = y[ 1 ] - m_1_2 * ( y[ 2 ] - y[ 1 ] );
-            TF x_4 = x[ 4 ] - m_4_3 * ( x[ 3 ] - x[ 4 ] );
-            TF y_4 = y[ 4 ] - m_4_3 * ( y[ 3 ] - y[ 4 ] );
-            TF x_5 = x[ 5 ] - m_5_6 * ( x[ 6 ] - x[ 5 ] );
-            TF y_5 = y[ 5 ] - m_5_6 * ( y[ 6 ] - y[ 5 ] );
-            TF x_7 = x[ 0 ];
-            TF y_7 = y[ 0 ];
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            size = 8;
-            continue;
-        }
-        case 1843:
-        case 1971: {
-            // size=7 outside=0000000000000000000000000000000000000000000000000000000000110011 mod=[ 0, 6 ],[ 1, 2 ],2,3,[ 4, 3 ],[ 5, 6 ],6
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_0_6 = d_0 / ( d_6 - d_0 );
-            TF m_1_2 = d_1 / ( d_2 - d_1 );
-            TF m_4_3 = d_4 / ( d_3 - d_4 );
-            TF m_5_6 = d_5 / ( d_6 - d_5 );
-            TF x_0 = x[ 0 ] - m_0_6 * ( x[ 6 ] - x[ 0 ] );
-            TF y_0 = y[ 0 ] - m_0_6 * ( y[ 6 ] - y[ 0 ] );
-            TF x_1 = x[ 1 ] - m_1_2 * ( x[ 2 ] - x[ 1 ] );
-            TF y_1 = y[ 1 ] - m_1_2 * ( y[ 2 ] - y[ 1 ] );
-            TF x_4 = x[ 4 ] - m_4_3 * ( x[ 3 ] - x[ 4 ] );
-            TF y_4 = y[ 4 ] - m_4_3 * ( y[ 3 ] - y[ 4 ] );
-            TF x_5 = x[ 5 ] - m_5_6 * ( x[ 6 ] - x[ 5 ] );
-            TF y_5 = y[ 5 ] - m_5_6 * ( y[ 6 ] - y[ 5 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            continue;
-        }
-        case 1844:
-        case 1972: {
-            // size=7 outside=0000000000000000000000000000000000000000000000000000000000110100 mod=1,[ 2, 1 ],[ 2, 3 ],3,[ 4, 3 ],[ 5, 6 ],6,0
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_2_1 = d_2 / ( d_1 - d_2 );
-            TF m_2_3 = d_2 / ( d_3 - d_2 );
-            TF m_4_3 = d_4 / ( d_3 - d_4 );
-            TF m_5_6 = d_5 / ( d_6 - d_5 );
-            TF x_0 = x[ 1 ];
-            TF y_0 = y[ 1 ];
-            TF x_1 = x[ 2 ] - m_2_1 * ( x[ 1 ] - x[ 2 ] );
-            TF y_1 = y[ 2 ] - m_2_1 * ( y[ 1 ] - y[ 2 ] );
-            TF x_2 = x[ 2 ] - m_2_3 * ( x[ 3 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_3 * ( y[ 3 ] - y[ 2 ] );
-            TF x_4 = x[ 4 ] - m_4_3 * ( x[ 3 ] - x[ 4 ] );
-            TF y_4 = y[ 4 ] - m_4_3 * ( y[ 3 ] - y[ 4 ] );
-            TF x_5 = x[ 5 ] - m_5_6 * ( x[ 6 ] - x[ 5 ] );
-            TF y_5 = y[ 5 ] - m_5_6 * ( y[ 6 ] - y[ 5 ] );
-            TF x_7 = x[ 0 ];
-            TF y_7 = y[ 0 ];
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            size = 8;
-            continue;
-        }
-        case 1845:
-        case 1973: {
-            // size=7 outside=0000000000000000000000000000000000000000000000000000000000110101 mod=1,[ 2, 1 ],[ 2, 3 ],3,[ 4, 3 ],[ 5, 6 ],6,[ 0, 6 ],[ 0, 1 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_2_1 = d_2 / ( d_1 - d_2 );
-            TF m_2_3 = d_2 / ( d_3 - d_2 );
-            TF m_4_3 = d_4 / ( d_3 - d_4 );
-            TF m_5_6 = d_5 / ( d_6 - d_5 );
-            TF m_0_6 = d_0 / ( d_6 - d_0 );
-            TF m_0_1 = d_0 / ( d_1 - d_0 );
-            TF x_0 = x[ 1 ];
-            TF y_0 = y[ 1 ];
-            TF x_1 = x[ 2 ] - m_2_1 * ( x[ 1 ] - x[ 2 ] );
-            TF y_1 = y[ 2 ] - m_2_1 * ( y[ 1 ] - y[ 2 ] );
-            TF x_2 = x[ 2 ] - m_2_3 * ( x[ 3 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_3 * ( y[ 3 ] - y[ 2 ] );
-            TF x_4 = x[ 4 ] - m_4_3 * ( x[ 3 ] - x[ 4 ] );
-            TF y_4 = y[ 4 ] - m_4_3 * ( y[ 3 ] - y[ 4 ] );
-            TF x_5 = x[ 5 ] - m_5_6 * ( x[ 6 ] - x[ 5 ] );
-            TF y_5 = y[ 5 ] - m_5_6 * ( y[ 6 ] - y[ 5 ] );
-            TF x_7 = x[ 0 ] - m_0_6 * ( x[ 6 ] - x[ 0 ] );
-            TF y_7 = y[ 0 ] - m_0_6 * ( y[ 6 ] - y[ 0 ] );
-            TF x_8 = x[ 0 ] - m_0_1 * ( x[ 1 ] - x[ 0 ] );
-            TF y_8 = y[ 0 ] - m_0_1 * ( y[ 1 ] - y[ 0 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            x[ 8 ] = x_8;
-            y[ 8 ] = y_8;
-            size = 9;
-            continue;
-        }
-        case 1846:
-        case 1974: {
-            // size=7 outside=0000000000000000000000000000000000000000000000000000000000110110 mod=0,[ 1, 0 ],[ 2, 3 ],3,[ 4, 3 ],[ 5, 6 ],6
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_1_0 = d_1 / ( d_0 - d_1 );
-            TF m_2_3 = d_2 / ( d_3 - d_2 );
-            TF m_4_3 = d_4 / ( d_3 - d_4 );
-            TF m_5_6 = d_5 / ( d_6 - d_5 );
-            TF x_1 = x[ 1 ] - m_1_0 * ( x[ 0 ] - x[ 1 ] );
-            TF y_1 = y[ 1 ] - m_1_0 * ( y[ 0 ] - y[ 1 ] );
-            TF x_2 = x[ 2 ] - m_2_3 * ( x[ 3 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_3 * ( y[ 3 ] - y[ 2 ] );
-            TF x_4 = x[ 4 ] - m_4_3 * ( x[ 3 ] - x[ 4 ] );
-            TF y_4 = y[ 4 ] - m_4_3 * ( y[ 3 ] - y[ 4 ] );
-            TF x_5 = x[ 5 ] - m_5_6 * ( x[ 6 ] - x[ 5 ] );
-            TF y_5 = y[ 5 ] - m_5_6 * ( y[ 6 ] - y[ 5 ] );
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            continue;
-        }
-        case 1847:
-        case 1975: {
-            // size=7 outside=0000000000000000000000000000000000000000000000000000000000110111 mod=6,[ 0, 6 ],[ 2, 3 ],3,[ 4, 3 ],[ 5, 6 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_0_6 = d_0 / ( d_6 - d_0 );
-            TF m_2_3 = d_2 / ( d_3 - d_2 );
-            TF m_4_3 = d_4 / ( d_3 - d_4 );
-            TF m_5_6 = d_5 / ( d_6 - d_5 );
-            TF x_0 = x[ 6 ];
-            TF y_0 = y[ 6 ];
-            TF x_1 = x[ 0 ] - m_0_6 * ( x[ 6 ] - x[ 0 ] );
-            TF y_1 = y[ 0 ] - m_0_6 * ( y[ 6 ] - y[ 0 ] );
-            TF x_2 = x[ 2 ] - m_2_3 * ( x[ 3 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_3 * ( y[ 3 ] - y[ 2 ] );
-            TF x_4 = x[ 4 ] - m_4_3 * ( x[ 3 ] - x[ 4 ] );
-            TF y_4 = y[ 4 ] - m_4_3 * ( y[ 3 ] - y[ 4 ] );
-            TF x_5 = x[ 5 ] - m_5_6 * ( x[ 6 ] - x[ 5 ] );
-            TF y_5 = y[ 5 ] - m_5_6 * ( y[ 6 ] - y[ 5 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            size = 6;
-            continue;
+            break;
         }
         case 1848:
         case 1976: {
@@ -5614,113 +2402,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             x[ 5 ] = x_5;
             y[ 5 ] = y_5;
             size = 6;
-            continue;
-        }
-        case 1849:
-        case 1977: {
-            // size=7 outside=0000000000000000000000000000000000000000000000000000000000111001 mod=[ 0, 1 ],1,2,[ 3, 2 ],[ 5, 6 ],6,[ 0, 6 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_0_1 = d_0 / ( d_1 - d_0 );
-            TF m_3_2 = d_3 / ( d_2 - d_3 );
-            TF m_5_6 = d_5 / ( d_6 - d_5 );
-            TF m_0_6 = d_0 / ( d_6 - d_0 );
-            TF x_0 = x[ 0 ] - m_0_1 * ( x[ 1 ] - x[ 0 ] );
-            TF y_0 = y[ 0 ] - m_0_1 * ( y[ 1 ] - y[ 0 ] );
-            TF x_3 = x[ 3 ] - m_3_2 * ( x[ 2 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_2 * ( y[ 2 ] - y[ 3 ] );
-            TF x_4 = x[ 5 ] - m_5_6 * ( x[ 6 ] - x[ 5 ] );
-            TF y_4 = y[ 5 ] - m_5_6 * ( y[ 6 ] - y[ 5 ] );
-            TF x_5 = x[ 6 ];
-            TF y_5 = y[ 6 ];
-            TF x_6 = x[ 0 ] - m_0_6 * ( x[ 6 ] - x[ 0 ] );
-            TF y_6 = y[ 0 ] - m_0_6 * ( y[ 6 ] - y[ 0 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            continue;
-        }
-        case 1850:
-        case 1978: {
-            // size=7 outside=0000000000000000000000000000000000000000000000000000000000111010 mod=0,[ 1, 0 ],[ 1, 2 ],2,[ 3, 2 ],[ 5, 6 ],6
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_1_0 = d_1 / ( d_0 - d_1 );
-            TF m_1_2 = d_1 / ( d_2 - d_1 );
-            TF m_3_2 = d_3 / ( d_2 - d_3 );
-            TF m_5_6 = d_5 / ( d_6 - d_5 );
-            TF x_1 = x[ 1 ] - m_1_0 * ( x[ 0 ] - x[ 1 ] );
-            TF y_1 = y[ 1 ] - m_1_0 * ( y[ 0 ] - y[ 1 ] );
-            TF x_2 = x[ 1 ] - m_1_2 * ( x[ 2 ] - x[ 1 ] );
-            TF y_2 = y[ 1 ] - m_1_2 * ( y[ 2 ] - y[ 1 ] );
-            TF x_3 = x[ 2 ];
-            TF y_3 = y[ 2 ];
-            TF x_4 = x[ 3 ] - m_3_2 * ( x[ 2 ] - x[ 3 ] );
-            TF y_4 = y[ 3 ] - m_3_2 * ( y[ 2 ] - y[ 3 ] );
-            TF x_5 = x[ 5 ] - m_5_6 * ( x[ 6 ] - x[ 5 ] );
-            TF y_5 = y[ 5 ] - m_5_6 * ( y[ 6 ] - y[ 5 ] );
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            continue;
-        }
-        case 1851:
-        case 1979: {
-            // size=7 outside=0000000000000000000000000000000000000000000000000000000000111011 mod=[ 0, 6 ],[ 1, 2 ],2,[ 3, 2 ],[ 5, 6 ],6
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_0_6 = d_0 / ( d_6 - d_0 );
-            TF m_1_2 = d_1 / ( d_2 - d_1 );
-            TF m_3_2 = d_3 / ( d_2 - d_3 );
-            TF m_5_6 = d_5 / ( d_6 - d_5 );
-            TF x_0 = x[ 0 ] - m_0_6 * ( x[ 6 ] - x[ 0 ] );
-            TF y_0 = y[ 0 ] - m_0_6 * ( y[ 6 ] - y[ 0 ] );
-            TF x_1 = x[ 1 ] - m_1_2 * ( x[ 2 ] - x[ 1 ] );
-            TF y_1 = y[ 1 ] - m_1_2 * ( y[ 2 ] - y[ 1 ] );
-            TF x_3 = x[ 3 ] - m_3_2 * ( x[ 2 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_2 * ( y[ 2 ] - y[ 3 ] );
-            TF x_4 = x[ 5 ] - m_5_6 * ( x[ 6 ] - x[ 5 ] );
-            TF y_4 = y[ 5 ] - m_5_6 * ( y[ 6 ] - y[ 5 ] );
-            TF x_5 = x[ 6 ];
-            TF y_5 = y[ 6 ];
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            size = 6;
-            continue;
+            break;
         }
         case 1852:
         case 1980: {
@@ -5744,42 +2426,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             x[ 4 ] = x_4;
             y[ 4 ] = y_4;
             size = 5;
-            continue;
-        }
-        case 1853:
-        case 1981: {
-            // size=7 outside=0000000000000000000000000000000000000000000000000000000000111101 mod=[ 0, 1 ],1,[ 2, 1 ],[ 5, 6 ],6,[ 0, 6 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_0_1 = d_0 / ( d_1 - d_0 );
-            TF m_2_1 = d_2 / ( d_1 - d_2 );
-            TF m_5_6 = d_5 / ( d_6 - d_5 );
-            TF m_0_6 = d_0 / ( d_6 - d_0 );
-            TF x_0 = x[ 0 ] - m_0_1 * ( x[ 1 ] - x[ 0 ] );
-            TF y_0 = y[ 0 ] - m_0_1 * ( y[ 1 ] - y[ 0 ] );
-            TF x_2 = x[ 2 ] - m_2_1 * ( x[ 1 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_1 * ( y[ 1 ] - y[ 2 ] );
-            TF x_3 = x[ 5 ] - m_5_6 * ( x[ 6 ] - x[ 5 ] );
-            TF y_3 = y[ 5 ] - m_5_6 * ( y[ 6 ] - y[ 5 ] );
-            TF x_4 = x[ 6 ];
-            TF y_4 = y[ 6 ];
-            TF x_5 = x[ 0 ] - m_0_6 * ( x[ 6 ] - x[ 0 ] );
-            TF y_5 = y[ 0 ] - m_0_6 * ( y[ 6 ] - y[ 0 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            size = 6;
-            continue;
+            break;
         }
         case 1854:
         case 1982: {
@@ -5803,7 +2450,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             x[ 3 ] = x_3;
             y[ 3 ] = y_3;
             size = 4;
-            continue;
+            break;
         }
         case 1855:
         case 1983: {
@@ -5826,7 +2473,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             x[ 2 ] = x_2;
             y[ 2 ] = y_2;
             size = 3;
-            continue;
+            break;
         }
         case 1856:
         case 1984: {
@@ -5845,7 +2492,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             x[ 7 ] = x_7;
             y[ 7 ] = y_7;
             size = 8;
-            continue;
+            break;
         }
         case 1857:
         case 1985: {
@@ -5864,42 +2511,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             y[ 0 ] = y_0;
             x[ 6 ] = x_6;
             y[ 6 ] = y_6;
-            continue;
-        }
-        case 1858:
-        case 1986: {
-            // size=7 outside=0000000000000000000000000000000000000000000000000000000001000010 mod=[ 1, 0 ],[ 1, 2 ],2,3,4,5,[ 6, 5 ],[ 6, 0 ],0
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_1_0 = d_1 / ( d_0 - d_1 );
-            TF m_1_2 = d_1 / ( d_2 - d_1 );
-            TF m_6_5 = d_6 / ( d_5 - d_6 );
-            TF m_6_0 = d_6 / ( d_0 - d_6 );
-            TF x_0 = x[ 1 ] - m_1_0 * ( x[ 0 ] - x[ 1 ] );
-            TF y_0 = y[ 1 ] - m_1_0 * ( y[ 0 ] - y[ 1 ] );
-            TF x_1 = x[ 1 ] - m_1_2 * ( x[ 2 ] - x[ 1 ] );
-            TF y_1 = y[ 1 ] - m_1_2 * ( y[ 2 ] - y[ 1 ] );
-            TF x_6 = x[ 6 ] - m_6_5 * ( x[ 5 ] - x[ 6 ] );
-            TF y_6 = y[ 6 ] - m_6_5 * ( y[ 5 ] - y[ 6 ] );
-            TF x_7 = x[ 6 ] - m_6_0 * ( x[ 0 ] - x[ 6 ] );
-            TF y_7 = y[ 6 ] - m_6_0 * ( y[ 0 ] - y[ 6 ] );
-            TF x_8 = x[ 0 ];
-            TF y_8 = y[ 0 ];
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            x[ 8 ] = x_8;
-            y[ 8 ] = y_8;
-            size = 9;
-            continue;
+            break;
         }
         case 1859:
         case 1987: {
@@ -5919,115 +2531,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             x[ 1 ] = x_1;
             y[ 1 ] = y_1;
             size = 6;
-            continue;
-        }
-        case 1860:
-        case 1988: {
-            // size=7 outside=0000000000000000000000000000000000000000000000000000000001000100 mod=1,[ 2, 1 ],[ 2, 3 ],3,4,5,[ 6, 5 ],[ 6, 0 ],0
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_2_1 = d_2 / ( d_1 - d_2 );
-            TF m_2_3 = d_2 / ( d_3 - d_2 );
-            TF m_6_5 = d_6 / ( d_5 - d_6 );
-            TF m_6_0 = d_6 / ( d_0 - d_6 );
-            TF x_0 = x[ 1 ];
-            TF y_0 = y[ 1 ];
-            TF x_1 = x[ 2 ] - m_2_1 * ( x[ 1 ] - x[ 2 ] );
-            TF y_1 = y[ 2 ] - m_2_1 * ( y[ 1 ] - y[ 2 ] );
-            TF x_2 = x[ 2 ] - m_2_3 * ( x[ 3 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_3 * ( y[ 3 ] - y[ 2 ] );
-            TF x_6 = x[ 6 ] - m_6_5 * ( x[ 5 ] - x[ 6 ] );
-            TF y_6 = y[ 6 ] - m_6_5 * ( y[ 5 ] - y[ 6 ] );
-            TF x_7 = x[ 6 ] - m_6_0 * ( x[ 0 ] - x[ 6 ] );
-            TF y_7 = y[ 6 ] - m_6_0 * ( y[ 0 ] - y[ 6 ] );
-            TF x_8 = x[ 0 ];
-            TF y_8 = y[ 0 ];
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            x[ 8 ] = x_8;
-            y[ 8 ] = y_8;
-            size = 9;
-            continue;
-        }
-        case 1861:
-        case 1989: {
-            // size=7 outside=0000000000000000000000000000000000000000000000000000000001000101 mod=1,[ 2, 1 ],[ 2, 3 ],3,4,5,[ 6, 5 ],[ 0, 1 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_2_1 = d_2 / ( d_1 - d_2 );
-            TF m_2_3 = d_2 / ( d_3 - d_2 );
-            TF m_6_5 = d_6 / ( d_5 - d_6 );
-            TF m_0_1 = d_0 / ( d_1 - d_0 );
-            TF x_0 = x[ 1 ];
-            TF y_0 = y[ 1 ];
-            TF x_1 = x[ 2 ] - m_2_1 * ( x[ 1 ] - x[ 2 ] );
-            TF y_1 = y[ 2 ] - m_2_1 * ( y[ 1 ] - y[ 2 ] );
-            TF x_2 = x[ 2 ] - m_2_3 * ( x[ 3 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_3 * ( y[ 3 ] - y[ 2 ] );
-            TF x_6 = x[ 6 ] - m_6_5 * ( x[ 5 ] - x[ 6 ] );
-            TF y_6 = y[ 6 ] - m_6_5 * ( y[ 5 ] - y[ 6 ] );
-            TF x_7 = x[ 0 ] - m_0_1 * ( x[ 1 ] - x[ 0 ] );
-            TF y_7 = y[ 0 ] - m_0_1 * ( y[ 1 ] - y[ 0 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            size = 8;
-            continue;
-        }
-        case 1862:
-        case 1990: {
-            // size=7 outside=0000000000000000000000000000000000000000000000000000000001000110 mod=0,[ 1, 0 ],[ 2, 3 ],3,4,5,[ 6, 5 ],[ 6, 0 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_1_0 = d_1 / ( d_0 - d_1 );
-            TF m_2_3 = d_2 / ( d_3 - d_2 );
-            TF m_6_5 = d_6 / ( d_5 - d_6 );
-            TF m_6_0 = d_6 / ( d_0 - d_6 );
-            TF x_1 = x[ 1 ] - m_1_0 * ( x[ 0 ] - x[ 1 ] );
-            TF y_1 = y[ 1 ] - m_1_0 * ( y[ 0 ] - y[ 1 ] );
-            TF x_2 = x[ 2 ] - m_2_3 * ( x[ 3 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_3 * ( y[ 3 ] - y[ 2 ] );
-            TF x_6 = x[ 6 ] - m_6_5 * ( x[ 5 ] - x[ 6 ] );
-            TF y_6 = y[ 6 ] - m_6_5 * ( y[ 5 ] - y[ 6 ] );
-            TF x_7 = x[ 6 ] - m_6_0 * ( x[ 0 ] - x[ 6 ] );
-            TF y_7 = y[ 6 ] - m_6_0 * ( y[ 0 ] - y[ 6 ] );
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            size = 8;
-            continue;
+            break;
         }
         case 1863:
         case 1991: {
@@ -6051,274 +2555,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             x[ 2 ] = x_2;
             y[ 2 ] = y_2;
             size = 5;
-            continue;
-        }
-        case 1864:
-        case 1992: {
-            // size=7 outside=0000000000000000000000000000000000000000000000000000000001001000 mod=0,1,2,[ 3, 2 ],[ 3, 4 ],4,5,[ 6, 5 ],[ 6, 0 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_3_2 = d_3 / ( d_2 - d_3 );
-            TF m_3_4 = d_3 / ( d_4 - d_3 );
-            TF m_6_5 = d_6 / ( d_5 - d_6 );
-            TF m_6_0 = d_6 / ( d_0 - d_6 );
-            TF x_3 = x[ 3 ] - m_3_2 * ( x[ 2 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_2 * ( y[ 2 ] - y[ 3 ] );
-            TF x_4 = x[ 3 ] - m_3_4 * ( x[ 4 ] - x[ 3 ] );
-            TF y_4 = y[ 3 ] - m_3_4 * ( y[ 4 ] - y[ 3 ] );
-            TF x_5 = x[ 4 ];
-            TF y_5 = y[ 4 ];
-            TF x_6 = x[ 5 ];
-            TF y_6 = y[ 5 ];
-            TF x_7 = x[ 6 ] - m_6_5 * ( x[ 5 ] - x[ 6 ] );
-            TF y_7 = y[ 6 ] - m_6_5 * ( y[ 5 ] - y[ 6 ] );
-            TF x_8 = x[ 6 ] - m_6_0 * ( x[ 0 ] - x[ 6 ] );
-            TF y_8 = y[ 6 ] - m_6_0 * ( y[ 0 ] - y[ 6 ] );
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            x[ 8 ] = x_8;
-            y[ 8 ] = y_8;
-            size = 9;
-            continue;
-        }
-        case 1865:
-        case 1993: {
-            // size=7 outside=0000000000000000000000000000000000000000000000000000000001001001 mod=[ 0, 1 ],1,2,[ 3, 2 ],[ 3, 4 ],4,5,[ 6, 5 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_0_1 = d_0 / ( d_1 - d_0 );
-            TF m_3_2 = d_3 / ( d_2 - d_3 );
-            TF m_3_4 = d_3 / ( d_4 - d_3 );
-            TF m_6_5 = d_6 / ( d_5 - d_6 );
-            TF x_0 = x[ 0 ] - m_0_1 * ( x[ 1 ] - x[ 0 ] );
-            TF y_0 = y[ 0 ] - m_0_1 * ( y[ 1 ] - y[ 0 ] );
-            TF x_3 = x[ 3 ] - m_3_2 * ( x[ 2 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_2 * ( y[ 2 ] - y[ 3 ] );
-            TF x_4 = x[ 3 ] - m_3_4 * ( x[ 4 ] - x[ 3 ] );
-            TF y_4 = y[ 3 ] - m_3_4 * ( y[ 4 ] - y[ 3 ] );
-            TF x_5 = x[ 4 ];
-            TF y_5 = y[ 4 ];
-            TF x_6 = x[ 5 ];
-            TF y_6 = y[ 5 ];
-            TF x_7 = x[ 6 ] - m_6_5 * ( x[ 5 ] - x[ 6 ] );
-            TF y_7 = y[ 6 ] - m_6_5 * ( y[ 5 ] - y[ 6 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            size = 8;
-            continue;
-        }
-        case 1866:
-        case 1994: {
-            // size=7 outside=0000000000000000000000000000000000000000000000000000000001001010 mod=[ 1, 2 ],2,[ 3, 2 ],[ 3, 4 ],4,5,[ 6, 5 ],[ 6, 0 ],0,[ 1, 0 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_1_2 = d_1 / ( d_2 - d_1 );
-            TF m_3_2 = d_3 / ( d_2 - d_3 );
-            TF m_3_4 = d_3 / ( d_4 - d_3 );
-            TF m_6_5 = d_6 / ( d_5 - d_6 );
-            TF m_6_0 = d_6 / ( d_0 - d_6 );
-            TF m_1_0 = d_1 / ( d_0 - d_1 );
-            TF x_0 = x[ 1 ] - m_1_2 * ( x[ 2 ] - x[ 1 ] );
-            TF y_0 = y[ 1 ] - m_1_2 * ( y[ 2 ] - y[ 1 ] );
-            TF x_1 = x[ 2 ];
-            TF y_1 = y[ 2 ];
-            TF x_2 = x[ 3 ] - m_3_2 * ( x[ 2 ] - x[ 3 ] );
-            TF y_2 = y[ 3 ] - m_3_2 * ( y[ 2 ] - y[ 3 ] );
-            TF x_3 = x[ 3 ] - m_3_4 * ( x[ 4 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_4 * ( y[ 4 ] - y[ 3 ] );
-            TF x_6 = x[ 6 ] - m_6_5 * ( x[ 5 ] - x[ 6 ] );
-            TF y_6 = y[ 6 ] - m_6_5 * ( y[ 5 ] - y[ 6 ] );
-            TF x_7 = x[ 6 ] - m_6_0 * ( x[ 0 ] - x[ 6 ] );
-            TF y_7 = y[ 6 ] - m_6_0 * ( y[ 0 ] - y[ 6 ] );
-            TF x_8 = x[ 0 ];
-            TF y_8 = y[ 0 ];
-            TF x_9 = x[ 1 ] - m_1_0 * ( x[ 0 ] - x[ 1 ] );
-            TF y_9 = y[ 1 ] - m_1_0 * ( y[ 0 ] - y[ 1 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            x[ 8 ] = x_8;
-            y[ 8 ] = y_8;
-            x[ 9 ] = x_9;
-            y[ 9 ] = y_9;
-            size = 10;
-            continue;
-        }
-        case 1867:
-        case 1995: {
-            // size=7 outside=0000000000000000000000000000000000000000000000000000000001001011 mod=[ 1, 2 ],2,[ 3, 2 ],[ 3, 4 ],4,5,[ 6, 5 ]
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_1_2 = d_1 / ( d_2 - d_1 );
-            TF m_3_2 = d_3 / ( d_2 - d_3 );
-            TF m_3_4 = d_3 / ( d_4 - d_3 );
-            TF m_6_5 = d_6 / ( d_5 - d_6 );
-            TF x_0 = x[ 1 ] - m_1_2 * ( x[ 2 ] - x[ 1 ] );
-            TF y_0 = y[ 1 ] - m_1_2 * ( y[ 2 ] - y[ 1 ] );
-            TF x_1 = x[ 2 ];
-            TF y_1 = y[ 2 ];
-            TF x_2 = x[ 3 ] - m_3_2 * ( x[ 2 ] - x[ 3 ] );
-            TF y_2 = y[ 3 ] - m_3_2 * ( y[ 2 ] - y[ 3 ] );
-            TF x_3 = x[ 3 ] - m_3_4 * ( x[ 4 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_4 * ( y[ 4 ] - y[ 3 ] );
-            TF x_6 = x[ 6 ] - m_6_5 * ( x[ 5 ] - x[ 6 ] );
-            TF y_6 = y[ 6 ] - m_6_5 * ( y[ 5 ] - y[ 6 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            continue;
-        }
-        case 1868:
-        case 1996: {
-            // size=7 outside=0000000000000000000000000000000000000000000000000000000001001100 mod=0,1,[ 2, 1 ],[ 3, 4 ],4,5,[ 6, 5 ],[ 6, 0 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_2_1 = d_2 / ( d_1 - d_2 );
-            TF m_3_4 = d_3 / ( d_4 - d_3 );
-            TF m_6_5 = d_6 / ( d_5 - d_6 );
-            TF m_6_0 = d_6 / ( d_0 - d_6 );
-            TF x_2 = x[ 2 ] - m_2_1 * ( x[ 1 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_1 * ( y[ 1 ] - y[ 2 ] );
-            TF x_3 = x[ 3 ] - m_3_4 * ( x[ 4 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_4 * ( y[ 4 ] - y[ 3 ] );
-            TF x_6 = x[ 6 ] - m_6_5 * ( x[ 5 ] - x[ 6 ] );
-            TF y_6 = y[ 6 ] - m_6_5 * ( y[ 5 ] - y[ 6 ] );
-            TF x_7 = x[ 6 ] - m_6_0 * ( x[ 0 ] - x[ 6 ] );
-            TF y_7 = y[ 6 ] - m_6_0 * ( y[ 0 ] - y[ 6 ] );
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            size = 8;
-            continue;
-        }
-        case 1869:
-        case 1997: {
-            // size=7 outside=0000000000000000000000000000000000000000000000000000000001001101 mod=[ 0, 1 ],1,[ 2, 1 ],[ 3, 4 ],4,5,[ 6, 5 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_0_1 = d_0 / ( d_1 - d_0 );
-            TF m_2_1 = d_2 / ( d_1 - d_2 );
-            TF m_3_4 = d_3 / ( d_4 - d_3 );
-            TF m_6_5 = d_6 / ( d_5 - d_6 );
-            TF x_0 = x[ 0 ] - m_0_1 * ( x[ 1 ] - x[ 0 ] );
-            TF y_0 = y[ 0 ] - m_0_1 * ( y[ 1 ] - y[ 0 ] );
-            TF x_2 = x[ 2 ] - m_2_1 * ( x[ 1 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_1 * ( y[ 1 ] - y[ 2 ] );
-            TF x_3 = x[ 3 ] - m_3_4 * ( x[ 4 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_4 * ( y[ 4 ] - y[ 3 ] );
-            TF x_6 = x[ 6 ] - m_6_5 * ( x[ 5 ] - x[ 6 ] );
-            TF y_6 = y[ 6 ] - m_6_5 * ( y[ 5 ] - y[ 6 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            continue;
-        }
-        case 1870:
-        case 1998: {
-            // size=7 outside=0000000000000000000000000000000000000000000000000000000001001110 mod=[ 6, 0 ],0,[ 1, 0 ],[ 3, 4 ],4,5,[ 6, 5 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_6_0 = d_6 / ( d_0 - d_6 );
-            TF m_1_0 = d_1 / ( d_0 - d_1 );
-            TF m_3_4 = d_3 / ( d_4 - d_3 );
-            TF m_6_5 = d_6 / ( d_5 - d_6 );
-            TF x_0 = x[ 6 ] - m_6_0 * ( x[ 0 ] - x[ 6 ] );
-            TF y_0 = y[ 6 ] - m_6_0 * ( y[ 0 ] - y[ 6 ] );
-            TF x_1 = x[ 0 ];
-            TF y_1 = y[ 0 ];
-            TF x_2 = x[ 1 ] - m_1_0 * ( x[ 0 ] - x[ 1 ] );
-            TF y_2 = y[ 1 ] - m_1_0 * ( y[ 0 ] - y[ 1 ] );
-            TF x_3 = x[ 3 ] - m_3_4 * ( x[ 4 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_4 * ( y[ 4 ] - y[ 3 ] );
-            TF x_6 = x[ 6 ] - m_6_5 * ( x[ 5 ] - x[ 6 ] );
-            TF y_6 = y[ 6 ] - m_6_5 * ( y[ 5 ] - y[ 6 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            continue;
+            break;
         }
         case 1871:
         case 1999: {
@@ -6346,597 +2583,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             x[ 3 ] = x_3;
             y[ 3 ] = y_3;
             size = 4;
-            continue;
-        }
-        case 1872:
-        case 2000: {
-            // size=7 outside=0000000000000000000000000000000000000000000000000000000001010000 mod=0,1,2,3,[ 4, 3 ],[ 4, 5 ],5,[ 6, 5 ],[ 6, 0 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_4_3 = d_4 / ( d_3 - d_4 );
-            TF m_4_5 = d_4 / ( d_5 - d_4 );
-            TF m_6_5 = d_6 / ( d_5 - d_6 );
-            TF m_6_0 = d_6 / ( d_0 - d_6 );
-            TF x_4 = x[ 4 ] - m_4_3 * ( x[ 3 ] - x[ 4 ] );
-            TF y_4 = y[ 4 ] - m_4_3 * ( y[ 3 ] - y[ 4 ] );
-            TF x_5 = x[ 4 ] - m_4_5 * ( x[ 5 ] - x[ 4 ] );
-            TF y_5 = y[ 4 ] - m_4_5 * ( y[ 5 ] - y[ 4 ] );
-            TF x_6 = x[ 5 ];
-            TF y_6 = y[ 5 ];
-            TF x_7 = x[ 6 ] - m_6_5 * ( x[ 5 ] - x[ 6 ] );
-            TF y_7 = y[ 6 ] - m_6_5 * ( y[ 5 ] - y[ 6 ] );
-            TF x_8 = x[ 6 ] - m_6_0 * ( x[ 0 ] - x[ 6 ] );
-            TF y_8 = y[ 6 ] - m_6_0 * ( y[ 0 ] - y[ 6 ] );
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            x[ 8 ] = x_8;
-            y[ 8 ] = y_8;
-            size = 9;
-            continue;
-        }
-        case 1873:
-        case 2001: {
-            // size=7 outside=0000000000000000000000000000000000000000000000000000000001010001 mod=[ 0, 1 ],1,2,3,[ 4, 3 ],[ 4, 5 ],5,[ 6, 5 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_0_1 = d_0 / ( d_1 - d_0 );
-            TF m_4_3 = d_4 / ( d_3 - d_4 );
-            TF m_4_5 = d_4 / ( d_5 - d_4 );
-            TF m_6_5 = d_6 / ( d_5 - d_6 );
-            TF x_0 = x[ 0 ] - m_0_1 * ( x[ 1 ] - x[ 0 ] );
-            TF y_0 = y[ 0 ] - m_0_1 * ( y[ 1 ] - y[ 0 ] );
-            TF x_4 = x[ 4 ] - m_4_3 * ( x[ 3 ] - x[ 4 ] );
-            TF y_4 = y[ 4 ] - m_4_3 * ( y[ 3 ] - y[ 4 ] );
-            TF x_5 = x[ 4 ] - m_4_5 * ( x[ 5 ] - x[ 4 ] );
-            TF y_5 = y[ 4 ] - m_4_5 * ( y[ 5 ] - y[ 4 ] );
-            TF x_6 = x[ 5 ];
-            TF y_6 = y[ 5 ];
-            TF x_7 = x[ 6 ] - m_6_5 * ( x[ 5 ] - x[ 6 ] );
-            TF y_7 = y[ 6 ] - m_6_5 * ( y[ 5 ] - y[ 6 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            size = 8;
-            continue;
-        }
-        case 1874:
-        case 2002: {
-            // size=7 outside=0000000000000000000000000000000000000000000000000000000001010010 mod=[ 1, 0 ],[ 1, 2 ],2,3,[ 4, 3 ],[ 4, 5 ],5,[ 6, 5 ],[ 6, 0 ],0
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_1_0 = d_1 / ( d_0 - d_1 );
-            TF m_1_2 = d_1 / ( d_2 - d_1 );
-            TF m_4_3 = d_4 / ( d_3 - d_4 );
-            TF m_4_5 = d_4 / ( d_5 - d_4 );
-            TF m_6_5 = d_6 / ( d_5 - d_6 );
-            TF m_6_0 = d_6 / ( d_0 - d_6 );
-            TF x_0 = x[ 1 ] - m_1_0 * ( x[ 0 ] - x[ 1 ] );
-            TF y_0 = y[ 1 ] - m_1_0 * ( y[ 0 ] - y[ 1 ] );
-            TF x_1 = x[ 1 ] - m_1_2 * ( x[ 2 ] - x[ 1 ] );
-            TF y_1 = y[ 1 ] - m_1_2 * ( y[ 2 ] - y[ 1 ] );
-            TF x_4 = x[ 4 ] - m_4_3 * ( x[ 3 ] - x[ 4 ] );
-            TF y_4 = y[ 4 ] - m_4_3 * ( y[ 3 ] - y[ 4 ] );
-            TF x_5 = x[ 4 ] - m_4_5 * ( x[ 5 ] - x[ 4 ] );
-            TF y_5 = y[ 4 ] - m_4_5 * ( y[ 5 ] - y[ 4 ] );
-            TF x_6 = x[ 5 ];
-            TF y_6 = y[ 5 ];
-            TF x_7 = x[ 6 ] - m_6_5 * ( x[ 5 ] - x[ 6 ] );
-            TF y_7 = y[ 6 ] - m_6_5 * ( y[ 5 ] - y[ 6 ] );
-            TF x_8 = x[ 6 ] - m_6_0 * ( x[ 0 ] - x[ 6 ] );
-            TF y_8 = y[ 6 ] - m_6_0 * ( y[ 0 ] - y[ 6 ] );
-            TF x_9 = x[ 0 ];
-            TF y_9 = y[ 0 ];
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            x[ 8 ] = x_8;
-            y[ 8 ] = y_8;
-            x[ 9 ] = x_9;
-            y[ 9 ] = y_9;
-            size = 10;
-            continue;
-        }
-        case 1875:
-        case 2003: {
-            // size=7 outside=0000000000000000000000000000000000000000000000000000000001010011 mod=[ 6, 5 ],[ 1, 2 ],2,3,[ 4, 3 ],[ 4, 5 ],5
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_6_5 = d_6 / ( d_5 - d_6 );
-            TF m_1_2 = d_1 / ( d_2 - d_1 );
-            TF m_4_3 = d_4 / ( d_3 - d_4 );
-            TF m_4_5 = d_4 / ( d_5 - d_4 );
-            TF x_0 = x[ 6 ] - m_6_5 * ( x[ 5 ] - x[ 6 ] );
-            TF y_0 = y[ 6 ] - m_6_5 * ( y[ 5 ] - y[ 6 ] );
-            TF x_1 = x[ 1 ] - m_1_2 * ( x[ 2 ] - x[ 1 ] );
-            TF y_1 = y[ 1 ] - m_1_2 * ( y[ 2 ] - y[ 1 ] );
-            TF x_4 = x[ 4 ] - m_4_3 * ( x[ 3 ] - x[ 4 ] );
-            TF y_4 = y[ 4 ] - m_4_3 * ( y[ 3 ] - y[ 4 ] );
-            TF x_5 = x[ 4 ] - m_4_5 * ( x[ 5 ] - x[ 4 ] );
-            TF y_5 = y[ 4 ] - m_4_5 * ( y[ 5 ] - y[ 4 ] );
-            TF x_6 = x[ 5 ];
-            TF y_6 = y[ 5 ];
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            continue;
-        }
-        case 1876:
-        case 2004: {
-            // size=7 outside=0000000000000000000000000000000000000000000000000000000001010100 mod=0,1,[ 2, 1 ],[ 2, 3 ],3,[ 4, 3 ],[ 4, 5 ],5,[ 6, 5 ],[ 6, 0 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_2_1 = d_2 / ( d_1 - d_2 );
-            TF m_2_3 = d_2 / ( d_3 - d_2 );
-            TF m_4_3 = d_4 / ( d_3 - d_4 );
-            TF m_4_5 = d_4 / ( d_5 - d_4 );
-            TF m_6_5 = d_6 / ( d_5 - d_6 );
-            TF m_6_0 = d_6 / ( d_0 - d_6 );
-            TF x_2 = x[ 2 ] - m_2_1 * ( x[ 1 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_1 * ( y[ 1 ] - y[ 2 ] );
-            TF x_3 = x[ 2 ] - m_2_3 * ( x[ 3 ] - x[ 2 ] );
-            TF y_3 = y[ 2 ] - m_2_3 * ( y[ 3 ] - y[ 2 ] );
-            TF x_4 = x[ 3 ];
-            TF y_4 = y[ 3 ];
-            TF x_5 = x[ 4 ] - m_4_3 * ( x[ 3 ] - x[ 4 ] );
-            TF y_5 = y[ 4 ] - m_4_3 * ( y[ 3 ] - y[ 4 ] );
-            TF x_6 = x[ 4 ] - m_4_5 * ( x[ 5 ] - x[ 4 ] );
-            TF y_6 = y[ 4 ] - m_4_5 * ( y[ 5 ] - y[ 4 ] );
-            TF x_7 = x[ 5 ];
-            TF y_7 = y[ 5 ];
-            TF x_8 = x[ 6 ] - m_6_5 * ( x[ 5 ] - x[ 6 ] );
-            TF y_8 = y[ 6 ] - m_6_5 * ( y[ 5 ] - y[ 6 ] );
-            TF x_9 = x[ 6 ] - m_6_0 * ( x[ 0 ] - x[ 6 ] );
-            TF y_9 = y[ 6 ] - m_6_0 * ( y[ 0 ] - y[ 6 ] );
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            x[ 8 ] = x_8;
-            y[ 8 ] = y_8;
-            x[ 9 ] = x_9;
-            y[ 9 ] = y_9;
-            size = 10;
-            continue;
-        }
-        case 1877:
-        case 2005: {
-            // size=7 outside=0000000000000000000000000000000000000000000000000000000001010101 mod=1,[ 2, 1 ],[ 2, 3 ],3,[ 4, 3 ],[ 4, 5 ],5,[ 6, 5 ],[ 0, 1 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_2_1 = d_2 / ( d_1 - d_2 );
-            TF m_2_3 = d_2 / ( d_3 - d_2 );
-            TF m_4_3 = d_4 / ( d_3 - d_4 );
-            TF m_4_5 = d_4 / ( d_5 - d_4 );
-            TF m_6_5 = d_6 / ( d_5 - d_6 );
-            TF m_0_1 = d_0 / ( d_1 - d_0 );
-            TF x_0 = x[ 1 ];
-            TF y_0 = y[ 1 ];
-            TF x_1 = x[ 2 ] - m_2_1 * ( x[ 1 ] - x[ 2 ] );
-            TF y_1 = y[ 2 ] - m_2_1 * ( y[ 1 ] - y[ 2 ] );
-            TF x_2 = x[ 2 ] - m_2_3 * ( x[ 3 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_3 * ( y[ 3 ] - y[ 2 ] );
-            TF x_4 = x[ 4 ] - m_4_3 * ( x[ 3 ] - x[ 4 ] );
-            TF y_4 = y[ 4 ] - m_4_3 * ( y[ 3 ] - y[ 4 ] );
-            TF x_5 = x[ 4 ] - m_4_5 * ( x[ 5 ] - x[ 4 ] );
-            TF y_5 = y[ 4 ] - m_4_5 * ( y[ 5 ] - y[ 4 ] );
-            TF x_6 = x[ 5 ];
-            TF y_6 = y[ 5 ];
-            TF x_7 = x[ 6 ] - m_6_5 * ( x[ 5 ] - x[ 6 ] );
-            TF y_7 = y[ 6 ] - m_6_5 * ( y[ 5 ] - y[ 6 ] );
-            TF x_8 = x[ 0 ] - m_0_1 * ( x[ 1 ] - x[ 0 ] );
-            TF y_8 = y[ 0 ] - m_0_1 * ( y[ 1 ] - y[ 0 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            x[ 8 ] = x_8;
-            y[ 8 ] = y_8;
-            size = 9;
-            continue;
-        }
-        case 1878:
-        case 2006: {
-            // size=7 outside=0000000000000000000000000000000000000000000000000000000001010110 mod=0,[ 1, 0 ],[ 2, 3 ],3,[ 4, 3 ],[ 4, 5 ],5,[ 6, 5 ],[ 6, 0 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_1_0 = d_1 / ( d_0 - d_1 );
-            TF m_2_3 = d_2 / ( d_3 - d_2 );
-            TF m_4_3 = d_4 / ( d_3 - d_4 );
-            TF m_4_5 = d_4 / ( d_5 - d_4 );
-            TF m_6_5 = d_6 / ( d_5 - d_6 );
-            TF m_6_0 = d_6 / ( d_0 - d_6 );
-            TF x_1 = x[ 1 ] - m_1_0 * ( x[ 0 ] - x[ 1 ] );
-            TF y_1 = y[ 1 ] - m_1_0 * ( y[ 0 ] - y[ 1 ] );
-            TF x_2 = x[ 2 ] - m_2_3 * ( x[ 3 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_3 * ( y[ 3 ] - y[ 2 ] );
-            TF x_4 = x[ 4 ] - m_4_3 * ( x[ 3 ] - x[ 4 ] );
-            TF y_4 = y[ 4 ] - m_4_3 * ( y[ 3 ] - y[ 4 ] );
-            TF x_5 = x[ 4 ] - m_4_5 * ( x[ 5 ] - x[ 4 ] );
-            TF y_5 = y[ 4 ] - m_4_5 * ( y[ 5 ] - y[ 4 ] );
-            TF x_6 = x[ 5 ];
-            TF y_6 = y[ 5 ];
-            TF x_7 = x[ 6 ] - m_6_5 * ( x[ 5 ] - x[ 6 ] );
-            TF y_7 = y[ 6 ] - m_6_5 * ( y[ 5 ] - y[ 6 ] );
-            TF x_8 = x[ 6 ] - m_6_0 * ( x[ 0 ] - x[ 6 ] );
-            TF y_8 = y[ 6 ] - m_6_0 * ( y[ 0 ] - y[ 6 ] );
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            x[ 8 ] = x_8;
-            y[ 8 ] = y_8;
-            size = 9;
-            continue;
-        }
-        case 1879:
-        case 2007: {
-            // size=7 outside=0000000000000000000000000000000000000000000000000000000001010111 mod=5,[ 6, 5 ],[ 2, 3 ],3,[ 4, 3 ],[ 4, 5 ]
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_6_5 = d_6 / ( d_5 - d_6 );
-            TF m_2_3 = d_2 / ( d_3 - d_2 );
-            TF m_4_3 = d_4 / ( d_3 - d_4 );
-            TF m_4_5 = d_4 / ( d_5 - d_4 );
-            TF x_0 = x[ 5 ];
-            TF y_0 = y[ 5 ];
-            TF x_1 = x[ 6 ] - m_6_5 * ( x[ 5 ] - x[ 6 ] );
-            TF y_1 = y[ 6 ] - m_6_5 * ( y[ 5 ] - y[ 6 ] );
-            TF x_2 = x[ 2 ] - m_2_3 * ( x[ 3 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_3 * ( y[ 3 ] - y[ 2 ] );
-            TF x_4 = x[ 4 ] - m_4_3 * ( x[ 3 ] - x[ 4 ] );
-            TF y_4 = y[ 4 ] - m_4_3 * ( y[ 3 ] - y[ 4 ] );
-            TF x_5 = x[ 4 ] - m_4_5 * ( x[ 5 ] - x[ 4 ] );
-            TF y_5 = y[ 4 ] - m_4_5 * ( y[ 5 ] - y[ 4 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            size = 6;
-            continue;
-        }
-        case 1880:
-        case 2008: {
-            // size=7 outside=0000000000000000000000000000000000000000000000000000000001011000 mod=0,1,2,[ 3, 2 ],[ 4, 5 ],5,[ 6, 5 ],[ 6, 0 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_3_2 = d_3 / ( d_2 - d_3 );
-            TF m_4_5 = d_4 / ( d_5 - d_4 );
-            TF m_6_5 = d_6 / ( d_5 - d_6 );
-            TF m_6_0 = d_6 / ( d_0 - d_6 );
-            TF x_3 = x[ 3 ] - m_3_2 * ( x[ 2 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_2 * ( y[ 2 ] - y[ 3 ] );
-            TF x_4 = x[ 4 ] - m_4_5 * ( x[ 5 ] - x[ 4 ] );
-            TF y_4 = y[ 4 ] - m_4_5 * ( y[ 5 ] - y[ 4 ] );
-            TF x_6 = x[ 6 ] - m_6_5 * ( x[ 5 ] - x[ 6 ] );
-            TF y_6 = y[ 6 ] - m_6_5 * ( y[ 5 ] - y[ 6 ] );
-            TF x_7 = x[ 6 ] - m_6_0 * ( x[ 0 ] - x[ 6 ] );
-            TF y_7 = y[ 6 ] - m_6_0 * ( y[ 0 ] - y[ 6 ] );
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            size = 8;
-            continue;
-        }
-        case 1881:
-        case 2009: {
-            // size=7 outside=0000000000000000000000000000000000000000000000000000000001011001 mod=[ 0, 1 ],1,2,[ 3, 2 ],[ 4, 5 ],5,[ 6, 5 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_0_1 = d_0 / ( d_1 - d_0 );
-            TF m_3_2 = d_3 / ( d_2 - d_3 );
-            TF m_4_5 = d_4 / ( d_5 - d_4 );
-            TF m_6_5 = d_6 / ( d_5 - d_6 );
-            TF x_0 = x[ 0 ] - m_0_1 * ( x[ 1 ] - x[ 0 ] );
-            TF y_0 = y[ 0 ] - m_0_1 * ( y[ 1 ] - y[ 0 ] );
-            TF x_3 = x[ 3 ] - m_3_2 * ( x[ 2 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_2 * ( y[ 2 ] - y[ 3 ] );
-            TF x_4 = x[ 4 ] - m_4_5 * ( x[ 5 ] - x[ 4 ] );
-            TF y_4 = y[ 4 ] - m_4_5 * ( y[ 5 ] - y[ 4 ] );
-            TF x_6 = x[ 6 ] - m_6_5 * ( x[ 5 ] - x[ 6 ] );
-            TF y_6 = y[ 6 ] - m_6_5 * ( y[ 5 ] - y[ 6 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            continue;
-        }
-        case 1882:
-        case 2010: {
-            // size=7 outside=0000000000000000000000000000000000000000000000000000000001011010 mod=[ 1, 0 ],[ 1, 2 ],2,[ 3, 2 ],[ 4, 5 ],5,[ 6, 5 ],[ 6, 0 ],0
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_1_0 = d_1 / ( d_0 - d_1 );
-            TF m_1_2 = d_1 / ( d_2 - d_1 );
-            TF m_3_2 = d_3 / ( d_2 - d_3 );
-            TF m_4_5 = d_4 / ( d_5 - d_4 );
-            TF m_6_5 = d_6 / ( d_5 - d_6 );
-            TF m_6_0 = d_6 / ( d_0 - d_6 );
-            TF x_0 = x[ 1 ] - m_1_0 * ( x[ 0 ] - x[ 1 ] );
-            TF y_0 = y[ 1 ] - m_1_0 * ( y[ 0 ] - y[ 1 ] );
-            TF x_1 = x[ 1 ] - m_1_2 * ( x[ 2 ] - x[ 1 ] );
-            TF y_1 = y[ 1 ] - m_1_2 * ( y[ 2 ] - y[ 1 ] );
-            TF x_3 = x[ 3 ] - m_3_2 * ( x[ 2 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_2 * ( y[ 2 ] - y[ 3 ] );
-            TF x_4 = x[ 4 ] - m_4_5 * ( x[ 5 ] - x[ 4 ] );
-            TF y_4 = y[ 4 ] - m_4_5 * ( y[ 5 ] - y[ 4 ] );
-            TF x_6 = x[ 6 ] - m_6_5 * ( x[ 5 ] - x[ 6 ] );
-            TF y_6 = y[ 6 ] - m_6_5 * ( y[ 5 ] - y[ 6 ] );
-            TF x_7 = x[ 6 ] - m_6_0 * ( x[ 0 ] - x[ 6 ] );
-            TF y_7 = y[ 6 ] - m_6_0 * ( y[ 0 ] - y[ 6 ] );
-            TF x_8 = x[ 0 ];
-            TF y_8 = y[ 0 ];
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            x[ 8 ] = x_8;
-            y[ 8 ] = y_8;
-            size = 9;
-            continue;
-        }
-        case 1883:
-        case 2011: {
-            // size=7 outside=0000000000000000000000000000000000000000000000000000000001011011 mod=[ 6, 5 ],[ 1, 2 ],2,[ 3, 2 ],[ 4, 5 ],5
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_6_5 = d_6 / ( d_5 - d_6 );
-            TF m_1_2 = d_1 / ( d_2 - d_1 );
-            TF m_3_2 = d_3 / ( d_2 - d_3 );
-            TF m_4_5 = d_4 / ( d_5 - d_4 );
-            TF x_0 = x[ 6 ] - m_6_5 * ( x[ 5 ] - x[ 6 ] );
-            TF y_0 = y[ 6 ] - m_6_5 * ( y[ 5 ] - y[ 6 ] );
-            TF x_1 = x[ 1 ] - m_1_2 * ( x[ 2 ] - x[ 1 ] );
-            TF y_1 = y[ 1 ] - m_1_2 * ( y[ 2 ] - y[ 1 ] );
-            TF x_3 = x[ 3 ] - m_3_2 * ( x[ 2 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_2 * ( y[ 2 ] - y[ 3 ] );
-            TF x_4 = x[ 4 ] - m_4_5 * ( x[ 5 ] - x[ 4 ] );
-            TF y_4 = y[ 4 ] - m_4_5 * ( y[ 5 ] - y[ 4 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            size = 6;
-            continue;
-        }
-        case 1884:
-        case 2012: {
-            // size=7 outside=0000000000000000000000000000000000000000000000000000000001011100 mod=0,1,[ 2, 1 ],[ 4, 5 ],5,[ 6, 5 ],[ 6, 0 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_2_1 = d_2 / ( d_1 - d_2 );
-            TF m_4_5 = d_4 / ( d_5 - d_4 );
-            TF m_6_5 = d_6 / ( d_5 - d_6 );
-            TF m_6_0 = d_6 / ( d_0 - d_6 );
-            TF x_2 = x[ 2 ] - m_2_1 * ( x[ 1 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_1 * ( y[ 1 ] - y[ 2 ] );
-            TF x_3 = x[ 4 ] - m_4_5 * ( x[ 5 ] - x[ 4 ] );
-            TF y_3 = y[ 4 ] - m_4_5 * ( y[ 5 ] - y[ 4 ] );
-            TF x_4 = x[ 5 ];
-            TF y_4 = y[ 5 ];
-            TF x_5 = x[ 6 ] - m_6_5 * ( x[ 5 ] - x[ 6 ] );
-            TF y_5 = y[ 6 ] - m_6_5 * ( y[ 5 ] - y[ 6 ] );
-            TF x_6 = x[ 6 ] - m_6_0 * ( x[ 0 ] - x[ 6 ] );
-            TF y_6 = y[ 6 ] - m_6_0 * ( y[ 0 ] - y[ 6 ] );
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            continue;
-        }
-        case 1885:
-        case 2013: {
-            // size=7 outside=0000000000000000000000000000000000000000000000000000000001011101 mod=[ 0, 1 ],1,[ 2, 1 ],[ 4, 5 ],5,[ 6, 5 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_0_1 = d_0 / ( d_1 - d_0 );
-            TF m_2_1 = d_2 / ( d_1 - d_2 );
-            TF m_4_5 = d_4 / ( d_5 - d_4 );
-            TF m_6_5 = d_6 / ( d_5 - d_6 );
-            TF x_0 = x[ 0 ] - m_0_1 * ( x[ 1 ] - x[ 0 ] );
-            TF y_0 = y[ 0 ] - m_0_1 * ( y[ 1 ] - y[ 0 ] );
-            TF x_2 = x[ 2 ] - m_2_1 * ( x[ 1 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_1 * ( y[ 1 ] - y[ 2 ] );
-            TF x_3 = x[ 4 ] - m_4_5 * ( x[ 5 ] - x[ 4 ] );
-            TF y_3 = y[ 4 ] - m_4_5 * ( y[ 5 ] - y[ 4 ] );
-            TF x_4 = x[ 5 ];
-            TF y_4 = y[ 5 ];
-            TF x_5 = x[ 6 ] - m_6_5 * ( x[ 5 ] - x[ 6 ] );
-            TF y_5 = y[ 6 ] - m_6_5 * ( y[ 5 ] - y[ 6 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            size = 6;
-            continue;
-        }
-        case 1886:
-        case 2014: {
-            // size=7 outside=0000000000000000000000000000000000000000000000000000000001011110 mod=0,[ 1, 0 ],[ 4, 5 ],5,[ 6, 5 ],[ 6, 0 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_1_0 = d_1 / ( d_0 - d_1 );
-            TF m_4_5 = d_4 / ( d_5 - d_4 );
-            TF m_6_5 = d_6 / ( d_5 - d_6 );
-            TF m_6_0 = d_6 / ( d_0 - d_6 );
-            TF x_1 = x[ 1 ] - m_1_0 * ( x[ 0 ] - x[ 1 ] );
-            TF y_1 = y[ 1 ] - m_1_0 * ( y[ 0 ] - y[ 1 ] );
-            TF x_2 = x[ 4 ] - m_4_5 * ( x[ 5 ] - x[ 4 ] );
-            TF y_2 = y[ 4 ] - m_4_5 * ( y[ 5 ] - y[ 4 ] );
-            TF x_3 = x[ 5 ];
-            TF y_3 = y[ 5 ];
-            TF x_4 = x[ 6 ] - m_6_5 * ( x[ 5 ] - x[ 6 ] );
-            TF y_4 = y[ 6 ] - m_6_5 * ( y[ 5 ] - y[ 6 ] );
-            TF x_5 = x[ 6 ] - m_6_0 * ( x[ 0 ] - x[ 6 ] );
-            TF y_5 = y[ 6 ] - m_6_0 * ( y[ 0 ] - y[ 6 ] );
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            size = 6;
-            continue;
+            break;
         }
         case 1887:
         case 2015: {
@@ -6959,7 +2606,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             x[ 2 ] = x_2;
             y[ 2 ] = y_2;
             size = 3;
-            continue;
+            break;
         }
         case 1888:
         case 2016: {
@@ -6978,7 +2625,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             y[ 5 ] = y_5;
             x[ 6 ] = x_6;
             y[ 6 ] = y_6;
-            continue;
+            break;
         }
         case 1889:
         case 2017: {
@@ -6998,43 +2645,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             x[ 5 ] = x_5;
             y[ 5 ] = y_5;
             size = 6;
-            continue;
-        }
-        case 1890:
-        case 2018: {
-            // size=7 outside=0000000000000000000000000000000000000000000000000000000001100010 mod=[ 1, 0 ],[ 1, 2 ],2,3,4,[ 5, 4 ],[ 6, 0 ],0
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_1_0 = d_1 / ( d_0 - d_1 );
-            TF m_1_2 = d_1 / ( d_2 - d_1 );
-            TF m_5_4 = d_5 / ( d_4 - d_5 );
-            TF m_6_0 = d_6 / ( d_0 - d_6 );
-            TF x_0 = x[ 1 ] - m_1_0 * ( x[ 0 ] - x[ 1 ] );
-            TF y_0 = y[ 1 ] - m_1_0 * ( y[ 0 ] - y[ 1 ] );
-            TF x_1 = x[ 1 ] - m_1_2 * ( x[ 2 ] - x[ 1 ] );
-            TF y_1 = y[ 1 ] - m_1_2 * ( y[ 2 ] - y[ 1 ] );
-            TF x_5 = x[ 5 ] - m_5_4 * ( x[ 4 ] - x[ 5 ] );
-            TF y_5 = y[ 5 ] - m_5_4 * ( y[ 4 ] - y[ 5 ] );
-            TF x_6 = x[ 6 ] - m_6_0 * ( x[ 0 ] - x[ 6 ] );
-            TF y_6 = y[ 6 ] - m_6_0 * ( y[ 0 ] - y[ 6 ] );
-            TF x_7 = x[ 0 ];
-            TF y_7 = y[ 0 ];
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            size = 8;
-            continue;
+            break;
         }
         case 1891:
         case 2019: {
@@ -7054,115 +2665,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             x[ 1 ] = x_1;
             y[ 1 ] = y_1;
             size = 5;
-            continue;
-        }
-        case 1892:
-        case 2020: {
-            // size=7 outside=0000000000000000000000000000000000000000000000000000000001100100 mod=1,[ 2, 1 ],[ 2, 3 ],3,4,[ 5, 4 ],[ 6, 0 ],0
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_2_1 = d_2 / ( d_1 - d_2 );
-            TF m_2_3 = d_2 / ( d_3 - d_2 );
-            TF m_5_4 = d_5 / ( d_4 - d_5 );
-            TF m_6_0 = d_6 / ( d_0 - d_6 );
-            TF x_0 = x[ 1 ];
-            TF y_0 = y[ 1 ];
-            TF x_1 = x[ 2 ] - m_2_1 * ( x[ 1 ] - x[ 2 ] );
-            TF y_1 = y[ 2 ] - m_2_1 * ( y[ 1 ] - y[ 2 ] );
-            TF x_2 = x[ 2 ] - m_2_3 * ( x[ 3 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_3 * ( y[ 3 ] - y[ 2 ] );
-            TF x_5 = x[ 5 ] - m_5_4 * ( x[ 4 ] - x[ 5 ] );
-            TF y_5 = y[ 5 ] - m_5_4 * ( y[ 4 ] - y[ 5 ] );
-            TF x_6 = x[ 6 ] - m_6_0 * ( x[ 0 ] - x[ 6 ] );
-            TF y_6 = y[ 6 ] - m_6_0 * ( y[ 0 ] - y[ 6 ] );
-            TF x_7 = x[ 0 ];
-            TF y_7 = y[ 0 ];
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            size = 8;
-            continue;
-        }
-        case 1893:
-        case 2021: {
-            // size=7 outside=0000000000000000000000000000000000000000000000000000000001100101 mod=1,[ 2, 1 ],[ 2, 3 ],3,4,[ 5, 4 ],[ 0, 1 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF m_2_1 = d_2 / ( d_1 - d_2 );
-            TF m_2_3 = d_2 / ( d_3 - d_2 );
-            TF m_5_4 = d_5 / ( d_4 - d_5 );
-            TF m_0_1 = d_0 / ( d_1 - d_0 );
-            TF x_0 = x[ 1 ];
-            TF y_0 = y[ 1 ];
-            TF x_1 = x[ 2 ] - m_2_1 * ( x[ 1 ] - x[ 2 ] );
-            TF y_1 = y[ 2 ] - m_2_1 * ( y[ 1 ] - y[ 2 ] );
-            TF x_2 = x[ 2 ] - m_2_3 * ( x[ 3 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_3 * ( y[ 3 ] - y[ 2 ] );
-            TF x_5 = x[ 5 ] - m_5_4 * ( x[ 4 ] - x[ 5 ] );
-            TF y_5 = y[ 5 ] - m_5_4 * ( y[ 4 ] - y[ 5 ] );
-            TF x_6 = x[ 0 ] - m_0_1 * ( x[ 1 ] - x[ 0 ] );
-            TF y_6 = y[ 0 ] - m_0_1 * ( y[ 1 ] - y[ 0 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            continue;
-        }
-        case 1894:
-        case 2022: {
-            // size=7 outside=0000000000000000000000000000000000000000000000000000000001100110 mod=0,[ 1, 0 ],[ 2, 3 ],3,4,[ 5, 4 ],[ 6, 0 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_1_0 = d_1 / ( d_0 - d_1 );
-            TF m_2_3 = d_2 / ( d_3 - d_2 );
-            TF m_5_4 = d_5 / ( d_4 - d_5 );
-            TF m_6_0 = d_6 / ( d_0 - d_6 );
-            TF x_1 = x[ 1 ] - m_1_0 * ( x[ 0 ] - x[ 1 ] );
-            TF y_1 = y[ 1 ] - m_1_0 * ( y[ 0 ] - y[ 1 ] );
-            TF x_2 = x[ 2 ] - m_2_3 * ( x[ 3 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_3 * ( y[ 3 ] - y[ 2 ] );
-            TF x_5 = x[ 5 ] - m_5_4 * ( x[ 4 ] - x[ 5 ] );
-            TF y_5 = y[ 5 ] - m_5_4 * ( y[ 4 ] - y[ 5 ] );
-            TF x_6 = x[ 6 ] - m_6_0 * ( x[ 0 ] - x[ 6 ] );
-            TF y_6 = y[ 6 ] - m_6_0 * ( y[ 0 ] - y[ 6 ] );
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            continue;
+            break;
         }
         case 1895:
         case 2023: {
@@ -7186,264 +2689,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             x[ 2 ] = x_2;
             y[ 2 ] = y_2;
             size = 4;
-            continue;
-        }
-        case 1896:
-        case 2024: {
-            // size=7 outside=0000000000000000000000000000000000000000000000000000000001101000 mod=0,1,2,[ 3, 2 ],[ 3, 4 ],4,[ 5, 4 ],[ 6, 0 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_3_2 = d_3 / ( d_2 - d_3 );
-            TF m_3_4 = d_3 / ( d_4 - d_3 );
-            TF m_5_4 = d_5 / ( d_4 - d_5 );
-            TF m_6_0 = d_6 / ( d_0 - d_6 );
-            TF x_3 = x[ 3 ] - m_3_2 * ( x[ 2 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_2 * ( y[ 2 ] - y[ 3 ] );
-            TF x_4 = x[ 3 ] - m_3_4 * ( x[ 4 ] - x[ 3 ] );
-            TF y_4 = y[ 3 ] - m_3_4 * ( y[ 4 ] - y[ 3 ] );
-            TF x_5 = x[ 4 ];
-            TF y_5 = y[ 4 ];
-            TF x_6 = x[ 5 ] - m_5_4 * ( x[ 4 ] - x[ 5 ] );
-            TF y_6 = y[ 5 ] - m_5_4 * ( y[ 4 ] - y[ 5 ] );
-            TF x_7 = x[ 6 ] - m_6_0 * ( x[ 0 ] - x[ 6 ] );
-            TF y_7 = y[ 6 ] - m_6_0 * ( y[ 0 ] - y[ 6 ] );
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            size = 8;
-            continue;
-        }
-        case 1897:
-        case 2025: {
-            // size=7 outside=0000000000000000000000000000000000000000000000000000000001101001 mod=[ 0, 1 ],1,2,[ 3, 2 ],[ 3, 4 ],4,[ 5, 4 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF m_0_1 = d_0 / ( d_1 - d_0 );
-            TF m_3_2 = d_3 / ( d_2 - d_3 );
-            TF m_3_4 = d_3 / ( d_4 - d_3 );
-            TF m_5_4 = d_5 / ( d_4 - d_5 );
-            TF x_0 = x[ 0 ] - m_0_1 * ( x[ 1 ] - x[ 0 ] );
-            TF y_0 = y[ 0 ] - m_0_1 * ( y[ 1 ] - y[ 0 ] );
-            TF x_3 = x[ 3 ] - m_3_2 * ( x[ 2 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_2 * ( y[ 2 ] - y[ 3 ] );
-            TF x_4 = x[ 3 ] - m_3_4 * ( x[ 4 ] - x[ 3 ] );
-            TF y_4 = y[ 3 ] - m_3_4 * ( y[ 4 ] - y[ 3 ] );
-            TF x_5 = x[ 4 ];
-            TF y_5 = y[ 4 ];
-            TF x_6 = x[ 5 ] - m_5_4 * ( x[ 4 ] - x[ 5 ] );
-            TF y_6 = y[ 5 ] - m_5_4 * ( y[ 4 ] - y[ 5 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            continue;
-        }
-        case 1898:
-        case 2026: {
-            // size=7 outside=0000000000000000000000000000000000000000000000000000000001101010 mod=[ 1, 2 ],2,[ 3, 2 ],[ 3, 4 ],4,[ 5, 4 ],[ 6, 0 ],0,[ 1, 0 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_1_2 = d_1 / ( d_2 - d_1 );
-            TF m_3_2 = d_3 / ( d_2 - d_3 );
-            TF m_3_4 = d_3 / ( d_4 - d_3 );
-            TF m_5_4 = d_5 / ( d_4 - d_5 );
-            TF m_6_0 = d_6 / ( d_0 - d_6 );
-            TF m_1_0 = d_1 / ( d_0 - d_1 );
-            TF x_0 = x[ 1 ] - m_1_2 * ( x[ 2 ] - x[ 1 ] );
-            TF y_0 = y[ 1 ] - m_1_2 * ( y[ 2 ] - y[ 1 ] );
-            TF x_1 = x[ 2 ];
-            TF y_1 = y[ 2 ];
-            TF x_2 = x[ 3 ] - m_3_2 * ( x[ 2 ] - x[ 3 ] );
-            TF y_2 = y[ 3 ] - m_3_2 * ( y[ 2 ] - y[ 3 ] );
-            TF x_3 = x[ 3 ] - m_3_4 * ( x[ 4 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_4 * ( y[ 4 ] - y[ 3 ] );
-            TF x_5 = x[ 5 ] - m_5_4 * ( x[ 4 ] - x[ 5 ] );
-            TF y_5 = y[ 5 ] - m_5_4 * ( y[ 4 ] - y[ 5 ] );
-            TF x_6 = x[ 6 ] - m_6_0 * ( x[ 0 ] - x[ 6 ] );
-            TF y_6 = y[ 6 ] - m_6_0 * ( y[ 0 ] - y[ 6 ] );
-            TF x_7 = x[ 0 ];
-            TF y_7 = y[ 0 ];
-            TF x_8 = x[ 1 ] - m_1_0 * ( x[ 0 ] - x[ 1 ] );
-            TF y_8 = y[ 1 ] - m_1_0 * ( y[ 0 ] - y[ 1 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            x[ 8 ] = x_8;
-            y[ 8 ] = y_8;
-            size = 9;
-            continue;
-        }
-        case 1899:
-        case 2027: {
-            // size=7 outside=0000000000000000000000000000000000000000000000000000000001101011 mod=[ 1, 2 ],2,[ 3, 2 ],[ 3, 4 ],4,[ 5, 4 ]
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF m_1_2 = d_1 / ( d_2 - d_1 );
-            TF m_3_2 = d_3 / ( d_2 - d_3 );
-            TF m_3_4 = d_3 / ( d_4 - d_3 );
-            TF m_5_4 = d_5 / ( d_4 - d_5 );
-            TF x_0 = x[ 1 ] - m_1_2 * ( x[ 2 ] - x[ 1 ] );
-            TF y_0 = y[ 1 ] - m_1_2 * ( y[ 2 ] - y[ 1 ] );
-            TF x_1 = x[ 2 ];
-            TF y_1 = y[ 2 ];
-            TF x_2 = x[ 3 ] - m_3_2 * ( x[ 2 ] - x[ 3 ] );
-            TF y_2 = y[ 3 ] - m_3_2 * ( y[ 2 ] - y[ 3 ] );
-            TF x_3 = x[ 3 ] - m_3_4 * ( x[ 4 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_4 * ( y[ 4 ] - y[ 3 ] );
-            TF x_5 = x[ 5 ] - m_5_4 * ( x[ 4 ] - x[ 5 ] );
-            TF y_5 = y[ 5 ] - m_5_4 * ( y[ 4 ] - y[ 5 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            size = 6;
-            continue;
-        }
-        case 1900:
-        case 2028: {
-            // size=7 outside=0000000000000000000000000000000000000000000000000000000001101100 mod=0,1,[ 2, 1 ],[ 3, 4 ],4,[ 5, 4 ],[ 6, 0 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_2_1 = d_2 / ( d_1 - d_2 );
-            TF m_3_4 = d_3 / ( d_4 - d_3 );
-            TF m_5_4 = d_5 / ( d_4 - d_5 );
-            TF m_6_0 = d_6 / ( d_0 - d_6 );
-            TF x_2 = x[ 2 ] - m_2_1 * ( x[ 1 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_1 * ( y[ 1 ] - y[ 2 ] );
-            TF x_3 = x[ 3 ] - m_3_4 * ( x[ 4 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_4 * ( y[ 4 ] - y[ 3 ] );
-            TF x_5 = x[ 5 ] - m_5_4 * ( x[ 4 ] - x[ 5 ] );
-            TF y_5 = y[ 5 ] - m_5_4 * ( y[ 4 ] - y[ 5 ] );
-            TF x_6 = x[ 6 ] - m_6_0 * ( x[ 0 ] - x[ 6 ] );
-            TF y_6 = y[ 6 ] - m_6_0 * ( y[ 0 ] - y[ 6 ] );
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            continue;
-        }
-        case 1901:
-        case 2029: {
-            // size=7 outside=0000000000000000000000000000000000000000000000000000000001101101 mod=[ 0, 1 ],1,[ 2, 1 ],[ 3, 4 ],4,[ 5, 4 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF m_0_1 = d_0 / ( d_1 - d_0 );
-            TF m_2_1 = d_2 / ( d_1 - d_2 );
-            TF m_3_4 = d_3 / ( d_4 - d_3 );
-            TF m_5_4 = d_5 / ( d_4 - d_5 );
-            TF x_0 = x[ 0 ] - m_0_1 * ( x[ 1 ] - x[ 0 ] );
-            TF y_0 = y[ 0 ] - m_0_1 * ( y[ 1 ] - y[ 0 ] );
-            TF x_2 = x[ 2 ] - m_2_1 * ( x[ 1 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_1 * ( y[ 1 ] - y[ 2 ] );
-            TF x_3 = x[ 3 ] - m_3_4 * ( x[ 4 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_4 * ( y[ 4 ] - y[ 3 ] );
-            TF x_5 = x[ 5 ] - m_5_4 * ( x[ 4 ] - x[ 5 ] );
-            TF y_5 = y[ 5 ] - m_5_4 * ( y[ 4 ] - y[ 5 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            size = 6;
-            continue;
-        }
-        case 1902:
-        case 2030: {
-            // size=7 outside=0000000000000000000000000000000000000000000000000000000001101110 mod=[ 6, 0 ],0,[ 1, 0 ],[ 3, 4 ],4,[ 5, 4 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_6_0 = d_6 / ( d_0 - d_6 );
-            TF m_1_0 = d_1 / ( d_0 - d_1 );
-            TF m_3_4 = d_3 / ( d_4 - d_3 );
-            TF m_5_4 = d_5 / ( d_4 - d_5 );
-            TF x_0 = x[ 6 ] - m_6_0 * ( x[ 0 ] - x[ 6 ] );
-            TF y_0 = y[ 6 ] - m_6_0 * ( y[ 0 ] - y[ 6 ] );
-            TF x_1 = x[ 0 ];
-            TF y_1 = y[ 0 ];
-            TF x_2 = x[ 1 ] - m_1_0 * ( x[ 0 ] - x[ 1 ] );
-            TF y_2 = y[ 1 ] - m_1_0 * ( y[ 0 ] - y[ 1 ] );
-            TF x_3 = x[ 3 ] - m_3_4 * ( x[ 4 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_4 * ( y[ 4 ] - y[ 3 ] );
-            TF x_5 = x[ 5 ] - m_5_4 * ( x[ 4 ] - x[ 5 ] );
-            TF y_5 = y[ 5 ] - m_5_4 * ( y[ 4 ] - y[ 5 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            size = 6;
-            continue;
+            break;
         }
         case 1903:
         case 2031: {
@@ -7466,7 +2712,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             x[ 2 ] = x_2;
             y[ 2 ] = y_2;
             size = 3;
-            continue;
+            break;
         }
         case 1904:
         case 2032: {
@@ -7486,7 +2732,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             x[ 5 ] = x_5;
             y[ 5 ] = y_5;
             size = 6;
-            continue;
+            break;
         }
         case 1905:
         case 2033: {
@@ -7506,42 +2752,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             x[ 4 ] = x_4;
             y[ 4 ] = y_4;
             size = 5;
-            continue;
-        }
-        case 1906:
-        case 2034: {
-            // size=7 outside=0000000000000000000000000000000000000000000000000000000001110010 mod=[ 1, 0 ],[ 1, 2 ],2,3,[ 4, 3 ],[ 6, 0 ],0
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_1_0 = d_1 / ( d_0 - d_1 );
-            TF m_1_2 = d_1 / ( d_2 - d_1 );
-            TF m_4_3 = d_4 / ( d_3 - d_4 );
-            TF m_6_0 = d_6 / ( d_0 - d_6 );
-            TF x_0 = x[ 1 ] - m_1_0 * ( x[ 0 ] - x[ 1 ] );
-            TF y_0 = y[ 1 ] - m_1_0 * ( y[ 0 ] - y[ 1 ] );
-            TF x_1 = x[ 1 ] - m_1_2 * ( x[ 2 ] - x[ 1 ] );
-            TF y_1 = y[ 1 ] - m_1_2 * ( y[ 2 ] - y[ 1 ] );
-            TF x_4 = x[ 4 ] - m_4_3 * ( x[ 3 ] - x[ 4 ] );
-            TF y_4 = y[ 4 ] - m_4_3 * ( y[ 3 ] - y[ 4 ] );
-            TF x_5 = x[ 6 ] - m_6_0 * ( x[ 0 ] - x[ 6 ] );
-            TF y_5 = y[ 6 ] - m_6_0 * ( y[ 0 ] - y[ 6 ] );
-            TF x_6 = x[ 0 ];
-            TF y_6 = y[ 0 ];
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            continue;
+            break;
         }
         case 1907:
         case 2035: {
@@ -7561,109 +2772,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             x[ 1 ] = x_1;
             y[ 1 ] = y_1;
             size = 4;
-            continue;
-        }
-        case 1908:
-        case 2036: {
-            // size=7 outside=0000000000000000000000000000000000000000000000000000000001110100 mod=0,1,[ 2, 1 ],[ 2, 3 ],3,[ 4, 3 ],[ 6, 0 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_2_1 = d_2 / ( d_1 - d_2 );
-            TF m_2_3 = d_2 / ( d_3 - d_2 );
-            TF m_4_3 = d_4 / ( d_3 - d_4 );
-            TF m_6_0 = d_6 / ( d_0 - d_6 );
-            TF x_2 = x[ 2 ] - m_2_1 * ( x[ 1 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_1 * ( y[ 1 ] - y[ 2 ] );
-            TF x_3 = x[ 2 ] - m_2_3 * ( x[ 3 ] - x[ 2 ] );
-            TF y_3 = y[ 2 ] - m_2_3 * ( y[ 3 ] - y[ 2 ] );
-            TF x_4 = x[ 3 ];
-            TF y_4 = y[ 3 ];
-            TF x_5 = x[ 4 ] - m_4_3 * ( x[ 3 ] - x[ 4 ] );
-            TF y_5 = y[ 4 ] - m_4_3 * ( y[ 3 ] - y[ 4 ] );
-            TF x_6 = x[ 6 ] - m_6_0 * ( x[ 0 ] - x[ 6 ] );
-            TF y_6 = y[ 6 ] - m_6_0 * ( y[ 0 ] - y[ 6 ] );
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            continue;
-        }
-        case 1909:
-        case 2037: {
-            // size=7 outside=0000000000000000000000000000000000000000000000000000000001110101 mod=[ 0, 1 ],1,[ 2, 1 ],[ 2, 3 ],3,[ 4, 3 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF m_0_1 = d_0 / ( d_1 - d_0 );
-            TF m_2_1 = d_2 / ( d_1 - d_2 );
-            TF m_2_3 = d_2 / ( d_3 - d_2 );
-            TF m_4_3 = d_4 / ( d_3 - d_4 );
-            TF x_0 = x[ 0 ] - m_0_1 * ( x[ 1 ] - x[ 0 ] );
-            TF y_0 = y[ 0 ] - m_0_1 * ( y[ 1 ] - y[ 0 ] );
-            TF x_2 = x[ 2 ] - m_2_1 * ( x[ 1 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_1 * ( y[ 1 ] - y[ 2 ] );
-            TF x_3 = x[ 2 ] - m_2_3 * ( x[ 3 ] - x[ 2 ] );
-            TF y_3 = y[ 2 ] - m_2_3 * ( y[ 3 ] - y[ 2 ] );
-            TF x_4 = x[ 3 ];
-            TF y_4 = y[ 3 ];
-            TF x_5 = x[ 4 ] - m_4_3 * ( x[ 3 ] - x[ 4 ] );
-            TF y_5 = y[ 4 ] - m_4_3 * ( y[ 3 ] - y[ 4 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            size = 6;
-            continue;
-        }
-        case 1910:
-        case 2038: {
-            // size=7 outside=0000000000000000000000000000000000000000000000000000000001110110 mod=0,[ 1, 0 ],[ 2, 3 ],3,[ 4, 3 ],[ 6, 0 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_1_0 = d_1 / ( d_0 - d_1 );
-            TF m_2_3 = d_2 / ( d_3 - d_2 );
-            TF m_4_3 = d_4 / ( d_3 - d_4 );
-            TF m_6_0 = d_6 / ( d_0 - d_6 );
-            TF x_1 = x[ 1 ] - m_1_0 * ( x[ 0 ] - x[ 1 ] );
-            TF y_1 = y[ 1 ] - m_1_0 * ( y[ 0 ] - y[ 1 ] );
-            TF x_2 = x[ 2 ] - m_2_3 * ( x[ 3 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_3 * ( y[ 3 ] - y[ 2 ] );
-            TF x_4 = x[ 4 ] - m_4_3 * ( x[ 3 ] - x[ 4 ] );
-            TF y_4 = y[ 4 ] - m_4_3 * ( y[ 3 ] - y[ 4 ] );
-            TF x_5 = x[ 6 ] - m_6_0 * ( x[ 0 ] - x[ 6 ] );
-            TF y_5 = y[ 6 ] - m_6_0 * ( y[ 0 ] - y[ 6 ] );
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            size = 6;
-            continue;
+            break;
         }
         case 1911:
         case 2039: {
@@ -7686,7 +2795,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             x[ 2 ] = x_2;
             y[ 2 ] = y_2;
             size = 3;
-            continue;
+            break;
         }
         case 1912:
         case 2040: {
@@ -7706,7 +2815,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             x[ 4 ] = x_4;
             y[ 4 ] = y_4;
             size = 5;
-            continue;
+            break;
         }
         case 1913:
         case 2041: {
@@ -7726,42 +2835,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             x[ 3 ] = x_3;
             y[ 3 ] = y_3;
             size = 4;
-            continue;
-        }
-        case 1914:
-        case 2042: {
-            // size=7 outside=0000000000000000000000000000000000000000000000000000000001111010 mod=[ 1, 0 ],[ 1, 2 ],2,[ 3, 2 ],[ 6, 0 ],0
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_1_0 = d_1 / ( d_0 - d_1 );
-            TF m_1_2 = d_1 / ( d_2 - d_1 );
-            TF m_3_2 = d_3 / ( d_2 - d_3 );
-            TF m_6_0 = d_6 / ( d_0 - d_6 );
-            TF x_0 = x[ 1 ] - m_1_0 * ( x[ 0 ] - x[ 1 ] );
-            TF y_0 = y[ 1 ] - m_1_0 * ( y[ 0 ] - y[ 1 ] );
-            TF x_1 = x[ 1 ] - m_1_2 * ( x[ 2 ] - x[ 1 ] );
-            TF y_1 = y[ 1 ] - m_1_2 * ( y[ 2 ] - y[ 1 ] );
-            TF x_3 = x[ 3 ] - m_3_2 * ( x[ 2 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_2 * ( y[ 2 ] - y[ 3 ] );
-            TF x_4 = x[ 6 ] - m_6_0 * ( x[ 0 ] - x[ 6 ] );
-            TF y_4 = y[ 6 ] - m_6_0 * ( y[ 0 ] - y[ 6 ] );
-            TF x_5 = x[ 0 ];
-            TF y_5 = y[ 0 ];
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            size = 6;
-            continue;
+            break;
         }
         case 1915:
         case 2043: {
@@ -7780,7 +2854,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             x[ 1 ] = x_1;
             y[ 1 ] = y_1;
             size = 3;
-            continue;
+            break;
         }
         case 1916:
         case 2044: {
@@ -7800,7 +2874,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             x[ 3 ] = x_3;
             y[ 3 ] = y_3;
             size = 4;
-            continue;
+            break;
         }
         case 1917:
         case 2045: {
@@ -7819,7 +2893,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             x[ 2 ] = x_2;
             y[ 2 ] = y_2;
             size = 3;
-            continue;
+            break;
         }
         case 1918:
         case 2046: {
@@ -7838,7 +2912,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             x[ 2 ] = x_2;
             y[ 2 ] = y_2;
             size = 3;
-            continue;
+            break;
         }
         case 2049: {
             // size=8 outside=0000000000000000000000000000000000000000000000000000000000000001 mod=[ 0, 1 ],1,2,3,4,5,6,7,[ 0, 7 ]
@@ -7856,7 +2930,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             x[ 8 ] = x_8;
             y[ 8 ] = y_8;
             size = 9;
-            continue;
+            break;
         }
         case 2050: {
             // size=8 outside=0000000000000000000000000000000000000000000000000000000000000010 mod=[ 1, 0 ],[ 1, 2 ],2,3,4,5,6,7,0
@@ -7878,7 +2952,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             x[ 8 ] = x_8;
             y[ 8 ] = y_8;
             size = 9;
-            continue;
+            break;
         }
         case 2051: {
             // size=8 outside=0000000000000000000000000000000000000000000000000000000000000011 mod=[ 0, 7 ],[ 1, 2 ],2,3,4,5,6,7
@@ -7896,7 +2970,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             y[ 0 ] = y_0;
             x[ 1 ] = x_1;
             y[ 1 ] = y_1;
-            continue;
+            break;
         }
         case 2052: {
             // size=8 outside=0000000000000000000000000000000000000000000000000000000000000100 mod=1,[ 2, 1 ],[ 2, 3 ],3,4,5,6,7,0
@@ -7922,41 +2996,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             x[ 8 ] = x_8;
             y[ 8 ] = y_8;
             size = 9;
-            continue;
-        }
-        case 2053: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000000000101 mod=1,[ 2, 1 ],[ 2, 3 ],3,4,5,6,7,[ 0, 7 ],[ 0, 1 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_2_1 = d_2 / ( d_1 - d_2 );
-            TF m_2_3 = d_2 / ( d_3 - d_2 );
-            TF m_0_7 = d_0 / ( d_7 - d_0 );
-            TF m_0_1 = d_0 / ( d_1 - d_0 );
-            TF x_0 = x[ 1 ];
-            TF y_0 = y[ 1 ];
-            TF x_1 = x[ 2 ] - m_2_1 * ( x[ 1 ] - x[ 2 ] );
-            TF y_1 = y[ 2 ] - m_2_1 * ( y[ 1 ] - y[ 2 ] );
-            TF x_2 = x[ 2 ] - m_2_3 * ( x[ 3 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_3 * ( y[ 3 ] - y[ 2 ] );
-            TF x_8 = x[ 0 ] - m_0_7 * ( x[ 7 ] - x[ 0 ] );
-            TF y_8 = y[ 0 ] - m_0_7 * ( y[ 7 ] - y[ 0 ] );
-            TF x_9 = x[ 0 ] - m_0_1 * ( x[ 1 ] - x[ 0 ] );
-            TF y_9 = y[ 0 ] - m_0_1 * ( y[ 1 ] - y[ 0 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 8 ] = x_8;
-            y[ 8 ] = y_8;
-            x[ 9 ] = x_9;
-            y[ 9 ] = y_9;
-            size = 10;
-            continue;
+            break;
         }
         case 2054: {
             // size=8 outside=0000000000000000000000000000000000000000000000000000000000000110 mod=0,[ 1, 0 ],[ 2, 3 ],3,4,5,6,7
@@ -7974,7 +3014,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             y[ 1 ] = y_1;
             x[ 2 ] = x_2;
             y[ 2 ] = y_2;
-            continue;
+            break;
         }
         case 2055: {
             // size=8 outside=0000000000000000000000000000000000000000000000000000000000000111 mod=7,[ 0, 7 ],[ 2, 3 ],3,4,5,6
@@ -7997,7 +3037,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             x[ 2 ] = x_2;
             y[ 2 ] = y_2;
             size = 7;
-            continue;
+            break;
         }
         case 2056: {
             // size=8 outside=0000000000000000000000000000000000000000000000000000000000001000 mod=1,2,[ 3, 2 ],[ 3, 4 ],4,5,6,7,0
@@ -8027,119 +3067,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             x[ 8 ] = x_8;
             y[ 8 ] = y_8;
             size = 9;
-            continue;
-        }
-        case 2057: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000000001001 mod=1,2,[ 3, 2 ],[ 3, 4 ],4,5,6,7,[ 0, 7 ],[ 0, 1 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_3_2 = d_3 / ( d_2 - d_3 );
-            TF m_3_4 = d_3 / ( d_4 - d_3 );
-            TF m_0_7 = d_0 / ( d_7 - d_0 );
-            TF m_0_1 = d_0 / ( d_1 - d_0 );
-            TF x_0 = x[ 1 ];
-            TF y_0 = y[ 1 ];
-            TF x_1 = x[ 2 ];
-            TF y_1 = y[ 2 ];
-            TF x_2 = x[ 3 ] - m_3_2 * ( x[ 2 ] - x[ 3 ] );
-            TF y_2 = y[ 3 ] - m_3_2 * ( y[ 2 ] - y[ 3 ] );
-            TF x_3 = x[ 3 ] - m_3_4 * ( x[ 4 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_4 * ( y[ 4 ] - y[ 3 ] );
-            TF x_8 = x[ 0 ] - m_0_7 * ( x[ 7 ] - x[ 0 ] );
-            TF y_8 = y[ 0 ] - m_0_7 * ( y[ 7 ] - y[ 0 ] );
-            TF x_9 = x[ 0 ] - m_0_1 * ( x[ 1 ] - x[ 0 ] );
-            TF y_9 = y[ 0 ] - m_0_1 * ( y[ 1 ] - y[ 0 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 8 ] = x_8;
-            y[ 8 ] = y_8;
-            x[ 9 ] = x_9;
-            y[ 9 ] = y_9;
-            size = 10;
-            continue;
-        }
-        case 2058: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000000001010 mod=[ 1, 2 ],2,[ 3, 2 ],[ 3, 4 ],4,5,6,7,0,[ 1, 0 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF m_1_2 = d_1 / ( d_2 - d_1 );
-            TF m_3_2 = d_3 / ( d_2 - d_3 );
-            TF m_3_4 = d_3 / ( d_4 - d_3 );
-            TF m_1_0 = d_1 / ( d_0 - d_1 );
-            TF x_0 = x[ 1 ] - m_1_2 * ( x[ 2 ] - x[ 1 ] );
-            TF y_0 = y[ 1 ] - m_1_2 * ( y[ 2 ] - y[ 1 ] );
-            TF x_1 = x[ 2 ];
-            TF y_1 = y[ 2 ];
-            TF x_2 = x[ 3 ] - m_3_2 * ( x[ 2 ] - x[ 3 ] );
-            TF y_2 = y[ 3 ] - m_3_2 * ( y[ 2 ] - y[ 3 ] );
-            TF x_3 = x[ 3 ] - m_3_4 * ( x[ 4 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_4 * ( y[ 4 ] - y[ 3 ] );
-            TF x_8 = x[ 0 ];
-            TF y_8 = y[ 0 ];
-            TF x_9 = x[ 1 ] - m_1_0 * ( x[ 0 ] - x[ 1 ] );
-            TF y_9 = y[ 1 ] - m_1_0 * ( y[ 0 ] - y[ 1 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 8 ] = x_8;
-            y[ 8 ] = y_8;
-            x[ 9 ] = x_9;
-            y[ 9 ] = y_9;
-            size = 10;
-            continue;
-        }
-        case 2059: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000000001011 mod=[ 1, 2 ],2,[ 3, 2 ],[ 3, 4 ],4,5,6,7,[ 0, 7 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_1_2 = d_1 / ( d_2 - d_1 );
-            TF m_3_2 = d_3 / ( d_2 - d_3 );
-            TF m_3_4 = d_3 / ( d_4 - d_3 );
-            TF m_0_7 = d_0 / ( d_7 - d_0 );
-            TF x_0 = x[ 1 ] - m_1_2 * ( x[ 2 ] - x[ 1 ] );
-            TF y_0 = y[ 1 ] - m_1_2 * ( y[ 2 ] - y[ 1 ] );
-            TF x_1 = x[ 2 ];
-            TF y_1 = y[ 2 ];
-            TF x_2 = x[ 3 ] - m_3_2 * ( x[ 2 ] - x[ 3 ] );
-            TF y_2 = y[ 3 ] - m_3_2 * ( y[ 2 ] - y[ 3 ] );
-            TF x_3 = x[ 3 ] - m_3_4 * ( x[ 4 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_4 * ( y[ 4 ] - y[ 3 ] );
-            TF x_8 = x[ 0 ] - m_0_7 * ( x[ 7 ] - x[ 0 ] );
-            TF y_8 = y[ 0 ] - m_0_7 * ( y[ 7 ] - y[ 0 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 8 ] = x_8;
-            y[ 8 ] = y_8;
-            size = 9;
-            continue;
+            break;
         }
         case 2060: {
             // size=8 outside=0000000000000000000000000000000000000000000000000000000000001100 mod=0,1,[ 2, 1 ],[ 3, 4 ],4,5,6,7
@@ -8157,38 +3085,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             y[ 2 ] = y_2;
             x[ 3 ] = x_3;
             y[ 3 ] = y_3;
-            continue;
-        }
-        case 2061: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000000001101 mod=[ 0, 1 ],1,[ 2, 1 ],[ 3, 4 ],4,5,6,7,[ 0, 7 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_0_1 = d_0 / ( d_1 - d_0 );
-            TF m_2_1 = d_2 / ( d_1 - d_2 );
-            TF m_3_4 = d_3 / ( d_4 - d_3 );
-            TF m_0_7 = d_0 / ( d_7 - d_0 );
-            TF x_0 = x[ 0 ] - m_0_1 * ( x[ 1 ] - x[ 0 ] );
-            TF y_0 = y[ 0 ] - m_0_1 * ( y[ 1 ] - y[ 0 ] );
-            TF x_2 = x[ 2 ] - m_2_1 * ( x[ 1 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_1 * ( y[ 1 ] - y[ 2 ] );
-            TF x_3 = x[ 3 ] - m_3_4 * ( x[ 4 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_4 * ( y[ 4 ] - y[ 3 ] );
-            TF x_8 = x[ 0 ] - m_0_7 * ( x[ 7 ] - x[ 0 ] );
-            TF y_8 = y[ 0 ] - m_0_7 * ( y[ 7 ] - y[ 0 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 8 ] = x_8;
-            y[ 8 ] = y_8;
-            size = 9;
-            continue;
+            break;
         }
         case 2062: {
             // size=8 outside=0000000000000000000000000000000000000000000000000000000000001110 mod=7,0,[ 1, 0 ],[ 3, 4 ],4,5,6
@@ -8215,7 +3112,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             x[ 3 ] = x_3;
             y[ 3 ] = y_3;
             size = 7;
-            continue;
+            break;
         }
         case 2063: {
             // size=8 outside=0000000000000000000000000000000000000000000000000000000000001111 mod=6,7,[ 0, 7 ],[ 3, 4 ],4,5
@@ -8242,7 +3139,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             x[ 3 ] = x_3;
             y[ 3 ] = y_3;
             size = 6;
-            continue;
+            break;
         }
         case 2064: {
             // size=8 outside=0000000000000000000000000000000000000000000000000000000000010000 mod=0,1,2,3,[ 4, 3 ],[ 4, 5 ],5,6,7
@@ -8272,298 +3169,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             x[ 8 ] = x_8;
             y[ 8 ] = y_8;
             size = 9;
-            continue;
-        }
-        case 2065: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000000010001 mod=[ 0, 1 ],1,2,3,[ 4, 3 ],[ 4, 5 ],5,6,7,[ 0, 7 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_0_1 = d_0 / ( d_1 - d_0 );
-            TF m_4_3 = d_4 / ( d_3 - d_4 );
-            TF m_4_5 = d_4 / ( d_5 - d_4 );
-            TF m_0_7 = d_0 / ( d_7 - d_0 );
-            TF x_0 = x[ 0 ] - m_0_1 * ( x[ 1 ] - x[ 0 ] );
-            TF y_0 = y[ 0 ] - m_0_1 * ( y[ 1 ] - y[ 0 ] );
-            TF x_4 = x[ 4 ] - m_4_3 * ( x[ 3 ] - x[ 4 ] );
-            TF y_4 = y[ 4 ] - m_4_3 * ( y[ 3 ] - y[ 4 ] );
-            TF x_5 = x[ 4 ] - m_4_5 * ( x[ 5 ] - x[ 4 ] );
-            TF y_5 = y[ 4 ] - m_4_5 * ( y[ 5 ] - y[ 4 ] );
-            TF x_6 = x[ 5 ];
-            TF y_6 = y[ 5 ];
-            TF x_7 = x[ 6 ];
-            TF y_7 = y[ 6 ];
-            TF x_8 = x[ 7 ];
-            TF y_8 = y[ 7 ];
-            TF x_9 = x[ 0 ] - m_0_7 * ( x[ 7 ] - x[ 0 ] );
-            TF y_9 = y[ 0 ] - m_0_7 * ( y[ 7 ] - y[ 0 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            x[ 8 ] = x_8;
-            y[ 8 ] = y_8;
-            x[ 9 ] = x_9;
-            y[ 9 ] = y_9;
-            size = 10;
-            continue;
-        }
-        case 2066: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000000010010 mod=[ 1, 2 ],2,3,[ 4, 3 ],[ 4, 5 ],5,6,7,0,[ 1, 0 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF m_1_2 = d_1 / ( d_2 - d_1 );
-            TF m_4_3 = d_4 / ( d_3 - d_4 );
-            TF m_4_5 = d_4 / ( d_5 - d_4 );
-            TF m_1_0 = d_1 / ( d_0 - d_1 );
-            TF x_0 = x[ 1 ] - m_1_2 * ( x[ 2 ] - x[ 1 ] );
-            TF y_0 = y[ 1 ] - m_1_2 * ( y[ 2 ] - y[ 1 ] );
-            TF x_1 = x[ 2 ];
-            TF y_1 = y[ 2 ];
-            TF x_2 = x[ 3 ];
-            TF y_2 = y[ 3 ];
-            TF x_3 = x[ 4 ] - m_4_3 * ( x[ 3 ] - x[ 4 ] );
-            TF y_3 = y[ 4 ] - m_4_3 * ( y[ 3 ] - y[ 4 ] );
-            TF x_4 = x[ 4 ] - m_4_5 * ( x[ 5 ] - x[ 4 ] );
-            TF y_4 = y[ 4 ] - m_4_5 * ( y[ 5 ] - y[ 4 ] );
-            TF x_8 = x[ 0 ];
-            TF y_8 = y[ 0 ];
-            TF x_9 = x[ 1 ] - m_1_0 * ( x[ 0 ] - x[ 1 ] );
-            TF y_9 = y[ 1 ] - m_1_0 * ( y[ 0 ] - y[ 1 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 8 ] = x_8;
-            y[ 8 ] = y_8;
-            x[ 9 ] = x_9;
-            y[ 9 ] = y_9;
-            size = 10;
-            continue;
-        }
-        case 2067: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000000010011 mod=[ 1, 2 ],2,3,[ 4, 3 ],[ 4, 5 ],5,6,7,[ 0, 7 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_1_2 = d_1 / ( d_2 - d_1 );
-            TF m_4_3 = d_4 / ( d_3 - d_4 );
-            TF m_4_5 = d_4 / ( d_5 - d_4 );
-            TF m_0_7 = d_0 / ( d_7 - d_0 );
-            TF x_0 = x[ 1 ] - m_1_2 * ( x[ 2 ] - x[ 1 ] );
-            TF y_0 = y[ 1 ] - m_1_2 * ( y[ 2 ] - y[ 1 ] );
-            TF x_1 = x[ 2 ];
-            TF y_1 = y[ 2 ];
-            TF x_2 = x[ 3 ];
-            TF y_2 = y[ 3 ];
-            TF x_3 = x[ 4 ] - m_4_3 * ( x[ 3 ] - x[ 4 ] );
-            TF y_3 = y[ 4 ] - m_4_3 * ( y[ 3 ] - y[ 4 ] );
-            TF x_4 = x[ 4 ] - m_4_5 * ( x[ 5 ] - x[ 4 ] );
-            TF y_4 = y[ 4 ] - m_4_5 * ( y[ 5 ] - y[ 4 ] );
-            TF x_8 = x[ 0 ] - m_0_7 * ( x[ 7 ] - x[ 0 ] );
-            TF y_8 = y[ 0 ] - m_0_7 * ( y[ 7 ] - y[ 0 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 8 ] = x_8;
-            y[ 8 ] = y_8;
-            size = 9;
-            continue;
-        }
-        case 2068: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000000010100 mod=[ 2, 1 ],[ 2, 3 ],3,[ 4, 3 ],[ 4, 5 ],5,6,7,0,1
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF m_2_1 = d_2 / ( d_1 - d_2 );
-            TF m_2_3 = d_2 / ( d_3 - d_2 );
-            TF m_4_3 = d_4 / ( d_3 - d_4 );
-            TF m_4_5 = d_4 / ( d_5 - d_4 );
-            TF x_0 = x[ 2 ] - m_2_1 * ( x[ 1 ] - x[ 2 ] );
-            TF y_0 = y[ 2 ] - m_2_1 * ( y[ 1 ] - y[ 2 ] );
-            TF x_1 = x[ 2 ] - m_2_3 * ( x[ 3 ] - x[ 2 ] );
-            TF y_1 = y[ 2 ] - m_2_3 * ( y[ 3 ] - y[ 2 ] );
-            TF x_2 = x[ 3 ];
-            TF y_2 = y[ 3 ];
-            TF x_3 = x[ 4 ] - m_4_3 * ( x[ 3 ] - x[ 4 ] );
-            TF y_3 = y[ 4 ] - m_4_3 * ( y[ 3 ] - y[ 4 ] );
-            TF x_4 = x[ 4 ] - m_4_5 * ( x[ 5 ] - x[ 4 ] );
-            TF y_4 = y[ 4 ] - m_4_5 * ( y[ 5 ] - y[ 4 ] );
-            TF x_8 = x[ 0 ];
-            TF y_8 = y[ 0 ];
-            TF x_9 = x[ 1 ];
-            TF y_9 = y[ 1 ];
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 8 ] = x_8;
-            y[ 8 ] = y_8;
-            x[ 9 ] = x_9;
-            y[ 9 ] = y_9;
-            size = 10;
-            continue;
-        }
-        case 2069: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000000010101 mod=[ 2, 1 ],[ 2, 3 ],3,[ 4, 3 ],[ 4, 5 ],5,6,7,[ 0, 7 ],[ 0, 1 ],1
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_2_1 = d_2 / ( d_1 - d_2 );
-            TF m_2_3 = d_2 / ( d_3 - d_2 );
-            TF m_4_3 = d_4 / ( d_3 - d_4 );
-            TF m_4_5 = d_4 / ( d_5 - d_4 );
-            TF m_0_7 = d_0 / ( d_7 - d_0 );
-            TF m_0_1 = d_0 / ( d_1 - d_0 );
-            TF x_0 = x[ 2 ] - m_2_1 * ( x[ 1 ] - x[ 2 ] );
-            TF y_0 = y[ 2 ] - m_2_1 * ( y[ 1 ] - y[ 2 ] );
-            TF x_1 = x[ 2 ] - m_2_3 * ( x[ 3 ] - x[ 2 ] );
-            TF y_1 = y[ 2 ] - m_2_3 * ( y[ 3 ] - y[ 2 ] );
-            TF x_2 = x[ 3 ];
-            TF y_2 = y[ 3 ];
-            TF x_3 = x[ 4 ] - m_4_3 * ( x[ 3 ] - x[ 4 ] );
-            TF y_3 = y[ 4 ] - m_4_3 * ( y[ 3 ] - y[ 4 ] );
-            TF x_4 = x[ 4 ] - m_4_5 * ( x[ 5 ] - x[ 4 ] );
-            TF y_4 = y[ 4 ] - m_4_5 * ( y[ 5 ] - y[ 4 ] );
-            TF x_8 = x[ 0 ] - m_0_7 * ( x[ 7 ] - x[ 0 ] );
-            TF y_8 = y[ 0 ] - m_0_7 * ( y[ 7 ] - y[ 0 ] );
-            TF x_9 = x[ 0 ] - m_0_1 * ( x[ 1 ] - x[ 0 ] );
-            TF y_9 = y[ 0 ] - m_0_1 * ( y[ 1 ] - y[ 0 ] );
-            TF x_10 = x[ 1 ];
-            TF y_10 = y[ 1 ];
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 8 ] = x_8;
-            y[ 8 ] = y_8;
-            x[ 9 ] = x_9;
-            y[ 9 ] = y_9;
-            x[ 10 ] = x_10;
-            y[ 10 ] = y_10;
-            size = 11;
-            continue;
-        }
-        case 2070: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000000010110 mod=[ 1, 0 ],[ 2, 3 ],3,[ 4, 3 ],[ 4, 5 ],5,6,7,0
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF m_1_0 = d_1 / ( d_0 - d_1 );
-            TF m_2_3 = d_2 / ( d_3 - d_2 );
-            TF m_4_3 = d_4 / ( d_3 - d_4 );
-            TF m_4_5 = d_4 / ( d_5 - d_4 );
-            TF x_0 = x[ 1 ] - m_1_0 * ( x[ 0 ] - x[ 1 ] );
-            TF y_0 = y[ 1 ] - m_1_0 * ( y[ 0 ] - y[ 1 ] );
-            TF x_1 = x[ 2 ] - m_2_3 * ( x[ 3 ] - x[ 2 ] );
-            TF y_1 = y[ 2 ] - m_2_3 * ( y[ 3 ] - y[ 2 ] );
-            TF x_2 = x[ 3 ];
-            TF y_2 = y[ 3 ];
-            TF x_3 = x[ 4 ] - m_4_3 * ( x[ 3 ] - x[ 4 ] );
-            TF y_3 = y[ 4 ] - m_4_3 * ( y[ 3 ] - y[ 4 ] );
-            TF x_4 = x[ 4 ] - m_4_5 * ( x[ 5 ] - x[ 4 ] );
-            TF y_4 = y[ 4 ] - m_4_5 * ( y[ 5 ] - y[ 4 ] );
-            TF x_8 = x[ 0 ];
-            TF y_8 = y[ 0 ];
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 8 ] = x_8;
-            y[ 8 ] = y_8;
-            size = 9;
-            continue;
-        }
-        case 2071: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000000010111 mod=[ 0, 7 ],[ 2, 3 ],3,[ 4, 3 ],[ 4, 5 ],5,6,7
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_0_7 = d_0 / ( d_7 - d_0 );
-            TF m_2_3 = d_2 / ( d_3 - d_2 );
-            TF m_4_3 = d_4 / ( d_3 - d_4 );
-            TF m_4_5 = d_4 / ( d_5 - d_4 );
-            TF x_0 = x[ 0 ] - m_0_7 * ( x[ 7 ] - x[ 0 ] );
-            TF y_0 = y[ 0 ] - m_0_7 * ( y[ 7 ] - y[ 0 ] );
-            TF x_1 = x[ 2 ] - m_2_3 * ( x[ 3 ] - x[ 2 ] );
-            TF y_1 = y[ 2 ] - m_2_3 * ( y[ 3 ] - y[ 2 ] );
-            TF x_2 = x[ 3 ];
-            TF y_2 = y[ 3 ];
-            TF x_3 = x[ 4 ] - m_4_3 * ( x[ 3 ] - x[ 4 ] );
-            TF y_3 = y[ 4 ] - m_4_3 * ( y[ 3 ] - y[ 4 ] );
-            TF x_4 = x[ 4 ] - m_4_5 * ( x[ 5 ] - x[ 4 ] );
-            TF y_4 = y[ 4 ] - m_4_5 * ( y[ 5 ] - y[ 4 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            continue;
+            break;
         }
         case 2072: {
             // size=8 outside=0000000000000000000000000000000000000000000000000000000000011000 mod=0,1,2,[ 3, 2 ],[ 4, 5 ],5,6,7
@@ -8581,105 +3187,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             y[ 3 ] = y_3;
             x[ 4 ] = x_4;
             y[ 4 ] = y_4;
-            continue;
-        }
-        case 2073: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000000011001 mod=[ 0, 1 ],1,2,[ 3, 2 ],[ 4, 5 ],5,6,7,[ 0, 7 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_0_1 = d_0 / ( d_1 - d_0 );
-            TF m_3_2 = d_3 / ( d_2 - d_3 );
-            TF m_4_5 = d_4 / ( d_5 - d_4 );
-            TF m_0_7 = d_0 / ( d_7 - d_0 );
-            TF x_0 = x[ 0 ] - m_0_1 * ( x[ 1 ] - x[ 0 ] );
-            TF y_0 = y[ 0 ] - m_0_1 * ( y[ 1 ] - y[ 0 ] );
-            TF x_3 = x[ 3 ] - m_3_2 * ( x[ 2 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_2 * ( y[ 2 ] - y[ 3 ] );
-            TF x_4 = x[ 4 ] - m_4_5 * ( x[ 5 ] - x[ 4 ] );
-            TF y_4 = y[ 4 ] - m_4_5 * ( y[ 5 ] - y[ 4 ] );
-            TF x_8 = x[ 0 ] - m_0_7 * ( x[ 7 ] - x[ 0 ] );
-            TF y_8 = y[ 0 ] - m_0_7 * ( y[ 7 ] - y[ 0 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 8 ] = x_8;
-            y[ 8 ] = y_8;
-            size = 9;
-            continue;
-        }
-        case 2074: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000000011010 mod=[ 1, 0 ],[ 1, 2 ],2,[ 3, 2 ],[ 4, 5 ],5,6,7,0
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF m_1_0 = d_1 / ( d_0 - d_1 );
-            TF m_1_2 = d_1 / ( d_2 - d_1 );
-            TF m_3_2 = d_3 / ( d_2 - d_3 );
-            TF m_4_5 = d_4 / ( d_5 - d_4 );
-            TF x_0 = x[ 1 ] - m_1_0 * ( x[ 0 ] - x[ 1 ] );
-            TF y_0 = y[ 1 ] - m_1_0 * ( y[ 0 ] - y[ 1 ] );
-            TF x_1 = x[ 1 ] - m_1_2 * ( x[ 2 ] - x[ 1 ] );
-            TF y_1 = y[ 1 ] - m_1_2 * ( y[ 2 ] - y[ 1 ] );
-            TF x_3 = x[ 3 ] - m_3_2 * ( x[ 2 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_2 * ( y[ 2 ] - y[ 3 ] );
-            TF x_4 = x[ 4 ] - m_4_5 * ( x[ 5 ] - x[ 4 ] );
-            TF y_4 = y[ 4 ] - m_4_5 * ( y[ 5 ] - y[ 4 ] );
-            TF x_8 = x[ 0 ];
-            TF y_8 = y[ 0 ];
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 8 ] = x_8;
-            y[ 8 ] = y_8;
-            size = 9;
-            continue;
-        }
-        case 2075: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000000011011 mod=[ 0, 7 ],[ 1, 2 ],2,[ 3, 2 ],[ 4, 5 ],5,6,7
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_0_7 = d_0 / ( d_7 - d_0 );
-            TF m_1_2 = d_1 / ( d_2 - d_1 );
-            TF m_3_2 = d_3 / ( d_2 - d_3 );
-            TF m_4_5 = d_4 / ( d_5 - d_4 );
-            TF x_0 = x[ 0 ] - m_0_7 * ( x[ 7 ] - x[ 0 ] );
-            TF y_0 = y[ 0 ] - m_0_7 * ( y[ 7 ] - y[ 0 ] );
-            TF x_1 = x[ 1 ] - m_1_2 * ( x[ 2 ] - x[ 1 ] );
-            TF y_1 = y[ 1 ] - m_1_2 * ( y[ 2 ] - y[ 1 ] );
-            TF x_3 = x[ 3 ] - m_3_2 * ( x[ 2 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_2 * ( y[ 2 ] - y[ 3 ] );
-            TF x_4 = x[ 4 ] - m_4_5 * ( x[ 5 ] - x[ 4 ] );
-            TF y_4 = y[ 4 ] - m_4_5 * ( y[ 5 ] - y[ 4 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            continue;
+            break;
         }
         case 2076: {
             // size=8 outside=0000000000000000000000000000000000000000000000000000000000011100 mod=0,1,[ 2, 1 ],[ 4, 5 ],5,6,7
@@ -8710,41 +3218,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             x[ 6 ] = x_6;
             y[ 6 ] = y_6;
             size = 7;
-            continue;
-        }
-        case 2077: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000000011101 mod=[ 0, 7 ],[ 0, 1 ],1,[ 2, 1 ],[ 4, 5 ],5,6,7
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_0_7 = d_0 / ( d_7 - d_0 );
-            TF m_0_1 = d_0 / ( d_1 - d_0 );
-            TF m_2_1 = d_2 / ( d_1 - d_2 );
-            TF m_4_5 = d_4 / ( d_5 - d_4 );
-            TF x_0 = x[ 0 ] - m_0_7 * ( x[ 7 ] - x[ 0 ] );
-            TF y_0 = y[ 0 ] - m_0_7 * ( y[ 7 ] - y[ 0 ] );
-            TF x_1 = x[ 0 ] - m_0_1 * ( x[ 1 ] - x[ 0 ] );
-            TF y_1 = y[ 0 ] - m_0_1 * ( y[ 1 ] - y[ 0 ] );
-            TF x_2 = x[ 1 ];
-            TF y_2 = y[ 1 ];
-            TF x_3 = x[ 2 ] - m_2_1 * ( x[ 1 ] - x[ 2 ] );
-            TF y_3 = y[ 2 ] - m_2_1 * ( y[ 1 ] - y[ 2 ] );
-            TF x_4 = x[ 4 ] - m_4_5 * ( x[ 5 ] - x[ 4 ] );
-            TF y_4 = y[ 4 ] - m_4_5 * ( y[ 5 ] - y[ 4 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            continue;
+            break;
         }
         case 2078: {
             // size=8 outside=0000000000000000000000000000000000000000000000000000000000011110 mod=0,[ 1, 0 ],[ 4, 5 ],5,6,7
@@ -8775,7 +3249,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             x[ 5 ] = x_5;
             y[ 5 ] = y_5;
             size = 6;
-            continue;
+            break;
         }
         case 2079: {
             // size=8 outside=0000000000000000000000000000000000000000000000000000000000011111 mod=[ 0, 7 ],[ 4, 5 ],5,6,7
@@ -8806,7 +3280,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             x[ 4 ] = x_4;
             y[ 4 ] = y_4;
             size = 5;
-            continue;
+            break;
         }
         case 2080: {
             // size=8 outside=0000000000000000000000000000000000000000000000000000000000100000 mod=0,1,2,3,4,[ 5, 4 ],[ 5, 6 ],6,7
@@ -8832,675 +3306,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             x[ 8 ] = x_8;
             y[ 8 ] = y_8;
             size = 9;
-            continue;
-        }
-        case 2081: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000000100001 mod=[ 0, 1 ],1,2,3,4,[ 5, 4 ],[ 5, 6 ],6,7,[ 0, 7 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_0_1 = d_0 / ( d_1 - d_0 );
-            TF m_5_4 = d_5 / ( d_4 - d_5 );
-            TF m_5_6 = d_5 / ( d_6 - d_5 );
-            TF m_0_7 = d_0 / ( d_7 - d_0 );
-            TF x_0 = x[ 0 ] - m_0_1 * ( x[ 1 ] - x[ 0 ] );
-            TF y_0 = y[ 0 ] - m_0_1 * ( y[ 1 ] - y[ 0 ] );
-            TF x_5 = x[ 5 ] - m_5_4 * ( x[ 4 ] - x[ 5 ] );
-            TF y_5 = y[ 5 ] - m_5_4 * ( y[ 4 ] - y[ 5 ] );
-            TF x_6 = x[ 5 ] - m_5_6 * ( x[ 6 ] - x[ 5 ] );
-            TF y_6 = y[ 5 ] - m_5_6 * ( y[ 6 ] - y[ 5 ] );
-            TF x_7 = x[ 6 ];
-            TF y_7 = y[ 6 ];
-            TF x_8 = x[ 7 ];
-            TF y_8 = y[ 7 ];
-            TF x_9 = x[ 0 ] - m_0_7 * ( x[ 7 ] - x[ 0 ] );
-            TF y_9 = y[ 0 ] - m_0_7 * ( y[ 7 ] - y[ 0 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            x[ 8 ] = x_8;
-            y[ 8 ] = y_8;
-            x[ 9 ] = x_9;
-            y[ 9 ] = y_9;
-            size = 10;
-            continue;
-        }
-        case 2082: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000000100010 mod=[ 1, 0 ],[ 1, 2 ],2,3,4,[ 5, 4 ],[ 5, 6 ],6,7,0
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_1_0 = d_1 / ( d_0 - d_1 );
-            TF m_1_2 = d_1 / ( d_2 - d_1 );
-            TF m_5_4 = d_5 / ( d_4 - d_5 );
-            TF m_5_6 = d_5 / ( d_6 - d_5 );
-            TF x_0 = x[ 1 ] - m_1_0 * ( x[ 0 ] - x[ 1 ] );
-            TF y_0 = y[ 1 ] - m_1_0 * ( y[ 0 ] - y[ 1 ] );
-            TF x_1 = x[ 1 ] - m_1_2 * ( x[ 2 ] - x[ 1 ] );
-            TF y_1 = y[ 1 ] - m_1_2 * ( y[ 2 ] - y[ 1 ] );
-            TF x_5 = x[ 5 ] - m_5_4 * ( x[ 4 ] - x[ 5 ] );
-            TF y_5 = y[ 5 ] - m_5_4 * ( y[ 4 ] - y[ 5 ] );
-            TF x_6 = x[ 5 ] - m_5_6 * ( x[ 6 ] - x[ 5 ] );
-            TF y_6 = y[ 5 ] - m_5_6 * ( y[ 6 ] - y[ 5 ] );
-            TF x_7 = x[ 6 ];
-            TF y_7 = y[ 6 ];
-            TF x_8 = x[ 7 ];
-            TF y_8 = y[ 7 ];
-            TF x_9 = x[ 0 ];
-            TF y_9 = y[ 0 ];
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            x[ 8 ] = x_8;
-            y[ 8 ] = y_8;
-            x[ 9 ] = x_9;
-            y[ 9 ] = y_9;
-            size = 10;
-            continue;
-        }
-        case 2083: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000000100011 mod=[ 0, 7 ],[ 1, 2 ],2,3,4,[ 5, 4 ],[ 5, 6 ],6,7
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_0_7 = d_0 / ( d_7 - d_0 );
-            TF m_1_2 = d_1 / ( d_2 - d_1 );
-            TF m_5_4 = d_5 / ( d_4 - d_5 );
-            TF m_5_6 = d_5 / ( d_6 - d_5 );
-            TF x_0 = x[ 0 ] - m_0_7 * ( x[ 7 ] - x[ 0 ] );
-            TF y_0 = y[ 0 ] - m_0_7 * ( y[ 7 ] - y[ 0 ] );
-            TF x_1 = x[ 1 ] - m_1_2 * ( x[ 2 ] - x[ 1 ] );
-            TF y_1 = y[ 1 ] - m_1_2 * ( y[ 2 ] - y[ 1 ] );
-            TF x_5 = x[ 5 ] - m_5_4 * ( x[ 4 ] - x[ 5 ] );
-            TF y_5 = y[ 5 ] - m_5_4 * ( y[ 4 ] - y[ 5 ] );
-            TF x_6 = x[ 5 ] - m_5_6 * ( x[ 6 ] - x[ 5 ] );
-            TF y_6 = y[ 5 ] - m_5_6 * ( y[ 6 ] - y[ 5 ] );
-            TF x_7 = x[ 6 ];
-            TF y_7 = y[ 6 ];
-            TF x_8 = x[ 7 ];
-            TF y_8 = y[ 7 ];
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            x[ 8 ] = x_8;
-            y[ 8 ] = y_8;
-            size = 9;
-            continue;
-        }
-        case 2084: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000000100100 mod=1,[ 2, 1 ],[ 2, 3 ],3,4,[ 5, 4 ],[ 5, 6 ],6,7,0
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_2_1 = d_2 / ( d_1 - d_2 );
-            TF m_2_3 = d_2 / ( d_3 - d_2 );
-            TF m_5_4 = d_5 / ( d_4 - d_5 );
-            TF m_5_6 = d_5 / ( d_6 - d_5 );
-            TF x_0 = x[ 1 ];
-            TF y_0 = y[ 1 ];
-            TF x_1 = x[ 2 ] - m_2_1 * ( x[ 1 ] - x[ 2 ] );
-            TF y_1 = y[ 2 ] - m_2_1 * ( y[ 1 ] - y[ 2 ] );
-            TF x_2 = x[ 2 ] - m_2_3 * ( x[ 3 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_3 * ( y[ 3 ] - y[ 2 ] );
-            TF x_5 = x[ 5 ] - m_5_4 * ( x[ 4 ] - x[ 5 ] );
-            TF y_5 = y[ 5 ] - m_5_4 * ( y[ 4 ] - y[ 5 ] );
-            TF x_6 = x[ 5 ] - m_5_6 * ( x[ 6 ] - x[ 5 ] );
-            TF y_6 = y[ 5 ] - m_5_6 * ( y[ 6 ] - y[ 5 ] );
-            TF x_7 = x[ 6 ];
-            TF y_7 = y[ 6 ];
-            TF x_8 = x[ 7 ];
-            TF y_8 = y[ 7 ];
-            TF x_9 = x[ 0 ];
-            TF y_9 = y[ 0 ];
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            x[ 8 ] = x_8;
-            y[ 8 ] = y_8;
-            x[ 9 ] = x_9;
-            y[ 9 ] = y_9;
-            size = 10;
-            continue;
-        }
-        case 2085: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000000100101 mod=1,[ 2, 1 ],[ 2, 3 ],3,4,[ 5, 4 ],[ 5, 6 ],6,7,[ 0, 7 ],[ 0, 1 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_2_1 = d_2 / ( d_1 - d_2 );
-            TF m_2_3 = d_2 / ( d_3 - d_2 );
-            TF m_5_4 = d_5 / ( d_4 - d_5 );
-            TF m_5_6 = d_5 / ( d_6 - d_5 );
-            TF m_0_7 = d_0 / ( d_7 - d_0 );
-            TF m_0_1 = d_0 / ( d_1 - d_0 );
-            TF x_0 = x[ 1 ];
-            TF y_0 = y[ 1 ];
-            TF x_1 = x[ 2 ] - m_2_1 * ( x[ 1 ] - x[ 2 ] );
-            TF y_1 = y[ 2 ] - m_2_1 * ( y[ 1 ] - y[ 2 ] );
-            TF x_2 = x[ 2 ] - m_2_3 * ( x[ 3 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_3 * ( y[ 3 ] - y[ 2 ] );
-            TF x_5 = x[ 5 ] - m_5_4 * ( x[ 4 ] - x[ 5 ] );
-            TF y_5 = y[ 5 ] - m_5_4 * ( y[ 4 ] - y[ 5 ] );
-            TF x_6 = x[ 5 ] - m_5_6 * ( x[ 6 ] - x[ 5 ] );
-            TF y_6 = y[ 5 ] - m_5_6 * ( y[ 6 ] - y[ 5 ] );
-            TF x_7 = x[ 6 ];
-            TF y_7 = y[ 6 ];
-            TF x_8 = x[ 7 ];
-            TF y_8 = y[ 7 ];
-            TF x_9 = x[ 0 ] - m_0_7 * ( x[ 7 ] - x[ 0 ] );
-            TF y_9 = y[ 0 ] - m_0_7 * ( y[ 7 ] - y[ 0 ] );
-            TF x_10 = x[ 0 ] - m_0_1 * ( x[ 1 ] - x[ 0 ] );
-            TF y_10 = y[ 0 ] - m_0_1 * ( y[ 1 ] - y[ 0 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            x[ 8 ] = x_8;
-            y[ 8 ] = y_8;
-            x[ 9 ] = x_9;
-            y[ 9 ] = y_9;
-            x[ 10 ] = x_10;
-            y[ 10 ] = y_10;
-            size = 11;
-            continue;
-        }
-        case 2086: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000000100110 mod=0,[ 1, 0 ],[ 2, 3 ],3,4,[ 5, 4 ],[ 5, 6 ],6,7
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_1_0 = d_1 / ( d_0 - d_1 );
-            TF m_2_3 = d_2 / ( d_3 - d_2 );
-            TF m_5_4 = d_5 / ( d_4 - d_5 );
-            TF m_5_6 = d_5 / ( d_6 - d_5 );
-            TF x_1 = x[ 1 ] - m_1_0 * ( x[ 0 ] - x[ 1 ] );
-            TF y_1 = y[ 1 ] - m_1_0 * ( y[ 0 ] - y[ 1 ] );
-            TF x_2 = x[ 2 ] - m_2_3 * ( x[ 3 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_3 * ( y[ 3 ] - y[ 2 ] );
-            TF x_5 = x[ 5 ] - m_5_4 * ( x[ 4 ] - x[ 5 ] );
-            TF y_5 = y[ 5 ] - m_5_4 * ( y[ 4 ] - y[ 5 ] );
-            TF x_6 = x[ 5 ] - m_5_6 * ( x[ 6 ] - x[ 5 ] );
-            TF y_6 = y[ 5 ] - m_5_6 * ( y[ 6 ] - y[ 5 ] );
-            TF x_7 = x[ 6 ];
-            TF y_7 = y[ 6 ];
-            TF x_8 = x[ 7 ];
-            TF y_8 = y[ 7 ];
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            x[ 8 ] = x_8;
-            y[ 8 ] = y_8;
-            size = 9;
-            continue;
-        }
-        case 2087: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000000100111 mod=[ 0, 7 ],[ 2, 3 ],3,4,[ 5, 4 ],[ 5, 6 ],6,7
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_0_7 = d_0 / ( d_7 - d_0 );
-            TF m_2_3 = d_2 / ( d_3 - d_2 );
-            TF m_5_4 = d_5 / ( d_4 - d_5 );
-            TF m_5_6 = d_5 / ( d_6 - d_5 );
-            TF x_0 = x[ 0 ] - m_0_7 * ( x[ 7 ] - x[ 0 ] );
-            TF y_0 = y[ 0 ] - m_0_7 * ( y[ 7 ] - y[ 0 ] );
-            TF x_1 = x[ 2 ] - m_2_3 * ( x[ 3 ] - x[ 2 ] );
-            TF y_1 = y[ 2 ] - m_2_3 * ( y[ 3 ] - y[ 2 ] );
-            TF x_2 = x[ 3 ];
-            TF y_2 = y[ 3 ];
-            TF x_3 = x[ 4 ];
-            TF y_3 = y[ 4 ];
-            TF x_4 = x[ 5 ] - m_5_4 * ( x[ 4 ] - x[ 5 ] );
-            TF y_4 = y[ 5 ] - m_5_4 * ( y[ 4 ] - y[ 5 ] );
-            TF x_5 = x[ 5 ] - m_5_6 * ( x[ 6 ] - x[ 5 ] );
-            TF y_5 = y[ 5 ] - m_5_6 * ( y[ 6 ] - y[ 5 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            continue;
-        }
-        case 2088: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000000101000 mod=0,1,2,[ 3, 2 ],[ 3, 4 ],4,[ 5, 4 ],[ 5, 6 ],6,7
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_3_2 = d_3 / ( d_2 - d_3 );
-            TF m_3_4 = d_3 / ( d_4 - d_3 );
-            TF m_5_4 = d_5 / ( d_4 - d_5 );
-            TF m_5_6 = d_5 / ( d_6 - d_5 );
-            TF x_3 = x[ 3 ] - m_3_2 * ( x[ 2 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_2 * ( y[ 2 ] - y[ 3 ] );
-            TF x_4 = x[ 3 ] - m_3_4 * ( x[ 4 ] - x[ 3 ] );
-            TF y_4 = y[ 3 ] - m_3_4 * ( y[ 4 ] - y[ 3 ] );
-            TF x_5 = x[ 4 ];
-            TF y_5 = y[ 4 ];
-            TF x_6 = x[ 5 ] - m_5_4 * ( x[ 4 ] - x[ 5 ] );
-            TF y_6 = y[ 5 ] - m_5_4 * ( y[ 4 ] - y[ 5 ] );
-            TF x_7 = x[ 5 ] - m_5_6 * ( x[ 6 ] - x[ 5 ] );
-            TF y_7 = y[ 5 ] - m_5_6 * ( y[ 6 ] - y[ 5 ] );
-            TF x_8 = x[ 6 ];
-            TF y_8 = y[ 6 ];
-            TF x_9 = x[ 7 ];
-            TF y_9 = y[ 7 ];
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            x[ 8 ] = x_8;
-            y[ 8 ] = y_8;
-            x[ 9 ] = x_9;
-            y[ 9 ] = y_9;
-            size = 10;
-            continue;
-        }
-        case 2089: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000000101001 mod=[ 0, 1 ],1,2,[ 3, 2 ],[ 3, 4 ],4,[ 5, 4 ],[ 5, 6 ],6,7,[ 0, 7 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_0_1 = d_0 / ( d_1 - d_0 );
-            TF m_3_2 = d_3 / ( d_2 - d_3 );
-            TF m_3_4 = d_3 / ( d_4 - d_3 );
-            TF m_5_4 = d_5 / ( d_4 - d_5 );
-            TF m_5_6 = d_5 / ( d_6 - d_5 );
-            TF m_0_7 = d_0 / ( d_7 - d_0 );
-            TF x_0 = x[ 0 ] - m_0_1 * ( x[ 1 ] - x[ 0 ] );
-            TF y_0 = y[ 0 ] - m_0_1 * ( y[ 1 ] - y[ 0 ] );
-            TF x_3 = x[ 3 ] - m_3_2 * ( x[ 2 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_2 * ( y[ 2 ] - y[ 3 ] );
-            TF x_4 = x[ 3 ] - m_3_4 * ( x[ 4 ] - x[ 3 ] );
-            TF y_4 = y[ 3 ] - m_3_4 * ( y[ 4 ] - y[ 3 ] );
-            TF x_5 = x[ 4 ];
-            TF y_5 = y[ 4 ];
-            TF x_6 = x[ 5 ] - m_5_4 * ( x[ 4 ] - x[ 5 ] );
-            TF y_6 = y[ 5 ] - m_5_4 * ( y[ 4 ] - y[ 5 ] );
-            TF x_7 = x[ 5 ] - m_5_6 * ( x[ 6 ] - x[ 5 ] );
-            TF y_7 = y[ 5 ] - m_5_6 * ( y[ 6 ] - y[ 5 ] );
-            TF x_8 = x[ 6 ];
-            TF y_8 = y[ 6 ];
-            TF x_9 = x[ 7 ];
-            TF y_9 = y[ 7 ];
-            TF x_10 = x[ 0 ] - m_0_7 * ( x[ 7 ] - x[ 0 ] );
-            TF y_10 = y[ 0 ] - m_0_7 * ( y[ 7 ] - y[ 0 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            x[ 8 ] = x_8;
-            y[ 8 ] = y_8;
-            x[ 9 ] = x_9;
-            y[ 9 ] = y_9;
-            x[ 10 ] = x_10;
-            y[ 10 ] = y_10;
-            size = 11;
-            continue;
-        }
-        case 2090: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000000101010 mod=2,[ 3, 2 ],[ 3, 4 ],4,[ 5, 4 ],[ 5, 6 ],6,7,0,[ 1, 0 ],[ 1, 2 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_3_2 = d_3 / ( d_2 - d_3 );
-            TF m_3_4 = d_3 / ( d_4 - d_3 );
-            TF m_5_4 = d_5 / ( d_4 - d_5 );
-            TF m_5_6 = d_5 / ( d_6 - d_5 );
-            TF m_1_0 = d_1 / ( d_0 - d_1 );
-            TF m_1_2 = d_1 / ( d_2 - d_1 );
-            TF x_0 = x[ 2 ];
-            TF y_0 = y[ 2 ];
-            TF x_1 = x[ 3 ] - m_3_2 * ( x[ 2 ] - x[ 3 ] );
-            TF y_1 = y[ 3 ] - m_3_2 * ( y[ 2 ] - y[ 3 ] );
-            TF x_2 = x[ 3 ] - m_3_4 * ( x[ 4 ] - x[ 3 ] );
-            TF y_2 = y[ 3 ] - m_3_4 * ( y[ 4 ] - y[ 3 ] );
-            TF x_3 = x[ 4 ];
-            TF y_3 = y[ 4 ];
-            TF x_4 = x[ 5 ] - m_5_4 * ( x[ 4 ] - x[ 5 ] );
-            TF y_4 = y[ 5 ] - m_5_4 * ( y[ 4 ] - y[ 5 ] );
-            TF x_5 = x[ 5 ] - m_5_6 * ( x[ 6 ] - x[ 5 ] );
-            TF y_5 = y[ 5 ] - m_5_6 * ( y[ 6 ] - y[ 5 ] );
-            TF x_8 = x[ 0 ];
-            TF y_8 = y[ 0 ];
-            TF x_9 = x[ 1 ] - m_1_0 * ( x[ 0 ] - x[ 1 ] );
-            TF y_9 = y[ 1 ] - m_1_0 * ( y[ 0 ] - y[ 1 ] );
-            TF x_10 = x[ 1 ] - m_1_2 * ( x[ 2 ] - x[ 1 ] );
-            TF y_10 = y[ 1 ] - m_1_2 * ( y[ 2 ] - y[ 1 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 8 ] = x_8;
-            y[ 8 ] = y_8;
-            x[ 9 ] = x_9;
-            y[ 9 ] = y_9;
-            x[ 10 ] = x_10;
-            y[ 10 ] = y_10;
-            size = 11;
-            continue;
-        }
-        case 2091: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000000101011 mod=2,[ 3, 2 ],[ 3, 4 ],4,[ 5, 4 ],[ 5, 6 ],6,7,[ 0, 7 ],[ 1, 2 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_3_2 = d_3 / ( d_2 - d_3 );
-            TF m_3_4 = d_3 / ( d_4 - d_3 );
-            TF m_5_4 = d_5 / ( d_4 - d_5 );
-            TF m_5_6 = d_5 / ( d_6 - d_5 );
-            TF m_0_7 = d_0 / ( d_7 - d_0 );
-            TF m_1_2 = d_1 / ( d_2 - d_1 );
-            TF x_0 = x[ 2 ];
-            TF y_0 = y[ 2 ];
-            TF x_1 = x[ 3 ] - m_3_2 * ( x[ 2 ] - x[ 3 ] );
-            TF y_1 = y[ 3 ] - m_3_2 * ( y[ 2 ] - y[ 3 ] );
-            TF x_2 = x[ 3 ] - m_3_4 * ( x[ 4 ] - x[ 3 ] );
-            TF y_2 = y[ 3 ] - m_3_4 * ( y[ 4 ] - y[ 3 ] );
-            TF x_3 = x[ 4 ];
-            TF y_3 = y[ 4 ];
-            TF x_4 = x[ 5 ] - m_5_4 * ( x[ 4 ] - x[ 5 ] );
-            TF y_4 = y[ 5 ] - m_5_4 * ( y[ 4 ] - y[ 5 ] );
-            TF x_5 = x[ 5 ] - m_5_6 * ( x[ 6 ] - x[ 5 ] );
-            TF y_5 = y[ 5 ] - m_5_6 * ( y[ 6 ] - y[ 5 ] );
-            TF x_8 = x[ 0 ] - m_0_7 * ( x[ 7 ] - x[ 0 ] );
-            TF y_8 = y[ 0 ] - m_0_7 * ( y[ 7 ] - y[ 0 ] );
-            TF x_9 = x[ 1 ] - m_1_2 * ( x[ 2 ] - x[ 1 ] );
-            TF y_9 = y[ 1 ] - m_1_2 * ( y[ 2 ] - y[ 1 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 8 ] = x_8;
-            y[ 8 ] = y_8;
-            x[ 9 ] = x_9;
-            y[ 9 ] = y_9;
-            size = 10;
-            continue;
-        }
-        case 2092: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000000101100 mod=0,1,[ 2, 1 ],[ 3, 4 ],4,[ 5, 4 ],[ 5, 6 ],6,7
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_2_1 = d_2 / ( d_1 - d_2 );
-            TF m_3_4 = d_3 / ( d_4 - d_3 );
-            TF m_5_4 = d_5 / ( d_4 - d_5 );
-            TF m_5_6 = d_5 / ( d_6 - d_5 );
-            TF x_2 = x[ 2 ] - m_2_1 * ( x[ 1 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_1 * ( y[ 1 ] - y[ 2 ] );
-            TF x_3 = x[ 3 ] - m_3_4 * ( x[ 4 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_4 * ( y[ 4 ] - y[ 3 ] );
-            TF x_5 = x[ 5 ] - m_5_4 * ( x[ 4 ] - x[ 5 ] );
-            TF y_5 = y[ 5 ] - m_5_4 * ( y[ 4 ] - y[ 5 ] );
-            TF x_6 = x[ 5 ] - m_5_6 * ( x[ 6 ] - x[ 5 ] );
-            TF y_6 = y[ 5 ] - m_5_6 * ( y[ 6 ] - y[ 5 ] );
-            TF x_7 = x[ 6 ];
-            TF y_7 = y[ 6 ];
-            TF x_8 = x[ 7 ];
-            TF y_8 = y[ 7 ];
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            x[ 8 ] = x_8;
-            y[ 8 ] = y_8;
-            size = 9;
-            continue;
-        }
-        case 2093: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000000101101 mod=[ 0, 1 ],1,[ 2, 1 ],[ 3, 4 ],4,[ 5, 4 ],[ 5, 6 ],6,7,[ 0, 7 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_0_1 = d_0 / ( d_1 - d_0 );
-            TF m_2_1 = d_2 / ( d_1 - d_2 );
-            TF m_3_4 = d_3 / ( d_4 - d_3 );
-            TF m_5_4 = d_5 / ( d_4 - d_5 );
-            TF m_5_6 = d_5 / ( d_6 - d_5 );
-            TF m_0_7 = d_0 / ( d_7 - d_0 );
-            TF x_0 = x[ 0 ] - m_0_1 * ( x[ 1 ] - x[ 0 ] );
-            TF y_0 = y[ 0 ] - m_0_1 * ( y[ 1 ] - y[ 0 ] );
-            TF x_2 = x[ 2 ] - m_2_1 * ( x[ 1 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_1 * ( y[ 1 ] - y[ 2 ] );
-            TF x_3 = x[ 3 ] - m_3_4 * ( x[ 4 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_4 * ( y[ 4 ] - y[ 3 ] );
-            TF x_5 = x[ 5 ] - m_5_4 * ( x[ 4 ] - x[ 5 ] );
-            TF y_5 = y[ 5 ] - m_5_4 * ( y[ 4 ] - y[ 5 ] );
-            TF x_6 = x[ 5 ] - m_5_6 * ( x[ 6 ] - x[ 5 ] );
-            TF y_6 = y[ 5 ] - m_5_6 * ( y[ 6 ] - y[ 5 ] );
-            TF x_7 = x[ 6 ];
-            TF y_7 = y[ 6 ];
-            TF x_8 = x[ 7 ];
-            TF y_8 = y[ 7 ];
-            TF x_9 = x[ 0 ] - m_0_7 * ( x[ 7 ] - x[ 0 ] );
-            TF y_9 = y[ 0 ] - m_0_7 * ( y[ 7 ] - y[ 0 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            x[ 8 ] = x_8;
-            y[ 8 ] = y_8;
-            x[ 9 ] = x_9;
-            y[ 9 ] = y_9;
-            size = 10;
-            continue;
-        }
-        case 2094: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000000101110 mod=0,[ 1, 0 ],[ 3, 4 ],4,[ 5, 4 ],[ 5, 6 ],6,7
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_1_0 = d_1 / ( d_0 - d_1 );
-            TF m_3_4 = d_3 / ( d_4 - d_3 );
-            TF m_5_4 = d_5 / ( d_4 - d_5 );
-            TF m_5_6 = d_5 / ( d_6 - d_5 );
-            TF x_1 = x[ 1 ] - m_1_0 * ( x[ 0 ] - x[ 1 ] );
-            TF y_1 = y[ 1 ] - m_1_0 * ( y[ 0 ] - y[ 1 ] );
-            TF x_2 = x[ 3 ] - m_3_4 * ( x[ 4 ] - x[ 3 ] );
-            TF y_2 = y[ 3 ] - m_3_4 * ( y[ 4 ] - y[ 3 ] );
-            TF x_3 = x[ 4 ];
-            TF y_3 = y[ 4 ];
-            TF x_4 = x[ 5 ] - m_5_4 * ( x[ 4 ] - x[ 5 ] );
-            TF y_4 = y[ 5 ] - m_5_4 * ( y[ 4 ] - y[ 5 ] );
-            TF x_5 = x[ 5 ] - m_5_6 * ( x[ 6 ] - x[ 5 ] );
-            TF y_5 = y[ 5 ] - m_5_6 * ( y[ 6 ] - y[ 5 ] );
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            continue;
-        }
-        case 2095: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000000101111 mod=6,7,[ 0, 7 ],[ 3, 4 ],4,[ 5, 4 ],[ 5, 6 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_0_7 = d_0 / ( d_7 - d_0 );
-            TF m_3_4 = d_3 / ( d_4 - d_3 );
-            TF m_5_4 = d_5 / ( d_4 - d_5 );
-            TF m_5_6 = d_5 / ( d_6 - d_5 );
-            TF x_0 = x[ 6 ];
-            TF y_0 = y[ 6 ];
-            TF x_1 = x[ 7 ];
-            TF y_1 = y[ 7 ];
-            TF x_2 = x[ 0 ] - m_0_7 * ( x[ 7 ] - x[ 0 ] );
-            TF y_2 = y[ 0 ] - m_0_7 * ( y[ 7 ] - y[ 0 ] );
-            TF x_3 = x[ 3 ] - m_3_4 * ( x[ 4 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_4 * ( y[ 4 ] - y[ 3 ] );
-            TF x_5 = x[ 5 ] - m_5_4 * ( x[ 4 ] - x[ 5 ] );
-            TF y_5 = y[ 5 ] - m_5_4 * ( y[ 4 ] - y[ 5 ] );
-            TF x_6 = x[ 5 ] - m_5_6 * ( x[ 6 ] - x[ 5 ] );
-            TF y_6 = y[ 5 ] - m_5_6 * ( y[ 6 ] - y[ 5 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            size = 7;
-            continue;
+            break;
         }
         case 2096: {
             // size=8 outside=0000000000000000000000000000000000000000000000000000000000110000 mod=0,1,2,3,[ 4, 3 ],[ 5, 6 ],6,7
@@ -9518,260 +3324,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             y[ 4 ] = y_4;
             x[ 5 ] = x_5;
             y[ 5 ] = y_5;
-            continue;
-        }
-        case 2097: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000000110001 mod=[ 0, 1 ],1,2,3,[ 4, 3 ],[ 5, 6 ],6,7,[ 0, 7 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_0_1 = d_0 / ( d_1 - d_0 );
-            TF m_4_3 = d_4 / ( d_3 - d_4 );
-            TF m_5_6 = d_5 / ( d_6 - d_5 );
-            TF m_0_7 = d_0 / ( d_7 - d_0 );
-            TF x_0 = x[ 0 ] - m_0_1 * ( x[ 1 ] - x[ 0 ] );
-            TF y_0 = y[ 0 ] - m_0_1 * ( y[ 1 ] - y[ 0 ] );
-            TF x_4 = x[ 4 ] - m_4_3 * ( x[ 3 ] - x[ 4 ] );
-            TF y_4 = y[ 4 ] - m_4_3 * ( y[ 3 ] - y[ 4 ] );
-            TF x_5 = x[ 5 ] - m_5_6 * ( x[ 6 ] - x[ 5 ] );
-            TF y_5 = y[ 5 ] - m_5_6 * ( y[ 6 ] - y[ 5 ] );
-            TF x_8 = x[ 0 ] - m_0_7 * ( x[ 7 ] - x[ 0 ] );
-            TF y_8 = y[ 0 ] - m_0_7 * ( y[ 7 ] - y[ 0 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 8 ] = x_8;
-            y[ 8 ] = y_8;
-            size = 9;
-            continue;
-        }
-        case 2098: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000000110010 mod=[ 1, 0 ],[ 1, 2 ],2,3,[ 4, 3 ],[ 5, 6 ],6,7,0
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_1_0 = d_1 / ( d_0 - d_1 );
-            TF m_1_2 = d_1 / ( d_2 - d_1 );
-            TF m_4_3 = d_4 / ( d_3 - d_4 );
-            TF m_5_6 = d_5 / ( d_6 - d_5 );
-            TF x_0 = x[ 1 ] - m_1_0 * ( x[ 0 ] - x[ 1 ] );
-            TF y_0 = y[ 1 ] - m_1_0 * ( y[ 0 ] - y[ 1 ] );
-            TF x_1 = x[ 1 ] - m_1_2 * ( x[ 2 ] - x[ 1 ] );
-            TF y_1 = y[ 1 ] - m_1_2 * ( y[ 2 ] - y[ 1 ] );
-            TF x_4 = x[ 4 ] - m_4_3 * ( x[ 3 ] - x[ 4 ] );
-            TF y_4 = y[ 4 ] - m_4_3 * ( y[ 3 ] - y[ 4 ] );
-            TF x_5 = x[ 5 ] - m_5_6 * ( x[ 6 ] - x[ 5 ] );
-            TF y_5 = y[ 5 ] - m_5_6 * ( y[ 6 ] - y[ 5 ] );
-            TF x_8 = x[ 0 ];
-            TF y_8 = y[ 0 ];
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 8 ] = x_8;
-            y[ 8 ] = y_8;
-            size = 9;
-            continue;
-        }
-        case 2099: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000000110011 mod=[ 0, 7 ],[ 1, 2 ],2,3,[ 4, 3 ],[ 5, 6 ],6,7
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_0_7 = d_0 / ( d_7 - d_0 );
-            TF m_1_2 = d_1 / ( d_2 - d_1 );
-            TF m_4_3 = d_4 / ( d_3 - d_4 );
-            TF m_5_6 = d_5 / ( d_6 - d_5 );
-            TF x_0 = x[ 0 ] - m_0_7 * ( x[ 7 ] - x[ 0 ] );
-            TF y_0 = y[ 0 ] - m_0_7 * ( y[ 7 ] - y[ 0 ] );
-            TF x_1 = x[ 1 ] - m_1_2 * ( x[ 2 ] - x[ 1 ] );
-            TF y_1 = y[ 1 ] - m_1_2 * ( y[ 2 ] - y[ 1 ] );
-            TF x_4 = x[ 4 ] - m_4_3 * ( x[ 3 ] - x[ 4 ] );
-            TF y_4 = y[ 4 ] - m_4_3 * ( y[ 3 ] - y[ 4 ] );
-            TF x_5 = x[ 5 ] - m_5_6 * ( x[ 6 ] - x[ 5 ] );
-            TF y_5 = y[ 5 ] - m_5_6 * ( y[ 6 ] - y[ 5 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            continue;
-        }
-        case 2100: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000000110100 mod=1,[ 2, 1 ],[ 2, 3 ],3,[ 4, 3 ],[ 5, 6 ],6,7,0
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_2_1 = d_2 / ( d_1 - d_2 );
-            TF m_2_3 = d_2 / ( d_3 - d_2 );
-            TF m_4_3 = d_4 / ( d_3 - d_4 );
-            TF m_5_6 = d_5 / ( d_6 - d_5 );
-            TF x_0 = x[ 1 ];
-            TF y_0 = y[ 1 ];
-            TF x_1 = x[ 2 ] - m_2_1 * ( x[ 1 ] - x[ 2 ] );
-            TF y_1 = y[ 2 ] - m_2_1 * ( y[ 1 ] - y[ 2 ] );
-            TF x_2 = x[ 2 ] - m_2_3 * ( x[ 3 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_3 * ( y[ 3 ] - y[ 2 ] );
-            TF x_4 = x[ 4 ] - m_4_3 * ( x[ 3 ] - x[ 4 ] );
-            TF y_4 = y[ 4 ] - m_4_3 * ( y[ 3 ] - y[ 4 ] );
-            TF x_5 = x[ 5 ] - m_5_6 * ( x[ 6 ] - x[ 5 ] );
-            TF y_5 = y[ 5 ] - m_5_6 * ( y[ 6 ] - y[ 5 ] );
-            TF x_8 = x[ 0 ];
-            TF y_8 = y[ 0 ];
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 8 ] = x_8;
-            y[ 8 ] = y_8;
-            size = 9;
-            continue;
-        }
-        case 2101: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000000110101 mod=1,[ 2, 1 ],[ 2, 3 ],3,[ 4, 3 ],[ 5, 6 ],6,7,[ 0, 7 ],[ 0, 1 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_2_1 = d_2 / ( d_1 - d_2 );
-            TF m_2_3 = d_2 / ( d_3 - d_2 );
-            TF m_4_3 = d_4 / ( d_3 - d_4 );
-            TF m_5_6 = d_5 / ( d_6 - d_5 );
-            TF m_0_7 = d_0 / ( d_7 - d_0 );
-            TF m_0_1 = d_0 / ( d_1 - d_0 );
-            TF x_0 = x[ 1 ];
-            TF y_0 = y[ 1 ];
-            TF x_1 = x[ 2 ] - m_2_1 * ( x[ 1 ] - x[ 2 ] );
-            TF y_1 = y[ 2 ] - m_2_1 * ( y[ 1 ] - y[ 2 ] );
-            TF x_2 = x[ 2 ] - m_2_3 * ( x[ 3 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_3 * ( y[ 3 ] - y[ 2 ] );
-            TF x_4 = x[ 4 ] - m_4_3 * ( x[ 3 ] - x[ 4 ] );
-            TF y_4 = y[ 4 ] - m_4_3 * ( y[ 3 ] - y[ 4 ] );
-            TF x_5 = x[ 5 ] - m_5_6 * ( x[ 6 ] - x[ 5 ] );
-            TF y_5 = y[ 5 ] - m_5_6 * ( y[ 6 ] - y[ 5 ] );
-            TF x_8 = x[ 0 ] - m_0_7 * ( x[ 7 ] - x[ 0 ] );
-            TF y_8 = y[ 0 ] - m_0_7 * ( y[ 7 ] - y[ 0 ] );
-            TF x_9 = x[ 0 ] - m_0_1 * ( x[ 1 ] - x[ 0 ] );
-            TF y_9 = y[ 0 ] - m_0_1 * ( y[ 1 ] - y[ 0 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 8 ] = x_8;
-            y[ 8 ] = y_8;
-            x[ 9 ] = x_9;
-            y[ 9 ] = y_9;
-            size = 10;
-            continue;
-        }
-        case 2102: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000000110110 mod=0,[ 1, 0 ],[ 2, 3 ],3,[ 4, 3 ],[ 5, 6 ],6,7
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_1_0 = d_1 / ( d_0 - d_1 );
-            TF m_2_3 = d_2 / ( d_3 - d_2 );
-            TF m_4_3 = d_4 / ( d_3 - d_4 );
-            TF m_5_6 = d_5 / ( d_6 - d_5 );
-            TF x_1 = x[ 1 ] - m_1_0 * ( x[ 0 ] - x[ 1 ] );
-            TF y_1 = y[ 1 ] - m_1_0 * ( y[ 0 ] - y[ 1 ] );
-            TF x_2 = x[ 2 ] - m_2_3 * ( x[ 3 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_3 * ( y[ 3 ] - y[ 2 ] );
-            TF x_4 = x[ 4 ] - m_4_3 * ( x[ 3 ] - x[ 4 ] );
-            TF y_4 = y[ 4 ] - m_4_3 * ( y[ 3 ] - y[ 4 ] );
-            TF x_5 = x[ 5 ] - m_5_6 * ( x[ 6 ] - x[ 5 ] );
-            TF y_5 = y[ 5 ] - m_5_6 * ( y[ 6 ] - y[ 5 ] );
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            continue;
-        }
-        case 2103: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000000110111 mod=7,[ 0, 7 ],[ 2, 3 ],3,[ 4, 3 ],[ 5, 6 ],6
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_0_7 = d_0 / ( d_7 - d_0 );
-            TF m_2_3 = d_2 / ( d_3 - d_2 );
-            TF m_4_3 = d_4 / ( d_3 - d_4 );
-            TF m_5_6 = d_5 / ( d_6 - d_5 );
-            TF x_0 = x[ 7 ];
-            TF y_0 = y[ 7 ];
-            TF x_1 = x[ 0 ] - m_0_7 * ( x[ 7 ] - x[ 0 ] );
-            TF y_1 = y[ 0 ] - m_0_7 * ( y[ 7 ] - y[ 0 ] );
-            TF x_2 = x[ 2 ] - m_2_3 * ( x[ 3 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_3 * ( y[ 3 ] - y[ 2 ] );
-            TF x_4 = x[ 4 ] - m_4_3 * ( x[ 3 ] - x[ 4 ] );
-            TF y_4 = y[ 4 ] - m_4_3 * ( y[ 3 ] - y[ 4 ] );
-            TF x_5 = x[ 5 ] - m_5_6 * ( x[ 6 ] - x[ 5 ] );
-            TF y_5 = y[ 5 ] - m_5_6 * ( y[ 6 ] - y[ 5 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            size = 7;
-            continue;
+            break;
         }
         case 2104: {
             // size=8 outside=0000000000000000000000000000000000000000000000000000000000111000 mod=0,1,2,[ 3, 2 ],[ 5, 6 ],6,7
@@ -9798,120 +3351,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             x[ 6 ] = x_6;
             y[ 6 ] = y_6;
             size = 7;
-            continue;
-        }
-        case 2105: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000000111001 mod=[ 0, 7 ],[ 0, 1 ],1,2,[ 3, 2 ],[ 5, 6 ],6,7
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_0_7 = d_0 / ( d_7 - d_0 );
-            TF m_0_1 = d_0 / ( d_1 - d_0 );
-            TF m_3_2 = d_3 / ( d_2 - d_3 );
-            TF m_5_6 = d_5 / ( d_6 - d_5 );
-            TF x_0 = x[ 0 ] - m_0_7 * ( x[ 7 ] - x[ 0 ] );
-            TF y_0 = y[ 0 ] - m_0_7 * ( y[ 7 ] - y[ 0 ] );
-            TF x_1 = x[ 0 ] - m_0_1 * ( x[ 1 ] - x[ 0 ] );
-            TF y_1 = y[ 0 ] - m_0_1 * ( y[ 1 ] - y[ 0 ] );
-            TF x_2 = x[ 1 ];
-            TF y_2 = y[ 1 ];
-            TF x_3 = x[ 2 ];
-            TF y_3 = y[ 2 ];
-            TF x_4 = x[ 3 ] - m_3_2 * ( x[ 2 ] - x[ 3 ] );
-            TF y_4 = y[ 3 ] - m_3_2 * ( y[ 2 ] - y[ 3 ] );
-            TF x_5 = x[ 5 ] - m_5_6 * ( x[ 6 ] - x[ 5 ] );
-            TF y_5 = y[ 5 ] - m_5_6 * ( y[ 6 ] - y[ 5 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            continue;
-        }
-        case 2106: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000000111010 mod=0,[ 1, 0 ],[ 1, 2 ],2,[ 3, 2 ],[ 5, 6 ],6,7
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_1_0 = d_1 / ( d_0 - d_1 );
-            TF m_1_2 = d_1 / ( d_2 - d_1 );
-            TF m_3_2 = d_3 / ( d_2 - d_3 );
-            TF m_5_6 = d_5 / ( d_6 - d_5 );
-            TF x_1 = x[ 1 ] - m_1_0 * ( x[ 0 ] - x[ 1 ] );
-            TF y_1 = y[ 1 ] - m_1_0 * ( y[ 0 ] - y[ 1 ] );
-            TF x_2 = x[ 1 ] - m_1_2 * ( x[ 2 ] - x[ 1 ] );
-            TF y_2 = y[ 1 ] - m_1_2 * ( y[ 2 ] - y[ 1 ] );
-            TF x_3 = x[ 2 ];
-            TF y_3 = y[ 2 ];
-            TF x_4 = x[ 3 ] - m_3_2 * ( x[ 2 ] - x[ 3 ] );
-            TF y_4 = y[ 3 ] - m_3_2 * ( y[ 2 ] - y[ 3 ] );
-            TF x_5 = x[ 5 ] - m_5_6 * ( x[ 6 ] - x[ 5 ] );
-            TF y_5 = y[ 5 ] - m_5_6 * ( y[ 6 ] - y[ 5 ] );
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            continue;
-        }
-        case 2107: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000000111011 mod=[ 0, 7 ],[ 1, 2 ],2,[ 3, 2 ],[ 5, 6 ],6,7
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_0_7 = d_0 / ( d_7 - d_0 );
-            TF m_1_2 = d_1 / ( d_2 - d_1 );
-            TF m_3_2 = d_3 / ( d_2 - d_3 );
-            TF m_5_6 = d_5 / ( d_6 - d_5 );
-            TF x_0 = x[ 0 ] - m_0_7 * ( x[ 7 ] - x[ 0 ] );
-            TF y_0 = y[ 0 ] - m_0_7 * ( y[ 7 ] - y[ 0 ] );
-            TF x_1 = x[ 1 ] - m_1_2 * ( x[ 2 ] - x[ 1 ] );
-            TF y_1 = y[ 1 ] - m_1_2 * ( y[ 2 ] - y[ 1 ] );
-            TF x_3 = x[ 3 ] - m_3_2 * ( x[ 2 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_2 * ( y[ 2 ] - y[ 3 ] );
-            TF x_4 = x[ 5 ] - m_5_6 * ( x[ 6 ] - x[ 5 ] );
-            TF y_4 = y[ 5 ] - m_5_6 * ( y[ 6 ] - y[ 5 ] );
-            TF x_5 = x[ 6 ];
-            TF y_5 = y[ 6 ];
-            TF x_6 = x[ 7 ];
-            TF y_6 = y[ 7 ];
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            size = 7;
-            continue;
+            break;
         }
         case 2108: {
             // size=8 outside=0000000000000000000000000000000000000000000000000000000000111100 mod=0,1,[ 2, 1 ],[ 5, 6 ],6,7
@@ -9938,46 +3378,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             x[ 5 ] = x_5;
             y[ 5 ] = y_5;
             size = 6;
-            continue;
-        }
-        case 2109: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000000111101 mod=[ 0, 1 ],1,[ 2, 1 ],[ 5, 6 ],6,7,[ 0, 7 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_0_1 = d_0 / ( d_1 - d_0 );
-            TF m_2_1 = d_2 / ( d_1 - d_2 );
-            TF m_5_6 = d_5 / ( d_6 - d_5 );
-            TF m_0_7 = d_0 / ( d_7 - d_0 );
-            TF x_0 = x[ 0 ] - m_0_1 * ( x[ 1 ] - x[ 0 ] );
-            TF y_0 = y[ 0 ] - m_0_1 * ( y[ 1 ] - y[ 0 ] );
-            TF x_2 = x[ 2 ] - m_2_1 * ( x[ 1 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_1 * ( y[ 1 ] - y[ 2 ] );
-            TF x_3 = x[ 5 ] - m_5_6 * ( x[ 6 ] - x[ 5 ] );
-            TF y_3 = y[ 5 ] - m_5_6 * ( y[ 6 ] - y[ 5 ] );
-            TF x_4 = x[ 6 ];
-            TF y_4 = y[ 6 ];
-            TF x_5 = x[ 7 ];
-            TF y_5 = y[ 7 ];
-            TF x_6 = x[ 0 ] - m_0_7 * ( x[ 7 ] - x[ 0 ] );
-            TF y_6 = y[ 0 ] - m_0_7 * ( y[ 7 ] - y[ 0 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            size = 7;
-            continue;
+            break;
         }
         case 2110: {
             // size=8 outside=0000000000000000000000000000000000000000000000000000000000111110 mod=0,[ 1, 0 ],[ 5, 6 ],6,7
@@ -10004,7 +3405,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             x[ 4 ] = x_4;
             y[ 4 ] = y_4;
             size = 5;
-            continue;
+            break;
         }
         case 2111: {
             // size=8 outside=0000000000000000000000000000000000000000000000000000000000111111 mod=[ 0, 7 ],[ 5, 6 ],6,7
@@ -10031,7 +3432,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             x[ 3 ] = x_3;
             y[ 3 ] = y_3;
             size = 4;
-            continue;
+            break;
         }
         case 2112: {
             // size=8 outside=0000000000000000000000000000000000000000000000000000000001000000 mod=0,1,2,3,4,5,[ 6, 5 ],[ 6, 7 ],7
@@ -10053,1386 +3454,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             x[ 8 ] = x_8;
             y[ 8 ] = y_8;
             size = 9;
-            continue;
-        }
-        case 2113: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000001000001 mod=[ 0, 1 ],1,2,3,4,5,[ 6, 5 ],[ 6, 7 ],7,[ 0, 7 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_0_1 = d_0 / ( d_1 - d_0 );
-            TF m_6_5 = d_6 / ( d_5 - d_6 );
-            TF m_6_7 = d_6 / ( d_7 - d_6 );
-            TF m_0_7 = d_0 / ( d_7 - d_0 );
-            TF x_0 = x[ 0 ] - m_0_1 * ( x[ 1 ] - x[ 0 ] );
-            TF y_0 = y[ 0 ] - m_0_1 * ( y[ 1 ] - y[ 0 ] );
-            TF x_6 = x[ 6 ] - m_6_5 * ( x[ 5 ] - x[ 6 ] );
-            TF y_6 = y[ 6 ] - m_6_5 * ( y[ 5 ] - y[ 6 ] );
-            TF x_7 = x[ 6 ] - m_6_7 * ( x[ 7 ] - x[ 6 ] );
-            TF y_7 = y[ 6 ] - m_6_7 * ( y[ 7 ] - y[ 6 ] );
-            TF x_8 = x[ 7 ];
-            TF y_8 = y[ 7 ];
-            TF x_9 = x[ 0 ] - m_0_7 * ( x[ 7 ] - x[ 0 ] );
-            TF y_9 = y[ 0 ] - m_0_7 * ( y[ 7 ] - y[ 0 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            x[ 8 ] = x_8;
-            y[ 8 ] = y_8;
-            x[ 9 ] = x_9;
-            y[ 9 ] = y_9;
-            size = 10;
-            continue;
-        }
-        case 2114: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000001000010 mod=[ 1, 0 ],[ 1, 2 ],2,3,4,5,[ 6, 5 ],[ 6, 7 ],7,0
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_1_0 = d_1 / ( d_0 - d_1 );
-            TF m_1_2 = d_1 / ( d_2 - d_1 );
-            TF m_6_5 = d_6 / ( d_5 - d_6 );
-            TF m_6_7 = d_6 / ( d_7 - d_6 );
-            TF x_0 = x[ 1 ] - m_1_0 * ( x[ 0 ] - x[ 1 ] );
-            TF y_0 = y[ 1 ] - m_1_0 * ( y[ 0 ] - y[ 1 ] );
-            TF x_1 = x[ 1 ] - m_1_2 * ( x[ 2 ] - x[ 1 ] );
-            TF y_1 = y[ 1 ] - m_1_2 * ( y[ 2 ] - y[ 1 ] );
-            TF x_6 = x[ 6 ] - m_6_5 * ( x[ 5 ] - x[ 6 ] );
-            TF y_6 = y[ 6 ] - m_6_5 * ( y[ 5 ] - y[ 6 ] );
-            TF x_7 = x[ 6 ] - m_6_7 * ( x[ 7 ] - x[ 6 ] );
-            TF y_7 = y[ 6 ] - m_6_7 * ( y[ 7 ] - y[ 6 ] );
-            TF x_8 = x[ 7 ];
-            TF y_8 = y[ 7 ];
-            TF x_9 = x[ 0 ];
-            TF y_9 = y[ 0 ];
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            x[ 8 ] = x_8;
-            y[ 8 ] = y_8;
-            x[ 9 ] = x_9;
-            y[ 9 ] = y_9;
-            size = 10;
-            continue;
-        }
-        case 2115: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000001000011 mod=[ 0, 7 ],[ 1, 2 ],2,3,4,5,[ 6, 5 ],[ 6, 7 ],7
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_0_7 = d_0 / ( d_7 - d_0 );
-            TF m_1_2 = d_1 / ( d_2 - d_1 );
-            TF m_6_5 = d_6 / ( d_5 - d_6 );
-            TF m_6_7 = d_6 / ( d_7 - d_6 );
-            TF x_0 = x[ 0 ] - m_0_7 * ( x[ 7 ] - x[ 0 ] );
-            TF y_0 = y[ 0 ] - m_0_7 * ( y[ 7 ] - y[ 0 ] );
-            TF x_1 = x[ 1 ] - m_1_2 * ( x[ 2 ] - x[ 1 ] );
-            TF y_1 = y[ 1 ] - m_1_2 * ( y[ 2 ] - y[ 1 ] );
-            TF x_6 = x[ 6 ] - m_6_5 * ( x[ 5 ] - x[ 6 ] );
-            TF y_6 = y[ 6 ] - m_6_5 * ( y[ 5 ] - y[ 6 ] );
-            TF x_7 = x[ 6 ] - m_6_7 * ( x[ 7 ] - x[ 6 ] );
-            TF y_7 = y[ 6 ] - m_6_7 * ( y[ 7 ] - y[ 6 ] );
-            TF x_8 = x[ 7 ];
-            TF y_8 = y[ 7 ];
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            x[ 8 ] = x_8;
-            y[ 8 ] = y_8;
-            size = 9;
-            continue;
-        }
-        case 2116: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000001000100 mod=1,[ 2, 1 ],[ 2, 3 ],3,4,5,[ 6, 5 ],[ 6, 7 ],7,0
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_2_1 = d_2 / ( d_1 - d_2 );
-            TF m_2_3 = d_2 / ( d_3 - d_2 );
-            TF m_6_5 = d_6 / ( d_5 - d_6 );
-            TF m_6_7 = d_6 / ( d_7 - d_6 );
-            TF x_0 = x[ 1 ];
-            TF y_0 = y[ 1 ];
-            TF x_1 = x[ 2 ] - m_2_1 * ( x[ 1 ] - x[ 2 ] );
-            TF y_1 = y[ 2 ] - m_2_1 * ( y[ 1 ] - y[ 2 ] );
-            TF x_2 = x[ 2 ] - m_2_3 * ( x[ 3 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_3 * ( y[ 3 ] - y[ 2 ] );
-            TF x_6 = x[ 6 ] - m_6_5 * ( x[ 5 ] - x[ 6 ] );
-            TF y_6 = y[ 6 ] - m_6_5 * ( y[ 5 ] - y[ 6 ] );
-            TF x_7 = x[ 6 ] - m_6_7 * ( x[ 7 ] - x[ 6 ] );
-            TF y_7 = y[ 6 ] - m_6_7 * ( y[ 7 ] - y[ 6 ] );
-            TF x_8 = x[ 7 ];
-            TF y_8 = y[ 7 ];
-            TF x_9 = x[ 0 ];
-            TF y_9 = y[ 0 ];
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            x[ 8 ] = x_8;
-            y[ 8 ] = y_8;
-            x[ 9 ] = x_9;
-            y[ 9 ] = y_9;
-            size = 10;
-            continue;
-        }
-        case 2117: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000001000101 mod=1,[ 2, 1 ],[ 2, 3 ],3,4,5,[ 6, 5 ],[ 6, 7 ],7,[ 0, 7 ],[ 0, 1 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_2_1 = d_2 / ( d_1 - d_2 );
-            TF m_2_3 = d_2 / ( d_3 - d_2 );
-            TF m_6_5 = d_6 / ( d_5 - d_6 );
-            TF m_6_7 = d_6 / ( d_7 - d_6 );
-            TF m_0_7 = d_0 / ( d_7 - d_0 );
-            TF m_0_1 = d_0 / ( d_1 - d_0 );
-            TF x_0 = x[ 1 ];
-            TF y_0 = y[ 1 ];
-            TF x_1 = x[ 2 ] - m_2_1 * ( x[ 1 ] - x[ 2 ] );
-            TF y_1 = y[ 2 ] - m_2_1 * ( y[ 1 ] - y[ 2 ] );
-            TF x_2 = x[ 2 ] - m_2_3 * ( x[ 3 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_3 * ( y[ 3 ] - y[ 2 ] );
-            TF x_6 = x[ 6 ] - m_6_5 * ( x[ 5 ] - x[ 6 ] );
-            TF y_6 = y[ 6 ] - m_6_5 * ( y[ 5 ] - y[ 6 ] );
-            TF x_7 = x[ 6 ] - m_6_7 * ( x[ 7 ] - x[ 6 ] );
-            TF y_7 = y[ 6 ] - m_6_7 * ( y[ 7 ] - y[ 6 ] );
-            TF x_8 = x[ 7 ];
-            TF y_8 = y[ 7 ];
-            TF x_9 = x[ 0 ] - m_0_7 * ( x[ 7 ] - x[ 0 ] );
-            TF y_9 = y[ 0 ] - m_0_7 * ( y[ 7 ] - y[ 0 ] );
-            TF x_10 = x[ 0 ] - m_0_1 * ( x[ 1 ] - x[ 0 ] );
-            TF y_10 = y[ 0 ] - m_0_1 * ( y[ 1 ] - y[ 0 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            x[ 8 ] = x_8;
-            y[ 8 ] = y_8;
-            x[ 9 ] = x_9;
-            y[ 9 ] = y_9;
-            x[ 10 ] = x_10;
-            y[ 10 ] = y_10;
-            size = 11;
-            continue;
-        }
-        case 2118: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000001000110 mod=0,[ 1, 0 ],[ 2, 3 ],3,4,5,[ 6, 5 ],[ 6, 7 ],7
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_1_0 = d_1 / ( d_0 - d_1 );
-            TF m_2_3 = d_2 / ( d_3 - d_2 );
-            TF m_6_5 = d_6 / ( d_5 - d_6 );
-            TF m_6_7 = d_6 / ( d_7 - d_6 );
-            TF x_1 = x[ 1 ] - m_1_0 * ( x[ 0 ] - x[ 1 ] );
-            TF y_1 = y[ 1 ] - m_1_0 * ( y[ 0 ] - y[ 1 ] );
-            TF x_2 = x[ 2 ] - m_2_3 * ( x[ 3 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_3 * ( y[ 3 ] - y[ 2 ] );
-            TF x_6 = x[ 6 ] - m_6_5 * ( x[ 5 ] - x[ 6 ] );
-            TF y_6 = y[ 6 ] - m_6_5 * ( y[ 5 ] - y[ 6 ] );
-            TF x_7 = x[ 6 ] - m_6_7 * ( x[ 7 ] - x[ 6 ] );
-            TF y_7 = y[ 6 ] - m_6_7 * ( y[ 7 ] - y[ 6 ] );
-            TF x_8 = x[ 7 ];
-            TF y_8 = y[ 7 ];
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            x[ 8 ] = x_8;
-            y[ 8 ] = y_8;
-            size = 9;
-            continue;
-        }
-        case 2119: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000001000111 mod=7,[ 0, 7 ],[ 2, 3 ],3,4,5,[ 6, 5 ],[ 6, 7 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_0_7 = d_0 / ( d_7 - d_0 );
-            TF m_2_3 = d_2 / ( d_3 - d_2 );
-            TF m_6_5 = d_6 / ( d_5 - d_6 );
-            TF m_6_7 = d_6 / ( d_7 - d_6 );
-            TF x_0 = x[ 7 ];
-            TF y_0 = y[ 7 ];
-            TF x_1 = x[ 0 ] - m_0_7 * ( x[ 7 ] - x[ 0 ] );
-            TF y_1 = y[ 0 ] - m_0_7 * ( y[ 7 ] - y[ 0 ] );
-            TF x_2 = x[ 2 ] - m_2_3 * ( x[ 3 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_3 * ( y[ 3 ] - y[ 2 ] );
-            TF x_6 = x[ 6 ] - m_6_5 * ( x[ 5 ] - x[ 6 ] );
-            TF y_6 = y[ 6 ] - m_6_5 * ( y[ 5 ] - y[ 6 ] );
-            TF x_7 = x[ 6 ] - m_6_7 * ( x[ 7 ] - x[ 6 ] );
-            TF y_7 = y[ 6 ] - m_6_7 * ( y[ 7 ] - y[ 6 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            continue;
-        }
-        case 2120: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000001001000 mod=0,1,2,[ 3, 2 ],[ 3, 4 ],4,5,[ 6, 5 ],[ 6, 7 ],7
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_3_2 = d_3 / ( d_2 - d_3 );
-            TF m_3_4 = d_3 / ( d_4 - d_3 );
-            TF m_6_5 = d_6 / ( d_5 - d_6 );
-            TF m_6_7 = d_6 / ( d_7 - d_6 );
-            TF x_3 = x[ 3 ] - m_3_2 * ( x[ 2 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_2 * ( y[ 2 ] - y[ 3 ] );
-            TF x_4 = x[ 3 ] - m_3_4 * ( x[ 4 ] - x[ 3 ] );
-            TF y_4 = y[ 3 ] - m_3_4 * ( y[ 4 ] - y[ 3 ] );
-            TF x_5 = x[ 4 ];
-            TF y_5 = y[ 4 ];
-            TF x_6 = x[ 5 ];
-            TF y_6 = y[ 5 ];
-            TF x_7 = x[ 6 ] - m_6_5 * ( x[ 5 ] - x[ 6 ] );
-            TF y_7 = y[ 6 ] - m_6_5 * ( y[ 5 ] - y[ 6 ] );
-            TF x_8 = x[ 6 ] - m_6_7 * ( x[ 7 ] - x[ 6 ] );
-            TF y_8 = y[ 6 ] - m_6_7 * ( y[ 7 ] - y[ 6 ] );
-            TF x_9 = x[ 7 ];
-            TF y_9 = y[ 7 ];
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            x[ 8 ] = x_8;
-            y[ 8 ] = y_8;
-            x[ 9 ] = x_9;
-            y[ 9 ] = y_9;
-            size = 10;
-            continue;
-        }
-        case 2121: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000001001001 mod=1,2,[ 3, 2 ],[ 3, 4 ],4,5,[ 6, 5 ],[ 6, 7 ],7,[ 0, 7 ],[ 0, 1 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_3_2 = d_3 / ( d_2 - d_3 );
-            TF m_3_4 = d_3 / ( d_4 - d_3 );
-            TF m_6_5 = d_6 / ( d_5 - d_6 );
-            TF m_6_7 = d_6 / ( d_7 - d_6 );
-            TF m_0_7 = d_0 / ( d_7 - d_0 );
-            TF m_0_1 = d_0 / ( d_1 - d_0 );
-            TF x_0 = x[ 1 ];
-            TF y_0 = y[ 1 ];
-            TF x_1 = x[ 2 ];
-            TF y_1 = y[ 2 ];
-            TF x_2 = x[ 3 ] - m_3_2 * ( x[ 2 ] - x[ 3 ] );
-            TF y_2 = y[ 3 ] - m_3_2 * ( y[ 2 ] - y[ 3 ] );
-            TF x_3 = x[ 3 ] - m_3_4 * ( x[ 4 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_4 * ( y[ 4 ] - y[ 3 ] );
-            TF x_6 = x[ 6 ] - m_6_5 * ( x[ 5 ] - x[ 6 ] );
-            TF y_6 = y[ 6 ] - m_6_5 * ( y[ 5 ] - y[ 6 ] );
-            TF x_7 = x[ 6 ] - m_6_7 * ( x[ 7 ] - x[ 6 ] );
-            TF y_7 = y[ 6 ] - m_6_7 * ( y[ 7 ] - y[ 6 ] );
-            TF x_8 = x[ 7 ];
-            TF y_8 = y[ 7 ];
-            TF x_9 = x[ 0 ] - m_0_7 * ( x[ 7 ] - x[ 0 ] );
-            TF y_9 = y[ 0 ] - m_0_7 * ( y[ 7 ] - y[ 0 ] );
-            TF x_10 = x[ 0 ] - m_0_1 * ( x[ 1 ] - x[ 0 ] );
-            TF y_10 = y[ 0 ] - m_0_1 * ( y[ 1 ] - y[ 0 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            x[ 8 ] = x_8;
-            y[ 8 ] = y_8;
-            x[ 9 ] = x_9;
-            y[ 9 ] = y_9;
-            x[ 10 ] = x_10;
-            y[ 10 ] = y_10;
-            size = 11;
-            continue;
-        }
-        case 2122: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000001001010 mod=[ 1, 2 ],2,[ 3, 2 ],[ 3, 4 ],4,5,[ 6, 5 ],[ 6, 7 ],7,0,[ 1, 0 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_1_2 = d_1 / ( d_2 - d_1 );
-            TF m_3_2 = d_3 / ( d_2 - d_3 );
-            TF m_3_4 = d_3 / ( d_4 - d_3 );
-            TF m_6_5 = d_6 / ( d_5 - d_6 );
-            TF m_6_7 = d_6 / ( d_7 - d_6 );
-            TF m_1_0 = d_1 / ( d_0 - d_1 );
-            TF x_0 = x[ 1 ] - m_1_2 * ( x[ 2 ] - x[ 1 ] );
-            TF y_0 = y[ 1 ] - m_1_2 * ( y[ 2 ] - y[ 1 ] );
-            TF x_1 = x[ 2 ];
-            TF y_1 = y[ 2 ];
-            TF x_2 = x[ 3 ] - m_3_2 * ( x[ 2 ] - x[ 3 ] );
-            TF y_2 = y[ 3 ] - m_3_2 * ( y[ 2 ] - y[ 3 ] );
-            TF x_3 = x[ 3 ] - m_3_4 * ( x[ 4 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_4 * ( y[ 4 ] - y[ 3 ] );
-            TF x_6 = x[ 6 ] - m_6_5 * ( x[ 5 ] - x[ 6 ] );
-            TF y_6 = y[ 6 ] - m_6_5 * ( y[ 5 ] - y[ 6 ] );
-            TF x_7 = x[ 6 ] - m_6_7 * ( x[ 7 ] - x[ 6 ] );
-            TF y_7 = y[ 6 ] - m_6_7 * ( y[ 7 ] - y[ 6 ] );
-            TF x_8 = x[ 7 ];
-            TF y_8 = y[ 7 ];
-            TF x_9 = x[ 0 ];
-            TF y_9 = y[ 0 ];
-            TF x_10 = x[ 1 ] - m_1_0 * ( x[ 0 ] - x[ 1 ] );
-            TF y_10 = y[ 1 ] - m_1_0 * ( y[ 0 ] - y[ 1 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            x[ 8 ] = x_8;
-            y[ 8 ] = y_8;
-            x[ 9 ] = x_9;
-            y[ 9 ] = y_9;
-            x[ 10 ] = x_10;
-            y[ 10 ] = y_10;
-            size = 11;
-            continue;
-        }
-        case 2123: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000001001011 mod=[ 1, 2 ],2,[ 3, 2 ],[ 3, 4 ],4,5,[ 6, 5 ],[ 6, 7 ],7,[ 0, 7 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_1_2 = d_1 / ( d_2 - d_1 );
-            TF m_3_2 = d_3 / ( d_2 - d_3 );
-            TF m_3_4 = d_3 / ( d_4 - d_3 );
-            TF m_6_5 = d_6 / ( d_5 - d_6 );
-            TF m_6_7 = d_6 / ( d_7 - d_6 );
-            TF m_0_7 = d_0 / ( d_7 - d_0 );
-            TF x_0 = x[ 1 ] - m_1_2 * ( x[ 2 ] - x[ 1 ] );
-            TF y_0 = y[ 1 ] - m_1_2 * ( y[ 2 ] - y[ 1 ] );
-            TF x_1 = x[ 2 ];
-            TF y_1 = y[ 2 ];
-            TF x_2 = x[ 3 ] - m_3_2 * ( x[ 2 ] - x[ 3 ] );
-            TF y_2 = y[ 3 ] - m_3_2 * ( y[ 2 ] - y[ 3 ] );
-            TF x_3 = x[ 3 ] - m_3_4 * ( x[ 4 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_4 * ( y[ 4 ] - y[ 3 ] );
-            TF x_6 = x[ 6 ] - m_6_5 * ( x[ 5 ] - x[ 6 ] );
-            TF y_6 = y[ 6 ] - m_6_5 * ( y[ 5 ] - y[ 6 ] );
-            TF x_7 = x[ 6 ] - m_6_7 * ( x[ 7 ] - x[ 6 ] );
-            TF y_7 = y[ 6 ] - m_6_7 * ( y[ 7 ] - y[ 6 ] );
-            TF x_8 = x[ 7 ];
-            TF y_8 = y[ 7 ];
-            TF x_9 = x[ 0 ] - m_0_7 * ( x[ 7 ] - x[ 0 ] );
-            TF y_9 = y[ 0 ] - m_0_7 * ( y[ 7 ] - y[ 0 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            x[ 8 ] = x_8;
-            y[ 8 ] = y_8;
-            x[ 9 ] = x_9;
-            y[ 9 ] = y_9;
-            size = 10;
-            continue;
-        }
-        case 2124: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000001001100 mod=0,1,[ 2, 1 ],[ 3, 4 ],4,5,[ 6, 5 ],[ 6, 7 ],7
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_2_1 = d_2 / ( d_1 - d_2 );
-            TF m_3_4 = d_3 / ( d_4 - d_3 );
-            TF m_6_5 = d_6 / ( d_5 - d_6 );
-            TF m_6_7 = d_6 / ( d_7 - d_6 );
-            TF x_2 = x[ 2 ] - m_2_1 * ( x[ 1 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_1 * ( y[ 1 ] - y[ 2 ] );
-            TF x_3 = x[ 3 ] - m_3_4 * ( x[ 4 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_4 * ( y[ 4 ] - y[ 3 ] );
-            TF x_6 = x[ 6 ] - m_6_5 * ( x[ 5 ] - x[ 6 ] );
-            TF y_6 = y[ 6 ] - m_6_5 * ( y[ 5 ] - y[ 6 ] );
-            TF x_7 = x[ 6 ] - m_6_7 * ( x[ 7 ] - x[ 6 ] );
-            TF y_7 = y[ 6 ] - m_6_7 * ( y[ 7 ] - y[ 6 ] );
-            TF x_8 = x[ 7 ];
-            TF y_8 = y[ 7 ];
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            x[ 8 ] = x_8;
-            y[ 8 ] = y_8;
-            size = 9;
-            continue;
-        }
-        case 2125: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000001001101 mod=[ 0, 1 ],1,[ 2, 1 ],[ 3, 4 ],4,5,[ 6, 5 ],[ 6, 7 ],7,[ 0, 7 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_0_1 = d_0 / ( d_1 - d_0 );
-            TF m_2_1 = d_2 / ( d_1 - d_2 );
-            TF m_3_4 = d_3 / ( d_4 - d_3 );
-            TF m_6_5 = d_6 / ( d_5 - d_6 );
-            TF m_6_7 = d_6 / ( d_7 - d_6 );
-            TF m_0_7 = d_0 / ( d_7 - d_0 );
-            TF x_0 = x[ 0 ] - m_0_1 * ( x[ 1 ] - x[ 0 ] );
-            TF y_0 = y[ 0 ] - m_0_1 * ( y[ 1 ] - y[ 0 ] );
-            TF x_2 = x[ 2 ] - m_2_1 * ( x[ 1 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_1 * ( y[ 1 ] - y[ 2 ] );
-            TF x_3 = x[ 3 ] - m_3_4 * ( x[ 4 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_4 * ( y[ 4 ] - y[ 3 ] );
-            TF x_6 = x[ 6 ] - m_6_5 * ( x[ 5 ] - x[ 6 ] );
-            TF y_6 = y[ 6 ] - m_6_5 * ( y[ 5 ] - y[ 6 ] );
-            TF x_7 = x[ 6 ] - m_6_7 * ( x[ 7 ] - x[ 6 ] );
-            TF y_7 = y[ 6 ] - m_6_7 * ( y[ 7 ] - y[ 6 ] );
-            TF x_8 = x[ 7 ];
-            TF y_8 = y[ 7 ];
-            TF x_9 = x[ 0 ] - m_0_7 * ( x[ 7 ] - x[ 0 ] );
-            TF y_9 = y[ 0 ] - m_0_7 * ( y[ 7 ] - y[ 0 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            x[ 8 ] = x_8;
-            y[ 8 ] = y_8;
-            x[ 9 ] = x_9;
-            y[ 9 ] = y_9;
-            size = 10;
-            continue;
-        }
-        case 2126: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000001001110 mod=0,[ 1, 0 ],[ 3, 4 ],4,5,[ 6, 5 ],[ 6, 7 ],7
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_1_0 = d_1 / ( d_0 - d_1 );
-            TF m_3_4 = d_3 / ( d_4 - d_3 );
-            TF m_6_5 = d_6 / ( d_5 - d_6 );
-            TF m_6_7 = d_6 / ( d_7 - d_6 );
-            TF x_1 = x[ 1 ] - m_1_0 * ( x[ 0 ] - x[ 1 ] );
-            TF y_1 = y[ 1 ] - m_1_0 * ( y[ 0 ] - y[ 1 ] );
-            TF x_2 = x[ 3 ] - m_3_4 * ( x[ 4 ] - x[ 3 ] );
-            TF y_2 = y[ 3 ] - m_3_4 * ( y[ 4 ] - y[ 3 ] );
-            TF x_3 = x[ 4 ];
-            TF y_3 = y[ 4 ];
-            TF x_4 = x[ 5 ];
-            TF y_4 = y[ 5 ];
-            TF x_5 = x[ 6 ] - m_6_5 * ( x[ 5 ] - x[ 6 ] );
-            TF y_5 = y[ 6 ] - m_6_5 * ( y[ 5 ] - y[ 6 ] );
-            TF x_6 = x[ 6 ] - m_6_7 * ( x[ 7 ] - x[ 6 ] );
-            TF y_6 = y[ 6 ] - m_6_7 * ( y[ 7 ] - y[ 6 ] );
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            continue;
-        }
-        case 2127: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000001001111 mod=[ 6, 7 ],7,[ 0, 7 ],[ 3, 4 ],4,5,[ 6, 5 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_6_7 = d_6 / ( d_7 - d_6 );
-            TF m_0_7 = d_0 / ( d_7 - d_0 );
-            TF m_3_4 = d_3 / ( d_4 - d_3 );
-            TF m_6_5 = d_6 / ( d_5 - d_6 );
-            TF x_0 = x[ 6 ] - m_6_7 * ( x[ 7 ] - x[ 6 ] );
-            TF y_0 = y[ 6 ] - m_6_7 * ( y[ 7 ] - y[ 6 ] );
-            TF x_1 = x[ 7 ];
-            TF y_1 = y[ 7 ];
-            TF x_2 = x[ 0 ] - m_0_7 * ( x[ 7 ] - x[ 0 ] );
-            TF y_2 = y[ 0 ] - m_0_7 * ( y[ 7 ] - y[ 0 ] );
-            TF x_3 = x[ 3 ] - m_3_4 * ( x[ 4 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_4 * ( y[ 4 ] - y[ 3 ] );
-            TF x_6 = x[ 6 ] - m_6_5 * ( x[ 5 ] - x[ 6 ] );
-            TF y_6 = y[ 6 ] - m_6_5 * ( y[ 5 ] - y[ 6 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            size = 7;
-            continue;
-        }
-        case 2128: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000001010000 mod=0,1,2,3,[ 4, 3 ],[ 4, 5 ],5,[ 6, 5 ],[ 6, 7 ],7
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_4_3 = d_4 / ( d_3 - d_4 );
-            TF m_4_5 = d_4 / ( d_5 - d_4 );
-            TF m_6_5 = d_6 / ( d_5 - d_6 );
-            TF m_6_7 = d_6 / ( d_7 - d_6 );
-            TF x_4 = x[ 4 ] - m_4_3 * ( x[ 3 ] - x[ 4 ] );
-            TF y_4 = y[ 4 ] - m_4_3 * ( y[ 3 ] - y[ 4 ] );
-            TF x_5 = x[ 4 ] - m_4_5 * ( x[ 5 ] - x[ 4 ] );
-            TF y_5 = y[ 4 ] - m_4_5 * ( y[ 5 ] - y[ 4 ] );
-            TF x_6 = x[ 5 ];
-            TF y_6 = y[ 5 ];
-            TF x_7 = x[ 6 ] - m_6_5 * ( x[ 5 ] - x[ 6 ] );
-            TF y_7 = y[ 6 ] - m_6_5 * ( y[ 5 ] - y[ 6 ] );
-            TF x_8 = x[ 6 ] - m_6_7 * ( x[ 7 ] - x[ 6 ] );
-            TF y_8 = y[ 6 ] - m_6_7 * ( y[ 7 ] - y[ 6 ] );
-            TF x_9 = x[ 7 ];
-            TF y_9 = y[ 7 ];
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            x[ 8 ] = x_8;
-            y[ 8 ] = y_8;
-            x[ 9 ] = x_9;
-            y[ 9 ] = y_9;
-            size = 10;
-            continue;
-        }
-        case 2129: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000001010001 mod=[ 0, 1 ],1,2,3,[ 4, 3 ],[ 4, 5 ],5,[ 6, 5 ],[ 6, 7 ],7,[ 0, 7 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_0_1 = d_0 / ( d_1 - d_0 );
-            TF m_4_3 = d_4 / ( d_3 - d_4 );
-            TF m_4_5 = d_4 / ( d_5 - d_4 );
-            TF m_6_5 = d_6 / ( d_5 - d_6 );
-            TF m_6_7 = d_6 / ( d_7 - d_6 );
-            TF m_0_7 = d_0 / ( d_7 - d_0 );
-            TF x_0 = x[ 0 ] - m_0_1 * ( x[ 1 ] - x[ 0 ] );
-            TF y_0 = y[ 0 ] - m_0_1 * ( y[ 1 ] - y[ 0 ] );
-            TF x_4 = x[ 4 ] - m_4_3 * ( x[ 3 ] - x[ 4 ] );
-            TF y_4 = y[ 4 ] - m_4_3 * ( y[ 3 ] - y[ 4 ] );
-            TF x_5 = x[ 4 ] - m_4_5 * ( x[ 5 ] - x[ 4 ] );
-            TF y_5 = y[ 4 ] - m_4_5 * ( y[ 5 ] - y[ 4 ] );
-            TF x_6 = x[ 5 ];
-            TF y_6 = y[ 5 ];
-            TF x_7 = x[ 6 ] - m_6_5 * ( x[ 5 ] - x[ 6 ] );
-            TF y_7 = y[ 6 ] - m_6_5 * ( y[ 5 ] - y[ 6 ] );
-            TF x_8 = x[ 6 ] - m_6_7 * ( x[ 7 ] - x[ 6 ] );
-            TF y_8 = y[ 6 ] - m_6_7 * ( y[ 7 ] - y[ 6 ] );
-            TF x_9 = x[ 7 ];
-            TF y_9 = y[ 7 ];
-            TF x_10 = x[ 0 ] - m_0_7 * ( x[ 7 ] - x[ 0 ] );
-            TF y_10 = y[ 0 ] - m_0_7 * ( y[ 7 ] - y[ 0 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            x[ 8 ] = x_8;
-            y[ 8 ] = y_8;
-            x[ 9 ] = x_9;
-            y[ 9 ] = y_9;
-            x[ 10 ] = x_10;
-            y[ 10 ] = y_10;
-            size = 11;
-            continue;
-        }
-        case 2130: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000001010010 mod=[ 1, 0 ],[ 1, 2 ],2,3,[ 4, 3 ],[ 4, 5 ],5,[ 6, 5 ],[ 6, 7 ],7,0
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_1_0 = d_1 / ( d_0 - d_1 );
-            TF m_1_2 = d_1 / ( d_2 - d_1 );
-            TF m_4_3 = d_4 / ( d_3 - d_4 );
-            TF m_4_5 = d_4 / ( d_5 - d_4 );
-            TF m_6_5 = d_6 / ( d_5 - d_6 );
-            TF m_6_7 = d_6 / ( d_7 - d_6 );
-            TF x_0 = x[ 1 ] - m_1_0 * ( x[ 0 ] - x[ 1 ] );
-            TF y_0 = y[ 1 ] - m_1_0 * ( y[ 0 ] - y[ 1 ] );
-            TF x_1 = x[ 1 ] - m_1_2 * ( x[ 2 ] - x[ 1 ] );
-            TF y_1 = y[ 1 ] - m_1_2 * ( y[ 2 ] - y[ 1 ] );
-            TF x_4 = x[ 4 ] - m_4_3 * ( x[ 3 ] - x[ 4 ] );
-            TF y_4 = y[ 4 ] - m_4_3 * ( y[ 3 ] - y[ 4 ] );
-            TF x_5 = x[ 4 ] - m_4_5 * ( x[ 5 ] - x[ 4 ] );
-            TF y_5 = y[ 4 ] - m_4_5 * ( y[ 5 ] - y[ 4 ] );
-            TF x_6 = x[ 5 ];
-            TF y_6 = y[ 5 ];
-            TF x_7 = x[ 6 ] - m_6_5 * ( x[ 5 ] - x[ 6 ] );
-            TF y_7 = y[ 6 ] - m_6_5 * ( y[ 5 ] - y[ 6 ] );
-            TF x_8 = x[ 6 ] - m_6_7 * ( x[ 7 ] - x[ 6 ] );
-            TF y_8 = y[ 6 ] - m_6_7 * ( y[ 7 ] - y[ 6 ] );
-            TF x_9 = x[ 7 ];
-            TF y_9 = y[ 7 ];
-            TF x_10 = x[ 0 ];
-            TF y_10 = y[ 0 ];
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            x[ 8 ] = x_8;
-            y[ 8 ] = y_8;
-            x[ 9 ] = x_9;
-            y[ 9 ] = y_9;
-            x[ 10 ] = x_10;
-            y[ 10 ] = y_10;
-            size = 11;
-            continue;
-        }
-        case 2131: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000001010011 mod=[ 0, 7 ],[ 1, 2 ],2,3,[ 4, 3 ],[ 4, 5 ],5,[ 6, 5 ],[ 6, 7 ],7
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_0_7 = d_0 / ( d_7 - d_0 );
-            TF m_1_2 = d_1 / ( d_2 - d_1 );
-            TF m_4_3 = d_4 / ( d_3 - d_4 );
-            TF m_4_5 = d_4 / ( d_5 - d_4 );
-            TF m_6_5 = d_6 / ( d_5 - d_6 );
-            TF m_6_7 = d_6 / ( d_7 - d_6 );
-            TF x_0 = x[ 0 ] - m_0_7 * ( x[ 7 ] - x[ 0 ] );
-            TF y_0 = y[ 0 ] - m_0_7 * ( y[ 7 ] - y[ 0 ] );
-            TF x_1 = x[ 1 ] - m_1_2 * ( x[ 2 ] - x[ 1 ] );
-            TF y_1 = y[ 1 ] - m_1_2 * ( y[ 2 ] - y[ 1 ] );
-            TF x_4 = x[ 4 ] - m_4_3 * ( x[ 3 ] - x[ 4 ] );
-            TF y_4 = y[ 4 ] - m_4_3 * ( y[ 3 ] - y[ 4 ] );
-            TF x_5 = x[ 4 ] - m_4_5 * ( x[ 5 ] - x[ 4 ] );
-            TF y_5 = y[ 4 ] - m_4_5 * ( y[ 5 ] - y[ 4 ] );
-            TF x_6 = x[ 5 ];
-            TF y_6 = y[ 5 ];
-            TF x_7 = x[ 6 ] - m_6_5 * ( x[ 5 ] - x[ 6 ] );
-            TF y_7 = y[ 6 ] - m_6_5 * ( y[ 5 ] - y[ 6 ] );
-            TF x_8 = x[ 6 ] - m_6_7 * ( x[ 7 ] - x[ 6 ] );
-            TF y_8 = y[ 6 ] - m_6_7 * ( y[ 7 ] - y[ 6 ] );
-            TF x_9 = x[ 7 ];
-            TF y_9 = y[ 7 ];
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            x[ 8 ] = x_8;
-            y[ 8 ] = y_8;
-            x[ 9 ] = x_9;
-            y[ 9 ] = y_9;
-            size = 10;
-            continue;
-        }
-        case 2132: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000001010100 mod=0,1,[ 2, 1 ],[ 2, 3 ],3,[ 4, 3 ],[ 4, 5 ],5,[ 6, 5 ],[ 6, 7 ],7
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_2_1 = d_2 / ( d_1 - d_2 );
-            TF m_2_3 = d_2 / ( d_3 - d_2 );
-            TF m_4_3 = d_4 / ( d_3 - d_4 );
-            TF m_4_5 = d_4 / ( d_5 - d_4 );
-            TF m_6_5 = d_6 / ( d_5 - d_6 );
-            TF m_6_7 = d_6 / ( d_7 - d_6 );
-            TF x_2 = x[ 2 ] - m_2_1 * ( x[ 1 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_1 * ( y[ 1 ] - y[ 2 ] );
-            TF x_3 = x[ 2 ] - m_2_3 * ( x[ 3 ] - x[ 2 ] );
-            TF y_3 = y[ 2 ] - m_2_3 * ( y[ 3 ] - y[ 2 ] );
-            TF x_4 = x[ 3 ];
-            TF y_4 = y[ 3 ];
-            TF x_5 = x[ 4 ] - m_4_3 * ( x[ 3 ] - x[ 4 ] );
-            TF y_5 = y[ 4 ] - m_4_3 * ( y[ 3 ] - y[ 4 ] );
-            TF x_6 = x[ 4 ] - m_4_5 * ( x[ 5 ] - x[ 4 ] );
-            TF y_6 = y[ 4 ] - m_4_5 * ( y[ 5 ] - y[ 4 ] );
-            TF x_7 = x[ 5 ];
-            TF y_7 = y[ 5 ];
-            TF x_8 = x[ 6 ] - m_6_5 * ( x[ 5 ] - x[ 6 ] );
-            TF y_8 = y[ 6 ] - m_6_5 * ( y[ 5 ] - y[ 6 ] );
-            TF x_9 = x[ 6 ] - m_6_7 * ( x[ 7 ] - x[ 6 ] );
-            TF y_9 = y[ 6 ] - m_6_7 * ( y[ 7 ] - y[ 6 ] );
-            TF x_10 = x[ 7 ];
-            TF y_10 = y[ 7 ];
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            x[ 8 ] = x_8;
-            y[ 8 ] = y_8;
-            x[ 9 ] = x_9;
-            y[ 9 ] = y_9;
-            x[ 10 ] = x_10;
-            y[ 10 ] = y_10;
-            size = 11;
-            continue;
-        }
-        case 2133: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000001010101 mod=1,[ 2, 1 ],[ 2, 3 ],3,[ 4, 3 ],[ 4, 5 ],5,[ 6, 5 ],[ 6, 7 ],7,[ 0, 7 ],[ 0, 1 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_2_1 = d_2 / ( d_1 - d_2 );
-            TF m_2_3 = d_2 / ( d_3 - d_2 );
-            TF m_4_3 = d_4 / ( d_3 - d_4 );
-            TF m_4_5 = d_4 / ( d_5 - d_4 );
-            TF m_6_5 = d_6 / ( d_5 - d_6 );
-            TF m_6_7 = d_6 / ( d_7 - d_6 );
-            TF m_0_7 = d_0 / ( d_7 - d_0 );
-            TF m_0_1 = d_0 / ( d_1 - d_0 );
-            TF x_0 = x[ 1 ];
-            TF y_0 = y[ 1 ];
-            TF x_1 = x[ 2 ] - m_2_1 * ( x[ 1 ] - x[ 2 ] );
-            TF y_1 = y[ 2 ] - m_2_1 * ( y[ 1 ] - y[ 2 ] );
-            TF x_2 = x[ 2 ] - m_2_3 * ( x[ 3 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_3 * ( y[ 3 ] - y[ 2 ] );
-            TF x_4 = x[ 4 ] - m_4_3 * ( x[ 3 ] - x[ 4 ] );
-            TF y_4 = y[ 4 ] - m_4_3 * ( y[ 3 ] - y[ 4 ] );
-            TF x_5 = x[ 4 ] - m_4_5 * ( x[ 5 ] - x[ 4 ] );
-            TF y_5 = y[ 4 ] - m_4_5 * ( y[ 5 ] - y[ 4 ] );
-            TF x_6 = x[ 5 ];
-            TF y_6 = y[ 5 ];
-            TF x_7 = x[ 6 ] - m_6_5 * ( x[ 5 ] - x[ 6 ] );
-            TF y_7 = y[ 6 ] - m_6_5 * ( y[ 5 ] - y[ 6 ] );
-            TF x_8 = x[ 6 ] - m_6_7 * ( x[ 7 ] - x[ 6 ] );
-            TF y_8 = y[ 6 ] - m_6_7 * ( y[ 7 ] - y[ 6 ] );
-            TF x_9 = x[ 7 ];
-            TF y_9 = y[ 7 ];
-            TF x_10 = x[ 0 ] - m_0_7 * ( x[ 7 ] - x[ 0 ] );
-            TF y_10 = y[ 0 ] - m_0_7 * ( y[ 7 ] - y[ 0 ] );
-            TF x_11 = x[ 0 ] - m_0_1 * ( x[ 1 ] - x[ 0 ] );
-            TF y_11 = y[ 0 ] - m_0_1 * ( y[ 1 ] - y[ 0 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            x[ 8 ] = x_8;
-            y[ 8 ] = y_8;
-            x[ 9 ] = x_9;
-            y[ 9 ] = y_9;
-            x[ 10 ] = x_10;
-            y[ 10 ] = y_10;
-            x[ 11 ] = x_11;
-            y[ 11 ] = y_11;
-            size = 12;
-            continue;
-        }
-        case 2134: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000001010110 mod=0,[ 1, 0 ],[ 2, 3 ],3,[ 4, 3 ],[ 4, 5 ],5,[ 6, 5 ],[ 6, 7 ],7
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_1_0 = d_1 / ( d_0 - d_1 );
-            TF m_2_3 = d_2 / ( d_3 - d_2 );
-            TF m_4_3 = d_4 / ( d_3 - d_4 );
-            TF m_4_5 = d_4 / ( d_5 - d_4 );
-            TF m_6_5 = d_6 / ( d_5 - d_6 );
-            TF m_6_7 = d_6 / ( d_7 - d_6 );
-            TF x_1 = x[ 1 ] - m_1_0 * ( x[ 0 ] - x[ 1 ] );
-            TF y_1 = y[ 1 ] - m_1_0 * ( y[ 0 ] - y[ 1 ] );
-            TF x_2 = x[ 2 ] - m_2_3 * ( x[ 3 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_3 * ( y[ 3 ] - y[ 2 ] );
-            TF x_4 = x[ 4 ] - m_4_3 * ( x[ 3 ] - x[ 4 ] );
-            TF y_4 = y[ 4 ] - m_4_3 * ( y[ 3 ] - y[ 4 ] );
-            TF x_5 = x[ 4 ] - m_4_5 * ( x[ 5 ] - x[ 4 ] );
-            TF y_5 = y[ 4 ] - m_4_5 * ( y[ 5 ] - y[ 4 ] );
-            TF x_6 = x[ 5 ];
-            TF y_6 = y[ 5 ];
-            TF x_7 = x[ 6 ] - m_6_5 * ( x[ 5 ] - x[ 6 ] );
-            TF y_7 = y[ 6 ] - m_6_5 * ( y[ 5 ] - y[ 6 ] );
-            TF x_8 = x[ 6 ] - m_6_7 * ( x[ 7 ] - x[ 6 ] );
-            TF y_8 = y[ 6 ] - m_6_7 * ( y[ 7 ] - y[ 6 ] );
-            TF x_9 = x[ 7 ];
-            TF y_9 = y[ 7 ];
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            x[ 8 ] = x_8;
-            y[ 8 ] = y_8;
-            x[ 9 ] = x_9;
-            y[ 9 ] = y_9;
-            size = 10;
-            continue;
-        }
-        case 2135: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000001010111 mod=[ 0, 7 ],[ 2, 3 ],3,[ 4, 3 ],[ 4, 5 ],5,[ 6, 5 ],[ 6, 7 ],7
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_0_7 = d_0 / ( d_7 - d_0 );
-            TF m_2_3 = d_2 / ( d_3 - d_2 );
-            TF m_4_3 = d_4 / ( d_3 - d_4 );
-            TF m_4_5 = d_4 / ( d_5 - d_4 );
-            TF m_6_5 = d_6 / ( d_5 - d_6 );
-            TF m_6_7 = d_6 / ( d_7 - d_6 );
-            TF x_0 = x[ 0 ] - m_0_7 * ( x[ 7 ] - x[ 0 ] );
-            TF y_0 = y[ 0 ] - m_0_7 * ( y[ 7 ] - y[ 0 ] );
-            TF x_1 = x[ 2 ] - m_2_3 * ( x[ 3 ] - x[ 2 ] );
-            TF y_1 = y[ 2 ] - m_2_3 * ( y[ 3 ] - y[ 2 ] );
-            TF x_2 = x[ 3 ];
-            TF y_2 = y[ 3 ];
-            TF x_3 = x[ 4 ] - m_4_3 * ( x[ 3 ] - x[ 4 ] );
-            TF y_3 = y[ 4 ] - m_4_3 * ( y[ 3 ] - y[ 4 ] );
-            TF x_4 = x[ 4 ] - m_4_5 * ( x[ 5 ] - x[ 4 ] );
-            TF y_4 = y[ 4 ] - m_4_5 * ( y[ 5 ] - y[ 4 ] );
-            TF x_6 = x[ 6 ] - m_6_5 * ( x[ 5 ] - x[ 6 ] );
-            TF y_6 = y[ 6 ] - m_6_5 * ( y[ 5 ] - y[ 6 ] );
-            TF x_7 = x[ 6 ] - m_6_7 * ( x[ 7 ] - x[ 6 ] );
-            TF y_7 = y[ 6 ] - m_6_7 * ( y[ 7 ] - y[ 6 ] );
-            TF x_8 = x[ 7 ];
-            TF y_8 = y[ 7 ];
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            x[ 8 ] = x_8;
-            y[ 8 ] = y_8;
-            size = 9;
-            continue;
-        }
-        case 2136: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000001011000 mod=0,1,2,[ 3, 2 ],[ 4, 5 ],5,[ 6, 5 ],[ 6, 7 ],7
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_3_2 = d_3 / ( d_2 - d_3 );
-            TF m_4_5 = d_4 / ( d_5 - d_4 );
-            TF m_6_5 = d_6 / ( d_5 - d_6 );
-            TF m_6_7 = d_6 / ( d_7 - d_6 );
-            TF x_3 = x[ 3 ] - m_3_2 * ( x[ 2 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_2 * ( y[ 2 ] - y[ 3 ] );
-            TF x_4 = x[ 4 ] - m_4_5 * ( x[ 5 ] - x[ 4 ] );
-            TF y_4 = y[ 4 ] - m_4_5 * ( y[ 5 ] - y[ 4 ] );
-            TF x_6 = x[ 6 ] - m_6_5 * ( x[ 5 ] - x[ 6 ] );
-            TF y_6 = y[ 6 ] - m_6_5 * ( y[ 5 ] - y[ 6 ] );
-            TF x_7 = x[ 6 ] - m_6_7 * ( x[ 7 ] - x[ 6 ] );
-            TF y_7 = y[ 6 ] - m_6_7 * ( y[ 7 ] - y[ 6 ] );
-            TF x_8 = x[ 7 ];
-            TF y_8 = y[ 7 ];
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            x[ 8 ] = x_8;
-            y[ 8 ] = y_8;
-            size = 9;
-            continue;
-        }
-        case 2137: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000001011001 mod=[ 0, 1 ],1,2,[ 3, 2 ],[ 4, 5 ],5,[ 6, 5 ],[ 6, 7 ],7,[ 0, 7 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_0_1 = d_0 / ( d_1 - d_0 );
-            TF m_3_2 = d_3 / ( d_2 - d_3 );
-            TF m_4_5 = d_4 / ( d_5 - d_4 );
-            TF m_6_5 = d_6 / ( d_5 - d_6 );
-            TF m_6_7 = d_6 / ( d_7 - d_6 );
-            TF m_0_7 = d_0 / ( d_7 - d_0 );
-            TF x_0 = x[ 0 ] - m_0_1 * ( x[ 1 ] - x[ 0 ] );
-            TF y_0 = y[ 0 ] - m_0_1 * ( y[ 1 ] - y[ 0 ] );
-            TF x_3 = x[ 3 ] - m_3_2 * ( x[ 2 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_2 * ( y[ 2 ] - y[ 3 ] );
-            TF x_4 = x[ 4 ] - m_4_5 * ( x[ 5 ] - x[ 4 ] );
-            TF y_4 = y[ 4 ] - m_4_5 * ( y[ 5 ] - y[ 4 ] );
-            TF x_6 = x[ 6 ] - m_6_5 * ( x[ 5 ] - x[ 6 ] );
-            TF y_6 = y[ 6 ] - m_6_5 * ( y[ 5 ] - y[ 6 ] );
-            TF x_7 = x[ 6 ] - m_6_7 * ( x[ 7 ] - x[ 6 ] );
-            TF y_7 = y[ 6 ] - m_6_7 * ( y[ 7 ] - y[ 6 ] );
-            TF x_8 = x[ 7 ];
-            TF y_8 = y[ 7 ];
-            TF x_9 = x[ 0 ] - m_0_7 * ( x[ 7 ] - x[ 0 ] );
-            TF y_9 = y[ 0 ] - m_0_7 * ( y[ 7 ] - y[ 0 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            x[ 8 ] = x_8;
-            y[ 8 ] = y_8;
-            x[ 9 ] = x_9;
-            y[ 9 ] = y_9;
-            size = 10;
-            continue;
-        }
-        case 2138: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000001011010 mod=[ 1, 0 ],[ 1, 2 ],2,[ 3, 2 ],[ 4, 5 ],5,[ 6, 5 ],[ 6, 7 ],7,0
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_1_0 = d_1 / ( d_0 - d_1 );
-            TF m_1_2 = d_1 / ( d_2 - d_1 );
-            TF m_3_2 = d_3 / ( d_2 - d_3 );
-            TF m_4_5 = d_4 / ( d_5 - d_4 );
-            TF m_6_5 = d_6 / ( d_5 - d_6 );
-            TF m_6_7 = d_6 / ( d_7 - d_6 );
-            TF x_0 = x[ 1 ] - m_1_0 * ( x[ 0 ] - x[ 1 ] );
-            TF y_0 = y[ 1 ] - m_1_0 * ( y[ 0 ] - y[ 1 ] );
-            TF x_1 = x[ 1 ] - m_1_2 * ( x[ 2 ] - x[ 1 ] );
-            TF y_1 = y[ 1 ] - m_1_2 * ( y[ 2 ] - y[ 1 ] );
-            TF x_3 = x[ 3 ] - m_3_2 * ( x[ 2 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_2 * ( y[ 2 ] - y[ 3 ] );
-            TF x_4 = x[ 4 ] - m_4_5 * ( x[ 5 ] - x[ 4 ] );
-            TF y_4 = y[ 4 ] - m_4_5 * ( y[ 5 ] - y[ 4 ] );
-            TF x_6 = x[ 6 ] - m_6_5 * ( x[ 5 ] - x[ 6 ] );
-            TF y_6 = y[ 6 ] - m_6_5 * ( y[ 5 ] - y[ 6 ] );
-            TF x_7 = x[ 6 ] - m_6_7 * ( x[ 7 ] - x[ 6 ] );
-            TF y_7 = y[ 6 ] - m_6_7 * ( y[ 7 ] - y[ 6 ] );
-            TF x_8 = x[ 7 ];
-            TF y_8 = y[ 7 ];
-            TF x_9 = x[ 0 ];
-            TF y_9 = y[ 0 ];
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            x[ 8 ] = x_8;
-            y[ 8 ] = y_8;
-            x[ 9 ] = x_9;
-            y[ 9 ] = y_9;
-            size = 10;
-            continue;
-        }
-        case 2139: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000001011011 mod=[ 0, 7 ],[ 1, 2 ],2,[ 3, 2 ],[ 4, 5 ],5,[ 6, 5 ],[ 6, 7 ],7
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_0_7 = d_0 / ( d_7 - d_0 );
-            TF m_1_2 = d_1 / ( d_2 - d_1 );
-            TF m_3_2 = d_3 / ( d_2 - d_3 );
-            TF m_4_5 = d_4 / ( d_5 - d_4 );
-            TF m_6_5 = d_6 / ( d_5 - d_6 );
-            TF m_6_7 = d_6 / ( d_7 - d_6 );
-            TF x_0 = x[ 0 ] - m_0_7 * ( x[ 7 ] - x[ 0 ] );
-            TF y_0 = y[ 0 ] - m_0_7 * ( y[ 7 ] - y[ 0 ] );
-            TF x_1 = x[ 1 ] - m_1_2 * ( x[ 2 ] - x[ 1 ] );
-            TF y_1 = y[ 1 ] - m_1_2 * ( y[ 2 ] - y[ 1 ] );
-            TF x_3 = x[ 3 ] - m_3_2 * ( x[ 2 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_2 * ( y[ 2 ] - y[ 3 ] );
-            TF x_4 = x[ 4 ] - m_4_5 * ( x[ 5 ] - x[ 4 ] );
-            TF y_4 = y[ 4 ] - m_4_5 * ( y[ 5 ] - y[ 4 ] );
-            TF x_6 = x[ 6 ] - m_6_5 * ( x[ 5 ] - x[ 6 ] );
-            TF y_6 = y[ 6 ] - m_6_5 * ( y[ 5 ] - y[ 6 ] );
-            TF x_7 = x[ 6 ] - m_6_7 * ( x[ 7 ] - x[ 6 ] );
-            TF y_7 = y[ 6 ] - m_6_7 * ( y[ 7 ] - y[ 6 ] );
-            TF x_8 = x[ 7 ];
-            TF y_8 = y[ 7 ];
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            x[ 8 ] = x_8;
-            y[ 8 ] = y_8;
-            size = 9;
-            continue;
-        }
-        case 2140: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000001011100 mod=0,1,[ 2, 1 ],[ 4, 5 ],5,[ 6, 5 ],[ 6, 7 ],7
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_2_1 = d_2 / ( d_1 - d_2 );
-            TF m_4_5 = d_4 / ( d_5 - d_4 );
-            TF m_6_5 = d_6 / ( d_5 - d_6 );
-            TF m_6_7 = d_6 / ( d_7 - d_6 );
-            TF x_2 = x[ 2 ] - m_2_1 * ( x[ 1 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_1 * ( y[ 1 ] - y[ 2 ] );
-            TF x_3 = x[ 4 ] - m_4_5 * ( x[ 5 ] - x[ 4 ] );
-            TF y_3 = y[ 4 ] - m_4_5 * ( y[ 5 ] - y[ 4 ] );
-            TF x_4 = x[ 5 ];
-            TF y_4 = y[ 5 ];
-            TF x_5 = x[ 6 ] - m_6_5 * ( x[ 5 ] - x[ 6 ] );
-            TF y_5 = y[ 6 ] - m_6_5 * ( y[ 5 ] - y[ 6 ] );
-            TF x_6 = x[ 6 ] - m_6_7 * ( x[ 7 ] - x[ 6 ] );
-            TF y_6 = y[ 6 ] - m_6_7 * ( y[ 7 ] - y[ 6 ] );
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            continue;
-        }
-        case 2141: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000001011101 mod=[ 0, 1 ],1,[ 2, 1 ],[ 4, 5 ],5,[ 6, 5 ],[ 6, 7 ],7,[ 0, 7 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_0_1 = d_0 / ( d_1 - d_0 );
-            TF m_2_1 = d_2 / ( d_1 - d_2 );
-            TF m_4_5 = d_4 / ( d_5 - d_4 );
-            TF m_6_5 = d_6 / ( d_5 - d_6 );
-            TF m_6_7 = d_6 / ( d_7 - d_6 );
-            TF m_0_7 = d_0 / ( d_7 - d_0 );
-            TF x_0 = x[ 0 ] - m_0_1 * ( x[ 1 ] - x[ 0 ] );
-            TF y_0 = y[ 0 ] - m_0_1 * ( y[ 1 ] - y[ 0 ] );
-            TF x_2 = x[ 2 ] - m_2_1 * ( x[ 1 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_1 * ( y[ 1 ] - y[ 2 ] );
-            TF x_3 = x[ 4 ] - m_4_5 * ( x[ 5 ] - x[ 4 ] );
-            TF y_3 = y[ 4 ] - m_4_5 * ( y[ 5 ] - y[ 4 ] );
-            TF x_4 = x[ 5 ];
-            TF y_4 = y[ 5 ];
-            TF x_5 = x[ 6 ] - m_6_5 * ( x[ 5 ] - x[ 6 ] );
-            TF y_5 = y[ 6 ] - m_6_5 * ( y[ 5 ] - y[ 6 ] );
-            TF x_6 = x[ 6 ] - m_6_7 * ( x[ 7 ] - x[ 6 ] );
-            TF y_6 = y[ 6 ] - m_6_7 * ( y[ 7 ] - y[ 6 ] );
-            TF x_8 = x[ 0 ] - m_0_7 * ( x[ 7 ] - x[ 0 ] );
-            TF y_8 = y[ 0 ] - m_0_7 * ( y[ 7 ] - y[ 0 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            x[ 8 ] = x_8;
-            y[ 8 ] = y_8;
-            size = 9;
-            continue;
-        }
-        case 2142: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000001011110 mod=[ 6, 7 ],7,0,[ 1, 0 ],[ 4, 5 ],5,[ 6, 5 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_6_7 = d_6 / ( d_7 - d_6 );
-            TF m_1_0 = d_1 / ( d_0 - d_1 );
-            TF m_4_5 = d_4 / ( d_5 - d_4 );
-            TF m_6_5 = d_6 / ( d_5 - d_6 );
-            TF x_0 = x[ 6 ] - m_6_7 * ( x[ 7 ] - x[ 6 ] );
-            TF y_0 = y[ 6 ] - m_6_7 * ( y[ 7 ] - y[ 6 ] );
-            TF x_1 = x[ 7 ];
-            TF y_1 = y[ 7 ];
-            TF x_2 = x[ 0 ];
-            TF y_2 = y[ 0 ];
-            TF x_3 = x[ 1 ] - m_1_0 * ( x[ 0 ] - x[ 1 ] );
-            TF y_3 = y[ 1 ] - m_1_0 * ( y[ 0 ] - y[ 1 ] );
-            TF x_4 = x[ 4 ] - m_4_5 * ( x[ 5 ] - x[ 4 ] );
-            TF y_4 = y[ 4 ] - m_4_5 * ( y[ 5 ] - y[ 4 ] );
-            TF x_6 = x[ 6 ] - m_6_5 * ( x[ 5 ] - x[ 6 ] );
-            TF y_6 = y[ 6 ] - m_6_5 * ( y[ 5 ] - y[ 6 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            size = 7;
-            continue;
-        }
-        case 2143: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000001011111 mod=[ 6, 5 ],[ 6, 7 ],7,[ 0, 7 ],[ 4, 5 ],5
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_6_5 = d_6 / ( d_5 - d_6 );
-            TF m_6_7 = d_6 / ( d_7 - d_6 );
-            TF m_0_7 = d_0 / ( d_7 - d_0 );
-            TF m_4_5 = d_4 / ( d_5 - d_4 );
-            TF x_0 = x[ 6 ] - m_6_5 * ( x[ 5 ] - x[ 6 ] );
-            TF y_0 = y[ 6 ] - m_6_5 * ( y[ 5 ] - y[ 6 ] );
-            TF x_1 = x[ 6 ] - m_6_7 * ( x[ 7 ] - x[ 6 ] );
-            TF y_1 = y[ 6 ] - m_6_7 * ( y[ 7 ] - y[ 6 ] );
-            TF x_2 = x[ 7 ];
-            TF y_2 = y[ 7 ];
-            TF x_3 = x[ 0 ] - m_0_7 * ( x[ 7 ] - x[ 0 ] );
-            TF y_3 = y[ 0 ] - m_0_7 * ( y[ 7 ] - y[ 0 ] );
-            TF x_4 = x[ 4 ] - m_4_5 * ( x[ 5 ] - x[ 4 ] );
-            TF y_4 = y[ 4 ] - m_4_5 * ( y[ 5 ] - y[ 4 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            size = 6;
-            continue;
+            break;
         }
         case 2144: {
             // size=8 outside=0000000000000000000000000000000000000000000000000000000001100000 mod=0,1,2,3,4,[ 5, 4 ],[ 6, 7 ],7
@@ -11450,597 +3472,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             y[ 5 ] = y_5;
             x[ 6 ] = x_6;
             y[ 6 ] = y_6;
-            continue;
-        }
-        case 2145: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000001100001 mod=[ 0, 1 ],1,2,3,4,[ 5, 4 ],[ 6, 7 ],7,[ 0, 7 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_0_1 = d_0 / ( d_1 - d_0 );
-            TF m_5_4 = d_5 / ( d_4 - d_5 );
-            TF m_6_7 = d_6 / ( d_7 - d_6 );
-            TF m_0_7 = d_0 / ( d_7 - d_0 );
-            TF x_0 = x[ 0 ] - m_0_1 * ( x[ 1 ] - x[ 0 ] );
-            TF y_0 = y[ 0 ] - m_0_1 * ( y[ 1 ] - y[ 0 ] );
-            TF x_5 = x[ 5 ] - m_5_4 * ( x[ 4 ] - x[ 5 ] );
-            TF y_5 = y[ 5 ] - m_5_4 * ( y[ 4 ] - y[ 5 ] );
-            TF x_6 = x[ 6 ] - m_6_7 * ( x[ 7 ] - x[ 6 ] );
-            TF y_6 = y[ 6 ] - m_6_7 * ( y[ 7 ] - y[ 6 ] );
-            TF x_8 = x[ 0 ] - m_0_7 * ( x[ 7 ] - x[ 0 ] );
-            TF y_8 = y[ 0 ] - m_0_7 * ( y[ 7 ] - y[ 0 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            x[ 8 ] = x_8;
-            y[ 8 ] = y_8;
-            size = 9;
-            continue;
-        }
-        case 2146: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000001100010 mod=[ 1, 0 ],[ 1, 2 ],2,3,4,[ 5, 4 ],[ 6, 7 ],7,0
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_1_0 = d_1 / ( d_0 - d_1 );
-            TF m_1_2 = d_1 / ( d_2 - d_1 );
-            TF m_5_4 = d_5 / ( d_4 - d_5 );
-            TF m_6_7 = d_6 / ( d_7 - d_6 );
-            TF x_0 = x[ 1 ] - m_1_0 * ( x[ 0 ] - x[ 1 ] );
-            TF y_0 = y[ 1 ] - m_1_0 * ( y[ 0 ] - y[ 1 ] );
-            TF x_1 = x[ 1 ] - m_1_2 * ( x[ 2 ] - x[ 1 ] );
-            TF y_1 = y[ 1 ] - m_1_2 * ( y[ 2 ] - y[ 1 ] );
-            TF x_5 = x[ 5 ] - m_5_4 * ( x[ 4 ] - x[ 5 ] );
-            TF y_5 = y[ 5 ] - m_5_4 * ( y[ 4 ] - y[ 5 ] );
-            TF x_6 = x[ 6 ] - m_6_7 * ( x[ 7 ] - x[ 6 ] );
-            TF y_6 = y[ 6 ] - m_6_7 * ( y[ 7 ] - y[ 6 ] );
-            TF x_8 = x[ 0 ];
-            TF y_8 = y[ 0 ];
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            x[ 8 ] = x_8;
-            y[ 8 ] = y_8;
-            size = 9;
-            continue;
-        }
-        case 2147: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000001100011 mod=[ 0, 7 ],[ 1, 2 ],2,3,4,[ 5, 4 ],[ 6, 7 ],7
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_0_7 = d_0 / ( d_7 - d_0 );
-            TF m_1_2 = d_1 / ( d_2 - d_1 );
-            TF m_5_4 = d_5 / ( d_4 - d_5 );
-            TF m_6_7 = d_6 / ( d_7 - d_6 );
-            TF x_0 = x[ 0 ] - m_0_7 * ( x[ 7 ] - x[ 0 ] );
-            TF y_0 = y[ 0 ] - m_0_7 * ( y[ 7 ] - y[ 0 ] );
-            TF x_1 = x[ 1 ] - m_1_2 * ( x[ 2 ] - x[ 1 ] );
-            TF y_1 = y[ 1 ] - m_1_2 * ( y[ 2 ] - y[ 1 ] );
-            TF x_5 = x[ 5 ] - m_5_4 * ( x[ 4 ] - x[ 5 ] );
-            TF y_5 = y[ 5 ] - m_5_4 * ( y[ 4 ] - y[ 5 ] );
-            TF x_6 = x[ 6 ] - m_6_7 * ( x[ 7 ] - x[ 6 ] );
-            TF y_6 = y[ 6 ] - m_6_7 * ( y[ 7 ] - y[ 6 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            continue;
-        }
-        case 2148: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000001100100 mod=1,[ 2, 1 ],[ 2, 3 ],3,4,[ 5, 4 ],[ 6, 7 ],7,0
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_2_1 = d_2 / ( d_1 - d_2 );
-            TF m_2_3 = d_2 / ( d_3 - d_2 );
-            TF m_5_4 = d_5 / ( d_4 - d_5 );
-            TF m_6_7 = d_6 / ( d_7 - d_6 );
-            TF x_0 = x[ 1 ];
-            TF y_0 = y[ 1 ];
-            TF x_1 = x[ 2 ] - m_2_1 * ( x[ 1 ] - x[ 2 ] );
-            TF y_1 = y[ 2 ] - m_2_1 * ( y[ 1 ] - y[ 2 ] );
-            TF x_2 = x[ 2 ] - m_2_3 * ( x[ 3 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_3 * ( y[ 3 ] - y[ 2 ] );
-            TF x_5 = x[ 5 ] - m_5_4 * ( x[ 4 ] - x[ 5 ] );
-            TF y_5 = y[ 5 ] - m_5_4 * ( y[ 4 ] - y[ 5 ] );
-            TF x_6 = x[ 6 ] - m_6_7 * ( x[ 7 ] - x[ 6 ] );
-            TF y_6 = y[ 6 ] - m_6_7 * ( y[ 7 ] - y[ 6 ] );
-            TF x_8 = x[ 0 ];
-            TF y_8 = y[ 0 ];
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            x[ 8 ] = x_8;
-            y[ 8 ] = y_8;
-            size = 9;
-            continue;
-        }
-        case 2149: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000001100101 mod=1,[ 2, 1 ],[ 2, 3 ],3,4,[ 5, 4 ],[ 6, 7 ],7,[ 0, 7 ],[ 0, 1 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_2_1 = d_2 / ( d_1 - d_2 );
-            TF m_2_3 = d_2 / ( d_3 - d_2 );
-            TF m_5_4 = d_5 / ( d_4 - d_5 );
-            TF m_6_7 = d_6 / ( d_7 - d_6 );
-            TF m_0_7 = d_0 / ( d_7 - d_0 );
-            TF m_0_1 = d_0 / ( d_1 - d_0 );
-            TF x_0 = x[ 1 ];
-            TF y_0 = y[ 1 ];
-            TF x_1 = x[ 2 ] - m_2_1 * ( x[ 1 ] - x[ 2 ] );
-            TF y_1 = y[ 2 ] - m_2_1 * ( y[ 1 ] - y[ 2 ] );
-            TF x_2 = x[ 2 ] - m_2_3 * ( x[ 3 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_3 * ( y[ 3 ] - y[ 2 ] );
-            TF x_5 = x[ 5 ] - m_5_4 * ( x[ 4 ] - x[ 5 ] );
-            TF y_5 = y[ 5 ] - m_5_4 * ( y[ 4 ] - y[ 5 ] );
-            TF x_6 = x[ 6 ] - m_6_7 * ( x[ 7 ] - x[ 6 ] );
-            TF y_6 = y[ 6 ] - m_6_7 * ( y[ 7 ] - y[ 6 ] );
-            TF x_8 = x[ 0 ] - m_0_7 * ( x[ 7 ] - x[ 0 ] );
-            TF y_8 = y[ 0 ] - m_0_7 * ( y[ 7 ] - y[ 0 ] );
-            TF x_9 = x[ 0 ] - m_0_1 * ( x[ 1 ] - x[ 0 ] );
-            TF y_9 = y[ 0 ] - m_0_1 * ( y[ 1 ] - y[ 0 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            x[ 8 ] = x_8;
-            y[ 8 ] = y_8;
-            x[ 9 ] = x_9;
-            y[ 9 ] = y_9;
-            size = 10;
-            continue;
-        }
-        case 2150: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000001100110 mod=0,[ 1, 0 ],[ 2, 3 ],3,4,[ 5, 4 ],[ 6, 7 ],7
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_1_0 = d_1 / ( d_0 - d_1 );
-            TF m_2_3 = d_2 / ( d_3 - d_2 );
-            TF m_5_4 = d_5 / ( d_4 - d_5 );
-            TF m_6_7 = d_6 / ( d_7 - d_6 );
-            TF x_1 = x[ 1 ] - m_1_0 * ( x[ 0 ] - x[ 1 ] );
-            TF y_1 = y[ 1 ] - m_1_0 * ( y[ 0 ] - y[ 1 ] );
-            TF x_2 = x[ 2 ] - m_2_3 * ( x[ 3 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_3 * ( y[ 3 ] - y[ 2 ] );
-            TF x_5 = x[ 5 ] - m_5_4 * ( x[ 4 ] - x[ 5 ] );
-            TF y_5 = y[ 5 ] - m_5_4 * ( y[ 4 ] - y[ 5 ] );
-            TF x_6 = x[ 6 ] - m_6_7 * ( x[ 7 ] - x[ 6 ] );
-            TF y_6 = y[ 6 ] - m_6_7 * ( y[ 7 ] - y[ 6 ] );
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            continue;
-        }
-        case 2151: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000001100111 mod=7,[ 0, 7 ],[ 2, 3 ],3,4,[ 5, 4 ],[ 6, 7 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_0_7 = d_0 / ( d_7 - d_0 );
-            TF m_2_3 = d_2 / ( d_3 - d_2 );
-            TF m_5_4 = d_5 / ( d_4 - d_5 );
-            TF m_6_7 = d_6 / ( d_7 - d_6 );
-            TF x_0 = x[ 7 ];
-            TF y_0 = y[ 7 ];
-            TF x_1 = x[ 0 ] - m_0_7 * ( x[ 7 ] - x[ 0 ] );
-            TF y_1 = y[ 0 ] - m_0_7 * ( y[ 7 ] - y[ 0 ] );
-            TF x_2 = x[ 2 ] - m_2_3 * ( x[ 3 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_3 * ( y[ 3 ] - y[ 2 ] );
-            TF x_5 = x[ 5 ] - m_5_4 * ( x[ 4 ] - x[ 5 ] );
-            TF y_5 = y[ 5 ] - m_5_4 * ( y[ 4 ] - y[ 5 ] );
-            TF x_6 = x[ 6 ] - m_6_7 * ( x[ 7 ] - x[ 6 ] );
-            TF y_6 = y[ 6 ] - m_6_7 * ( y[ 7 ] - y[ 6 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            size = 7;
-            continue;
-        }
-        case 2152: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000001101000 mod=0,1,2,[ 3, 2 ],[ 3, 4 ],4,[ 5, 4 ],[ 6, 7 ],7
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_3_2 = d_3 / ( d_2 - d_3 );
-            TF m_3_4 = d_3 / ( d_4 - d_3 );
-            TF m_5_4 = d_5 / ( d_4 - d_5 );
-            TF m_6_7 = d_6 / ( d_7 - d_6 );
-            TF x_3 = x[ 3 ] - m_3_2 * ( x[ 2 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_2 * ( y[ 2 ] - y[ 3 ] );
-            TF x_4 = x[ 3 ] - m_3_4 * ( x[ 4 ] - x[ 3 ] );
-            TF y_4 = y[ 3 ] - m_3_4 * ( y[ 4 ] - y[ 3 ] );
-            TF x_5 = x[ 4 ];
-            TF y_5 = y[ 4 ];
-            TF x_6 = x[ 5 ] - m_5_4 * ( x[ 4 ] - x[ 5 ] );
-            TF y_6 = y[ 5 ] - m_5_4 * ( y[ 4 ] - y[ 5 ] );
-            TF x_7 = x[ 6 ] - m_6_7 * ( x[ 7 ] - x[ 6 ] );
-            TF y_7 = y[ 6 ] - m_6_7 * ( y[ 7 ] - y[ 6 ] );
-            TF x_8 = x[ 7 ];
-            TF y_8 = y[ 7 ];
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            x[ 8 ] = x_8;
-            y[ 8 ] = y_8;
-            size = 9;
-            continue;
-        }
-        case 2153: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000001101001 mod=[ 0, 1 ],1,2,[ 3, 2 ],[ 3, 4 ],4,[ 5, 4 ],[ 6, 7 ],7,[ 0, 7 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_0_1 = d_0 / ( d_1 - d_0 );
-            TF m_3_2 = d_3 / ( d_2 - d_3 );
-            TF m_3_4 = d_3 / ( d_4 - d_3 );
-            TF m_5_4 = d_5 / ( d_4 - d_5 );
-            TF m_6_7 = d_6 / ( d_7 - d_6 );
-            TF m_0_7 = d_0 / ( d_7 - d_0 );
-            TF x_0 = x[ 0 ] - m_0_1 * ( x[ 1 ] - x[ 0 ] );
-            TF y_0 = y[ 0 ] - m_0_1 * ( y[ 1 ] - y[ 0 ] );
-            TF x_3 = x[ 3 ] - m_3_2 * ( x[ 2 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_2 * ( y[ 2 ] - y[ 3 ] );
-            TF x_4 = x[ 3 ] - m_3_4 * ( x[ 4 ] - x[ 3 ] );
-            TF y_4 = y[ 3 ] - m_3_4 * ( y[ 4 ] - y[ 3 ] );
-            TF x_5 = x[ 4 ];
-            TF y_5 = y[ 4 ];
-            TF x_6 = x[ 5 ] - m_5_4 * ( x[ 4 ] - x[ 5 ] );
-            TF y_6 = y[ 5 ] - m_5_4 * ( y[ 4 ] - y[ 5 ] );
-            TF x_7 = x[ 6 ] - m_6_7 * ( x[ 7 ] - x[ 6 ] );
-            TF y_7 = y[ 6 ] - m_6_7 * ( y[ 7 ] - y[ 6 ] );
-            TF x_8 = x[ 7 ];
-            TF y_8 = y[ 7 ];
-            TF x_9 = x[ 0 ] - m_0_7 * ( x[ 7 ] - x[ 0 ] );
-            TF y_9 = y[ 0 ] - m_0_7 * ( y[ 7 ] - y[ 0 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            x[ 8 ] = x_8;
-            y[ 8 ] = y_8;
-            x[ 9 ] = x_9;
-            y[ 9 ] = y_9;
-            size = 10;
-            continue;
-        }
-        case 2154: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000001101010 mod=[ 1, 2 ],2,[ 3, 2 ],[ 3, 4 ],4,[ 5, 4 ],[ 6, 7 ],7,0,[ 1, 0 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_1_2 = d_1 / ( d_2 - d_1 );
-            TF m_3_2 = d_3 / ( d_2 - d_3 );
-            TF m_3_4 = d_3 / ( d_4 - d_3 );
-            TF m_5_4 = d_5 / ( d_4 - d_5 );
-            TF m_6_7 = d_6 / ( d_7 - d_6 );
-            TF m_1_0 = d_1 / ( d_0 - d_1 );
-            TF x_0 = x[ 1 ] - m_1_2 * ( x[ 2 ] - x[ 1 ] );
-            TF y_0 = y[ 1 ] - m_1_2 * ( y[ 2 ] - y[ 1 ] );
-            TF x_1 = x[ 2 ];
-            TF y_1 = y[ 2 ];
-            TF x_2 = x[ 3 ] - m_3_2 * ( x[ 2 ] - x[ 3 ] );
-            TF y_2 = y[ 3 ] - m_3_2 * ( y[ 2 ] - y[ 3 ] );
-            TF x_3 = x[ 3 ] - m_3_4 * ( x[ 4 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_4 * ( y[ 4 ] - y[ 3 ] );
-            TF x_5 = x[ 5 ] - m_5_4 * ( x[ 4 ] - x[ 5 ] );
-            TF y_5 = y[ 5 ] - m_5_4 * ( y[ 4 ] - y[ 5 ] );
-            TF x_6 = x[ 6 ] - m_6_7 * ( x[ 7 ] - x[ 6 ] );
-            TF y_6 = y[ 6 ] - m_6_7 * ( y[ 7 ] - y[ 6 ] );
-            TF x_8 = x[ 0 ];
-            TF y_8 = y[ 0 ];
-            TF x_9 = x[ 1 ] - m_1_0 * ( x[ 0 ] - x[ 1 ] );
-            TF y_9 = y[ 1 ] - m_1_0 * ( y[ 0 ] - y[ 1 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            x[ 8 ] = x_8;
-            y[ 8 ] = y_8;
-            x[ 9 ] = x_9;
-            y[ 9 ] = y_9;
-            size = 10;
-            continue;
-        }
-        case 2155: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000001101011 mod=[ 1, 2 ],2,[ 3, 2 ],[ 3, 4 ],4,[ 5, 4 ],[ 6, 7 ],7,[ 0, 7 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_1_2 = d_1 / ( d_2 - d_1 );
-            TF m_3_2 = d_3 / ( d_2 - d_3 );
-            TF m_3_4 = d_3 / ( d_4 - d_3 );
-            TF m_5_4 = d_5 / ( d_4 - d_5 );
-            TF m_6_7 = d_6 / ( d_7 - d_6 );
-            TF m_0_7 = d_0 / ( d_7 - d_0 );
-            TF x_0 = x[ 1 ] - m_1_2 * ( x[ 2 ] - x[ 1 ] );
-            TF y_0 = y[ 1 ] - m_1_2 * ( y[ 2 ] - y[ 1 ] );
-            TF x_1 = x[ 2 ];
-            TF y_1 = y[ 2 ];
-            TF x_2 = x[ 3 ] - m_3_2 * ( x[ 2 ] - x[ 3 ] );
-            TF y_2 = y[ 3 ] - m_3_2 * ( y[ 2 ] - y[ 3 ] );
-            TF x_3 = x[ 3 ] - m_3_4 * ( x[ 4 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_4 * ( y[ 4 ] - y[ 3 ] );
-            TF x_5 = x[ 5 ] - m_5_4 * ( x[ 4 ] - x[ 5 ] );
-            TF y_5 = y[ 5 ] - m_5_4 * ( y[ 4 ] - y[ 5 ] );
-            TF x_6 = x[ 6 ] - m_6_7 * ( x[ 7 ] - x[ 6 ] );
-            TF y_6 = y[ 6 ] - m_6_7 * ( y[ 7 ] - y[ 6 ] );
-            TF x_8 = x[ 0 ] - m_0_7 * ( x[ 7 ] - x[ 0 ] );
-            TF y_8 = y[ 0 ] - m_0_7 * ( y[ 7 ] - y[ 0 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            x[ 8 ] = x_8;
-            y[ 8 ] = y_8;
-            size = 9;
-            continue;
-        }
-        case 2156: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000001101100 mod=0,1,[ 2, 1 ],[ 3, 4 ],4,[ 5, 4 ],[ 6, 7 ],7
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_2_1 = d_2 / ( d_1 - d_2 );
-            TF m_3_4 = d_3 / ( d_4 - d_3 );
-            TF m_5_4 = d_5 / ( d_4 - d_5 );
-            TF m_6_7 = d_6 / ( d_7 - d_6 );
-            TF x_2 = x[ 2 ] - m_2_1 * ( x[ 1 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_1 * ( y[ 1 ] - y[ 2 ] );
-            TF x_3 = x[ 3 ] - m_3_4 * ( x[ 4 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_4 * ( y[ 4 ] - y[ 3 ] );
-            TF x_5 = x[ 5 ] - m_5_4 * ( x[ 4 ] - x[ 5 ] );
-            TF y_5 = y[ 5 ] - m_5_4 * ( y[ 4 ] - y[ 5 ] );
-            TF x_6 = x[ 6 ] - m_6_7 * ( x[ 7 ] - x[ 6 ] );
-            TF y_6 = y[ 6 ] - m_6_7 * ( y[ 7 ] - y[ 6 ] );
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            continue;
-        }
-        case 2157: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000001101101 mod=[ 0, 1 ],1,[ 2, 1 ],[ 3, 4 ],4,[ 5, 4 ],[ 6, 7 ],7,[ 0, 7 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_0_1 = d_0 / ( d_1 - d_0 );
-            TF m_2_1 = d_2 / ( d_1 - d_2 );
-            TF m_3_4 = d_3 / ( d_4 - d_3 );
-            TF m_5_4 = d_5 / ( d_4 - d_5 );
-            TF m_6_7 = d_6 / ( d_7 - d_6 );
-            TF m_0_7 = d_0 / ( d_7 - d_0 );
-            TF x_0 = x[ 0 ] - m_0_1 * ( x[ 1 ] - x[ 0 ] );
-            TF y_0 = y[ 0 ] - m_0_1 * ( y[ 1 ] - y[ 0 ] );
-            TF x_2 = x[ 2 ] - m_2_1 * ( x[ 1 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_1 * ( y[ 1 ] - y[ 2 ] );
-            TF x_3 = x[ 3 ] - m_3_4 * ( x[ 4 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_4 * ( y[ 4 ] - y[ 3 ] );
-            TF x_5 = x[ 5 ] - m_5_4 * ( x[ 4 ] - x[ 5 ] );
-            TF y_5 = y[ 5 ] - m_5_4 * ( y[ 4 ] - y[ 5 ] );
-            TF x_6 = x[ 6 ] - m_6_7 * ( x[ 7 ] - x[ 6 ] );
-            TF y_6 = y[ 6 ] - m_6_7 * ( y[ 7 ] - y[ 6 ] );
-            TF x_8 = x[ 0 ] - m_0_7 * ( x[ 7 ] - x[ 0 ] );
-            TF y_8 = y[ 0 ] - m_0_7 * ( y[ 7 ] - y[ 0 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            x[ 8 ] = x_8;
-            y[ 8 ] = y_8;
-            size = 9;
-            continue;
-        }
-        case 2158: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000001101110 mod=7,0,[ 1, 0 ],[ 3, 4 ],4,[ 5, 4 ],[ 6, 7 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_1_0 = d_1 / ( d_0 - d_1 );
-            TF m_3_4 = d_3 / ( d_4 - d_3 );
-            TF m_5_4 = d_5 / ( d_4 - d_5 );
-            TF m_6_7 = d_6 / ( d_7 - d_6 );
-            TF x_0 = x[ 7 ];
-            TF y_0 = y[ 7 ];
-            TF x_1 = x[ 0 ];
-            TF y_1 = y[ 0 ];
-            TF x_2 = x[ 1 ] - m_1_0 * ( x[ 0 ] - x[ 1 ] );
-            TF y_2 = y[ 1 ] - m_1_0 * ( y[ 0 ] - y[ 1 ] );
-            TF x_3 = x[ 3 ] - m_3_4 * ( x[ 4 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_4 * ( y[ 4 ] - y[ 3 ] );
-            TF x_5 = x[ 5 ] - m_5_4 * ( x[ 4 ] - x[ 5 ] );
-            TF y_5 = y[ 5 ] - m_5_4 * ( y[ 4 ] - y[ 5 ] );
-            TF x_6 = x[ 6 ] - m_6_7 * ( x[ 7 ] - x[ 6 ] );
-            TF y_6 = y[ 6 ] - m_6_7 * ( y[ 7 ] - y[ 6 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            size = 7;
-            continue;
-        }
-        case 2159: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000001101111 mod=[ 6, 7 ],7,[ 0, 7 ],[ 3, 4 ],4,[ 5, 4 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_6_7 = d_6 / ( d_7 - d_6 );
-            TF m_0_7 = d_0 / ( d_7 - d_0 );
-            TF m_3_4 = d_3 / ( d_4 - d_3 );
-            TF m_5_4 = d_5 / ( d_4 - d_5 );
-            TF x_0 = x[ 6 ] - m_6_7 * ( x[ 7 ] - x[ 6 ] );
-            TF y_0 = y[ 6 ] - m_6_7 * ( y[ 7 ] - y[ 6 ] );
-            TF x_1 = x[ 7 ];
-            TF y_1 = y[ 7 ];
-            TF x_2 = x[ 0 ] - m_0_7 * ( x[ 7 ] - x[ 0 ] );
-            TF y_2 = y[ 0 ] - m_0_7 * ( y[ 7 ] - y[ 0 ] );
-            TF x_3 = x[ 3 ] - m_3_4 * ( x[ 4 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_4 * ( y[ 4 ] - y[ 3 ] );
-            TF x_5 = x[ 5 ] - m_5_4 * ( x[ 4 ] - x[ 5 ] );
-            TF y_5 = y[ 5 ] - m_5_4 * ( y[ 4 ] - y[ 5 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            size = 6;
-            continue;
+            break;
         }
         case 2160: {
             // size=8 outside=0000000000000000000000000000000000000000000000000000000001110000 mod=0,1,2,3,[ 4, 3 ],[ 6, 7 ],7
@@ -12063,267 +3495,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             x[ 6 ] = x_6;
             y[ 6 ] = y_6;
             size = 7;
-            continue;
-        }
-        case 2161: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000001110001 mod=[ 0, 1 ],1,2,3,[ 4, 3 ],[ 6, 7 ],7,[ 0, 7 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_0_1 = d_0 / ( d_1 - d_0 );
-            TF m_4_3 = d_4 / ( d_3 - d_4 );
-            TF m_6_7 = d_6 / ( d_7 - d_6 );
-            TF m_0_7 = d_0 / ( d_7 - d_0 );
-            TF x_0 = x[ 0 ] - m_0_1 * ( x[ 1 ] - x[ 0 ] );
-            TF y_0 = y[ 0 ] - m_0_1 * ( y[ 1 ] - y[ 0 ] );
-            TF x_4 = x[ 4 ] - m_4_3 * ( x[ 3 ] - x[ 4 ] );
-            TF y_4 = y[ 4 ] - m_4_3 * ( y[ 3 ] - y[ 4 ] );
-            TF x_5 = x[ 6 ] - m_6_7 * ( x[ 7 ] - x[ 6 ] );
-            TF y_5 = y[ 6 ] - m_6_7 * ( y[ 7 ] - y[ 6 ] );
-            TF x_6 = x[ 7 ];
-            TF y_6 = y[ 7 ];
-            TF x_7 = x[ 0 ] - m_0_7 * ( x[ 7 ] - x[ 0 ] );
-            TF y_7 = y[ 0 ] - m_0_7 * ( y[ 7 ] - y[ 0 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            continue;
-        }
-        case 2162: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000001110010 mod=0,[ 1, 0 ],[ 1, 2 ],2,3,[ 4, 3 ],[ 6, 7 ],7
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_1_0 = d_1 / ( d_0 - d_1 );
-            TF m_1_2 = d_1 / ( d_2 - d_1 );
-            TF m_4_3 = d_4 / ( d_3 - d_4 );
-            TF m_6_7 = d_6 / ( d_7 - d_6 );
-            TF x_1 = x[ 1 ] - m_1_0 * ( x[ 0 ] - x[ 1 ] );
-            TF y_1 = y[ 1 ] - m_1_0 * ( y[ 0 ] - y[ 1 ] );
-            TF x_2 = x[ 1 ] - m_1_2 * ( x[ 2 ] - x[ 1 ] );
-            TF y_2 = y[ 1 ] - m_1_2 * ( y[ 2 ] - y[ 1 ] );
-            TF x_3 = x[ 2 ];
-            TF y_3 = y[ 2 ];
-            TF x_4 = x[ 3 ];
-            TF y_4 = y[ 3 ];
-            TF x_5 = x[ 4 ] - m_4_3 * ( x[ 3 ] - x[ 4 ] );
-            TF y_5 = y[ 4 ] - m_4_3 * ( y[ 3 ] - y[ 4 ] );
-            TF x_6 = x[ 6 ] - m_6_7 * ( x[ 7 ] - x[ 6 ] );
-            TF y_6 = y[ 6 ] - m_6_7 * ( y[ 7 ] - y[ 6 ] );
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            continue;
-        }
-        case 2163: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000001110011 mod=[ 0, 7 ],[ 1, 2 ],2,3,[ 4, 3 ],[ 6, 7 ],7
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_0_7 = d_0 / ( d_7 - d_0 );
-            TF m_1_2 = d_1 / ( d_2 - d_1 );
-            TF m_4_3 = d_4 / ( d_3 - d_4 );
-            TF m_6_7 = d_6 / ( d_7 - d_6 );
-            TF x_0 = x[ 0 ] - m_0_7 * ( x[ 7 ] - x[ 0 ] );
-            TF y_0 = y[ 0 ] - m_0_7 * ( y[ 7 ] - y[ 0 ] );
-            TF x_1 = x[ 1 ] - m_1_2 * ( x[ 2 ] - x[ 1 ] );
-            TF y_1 = y[ 1 ] - m_1_2 * ( y[ 2 ] - y[ 1 ] );
-            TF x_4 = x[ 4 ] - m_4_3 * ( x[ 3 ] - x[ 4 ] );
-            TF y_4 = y[ 4 ] - m_4_3 * ( y[ 3 ] - y[ 4 ] );
-            TF x_5 = x[ 6 ] - m_6_7 * ( x[ 7 ] - x[ 6 ] );
-            TF y_5 = y[ 6 ] - m_6_7 * ( y[ 7 ] - y[ 6 ] );
-            TF x_6 = x[ 7 ];
-            TF y_6 = y[ 7 ];
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            size = 7;
-            continue;
-        }
-        case 2164: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000001110100 mod=0,1,[ 2, 1 ],[ 2, 3 ],3,[ 4, 3 ],[ 6, 7 ],7
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_2_1 = d_2 / ( d_1 - d_2 );
-            TF m_2_3 = d_2 / ( d_3 - d_2 );
-            TF m_4_3 = d_4 / ( d_3 - d_4 );
-            TF m_6_7 = d_6 / ( d_7 - d_6 );
-            TF x_2 = x[ 2 ] - m_2_1 * ( x[ 1 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_1 * ( y[ 1 ] - y[ 2 ] );
-            TF x_3 = x[ 2 ] - m_2_3 * ( x[ 3 ] - x[ 2 ] );
-            TF y_3 = y[ 2 ] - m_2_3 * ( y[ 3 ] - y[ 2 ] );
-            TF x_4 = x[ 3 ];
-            TF y_4 = y[ 3 ];
-            TF x_5 = x[ 4 ] - m_4_3 * ( x[ 3 ] - x[ 4 ] );
-            TF y_5 = y[ 4 ] - m_4_3 * ( y[ 3 ] - y[ 4 ] );
-            TF x_6 = x[ 6 ] - m_6_7 * ( x[ 7 ] - x[ 6 ] );
-            TF y_6 = y[ 6 ] - m_6_7 * ( y[ 7 ] - y[ 6 ] );
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            continue;
-        }
-        case 2165: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000001110101 mod=[ 0, 1 ],1,[ 2, 1 ],[ 2, 3 ],3,[ 4, 3 ],[ 6, 7 ],7,[ 0, 7 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_0_1 = d_0 / ( d_1 - d_0 );
-            TF m_2_1 = d_2 / ( d_1 - d_2 );
-            TF m_2_3 = d_2 / ( d_3 - d_2 );
-            TF m_4_3 = d_4 / ( d_3 - d_4 );
-            TF m_6_7 = d_6 / ( d_7 - d_6 );
-            TF m_0_7 = d_0 / ( d_7 - d_0 );
-            TF x_0 = x[ 0 ] - m_0_1 * ( x[ 1 ] - x[ 0 ] );
-            TF y_0 = y[ 0 ] - m_0_1 * ( y[ 1 ] - y[ 0 ] );
-            TF x_2 = x[ 2 ] - m_2_1 * ( x[ 1 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_1 * ( y[ 1 ] - y[ 2 ] );
-            TF x_3 = x[ 2 ] - m_2_3 * ( x[ 3 ] - x[ 2 ] );
-            TF y_3 = y[ 2 ] - m_2_3 * ( y[ 3 ] - y[ 2 ] );
-            TF x_4 = x[ 3 ];
-            TF y_4 = y[ 3 ];
-            TF x_5 = x[ 4 ] - m_4_3 * ( x[ 3 ] - x[ 4 ] );
-            TF y_5 = y[ 4 ] - m_4_3 * ( y[ 3 ] - y[ 4 ] );
-            TF x_6 = x[ 6 ] - m_6_7 * ( x[ 7 ] - x[ 6 ] );
-            TF y_6 = y[ 6 ] - m_6_7 * ( y[ 7 ] - y[ 6 ] );
-            TF x_8 = x[ 0 ] - m_0_7 * ( x[ 7 ] - x[ 0 ] );
-            TF y_8 = y[ 0 ] - m_0_7 * ( y[ 7 ] - y[ 0 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            x[ 8 ] = x_8;
-            y[ 8 ] = y_8;
-            size = 9;
-            continue;
-        }
-        case 2166: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000001110110 mod=0,[ 1, 0 ],[ 2, 3 ],3,[ 4, 3 ],[ 6, 7 ],7
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_1_0 = d_1 / ( d_0 - d_1 );
-            TF m_2_3 = d_2 / ( d_3 - d_2 );
-            TF m_4_3 = d_4 / ( d_3 - d_4 );
-            TF m_6_7 = d_6 / ( d_7 - d_6 );
-            TF x_1 = x[ 1 ] - m_1_0 * ( x[ 0 ] - x[ 1 ] );
-            TF y_1 = y[ 1 ] - m_1_0 * ( y[ 0 ] - y[ 1 ] );
-            TF x_2 = x[ 2 ] - m_2_3 * ( x[ 3 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_3 * ( y[ 3 ] - y[ 2 ] );
-            TF x_4 = x[ 4 ] - m_4_3 * ( x[ 3 ] - x[ 4 ] );
-            TF y_4 = y[ 4 ] - m_4_3 * ( y[ 3 ] - y[ 4 ] );
-            TF x_5 = x[ 6 ] - m_6_7 * ( x[ 7 ] - x[ 6 ] );
-            TF y_5 = y[ 6 ] - m_6_7 * ( y[ 7 ] - y[ 6 ] );
-            TF x_6 = x[ 7 ];
-            TF y_6 = y[ 7 ];
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            size = 7;
-            continue;
-        }
-        case 2167: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000001110111 mod=7,[ 0, 7 ],[ 2, 3 ],3,[ 4, 3 ],[ 6, 7 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_0_7 = d_0 / ( d_7 - d_0 );
-            TF m_2_3 = d_2 / ( d_3 - d_2 );
-            TF m_4_3 = d_4 / ( d_3 - d_4 );
-            TF m_6_7 = d_6 / ( d_7 - d_6 );
-            TF x_0 = x[ 7 ];
-            TF y_0 = y[ 7 ];
-            TF x_1 = x[ 0 ] - m_0_7 * ( x[ 7 ] - x[ 0 ] );
-            TF y_1 = y[ 0 ] - m_0_7 * ( y[ 7 ] - y[ 0 ] );
-            TF x_2 = x[ 2 ] - m_2_3 * ( x[ 3 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_3 * ( y[ 3 ] - y[ 2 ] );
-            TF x_4 = x[ 4 ] - m_4_3 * ( x[ 3 ] - x[ 4 ] );
-            TF y_4 = y[ 4 ] - m_4_3 * ( y[ 3 ] - y[ 4 ] );
-            TF x_5 = x[ 6 ] - m_6_7 * ( x[ 7 ] - x[ 6 ] );
-            TF y_5 = y[ 6 ] - m_6_7 * ( y[ 7 ] - y[ 6 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            size = 6;
-            continue;
+            break;
         }
         case 2168: {
             // size=8 outside=0000000000000000000000000000000000000000000000000000000001111000 mod=0,1,2,[ 3, 2 ],[ 6, 7 ],7
@@ -12346,116 +3518,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             x[ 5 ] = x_5;
             y[ 5 ] = y_5;
             size = 6;
-            continue;
-        }
-        case 2169: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000001111001 mod=[ 0, 1 ],1,2,[ 3, 2 ],[ 6, 7 ],7,[ 0, 7 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_0_1 = d_0 / ( d_1 - d_0 );
-            TF m_3_2 = d_3 / ( d_2 - d_3 );
-            TF m_6_7 = d_6 / ( d_7 - d_6 );
-            TF m_0_7 = d_0 / ( d_7 - d_0 );
-            TF x_0 = x[ 0 ] - m_0_1 * ( x[ 1 ] - x[ 0 ] );
-            TF y_0 = y[ 0 ] - m_0_1 * ( y[ 1 ] - y[ 0 ] );
-            TF x_3 = x[ 3 ] - m_3_2 * ( x[ 2 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_2 * ( y[ 2 ] - y[ 3 ] );
-            TF x_4 = x[ 6 ] - m_6_7 * ( x[ 7 ] - x[ 6 ] );
-            TF y_4 = y[ 6 ] - m_6_7 * ( y[ 7 ] - y[ 6 ] );
-            TF x_5 = x[ 7 ];
-            TF y_5 = y[ 7 ];
-            TF x_6 = x[ 0 ] - m_0_7 * ( x[ 7 ] - x[ 0 ] );
-            TF y_6 = y[ 0 ] - m_0_7 * ( y[ 7 ] - y[ 0 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            size = 7;
-            continue;
-        }
-        case 2170: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000001111010 mod=[ 1, 0 ],[ 1, 2 ],2,[ 3, 2 ],[ 6, 7 ],7,0
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_1_0 = d_1 / ( d_0 - d_1 );
-            TF m_1_2 = d_1 / ( d_2 - d_1 );
-            TF m_3_2 = d_3 / ( d_2 - d_3 );
-            TF m_6_7 = d_6 / ( d_7 - d_6 );
-            TF x_0 = x[ 1 ] - m_1_0 * ( x[ 0 ] - x[ 1 ] );
-            TF y_0 = y[ 1 ] - m_1_0 * ( y[ 0 ] - y[ 1 ] );
-            TF x_1 = x[ 1 ] - m_1_2 * ( x[ 2 ] - x[ 1 ] );
-            TF y_1 = y[ 1 ] - m_1_2 * ( y[ 2 ] - y[ 1 ] );
-            TF x_3 = x[ 3 ] - m_3_2 * ( x[ 2 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_2 * ( y[ 2 ] - y[ 3 ] );
-            TF x_4 = x[ 6 ] - m_6_7 * ( x[ 7 ] - x[ 6 ] );
-            TF y_4 = y[ 6 ] - m_6_7 * ( y[ 7 ] - y[ 6 ] );
-            TF x_5 = x[ 7 ];
-            TF y_5 = y[ 7 ];
-            TF x_6 = x[ 0 ];
-            TF y_6 = y[ 0 ];
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            size = 7;
-            continue;
-        }
-        case 2171: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000001111011 mod=[ 0, 7 ],[ 1, 2 ],2,[ 3, 2 ],[ 6, 7 ],7
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_0_7 = d_0 / ( d_7 - d_0 );
-            TF m_1_2 = d_1 / ( d_2 - d_1 );
-            TF m_3_2 = d_3 / ( d_2 - d_3 );
-            TF m_6_7 = d_6 / ( d_7 - d_6 );
-            TF x_0 = x[ 0 ] - m_0_7 * ( x[ 7 ] - x[ 0 ] );
-            TF y_0 = y[ 0 ] - m_0_7 * ( y[ 7 ] - y[ 0 ] );
-            TF x_1 = x[ 1 ] - m_1_2 * ( x[ 2 ] - x[ 1 ] );
-            TF y_1 = y[ 1 ] - m_1_2 * ( y[ 2 ] - y[ 1 ] );
-            TF x_3 = x[ 3 ] - m_3_2 * ( x[ 2 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_2 * ( y[ 2 ] - y[ 3 ] );
-            TF x_4 = x[ 6 ] - m_6_7 * ( x[ 7 ] - x[ 6 ] );
-            TF y_4 = y[ 6 ] - m_6_7 * ( y[ 7 ] - y[ 6 ] );
-            TF x_5 = x[ 7 ];
-            TF y_5 = y[ 7 ];
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            size = 6;
-            continue;
+            break;
         }
         case 2172: {
             // size=8 outside=0000000000000000000000000000000000000000000000000000000001111100 mod=0,1,[ 2, 1 ],[ 6, 7 ],7
@@ -12478,41 +3541,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             x[ 4 ] = x_4;
             y[ 4 ] = y_4;
             size = 5;
-            continue;
-        }
-        case 2173: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000001111101 mod=[ 0, 1 ],1,[ 2, 1 ],[ 6, 7 ],7,[ 0, 7 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_0_1 = d_0 / ( d_1 - d_0 );
-            TF m_2_1 = d_2 / ( d_1 - d_2 );
-            TF m_6_7 = d_6 / ( d_7 - d_6 );
-            TF m_0_7 = d_0 / ( d_7 - d_0 );
-            TF x_0 = x[ 0 ] - m_0_1 * ( x[ 1 ] - x[ 0 ] );
-            TF y_0 = y[ 0 ] - m_0_1 * ( y[ 1 ] - y[ 0 ] );
-            TF x_2 = x[ 2 ] - m_2_1 * ( x[ 1 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_1 * ( y[ 1 ] - y[ 2 ] );
-            TF x_3 = x[ 6 ] - m_6_7 * ( x[ 7 ] - x[ 6 ] );
-            TF y_3 = y[ 6 ] - m_6_7 * ( y[ 7 ] - y[ 6 ] );
-            TF x_4 = x[ 7 ];
-            TF y_4 = y[ 7 ];
-            TF x_5 = x[ 0 ] - m_0_7 * ( x[ 7 ] - x[ 0 ] );
-            TF y_5 = y[ 0 ] - m_0_7 * ( y[ 7 ] - y[ 0 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            size = 6;
-            continue;
+            break;
         }
         case 2174: {
             // size=8 outside=0000000000000000000000000000000000000000000000000000000001111110 mod=0,[ 1, 0 ],[ 6, 7 ],7
@@ -12535,7 +3564,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             x[ 3 ] = x_3;
             y[ 3 ] = y_3;
             size = 4;
-            continue;
+            break;
         }
         case 2175: {
             // size=8 outside=0000000000000000000000000000000000000000000000000000000001111111 mod=[ 0, 7 ],[ 6, 7 ],7
@@ -12557,7 +3586,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             x[ 2 ] = x_2;
             y[ 2 ] = y_2;
             size = 3;
-            continue;
+            break;
         }
         case 2176: {
             // size=8 outside=0000000000000000000000000000000000000000000000000000000010000000 mod=0,1,2,3,4,5,6,[ 7, 6 ],[ 7, 0 ]
@@ -12575,7 +3604,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             x[ 8 ] = x_8;
             y[ 8 ] = y_8;
             size = 9;
-            continue;
+            break;
         }
         case 2177: {
             // size=8 outside=0000000000000000000000000000000000000000000000000000000010000001 mod=[ 0, 1 ],1,2,3,4,5,6,[ 7, 6 ]
@@ -12593,41 +3622,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             y[ 0 ] = y_0;
             x[ 7 ] = x_7;
             y[ 7 ] = y_7;
-            continue;
-        }
-        case 2178: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000010000010 mod=[ 1, 0 ],[ 1, 2 ],2,3,4,5,6,[ 7, 6 ],[ 7, 0 ],0
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_1_0 = d_1 / ( d_0 - d_1 );
-            TF m_1_2 = d_1 / ( d_2 - d_1 );
-            TF m_7_6 = d_7 / ( d_6 - d_7 );
-            TF m_7_0 = d_7 / ( d_0 - d_7 );
-            TF x_0 = x[ 1 ] - m_1_0 * ( x[ 0 ] - x[ 1 ] );
-            TF y_0 = y[ 1 ] - m_1_0 * ( y[ 0 ] - y[ 1 ] );
-            TF x_1 = x[ 1 ] - m_1_2 * ( x[ 2 ] - x[ 1 ] );
-            TF y_1 = y[ 1 ] - m_1_2 * ( y[ 2 ] - y[ 1 ] );
-            TF x_7 = x[ 7 ] - m_7_6 * ( x[ 6 ] - x[ 7 ] );
-            TF y_7 = y[ 7 ] - m_7_6 * ( y[ 6 ] - y[ 7 ] );
-            TF x_8 = x[ 7 ] - m_7_0 * ( x[ 0 ] - x[ 7 ] );
-            TF y_8 = y[ 7 ] - m_7_0 * ( y[ 0 ] - y[ 7 ] );
-            TF x_9 = x[ 0 ];
-            TF y_9 = y[ 0 ];
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            x[ 8 ] = x_8;
-            y[ 8 ] = y_8;
-            x[ 9 ] = x_9;
-            y[ 9 ] = y_9;
-            size = 10;
-            continue;
+            break;
         }
         case 2179: {
             // size=8 outside=0000000000000000000000000000000000000000000000000000000010000011 mod=[ 7, 6 ],[ 1, 2 ],2,3,4,5,6
@@ -12646,112 +3641,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             x[ 1 ] = x_1;
             y[ 1 ] = y_1;
             size = 7;
-            continue;
-        }
-        case 2180: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000010000100 mod=1,[ 2, 1 ],[ 2, 3 ],3,4,5,6,[ 7, 6 ],[ 7, 0 ],0
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_2_1 = d_2 / ( d_1 - d_2 );
-            TF m_2_3 = d_2 / ( d_3 - d_2 );
-            TF m_7_6 = d_7 / ( d_6 - d_7 );
-            TF m_7_0 = d_7 / ( d_0 - d_7 );
-            TF x_0 = x[ 1 ];
-            TF y_0 = y[ 1 ];
-            TF x_1 = x[ 2 ] - m_2_1 * ( x[ 1 ] - x[ 2 ] );
-            TF y_1 = y[ 2 ] - m_2_1 * ( y[ 1 ] - y[ 2 ] );
-            TF x_2 = x[ 2 ] - m_2_3 * ( x[ 3 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_3 * ( y[ 3 ] - y[ 2 ] );
-            TF x_7 = x[ 7 ] - m_7_6 * ( x[ 6 ] - x[ 7 ] );
-            TF y_7 = y[ 7 ] - m_7_6 * ( y[ 6 ] - y[ 7 ] );
-            TF x_8 = x[ 7 ] - m_7_0 * ( x[ 0 ] - x[ 7 ] );
-            TF y_8 = y[ 7 ] - m_7_0 * ( y[ 0 ] - y[ 7 ] );
-            TF x_9 = x[ 0 ];
-            TF y_9 = y[ 0 ];
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            x[ 8 ] = x_8;
-            y[ 8 ] = y_8;
-            x[ 9 ] = x_9;
-            y[ 9 ] = y_9;
-            size = 10;
-            continue;
-        }
-        case 2181: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000010000101 mod=1,[ 2, 1 ],[ 2, 3 ],3,4,5,6,[ 7, 6 ],[ 0, 1 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_2_1 = d_2 / ( d_1 - d_2 );
-            TF m_2_3 = d_2 / ( d_3 - d_2 );
-            TF m_7_6 = d_7 / ( d_6 - d_7 );
-            TF m_0_1 = d_0 / ( d_1 - d_0 );
-            TF x_0 = x[ 1 ];
-            TF y_0 = y[ 1 ];
-            TF x_1 = x[ 2 ] - m_2_1 * ( x[ 1 ] - x[ 2 ] );
-            TF y_1 = y[ 2 ] - m_2_1 * ( y[ 1 ] - y[ 2 ] );
-            TF x_2 = x[ 2 ] - m_2_3 * ( x[ 3 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_3 * ( y[ 3 ] - y[ 2 ] );
-            TF x_7 = x[ 7 ] - m_7_6 * ( x[ 6 ] - x[ 7 ] );
-            TF y_7 = y[ 7 ] - m_7_6 * ( y[ 6 ] - y[ 7 ] );
-            TF x_8 = x[ 0 ] - m_0_1 * ( x[ 1 ] - x[ 0 ] );
-            TF y_8 = y[ 0 ] - m_0_1 * ( y[ 1 ] - y[ 0 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            x[ 8 ] = x_8;
-            y[ 8 ] = y_8;
-            size = 9;
-            continue;
-        }
-        case 2182: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000010000110 mod=0,[ 1, 0 ],[ 2, 3 ],3,4,5,6,[ 7, 6 ],[ 7, 0 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_1_0 = d_1 / ( d_0 - d_1 );
-            TF m_2_3 = d_2 / ( d_3 - d_2 );
-            TF m_7_6 = d_7 / ( d_6 - d_7 );
-            TF m_7_0 = d_7 / ( d_0 - d_7 );
-            TF x_1 = x[ 1 ] - m_1_0 * ( x[ 0 ] - x[ 1 ] );
-            TF y_1 = y[ 1 ] - m_1_0 * ( y[ 0 ] - y[ 1 ] );
-            TF x_2 = x[ 2 ] - m_2_3 * ( x[ 3 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_3 * ( y[ 3 ] - y[ 2 ] );
-            TF x_7 = x[ 7 ] - m_7_6 * ( x[ 6 ] - x[ 7 ] );
-            TF y_7 = y[ 7 ] - m_7_6 * ( y[ 6 ] - y[ 7 ] );
-            TF x_8 = x[ 7 ] - m_7_0 * ( x[ 0 ] - x[ 7 ] );
-            TF y_8 = y[ 7 ] - m_7_0 * ( y[ 0 ] - y[ 7 ] );
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            x[ 8 ] = x_8;
-            y[ 8 ] = y_8;
-            size = 9;
-            continue;
+            break;
         }
         case 2183: {
             // size=8 outside=0000000000000000000000000000000000000000000000000000000010000111 mod=6,[ 7, 6 ],[ 2, 3 ],3,4,5
@@ -12774,271 +3664,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             x[ 2 ] = x_2;
             y[ 2 ] = y_2;
             size = 6;
-            continue;
-        }
-        case 2184: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000010001000 mod=1,2,[ 3, 2 ],[ 3, 4 ],4,5,6,[ 7, 6 ],[ 7, 0 ],0
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_3_2 = d_3 / ( d_2 - d_3 );
-            TF m_3_4 = d_3 / ( d_4 - d_3 );
-            TF m_7_6 = d_7 / ( d_6 - d_7 );
-            TF m_7_0 = d_7 / ( d_0 - d_7 );
-            TF x_0 = x[ 1 ];
-            TF y_0 = y[ 1 ];
-            TF x_1 = x[ 2 ];
-            TF y_1 = y[ 2 ];
-            TF x_2 = x[ 3 ] - m_3_2 * ( x[ 2 ] - x[ 3 ] );
-            TF y_2 = y[ 3 ] - m_3_2 * ( y[ 2 ] - y[ 3 ] );
-            TF x_3 = x[ 3 ] - m_3_4 * ( x[ 4 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_4 * ( y[ 4 ] - y[ 3 ] );
-            TF x_7 = x[ 7 ] - m_7_6 * ( x[ 6 ] - x[ 7 ] );
-            TF y_7 = y[ 7 ] - m_7_6 * ( y[ 6 ] - y[ 7 ] );
-            TF x_8 = x[ 7 ] - m_7_0 * ( x[ 0 ] - x[ 7 ] );
-            TF y_8 = y[ 7 ] - m_7_0 * ( y[ 0 ] - y[ 7 ] );
-            TF x_9 = x[ 0 ];
-            TF y_9 = y[ 0 ];
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            x[ 8 ] = x_8;
-            y[ 8 ] = y_8;
-            x[ 9 ] = x_9;
-            y[ 9 ] = y_9;
-            size = 10;
-            continue;
-        }
-        case 2185: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000010001001 mod=1,2,[ 3, 2 ],[ 3, 4 ],4,5,6,[ 7, 6 ],[ 0, 1 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_3_2 = d_3 / ( d_2 - d_3 );
-            TF m_3_4 = d_3 / ( d_4 - d_3 );
-            TF m_7_6 = d_7 / ( d_6 - d_7 );
-            TF m_0_1 = d_0 / ( d_1 - d_0 );
-            TF x_0 = x[ 1 ];
-            TF y_0 = y[ 1 ];
-            TF x_1 = x[ 2 ];
-            TF y_1 = y[ 2 ];
-            TF x_2 = x[ 3 ] - m_3_2 * ( x[ 2 ] - x[ 3 ] );
-            TF y_2 = y[ 3 ] - m_3_2 * ( y[ 2 ] - y[ 3 ] );
-            TF x_3 = x[ 3 ] - m_3_4 * ( x[ 4 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_4 * ( y[ 4 ] - y[ 3 ] );
-            TF x_7 = x[ 7 ] - m_7_6 * ( x[ 6 ] - x[ 7 ] );
-            TF y_7 = y[ 7 ] - m_7_6 * ( y[ 6 ] - y[ 7 ] );
-            TF x_8 = x[ 0 ] - m_0_1 * ( x[ 1 ] - x[ 0 ] );
-            TF y_8 = y[ 0 ] - m_0_1 * ( y[ 1 ] - y[ 0 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            x[ 8 ] = x_8;
-            y[ 8 ] = y_8;
-            size = 9;
-            continue;
-        }
-        case 2186: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000010001010 mod=[ 1, 2 ],2,[ 3, 2 ],[ 3, 4 ],4,5,6,[ 7, 6 ],[ 7, 0 ],0,[ 1, 0 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_1_2 = d_1 / ( d_2 - d_1 );
-            TF m_3_2 = d_3 / ( d_2 - d_3 );
-            TF m_3_4 = d_3 / ( d_4 - d_3 );
-            TF m_7_6 = d_7 / ( d_6 - d_7 );
-            TF m_7_0 = d_7 / ( d_0 - d_7 );
-            TF m_1_0 = d_1 / ( d_0 - d_1 );
-            TF x_0 = x[ 1 ] - m_1_2 * ( x[ 2 ] - x[ 1 ] );
-            TF y_0 = y[ 1 ] - m_1_2 * ( y[ 2 ] - y[ 1 ] );
-            TF x_1 = x[ 2 ];
-            TF y_1 = y[ 2 ];
-            TF x_2 = x[ 3 ] - m_3_2 * ( x[ 2 ] - x[ 3 ] );
-            TF y_2 = y[ 3 ] - m_3_2 * ( y[ 2 ] - y[ 3 ] );
-            TF x_3 = x[ 3 ] - m_3_4 * ( x[ 4 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_4 * ( y[ 4 ] - y[ 3 ] );
-            TF x_7 = x[ 7 ] - m_7_6 * ( x[ 6 ] - x[ 7 ] );
-            TF y_7 = y[ 7 ] - m_7_6 * ( y[ 6 ] - y[ 7 ] );
-            TF x_8 = x[ 7 ] - m_7_0 * ( x[ 0 ] - x[ 7 ] );
-            TF y_8 = y[ 7 ] - m_7_0 * ( y[ 0 ] - y[ 7 ] );
-            TF x_9 = x[ 0 ];
-            TF y_9 = y[ 0 ];
-            TF x_10 = x[ 1 ] - m_1_0 * ( x[ 0 ] - x[ 1 ] );
-            TF y_10 = y[ 1 ] - m_1_0 * ( y[ 0 ] - y[ 1 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            x[ 8 ] = x_8;
-            y[ 8 ] = y_8;
-            x[ 9 ] = x_9;
-            y[ 9 ] = y_9;
-            x[ 10 ] = x_10;
-            y[ 10 ] = y_10;
-            size = 11;
-            continue;
-        }
-        case 2187: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000010001011 mod=[ 1, 2 ],2,[ 3, 2 ],[ 3, 4 ],4,5,6,[ 7, 6 ]
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_1_2 = d_1 / ( d_2 - d_1 );
-            TF m_3_2 = d_3 / ( d_2 - d_3 );
-            TF m_3_4 = d_3 / ( d_4 - d_3 );
-            TF m_7_6 = d_7 / ( d_6 - d_7 );
-            TF x_0 = x[ 1 ] - m_1_2 * ( x[ 2 ] - x[ 1 ] );
-            TF y_0 = y[ 1 ] - m_1_2 * ( y[ 2 ] - y[ 1 ] );
-            TF x_1 = x[ 2 ];
-            TF y_1 = y[ 2 ];
-            TF x_2 = x[ 3 ] - m_3_2 * ( x[ 2 ] - x[ 3 ] );
-            TF y_2 = y[ 3 ] - m_3_2 * ( y[ 2 ] - y[ 3 ] );
-            TF x_3 = x[ 3 ] - m_3_4 * ( x[ 4 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_4 * ( y[ 4 ] - y[ 3 ] );
-            TF x_7 = x[ 7 ] - m_7_6 * ( x[ 6 ] - x[ 7 ] );
-            TF y_7 = y[ 7 ] - m_7_6 * ( y[ 6 ] - y[ 7 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            continue;
-        }
-        case 2188: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000010001100 mod=0,1,[ 2, 1 ],[ 3, 4 ],4,5,6,[ 7, 6 ],[ 7, 0 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_2_1 = d_2 / ( d_1 - d_2 );
-            TF m_3_4 = d_3 / ( d_4 - d_3 );
-            TF m_7_6 = d_7 / ( d_6 - d_7 );
-            TF m_7_0 = d_7 / ( d_0 - d_7 );
-            TF x_2 = x[ 2 ] - m_2_1 * ( x[ 1 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_1 * ( y[ 1 ] - y[ 2 ] );
-            TF x_3 = x[ 3 ] - m_3_4 * ( x[ 4 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_4 * ( y[ 4 ] - y[ 3 ] );
-            TF x_7 = x[ 7 ] - m_7_6 * ( x[ 6 ] - x[ 7 ] );
-            TF y_7 = y[ 7 ] - m_7_6 * ( y[ 6 ] - y[ 7 ] );
-            TF x_8 = x[ 7 ] - m_7_0 * ( x[ 0 ] - x[ 7 ] );
-            TF y_8 = y[ 7 ] - m_7_0 * ( y[ 0 ] - y[ 7 ] );
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            x[ 8 ] = x_8;
-            y[ 8 ] = y_8;
-            size = 9;
-            continue;
-        }
-        case 2189: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000010001101 mod=[ 0, 1 ],1,[ 2, 1 ],[ 3, 4 ],4,5,6,[ 7, 6 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_0_1 = d_0 / ( d_1 - d_0 );
-            TF m_2_1 = d_2 / ( d_1 - d_2 );
-            TF m_3_4 = d_3 / ( d_4 - d_3 );
-            TF m_7_6 = d_7 / ( d_6 - d_7 );
-            TF x_0 = x[ 0 ] - m_0_1 * ( x[ 1 ] - x[ 0 ] );
-            TF y_0 = y[ 0 ] - m_0_1 * ( y[ 1 ] - y[ 0 ] );
-            TF x_2 = x[ 2 ] - m_2_1 * ( x[ 1 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_1 * ( y[ 1 ] - y[ 2 ] );
-            TF x_3 = x[ 3 ] - m_3_4 * ( x[ 4 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_4 * ( y[ 4 ] - y[ 3 ] );
-            TF x_7 = x[ 7 ] - m_7_6 * ( x[ 6 ] - x[ 7 ] );
-            TF y_7 = y[ 7 ] - m_7_6 * ( y[ 6 ] - y[ 7 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            continue;
-        }
-        case 2190: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000010001110 mod=[ 7, 0 ],0,[ 1, 0 ],[ 3, 4 ],4,5,6,[ 7, 6 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_7_0 = d_7 / ( d_0 - d_7 );
-            TF m_1_0 = d_1 / ( d_0 - d_1 );
-            TF m_3_4 = d_3 / ( d_4 - d_3 );
-            TF m_7_6 = d_7 / ( d_6 - d_7 );
-            TF x_0 = x[ 7 ] - m_7_0 * ( x[ 0 ] - x[ 7 ] );
-            TF y_0 = y[ 7 ] - m_7_0 * ( y[ 0 ] - y[ 7 ] );
-            TF x_1 = x[ 0 ];
-            TF y_1 = y[ 0 ];
-            TF x_2 = x[ 1 ] - m_1_0 * ( x[ 0 ] - x[ 1 ] );
-            TF y_2 = y[ 1 ] - m_1_0 * ( y[ 0 ] - y[ 1 ] );
-            TF x_3 = x[ 3 ] - m_3_4 * ( x[ 4 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_4 * ( y[ 4 ] - y[ 3 ] );
-            TF x_7 = x[ 7 ] - m_7_6 * ( x[ 6 ] - x[ 7 ] );
-            TF y_7 = y[ 7 ] - m_7_6 * ( y[ 6 ] - y[ 7 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            continue;
+            break;
         }
         case 2191: {
             // size=8 outside=0000000000000000000000000000000000000000000000000000000010001111 mod=5,6,[ 7, 6 ],[ 3, 4 ],4
@@ -13065,625 +3691,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             x[ 3 ] = x_3;
             y[ 3 ] = y_3;
             size = 5;
-            continue;
-        }
-        case 2192: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000010010000 mod=0,1,2,3,[ 4, 3 ],[ 4, 5 ],5,6,[ 7, 6 ],[ 7, 0 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_4_3 = d_4 / ( d_3 - d_4 );
-            TF m_4_5 = d_4 / ( d_5 - d_4 );
-            TF m_7_6 = d_7 / ( d_6 - d_7 );
-            TF m_7_0 = d_7 / ( d_0 - d_7 );
-            TF x_4 = x[ 4 ] - m_4_3 * ( x[ 3 ] - x[ 4 ] );
-            TF y_4 = y[ 4 ] - m_4_3 * ( y[ 3 ] - y[ 4 ] );
-            TF x_5 = x[ 4 ] - m_4_5 * ( x[ 5 ] - x[ 4 ] );
-            TF y_5 = y[ 4 ] - m_4_5 * ( y[ 5 ] - y[ 4 ] );
-            TF x_6 = x[ 5 ];
-            TF y_6 = y[ 5 ];
-            TF x_7 = x[ 6 ];
-            TF y_7 = y[ 6 ];
-            TF x_8 = x[ 7 ] - m_7_6 * ( x[ 6 ] - x[ 7 ] );
-            TF y_8 = y[ 7 ] - m_7_6 * ( y[ 6 ] - y[ 7 ] );
-            TF x_9 = x[ 7 ] - m_7_0 * ( x[ 0 ] - x[ 7 ] );
-            TF y_9 = y[ 7 ] - m_7_0 * ( y[ 0 ] - y[ 7 ] );
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            x[ 8 ] = x_8;
-            y[ 8 ] = y_8;
-            x[ 9 ] = x_9;
-            y[ 9 ] = y_9;
-            size = 10;
-            continue;
-        }
-        case 2193: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000010010001 mod=[ 0, 1 ],1,2,3,[ 4, 3 ],[ 4, 5 ],5,6,[ 7, 6 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_0_1 = d_0 / ( d_1 - d_0 );
-            TF m_4_3 = d_4 / ( d_3 - d_4 );
-            TF m_4_5 = d_4 / ( d_5 - d_4 );
-            TF m_7_6 = d_7 / ( d_6 - d_7 );
-            TF x_0 = x[ 0 ] - m_0_1 * ( x[ 1 ] - x[ 0 ] );
-            TF y_0 = y[ 0 ] - m_0_1 * ( y[ 1 ] - y[ 0 ] );
-            TF x_4 = x[ 4 ] - m_4_3 * ( x[ 3 ] - x[ 4 ] );
-            TF y_4 = y[ 4 ] - m_4_3 * ( y[ 3 ] - y[ 4 ] );
-            TF x_5 = x[ 4 ] - m_4_5 * ( x[ 5 ] - x[ 4 ] );
-            TF y_5 = y[ 4 ] - m_4_5 * ( y[ 5 ] - y[ 4 ] );
-            TF x_6 = x[ 5 ];
-            TF y_6 = y[ 5 ];
-            TF x_7 = x[ 6 ];
-            TF y_7 = y[ 6 ];
-            TF x_8 = x[ 7 ] - m_7_6 * ( x[ 6 ] - x[ 7 ] );
-            TF y_8 = y[ 7 ] - m_7_6 * ( y[ 6 ] - y[ 7 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            x[ 8 ] = x_8;
-            y[ 8 ] = y_8;
-            size = 9;
-            continue;
-        }
-        case 2194: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000010010010 mod=[ 1, 0 ],[ 1, 2 ],2,3,[ 4, 3 ],[ 4, 5 ],5,6,[ 7, 6 ],[ 7, 0 ],0
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_1_0 = d_1 / ( d_0 - d_1 );
-            TF m_1_2 = d_1 / ( d_2 - d_1 );
-            TF m_4_3 = d_4 / ( d_3 - d_4 );
-            TF m_4_5 = d_4 / ( d_5 - d_4 );
-            TF m_7_6 = d_7 / ( d_6 - d_7 );
-            TF m_7_0 = d_7 / ( d_0 - d_7 );
-            TF x_0 = x[ 1 ] - m_1_0 * ( x[ 0 ] - x[ 1 ] );
-            TF y_0 = y[ 1 ] - m_1_0 * ( y[ 0 ] - y[ 1 ] );
-            TF x_1 = x[ 1 ] - m_1_2 * ( x[ 2 ] - x[ 1 ] );
-            TF y_1 = y[ 1 ] - m_1_2 * ( y[ 2 ] - y[ 1 ] );
-            TF x_4 = x[ 4 ] - m_4_3 * ( x[ 3 ] - x[ 4 ] );
-            TF y_4 = y[ 4 ] - m_4_3 * ( y[ 3 ] - y[ 4 ] );
-            TF x_5 = x[ 4 ] - m_4_5 * ( x[ 5 ] - x[ 4 ] );
-            TF y_5 = y[ 4 ] - m_4_5 * ( y[ 5 ] - y[ 4 ] );
-            TF x_6 = x[ 5 ];
-            TF y_6 = y[ 5 ];
-            TF x_7 = x[ 6 ];
-            TF y_7 = y[ 6 ];
-            TF x_8 = x[ 7 ] - m_7_6 * ( x[ 6 ] - x[ 7 ] );
-            TF y_8 = y[ 7 ] - m_7_6 * ( y[ 6 ] - y[ 7 ] );
-            TF x_9 = x[ 7 ] - m_7_0 * ( x[ 0 ] - x[ 7 ] );
-            TF y_9 = y[ 7 ] - m_7_0 * ( y[ 0 ] - y[ 7 ] );
-            TF x_10 = x[ 0 ];
-            TF y_10 = y[ 0 ];
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            x[ 8 ] = x_8;
-            y[ 8 ] = y_8;
-            x[ 9 ] = x_9;
-            y[ 9 ] = y_9;
-            x[ 10 ] = x_10;
-            y[ 10 ] = y_10;
-            size = 11;
-            continue;
-        }
-        case 2195: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000010010011 mod=[ 1, 2 ],2,3,[ 4, 3 ],[ 4, 5 ],5,6,[ 7, 6 ]
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_1_2 = d_1 / ( d_2 - d_1 );
-            TF m_4_3 = d_4 / ( d_3 - d_4 );
-            TF m_4_5 = d_4 / ( d_5 - d_4 );
-            TF m_7_6 = d_7 / ( d_6 - d_7 );
-            TF x_0 = x[ 1 ] - m_1_2 * ( x[ 2 ] - x[ 1 ] );
-            TF y_0 = y[ 1 ] - m_1_2 * ( y[ 2 ] - y[ 1 ] );
-            TF x_1 = x[ 2 ];
-            TF y_1 = y[ 2 ];
-            TF x_2 = x[ 3 ];
-            TF y_2 = y[ 3 ];
-            TF x_3 = x[ 4 ] - m_4_3 * ( x[ 3 ] - x[ 4 ] );
-            TF y_3 = y[ 4 ] - m_4_3 * ( y[ 3 ] - y[ 4 ] );
-            TF x_4 = x[ 4 ] - m_4_5 * ( x[ 5 ] - x[ 4 ] );
-            TF y_4 = y[ 4 ] - m_4_5 * ( y[ 5 ] - y[ 4 ] );
-            TF x_7 = x[ 7 ] - m_7_6 * ( x[ 6 ] - x[ 7 ] );
-            TF y_7 = y[ 7 ] - m_7_6 * ( y[ 6 ] - y[ 7 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            continue;
-        }
-        case 2196: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000010010100 mod=[ 2, 1 ],[ 2, 3 ],3,[ 4, 3 ],[ 4, 5 ],5,6,[ 7, 6 ],[ 7, 0 ],0,1
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_2_1 = d_2 / ( d_1 - d_2 );
-            TF m_2_3 = d_2 / ( d_3 - d_2 );
-            TF m_4_3 = d_4 / ( d_3 - d_4 );
-            TF m_4_5 = d_4 / ( d_5 - d_4 );
-            TF m_7_6 = d_7 / ( d_6 - d_7 );
-            TF m_7_0 = d_7 / ( d_0 - d_7 );
-            TF x_0 = x[ 2 ] - m_2_1 * ( x[ 1 ] - x[ 2 ] );
-            TF y_0 = y[ 2 ] - m_2_1 * ( y[ 1 ] - y[ 2 ] );
-            TF x_1 = x[ 2 ] - m_2_3 * ( x[ 3 ] - x[ 2 ] );
-            TF y_1 = y[ 2 ] - m_2_3 * ( y[ 3 ] - y[ 2 ] );
-            TF x_2 = x[ 3 ];
-            TF y_2 = y[ 3 ];
-            TF x_3 = x[ 4 ] - m_4_3 * ( x[ 3 ] - x[ 4 ] );
-            TF y_3 = y[ 4 ] - m_4_3 * ( y[ 3 ] - y[ 4 ] );
-            TF x_4 = x[ 4 ] - m_4_5 * ( x[ 5 ] - x[ 4 ] );
-            TF y_4 = y[ 4 ] - m_4_5 * ( y[ 5 ] - y[ 4 ] );
-            TF x_7 = x[ 7 ] - m_7_6 * ( x[ 6 ] - x[ 7 ] );
-            TF y_7 = y[ 7 ] - m_7_6 * ( y[ 6 ] - y[ 7 ] );
-            TF x_8 = x[ 7 ] - m_7_0 * ( x[ 0 ] - x[ 7 ] );
-            TF y_8 = y[ 7 ] - m_7_0 * ( y[ 0 ] - y[ 7 ] );
-            TF x_9 = x[ 0 ];
-            TF y_9 = y[ 0 ];
-            TF x_10 = x[ 1 ];
-            TF y_10 = y[ 1 ];
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            x[ 8 ] = x_8;
-            y[ 8 ] = y_8;
-            x[ 9 ] = x_9;
-            y[ 9 ] = y_9;
-            x[ 10 ] = x_10;
-            y[ 10 ] = y_10;
-            size = 11;
-            continue;
-        }
-        case 2197: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000010010101 mod=[ 2, 1 ],[ 2, 3 ],3,[ 4, 3 ],[ 4, 5 ],5,6,[ 7, 6 ],[ 0, 1 ],1
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_2_1 = d_2 / ( d_1 - d_2 );
-            TF m_2_3 = d_2 / ( d_3 - d_2 );
-            TF m_4_3 = d_4 / ( d_3 - d_4 );
-            TF m_4_5 = d_4 / ( d_5 - d_4 );
-            TF m_7_6 = d_7 / ( d_6 - d_7 );
-            TF m_0_1 = d_0 / ( d_1 - d_0 );
-            TF x_0 = x[ 2 ] - m_2_1 * ( x[ 1 ] - x[ 2 ] );
-            TF y_0 = y[ 2 ] - m_2_1 * ( y[ 1 ] - y[ 2 ] );
-            TF x_1 = x[ 2 ] - m_2_3 * ( x[ 3 ] - x[ 2 ] );
-            TF y_1 = y[ 2 ] - m_2_3 * ( y[ 3 ] - y[ 2 ] );
-            TF x_2 = x[ 3 ];
-            TF y_2 = y[ 3 ];
-            TF x_3 = x[ 4 ] - m_4_3 * ( x[ 3 ] - x[ 4 ] );
-            TF y_3 = y[ 4 ] - m_4_3 * ( y[ 3 ] - y[ 4 ] );
-            TF x_4 = x[ 4 ] - m_4_5 * ( x[ 5 ] - x[ 4 ] );
-            TF y_4 = y[ 4 ] - m_4_5 * ( y[ 5 ] - y[ 4 ] );
-            TF x_7 = x[ 7 ] - m_7_6 * ( x[ 6 ] - x[ 7 ] );
-            TF y_7 = y[ 7 ] - m_7_6 * ( y[ 6 ] - y[ 7 ] );
-            TF x_8 = x[ 0 ] - m_0_1 * ( x[ 1 ] - x[ 0 ] );
-            TF y_8 = y[ 0 ] - m_0_1 * ( y[ 1 ] - y[ 0 ] );
-            TF x_9 = x[ 1 ];
-            TF y_9 = y[ 1 ];
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            x[ 8 ] = x_8;
-            y[ 8 ] = y_8;
-            x[ 9 ] = x_9;
-            y[ 9 ] = y_9;
-            size = 10;
-            continue;
-        }
-        case 2198: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000010010110 mod=0,[ 1, 0 ],[ 2, 3 ],3,[ 4, 3 ],[ 4, 5 ],5,6,[ 7, 6 ],[ 7, 0 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_1_0 = d_1 / ( d_0 - d_1 );
-            TF m_2_3 = d_2 / ( d_3 - d_2 );
-            TF m_4_3 = d_4 / ( d_3 - d_4 );
-            TF m_4_5 = d_4 / ( d_5 - d_4 );
-            TF m_7_6 = d_7 / ( d_6 - d_7 );
-            TF m_7_0 = d_7 / ( d_0 - d_7 );
-            TF x_1 = x[ 1 ] - m_1_0 * ( x[ 0 ] - x[ 1 ] );
-            TF y_1 = y[ 1 ] - m_1_0 * ( y[ 0 ] - y[ 1 ] );
-            TF x_2 = x[ 2 ] - m_2_3 * ( x[ 3 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_3 * ( y[ 3 ] - y[ 2 ] );
-            TF x_4 = x[ 4 ] - m_4_3 * ( x[ 3 ] - x[ 4 ] );
-            TF y_4 = y[ 4 ] - m_4_3 * ( y[ 3 ] - y[ 4 ] );
-            TF x_5 = x[ 4 ] - m_4_5 * ( x[ 5 ] - x[ 4 ] );
-            TF y_5 = y[ 4 ] - m_4_5 * ( y[ 5 ] - y[ 4 ] );
-            TF x_6 = x[ 5 ];
-            TF y_6 = y[ 5 ];
-            TF x_7 = x[ 6 ];
-            TF y_7 = y[ 6 ];
-            TF x_8 = x[ 7 ] - m_7_6 * ( x[ 6 ] - x[ 7 ] );
-            TF y_8 = y[ 7 ] - m_7_6 * ( y[ 6 ] - y[ 7 ] );
-            TF x_9 = x[ 7 ] - m_7_0 * ( x[ 0 ] - x[ 7 ] );
-            TF y_9 = y[ 7 ] - m_7_0 * ( y[ 0 ] - y[ 7 ] );
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            x[ 8 ] = x_8;
-            y[ 8 ] = y_8;
-            x[ 9 ] = x_9;
-            y[ 9 ] = y_9;
-            size = 10;
-            continue;
-        }
-        case 2199: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000010010111 mod=[ 7, 6 ],[ 2, 3 ],3,[ 4, 3 ],[ 4, 5 ],5,6
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_7_6 = d_7 / ( d_6 - d_7 );
-            TF m_2_3 = d_2 / ( d_3 - d_2 );
-            TF m_4_3 = d_4 / ( d_3 - d_4 );
-            TF m_4_5 = d_4 / ( d_5 - d_4 );
-            TF x_0 = x[ 7 ] - m_7_6 * ( x[ 6 ] - x[ 7 ] );
-            TF y_0 = y[ 7 ] - m_7_6 * ( y[ 6 ] - y[ 7 ] );
-            TF x_1 = x[ 2 ] - m_2_3 * ( x[ 3 ] - x[ 2 ] );
-            TF y_1 = y[ 2 ] - m_2_3 * ( y[ 3 ] - y[ 2 ] );
-            TF x_2 = x[ 3 ];
-            TF y_2 = y[ 3 ];
-            TF x_3 = x[ 4 ] - m_4_3 * ( x[ 3 ] - x[ 4 ] );
-            TF y_3 = y[ 4 ] - m_4_3 * ( y[ 3 ] - y[ 4 ] );
-            TF x_4 = x[ 4 ] - m_4_5 * ( x[ 5 ] - x[ 4 ] );
-            TF y_4 = y[ 4 ] - m_4_5 * ( y[ 5 ] - y[ 4 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            size = 7;
-            continue;
-        }
-        case 2200: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000010011000 mod=0,1,2,[ 3, 2 ],[ 4, 5 ],5,6,[ 7, 6 ],[ 7, 0 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_3_2 = d_3 / ( d_2 - d_3 );
-            TF m_4_5 = d_4 / ( d_5 - d_4 );
-            TF m_7_6 = d_7 / ( d_6 - d_7 );
-            TF m_7_0 = d_7 / ( d_0 - d_7 );
-            TF x_3 = x[ 3 ] - m_3_2 * ( x[ 2 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_2 * ( y[ 2 ] - y[ 3 ] );
-            TF x_4 = x[ 4 ] - m_4_5 * ( x[ 5 ] - x[ 4 ] );
-            TF y_4 = y[ 4 ] - m_4_5 * ( y[ 5 ] - y[ 4 ] );
-            TF x_7 = x[ 7 ] - m_7_6 * ( x[ 6 ] - x[ 7 ] );
-            TF y_7 = y[ 7 ] - m_7_6 * ( y[ 6 ] - y[ 7 ] );
-            TF x_8 = x[ 7 ] - m_7_0 * ( x[ 0 ] - x[ 7 ] );
-            TF y_8 = y[ 7 ] - m_7_0 * ( y[ 0 ] - y[ 7 ] );
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            x[ 8 ] = x_8;
-            y[ 8 ] = y_8;
-            size = 9;
-            continue;
-        }
-        case 2201: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000010011001 mod=[ 0, 1 ],1,2,[ 3, 2 ],[ 4, 5 ],5,6,[ 7, 6 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_0_1 = d_0 / ( d_1 - d_0 );
-            TF m_3_2 = d_3 / ( d_2 - d_3 );
-            TF m_4_5 = d_4 / ( d_5 - d_4 );
-            TF m_7_6 = d_7 / ( d_6 - d_7 );
-            TF x_0 = x[ 0 ] - m_0_1 * ( x[ 1 ] - x[ 0 ] );
-            TF y_0 = y[ 0 ] - m_0_1 * ( y[ 1 ] - y[ 0 ] );
-            TF x_3 = x[ 3 ] - m_3_2 * ( x[ 2 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_2 * ( y[ 2 ] - y[ 3 ] );
-            TF x_4 = x[ 4 ] - m_4_5 * ( x[ 5 ] - x[ 4 ] );
-            TF y_4 = y[ 4 ] - m_4_5 * ( y[ 5 ] - y[ 4 ] );
-            TF x_7 = x[ 7 ] - m_7_6 * ( x[ 6 ] - x[ 7 ] );
-            TF y_7 = y[ 7 ] - m_7_6 * ( y[ 6 ] - y[ 7 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            continue;
-        }
-        case 2202: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000010011010 mod=[ 1, 0 ],[ 1, 2 ],2,[ 3, 2 ],[ 4, 5 ],5,6,[ 7, 6 ],[ 7, 0 ],0
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_1_0 = d_1 / ( d_0 - d_1 );
-            TF m_1_2 = d_1 / ( d_2 - d_1 );
-            TF m_3_2 = d_3 / ( d_2 - d_3 );
-            TF m_4_5 = d_4 / ( d_5 - d_4 );
-            TF m_7_6 = d_7 / ( d_6 - d_7 );
-            TF m_7_0 = d_7 / ( d_0 - d_7 );
-            TF x_0 = x[ 1 ] - m_1_0 * ( x[ 0 ] - x[ 1 ] );
-            TF y_0 = y[ 1 ] - m_1_0 * ( y[ 0 ] - y[ 1 ] );
-            TF x_1 = x[ 1 ] - m_1_2 * ( x[ 2 ] - x[ 1 ] );
-            TF y_1 = y[ 1 ] - m_1_2 * ( y[ 2 ] - y[ 1 ] );
-            TF x_3 = x[ 3 ] - m_3_2 * ( x[ 2 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_2 * ( y[ 2 ] - y[ 3 ] );
-            TF x_4 = x[ 4 ] - m_4_5 * ( x[ 5 ] - x[ 4 ] );
-            TF y_4 = y[ 4 ] - m_4_5 * ( y[ 5 ] - y[ 4 ] );
-            TF x_7 = x[ 7 ] - m_7_6 * ( x[ 6 ] - x[ 7 ] );
-            TF y_7 = y[ 7 ] - m_7_6 * ( y[ 6 ] - y[ 7 ] );
-            TF x_8 = x[ 7 ] - m_7_0 * ( x[ 0 ] - x[ 7 ] );
-            TF y_8 = y[ 7 ] - m_7_0 * ( y[ 0 ] - y[ 7 ] );
-            TF x_9 = x[ 0 ];
-            TF y_9 = y[ 0 ];
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            x[ 8 ] = x_8;
-            y[ 8 ] = y_8;
-            x[ 9 ] = x_9;
-            y[ 9 ] = y_9;
-            size = 10;
-            continue;
-        }
-        case 2203: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000010011011 mod=[ 7, 6 ],[ 1, 2 ],2,[ 3, 2 ],[ 4, 5 ],5,6
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_7_6 = d_7 / ( d_6 - d_7 );
-            TF m_1_2 = d_1 / ( d_2 - d_1 );
-            TF m_3_2 = d_3 / ( d_2 - d_3 );
-            TF m_4_5 = d_4 / ( d_5 - d_4 );
-            TF x_0 = x[ 7 ] - m_7_6 * ( x[ 6 ] - x[ 7 ] );
-            TF y_0 = y[ 7 ] - m_7_6 * ( y[ 6 ] - y[ 7 ] );
-            TF x_1 = x[ 1 ] - m_1_2 * ( x[ 2 ] - x[ 1 ] );
-            TF y_1 = y[ 1 ] - m_1_2 * ( y[ 2 ] - y[ 1 ] );
-            TF x_3 = x[ 3 ] - m_3_2 * ( x[ 2 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_2 * ( y[ 2 ] - y[ 3 ] );
-            TF x_4 = x[ 4 ] - m_4_5 * ( x[ 5 ] - x[ 4 ] );
-            TF y_4 = y[ 4 ] - m_4_5 * ( y[ 5 ] - y[ 4 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            size = 7;
-            continue;
-        }
-        case 2204: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000010011100 mod=0,1,[ 2, 1 ],[ 4, 5 ],5,6,[ 7, 6 ],[ 7, 0 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_2_1 = d_2 / ( d_1 - d_2 );
-            TF m_4_5 = d_4 / ( d_5 - d_4 );
-            TF m_7_6 = d_7 / ( d_6 - d_7 );
-            TF m_7_0 = d_7 / ( d_0 - d_7 );
-            TF x_2 = x[ 2 ] - m_2_1 * ( x[ 1 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_1 * ( y[ 1 ] - y[ 2 ] );
-            TF x_3 = x[ 4 ] - m_4_5 * ( x[ 5 ] - x[ 4 ] );
-            TF y_3 = y[ 4 ] - m_4_5 * ( y[ 5 ] - y[ 4 ] );
-            TF x_4 = x[ 5 ];
-            TF y_4 = y[ 5 ];
-            TF x_5 = x[ 6 ];
-            TF y_5 = y[ 6 ];
-            TF x_6 = x[ 7 ] - m_7_6 * ( x[ 6 ] - x[ 7 ] );
-            TF y_6 = y[ 7 ] - m_7_6 * ( y[ 6 ] - y[ 7 ] );
-            TF x_7 = x[ 7 ] - m_7_0 * ( x[ 0 ] - x[ 7 ] );
-            TF y_7 = y[ 7 ] - m_7_0 * ( y[ 0 ] - y[ 7 ] );
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            continue;
-        }
-        case 2205: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000010011101 mod=[ 7, 6 ],[ 0, 1 ],1,[ 2, 1 ],[ 4, 5 ],5,6
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_7_6 = d_7 / ( d_6 - d_7 );
-            TF m_0_1 = d_0 / ( d_1 - d_0 );
-            TF m_2_1 = d_2 / ( d_1 - d_2 );
-            TF m_4_5 = d_4 / ( d_5 - d_4 );
-            TF x_0 = x[ 7 ] - m_7_6 * ( x[ 6 ] - x[ 7 ] );
-            TF y_0 = y[ 7 ] - m_7_6 * ( y[ 6 ] - y[ 7 ] );
-            TF x_1 = x[ 0 ] - m_0_1 * ( x[ 1 ] - x[ 0 ] );
-            TF y_1 = y[ 0 ] - m_0_1 * ( y[ 1 ] - y[ 0 ] );
-            TF x_2 = x[ 1 ];
-            TF y_2 = y[ 1 ];
-            TF x_3 = x[ 2 ] - m_2_1 * ( x[ 1 ] - x[ 2 ] );
-            TF y_3 = y[ 2 ] - m_2_1 * ( y[ 1 ] - y[ 2 ] );
-            TF x_4 = x[ 4 ] - m_4_5 * ( x[ 5 ] - x[ 4 ] );
-            TF y_4 = y[ 4 ] - m_4_5 * ( y[ 5 ] - y[ 4 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            size = 7;
-            continue;
-        }
-        case 2206: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000010011110 mod=[ 7, 6 ],[ 7, 0 ],0,[ 1, 0 ],[ 4, 5 ],5,6
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_7_6 = d_7 / ( d_6 - d_7 );
-            TF m_7_0 = d_7 / ( d_0 - d_7 );
-            TF m_1_0 = d_1 / ( d_0 - d_1 );
-            TF m_4_5 = d_4 / ( d_5 - d_4 );
-            TF x_0 = x[ 7 ] - m_7_6 * ( x[ 6 ] - x[ 7 ] );
-            TF y_0 = y[ 7 ] - m_7_6 * ( y[ 6 ] - y[ 7 ] );
-            TF x_1 = x[ 7 ] - m_7_0 * ( x[ 0 ] - x[ 7 ] );
-            TF y_1 = y[ 7 ] - m_7_0 * ( y[ 0 ] - y[ 7 ] );
-            TF x_2 = x[ 0 ];
-            TF y_2 = y[ 0 ];
-            TF x_3 = x[ 1 ] - m_1_0 * ( x[ 0 ] - x[ 1 ] );
-            TF y_3 = y[ 1 ] - m_1_0 * ( y[ 0 ] - y[ 1 ] );
-            TF x_4 = x[ 4 ] - m_4_5 * ( x[ 5 ] - x[ 4 ] );
-            TF y_4 = y[ 4 ] - m_4_5 * ( y[ 5 ] - y[ 4 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            size = 7;
-            continue;
+            break;
         }
         case 2207: {
             // size=8 outside=0000000000000000000000000000000000000000000000000000000010011111 mod=[ 4, 5 ],5,6,[ 7, 6 ]
@@ -13710,1310 +3718,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             x[ 3 ] = x_3;
             y[ 3 ] = y_3;
             size = 4;
-            continue;
-        }
-        case 2208: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000010100000 mod=0,1,2,3,4,[ 5, 4 ],[ 5, 6 ],6,[ 7, 6 ],[ 7, 0 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_5_4 = d_5 / ( d_4 - d_5 );
-            TF m_5_6 = d_5 / ( d_6 - d_5 );
-            TF m_7_6 = d_7 / ( d_6 - d_7 );
-            TF m_7_0 = d_7 / ( d_0 - d_7 );
-            TF x_5 = x[ 5 ] - m_5_4 * ( x[ 4 ] - x[ 5 ] );
-            TF y_5 = y[ 5 ] - m_5_4 * ( y[ 4 ] - y[ 5 ] );
-            TF x_6 = x[ 5 ] - m_5_6 * ( x[ 6 ] - x[ 5 ] );
-            TF y_6 = y[ 5 ] - m_5_6 * ( y[ 6 ] - y[ 5 ] );
-            TF x_7 = x[ 6 ];
-            TF y_7 = y[ 6 ];
-            TF x_8 = x[ 7 ] - m_7_6 * ( x[ 6 ] - x[ 7 ] );
-            TF y_8 = y[ 7 ] - m_7_6 * ( y[ 6 ] - y[ 7 ] );
-            TF x_9 = x[ 7 ] - m_7_0 * ( x[ 0 ] - x[ 7 ] );
-            TF y_9 = y[ 7 ] - m_7_0 * ( y[ 0 ] - y[ 7 ] );
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            x[ 8 ] = x_8;
-            y[ 8 ] = y_8;
-            x[ 9 ] = x_9;
-            y[ 9 ] = y_9;
-            size = 10;
-            continue;
-        }
-        case 2209: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000010100001 mod=[ 0, 1 ],1,2,3,4,[ 5, 4 ],[ 5, 6 ],6,[ 7, 6 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_0_1 = d_0 / ( d_1 - d_0 );
-            TF m_5_4 = d_5 / ( d_4 - d_5 );
-            TF m_5_6 = d_5 / ( d_6 - d_5 );
-            TF m_7_6 = d_7 / ( d_6 - d_7 );
-            TF x_0 = x[ 0 ] - m_0_1 * ( x[ 1 ] - x[ 0 ] );
-            TF y_0 = y[ 0 ] - m_0_1 * ( y[ 1 ] - y[ 0 ] );
-            TF x_5 = x[ 5 ] - m_5_4 * ( x[ 4 ] - x[ 5 ] );
-            TF y_5 = y[ 5 ] - m_5_4 * ( y[ 4 ] - y[ 5 ] );
-            TF x_6 = x[ 5 ] - m_5_6 * ( x[ 6 ] - x[ 5 ] );
-            TF y_6 = y[ 5 ] - m_5_6 * ( y[ 6 ] - y[ 5 ] );
-            TF x_7 = x[ 6 ];
-            TF y_7 = y[ 6 ];
-            TF x_8 = x[ 7 ] - m_7_6 * ( x[ 6 ] - x[ 7 ] );
-            TF y_8 = y[ 7 ] - m_7_6 * ( y[ 6 ] - y[ 7 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            x[ 8 ] = x_8;
-            y[ 8 ] = y_8;
-            size = 9;
-            continue;
-        }
-        case 2210: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000010100010 mod=[ 1, 0 ],[ 1, 2 ],2,3,4,[ 5, 4 ],[ 5, 6 ],6,[ 7, 6 ],[ 7, 0 ],0
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_1_0 = d_1 / ( d_0 - d_1 );
-            TF m_1_2 = d_1 / ( d_2 - d_1 );
-            TF m_5_4 = d_5 / ( d_4 - d_5 );
-            TF m_5_6 = d_5 / ( d_6 - d_5 );
-            TF m_7_6 = d_7 / ( d_6 - d_7 );
-            TF m_7_0 = d_7 / ( d_0 - d_7 );
-            TF x_0 = x[ 1 ] - m_1_0 * ( x[ 0 ] - x[ 1 ] );
-            TF y_0 = y[ 1 ] - m_1_0 * ( y[ 0 ] - y[ 1 ] );
-            TF x_1 = x[ 1 ] - m_1_2 * ( x[ 2 ] - x[ 1 ] );
-            TF y_1 = y[ 1 ] - m_1_2 * ( y[ 2 ] - y[ 1 ] );
-            TF x_5 = x[ 5 ] - m_5_4 * ( x[ 4 ] - x[ 5 ] );
-            TF y_5 = y[ 5 ] - m_5_4 * ( y[ 4 ] - y[ 5 ] );
-            TF x_6 = x[ 5 ] - m_5_6 * ( x[ 6 ] - x[ 5 ] );
-            TF y_6 = y[ 5 ] - m_5_6 * ( y[ 6 ] - y[ 5 ] );
-            TF x_7 = x[ 6 ];
-            TF y_7 = y[ 6 ];
-            TF x_8 = x[ 7 ] - m_7_6 * ( x[ 6 ] - x[ 7 ] );
-            TF y_8 = y[ 7 ] - m_7_6 * ( y[ 6 ] - y[ 7 ] );
-            TF x_9 = x[ 7 ] - m_7_0 * ( x[ 0 ] - x[ 7 ] );
-            TF y_9 = y[ 7 ] - m_7_0 * ( y[ 0 ] - y[ 7 ] );
-            TF x_10 = x[ 0 ];
-            TF y_10 = y[ 0 ];
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            x[ 8 ] = x_8;
-            y[ 8 ] = y_8;
-            x[ 9 ] = x_9;
-            y[ 9 ] = y_9;
-            x[ 10 ] = x_10;
-            y[ 10 ] = y_10;
-            size = 11;
-            continue;
-        }
-        case 2211: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000010100011 mod=[ 7, 6 ],[ 1, 2 ],2,3,4,[ 5, 4 ],[ 5, 6 ],6
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_7_6 = d_7 / ( d_6 - d_7 );
-            TF m_1_2 = d_1 / ( d_2 - d_1 );
-            TF m_5_4 = d_5 / ( d_4 - d_5 );
-            TF m_5_6 = d_5 / ( d_6 - d_5 );
-            TF x_0 = x[ 7 ] - m_7_6 * ( x[ 6 ] - x[ 7 ] );
-            TF y_0 = y[ 7 ] - m_7_6 * ( y[ 6 ] - y[ 7 ] );
-            TF x_1 = x[ 1 ] - m_1_2 * ( x[ 2 ] - x[ 1 ] );
-            TF y_1 = y[ 1 ] - m_1_2 * ( y[ 2 ] - y[ 1 ] );
-            TF x_5 = x[ 5 ] - m_5_4 * ( x[ 4 ] - x[ 5 ] );
-            TF y_5 = y[ 5 ] - m_5_4 * ( y[ 4 ] - y[ 5 ] );
-            TF x_6 = x[ 5 ] - m_5_6 * ( x[ 6 ] - x[ 5 ] );
-            TF y_6 = y[ 5 ] - m_5_6 * ( y[ 6 ] - y[ 5 ] );
-            TF x_7 = x[ 6 ];
-            TF y_7 = y[ 6 ];
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            continue;
-        }
-        case 2212: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000010100100 mod=1,[ 2, 1 ],[ 2, 3 ],3,4,[ 5, 4 ],[ 5, 6 ],6,[ 7, 6 ],[ 7, 0 ],0
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_2_1 = d_2 / ( d_1 - d_2 );
-            TF m_2_3 = d_2 / ( d_3 - d_2 );
-            TF m_5_4 = d_5 / ( d_4 - d_5 );
-            TF m_5_6 = d_5 / ( d_6 - d_5 );
-            TF m_7_6 = d_7 / ( d_6 - d_7 );
-            TF m_7_0 = d_7 / ( d_0 - d_7 );
-            TF x_0 = x[ 1 ];
-            TF y_0 = y[ 1 ];
-            TF x_1 = x[ 2 ] - m_2_1 * ( x[ 1 ] - x[ 2 ] );
-            TF y_1 = y[ 2 ] - m_2_1 * ( y[ 1 ] - y[ 2 ] );
-            TF x_2 = x[ 2 ] - m_2_3 * ( x[ 3 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_3 * ( y[ 3 ] - y[ 2 ] );
-            TF x_5 = x[ 5 ] - m_5_4 * ( x[ 4 ] - x[ 5 ] );
-            TF y_5 = y[ 5 ] - m_5_4 * ( y[ 4 ] - y[ 5 ] );
-            TF x_6 = x[ 5 ] - m_5_6 * ( x[ 6 ] - x[ 5 ] );
-            TF y_6 = y[ 5 ] - m_5_6 * ( y[ 6 ] - y[ 5 ] );
-            TF x_7 = x[ 6 ];
-            TF y_7 = y[ 6 ];
-            TF x_8 = x[ 7 ] - m_7_6 * ( x[ 6 ] - x[ 7 ] );
-            TF y_8 = y[ 7 ] - m_7_6 * ( y[ 6 ] - y[ 7 ] );
-            TF x_9 = x[ 7 ] - m_7_0 * ( x[ 0 ] - x[ 7 ] );
-            TF y_9 = y[ 7 ] - m_7_0 * ( y[ 0 ] - y[ 7 ] );
-            TF x_10 = x[ 0 ];
-            TF y_10 = y[ 0 ];
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            x[ 8 ] = x_8;
-            y[ 8 ] = y_8;
-            x[ 9 ] = x_9;
-            y[ 9 ] = y_9;
-            x[ 10 ] = x_10;
-            y[ 10 ] = y_10;
-            size = 11;
-            continue;
-        }
-        case 2213: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000010100101 mod=1,[ 2, 1 ],[ 2, 3 ],3,4,[ 5, 4 ],[ 5, 6 ],6,[ 7, 6 ],[ 0, 1 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_2_1 = d_2 / ( d_1 - d_2 );
-            TF m_2_3 = d_2 / ( d_3 - d_2 );
-            TF m_5_4 = d_5 / ( d_4 - d_5 );
-            TF m_5_6 = d_5 / ( d_6 - d_5 );
-            TF m_7_6 = d_7 / ( d_6 - d_7 );
-            TF m_0_1 = d_0 / ( d_1 - d_0 );
-            TF x_0 = x[ 1 ];
-            TF y_0 = y[ 1 ];
-            TF x_1 = x[ 2 ] - m_2_1 * ( x[ 1 ] - x[ 2 ] );
-            TF y_1 = y[ 2 ] - m_2_1 * ( y[ 1 ] - y[ 2 ] );
-            TF x_2 = x[ 2 ] - m_2_3 * ( x[ 3 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_3 * ( y[ 3 ] - y[ 2 ] );
-            TF x_5 = x[ 5 ] - m_5_4 * ( x[ 4 ] - x[ 5 ] );
-            TF y_5 = y[ 5 ] - m_5_4 * ( y[ 4 ] - y[ 5 ] );
-            TF x_6 = x[ 5 ] - m_5_6 * ( x[ 6 ] - x[ 5 ] );
-            TF y_6 = y[ 5 ] - m_5_6 * ( y[ 6 ] - y[ 5 ] );
-            TF x_7 = x[ 6 ];
-            TF y_7 = y[ 6 ];
-            TF x_8 = x[ 7 ] - m_7_6 * ( x[ 6 ] - x[ 7 ] );
-            TF y_8 = y[ 7 ] - m_7_6 * ( y[ 6 ] - y[ 7 ] );
-            TF x_9 = x[ 0 ] - m_0_1 * ( x[ 1 ] - x[ 0 ] );
-            TF y_9 = y[ 0 ] - m_0_1 * ( y[ 1 ] - y[ 0 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            x[ 8 ] = x_8;
-            y[ 8 ] = y_8;
-            x[ 9 ] = x_9;
-            y[ 9 ] = y_9;
-            size = 10;
-            continue;
-        }
-        case 2214: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000010100110 mod=0,[ 1, 0 ],[ 2, 3 ],3,4,[ 5, 4 ],[ 5, 6 ],6,[ 7, 6 ],[ 7, 0 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_1_0 = d_1 / ( d_0 - d_1 );
-            TF m_2_3 = d_2 / ( d_3 - d_2 );
-            TF m_5_4 = d_5 / ( d_4 - d_5 );
-            TF m_5_6 = d_5 / ( d_6 - d_5 );
-            TF m_7_6 = d_7 / ( d_6 - d_7 );
-            TF m_7_0 = d_7 / ( d_0 - d_7 );
-            TF x_1 = x[ 1 ] - m_1_0 * ( x[ 0 ] - x[ 1 ] );
-            TF y_1 = y[ 1 ] - m_1_0 * ( y[ 0 ] - y[ 1 ] );
-            TF x_2 = x[ 2 ] - m_2_3 * ( x[ 3 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_3 * ( y[ 3 ] - y[ 2 ] );
-            TF x_5 = x[ 5 ] - m_5_4 * ( x[ 4 ] - x[ 5 ] );
-            TF y_5 = y[ 5 ] - m_5_4 * ( y[ 4 ] - y[ 5 ] );
-            TF x_6 = x[ 5 ] - m_5_6 * ( x[ 6 ] - x[ 5 ] );
-            TF y_6 = y[ 5 ] - m_5_6 * ( y[ 6 ] - y[ 5 ] );
-            TF x_7 = x[ 6 ];
-            TF y_7 = y[ 6 ];
-            TF x_8 = x[ 7 ] - m_7_6 * ( x[ 6 ] - x[ 7 ] );
-            TF y_8 = y[ 7 ] - m_7_6 * ( y[ 6 ] - y[ 7 ] );
-            TF x_9 = x[ 7 ] - m_7_0 * ( x[ 0 ] - x[ 7 ] );
-            TF y_9 = y[ 7 ] - m_7_0 * ( y[ 0 ] - y[ 7 ] );
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            x[ 8 ] = x_8;
-            y[ 8 ] = y_8;
-            x[ 9 ] = x_9;
-            y[ 9 ] = y_9;
-            size = 10;
-            continue;
-        }
-        case 2215: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000010100111 mod=6,[ 7, 6 ],[ 2, 3 ],3,4,[ 5, 4 ],[ 5, 6 ]
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_7_6 = d_7 / ( d_6 - d_7 );
-            TF m_2_3 = d_2 / ( d_3 - d_2 );
-            TF m_5_4 = d_5 / ( d_4 - d_5 );
-            TF m_5_6 = d_5 / ( d_6 - d_5 );
-            TF x_0 = x[ 6 ];
-            TF y_0 = y[ 6 ];
-            TF x_1 = x[ 7 ] - m_7_6 * ( x[ 6 ] - x[ 7 ] );
-            TF y_1 = y[ 7 ] - m_7_6 * ( y[ 6 ] - y[ 7 ] );
-            TF x_2 = x[ 2 ] - m_2_3 * ( x[ 3 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_3 * ( y[ 3 ] - y[ 2 ] );
-            TF x_5 = x[ 5 ] - m_5_4 * ( x[ 4 ] - x[ 5 ] );
-            TF y_5 = y[ 5 ] - m_5_4 * ( y[ 4 ] - y[ 5 ] );
-            TF x_6 = x[ 5 ] - m_5_6 * ( x[ 6 ] - x[ 5 ] );
-            TF y_6 = y[ 5 ] - m_5_6 * ( y[ 6 ] - y[ 5 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            size = 7;
-            continue;
-        }
-        case 2216: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000010101000 mod=0,1,2,[ 3, 2 ],[ 3, 4 ],4,[ 5, 4 ],[ 5, 6 ],6,[ 7, 6 ],[ 7, 0 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_3_2 = d_3 / ( d_2 - d_3 );
-            TF m_3_4 = d_3 / ( d_4 - d_3 );
-            TF m_5_4 = d_5 / ( d_4 - d_5 );
-            TF m_5_6 = d_5 / ( d_6 - d_5 );
-            TF m_7_6 = d_7 / ( d_6 - d_7 );
-            TF m_7_0 = d_7 / ( d_0 - d_7 );
-            TF x_3 = x[ 3 ] - m_3_2 * ( x[ 2 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_2 * ( y[ 2 ] - y[ 3 ] );
-            TF x_4 = x[ 3 ] - m_3_4 * ( x[ 4 ] - x[ 3 ] );
-            TF y_4 = y[ 3 ] - m_3_4 * ( y[ 4 ] - y[ 3 ] );
-            TF x_5 = x[ 4 ];
-            TF y_5 = y[ 4 ];
-            TF x_6 = x[ 5 ] - m_5_4 * ( x[ 4 ] - x[ 5 ] );
-            TF y_6 = y[ 5 ] - m_5_4 * ( y[ 4 ] - y[ 5 ] );
-            TF x_7 = x[ 5 ] - m_5_6 * ( x[ 6 ] - x[ 5 ] );
-            TF y_7 = y[ 5 ] - m_5_6 * ( y[ 6 ] - y[ 5 ] );
-            TF x_8 = x[ 6 ];
-            TF y_8 = y[ 6 ];
-            TF x_9 = x[ 7 ] - m_7_6 * ( x[ 6 ] - x[ 7 ] );
-            TF y_9 = y[ 7 ] - m_7_6 * ( y[ 6 ] - y[ 7 ] );
-            TF x_10 = x[ 7 ] - m_7_0 * ( x[ 0 ] - x[ 7 ] );
-            TF y_10 = y[ 7 ] - m_7_0 * ( y[ 0 ] - y[ 7 ] );
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            x[ 8 ] = x_8;
-            y[ 8 ] = y_8;
-            x[ 9 ] = x_9;
-            y[ 9 ] = y_9;
-            x[ 10 ] = x_10;
-            y[ 10 ] = y_10;
-            size = 11;
-            continue;
-        }
-        case 2217: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000010101001 mod=[ 0, 1 ],1,2,[ 3, 2 ],[ 3, 4 ],4,[ 5, 4 ],[ 5, 6 ],6,[ 7, 6 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_0_1 = d_0 / ( d_1 - d_0 );
-            TF m_3_2 = d_3 / ( d_2 - d_3 );
-            TF m_3_4 = d_3 / ( d_4 - d_3 );
-            TF m_5_4 = d_5 / ( d_4 - d_5 );
-            TF m_5_6 = d_5 / ( d_6 - d_5 );
-            TF m_7_6 = d_7 / ( d_6 - d_7 );
-            TF x_0 = x[ 0 ] - m_0_1 * ( x[ 1 ] - x[ 0 ] );
-            TF y_0 = y[ 0 ] - m_0_1 * ( y[ 1 ] - y[ 0 ] );
-            TF x_3 = x[ 3 ] - m_3_2 * ( x[ 2 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_2 * ( y[ 2 ] - y[ 3 ] );
-            TF x_4 = x[ 3 ] - m_3_4 * ( x[ 4 ] - x[ 3 ] );
-            TF y_4 = y[ 3 ] - m_3_4 * ( y[ 4 ] - y[ 3 ] );
-            TF x_5 = x[ 4 ];
-            TF y_5 = y[ 4 ];
-            TF x_6 = x[ 5 ] - m_5_4 * ( x[ 4 ] - x[ 5 ] );
-            TF y_6 = y[ 5 ] - m_5_4 * ( y[ 4 ] - y[ 5 ] );
-            TF x_7 = x[ 5 ] - m_5_6 * ( x[ 6 ] - x[ 5 ] );
-            TF y_7 = y[ 5 ] - m_5_6 * ( y[ 6 ] - y[ 5 ] );
-            TF x_8 = x[ 6 ];
-            TF y_8 = y[ 6 ];
-            TF x_9 = x[ 7 ] - m_7_6 * ( x[ 6 ] - x[ 7 ] );
-            TF y_9 = y[ 7 ] - m_7_6 * ( y[ 6 ] - y[ 7 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            x[ 8 ] = x_8;
-            y[ 8 ] = y_8;
-            x[ 9 ] = x_9;
-            y[ 9 ] = y_9;
-            size = 10;
-            continue;
-        }
-        case 2218: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000010101010 mod=[ 1, 2 ],2,[ 3, 2 ],[ 3, 4 ],4,[ 5, 4 ],[ 5, 6 ],6,[ 7, 6 ],[ 7, 0 ],0,[ 1, 0 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_1_2 = d_1 / ( d_2 - d_1 );
-            TF m_3_2 = d_3 / ( d_2 - d_3 );
-            TF m_3_4 = d_3 / ( d_4 - d_3 );
-            TF m_5_4 = d_5 / ( d_4 - d_5 );
-            TF m_5_6 = d_5 / ( d_6 - d_5 );
-            TF m_7_6 = d_7 / ( d_6 - d_7 );
-            TF m_7_0 = d_7 / ( d_0 - d_7 );
-            TF m_1_0 = d_1 / ( d_0 - d_1 );
-            TF x_0 = x[ 1 ] - m_1_2 * ( x[ 2 ] - x[ 1 ] );
-            TF y_0 = y[ 1 ] - m_1_2 * ( y[ 2 ] - y[ 1 ] );
-            TF x_1 = x[ 2 ];
-            TF y_1 = y[ 2 ];
-            TF x_2 = x[ 3 ] - m_3_2 * ( x[ 2 ] - x[ 3 ] );
-            TF y_2 = y[ 3 ] - m_3_2 * ( y[ 2 ] - y[ 3 ] );
-            TF x_3 = x[ 3 ] - m_3_4 * ( x[ 4 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_4 * ( y[ 4 ] - y[ 3 ] );
-            TF x_5 = x[ 5 ] - m_5_4 * ( x[ 4 ] - x[ 5 ] );
-            TF y_5 = y[ 5 ] - m_5_4 * ( y[ 4 ] - y[ 5 ] );
-            TF x_6 = x[ 5 ] - m_5_6 * ( x[ 6 ] - x[ 5 ] );
-            TF y_6 = y[ 5 ] - m_5_6 * ( y[ 6 ] - y[ 5 ] );
-            TF x_7 = x[ 6 ];
-            TF y_7 = y[ 6 ];
-            TF x_8 = x[ 7 ] - m_7_6 * ( x[ 6 ] - x[ 7 ] );
-            TF y_8 = y[ 7 ] - m_7_6 * ( y[ 6 ] - y[ 7 ] );
-            TF x_9 = x[ 7 ] - m_7_0 * ( x[ 0 ] - x[ 7 ] );
-            TF y_9 = y[ 7 ] - m_7_0 * ( y[ 0 ] - y[ 7 ] );
-            TF x_10 = x[ 0 ];
-            TF y_10 = y[ 0 ];
-            TF x_11 = x[ 1 ] - m_1_0 * ( x[ 0 ] - x[ 1 ] );
-            TF y_11 = y[ 1 ] - m_1_0 * ( y[ 0 ] - y[ 1 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            x[ 8 ] = x_8;
-            y[ 8 ] = y_8;
-            x[ 9 ] = x_9;
-            y[ 9 ] = y_9;
-            x[ 10 ] = x_10;
-            y[ 10 ] = y_10;
-            x[ 11 ] = x_11;
-            y[ 11 ] = y_11;
-            size = 12;
-            continue;
-        }
-        case 2219: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000010101011 mod=[ 1, 2 ],2,[ 3, 2 ],[ 3, 4 ],4,[ 5, 4 ],[ 5, 6 ],6,[ 7, 6 ]
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_1_2 = d_1 / ( d_2 - d_1 );
-            TF m_3_2 = d_3 / ( d_2 - d_3 );
-            TF m_3_4 = d_3 / ( d_4 - d_3 );
-            TF m_5_4 = d_5 / ( d_4 - d_5 );
-            TF m_5_6 = d_5 / ( d_6 - d_5 );
-            TF m_7_6 = d_7 / ( d_6 - d_7 );
-            TF x_0 = x[ 1 ] - m_1_2 * ( x[ 2 ] - x[ 1 ] );
-            TF y_0 = y[ 1 ] - m_1_2 * ( y[ 2 ] - y[ 1 ] );
-            TF x_1 = x[ 2 ];
-            TF y_1 = y[ 2 ];
-            TF x_2 = x[ 3 ] - m_3_2 * ( x[ 2 ] - x[ 3 ] );
-            TF y_2 = y[ 3 ] - m_3_2 * ( y[ 2 ] - y[ 3 ] );
-            TF x_3 = x[ 3 ] - m_3_4 * ( x[ 4 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_4 * ( y[ 4 ] - y[ 3 ] );
-            TF x_5 = x[ 5 ] - m_5_4 * ( x[ 4 ] - x[ 5 ] );
-            TF y_5 = y[ 5 ] - m_5_4 * ( y[ 4 ] - y[ 5 ] );
-            TF x_6 = x[ 5 ] - m_5_6 * ( x[ 6 ] - x[ 5 ] );
-            TF y_6 = y[ 5 ] - m_5_6 * ( y[ 6 ] - y[ 5 ] );
-            TF x_7 = x[ 6 ];
-            TF y_7 = y[ 6 ];
-            TF x_8 = x[ 7 ] - m_7_6 * ( x[ 6 ] - x[ 7 ] );
-            TF y_8 = y[ 7 ] - m_7_6 * ( y[ 6 ] - y[ 7 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            x[ 8 ] = x_8;
-            y[ 8 ] = y_8;
-            size = 9;
-            continue;
-        }
-        case 2220: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000010101100 mod=0,1,[ 2, 1 ],[ 3, 4 ],4,[ 5, 4 ],[ 5, 6 ],6,[ 7, 6 ],[ 7, 0 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_2_1 = d_2 / ( d_1 - d_2 );
-            TF m_3_4 = d_3 / ( d_4 - d_3 );
-            TF m_5_4 = d_5 / ( d_4 - d_5 );
-            TF m_5_6 = d_5 / ( d_6 - d_5 );
-            TF m_7_6 = d_7 / ( d_6 - d_7 );
-            TF m_7_0 = d_7 / ( d_0 - d_7 );
-            TF x_2 = x[ 2 ] - m_2_1 * ( x[ 1 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_1 * ( y[ 1 ] - y[ 2 ] );
-            TF x_3 = x[ 3 ] - m_3_4 * ( x[ 4 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_4 * ( y[ 4 ] - y[ 3 ] );
-            TF x_5 = x[ 5 ] - m_5_4 * ( x[ 4 ] - x[ 5 ] );
-            TF y_5 = y[ 5 ] - m_5_4 * ( y[ 4 ] - y[ 5 ] );
-            TF x_6 = x[ 5 ] - m_5_6 * ( x[ 6 ] - x[ 5 ] );
-            TF y_6 = y[ 5 ] - m_5_6 * ( y[ 6 ] - y[ 5 ] );
-            TF x_7 = x[ 6 ];
-            TF y_7 = y[ 6 ];
-            TF x_8 = x[ 7 ] - m_7_6 * ( x[ 6 ] - x[ 7 ] );
-            TF y_8 = y[ 7 ] - m_7_6 * ( y[ 6 ] - y[ 7 ] );
-            TF x_9 = x[ 7 ] - m_7_0 * ( x[ 0 ] - x[ 7 ] );
-            TF y_9 = y[ 7 ] - m_7_0 * ( y[ 0 ] - y[ 7 ] );
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            x[ 8 ] = x_8;
-            y[ 8 ] = y_8;
-            x[ 9 ] = x_9;
-            y[ 9 ] = y_9;
-            size = 10;
-            continue;
-        }
-        case 2221: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000010101101 mod=[ 0, 1 ],1,[ 2, 1 ],[ 3, 4 ],4,[ 5, 4 ],[ 5, 6 ],6,[ 7, 6 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_0_1 = d_0 / ( d_1 - d_0 );
-            TF m_2_1 = d_2 / ( d_1 - d_2 );
-            TF m_3_4 = d_3 / ( d_4 - d_3 );
-            TF m_5_4 = d_5 / ( d_4 - d_5 );
-            TF m_5_6 = d_5 / ( d_6 - d_5 );
-            TF m_7_6 = d_7 / ( d_6 - d_7 );
-            TF x_0 = x[ 0 ] - m_0_1 * ( x[ 1 ] - x[ 0 ] );
-            TF y_0 = y[ 0 ] - m_0_1 * ( y[ 1 ] - y[ 0 ] );
-            TF x_2 = x[ 2 ] - m_2_1 * ( x[ 1 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_1 * ( y[ 1 ] - y[ 2 ] );
-            TF x_3 = x[ 3 ] - m_3_4 * ( x[ 4 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_4 * ( y[ 4 ] - y[ 3 ] );
-            TF x_5 = x[ 5 ] - m_5_4 * ( x[ 4 ] - x[ 5 ] );
-            TF y_5 = y[ 5 ] - m_5_4 * ( y[ 4 ] - y[ 5 ] );
-            TF x_6 = x[ 5 ] - m_5_6 * ( x[ 6 ] - x[ 5 ] );
-            TF y_6 = y[ 5 ] - m_5_6 * ( y[ 6 ] - y[ 5 ] );
-            TF x_7 = x[ 6 ];
-            TF y_7 = y[ 6 ];
-            TF x_8 = x[ 7 ] - m_7_6 * ( x[ 6 ] - x[ 7 ] );
-            TF y_8 = y[ 7 ] - m_7_6 * ( y[ 6 ] - y[ 7 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            x[ 8 ] = x_8;
-            y[ 8 ] = y_8;
-            size = 9;
-            continue;
-        }
-        case 2222: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000010101110 mod=0,[ 1, 0 ],[ 3, 4 ],4,[ 5, 4 ],[ 5, 6 ],6,[ 7, 6 ],[ 7, 0 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_1_0 = d_1 / ( d_0 - d_1 );
-            TF m_3_4 = d_3 / ( d_4 - d_3 );
-            TF m_5_4 = d_5 / ( d_4 - d_5 );
-            TF m_5_6 = d_5 / ( d_6 - d_5 );
-            TF m_7_6 = d_7 / ( d_6 - d_7 );
-            TF m_7_0 = d_7 / ( d_0 - d_7 );
-            TF x_1 = x[ 1 ] - m_1_0 * ( x[ 0 ] - x[ 1 ] );
-            TF y_1 = y[ 1 ] - m_1_0 * ( y[ 0 ] - y[ 1 ] );
-            TF x_2 = x[ 3 ] - m_3_4 * ( x[ 4 ] - x[ 3 ] );
-            TF y_2 = y[ 3 ] - m_3_4 * ( y[ 4 ] - y[ 3 ] );
-            TF x_3 = x[ 4 ];
-            TF y_3 = y[ 4 ];
-            TF x_4 = x[ 5 ] - m_5_4 * ( x[ 4 ] - x[ 5 ] );
-            TF y_4 = y[ 5 ] - m_5_4 * ( y[ 4 ] - y[ 5 ] );
-            TF x_5 = x[ 5 ] - m_5_6 * ( x[ 6 ] - x[ 5 ] );
-            TF y_5 = y[ 5 ] - m_5_6 * ( y[ 6 ] - y[ 5 ] );
-            TF x_7 = x[ 7 ] - m_7_6 * ( x[ 6 ] - x[ 7 ] );
-            TF y_7 = y[ 7 ] - m_7_6 * ( y[ 6 ] - y[ 7 ] );
-            TF x_8 = x[ 7 ] - m_7_0 * ( x[ 0 ] - x[ 7 ] );
-            TF y_8 = y[ 7 ] - m_7_0 * ( y[ 0 ] - y[ 7 ] );
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            x[ 8 ] = x_8;
-            y[ 8 ] = y_8;
-            size = 9;
-            continue;
-        }
-        case 2223: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000010101111 mod=[ 5, 6 ],6,[ 7, 6 ],[ 3, 4 ],4,[ 5, 4 ]
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_5_6 = d_5 / ( d_6 - d_5 );
-            TF m_7_6 = d_7 / ( d_6 - d_7 );
-            TF m_3_4 = d_3 / ( d_4 - d_3 );
-            TF m_5_4 = d_5 / ( d_4 - d_5 );
-            TF x_0 = x[ 5 ] - m_5_6 * ( x[ 6 ] - x[ 5 ] );
-            TF y_0 = y[ 5 ] - m_5_6 * ( y[ 6 ] - y[ 5 ] );
-            TF x_1 = x[ 6 ];
-            TF y_1 = y[ 6 ];
-            TF x_2 = x[ 7 ] - m_7_6 * ( x[ 6 ] - x[ 7 ] );
-            TF y_2 = y[ 7 ] - m_7_6 * ( y[ 6 ] - y[ 7 ] );
-            TF x_3 = x[ 3 ] - m_3_4 * ( x[ 4 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_4 * ( y[ 4 ] - y[ 3 ] );
-            TF x_5 = x[ 5 ] - m_5_4 * ( x[ 4 ] - x[ 5 ] );
-            TF y_5 = y[ 5 ] - m_5_4 * ( y[ 4 ] - y[ 5 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            size = 6;
-            continue;
-        }
-        case 2224: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000010110000 mod=0,1,2,3,[ 4, 3 ],[ 5, 6 ],6,[ 7, 6 ],[ 7, 0 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_4_3 = d_4 / ( d_3 - d_4 );
-            TF m_5_6 = d_5 / ( d_6 - d_5 );
-            TF m_7_6 = d_7 / ( d_6 - d_7 );
-            TF m_7_0 = d_7 / ( d_0 - d_7 );
-            TF x_4 = x[ 4 ] - m_4_3 * ( x[ 3 ] - x[ 4 ] );
-            TF y_4 = y[ 4 ] - m_4_3 * ( y[ 3 ] - y[ 4 ] );
-            TF x_5 = x[ 5 ] - m_5_6 * ( x[ 6 ] - x[ 5 ] );
-            TF y_5 = y[ 5 ] - m_5_6 * ( y[ 6 ] - y[ 5 ] );
-            TF x_7 = x[ 7 ] - m_7_6 * ( x[ 6 ] - x[ 7 ] );
-            TF y_7 = y[ 7 ] - m_7_6 * ( y[ 6 ] - y[ 7 ] );
-            TF x_8 = x[ 7 ] - m_7_0 * ( x[ 0 ] - x[ 7 ] );
-            TF y_8 = y[ 7 ] - m_7_0 * ( y[ 0 ] - y[ 7 ] );
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            x[ 8 ] = x_8;
-            y[ 8 ] = y_8;
-            size = 9;
-            continue;
-        }
-        case 2225: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000010110001 mod=[ 0, 1 ],1,2,3,[ 4, 3 ],[ 5, 6 ],6,[ 7, 6 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_0_1 = d_0 / ( d_1 - d_0 );
-            TF m_4_3 = d_4 / ( d_3 - d_4 );
-            TF m_5_6 = d_5 / ( d_6 - d_5 );
-            TF m_7_6 = d_7 / ( d_6 - d_7 );
-            TF x_0 = x[ 0 ] - m_0_1 * ( x[ 1 ] - x[ 0 ] );
-            TF y_0 = y[ 0 ] - m_0_1 * ( y[ 1 ] - y[ 0 ] );
-            TF x_4 = x[ 4 ] - m_4_3 * ( x[ 3 ] - x[ 4 ] );
-            TF y_4 = y[ 4 ] - m_4_3 * ( y[ 3 ] - y[ 4 ] );
-            TF x_5 = x[ 5 ] - m_5_6 * ( x[ 6 ] - x[ 5 ] );
-            TF y_5 = y[ 5 ] - m_5_6 * ( y[ 6 ] - y[ 5 ] );
-            TF x_7 = x[ 7 ] - m_7_6 * ( x[ 6 ] - x[ 7 ] );
-            TF y_7 = y[ 7 ] - m_7_6 * ( y[ 6 ] - y[ 7 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            continue;
-        }
-        case 2226: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000010110010 mod=[ 1, 0 ],[ 1, 2 ],2,3,[ 4, 3 ],[ 5, 6 ],6,[ 7, 6 ],[ 7, 0 ],0
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_1_0 = d_1 / ( d_0 - d_1 );
-            TF m_1_2 = d_1 / ( d_2 - d_1 );
-            TF m_4_3 = d_4 / ( d_3 - d_4 );
-            TF m_5_6 = d_5 / ( d_6 - d_5 );
-            TF m_7_6 = d_7 / ( d_6 - d_7 );
-            TF m_7_0 = d_7 / ( d_0 - d_7 );
-            TF x_0 = x[ 1 ] - m_1_0 * ( x[ 0 ] - x[ 1 ] );
-            TF y_0 = y[ 1 ] - m_1_0 * ( y[ 0 ] - y[ 1 ] );
-            TF x_1 = x[ 1 ] - m_1_2 * ( x[ 2 ] - x[ 1 ] );
-            TF y_1 = y[ 1 ] - m_1_2 * ( y[ 2 ] - y[ 1 ] );
-            TF x_4 = x[ 4 ] - m_4_3 * ( x[ 3 ] - x[ 4 ] );
-            TF y_4 = y[ 4 ] - m_4_3 * ( y[ 3 ] - y[ 4 ] );
-            TF x_5 = x[ 5 ] - m_5_6 * ( x[ 6 ] - x[ 5 ] );
-            TF y_5 = y[ 5 ] - m_5_6 * ( y[ 6 ] - y[ 5 ] );
-            TF x_7 = x[ 7 ] - m_7_6 * ( x[ 6 ] - x[ 7 ] );
-            TF y_7 = y[ 7 ] - m_7_6 * ( y[ 6 ] - y[ 7 ] );
-            TF x_8 = x[ 7 ] - m_7_0 * ( x[ 0 ] - x[ 7 ] );
-            TF y_8 = y[ 7 ] - m_7_0 * ( y[ 0 ] - y[ 7 ] );
-            TF x_9 = x[ 0 ];
-            TF y_9 = y[ 0 ];
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            x[ 8 ] = x_8;
-            y[ 8 ] = y_8;
-            x[ 9 ] = x_9;
-            y[ 9 ] = y_9;
-            size = 10;
-            continue;
-        }
-        case 2227: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000010110011 mod=[ 7, 6 ],[ 1, 2 ],2,3,[ 4, 3 ],[ 5, 6 ],6
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_7_6 = d_7 / ( d_6 - d_7 );
-            TF m_1_2 = d_1 / ( d_2 - d_1 );
-            TF m_4_3 = d_4 / ( d_3 - d_4 );
-            TF m_5_6 = d_5 / ( d_6 - d_5 );
-            TF x_0 = x[ 7 ] - m_7_6 * ( x[ 6 ] - x[ 7 ] );
-            TF y_0 = y[ 7 ] - m_7_6 * ( y[ 6 ] - y[ 7 ] );
-            TF x_1 = x[ 1 ] - m_1_2 * ( x[ 2 ] - x[ 1 ] );
-            TF y_1 = y[ 1 ] - m_1_2 * ( y[ 2 ] - y[ 1 ] );
-            TF x_4 = x[ 4 ] - m_4_3 * ( x[ 3 ] - x[ 4 ] );
-            TF y_4 = y[ 4 ] - m_4_3 * ( y[ 3 ] - y[ 4 ] );
-            TF x_5 = x[ 5 ] - m_5_6 * ( x[ 6 ] - x[ 5 ] );
-            TF y_5 = y[ 5 ] - m_5_6 * ( y[ 6 ] - y[ 5 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            size = 7;
-            continue;
-        }
-        case 2228: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000010110100 mod=1,[ 2, 1 ],[ 2, 3 ],3,[ 4, 3 ],[ 5, 6 ],6,[ 7, 6 ],[ 7, 0 ],0
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_2_1 = d_2 / ( d_1 - d_2 );
-            TF m_2_3 = d_2 / ( d_3 - d_2 );
-            TF m_4_3 = d_4 / ( d_3 - d_4 );
-            TF m_5_6 = d_5 / ( d_6 - d_5 );
-            TF m_7_6 = d_7 / ( d_6 - d_7 );
-            TF m_7_0 = d_7 / ( d_0 - d_7 );
-            TF x_0 = x[ 1 ];
-            TF y_0 = y[ 1 ];
-            TF x_1 = x[ 2 ] - m_2_1 * ( x[ 1 ] - x[ 2 ] );
-            TF y_1 = y[ 2 ] - m_2_1 * ( y[ 1 ] - y[ 2 ] );
-            TF x_2 = x[ 2 ] - m_2_3 * ( x[ 3 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_3 * ( y[ 3 ] - y[ 2 ] );
-            TF x_4 = x[ 4 ] - m_4_3 * ( x[ 3 ] - x[ 4 ] );
-            TF y_4 = y[ 4 ] - m_4_3 * ( y[ 3 ] - y[ 4 ] );
-            TF x_5 = x[ 5 ] - m_5_6 * ( x[ 6 ] - x[ 5 ] );
-            TF y_5 = y[ 5 ] - m_5_6 * ( y[ 6 ] - y[ 5 ] );
-            TF x_7 = x[ 7 ] - m_7_6 * ( x[ 6 ] - x[ 7 ] );
-            TF y_7 = y[ 7 ] - m_7_6 * ( y[ 6 ] - y[ 7 ] );
-            TF x_8 = x[ 7 ] - m_7_0 * ( x[ 0 ] - x[ 7 ] );
-            TF y_8 = y[ 7 ] - m_7_0 * ( y[ 0 ] - y[ 7 ] );
-            TF x_9 = x[ 0 ];
-            TF y_9 = y[ 0 ];
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            x[ 8 ] = x_8;
-            y[ 8 ] = y_8;
-            x[ 9 ] = x_9;
-            y[ 9 ] = y_9;
-            size = 10;
-            continue;
-        }
-        case 2229: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000010110101 mod=1,[ 2, 1 ],[ 2, 3 ],3,[ 4, 3 ],[ 5, 6 ],6,[ 7, 6 ],[ 0, 1 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_2_1 = d_2 / ( d_1 - d_2 );
-            TF m_2_3 = d_2 / ( d_3 - d_2 );
-            TF m_4_3 = d_4 / ( d_3 - d_4 );
-            TF m_5_6 = d_5 / ( d_6 - d_5 );
-            TF m_7_6 = d_7 / ( d_6 - d_7 );
-            TF m_0_1 = d_0 / ( d_1 - d_0 );
-            TF x_0 = x[ 1 ];
-            TF y_0 = y[ 1 ];
-            TF x_1 = x[ 2 ] - m_2_1 * ( x[ 1 ] - x[ 2 ] );
-            TF y_1 = y[ 2 ] - m_2_1 * ( y[ 1 ] - y[ 2 ] );
-            TF x_2 = x[ 2 ] - m_2_3 * ( x[ 3 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_3 * ( y[ 3 ] - y[ 2 ] );
-            TF x_4 = x[ 4 ] - m_4_3 * ( x[ 3 ] - x[ 4 ] );
-            TF y_4 = y[ 4 ] - m_4_3 * ( y[ 3 ] - y[ 4 ] );
-            TF x_5 = x[ 5 ] - m_5_6 * ( x[ 6 ] - x[ 5 ] );
-            TF y_5 = y[ 5 ] - m_5_6 * ( y[ 6 ] - y[ 5 ] );
-            TF x_7 = x[ 7 ] - m_7_6 * ( x[ 6 ] - x[ 7 ] );
-            TF y_7 = y[ 7 ] - m_7_6 * ( y[ 6 ] - y[ 7 ] );
-            TF x_8 = x[ 0 ] - m_0_1 * ( x[ 1 ] - x[ 0 ] );
-            TF y_8 = y[ 0 ] - m_0_1 * ( y[ 1 ] - y[ 0 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            x[ 8 ] = x_8;
-            y[ 8 ] = y_8;
-            size = 9;
-            continue;
-        }
-        case 2230: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000010110110 mod=0,[ 1, 0 ],[ 2, 3 ],3,[ 4, 3 ],[ 5, 6 ],6,[ 7, 6 ],[ 7, 0 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_1_0 = d_1 / ( d_0 - d_1 );
-            TF m_2_3 = d_2 / ( d_3 - d_2 );
-            TF m_4_3 = d_4 / ( d_3 - d_4 );
-            TF m_5_6 = d_5 / ( d_6 - d_5 );
-            TF m_7_6 = d_7 / ( d_6 - d_7 );
-            TF m_7_0 = d_7 / ( d_0 - d_7 );
-            TF x_1 = x[ 1 ] - m_1_0 * ( x[ 0 ] - x[ 1 ] );
-            TF y_1 = y[ 1 ] - m_1_0 * ( y[ 0 ] - y[ 1 ] );
-            TF x_2 = x[ 2 ] - m_2_3 * ( x[ 3 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_3 * ( y[ 3 ] - y[ 2 ] );
-            TF x_4 = x[ 4 ] - m_4_3 * ( x[ 3 ] - x[ 4 ] );
-            TF y_4 = y[ 4 ] - m_4_3 * ( y[ 3 ] - y[ 4 ] );
-            TF x_5 = x[ 5 ] - m_5_6 * ( x[ 6 ] - x[ 5 ] );
-            TF y_5 = y[ 5 ] - m_5_6 * ( y[ 6 ] - y[ 5 ] );
-            TF x_7 = x[ 7 ] - m_7_6 * ( x[ 6 ] - x[ 7 ] );
-            TF y_7 = y[ 7 ] - m_7_6 * ( y[ 6 ] - y[ 7 ] );
-            TF x_8 = x[ 7 ] - m_7_0 * ( x[ 0 ] - x[ 7 ] );
-            TF y_8 = y[ 7 ] - m_7_0 * ( y[ 0 ] - y[ 7 ] );
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            x[ 8 ] = x_8;
-            y[ 8 ] = y_8;
-            size = 9;
-            continue;
-        }
-        case 2231: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000010110111 mod=6,[ 7, 6 ],[ 2, 3 ],3,[ 4, 3 ],[ 5, 6 ]
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_7_6 = d_7 / ( d_6 - d_7 );
-            TF m_2_3 = d_2 / ( d_3 - d_2 );
-            TF m_4_3 = d_4 / ( d_3 - d_4 );
-            TF m_5_6 = d_5 / ( d_6 - d_5 );
-            TF x_0 = x[ 6 ];
-            TF y_0 = y[ 6 ];
-            TF x_1 = x[ 7 ] - m_7_6 * ( x[ 6 ] - x[ 7 ] );
-            TF y_1 = y[ 7 ] - m_7_6 * ( y[ 6 ] - y[ 7 ] );
-            TF x_2 = x[ 2 ] - m_2_3 * ( x[ 3 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_3 * ( y[ 3 ] - y[ 2 ] );
-            TF x_4 = x[ 4 ] - m_4_3 * ( x[ 3 ] - x[ 4 ] );
-            TF y_4 = y[ 4 ] - m_4_3 * ( y[ 3 ] - y[ 4 ] );
-            TF x_5 = x[ 5 ] - m_5_6 * ( x[ 6 ] - x[ 5 ] );
-            TF y_5 = y[ 5 ] - m_5_6 * ( y[ 6 ] - y[ 5 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            size = 6;
-            continue;
-        }
-        case 2232: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000010111000 mod=0,1,2,[ 3, 2 ],[ 5, 6 ],6,[ 7, 6 ],[ 7, 0 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_3_2 = d_3 / ( d_2 - d_3 );
-            TF m_5_6 = d_5 / ( d_6 - d_5 );
-            TF m_7_6 = d_7 / ( d_6 - d_7 );
-            TF m_7_0 = d_7 / ( d_0 - d_7 );
-            TF x_3 = x[ 3 ] - m_3_2 * ( x[ 2 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_2 * ( y[ 2 ] - y[ 3 ] );
-            TF x_4 = x[ 5 ] - m_5_6 * ( x[ 6 ] - x[ 5 ] );
-            TF y_4 = y[ 5 ] - m_5_6 * ( y[ 6 ] - y[ 5 ] );
-            TF x_5 = x[ 6 ];
-            TF y_5 = y[ 6 ];
-            TF x_6 = x[ 7 ] - m_7_6 * ( x[ 6 ] - x[ 7 ] );
-            TF y_6 = y[ 7 ] - m_7_6 * ( y[ 6 ] - y[ 7 ] );
-            TF x_7 = x[ 7 ] - m_7_0 * ( x[ 0 ] - x[ 7 ] );
-            TF y_7 = y[ 7 ] - m_7_0 * ( y[ 0 ] - y[ 7 ] );
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            continue;
-        }
-        case 2233: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000010111001 mod=[ 0, 1 ],1,2,[ 3, 2 ],[ 5, 6 ],6,[ 7, 6 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_0_1 = d_0 / ( d_1 - d_0 );
-            TF m_3_2 = d_3 / ( d_2 - d_3 );
-            TF m_5_6 = d_5 / ( d_6 - d_5 );
-            TF m_7_6 = d_7 / ( d_6 - d_7 );
-            TF x_0 = x[ 0 ] - m_0_1 * ( x[ 1 ] - x[ 0 ] );
-            TF y_0 = y[ 0 ] - m_0_1 * ( y[ 1 ] - y[ 0 ] );
-            TF x_3 = x[ 3 ] - m_3_2 * ( x[ 2 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_2 * ( y[ 2 ] - y[ 3 ] );
-            TF x_4 = x[ 5 ] - m_5_6 * ( x[ 6 ] - x[ 5 ] );
-            TF y_4 = y[ 5 ] - m_5_6 * ( y[ 6 ] - y[ 5 ] );
-            TF x_5 = x[ 6 ];
-            TF y_5 = y[ 6 ];
-            TF x_6 = x[ 7 ] - m_7_6 * ( x[ 6 ] - x[ 7 ] );
-            TF y_6 = y[ 7 ] - m_7_6 * ( y[ 6 ] - y[ 7 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            size = 7;
-            continue;
-        }
-        case 2234: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000010111010 mod=0,[ 1, 0 ],[ 1, 2 ],2,[ 3, 2 ],[ 5, 6 ],6,[ 7, 6 ],[ 7, 0 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_1_0 = d_1 / ( d_0 - d_1 );
-            TF m_1_2 = d_1 / ( d_2 - d_1 );
-            TF m_3_2 = d_3 / ( d_2 - d_3 );
-            TF m_5_6 = d_5 / ( d_6 - d_5 );
-            TF m_7_6 = d_7 / ( d_6 - d_7 );
-            TF m_7_0 = d_7 / ( d_0 - d_7 );
-            TF x_1 = x[ 1 ] - m_1_0 * ( x[ 0 ] - x[ 1 ] );
-            TF y_1 = y[ 1 ] - m_1_0 * ( y[ 0 ] - y[ 1 ] );
-            TF x_2 = x[ 1 ] - m_1_2 * ( x[ 2 ] - x[ 1 ] );
-            TF y_2 = y[ 1 ] - m_1_2 * ( y[ 2 ] - y[ 1 ] );
-            TF x_3 = x[ 2 ];
-            TF y_3 = y[ 2 ];
-            TF x_4 = x[ 3 ] - m_3_2 * ( x[ 2 ] - x[ 3 ] );
-            TF y_4 = y[ 3 ] - m_3_2 * ( y[ 2 ] - y[ 3 ] );
-            TF x_5 = x[ 5 ] - m_5_6 * ( x[ 6 ] - x[ 5 ] );
-            TF y_5 = y[ 5 ] - m_5_6 * ( y[ 6 ] - y[ 5 ] );
-            TF x_7 = x[ 7 ] - m_7_6 * ( x[ 6 ] - x[ 7 ] );
-            TF y_7 = y[ 7 ] - m_7_6 * ( y[ 6 ] - y[ 7 ] );
-            TF x_8 = x[ 7 ] - m_7_0 * ( x[ 0 ] - x[ 7 ] );
-            TF y_8 = y[ 7 ] - m_7_0 * ( y[ 0 ] - y[ 7 ] );
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            x[ 8 ] = x_8;
-            y[ 8 ] = y_8;
-            size = 9;
-            continue;
-        }
-        case 2235: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000010111011 mod=[ 7, 6 ],[ 1, 2 ],2,[ 3, 2 ],[ 5, 6 ],6
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_7_6 = d_7 / ( d_6 - d_7 );
-            TF m_1_2 = d_1 / ( d_2 - d_1 );
-            TF m_3_2 = d_3 / ( d_2 - d_3 );
-            TF m_5_6 = d_5 / ( d_6 - d_5 );
-            TF x_0 = x[ 7 ] - m_7_6 * ( x[ 6 ] - x[ 7 ] );
-            TF y_0 = y[ 7 ] - m_7_6 * ( y[ 6 ] - y[ 7 ] );
-            TF x_1 = x[ 1 ] - m_1_2 * ( x[ 2 ] - x[ 1 ] );
-            TF y_1 = y[ 1 ] - m_1_2 * ( y[ 2 ] - y[ 1 ] );
-            TF x_3 = x[ 3 ] - m_3_2 * ( x[ 2 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_2 * ( y[ 2 ] - y[ 3 ] );
-            TF x_4 = x[ 5 ] - m_5_6 * ( x[ 6 ] - x[ 5 ] );
-            TF y_4 = y[ 5 ] - m_5_6 * ( y[ 6 ] - y[ 5 ] );
-            TF x_5 = x[ 6 ];
-            TF y_5 = y[ 6 ];
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            size = 6;
-            continue;
-        }
-        case 2236: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000010111100 mod=0,1,[ 2, 1 ],[ 5, 6 ],6,[ 7, 6 ],[ 7, 0 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_2_1 = d_2 / ( d_1 - d_2 );
-            TF m_5_6 = d_5 / ( d_6 - d_5 );
-            TF m_7_6 = d_7 / ( d_6 - d_7 );
-            TF m_7_0 = d_7 / ( d_0 - d_7 );
-            TF x_2 = x[ 2 ] - m_2_1 * ( x[ 1 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_1 * ( y[ 1 ] - y[ 2 ] );
-            TF x_3 = x[ 5 ] - m_5_6 * ( x[ 6 ] - x[ 5 ] );
-            TF y_3 = y[ 5 ] - m_5_6 * ( y[ 6 ] - y[ 5 ] );
-            TF x_4 = x[ 6 ];
-            TF y_4 = y[ 6 ];
-            TF x_5 = x[ 7 ] - m_7_6 * ( x[ 6 ] - x[ 7 ] );
-            TF y_5 = y[ 7 ] - m_7_6 * ( y[ 6 ] - y[ 7 ] );
-            TF x_6 = x[ 7 ] - m_7_0 * ( x[ 0 ] - x[ 7 ] );
-            TF y_6 = y[ 7 ] - m_7_0 * ( y[ 0 ] - y[ 7 ] );
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            size = 7;
-            continue;
-        }
-        case 2237: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000010111101 mod=[ 0, 1 ],1,[ 2, 1 ],[ 5, 6 ],6,[ 7, 6 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_0_1 = d_0 / ( d_1 - d_0 );
-            TF m_2_1 = d_2 / ( d_1 - d_2 );
-            TF m_5_6 = d_5 / ( d_6 - d_5 );
-            TF m_7_6 = d_7 / ( d_6 - d_7 );
-            TF x_0 = x[ 0 ] - m_0_1 * ( x[ 1 ] - x[ 0 ] );
-            TF y_0 = y[ 0 ] - m_0_1 * ( y[ 1 ] - y[ 0 ] );
-            TF x_2 = x[ 2 ] - m_2_1 * ( x[ 1 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_1 * ( y[ 1 ] - y[ 2 ] );
-            TF x_3 = x[ 5 ] - m_5_6 * ( x[ 6 ] - x[ 5 ] );
-            TF y_3 = y[ 5 ] - m_5_6 * ( y[ 6 ] - y[ 5 ] );
-            TF x_4 = x[ 6 ];
-            TF y_4 = y[ 6 ];
-            TF x_5 = x[ 7 ] - m_7_6 * ( x[ 6 ] - x[ 7 ] );
-            TF y_5 = y[ 7 ] - m_7_6 * ( y[ 6 ] - y[ 7 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            size = 6;
-            continue;
-        }
-        case 2238: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000010111110 mod=0,[ 1, 0 ],[ 5, 6 ],6,[ 7, 6 ],[ 7, 0 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_1_0 = d_1 / ( d_0 - d_1 );
-            TF m_5_6 = d_5 / ( d_6 - d_5 );
-            TF m_7_6 = d_7 / ( d_6 - d_7 );
-            TF m_7_0 = d_7 / ( d_0 - d_7 );
-            TF x_1 = x[ 1 ] - m_1_0 * ( x[ 0 ] - x[ 1 ] );
-            TF y_1 = y[ 1 ] - m_1_0 * ( y[ 0 ] - y[ 1 ] );
-            TF x_2 = x[ 5 ] - m_5_6 * ( x[ 6 ] - x[ 5 ] );
-            TF y_2 = y[ 5 ] - m_5_6 * ( y[ 6 ] - y[ 5 ] );
-            TF x_3 = x[ 6 ];
-            TF y_3 = y[ 6 ];
-            TF x_4 = x[ 7 ] - m_7_6 * ( x[ 6 ] - x[ 7 ] );
-            TF y_4 = y[ 7 ] - m_7_6 * ( y[ 6 ] - y[ 7 ] );
-            TF x_5 = x[ 7 ] - m_7_0 * ( x[ 0 ] - x[ 7 ] );
-            TF y_5 = y[ 7 ] - m_7_0 * ( y[ 0 ] - y[ 7 ] );
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            size = 6;
-            continue;
+            break;
         }
         case 2239: {
             // size=8 outside=0000000000000000000000000000000000000000000000000000000010111111 mod=[ 5, 6 ],6,[ 7, 6 ]
@@ -15035,7 +3740,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             x[ 2 ] = x_2;
             y[ 2 ] = y_2;
             size = 3;
-            continue;
+            break;
         }
         case 2240: {
             // size=8 outside=0000000000000000000000000000000000000000000000000000000011000000 mod=0,1,2,3,4,5,[ 6, 5 ],[ 7, 0 ]
@@ -15053,7 +3758,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             y[ 6 ] = y_6;
             x[ 7 ] = x_7;
             y[ 7 ] = y_7;
-            continue;
+            break;
         }
         case 2241: {
             // size=8 outside=0000000000000000000000000000000000000000000000000000000011000001 mod=[ 0, 1 ],1,2,3,4,5,[ 6, 5 ]
@@ -15072,42 +3777,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             x[ 6 ] = x_6;
             y[ 6 ] = y_6;
             size = 7;
-            continue;
-        }
-        case 2242: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000011000010 mod=[ 1, 0 ],[ 1, 2 ],2,3,4,5,[ 6, 5 ],[ 7, 0 ],0
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_1_0 = d_1 / ( d_0 - d_1 );
-            TF m_1_2 = d_1 / ( d_2 - d_1 );
-            TF m_6_5 = d_6 / ( d_5 - d_6 );
-            TF m_7_0 = d_7 / ( d_0 - d_7 );
-            TF x_0 = x[ 1 ] - m_1_0 * ( x[ 0 ] - x[ 1 ] );
-            TF y_0 = y[ 1 ] - m_1_0 * ( y[ 0 ] - y[ 1 ] );
-            TF x_1 = x[ 1 ] - m_1_2 * ( x[ 2 ] - x[ 1 ] );
-            TF y_1 = y[ 1 ] - m_1_2 * ( y[ 2 ] - y[ 1 ] );
-            TF x_6 = x[ 6 ] - m_6_5 * ( x[ 5 ] - x[ 6 ] );
-            TF y_6 = y[ 6 ] - m_6_5 * ( y[ 5 ] - y[ 6 ] );
-            TF x_7 = x[ 7 ] - m_7_0 * ( x[ 0 ] - x[ 7 ] );
-            TF y_7 = y[ 7 ] - m_7_0 * ( y[ 0 ] - y[ 7 ] );
-            TF x_8 = x[ 0 ];
-            TF y_8 = y[ 0 ];
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            x[ 8 ] = x_8;
-            y[ 8 ] = y_8;
-            size = 9;
-            continue;
+            break;
         }
         case 2243: {
             // size=8 outside=0000000000000000000000000000000000000000000000000000000011000011 mod=[ 6, 5 ],[ 1, 2 ],2,3,4,5
@@ -15126,112 +3796,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             x[ 1 ] = x_1;
             y[ 1 ] = y_1;
             size = 6;
-            continue;
-        }
-        case 2244: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000011000100 mod=1,[ 2, 1 ],[ 2, 3 ],3,4,5,[ 6, 5 ],[ 7, 0 ],0
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_2_1 = d_2 / ( d_1 - d_2 );
-            TF m_2_3 = d_2 / ( d_3 - d_2 );
-            TF m_6_5 = d_6 / ( d_5 - d_6 );
-            TF m_7_0 = d_7 / ( d_0 - d_7 );
-            TF x_0 = x[ 1 ];
-            TF y_0 = y[ 1 ];
-            TF x_1 = x[ 2 ] - m_2_1 * ( x[ 1 ] - x[ 2 ] );
-            TF y_1 = y[ 2 ] - m_2_1 * ( y[ 1 ] - y[ 2 ] );
-            TF x_2 = x[ 2 ] - m_2_3 * ( x[ 3 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_3 * ( y[ 3 ] - y[ 2 ] );
-            TF x_6 = x[ 6 ] - m_6_5 * ( x[ 5 ] - x[ 6 ] );
-            TF y_6 = y[ 6 ] - m_6_5 * ( y[ 5 ] - y[ 6 ] );
-            TF x_7 = x[ 7 ] - m_7_0 * ( x[ 0 ] - x[ 7 ] );
-            TF y_7 = y[ 7 ] - m_7_0 * ( y[ 0 ] - y[ 7 ] );
-            TF x_8 = x[ 0 ];
-            TF y_8 = y[ 0 ];
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            x[ 8 ] = x_8;
-            y[ 8 ] = y_8;
-            size = 9;
-            continue;
-        }
-        case 2245: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000011000101 mod=1,[ 2, 1 ],[ 2, 3 ],3,4,5,[ 6, 5 ],[ 0, 1 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_2_1 = d_2 / ( d_1 - d_2 );
-            TF m_2_3 = d_2 / ( d_3 - d_2 );
-            TF m_6_5 = d_6 / ( d_5 - d_6 );
-            TF m_0_1 = d_0 / ( d_1 - d_0 );
-            TF x_0 = x[ 1 ];
-            TF y_0 = y[ 1 ];
-            TF x_1 = x[ 2 ] - m_2_1 * ( x[ 1 ] - x[ 2 ] );
-            TF y_1 = y[ 2 ] - m_2_1 * ( y[ 1 ] - y[ 2 ] );
-            TF x_2 = x[ 2 ] - m_2_3 * ( x[ 3 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_3 * ( y[ 3 ] - y[ 2 ] );
-            TF x_6 = x[ 6 ] - m_6_5 * ( x[ 5 ] - x[ 6 ] );
-            TF y_6 = y[ 6 ] - m_6_5 * ( y[ 5 ] - y[ 6 ] );
-            TF x_7 = x[ 0 ] - m_0_1 * ( x[ 1 ] - x[ 0 ] );
-            TF y_7 = y[ 0 ] - m_0_1 * ( y[ 1 ] - y[ 0 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            continue;
-        }
-        case 2246: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000011000110 mod=0,[ 1, 0 ],[ 2, 3 ],3,4,5,[ 6, 5 ],[ 7, 0 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_1_0 = d_1 / ( d_0 - d_1 );
-            TF m_2_3 = d_2 / ( d_3 - d_2 );
-            TF m_6_5 = d_6 / ( d_5 - d_6 );
-            TF m_7_0 = d_7 / ( d_0 - d_7 );
-            TF x_1 = x[ 1 ] - m_1_0 * ( x[ 0 ] - x[ 1 ] );
-            TF y_1 = y[ 1 ] - m_1_0 * ( y[ 0 ] - y[ 1 ] );
-            TF x_2 = x[ 2 ] - m_2_3 * ( x[ 3 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_3 * ( y[ 3 ] - y[ 2 ] );
-            TF x_6 = x[ 6 ] - m_6_5 * ( x[ 5 ] - x[ 6 ] );
-            TF y_6 = y[ 6 ] - m_6_5 * ( y[ 5 ] - y[ 6 ] );
-            TF x_7 = x[ 7 ] - m_7_0 * ( x[ 0 ] - x[ 7 ] );
-            TF y_7 = y[ 7 ] - m_7_0 * ( y[ 0 ] - y[ 7 ] );
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            continue;
+            break;
         }
         case 2247: {
             // size=8 outside=0000000000000000000000000000000000000000000000000000000011000111 mod=5,[ 6, 5 ],[ 2, 3 ],3,4
@@ -15254,272 +3819,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             x[ 2 ] = x_2;
             y[ 2 ] = y_2;
             size = 5;
-            continue;
-        }
-        case 2248: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000011001000 mod=0,1,2,[ 3, 2 ],[ 3, 4 ],4,5,[ 6, 5 ],[ 7, 0 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_3_2 = d_3 / ( d_2 - d_3 );
-            TF m_3_4 = d_3 / ( d_4 - d_3 );
-            TF m_6_5 = d_6 / ( d_5 - d_6 );
-            TF m_7_0 = d_7 / ( d_0 - d_7 );
-            TF x_3 = x[ 3 ] - m_3_2 * ( x[ 2 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_2 * ( y[ 2 ] - y[ 3 ] );
-            TF x_4 = x[ 3 ] - m_3_4 * ( x[ 4 ] - x[ 3 ] );
-            TF y_4 = y[ 3 ] - m_3_4 * ( y[ 4 ] - y[ 3 ] );
-            TF x_5 = x[ 4 ];
-            TF y_5 = y[ 4 ];
-            TF x_6 = x[ 5 ];
-            TF y_6 = y[ 5 ];
-            TF x_7 = x[ 6 ] - m_6_5 * ( x[ 5 ] - x[ 6 ] );
-            TF y_7 = y[ 6 ] - m_6_5 * ( y[ 5 ] - y[ 6 ] );
-            TF x_8 = x[ 7 ] - m_7_0 * ( x[ 0 ] - x[ 7 ] );
-            TF y_8 = y[ 7 ] - m_7_0 * ( y[ 0 ] - y[ 7 ] );
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            x[ 8 ] = x_8;
-            y[ 8 ] = y_8;
-            size = 9;
-            continue;
-        }
-        case 2249: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000011001001 mod=[ 0, 1 ],1,2,[ 3, 2 ],[ 3, 4 ],4,5,[ 6, 5 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_0_1 = d_0 / ( d_1 - d_0 );
-            TF m_3_2 = d_3 / ( d_2 - d_3 );
-            TF m_3_4 = d_3 / ( d_4 - d_3 );
-            TF m_6_5 = d_6 / ( d_5 - d_6 );
-            TF x_0 = x[ 0 ] - m_0_1 * ( x[ 1 ] - x[ 0 ] );
-            TF y_0 = y[ 0 ] - m_0_1 * ( y[ 1 ] - y[ 0 ] );
-            TF x_3 = x[ 3 ] - m_3_2 * ( x[ 2 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_2 * ( y[ 2 ] - y[ 3 ] );
-            TF x_4 = x[ 3 ] - m_3_4 * ( x[ 4 ] - x[ 3 ] );
-            TF y_4 = y[ 3 ] - m_3_4 * ( y[ 4 ] - y[ 3 ] );
-            TF x_5 = x[ 4 ];
-            TF y_5 = y[ 4 ];
-            TF x_6 = x[ 5 ];
-            TF y_6 = y[ 5 ];
-            TF x_7 = x[ 6 ] - m_6_5 * ( x[ 5 ] - x[ 6 ] );
-            TF y_7 = y[ 6 ] - m_6_5 * ( y[ 5 ] - y[ 6 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            continue;
-        }
-        case 2250: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000011001010 mod=[ 1, 2 ],2,[ 3, 2 ],[ 3, 4 ],4,5,[ 6, 5 ],[ 7, 0 ],0,[ 1, 0 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_1_2 = d_1 / ( d_2 - d_1 );
-            TF m_3_2 = d_3 / ( d_2 - d_3 );
-            TF m_3_4 = d_3 / ( d_4 - d_3 );
-            TF m_6_5 = d_6 / ( d_5 - d_6 );
-            TF m_7_0 = d_7 / ( d_0 - d_7 );
-            TF m_1_0 = d_1 / ( d_0 - d_1 );
-            TF x_0 = x[ 1 ] - m_1_2 * ( x[ 2 ] - x[ 1 ] );
-            TF y_0 = y[ 1 ] - m_1_2 * ( y[ 2 ] - y[ 1 ] );
-            TF x_1 = x[ 2 ];
-            TF y_1 = y[ 2 ];
-            TF x_2 = x[ 3 ] - m_3_2 * ( x[ 2 ] - x[ 3 ] );
-            TF y_2 = y[ 3 ] - m_3_2 * ( y[ 2 ] - y[ 3 ] );
-            TF x_3 = x[ 3 ] - m_3_4 * ( x[ 4 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_4 * ( y[ 4 ] - y[ 3 ] );
-            TF x_6 = x[ 6 ] - m_6_5 * ( x[ 5 ] - x[ 6 ] );
-            TF y_6 = y[ 6 ] - m_6_5 * ( y[ 5 ] - y[ 6 ] );
-            TF x_7 = x[ 7 ] - m_7_0 * ( x[ 0 ] - x[ 7 ] );
-            TF y_7 = y[ 7 ] - m_7_0 * ( y[ 0 ] - y[ 7 ] );
-            TF x_8 = x[ 0 ];
-            TF y_8 = y[ 0 ];
-            TF x_9 = x[ 1 ] - m_1_0 * ( x[ 0 ] - x[ 1 ] );
-            TF y_9 = y[ 1 ] - m_1_0 * ( y[ 0 ] - y[ 1 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            x[ 8 ] = x_8;
-            y[ 8 ] = y_8;
-            x[ 9 ] = x_9;
-            y[ 9 ] = y_9;
-            size = 10;
-            continue;
-        }
-        case 2251: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000011001011 mod=[ 1, 2 ],2,[ 3, 2 ],[ 3, 4 ],4,5,[ 6, 5 ]
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_1_2 = d_1 / ( d_2 - d_1 );
-            TF m_3_2 = d_3 / ( d_2 - d_3 );
-            TF m_3_4 = d_3 / ( d_4 - d_3 );
-            TF m_6_5 = d_6 / ( d_5 - d_6 );
-            TF x_0 = x[ 1 ] - m_1_2 * ( x[ 2 ] - x[ 1 ] );
-            TF y_0 = y[ 1 ] - m_1_2 * ( y[ 2 ] - y[ 1 ] );
-            TF x_1 = x[ 2 ];
-            TF y_1 = y[ 2 ];
-            TF x_2 = x[ 3 ] - m_3_2 * ( x[ 2 ] - x[ 3 ] );
-            TF y_2 = y[ 3 ] - m_3_2 * ( y[ 2 ] - y[ 3 ] );
-            TF x_3 = x[ 3 ] - m_3_4 * ( x[ 4 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_4 * ( y[ 4 ] - y[ 3 ] );
-            TF x_6 = x[ 6 ] - m_6_5 * ( x[ 5 ] - x[ 6 ] );
-            TF y_6 = y[ 6 ] - m_6_5 * ( y[ 5 ] - y[ 6 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            size = 7;
-            continue;
-        }
-        case 2252: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000011001100 mod=0,1,[ 2, 1 ],[ 3, 4 ],4,5,[ 6, 5 ],[ 7, 0 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_2_1 = d_2 / ( d_1 - d_2 );
-            TF m_3_4 = d_3 / ( d_4 - d_3 );
-            TF m_6_5 = d_6 / ( d_5 - d_6 );
-            TF m_7_0 = d_7 / ( d_0 - d_7 );
-            TF x_2 = x[ 2 ] - m_2_1 * ( x[ 1 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_1 * ( y[ 1 ] - y[ 2 ] );
-            TF x_3 = x[ 3 ] - m_3_4 * ( x[ 4 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_4 * ( y[ 4 ] - y[ 3 ] );
-            TF x_6 = x[ 6 ] - m_6_5 * ( x[ 5 ] - x[ 6 ] );
-            TF y_6 = y[ 6 ] - m_6_5 * ( y[ 5 ] - y[ 6 ] );
-            TF x_7 = x[ 7 ] - m_7_0 * ( x[ 0 ] - x[ 7 ] );
-            TF y_7 = y[ 7 ] - m_7_0 * ( y[ 0 ] - y[ 7 ] );
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            continue;
-        }
-        case 2253: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000011001101 mod=[ 0, 1 ],1,[ 2, 1 ],[ 3, 4 ],4,5,[ 6, 5 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_0_1 = d_0 / ( d_1 - d_0 );
-            TF m_2_1 = d_2 / ( d_1 - d_2 );
-            TF m_3_4 = d_3 / ( d_4 - d_3 );
-            TF m_6_5 = d_6 / ( d_5 - d_6 );
-            TF x_0 = x[ 0 ] - m_0_1 * ( x[ 1 ] - x[ 0 ] );
-            TF y_0 = y[ 0 ] - m_0_1 * ( y[ 1 ] - y[ 0 ] );
-            TF x_2 = x[ 2 ] - m_2_1 * ( x[ 1 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_1 * ( y[ 1 ] - y[ 2 ] );
-            TF x_3 = x[ 3 ] - m_3_4 * ( x[ 4 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_4 * ( y[ 4 ] - y[ 3 ] );
-            TF x_6 = x[ 6 ] - m_6_5 * ( x[ 5 ] - x[ 6 ] );
-            TF y_6 = y[ 6 ] - m_6_5 * ( y[ 5 ] - y[ 6 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            size = 7;
-            continue;
-        }
-        case 2254: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000011001110 mod=[ 7, 0 ],0,[ 1, 0 ],[ 3, 4 ],4,5,[ 6, 5 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_7_0 = d_7 / ( d_0 - d_7 );
-            TF m_1_0 = d_1 / ( d_0 - d_1 );
-            TF m_3_4 = d_3 / ( d_4 - d_3 );
-            TF m_6_5 = d_6 / ( d_5 - d_6 );
-            TF x_0 = x[ 7 ] - m_7_0 * ( x[ 0 ] - x[ 7 ] );
-            TF y_0 = y[ 7 ] - m_7_0 * ( y[ 0 ] - y[ 7 ] );
-            TF x_1 = x[ 0 ];
-            TF y_1 = y[ 0 ];
-            TF x_2 = x[ 1 ] - m_1_0 * ( x[ 0 ] - x[ 1 ] );
-            TF y_2 = y[ 1 ] - m_1_0 * ( y[ 0 ] - y[ 1 ] );
-            TF x_3 = x[ 3 ] - m_3_4 * ( x[ 4 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_4 * ( y[ 4 ] - y[ 3 ] );
-            TF x_6 = x[ 6 ] - m_6_5 * ( x[ 5 ] - x[ 6 ] );
-            TF y_6 = y[ 6 ] - m_6_5 * ( y[ 5 ] - y[ 6 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            size = 7;
-            continue;
+            break;
         }
         case 2255: {
             // size=8 outside=0000000000000000000000000000000000000000000000000000000011001111 mod=4,5,[ 6, 5 ],[ 3, 4 ]
@@ -15546,591 +3846,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             x[ 3 ] = x_3;
             y[ 3 ] = y_3;
             size = 4;
-            continue;
-        }
-        case 2256: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000011010000 mod=0,1,2,3,[ 4, 3 ],[ 4, 5 ],5,[ 6, 5 ],[ 7, 0 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_4_3 = d_4 / ( d_3 - d_4 );
-            TF m_4_5 = d_4 / ( d_5 - d_4 );
-            TF m_6_5 = d_6 / ( d_5 - d_6 );
-            TF m_7_0 = d_7 / ( d_0 - d_7 );
-            TF x_4 = x[ 4 ] - m_4_3 * ( x[ 3 ] - x[ 4 ] );
-            TF y_4 = y[ 4 ] - m_4_3 * ( y[ 3 ] - y[ 4 ] );
-            TF x_5 = x[ 4 ] - m_4_5 * ( x[ 5 ] - x[ 4 ] );
-            TF y_5 = y[ 4 ] - m_4_5 * ( y[ 5 ] - y[ 4 ] );
-            TF x_6 = x[ 5 ];
-            TF y_6 = y[ 5 ];
-            TF x_7 = x[ 6 ] - m_6_5 * ( x[ 5 ] - x[ 6 ] );
-            TF y_7 = y[ 6 ] - m_6_5 * ( y[ 5 ] - y[ 6 ] );
-            TF x_8 = x[ 7 ] - m_7_0 * ( x[ 0 ] - x[ 7 ] );
-            TF y_8 = y[ 7 ] - m_7_0 * ( y[ 0 ] - y[ 7 ] );
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            x[ 8 ] = x_8;
-            y[ 8 ] = y_8;
-            size = 9;
-            continue;
-        }
-        case 2257: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000011010001 mod=[ 0, 1 ],1,2,3,[ 4, 3 ],[ 4, 5 ],5,[ 6, 5 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_0_1 = d_0 / ( d_1 - d_0 );
-            TF m_4_3 = d_4 / ( d_3 - d_4 );
-            TF m_4_5 = d_4 / ( d_5 - d_4 );
-            TF m_6_5 = d_6 / ( d_5 - d_6 );
-            TF x_0 = x[ 0 ] - m_0_1 * ( x[ 1 ] - x[ 0 ] );
-            TF y_0 = y[ 0 ] - m_0_1 * ( y[ 1 ] - y[ 0 ] );
-            TF x_4 = x[ 4 ] - m_4_3 * ( x[ 3 ] - x[ 4 ] );
-            TF y_4 = y[ 4 ] - m_4_3 * ( y[ 3 ] - y[ 4 ] );
-            TF x_5 = x[ 4 ] - m_4_5 * ( x[ 5 ] - x[ 4 ] );
-            TF y_5 = y[ 4 ] - m_4_5 * ( y[ 5 ] - y[ 4 ] );
-            TF x_6 = x[ 5 ];
-            TF y_6 = y[ 5 ];
-            TF x_7 = x[ 6 ] - m_6_5 * ( x[ 5 ] - x[ 6 ] );
-            TF y_7 = y[ 6 ] - m_6_5 * ( y[ 5 ] - y[ 6 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            continue;
-        }
-        case 2258: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000011010010 mod=[ 1, 0 ],[ 1, 2 ],2,3,[ 4, 3 ],[ 4, 5 ],5,[ 6, 5 ],[ 7, 0 ],0
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_1_0 = d_1 / ( d_0 - d_1 );
-            TF m_1_2 = d_1 / ( d_2 - d_1 );
-            TF m_4_3 = d_4 / ( d_3 - d_4 );
-            TF m_4_5 = d_4 / ( d_5 - d_4 );
-            TF m_6_5 = d_6 / ( d_5 - d_6 );
-            TF m_7_0 = d_7 / ( d_0 - d_7 );
-            TF x_0 = x[ 1 ] - m_1_0 * ( x[ 0 ] - x[ 1 ] );
-            TF y_0 = y[ 1 ] - m_1_0 * ( y[ 0 ] - y[ 1 ] );
-            TF x_1 = x[ 1 ] - m_1_2 * ( x[ 2 ] - x[ 1 ] );
-            TF y_1 = y[ 1 ] - m_1_2 * ( y[ 2 ] - y[ 1 ] );
-            TF x_4 = x[ 4 ] - m_4_3 * ( x[ 3 ] - x[ 4 ] );
-            TF y_4 = y[ 4 ] - m_4_3 * ( y[ 3 ] - y[ 4 ] );
-            TF x_5 = x[ 4 ] - m_4_5 * ( x[ 5 ] - x[ 4 ] );
-            TF y_5 = y[ 4 ] - m_4_5 * ( y[ 5 ] - y[ 4 ] );
-            TF x_6 = x[ 5 ];
-            TF y_6 = y[ 5 ];
-            TF x_7 = x[ 6 ] - m_6_5 * ( x[ 5 ] - x[ 6 ] );
-            TF y_7 = y[ 6 ] - m_6_5 * ( y[ 5 ] - y[ 6 ] );
-            TF x_8 = x[ 7 ] - m_7_0 * ( x[ 0 ] - x[ 7 ] );
-            TF y_8 = y[ 7 ] - m_7_0 * ( y[ 0 ] - y[ 7 ] );
-            TF x_9 = x[ 0 ];
-            TF y_9 = y[ 0 ];
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            x[ 8 ] = x_8;
-            y[ 8 ] = y_8;
-            x[ 9 ] = x_9;
-            y[ 9 ] = y_9;
-            size = 10;
-            continue;
-        }
-        case 2259: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000011010011 mod=[ 6, 5 ],[ 1, 2 ],2,3,[ 4, 3 ],[ 4, 5 ],5
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_6_5 = d_6 / ( d_5 - d_6 );
-            TF m_1_2 = d_1 / ( d_2 - d_1 );
-            TF m_4_3 = d_4 / ( d_3 - d_4 );
-            TF m_4_5 = d_4 / ( d_5 - d_4 );
-            TF x_0 = x[ 6 ] - m_6_5 * ( x[ 5 ] - x[ 6 ] );
-            TF y_0 = y[ 6 ] - m_6_5 * ( y[ 5 ] - y[ 6 ] );
-            TF x_1 = x[ 1 ] - m_1_2 * ( x[ 2 ] - x[ 1 ] );
-            TF y_1 = y[ 1 ] - m_1_2 * ( y[ 2 ] - y[ 1 ] );
-            TF x_4 = x[ 4 ] - m_4_3 * ( x[ 3 ] - x[ 4 ] );
-            TF y_4 = y[ 4 ] - m_4_3 * ( y[ 3 ] - y[ 4 ] );
-            TF x_5 = x[ 4 ] - m_4_5 * ( x[ 5 ] - x[ 4 ] );
-            TF y_5 = y[ 4 ] - m_4_5 * ( y[ 5 ] - y[ 4 ] );
-            TF x_6 = x[ 5 ];
-            TF y_6 = y[ 5 ];
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            size = 7;
-            continue;
-        }
-        case 2260: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000011010100 mod=0,1,[ 2, 1 ],[ 2, 3 ],3,[ 4, 3 ],[ 4, 5 ],5,[ 6, 5 ],[ 7, 0 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_2_1 = d_2 / ( d_1 - d_2 );
-            TF m_2_3 = d_2 / ( d_3 - d_2 );
-            TF m_4_3 = d_4 / ( d_3 - d_4 );
-            TF m_4_5 = d_4 / ( d_5 - d_4 );
-            TF m_6_5 = d_6 / ( d_5 - d_6 );
-            TF m_7_0 = d_7 / ( d_0 - d_7 );
-            TF x_2 = x[ 2 ] - m_2_1 * ( x[ 1 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_1 * ( y[ 1 ] - y[ 2 ] );
-            TF x_3 = x[ 2 ] - m_2_3 * ( x[ 3 ] - x[ 2 ] );
-            TF y_3 = y[ 2 ] - m_2_3 * ( y[ 3 ] - y[ 2 ] );
-            TF x_4 = x[ 3 ];
-            TF y_4 = y[ 3 ];
-            TF x_5 = x[ 4 ] - m_4_3 * ( x[ 3 ] - x[ 4 ] );
-            TF y_5 = y[ 4 ] - m_4_3 * ( y[ 3 ] - y[ 4 ] );
-            TF x_6 = x[ 4 ] - m_4_5 * ( x[ 5 ] - x[ 4 ] );
-            TF y_6 = y[ 4 ] - m_4_5 * ( y[ 5 ] - y[ 4 ] );
-            TF x_7 = x[ 5 ];
-            TF y_7 = y[ 5 ];
-            TF x_8 = x[ 6 ] - m_6_5 * ( x[ 5 ] - x[ 6 ] );
-            TF y_8 = y[ 6 ] - m_6_5 * ( y[ 5 ] - y[ 6 ] );
-            TF x_9 = x[ 7 ] - m_7_0 * ( x[ 0 ] - x[ 7 ] );
-            TF y_9 = y[ 7 ] - m_7_0 * ( y[ 0 ] - y[ 7 ] );
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            x[ 8 ] = x_8;
-            y[ 8 ] = y_8;
-            x[ 9 ] = x_9;
-            y[ 9 ] = y_9;
-            size = 10;
-            continue;
-        }
-        case 2261: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000011010101 mod=1,[ 2, 1 ],[ 2, 3 ],3,[ 4, 3 ],[ 4, 5 ],5,[ 6, 5 ],[ 0, 1 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_2_1 = d_2 / ( d_1 - d_2 );
-            TF m_2_3 = d_2 / ( d_3 - d_2 );
-            TF m_4_3 = d_4 / ( d_3 - d_4 );
-            TF m_4_5 = d_4 / ( d_5 - d_4 );
-            TF m_6_5 = d_6 / ( d_5 - d_6 );
-            TF m_0_1 = d_0 / ( d_1 - d_0 );
-            TF x_0 = x[ 1 ];
-            TF y_0 = y[ 1 ];
-            TF x_1 = x[ 2 ] - m_2_1 * ( x[ 1 ] - x[ 2 ] );
-            TF y_1 = y[ 2 ] - m_2_1 * ( y[ 1 ] - y[ 2 ] );
-            TF x_2 = x[ 2 ] - m_2_3 * ( x[ 3 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_3 * ( y[ 3 ] - y[ 2 ] );
-            TF x_4 = x[ 4 ] - m_4_3 * ( x[ 3 ] - x[ 4 ] );
-            TF y_4 = y[ 4 ] - m_4_3 * ( y[ 3 ] - y[ 4 ] );
-            TF x_5 = x[ 4 ] - m_4_5 * ( x[ 5 ] - x[ 4 ] );
-            TF y_5 = y[ 4 ] - m_4_5 * ( y[ 5 ] - y[ 4 ] );
-            TF x_6 = x[ 5 ];
-            TF y_6 = y[ 5 ];
-            TF x_7 = x[ 6 ] - m_6_5 * ( x[ 5 ] - x[ 6 ] );
-            TF y_7 = y[ 6 ] - m_6_5 * ( y[ 5 ] - y[ 6 ] );
-            TF x_8 = x[ 0 ] - m_0_1 * ( x[ 1 ] - x[ 0 ] );
-            TF y_8 = y[ 0 ] - m_0_1 * ( y[ 1 ] - y[ 0 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            x[ 8 ] = x_8;
-            y[ 8 ] = y_8;
-            size = 9;
-            continue;
-        }
-        case 2262: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000011010110 mod=0,[ 1, 0 ],[ 2, 3 ],3,[ 4, 3 ],[ 4, 5 ],5,[ 6, 5 ],[ 7, 0 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_1_0 = d_1 / ( d_0 - d_1 );
-            TF m_2_3 = d_2 / ( d_3 - d_2 );
-            TF m_4_3 = d_4 / ( d_3 - d_4 );
-            TF m_4_5 = d_4 / ( d_5 - d_4 );
-            TF m_6_5 = d_6 / ( d_5 - d_6 );
-            TF m_7_0 = d_7 / ( d_0 - d_7 );
-            TF x_1 = x[ 1 ] - m_1_0 * ( x[ 0 ] - x[ 1 ] );
-            TF y_1 = y[ 1 ] - m_1_0 * ( y[ 0 ] - y[ 1 ] );
-            TF x_2 = x[ 2 ] - m_2_3 * ( x[ 3 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_3 * ( y[ 3 ] - y[ 2 ] );
-            TF x_4 = x[ 4 ] - m_4_3 * ( x[ 3 ] - x[ 4 ] );
-            TF y_4 = y[ 4 ] - m_4_3 * ( y[ 3 ] - y[ 4 ] );
-            TF x_5 = x[ 4 ] - m_4_5 * ( x[ 5 ] - x[ 4 ] );
-            TF y_5 = y[ 4 ] - m_4_5 * ( y[ 5 ] - y[ 4 ] );
-            TF x_6 = x[ 5 ];
-            TF y_6 = y[ 5 ];
-            TF x_7 = x[ 6 ] - m_6_5 * ( x[ 5 ] - x[ 6 ] );
-            TF y_7 = y[ 6 ] - m_6_5 * ( y[ 5 ] - y[ 6 ] );
-            TF x_8 = x[ 7 ] - m_7_0 * ( x[ 0 ] - x[ 7 ] );
-            TF y_8 = y[ 7 ] - m_7_0 * ( y[ 0 ] - y[ 7 ] );
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            x[ 8 ] = x_8;
-            y[ 8 ] = y_8;
-            size = 9;
-            continue;
-        }
-        case 2263: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000011010111 mod=5,[ 6, 5 ],[ 2, 3 ],3,[ 4, 3 ],[ 4, 5 ]
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_6_5 = d_6 / ( d_5 - d_6 );
-            TF m_2_3 = d_2 / ( d_3 - d_2 );
-            TF m_4_3 = d_4 / ( d_3 - d_4 );
-            TF m_4_5 = d_4 / ( d_5 - d_4 );
-            TF x_0 = x[ 5 ];
-            TF y_0 = y[ 5 ];
-            TF x_1 = x[ 6 ] - m_6_5 * ( x[ 5 ] - x[ 6 ] );
-            TF y_1 = y[ 6 ] - m_6_5 * ( y[ 5 ] - y[ 6 ] );
-            TF x_2 = x[ 2 ] - m_2_3 * ( x[ 3 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_3 * ( y[ 3 ] - y[ 2 ] );
-            TF x_4 = x[ 4 ] - m_4_3 * ( x[ 3 ] - x[ 4 ] );
-            TF y_4 = y[ 4 ] - m_4_3 * ( y[ 3 ] - y[ 4 ] );
-            TF x_5 = x[ 4 ] - m_4_5 * ( x[ 5 ] - x[ 4 ] );
-            TF y_5 = y[ 4 ] - m_4_5 * ( y[ 5 ] - y[ 4 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            size = 6;
-            continue;
-        }
-        case 2264: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000011011000 mod=0,1,2,[ 3, 2 ],[ 4, 5 ],5,[ 6, 5 ],[ 7, 0 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_3_2 = d_3 / ( d_2 - d_3 );
-            TF m_4_5 = d_4 / ( d_5 - d_4 );
-            TF m_6_5 = d_6 / ( d_5 - d_6 );
-            TF m_7_0 = d_7 / ( d_0 - d_7 );
-            TF x_3 = x[ 3 ] - m_3_2 * ( x[ 2 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_2 * ( y[ 2 ] - y[ 3 ] );
-            TF x_4 = x[ 4 ] - m_4_5 * ( x[ 5 ] - x[ 4 ] );
-            TF y_4 = y[ 4 ] - m_4_5 * ( y[ 5 ] - y[ 4 ] );
-            TF x_6 = x[ 6 ] - m_6_5 * ( x[ 5 ] - x[ 6 ] );
-            TF y_6 = y[ 6 ] - m_6_5 * ( y[ 5 ] - y[ 6 ] );
-            TF x_7 = x[ 7 ] - m_7_0 * ( x[ 0 ] - x[ 7 ] );
-            TF y_7 = y[ 7 ] - m_7_0 * ( y[ 0 ] - y[ 7 ] );
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            continue;
-        }
-        case 2265: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000011011001 mod=[ 0, 1 ],1,2,[ 3, 2 ],[ 4, 5 ],5,[ 6, 5 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_0_1 = d_0 / ( d_1 - d_0 );
-            TF m_3_2 = d_3 / ( d_2 - d_3 );
-            TF m_4_5 = d_4 / ( d_5 - d_4 );
-            TF m_6_5 = d_6 / ( d_5 - d_6 );
-            TF x_0 = x[ 0 ] - m_0_1 * ( x[ 1 ] - x[ 0 ] );
-            TF y_0 = y[ 0 ] - m_0_1 * ( y[ 1 ] - y[ 0 ] );
-            TF x_3 = x[ 3 ] - m_3_2 * ( x[ 2 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_2 * ( y[ 2 ] - y[ 3 ] );
-            TF x_4 = x[ 4 ] - m_4_5 * ( x[ 5 ] - x[ 4 ] );
-            TF y_4 = y[ 4 ] - m_4_5 * ( y[ 5 ] - y[ 4 ] );
-            TF x_6 = x[ 6 ] - m_6_5 * ( x[ 5 ] - x[ 6 ] );
-            TF y_6 = y[ 6 ] - m_6_5 * ( y[ 5 ] - y[ 6 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            size = 7;
-            continue;
-        }
-        case 2266: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000011011010 mod=[ 1, 0 ],[ 1, 2 ],2,[ 3, 2 ],[ 4, 5 ],5,[ 6, 5 ],[ 7, 0 ],0
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_1_0 = d_1 / ( d_0 - d_1 );
-            TF m_1_2 = d_1 / ( d_2 - d_1 );
-            TF m_3_2 = d_3 / ( d_2 - d_3 );
-            TF m_4_5 = d_4 / ( d_5 - d_4 );
-            TF m_6_5 = d_6 / ( d_5 - d_6 );
-            TF m_7_0 = d_7 / ( d_0 - d_7 );
-            TF x_0 = x[ 1 ] - m_1_0 * ( x[ 0 ] - x[ 1 ] );
-            TF y_0 = y[ 1 ] - m_1_0 * ( y[ 0 ] - y[ 1 ] );
-            TF x_1 = x[ 1 ] - m_1_2 * ( x[ 2 ] - x[ 1 ] );
-            TF y_1 = y[ 1 ] - m_1_2 * ( y[ 2 ] - y[ 1 ] );
-            TF x_3 = x[ 3 ] - m_3_2 * ( x[ 2 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_2 * ( y[ 2 ] - y[ 3 ] );
-            TF x_4 = x[ 4 ] - m_4_5 * ( x[ 5 ] - x[ 4 ] );
-            TF y_4 = y[ 4 ] - m_4_5 * ( y[ 5 ] - y[ 4 ] );
-            TF x_6 = x[ 6 ] - m_6_5 * ( x[ 5 ] - x[ 6 ] );
-            TF y_6 = y[ 6 ] - m_6_5 * ( y[ 5 ] - y[ 6 ] );
-            TF x_7 = x[ 7 ] - m_7_0 * ( x[ 0 ] - x[ 7 ] );
-            TF y_7 = y[ 7 ] - m_7_0 * ( y[ 0 ] - y[ 7 ] );
-            TF x_8 = x[ 0 ];
-            TF y_8 = y[ 0 ];
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            x[ 8 ] = x_8;
-            y[ 8 ] = y_8;
-            size = 9;
-            continue;
-        }
-        case 2267: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000011011011 mod=[ 6, 5 ],[ 1, 2 ],2,[ 3, 2 ],[ 4, 5 ],5
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_6_5 = d_6 / ( d_5 - d_6 );
-            TF m_1_2 = d_1 / ( d_2 - d_1 );
-            TF m_3_2 = d_3 / ( d_2 - d_3 );
-            TF m_4_5 = d_4 / ( d_5 - d_4 );
-            TF x_0 = x[ 6 ] - m_6_5 * ( x[ 5 ] - x[ 6 ] );
-            TF y_0 = y[ 6 ] - m_6_5 * ( y[ 5 ] - y[ 6 ] );
-            TF x_1 = x[ 1 ] - m_1_2 * ( x[ 2 ] - x[ 1 ] );
-            TF y_1 = y[ 1 ] - m_1_2 * ( y[ 2 ] - y[ 1 ] );
-            TF x_3 = x[ 3 ] - m_3_2 * ( x[ 2 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_2 * ( y[ 2 ] - y[ 3 ] );
-            TF x_4 = x[ 4 ] - m_4_5 * ( x[ 5 ] - x[ 4 ] );
-            TF y_4 = y[ 4 ] - m_4_5 * ( y[ 5 ] - y[ 4 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            size = 6;
-            continue;
-        }
-        case 2268: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000011011100 mod=0,1,[ 2, 1 ],[ 4, 5 ],5,[ 6, 5 ],[ 7, 0 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_2_1 = d_2 / ( d_1 - d_2 );
-            TF m_4_5 = d_4 / ( d_5 - d_4 );
-            TF m_6_5 = d_6 / ( d_5 - d_6 );
-            TF m_7_0 = d_7 / ( d_0 - d_7 );
-            TF x_2 = x[ 2 ] - m_2_1 * ( x[ 1 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_1 * ( y[ 1 ] - y[ 2 ] );
-            TF x_3 = x[ 4 ] - m_4_5 * ( x[ 5 ] - x[ 4 ] );
-            TF y_3 = y[ 4 ] - m_4_5 * ( y[ 5 ] - y[ 4 ] );
-            TF x_4 = x[ 5 ];
-            TF y_4 = y[ 5 ];
-            TF x_5 = x[ 6 ] - m_6_5 * ( x[ 5 ] - x[ 6 ] );
-            TF y_5 = y[ 6 ] - m_6_5 * ( y[ 5 ] - y[ 6 ] );
-            TF x_6 = x[ 7 ] - m_7_0 * ( x[ 0 ] - x[ 7 ] );
-            TF y_6 = y[ 7 ] - m_7_0 * ( y[ 0 ] - y[ 7 ] );
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            size = 7;
-            continue;
-        }
-        case 2269: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000011011101 mod=[ 0, 1 ],1,[ 2, 1 ],[ 4, 5 ],5,[ 6, 5 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_0_1 = d_0 / ( d_1 - d_0 );
-            TF m_2_1 = d_2 / ( d_1 - d_2 );
-            TF m_4_5 = d_4 / ( d_5 - d_4 );
-            TF m_6_5 = d_6 / ( d_5 - d_6 );
-            TF x_0 = x[ 0 ] - m_0_1 * ( x[ 1 ] - x[ 0 ] );
-            TF y_0 = y[ 0 ] - m_0_1 * ( y[ 1 ] - y[ 0 ] );
-            TF x_2 = x[ 2 ] - m_2_1 * ( x[ 1 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_1 * ( y[ 1 ] - y[ 2 ] );
-            TF x_3 = x[ 4 ] - m_4_5 * ( x[ 5 ] - x[ 4 ] );
-            TF y_3 = y[ 4 ] - m_4_5 * ( y[ 5 ] - y[ 4 ] );
-            TF x_4 = x[ 5 ];
-            TF y_4 = y[ 5 ];
-            TF x_5 = x[ 6 ] - m_6_5 * ( x[ 5 ] - x[ 6 ] );
-            TF y_5 = y[ 6 ] - m_6_5 * ( y[ 5 ] - y[ 6 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            size = 6;
-            continue;
-        }
-        case 2270: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000011011110 mod=0,[ 1, 0 ],[ 4, 5 ],5,[ 6, 5 ],[ 7, 0 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_1_0 = d_1 / ( d_0 - d_1 );
-            TF m_4_5 = d_4 / ( d_5 - d_4 );
-            TF m_6_5 = d_6 / ( d_5 - d_6 );
-            TF m_7_0 = d_7 / ( d_0 - d_7 );
-            TF x_1 = x[ 1 ] - m_1_0 * ( x[ 0 ] - x[ 1 ] );
-            TF y_1 = y[ 1 ] - m_1_0 * ( y[ 0 ] - y[ 1 ] );
-            TF x_2 = x[ 4 ] - m_4_5 * ( x[ 5 ] - x[ 4 ] );
-            TF y_2 = y[ 4 ] - m_4_5 * ( y[ 5 ] - y[ 4 ] );
-            TF x_3 = x[ 5 ];
-            TF y_3 = y[ 5 ];
-            TF x_4 = x[ 6 ] - m_6_5 * ( x[ 5 ] - x[ 6 ] );
-            TF y_4 = y[ 6 ] - m_6_5 * ( y[ 5 ] - y[ 6 ] );
-            TF x_5 = x[ 7 ] - m_7_0 * ( x[ 0 ] - x[ 7 ] );
-            TF y_5 = y[ 7 ] - m_7_0 * ( y[ 0 ] - y[ 7 ] );
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            size = 6;
-            continue;
+            break;
         }
         case 2271: {
             // size=8 outside=0000000000000000000000000000000000000000000000000000000011011111 mod=[ 4, 5 ],5,[ 6, 5 ]
@@ -16152,7 +3868,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             x[ 2 ] = x_2;
             y[ 2 ] = y_2;
             size = 3;
-            continue;
+            break;
         }
         case 2272: {
             // size=8 outside=0000000000000000000000000000000000000000000000000000000011100000 mod=0,1,2,3,4,[ 5, 4 ],[ 7, 0 ]
@@ -16171,7 +3887,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             x[ 6 ] = x_6;
             y[ 6 ] = y_6;
             size = 7;
-            continue;
+            break;
         }
         case 2273: {
             // size=8 outside=0000000000000000000000000000000000000000000000000000000011100001 mod=[ 0, 1 ],1,2,3,4,[ 5, 4 ]
@@ -16190,41 +3906,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             x[ 5 ] = x_5;
             y[ 5 ] = y_5;
             size = 6;
-            continue;
-        }
-        case 2274: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000011100010 mod=[ 1, 0 ],[ 1, 2 ],2,3,4,[ 5, 4 ],[ 7, 0 ],0
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_1_0 = d_1 / ( d_0 - d_1 );
-            TF m_1_2 = d_1 / ( d_2 - d_1 );
-            TF m_5_4 = d_5 / ( d_4 - d_5 );
-            TF m_7_0 = d_7 / ( d_0 - d_7 );
-            TF x_0 = x[ 1 ] - m_1_0 * ( x[ 0 ] - x[ 1 ] );
-            TF y_0 = y[ 1 ] - m_1_0 * ( y[ 0 ] - y[ 1 ] );
-            TF x_1 = x[ 1 ] - m_1_2 * ( x[ 2 ] - x[ 1 ] );
-            TF y_1 = y[ 1 ] - m_1_2 * ( y[ 2 ] - y[ 1 ] );
-            TF x_5 = x[ 5 ] - m_5_4 * ( x[ 4 ] - x[ 5 ] );
-            TF y_5 = y[ 5 ] - m_5_4 * ( y[ 4 ] - y[ 5 ] );
-            TF x_6 = x[ 7 ] - m_7_0 * ( x[ 0 ] - x[ 7 ] );
-            TF y_6 = y[ 7 ] - m_7_0 * ( y[ 0 ] - y[ 7 ] );
-            TF x_7 = x[ 0 ];
-            TF y_7 = y[ 0 ];
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            continue;
+            break;
         }
         case 2275: {
             // size=8 outside=0000000000000000000000000000000000000000000000000000000011100011 mod=[ 5, 4 ],[ 1, 2 ],2,3,4
@@ -16243,113 +3925,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             x[ 1 ] = x_1;
             y[ 1 ] = y_1;
             size = 5;
-            continue;
-        }
-        case 2276: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000011100100 mod=0,1,[ 2, 1 ],[ 2, 3 ],3,4,[ 5, 4 ],[ 7, 0 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_2_1 = d_2 / ( d_1 - d_2 );
-            TF m_2_3 = d_2 / ( d_3 - d_2 );
-            TF m_5_4 = d_5 / ( d_4 - d_5 );
-            TF m_7_0 = d_7 / ( d_0 - d_7 );
-            TF x_2 = x[ 2 ] - m_2_1 * ( x[ 1 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_1 * ( y[ 1 ] - y[ 2 ] );
-            TF x_3 = x[ 2 ] - m_2_3 * ( x[ 3 ] - x[ 2 ] );
-            TF y_3 = y[ 2 ] - m_2_3 * ( y[ 3 ] - y[ 2 ] );
-            TF x_4 = x[ 3 ];
-            TF y_4 = y[ 3 ];
-            TF x_5 = x[ 4 ];
-            TF y_5 = y[ 4 ];
-            TF x_6 = x[ 5 ] - m_5_4 * ( x[ 4 ] - x[ 5 ] );
-            TF y_6 = y[ 5 ] - m_5_4 * ( y[ 4 ] - y[ 5 ] );
-            TF x_7 = x[ 7 ] - m_7_0 * ( x[ 0 ] - x[ 7 ] );
-            TF y_7 = y[ 7 ] - m_7_0 * ( y[ 0 ] - y[ 7 ] );
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            continue;
-        }
-        case 2277: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000011100101 mod=1,[ 2, 1 ],[ 2, 3 ],3,4,[ 5, 4 ],[ 0, 1 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF m_2_1 = d_2 / ( d_1 - d_2 );
-            TF m_2_3 = d_2 / ( d_3 - d_2 );
-            TF m_5_4 = d_5 / ( d_4 - d_5 );
-            TF m_0_1 = d_0 / ( d_1 - d_0 );
-            TF x_0 = x[ 1 ];
-            TF y_0 = y[ 1 ];
-            TF x_1 = x[ 2 ] - m_2_1 * ( x[ 1 ] - x[ 2 ] );
-            TF y_1 = y[ 2 ] - m_2_1 * ( y[ 1 ] - y[ 2 ] );
-            TF x_2 = x[ 2 ] - m_2_3 * ( x[ 3 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_3 * ( y[ 3 ] - y[ 2 ] );
-            TF x_5 = x[ 5 ] - m_5_4 * ( x[ 4 ] - x[ 5 ] );
-            TF y_5 = y[ 5 ] - m_5_4 * ( y[ 4 ] - y[ 5 ] );
-            TF x_6 = x[ 0 ] - m_0_1 * ( x[ 1 ] - x[ 0 ] );
-            TF y_6 = y[ 0 ] - m_0_1 * ( y[ 1 ] - y[ 0 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            size = 7;
-            continue;
-        }
-        case 2278: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000011100110 mod=0,[ 1, 0 ],[ 2, 3 ],3,4,[ 5, 4 ],[ 7, 0 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_1_0 = d_1 / ( d_0 - d_1 );
-            TF m_2_3 = d_2 / ( d_3 - d_2 );
-            TF m_5_4 = d_5 / ( d_4 - d_5 );
-            TF m_7_0 = d_7 / ( d_0 - d_7 );
-            TF x_1 = x[ 1 ] - m_1_0 * ( x[ 0 ] - x[ 1 ] );
-            TF y_1 = y[ 1 ] - m_1_0 * ( y[ 0 ] - y[ 1 ] );
-            TF x_2 = x[ 2 ] - m_2_3 * ( x[ 3 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_3 * ( y[ 3 ] - y[ 2 ] );
-            TF x_5 = x[ 5 ] - m_5_4 * ( x[ 4 ] - x[ 5 ] );
-            TF y_5 = y[ 5 ] - m_5_4 * ( y[ 4 ] - y[ 5 ] );
-            TF x_6 = x[ 7 ] - m_7_0 * ( x[ 0 ] - x[ 7 ] );
-            TF y_6 = y[ 7 ] - m_7_0 * ( y[ 0 ] - y[ 7 ] );
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            size = 7;
-            continue;
+            break;
         }
         case 2279: {
             // size=8 outside=0000000000000000000000000000000000000000000000000000000011100111 mod=4,[ 5, 4 ],[ 2, 3 ],3
@@ -16372,258 +3948,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             x[ 2 ] = x_2;
             y[ 2 ] = y_2;
             size = 4;
-            continue;
-        }
-        case 2280: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000011101000 mod=0,1,2,[ 3, 2 ],[ 3, 4 ],4,[ 5, 4 ],[ 7, 0 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_3_2 = d_3 / ( d_2 - d_3 );
-            TF m_3_4 = d_3 / ( d_4 - d_3 );
-            TF m_5_4 = d_5 / ( d_4 - d_5 );
-            TF m_7_0 = d_7 / ( d_0 - d_7 );
-            TF x_3 = x[ 3 ] - m_3_2 * ( x[ 2 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_2 * ( y[ 2 ] - y[ 3 ] );
-            TF x_4 = x[ 3 ] - m_3_4 * ( x[ 4 ] - x[ 3 ] );
-            TF y_4 = y[ 3 ] - m_3_4 * ( y[ 4 ] - y[ 3 ] );
-            TF x_5 = x[ 4 ];
-            TF y_5 = y[ 4 ];
-            TF x_6 = x[ 5 ] - m_5_4 * ( x[ 4 ] - x[ 5 ] );
-            TF y_6 = y[ 5 ] - m_5_4 * ( y[ 4 ] - y[ 5 ] );
-            TF x_7 = x[ 7 ] - m_7_0 * ( x[ 0 ] - x[ 7 ] );
-            TF y_7 = y[ 7 ] - m_7_0 * ( y[ 0 ] - y[ 7 ] );
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            continue;
-        }
-        case 2281: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000011101001 mod=[ 0, 1 ],1,2,[ 3, 2 ],[ 3, 4 ],4,[ 5, 4 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF m_0_1 = d_0 / ( d_1 - d_0 );
-            TF m_3_2 = d_3 / ( d_2 - d_3 );
-            TF m_3_4 = d_3 / ( d_4 - d_3 );
-            TF m_5_4 = d_5 / ( d_4 - d_5 );
-            TF x_0 = x[ 0 ] - m_0_1 * ( x[ 1 ] - x[ 0 ] );
-            TF y_0 = y[ 0 ] - m_0_1 * ( y[ 1 ] - y[ 0 ] );
-            TF x_3 = x[ 3 ] - m_3_2 * ( x[ 2 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_2 * ( y[ 2 ] - y[ 3 ] );
-            TF x_4 = x[ 3 ] - m_3_4 * ( x[ 4 ] - x[ 3 ] );
-            TF y_4 = y[ 3 ] - m_3_4 * ( y[ 4 ] - y[ 3 ] );
-            TF x_5 = x[ 4 ];
-            TF y_5 = y[ 4 ];
-            TF x_6 = x[ 5 ] - m_5_4 * ( x[ 4 ] - x[ 5 ] );
-            TF y_6 = y[ 5 ] - m_5_4 * ( y[ 4 ] - y[ 5 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            size = 7;
-            continue;
-        }
-        case 2282: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000011101010 mod=[ 1, 0 ],[ 1, 2 ],2,[ 3, 2 ],[ 3, 4 ],4,[ 5, 4 ],[ 7, 0 ],0
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_1_0 = d_1 / ( d_0 - d_1 );
-            TF m_1_2 = d_1 / ( d_2 - d_1 );
-            TF m_3_2 = d_3 / ( d_2 - d_3 );
-            TF m_3_4 = d_3 / ( d_4 - d_3 );
-            TF m_5_4 = d_5 / ( d_4 - d_5 );
-            TF m_7_0 = d_7 / ( d_0 - d_7 );
-            TF x_0 = x[ 1 ] - m_1_0 * ( x[ 0 ] - x[ 1 ] );
-            TF y_0 = y[ 1 ] - m_1_0 * ( y[ 0 ] - y[ 1 ] );
-            TF x_1 = x[ 1 ] - m_1_2 * ( x[ 2 ] - x[ 1 ] );
-            TF y_1 = y[ 1 ] - m_1_2 * ( y[ 2 ] - y[ 1 ] );
-            TF x_3 = x[ 3 ] - m_3_2 * ( x[ 2 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_2 * ( y[ 2 ] - y[ 3 ] );
-            TF x_4 = x[ 3 ] - m_3_4 * ( x[ 4 ] - x[ 3 ] );
-            TF y_4 = y[ 3 ] - m_3_4 * ( y[ 4 ] - y[ 3 ] );
-            TF x_5 = x[ 4 ];
-            TF y_5 = y[ 4 ];
-            TF x_6 = x[ 5 ] - m_5_4 * ( x[ 4 ] - x[ 5 ] );
-            TF y_6 = y[ 5 ] - m_5_4 * ( y[ 4 ] - y[ 5 ] );
-            TF x_7 = x[ 7 ] - m_7_0 * ( x[ 0 ] - x[ 7 ] );
-            TF y_7 = y[ 7 ] - m_7_0 * ( y[ 0 ] - y[ 7 ] );
-            TF x_8 = x[ 0 ];
-            TF y_8 = y[ 0 ];
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            x[ 7 ] = x_7;
-            y[ 7 ] = y_7;
-            x[ 8 ] = x_8;
-            y[ 8 ] = y_8;
-            size = 9;
-            continue;
-        }
-        case 2283: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000011101011 mod=[ 1, 2 ],2,[ 3, 2 ],[ 3, 4 ],4,[ 5, 4 ]
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF m_1_2 = d_1 / ( d_2 - d_1 );
-            TF m_3_2 = d_3 / ( d_2 - d_3 );
-            TF m_3_4 = d_3 / ( d_4 - d_3 );
-            TF m_5_4 = d_5 / ( d_4 - d_5 );
-            TF x_0 = x[ 1 ] - m_1_2 * ( x[ 2 ] - x[ 1 ] );
-            TF y_0 = y[ 1 ] - m_1_2 * ( y[ 2 ] - y[ 1 ] );
-            TF x_1 = x[ 2 ];
-            TF y_1 = y[ 2 ];
-            TF x_2 = x[ 3 ] - m_3_2 * ( x[ 2 ] - x[ 3 ] );
-            TF y_2 = y[ 3 ] - m_3_2 * ( y[ 2 ] - y[ 3 ] );
-            TF x_3 = x[ 3 ] - m_3_4 * ( x[ 4 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_4 * ( y[ 4 ] - y[ 3 ] );
-            TF x_5 = x[ 5 ] - m_5_4 * ( x[ 4 ] - x[ 5 ] );
-            TF y_5 = y[ 5 ] - m_5_4 * ( y[ 4 ] - y[ 5 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            size = 6;
-            continue;
-        }
-        case 2284: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000011101100 mod=0,1,[ 2, 1 ],[ 3, 4 ],4,[ 5, 4 ],[ 7, 0 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_2_1 = d_2 / ( d_1 - d_2 );
-            TF m_3_4 = d_3 / ( d_4 - d_3 );
-            TF m_5_4 = d_5 / ( d_4 - d_5 );
-            TF m_7_0 = d_7 / ( d_0 - d_7 );
-            TF x_2 = x[ 2 ] - m_2_1 * ( x[ 1 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_1 * ( y[ 1 ] - y[ 2 ] );
-            TF x_3 = x[ 3 ] - m_3_4 * ( x[ 4 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_4 * ( y[ 4 ] - y[ 3 ] );
-            TF x_5 = x[ 5 ] - m_5_4 * ( x[ 4 ] - x[ 5 ] );
-            TF y_5 = y[ 5 ] - m_5_4 * ( y[ 4 ] - y[ 5 ] );
-            TF x_6 = x[ 7 ] - m_7_0 * ( x[ 0 ] - x[ 7 ] );
-            TF y_6 = y[ 7 ] - m_7_0 * ( y[ 0 ] - y[ 7 ] );
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            size = 7;
-            continue;
-        }
-        case 2285: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000011101101 mod=[ 0, 1 ],1,[ 2, 1 ],[ 3, 4 ],4,[ 5, 4 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF m_0_1 = d_0 / ( d_1 - d_0 );
-            TF m_2_1 = d_2 / ( d_1 - d_2 );
-            TF m_3_4 = d_3 / ( d_4 - d_3 );
-            TF m_5_4 = d_5 / ( d_4 - d_5 );
-            TF x_0 = x[ 0 ] - m_0_1 * ( x[ 1 ] - x[ 0 ] );
-            TF y_0 = y[ 0 ] - m_0_1 * ( y[ 1 ] - y[ 0 ] );
-            TF x_2 = x[ 2 ] - m_2_1 * ( x[ 1 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_1 * ( y[ 1 ] - y[ 2 ] );
-            TF x_3 = x[ 3 ] - m_3_4 * ( x[ 4 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_4 * ( y[ 4 ] - y[ 3 ] );
-            TF x_5 = x[ 5 ] - m_5_4 * ( x[ 4 ] - x[ 5 ] );
-            TF y_5 = y[ 5 ] - m_5_4 * ( y[ 4 ] - y[ 5 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            size = 6;
-            continue;
-        }
-        case 2286: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000011101110 mod=[ 7, 0 ],0,[ 1, 0 ],[ 3, 4 ],4,[ 5, 4 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_7_0 = d_7 / ( d_0 - d_7 );
-            TF m_1_0 = d_1 / ( d_0 - d_1 );
-            TF m_3_4 = d_3 / ( d_4 - d_3 );
-            TF m_5_4 = d_5 / ( d_4 - d_5 );
-            TF x_0 = x[ 7 ] - m_7_0 * ( x[ 0 ] - x[ 7 ] );
-            TF y_0 = y[ 7 ] - m_7_0 * ( y[ 0 ] - y[ 7 ] );
-            TF x_1 = x[ 0 ];
-            TF y_1 = y[ 0 ];
-            TF x_2 = x[ 1 ] - m_1_0 * ( x[ 0 ] - x[ 1 ] );
-            TF y_2 = y[ 1 ] - m_1_0 * ( y[ 0 ] - y[ 1 ] );
-            TF x_3 = x[ 3 ] - m_3_4 * ( x[ 4 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_4 * ( y[ 4 ] - y[ 3 ] );
-            TF x_5 = x[ 5 ] - m_5_4 * ( x[ 4 ] - x[ 5 ] );
-            TF y_5 = y[ 5 ] - m_5_4 * ( y[ 4 ] - y[ 5 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            size = 6;
-            continue;
+            break;
         }
         case 2287: {
             // size=8 outside=0000000000000000000000000000000000000000000000000000000011101111 mod=[ 3, 4 ],4,[ 5, 4 ]
@@ -16645,7 +3970,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             x[ 2 ] = x_2;
             y[ 2 ] = y_2;
             size = 3;
-            continue;
+            break;
         }
         case 2288: {
             // size=8 outside=0000000000000000000000000000000000000000000000000000000011110000 mod=0,1,2,3,[ 4, 3 ],[ 7, 0 ]
@@ -16664,7 +3989,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             x[ 5 ] = x_5;
             y[ 5 ] = y_5;
             size = 6;
-            continue;
+            break;
         }
         case 2289: {
             // size=8 outside=0000000000000000000000000000000000000000000000000000000011110001 mod=[ 0, 1 ],1,2,3,[ 4, 3 ]
@@ -16683,42 +4008,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             x[ 4 ] = x_4;
             y[ 4 ] = y_4;
             size = 5;
-            continue;
-        }
-        case 2290: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000011110010 mod=[ 1, 0 ],[ 1, 2 ],2,3,[ 4, 3 ],[ 7, 0 ],0
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_1_0 = d_1 / ( d_0 - d_1 );
-            TF m_1_2 = d_1 / ( d_2 - d_1 );
-            TF m_4_3 = d_4 / ( d_3 - d_4 );
-            TF m_7_0 = d_7 / ( d_0 - d_7 );
-            TF x_0 = x[ 1 ] - m_1_0 * ( x[ 0 ] - x[ 1 ] );
-            TF y_0 = y[ 1 ] - m_1_0 * ( y[ 0 ] - y[ 1 ] );
-            TF x_1 = x[ 1 ] - m_1_2 * ( x[ 2 ] - x[ 1 ] );
-            TF y_1 = y[ 1 ] - m_1_2 * ( y[ 2 ] - y[ 1 ] );
-            TF x_4 = x[ 4 ] - m_4_3 * ( x[ 3 ] - x[ 4 ] );
-            TF y_4 = y[ 4 ] - m_4_3 * ( y[ 3 ] - y[ 4 ] );
-            TF x_5 = x[ 7 ] - m_7_0 * ( x[ 0 ] - x[ 7 ] );
-            TF y_5 = y[ 7 ] - m_7_0 * ( y[ 0 ] - y[ 7 ] );
-            TF x_6 = x[ 0 ];
-            TF y_6 = y[ 0 ];
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            size = 7;
-            continue;
+            break;
         }
         case 2291: {
             // size=8 outside=0000000000000000000000000000000000000000000000000000000011110011 mod=[ 4, 3 ],[ 1, 2 ],2,3
@@ -16737,107 +4027,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             x[ 1 ] = x_1;
             y[ 1 ] = y_1;
             size = 4;
-            continue;
-        }
-        case 2292: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000011110100 mod=0,1,[ 2, 1 ],[ 2, 3 ],3,[ 4, 3 ],[ 7, 0 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_2_1 = d_2 / ( d_1 - d_2 );
-            TF m_2_3 = d_2 / ( d_3 - d_2 );
-            TF m_4_3 = d_4 / ( d_3 - d_4 );
-            TF m_7_0 = d_7 / ( d_0 - d_7 );
-            TF x_2 = x[ 2 ] - m_2_1 * ( x[ 1 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_1 * ( y[ 1 ] - y[ 2 ] );
-            TF x_3 = x[ 2 ] - m_2_3 * ( x[ 3 ] - x[ 2 ] );
-            TF y_3 = y[ 2 ] - m_2_3 * ( y[ 3 ] - y[ 2 ] );
-            TF x_4 = x[ 3 ];
-            TF y_4 = y[ 3 ];
-            TF x_5 = x[ 4 ] - m_4_3 * ( x[ 3 ] - x[ 4 ] );
-            TF y_5 = y[ 4 ] - m_4_3 * ( y[ 3 ] - y[ 4 ] );
-            TF x_6 = x[ 7 ] - m_7_0 * ( x[ 0 ] - x[ 7 ] );
-            TF y_6 = y[ 7 ] - m_7_0 * ( y[ 0 ] - y[ 7 ] );
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            x[ 6 ] = x_6;
-            y[ 6 ] = y_6;
-            size = 7;
-            continue;
-        }
-        case 2293: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000011110101 mod=[ 0, 1 ],1,[ 2, 1 ],[ 2, 3 ],3,[ 4, 3 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF m_0_1 = d_0 / ( d_1 - d_0 );
-            TF m_2_1 = d_2 / ( d_1 - d_2 );
-            TF m_2_3 = d_2 / ( d_3 - d_2 );
-            TF m_4_3 = d_4 / ( d_3 - d_4 );
-            TF x_0 = x[ 0 ] - m_0_1 * ( x[ 1 ] - x[ 0 ] );
-            TF y_0 = y[ 0 ] - m_0_1 * ( y[ 1 ] - y[ 0 ] );
-            TF x_2 = x[ 2 ] - m_2_1 * ( x[ 1 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_1 * ( y[ 1 ] - y[ 2 ] );
-            TF x_3 = x[ 2 ] - m_2_3 * ( x[ 3 ] - x[ 2 ] );
-            TF y_3 = y[ 2 ] - m_2_3 * ( y[ 3 ] - y[ 2 ] );
-            TF x_4 = x[ 3 ];
-            TF y_4 = y[ 3 ];
-            TF x_5 = x[ 4 ] - m_4_3 * ( x[ 3 ] - x[ 4 ] );
-            TF y_5 = y[ 4 ] - m_4_3 * ( y[ 3 ] - y[ 4 ] );
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            size = 6;
-            continue;
-        }
-        case 2294: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000011110110 mod=0,[ 1, 0 ],[ 2, 3 ],3,[ 4, 3 ],[ 7, 0 ]
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_1_0 = d_1 / ( d_0 - d_1 );
-            TF m_2_3 = d_2 / ( d_3 - d_2 );
-            TF m_4_3 = d_4 / ( d_3 - d_4 );
-            TF m_7_0 = d_7 / ( d_0 - d_7 );
-            TF x_1 = x[ 1 ] - m_1_0 * ( x[ 0 ] - x[ 1 ] );
-            TF y_1 = y[ 1 ] - m_1_0 * ( y[ 0 ] - y[ 1 ] );
-            TF x_2 = x[ 2 ] - m_2_3 * ( x[ 3 ] - x[ 2 ] );
-            TF y_2 = y[ 2 ] - m_2_3 * ( y[ 3 ] - y[ 2 ] );
-            TF x_4 = x[ 4 ] - m_4_3 * ( x[ 3 ] - x[ 4 ] );
-            TF y_4 = y[ 4 ] - m_4_3 * ( y[ 3 ] - y[ 4 ] );
-            TF x_5 = x[ 7 ] - m_7_0 * ( x[ 0 ] - x[ 7 ] );
-            TF y_5 = y[ 7 ] - m_7_0 * ( y[ 0 ] - y[ 7 ] );
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 2 ] = x_2;
-            y[ 2 ] = y_2;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            size = 6;
-            continue;
+            break;
         }
         case 2295: {
             // size=8 outside=0000000000000000000000000000000000000000000000000000000011110111 mod=3,[ 4, 3 ],[ 2, 3 ]
@@ -16859,7 +4049,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             x[ 2 ] = x_2;
             y[ 2 ] = y_2;
             size = 3;
-            continue;
+            break;
         }
         case 2296: {
             // size=8 outside=0000000000000000000000000000000000000000000000000000000011111000 mod=0,1,2,[ 3, 2 ],[ 7, 0 ]
@@ -16878,7 +4068,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             x[ 4 ] = x_4;
             y[ 4 ] = y_4;
             size = 5;
-            continue;
+            break;
         }
         case 2297: {
             // size=8 outside=0000000000000000000000000000000000000000000000000000000011111001 mod=[ 0, 1 ],1,2,[ 3, 2 ]
@@ -16897,41 +4087,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             x[ 3 ] = x_3;
             y[ 3 ] = y_3;
             size = 4;
-            continue;
-        }
-        case 2298: {
-            // size=8 outside=0000000000000000000000000000000000000000000000000000000011111010 mod=[ 1, 0 ],[ 1, 2 ],2,[ 3, 2 ],[ 7, 0 ],0
-            TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
-            TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
-            TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_1_0 = d_1 / ( d_0 - d_1 );
-            TF m_1_2 = d_1 / ( d_2 - d_1 );
-            TF m_3_2 = d_3 / ( d_2 - d_3 );
-            TF m_7_0 = d_7 / ( d_0 - d_7 );
-            TF x_0 = x[ 1 ] - m_1_0 * ( x[ 0 ] - x[ 1 ] );
-            TF y_0 = y[ 1 ] - m_1_0 * ( y[ 0 ] - y[ 1 ] );
-            TF x_1 = x[ 1 ] - m_1_2 * ( x[ 2 ] - x[ 1 ] );
-            TF y_1 = y[ 1 ] - m_1_2 * ( y[ 2 ] - y[ 1 ] );
-            TF x_3 = x[ 3 ] - m_3_2 * ( x[ 2 ] - x[ 3 ] );
-            TF y_3 = y[ 3 ] - m_3_2 * ( y[ 2 ] - y[ 3 ] );
-            TF x_4 = x[ 7 ] - m_7_0 * ( x[ 0 ] - x[ 7 ] );
-            TF y_4 = y[ 7 ] - m_7_0 * ( y[ 0 ] - y[ 7 ] );
-            TF x_5 = x[ 0 ];
-            TF y_5 = y[ 0 ];
-            x[ 0 ] = x_0;
-            y[ 0 ] = y_0;
-            x[ 1 ] = x_1;
-            y[ 1 ] = y_1;
-            x[ 3 ] = x_3;
-            y[ 3 ] = y_3;
-            x[ 4 ] = x_4;
-            y[ 4 ] = y_4;
-            x[ 5 ] = x_5;
-            y[ 5 ] = y_5;
-            size = 6;
-            continue;
+            break;
         }
         case 2299: {
             // size=8 outside=0000000000000000000000000000000000000000000000000000000011111011 mod=[ 3, 2 ],[ 1, 2 ],2
@@ -16949,7 +4105,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             x[ 1 ] = x_1;
             y[ 1 ] = y_1;
             size = 3;
-            continue;
+            break;
         }
         case 2300: {
             // size=8 outside=0000000000000000000000000000000000000000000000000000000011111100 mod=0,1,[ 2, 1 ],[ 7, 0 ]
@@ -16968,7 +4124,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             x[ 3 ] = x_3;
             y[ 3 ] = y_3;
             size = 4;
-            continue;
+            break;
         }
         case 2301: {
             // size=8 outside=0000000000000000000000000000000000000000000000000000000011111101 mod=[ 0, 1 ],1,[ 2, 1 ]
@@ -16986,7 +4142,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             x[ 2 ] = x_2;
             y[ 2 ] = y_2;
             size = 3;
-            continue;
+            break;
         }
         case 2302: {
             // size=8 outside=0000000000000000000000000000000000000000000000000000000011111110 mod=0,[ 1, 0 ],[ 7, 0 ]
@@ -17004,7 +4160,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             x[ 2 ] = x_2;
             y[ 2 ] = y_2;
             size = 3;
-            continue;
+            break;
         }
         case 768:
         case 776:
@@ -17069,7 +4225,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
         case 1792:
         case 1920:
         case 2048: {
-            continue;
+            break;
         }
         case 0:
         case 1:
@@ -17327,7 +4483,615 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
         case 253:
         case 254:
         case 255: {
-            return; // totally outside
+            break; // totally outside
+        }
+        case 1029:
+        case 1034:
+        case 1045:
+        case 1050:
+        case 1061:
+        case 1066:
+        case 1077:
+        case 1082:
+        case 1093:
+        case 1098:
+        case 1109:
+        case 1114:
+        case 1125:
+        case 1130:
+        case 1141:
+        case 1146:
+        case 1157:
+        case 1162:
+        case 1173:
+        case 1178:
+        case 1189:
+        case 1194:
+        case 1205:
+        case 1210:
+        case 1221:
+        case 1226:
+        case 1237:
+        case 1242:
+        case 1253:
+        case 1258:
+        case 1269:
+        case 1274:
+        case 1285:
+        case 1289:
+        case 1290:
+        case 1291:
+        case 1293:
+        case 1298:
+        case 1300:
+        case 1301:
+        case 1302:
+        case 1306:
+        case 1317:
+        case 1321:
+        case 1322:
+        case 1323:
+        case 1325:
+        case 1330:
+        case 1332:
+        case 1333:
+        case 1334:
+        case 1338:
+        case 1349:
+        case 1353:
+        case 1354:
+        case 1355:
+        case 1357:
+        case 1362:
+        case 1364:
+        case 1365:
+        case 1366:
+        case 1370:
+        case 1381:
+        case 1385:
+        case 1386:
+        case 1387:
+        case 1389:
+        case 1394:
+        case 1396:
+        case 1397:
+        case 1398:
+        case 1402:
+        case 1413:
+        case 1417:
+        case 1418:
+        case 1419:
+        case 1421:
+        case 1426:
+        case 1428:
+        case 1429:
+        case 1430:
+        case 1434:
+        case 1445:
+        case 1449:
+        case 1450:
+        case 1451:
+        case 1453:
+        case 1458:
+        case 1460:
+        case 1461:
+        case 1462:
+        case 1466:
+        case 1477:
+        case 1481:
+        case 1482:
+        case 1483:
+        case 1485:
+        case 1490:
+        case 1492:
+        case 1493:
+        case 1494:
+        case 1498:
+        case 1509:
+        case 1513:
+        case 1514:
+        case 1515:
+        case 1517:
+        case 1522:
+        case 1524:
+        case 1525:
+        case 1526:
+        case 1530:
+        case 1541:
+        case 1545:
+        case 1546:
+        case 1547:
+        case 1549:
+        case 1553:
+        case 1554:
+        case 1555:
+        case 1556:
+        case 1557:
+        case 1558:
+        case 1559:
+        case 1561:
+        case 1562:
+        case 1563:
+        case 1565:
+        case 1570:
+        case 1572:
+        case 1573:
+        case 1574:
+        case 1576:
+        case 1577:
+        case 1578:
+        case 1579:
+        case 1580:
+        case 1581:
+        case 1582:
+        case 1586:
+        case 1588:
+        case 1589:
+        case 1590:
+        case 1594:
+        case 1605:
+        case 1609:
+        case 1610:
+        case 1611:
+        case 1613:
+        case 1617:
+        case 1618:
+        case 1619:
+        case 1620:
+        case 1621:
+        case 1622:
+        case 1623:
+        case 1625:
+        case 1626:
+        case 1627:
+        case 1629:
+        case 1634:
+        case 1636:
+        case 1637:
+        case 1638:
+        case 1640:
+        case 1641:
+        case 1642:
+        case 1643:
+        case 1644:
+        case 1645:
+        case 1646:
+        case 1650:
+        case 1652:
+        case 1653:
+        case 1654:
+        case 1658:
+        case 1669:
+        case 1673:
+        case 1674:
+        case 1675:
+        case 1677:
+        case 1681:
+        case 1682:
+        case 1683:
+        case 1684:
+        case 1685:
+        case 1686:
+        case 1687:
+        case 1689:
+        case 1690:
+        case 1691:
+        case 1693:
+        case 1698:
+        case 1700:
+        case 1701:
+        case 1702:
+        case 1704:
+        case 1705:
+        case 1706:
+        case 1707:
+        case 1708:
+        case 1709:
+        case 1710:
+        case 1714:
+        case 1716:
+        case 1717:
+        case 1718:
+        case 1722:
+        case 1733:
+        case 1737:
+        case 1738:
+        case 1739:
+        case 1741:
+        case 1745:
+        case 1746:
+        case 1747:
+        case 1748:
+        case 1749:
+        case 1750:
+        case 1751:
+        case 1753:
+        case 1754:
+        case 1755:
+        case 1757:
+        case 1762:
+        case 1764:
+        case 1765:
+        case 1766:
+        case 1768:
+        case 1769:
+        case 1770:
+        case 1771:
+        case 1772:
+        case 1773:
+        case 1774:
+        case 1778:
+        case 1780:
+        case 1781:
+        case 1782:
+        case 1786:
+        case 1797:
+        case 1801:
+        case 1802:
+        case 1803:
+        case 1805:
+        case 1809:
+        case 1810:
+        case 1811:
+        case 1812:
+        case 1813:
+        case 1814:
+        case 1815:
+        case 1817:
+        case 1818:
+        case 1819:
+        case 1821:
+        case 1825:
+        case 1826:
+        case 1827:
+        case 1828:
+        case 1829:
+        case 1830:
+        case 1831:
+        case 1832:
+        case 1833:
+        case 1834:
+        case 1835:
+        case 1836:
+        case 1837:
+        case 1838:
+        case 1839:
+        case 1841:
+        case 1842:
+        case 1843:
+        case 1844:
+        case 1845:
+        case 1846:
+        case 1847:
+        case 1849:
+        case 1850:
+        case 1851:
+        case 1853:
+        case 1858:
+        case 1860:
+        case 1861:
+        case 1862:
+        case 1864:
+        case 1865:
+        case 1866:
+        case 1867:
+        case 1868:
+        case 1869:
+        case 1870:
+        case 1872:
+        case 1873:
+        case 1874:
+        case 1875:
+        case 1876:
+        case 1877:
+        case 1878:
+        case 1879:
+        case 1880:
+        case 1881:
+        case 1882:
+        case 1883:
+        case 1884:
+        case 1885:
+        case 1886:
+        case 1890:
+        case 1892:
+        case 1893:
+        case 1894:
+        case 1896:
+        case 1897:
+        case 1898:
+        case 1899:
+        case 1900:
+        case 1901:
+        case 1902:
+        case 1906:
+        case 1908:
+        case 1909:
+        case 1910:
+        case 1914:
+        case 1925:
+        case 1929:
+        case 1930:
+        case 1931:
+        case 1933:
+        case 1937:
+        case 1938:
+        case 1939:
+        case 1940:
+        case 1941:
+        case 1942:
+        case 1943:
+        case 1945:
+        case 1946:
+        case 1947:
+        case 1949:
+        case 1953:
+        case 1954:
+        case 1955:
+        case 1956:
+        case 1957:
+        case 1958:
+        case 1959:
+        case 1960:
+        case 1961:
+        case 1962:
+        case 1963:
+        case 1964:
+        case 1965:
+        case 1966:
+        case 1967:
+        case 1969:
+        case 1970:
+        case 1971:
+        case 1972:
+        case 1973:
+        case 1974:
+        case 1975:
+        case 1977:
+        case 1978:
+        case 1979:
+        case 1981:
+        case 1986:
+        case 1988:
+        case 1989:
+        case 1990:
+        case 1992:
+        case 1993:
+        case 1994:
+        case 1995:
+        case 1996:
+        case 1997:
+        case 1998:
+        case 2000:
+        case 2001:
+        case 2002:
+        case 2003:
+        case 2004:
+        case 2005:
+        case 2006:
+        case 2007:
+        case 2008:
+        case 2009:
+        case 2010:
+        case 2011:
+        case 2012:
+        case 2013:
+        case 2014:
+        case 2018:
+        case 2020:
+        case 2021:
+        case 2022:
+        case 2024:
+        case 2025:
+        case 2026:
+        case 2027:
+        case 2028:
+        case 2029:
+        case 2030:
+        case 2034:
+        case 2036:
+        case 2037:
+        case 2038:
+        case 2042:
+        case 2053:
+        case 2057:
+        case 2058:
+        case 2059:
+        case 2061:
+        case 2065:
+        case 2066:
+        case 2067:
+        case 2068:
+        case 2069:
+        case 2070:
+        case 2071:
+        case 2073:
+        case 2074:
+        case 2075:
+        case 2077:
+        case 2081:
+        case 2082:
+        case 2083:
+        case 2084:
+        case 2085:
+        case 2086:
+        case 2087:
+        case 2088:
+        case 2089:
+        case 2090:
+        case 2091:
+        case 2092:
+        case 2093:
+        case 2094:
+        case 2095:
+        case 2097:
+        case 2098:
+        case 2099:
+        case 2100:
+        case 2101:
+        case 2102:
+        case 2103:
+        case 2105:
+        case 2106:
+        case 2107:
+        case 2109:
+        case 2113:
+        case 2114:
+        case 2115:
+        case 2116:
+        case 2117:
+        case 2118:
+        case 2119:
+        case 2120:
+        case 2121:
+        case 2122:
+        case 2123:
+        case 2124:
+        case 2125:
+        case 2126:
+        case 2127:
+        case 2128:
+        case 2129:
+        case 2130:
+        case 2131:
+        case 2132:
+        case 2133:
+        case 2134:
+        case 2135:
+        case 2136:
+        case 2137:
+        case 2138:
+        case 2139:
+        case 2140:
+        case 2141:
+        case 2142:
+        case 2143:
+        case 2145:
+        case 2146:
+        case 2147:
+        case 2148:
+        case 2149:
+        case 2150:
+        case 2151:
+        case 2152:
+        case 2153:
+        case 2154:
+        case 2155:
+        case 2156:
+        case 2157:
+        case 2158:
+        case 2159:
+        case 2161:
+        case 2162:
+        case 2163:
+        case 2164:
+        case 2165:
+        case 2166:
+        case 2167:
+        case 2169:
+        case 2170:
+        case 2171:
+        case 2173:
+        case 2178:
+        case 2180:
+        case 2181:
+        case 2182:
+        case 2184:
+        case 2185:
+        case 2186:
+        case 2187:
+        case 2188:
+        case 2189:
+        case 2190:
+        case 2192:
+        case 2193:
+        case 2194:
+        case 2195:
+        case 2196:
+        case 2197:
+        case 2198:
+        case 2199:
+        case 2200:
+        case 2201:
+        case 2202:
+        case 2203:
+        case 2204:
+        case 2205:
+        case 2206:
+        case 2208:
+        case 2209:
+        case 2210:
+        case 2211:
+        case 2212:
+        case 2213:
+        case 2214:
+        case 2215:
+        case 2216:
+        case 2217:
+        case 2218:
+        case 2219:
+        case 2220:
+        case 2221:
+        case 2222:
+        case 2223:
+        case 2224:
+        case 2225:
+        case 2226:
+        case 2227:
+        case 2228:
+        case 2229:
+        case 2230:
+        case 2231:
+        case 2232:
+        case 2233:
+        case 2234:
+        case 2235:
+        case 2236:
+        case 2237:
+        case 2238:
+        case 2242:
+        case 2244:
+        case 2245:
+        case 2246:
+        case 2248:
+        case 2249:
+        case 2250:
+        case 2251:
+        case 2252:
+        case 2253:
+        case 2254:
+        case 2256:
+        case 2257:
+        case 2258:
+        case 2259:
+        case 2260:
+        case 2261:
+        case 2262:
+        case 2263:
+        case 2264:
+        case 2265:
+        case 2266:
+        case 2267:
+        case 2268:
+        case 2269:
+        case 2270:
+        case 2274:
+        case 2276:
+        case 2277:
+        case 2278:
+        case 2280:
+        case 2281:
+        case 2282:
+        case 2283:
+        case 2284:
+        case 2285:
+        case 2286:
+        case 2290:
+        case 2292:
+        case 2293:
+        case 2294:
+        case 2298: {
+            plane_cut_gen( cut, N<flags>() );
         }
         case 256:
         case 257:
@@ -17905,9 +5669,11 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
         case 2047:
         case 2303: {
             size = 0;
-            return; // totally outside
+            break; // totally outside
         }
-        default: break;
+        default:
+          plane_cut_gen( cut, N<flags>() );
+          break;
         }
     }
     #else // __AVX512F__

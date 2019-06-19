@@ -103,7 +103,7 @@ struct Mod {
 
         if ( ops.size() != old_size )
             code << "            size = " << ops.size() << ";\n";
-        code << "            continue;\n";
+        code << "            break;\n";
     }
 
     std::size_t old_size;
@@ -121,16 +121,16 @@ void get_code( std::ostringstream &code, int index, int max_size_included, int s
     if ( size <= 2 || nb_outside == size ) {
         if ( size )
             code << "            size = 0;\n";
-        code << "            return; // totally outside\n";
+        code << "            break; // totally outside\n";
         return;
     }
 
     if ( nb_outside == 0 ) {
-        code << "            continue;\n";
+        code << "            break;\n";
         return;
     }
 
-
+    // get list of modifications
     Mod mod;
     mod.old_size = size;
     for( int i = 0; i < size; ++i ) {
@@ -151,6 +151,16 @@ void get_code( std::ostringstream &code, int index, int max_size_included, int s
     }
     mod.find_best_rotation();
 
+    // to lighten the generated code, we remove the rare cases
+    int nb_interp = 0;
+    for( Op op : mod.ops )
+        nb_interp += op.i1 >= 0;
+    if ( nb_interp >= 4 ) {
+        code << "            plane_cut_gen( cut, N<flags>() );\n";
+        return;
+    }
+
+    // write code
     code << "            // size=" << size << " outside=" << outside << " mod=" << mod << "\n";
     mod.write_code( code, simd_size );
 }
@@ -174,6 +184,7 @@ void generate( int simd_size, std::string /*ext*/, int max_size_included = 8 ) {
         std::cout << "        __m512d bi_" << i << " = _mm512_add_pd( _mm512_mul_pd( px_" << i << ", nx ), _mm512_mul_pd( py_" << i << ", ny ) );\n";
         std::cout << "        std::uint8_t outside_" << i << " = _mm512_cmp_pd_mask( bi_" << i << ", rd, _CMP_GT_OQ );\n"; // OQ => 46.9, QS => 47.1
         std::cout << "        __m512d di_" << i << " = _mm512_sub_pd( bi_" << i << ", rd );\n";
+        // std::cout << "        outside_" << i << " &= ( 1 << size ) - 1;\n";
         // std::cout << "    std::uint8_t outside_" << i << " = _mm512_movepi64_mask( __m512i( di_" << i << " ) );\n"; // => 47.1
     }
     std::cout << "\n";
@@ -196,7 +207,9 @@ void generate( int simd_size, std::string /*ext*/, int max_size_included = 8 ) {
             std::cout << "\n        case " << index << ":";
         std::cout << " {\n" << c.first << "        }";
     }
-    std::cout << "\n        default: break;\n";
+    std::cout << "\n        default:\n";
+    std::cout << "          plane_cut_gen( cut, N<flags>() );\n";
+    std::cout << "          break;\n";
     std::cout << "        }\n";
     std::cout << "    }\n";
 }
