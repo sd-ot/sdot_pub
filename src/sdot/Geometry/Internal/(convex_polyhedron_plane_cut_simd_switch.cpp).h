@@ -54,21 +54,28 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
         case 1009:
         case 1017: {
             // size=3 outside=0000000000000000000000000000000000000000000000000000000000000001 mod=[ 0, 1 ],1,2,[ 0, 2 ]
+            size = 4;
             TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF m_0 = d_0 / ( d_1 - d_0 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 1 ] - reinterpret_cast<double *>( &px_0 )[ 0 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 1 ] - reinterpret_cast<double *>( &py_0 )[ 0 ] );
-            TF m_1 = d_0 / ( d_2 - d_0 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 0 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 2 ] - reinterpret_cast<double *>( &px_0 )[ 0 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 0 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 2 ] - reinterpret_cast<double *>( &py_0 )[ 0 ] );
+            TF x_0 = reinterpret_cast<const TF *>( &px_0 )[ 0 ];
+            TF x_1 = reinterpret_cast<const TF *>( &px_0 )[ 1 ];
+            TF x_2 = reinterpret_cast<const TF *>( &px_0 )[ 2 ];
+            TF y_0 = reinterpret_cast<const TF *>( &py_0 )[ 0 ];
+            TF y_1 = reinterpret_cast<const TF *>( &py_0 )[ 1 ];
+            TF y_2 = reinterpret_cast<const TF *>( &py_0 )[ 2 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x9020108ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set1_pd( d_0 );
+            __m128d x_i0 = _mm_set1_pd( x_0 );
+            __m128d y_i0 = _mm_set1_pd( y_0 );
+            __m128d d_i1 = _mm_set_pd( d_2, d_1 );
+            __m128d x_i1 = _mm_set_pd( x_2, x_1 );
+            __m128d y_i1 = _mm_set_pd( y_2, y_1 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
-            size = 4;
             break;
         }
         case 770:
@@ -104,21 +111,28 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
         case 1010:
         case 1018: {
             // size=3 outside=0000000000000000000000000000000000000000000000000000000000000010 mod=0,[ 1, 0 ],[ 1, 2 ],2
+            size = 4;
             TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF m_0 = d_1 / ( d_0 - d_1 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 1 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 0 ] - reinterpret_cast<double *>( &px_0 )[ 1 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 1 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 0 ] - reinterpret_cast<double *>( &py_0 )[ 1 ] );
-            TF m_1 = d_1 / ( d_2 - d_1 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 1 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 2 ] - reinterpret_cast<double *>( &px_0 )[ 1 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 1 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 2 ] - reinterpret_cast<double *>( &py_0 )[ 1 ] );
+            TF x_0 = reinterpret_cast<const TF *>( &px_0 )[ 0 ];
+            TF x_1 = reinterpret_cast<const TF *>( &px_0 )[ 1 ];
+            TF x_2 = reinterpret_cast<const TF *>( &px_0 )[ 2 ];
+            TF y_0 = reinterpret_cast<const TF *>( &py_0 )[ 0 ];
+            TF y_1 = reinterpret_cast<const TF *>( &py_0 )[ 1 ];
+            TF y_2 = reinterpret_cast<const TF *>( &py_0 )[ 2 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x2090800ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set1_pd( d_1 );
+            __m128d x_i0 = _mm_set1_pd( x_1 );
+            __m128d y_i0 = _mm_set1_pd( y_1 );
+            __m128d d_i1 = _mm_set_pd( d_2, d_0 );
+            __m128d x_i1 = _mm_set_pd( x_2, x_0 );
+            __m128d y_i1 = _mm_set_pd( y_2, y_0 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
-            size = 4;
             break;
         }
         case 771:
@@ -157,15 +171,22 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF m_0 = d_0 / ( d_2 - d_0 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 2 ] - reinterpret_cast<double *>( &px_0 )[ 0 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 2 ] - reinterpret_cast<double *>( &py_0 )[ 0 ] );
-            TF m_1 = d_1 / ( d_2 - d_1 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 1 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 2 ] - reinterpret_cast<double *>( &px_0 )[ 1 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 1 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 2 ] - reinterpret_cast<double *>( &py_0 )[ 1 ] );
+            TF x_0 = reinterpret_cast<const TF *>( &px_0 )[ 0 ];
+            TF x_1 = reinterpret_cast<const TF *>( &px_0 )[ 1 ];
+            TF x_2 = reinterpret_cast<const TF *>( &px_0 )[ 2 ];
+            TF y_0 = reinterpret_cast<const TF *>( &py_0 )[ 0 ];
+            TF y_1 = reinterpret_cast<const TF *>( &py_0 )[ 1 ];
+            TF y_2 = reinterpret_cast<const TF *>( &py_0 )[ 2 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x20908ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set_pd( d_1, d_0 );
+            __m128d x_i0 = _mm_set_pd( x_1, x_0 );
+            __m128d y_i0 = _mm_set_pd( y_1, y_0 );
+            __m128d d_i1 = _mm_set1_pd( d_2 );
+            __m128d x_i1 = _mm_set1_pd( x_2 );
+            __m128d y_i1 = _mm_set1_pd( y_2 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             break;
@@ -203,21 +224,28 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
         case 1012:
         case 1020: {
             // size=3 outside=0000000000000000000000000000000000000000000000000000000000000100 mod=0,1,[ 2, 1 ],[ 2, 0 ]
+            size = 4;
             TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF m_0 = d_2 / ( d_1 - d_2 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 2 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 1 ] - reinterpret_cast<double *>( &px_0 )[ 2 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 2 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 1 ] - reinterpret_cast<double *>( &py_0 )[ 2 ] );
-            TF m_1 = d_2 / ( d_0 - d_2 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 2 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 0 ] - reinterpret_cast<double *>( &px_0 )[ 2 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 2 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 0 ] - reinterpret_cast<double *>( &py_0 )[ 2 ] );
+            TF x_0 = reinterpret_cast<const TF *>( &px_0 )[ 0 ];
+            TF x_1 = reinterpret_cast<const TF *>( &px_0 )[ 1 ];
+            TF x_2 = reinterpret_cast<const TF *>( &px_0 )[ 2 ];
+            TF y_0 = reinterpret_cast<const TF *>( &py_0 )[ 0 ];
+            TF y_1 = reinterpret_cast<const TF *>( &py_0 )[ 1 ];
+            TF y_2 = reinterpret_cast<const TF *>( &py_0 )[ 2 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x9080100ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set1_pd( d_2 );
+            __m128d x_i0 = _mm_set1_pd( x_2 );
+            __m128d y_i0 = _mm_set1_pd( y_2 );
+            __m128d d_i1 = _mm_set_pd( d_0, d_1 );
+            __m128d x_i1 = _mm_set_pd( x_0, x_1 );
+            __m128d y_i1 = _mm_set_pd( y_0, y_1 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
-            size = 4;
             break;
         }
         case 773:
@@ -256,15 +284,22 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF m_0 = d_0 / ( d_1 - d_0 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 1 ] - reinterpret_cast<double *>( &px_0 )[ 0 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 1 ] - reinterpret_cast<double *>( &py_0 )[ 0 ] );
-            TF m_1 = d_2 / ( d_1 - d_2 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 2 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 1 ] - reinterpret_cast<double *>( &px_0 )[ 2 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 2 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 1 ] - reinterpret_cast<double *>( &py_0 )[ 2 ] );
+            TF x_0 = reinterpret_cast<const TF *>( &px_0 )[ 0 ];
+            TF x_1 = reinterpret_cast<const TF *>( &px_0 )[ 1 ];
+            TF x_2 = reinterpret_cast<const TF *>( &px_0 )[ 2 ];
+            TF y_0 = reinterpret_cast<const TF *>( &py_0 )[ 0 ];
+            TF y_1 = reinterpret_cast<const TF *>( &py_0 )[ 1 ];
+            TF y_2 = reinterpret_cast<const TF *>( &py_0 )[ 2 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x90108ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set_pd( d_2, d_0 );
+            __m128d x_i0 = _mm_set_pd( x_2, x_0 );
+            __m128d y_i0 = _mm_set_pd( y_2, y_0 );
+            __m128d d_i1 = _mm_set1_pd( d_1 );
+            __m128d x_i1 = _mm_set1_pd( x_1 );
+            __m128d y_i1 = _mm_set1_pd( y_1 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             break;
@@ -305,15 +340,22 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF m_0 = d_1 / ( d_0 - d_1 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 1 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 0 ] - reinterpret_cast<double *>( &px_0 )[ 1 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 1 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 0 ] - reinterpret_cast<double *>( &py_0 )[ 1 ] );
-            TF m_1 = d_2 / ( d_0 - d_2 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 2 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 0 ] - reinterpret_cast<double *>( &px_0 )[ 2 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 2 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 0 ] - reinterpret_cast<double *>( &py_0 )[ 2 ] );
+            TF x_0 = reinterpret_cast<const TF *>( &px_0 )[ 0 ];
+            TF x_1 = reinterpret_cast<const TF *>( &px_0 )[ 1 ];
+            TF x_2 = reinterpret_cast<const TF *>( &px_0 )[ 2 ];
+            TF y_0 = reinterpret_cast<const TF *>( &py_0 )[ 0 ];
+            TF y_1 = reinterpret_cast<const TF *>( &py_0 )[ 1 ];
+            TF y_2 = reinterpret_cast<const TF *>( &py_0 )[ 2 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x90800ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set_pd( d_2, d_1 );
+            __m128d x_i0 = _mm_set_pd( x_2, x_1 );
+            __m128d y_i0 = _mm_set_pd( y_2, y_1 );
+            __m128d d_i1 = _mm_set1_pd( d_0 );
+            __m128d x_i1 = _mm_set1_pd( x_0 );
+            __m128d y_i1 = _mm_set1_pd( y_0 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             break;
@@ -335,21 +377,28 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
         case 1249:
         case 1265: {
             // size=4 outside=0000000000000000000000000000000000000000000000000000000000000001 mod=[ 0, 1 ],1,2,3,[ 0, 3 ]
+            size = 5;
             TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF m_0 = d_0 / ( d_1 - d_0 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 1 ] - reinterpret_cast<double *>( &px_0 )[ 0 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 1 ] - reinterpret_cast<double *>( &py_0 )[ 0 ] );
-            TF m_1 = d_0 / ( d_3 - d_0 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 0 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 3 ] - reinterpret_cast<double *>( &px_0 )[ 0 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 0 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 3 ] - reinterpret_cast<double *>( &py_0 )[ 0 ] );
+            TF x_0 = reinterpret_cast<const TF *>( &px_0 )[ 0 ];
+            TF x_1 = reinterpret_cast<const TF *>( &px_0 )[ 1 ];
+            TF x_3 = reinterpret_cast<const TF *>( &px_0 )[ 3 ];
+            TF y_0 = reinterpret_cast<const TF *>( &py_0 )[ 0 ];
+            TF y_1 = reinterpret_cast<const TF *>( &py_0 )[ 1 ];
+            TF y_3 = reinterpret_cast<const TF *>( &py_0 )[ 3 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x903020108ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set1_pd( d_0 );
+            __m128d x_i0 = _mm_set1_pd( x_0 );
+            __m128d y_i0 = _mm_set1_pd( y_0 );
+            __m128d d_i1 = _mm_set_pd( d_3, d_1 );
+            __m128d x_i1 = _mm_set_pd( x_3, x_1 );
+            __m128d y_i1 = _mm_set_pd( y_3, y_1 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
-            size = 5;
             break;
         }
         case 1026:
@@ -369,21 +418,28 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
         case 1250:
         case 1266: {
             // size=4 outside=0000000000000000000000000000000000000000000000000000000000000010 mod=[ 1, 0 ],[ 1, 2 ],2,3,0
+            size = 5;
             TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF m_0 = d_1 / ( d_0 - d_1 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 1 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 0 ] - reinterpret_cast<double *>( &px_0 )[ 1 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 1 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 0 ] - reinterpret_cast<double *>( &py_0 )[ 1 ] );
-            TF m_1 = d_1 / ( d_2 - d_1 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 1 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 2 ] - reinterpret_cast<double *>( &px_0 )[ 1 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 1 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 2 ] - reinterpret_cast<double *>( &py_0 )[ 1 ] );
+            TF x_0 = reinterpret_cast<const TF *>( &px_0 )[ 0 ];
+            TF x_1 = reinterpret_cast<const TF *>( &px_0 )[ 1 ];
+            TF x_2 = reinterpret_cast<const TF *>( &px_0 )[ 2 ];
+            TF y_0 = reinterpret_cast<const TF *>( &py_0 )[ 0 ];
+            TF y_1 = reinterpret_cast<const TF *>( &py_0 )[ 1 ];
+            TF y_2 = reinterpret_cast<const TF *>( &py_0 )[ 2 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x3020908ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set1_pd( d_1 );
+            __m128d x_i0 = _mm_set1_pd( x_1 );
+            __m128d y_i0 = _mm_set1_pd( y_1 );
+            __m128d d_i1 = _mm_set_pd( d_2, d_0 );
+            __m128d x_i1 = _mm_set_pd( x_2, x_0 );
+            __m128d y_i1 = _mm_set_pd( y_2, y_0 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
-            size = 5;
             break;
         }
         case 1027:
@@ -407,15 +463,24 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF m_0 = d_0 / ( d_3 - d_0 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 3 ] - reinterpret_cast<double *>( &px_0 )[ 0 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 3 ] - reinterpret_cast<double *>( &py_0 )[ 0 ] );
-            TF m_1 = d_1 / ( d_2 - d_1 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 1 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 2 ] - reinterpret_cast<double *>( &px_0 )[ 1 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 1 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 2 ] - reinterpret_cast<double *>( &py_0 )[ 1 ] );
+            TF x_0 = reinterpret_cast<const TF *>( &px_0 )[ 0 ];
+            TF x_1 = reinterpret_cast<const TF *>( &px_0 )[ 1 ];
+            TF x_2 = reinterpret_cast<const TF *>( &px_0 )[ 2 ];
+            TF x_3 = reinterpret_cast<const TF *>( &px_0 )[ 3 ];
+            TF y_0 = reinterpret_cast<const TF *>( &py_0 )[ 0 ];
+            TF y_1 = reinterpret_cast<const TF *>( &py_0 )[ 1 ];
+            TF y_2 = reinterpret_cast<const TF *>( &py_0 )[ 2 ];
+            TF y_3 = reinterpret_cast<const TF *>( &py_0 )[ 3 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x3020908ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set_pd( d_1, d_0 );
+            __m128d x_i0 = _mm_set_pd( x_1, x_0 );
+            __m128d y_i0 = _mm_set_pd( y_1, y_0 );
+            __m128d d_i1 = _mm_set_pd( d_2, d_3 );
+            __m128d x_i1 = _mm_set_pd( x_2, x_3 );
+            __m128d y_i1 = _mm_set_pd( y_2, y_3 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             break;
@@ -437,21 +502,28 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
         case 1252:
         case 1268: {
             // size=4 outside=0000000000000000000000000000000000000000000000000000000000000100 mod=0,1,[ 2, 1 ],[ 2, 3 ],3
+            size = 5;
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF m_0 = d_2 / ( d_1 - d_2 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 2 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 1 ] - reinterpret_cast<double *>( &px_0 )[ 2 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 2 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 1 ] - reinterpret_cast<double *>( &py_0 )[ 2 ] );
-            TF m_1 = d_2 / ( d_3 - d_2 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 2 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 3 ] - reinterpret_cast<double *>( &px_0 )[ 2 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 2 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 3 ] - reinterpret_cast<double *>( &py_0 )[ 2 ] );
+            TF x_1 = reinterpret_cast<const TF *>( &px_0 )[ 1 ];
+            TF x_2 = reinterpret_cast<const TF *>( &px_0 )[ 2 ];
+            TF x_3 = reinterpret_cast<const TF *>( &px_0 )[ 3 ];
+            TF y_1 = reinterpret_cast<const TF *>( &py_0 )[ 1 ];
+            TF y_2 = reinterpret_cast<const TF *>( &py_0 )[ 2 ];
+            TF y_3 = reinterpret_cast<const TF *>( &py_0 )[ 3 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x309080100ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set1_pd( d_2 );
+            __m128d x_i0 = _mm_set1_pd( x_2 );
+            __m128d y_i0 = _mm_set1_pd( y_2 );
+            __m128d d_i1 = _mm_set_pd( d_3, d_1 );
+            __m128d x_i1 = _mm_set_pd( x_3, x_1 );
+            __m128d y_i1 = _mm_set_pd( y_3, y_1 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
-            size = 5;
             break;
         }
         case 1030:
@@ -475,15 +547,24 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF m_0 = d_1 / ( d_0 - d_1 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 1 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 0 ] - reinterpret_cast<double *>( &px_0 )[ 1 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 1 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 0 ] - reinterpret_cast<double *>( &py_0 )[ 1 ] );
-            TF m_1 = d_2 / ( d_3 - d_2 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 2 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 3 ] - reinterpret_cast<double *>( &px_0 )[ 2 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 2 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 3 ] - reinterpret_cast<double *>( &py_0 )[ 2 ] );
+            TF x_0 = reinterpret_cast<const TF *>( &px_0 )[ 0 ];
+            TF x_1 = reinterpret_cast<const TF *>( &px_0 )[ 1 ];
+            TF x_2 = reinterpret_cast<const TF *>( &px_0 )[ 2 ];
+            TF x_3 = reinterpret_cast<const TF *>( &px_0 )[ 3 ];
+            TF y_0 = reinterpret_cast<const TF *>( &py_0 )[ 0 ];
+            TF y_1 = reinterpret_cast<const TF *>( &py_0 )[ 1 ];
+            TF y_2 = reinterpret_cast<const TF *>( &py_0 )[ 2 ];
+            TF y_3 = reinterpret_cast<const TF *>( &py_0 )[ 3 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x3090800ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set_pd( d_2, d_1 );
+            __m128d x_i0 = _mm_set_pd( x_2, x_1 );
+            __m128d y_i0 = _mm_set_pd( y_2, y_1 );
+            __m128d d_i1 = _mm_set_pd( d_3, d_0 );
+            __m128d x_i1 = _mm_set_pd( x_3, x_0 );
+            __m128d y_i1 = _mm_set_pd( y_3, y_0 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             break;
@@ -505,21 +586,28 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
         case 1255:
         case 1271: {
             // size=4 outside=0000000000000000000000000000000000000000000000000000000000000111 mod=[ 0, 3 ],[ 2, 3 ],3
+            size = 3;
             TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF m_0 = d_0 / ( d_3 - d_0 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 3 ] - reinterpret_cast<double *>( &px_0 )[ 0 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 3 ] - reinterpret_cast<double *>( &py_0 )[ 0 ] );
-            TF m_1 = d_2 / ( d_3 - d_2 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 2 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 3 ] - reinterpret_cast<double *>( &px_0 )[ 2 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 2 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 3 ] - reinterpret_cast<double *>( &py_0 )[ 2 ] );
+            TF x_0 = reinterpret_cast<const TF *>( &px_0 )[ 0 ];
+            TF x_2 = reinterpret_cast<const TF *>( &px_0 )[ 2 ];
+            TF x_3 = reinterpret_cast<const TF *>( &px_0 )[ 3 ];
+            TF y_0 = reinterpret_cast<const TF *>( &py_0 )[ 0 ];
+            TF y_2 = reinterpret_cast<const TF *>( &py_0 )[ 2 ];
+            TF y_3 = reinterpret_cast<const TF *>( &py_0 )[ 3 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x30908ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set_pd( d_2, d_0 );
+            __m128d x_i0 = _mm_set_pd( x_2, x_0 );
+            __m128d y_i0 = _mm_set_pd( y_2, y_0 );
+            __m128d d_i1 = _mm_set1_pd( d_3 );
+            __m128d x_i1 = _mm_set1_pd( x_3 );
+            __m128d y_i1 = _mm_set1_pd( y_3 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
-            size = 3;
             break;
         }
         case 1032:
@@ -539,21 +627,28 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
         case 1256:
         case 1272: {
             // size=4 outside=0000000000000000000000000000000000000000000000000000000000001000 mod=0,1,2,[ 3, 2 ],[ 3, 0 ]
+            size = 5;
             TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF m_0 = d_3 / ( d_2 - d_3 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 3 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 2 ] - reinterpret_cast<double *>( &px_0 )[ 3 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 3 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 2 ] - reinterpret_cast<double *>( &py_0 )[ 3 ] );
-            TF m_1 = d_3 / ( d_0 - d_3 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 3 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 0 ] - reinterpret_cast<double *>( &px_0 )[ 3 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 3 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 0 ] - reinterpret_cast<double *>( &py_0 )[ 3 ] );
+            TF x_0 = reinterpret_cast<const TF *>( &px_0 )[ 0 ];
+            TF x_2 = reinterpret_cast<const TF *>( &px_0 )[ 2 ];
+            TF x_3 = reinterpret_cast<const TF *>( &px_0 )[ 3 ];
+            TF y_0 = reinterpret_cast<const TF *>( &py_0 )[ 0 ];
+            TF y_2 = reinterpret_cast<const TF *>( &py_0 )[ 2 ];
+            TF y_3 = reinterpret_cast<const TF *>( &py_0 )[ 3 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x908020100ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set1_pd( d_3 );
+            __m128d x_i0 = _mm_set1_pd( x_3 );
+            __m128d y_i0 = _mm_set1_pd( y_3 );
+            __m128d d_i1 = _mm_set_pd( d_0, d_2 );
+            __m128d x_i1 = _mm_set_pd( x_0, x_2 );
+            __m128d y_i1 = _mm_set_pd( y_0, y_2 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
-            size = 5;
             break;
         }
         case 1033:
@@ -577,15 +672,24 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF m_0 = d_0 / ( d_1 - d_0 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 1 ] - reinterpret_cast<double *>( &px_0 )[ 0 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 1 ] - reinterpret_cast<double *>( &py_0 )[ 0 ] );
-            TF m_1 = d_3 / ( d_2 - d_3 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 3 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 2 ] - reinterpret_cast<double *>( &px_0 )[ 3 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 3 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 2 ] - reinterpret_cast<double *>( &py_0 )[ 3 ] );
+            TF x_0 = reinterpret_cast<const TF *>( &px_0 )[ 0 ];
+            TF x_1 = reinterpret_cast<const TF *>( &px_0 )[ 1 ];
+            TF x_2 = reinterpret_cast<const TF *>( &px_0 )[ 2 ];
+            TF x_3 = reinterpret_cast<const TF *>( &px_0 )[ 3 ];
+            TF y_0 = reinterpret_cast<const TF *>( &py_0 )[ 0 ];
+            TF y_1 = reinterpret_cast<const TF *>( &py_0 )[ 1 ];
+            TF y_2 = reinterpret_cast<const TF *>( &py_0 )[ 2 ];
+            TF y_3 = reinterpret_cast<const TF *>( &py_0 )[ 3 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x9020108ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set_pd( d_3, d_0 );
+            __m128d x_i0 = _mm_set_pd( x_3, x_0 );
+            __m128d y_i0 = _mm_set_pd( y_3, y_0 );
+            __m128d d_i1 = _mm_set_pd( d_2, d_1 );
+            __m128d x_i1 = _mm_set_pd( x_2, x_1 );
+            __m128d y_i1 = _mm_set_pd( y_2, y_1 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             break;
@@ -607,21 +711,28 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
         case 1259:
         case 1275: {
             // size=4 outside=0000000000000000000000000000000000000000000000000000000000001011 mod=[ 3, 2 ],[ 1, 2 ],2
+            size = 3;
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF m_0 = d_3 / ( d_2 - d_3 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 3 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 2 ] - reinterpret_cast<double *>( &px_0 )[ 3 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 3 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 2 ] - reinterpret_cast<double *>( &py_0 )[ 3 ] );
-            TF m_1 = d_1 / ( d_2 - d_1 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 1 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 2 ] - reinterpret_cast<double *>( &px_0 )[ 1 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 1 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 2 ] - reinterpret_cast<double *>( &py_0 )[ 1 ] );
+            TF x_1 = reinterpret_cast<const TF *>( &px_0 )[ 1 ];
+            TF x_2 = reinterpret_cast<const TF *>( &px_0 )[ 2 ];
+            TF x_3 = reinterpret_cast<const TF *>( &px_0 )[ 3 ];
+            TF y_1 = reinterpret_cast<const TF *>( &py_0 )[ 1 ];
+            TF y_2 = reinterpret_cast<const TF *>( &py_0 )[ 2 ];
+            TF y_3 = reinterpret_cast<const TF *>( &py_0 )[ 3 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x20908ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set_pd( d_1, d_3 );
+            __m128d x_i0 = _mm_set_pd( x_1, x_3 );
+            __m128d y_i0 = _mm_set_pd( y_1, y_3 );
+            __m128d d_i1 = _mm_set1_pd( d_2 );
+            __m128d x_i1 = _mm_set1_pd( x_2 );
+            __m128d y_i1 = _mm_set1_pd( y_2 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
-            size = 3;
             break;
         }
         case 1036:
@@ -645,15 +756,24 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF m_0 = d_2 / ( d_1 - d_2 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 2 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 1 ] - reinterpret_cast<double *>( &px_0 )[ 2 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 2 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 1 ] - reinterpret_cast<double *>( &py_0 )[ 2 ] );
-            TF m_1 = d_3 / ( d_0 - d_3 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 3 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 0 ] - reinterpret_cast<double *>( &px_0 )[ 3 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 3 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 0 ] - reinterpret_cast<double *>( &py_0 )[ 3 ] );
+            TF x_0 = reinterpret_cast<const TF *>( &px_0 )[ 0 ];
+            TF x_1 = reinterpret_cast<const TF *>( &px_0 )[ 1 ];
+            TF x_2 = reinterpret_cast<const TF *>( &px_0 )[ 2 ];
+            TF x_3 = reinterpret_cast<const TF *>( &px_0 )[ 3 ];
+            TF y_0 = reinterpret_cast<const TF *>( &py_0 )[ 0 ];
+            TF y_1 = reinterpret_cast<const TF *>( &py_0 )[ 1 ];
+            TF y_2 = reinterpret_cast<const TF *>( &py_0 )[ 2 ];
+            TF y_3 = reinterpret_cast<const TF *>( &py_0 )[ 3 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x9080100ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set_pd( d_3, d_2 );
+            __m128d x_i0 = _mm_set_pd( x_3, x_2 );
+            __m128d y_i0 = _mm_set_pd( y_3, y_2 );
+            __m128d d_i1 = _mm_set_pd( d_0, d_1 );
+            __m128d x_i1 = _mm_set_pd( x_0, x_1 );
+            __m128d y_i1 = _mm_set_pd( y_0, y_1 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             break;
@@ -675,21 +795,28 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
         case 1261:
         case 1277: {
             // size=4 outside=0000000000000000000000000000000000000000000000000000000000001101 mod=[ 0, 1 ],1,[ 2, 1 ]
+            size = 3;
             TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF m_0 = d_0 / ( d_1 - d_0 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 1 ] - reinterpret_cast<double *>( &px_0 )[ 0 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 1 ] - reinterpret_cast<double *>( &py_0 )[ 0 ] );
-            TF m_1 = d_2 / ( d_1 - d_2 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 2 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 1 ] - reinterpret_cast<double *>( &px_0 )[ 2 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 2 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 1 ] - reinterpret_cast<double *>( &py_0 )[ 2 ] );
+            TF x_0 = reinterpret_cast<const TF *>( &px_0 )[ 0 ];
+            TF x_1 = reinterpret_cast<const TF *>( &px_0 )[ 1 ];
+            TF x_2 = reinterpret_cast<const TF *>( &px_0 )[ 2 ];
+            TF y_0 = reinterpret_cast<const TF *>( &py_0 )[ 0 ];
+            TF y_1 = reinterpret_cast<const TF *>( &py_0 )[ 1 ];
+            TF y_2 = reinterpret_cast<const TF *>( &py_0 )[ 2 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x90108ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set_pd( d_2, d_0 );
+            __m128d x_i0 = _mm_set_pd( x_2, x_0 );
+            __m128d y_i0 = _mm_set_pd( y_2, y_0 );
+            __m128d d_i1 = _mm_set1_pd( d_1 );
+            __m128d x_i1 = _mm_set1_pd( x_1 );
+            __m128d y_i1 = _mm_set1_pd( y_1 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
-            size = 3;
             break;
         }
         case 1038:
@@ -709,21 +836,28 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
         case 1262:
         case 1278: {
             // size=4 outside=0000000000000000000000000000000000000000000000000000000000001110 mod=0,[ 1, 0 ],[ 3, 0 ]
+            size = 3;
             TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF m_0 = d_1 / ( d_0 - d_1 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 1 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 0 ] - reinterpret_cast<double *>( &px_0 )[ 1 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 1 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 0 ] - reinterpret_cast<double *>( &py_0 )[ 1 ] );
-            TF m_1 = d_3 / ( d_0 - d_3 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 3 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 0 ] - reinterpret_cast<double *>( &px_0 )[ 3 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 3 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 0 ] - reinterpret_cast<double *>( &py_0 )[ 3 ] );
+            TF x_0 = reinterpret_cast<const TF *>( &px_0 )[ 0 ];
+            TF x_1 = reinterpret_cast<const TF *>( &px_0 )[ 1 ];
+            TF x_3 = reinterpret_cast<const TF *>( &px_0 )[ 3 ];
+            TF y_0 = reinterpret_cast<const TF *>( &py_0 )[ 0 ];
+            TF y_1 = reinterpret_cast<const TF *>( &py_0 )[ 1 ];
+            TF y_3 = reinterpret_cast<const TF *>( &py_0 )[ 3 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x90800ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set_pd( d_3, d_1 );
+            __m128d x_i0 = _mm_set_pd( x_3, x_1 );
+            __m128d y_i0 = _mm_set_pd( y_3, y_1 );
+            __m128d d_i1 = _mm_set1_pd( d_0 );
+            __m128d x_i1 = _mm_set1_pd( x_0 );
+            __m128d y_i1 = _mm_set1_pd( y_0 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
-            size = 3;
             break;
         }
         case 1281:
@@ -735,21 +869,28 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
         case 1473:
         case 1505: {
             // size=5 outside=0000000000000000000000000000000000000000000000000000000000000001 mod=[ 0, 1 ],1,2,3,4,[ 0, 4 ]
+            size = 6;
             TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF m_0 = d_0 / ( d_1 - d_0 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 1 ] - reinterpret_cast<double *>( &px_0 )[ 0 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 1 ] - reinterpret_cast<double *>( &py_0 )[ 0 ] );
-            TF m_1 = d_0 / ( d_4 - d_0 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 0 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 4 ] - reinterpret_cast<double *>( &px_0 )[ 0 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 0 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 4 ] - reinterpret_cast<double *>( &py_0 )[ 0 ] );
+            TF x_0 = reinterpret_cast<const TF *>( &px_0 )[ 0 ];
+            TF x_1 = reinterpret_cast<const TF *>( &px_0 )[ 1 ];
+            TF x_4 = reinterpret_cast<const TF *>( &px_0 )[ 4 ];
+            TF y_0 = reinterpret_cast<const TF *>( &py_0 )[ 0 ];
+            TF y_1 = reinterpret_cast<const TF *>( &py_0 )[ 1 ];
+            TF y_4 = reinterpret_cast<const TF *>( &py_0 )[ 4 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x90403020108ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set1_pd( d_0 );
+            __m128d x_i0 = _mm_set1_pd( x_0 );
+            __m128d y_i0 = _mm_set1_pd( y_0 );
+            __m128d d_i1 = _mm_set_pd( d_4, d_1 );
+            __m128d x_i1 = _mm_set_pd( x_4, x_1 );
+            __m128d y_i1 = _mm_set_pd( y_4, y_1 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
-            size = 6;
             break;
         }
         case 1282:
@@ -761,21 +902,28 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
         case 1474:
         case 1506: {
             // size=5 outside=0000000000000000000000000000000000000000000000000000000000000010 mod=[ 1, 0 ],[ 1, 2 ],2,3,4,0
+            size = 6;
             TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF m_0 = d_1 / ( d_0 - d_1 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 1 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 0 ] - reinterpret_cast<double *>( &px_0 )[ 1 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 1 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 0 ] - reinterpret_cast<double *>( &py_0 )[ 1 ] );
-            TF m_1 = d_1 / ( d_2 - d_1 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 1 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 2 ] - reinterpret_cast<double *>( &px_0 )[ 1 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 1 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 2 ] - reinterpret_cast<double *>( &py_0 )[ 1 ] );
+            TF x_0 = reinterpret_cast<const TF *>( &px_0 )[ 0 ];
+            TF x_1 = reinterpret_cast<const TF *>( &px_0 )[ 1 ];
+            TF x_2 = reinterpret_cast<const TF *>( &px_0 )[ 2 ];
+            TF y_0 = reinterpret_cast<const TF *>( &py_0 )[ 0 ];
+            TF y_1 = reinterpret_cast<const TF *>( &py_0 )[ 1 ];
+            TF y_2 = reinterpret_cast<const TF *>( &py_0 )[ 2 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x403020908ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set1_pd( d_1 );
+            __m128d x_i0 = _mm_set1_pd( x_1 );
+            __m128d y_i0 = _mm_set1_pd( y_1 );
+            __m128d d_i1 = _mm_set_pd( d_2, d_0 );
+            __m128d x_i1 = _mm_set_pd( x_2, x_0 );
+            __m128d y_i1 = _mm_set_pd( y_2, y_0 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
-            size = 6;
             break;
         }
         case 1283:
@@ -791,15 +939,24 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF m_0 = d_0 / ( d_4 - d_0 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 4 ] - reinterpret_cast<double *>( &px_0 )[ 0 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 4 ] - reinterpret_cast<double *>( &py_0 )[ 0 ] );
-            TF m_1 = d_1 / ( d_2 - d_1 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 1 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 2 ] - reinterpret_cast<double *>( &px_0 )[ 1 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 1 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 2 ] - reinterpret_cast<double *>( &py_0 )[ 1 ] );
+            TF x_0 = reinterpret_cast<const TF *>( &px_0 )[ 0 ];
+            TF x_1 = reinterpret_cast<const TF *>( &px_0 )[ 1 ];
+            TF x_2 = reinterpret_cast<const TF *>( &px_0 )[ 2 ];
+            TF x_4 = reinterpret_cast<const TF *>( &px_0 )[ 4 ];
+            TF y_0 = reinterpret_cast<const TF *>( &py_0 )[ 0 ];
+            TF y_1 = reinterpret_cast<const TF *>( &py_0 )[ 1 ];
+            TF y_2 = reinterpret_cast<const TF *>( &py_0 )[ 2 ];
+            TF y_4 = reinterpret_cast<const TF *>( &py_0 )[ 4 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x403020908ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set_pd( d_1, d_0 );
+            __m128d x_i0 = _mm_set_pd( x_1, x_0 );
+            __m128d y_i0 = _mm_set_pd( y_1, y_0 );
+            __m128d d_i1 = _mm_set_pd( d_2, d_4 );
+            __m128d x_i1 = _mm_set_pd( x_2, x_4 );
+            __m128d y_i1 = _mm_set_pd( y_2, y_4 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             break;
@@ -813,21 +970,28 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
         case 1476:
         case 1508: {
             // size=5 outside=0000000000000000000000000000000000000000000000000000000000000100 mod=0,1,[ 2, 1 ],[ 2, 3 ],3,4
+            size = 6;
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF m_0 = d_2 / ( d_1 - d_2 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 2 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 1 ] - reinterpret_cast<double *>( &px_0 )[ 2 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 2 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 1 ] - reinterpret_cast<double *>( &py_0 )[ 2 ] );
-            TF m_1 = d_2 / ( d_3 - d_2 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 2 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 3 ] - reinterpret_cast<double *>( &px_0 )[ 2 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 2 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 3 ] - reinterpret_cast<double *>( &py_0 )[ 2 ] );
+            TF x_1 = reinterpret_cast<const TF *>( &px_0 )[ 1 ];
+            TF x_2 = reinterpret_cast<const TF *>( &px_0 )[ 2 ];
+            TF x_3 = reinterpret_cast<const TF *>( &px_0 )[ 3 ];
+            TF y_1 = reinterpret_cast<const TF *>( &py_0 )[ 1 ];
+            TF y_2 = reinterpret_cast<const TF *>( &py_0 )[ 2 ];
+            TF y_3 = reinterpret_cast<const TF *>( &py_0 )[ 3 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x40309080100ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set1_pd( d_2 );
+            __m128d x_i0 = _mm_set1_pd( x_2 );
+            __m128d y_i0 = _mm_set1_pd( y_2 );
+            __m128d d_i1 = _mm_set_pd( d_3, d_1 );
+            __m128d x_i1 = _mm_set_pd( x_3, x_1 );
+            __m128d y_i1 = _mm_set_pd( y_3, y_1 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
-            size = 6;
             break;
         }
         case 1286:
@@ -843,15 +1007,24 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF m_0 = d_1 / ( d_0 - d_1 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 1 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 0 ] - reinterpret_cast<double *>( &px_0 )[ 1 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 1 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 0 ] - reinterpret_cast<double *>( &py_0 )[ 1 ] );
-            TF m_1 = d_2 / ( d_3 - d_2 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 2 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 3 ] - reinterpret_cast<double *>( &px_0 )[ 2 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 2 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 3 ] - reinterpret_cast<double *>( &py_0 )[ 2 ] );
+            TF x_0 = reinterpret_cast<const TF *>( &px_0 )[ 0 ];
+            TF x_1 = reinterpret_cast<const TF *>( &px_0 )[ 1 ];
+            TF x_2 = reinterpret_cast<const TF *>( &px_0 )[ 2 ];
+            TF x_3 = reinterpret_cast<const TF *>( &px_0 )[ 3 ];
+            TF y_0 = reinterpret_cast<const TF *>( &py_0 )[ 0 ];
+            TF y_1 = reinterpret_cast<const TF *>( &py_0 )[ 1 ];
+            TF y_2 = reinterpret_cast<const TF *>( &py_0 )[ 2 ];
+            TF y_3 = reinterpret_cast<const TF *>( &py_0 )[ 3 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x403090800ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set_pd( d_2, d_1 );
+            __m128d x_i0 = _mm_set_pd( x_2, x_1 );
+            __m128d y_i0 = _mm_set_pd( y_2, y_1 );
+            __m128d d_i1 = _mm_set_pd( d_3, d_0 );
+            __m128d x_i1 = _mm_set_pd( x_3, x_0 );
+            __m128d y_i1 = _mm_set_pd( y_3, y_0 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             break;
@@ -865,22 +1038,31 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
         case 1479:
         case 1511: {
             // size=5 outside=0000000000000000000000000000000000000000000000000000000000000111 mod=4,[ 0, 4 ],[ 2, 3 ],3
+            size = 4;
             TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF m_0 = d_0 / ( d_4 - d_0 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 4 ] - reinterpret_cast<double *>( &px_0 )[ 0 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 4 ] - reinterpret_cast<double *>( &py_0 )[ 0 ] );
-            TF m_1 = d_2 / ( d_3 - d_2 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 2 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 3 ] - reinterpret_cast<double *>( &px_0 )[ 2 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 2 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 3 ] - reinterpret_cast<double *>( &py_0 )[ 2 ] );
+            TF x_0 = reinterpret_cast<const TF *>( &px_0 )[ 0 ];
+            TF x_2 = reinterpret_cast<const TF *>( &px_0 )[ 2 ];
+            TF x_3 = reinterpret_cast<const TF *>( &px_0 )[ 3 ];
+            TF x_4 = reinterpret_cast<const TF *>( &px_0 )[ 4 ];
+            TF y_0 = reinterpret_cast<const TF *>( &py_0 )[ 0 ];
+            TF y_2 = reinterpret_cast<const TF *>( &py_0 )[ 2 ];
+            TF y_3 = reinterpret_cast<const TF *>( &py_0 )[ 3 ];
+            TF y_4 = reinterpret_cast<const TF *>( &py_0 )[ 4 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x3090804ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set_pd( d_2, d_0 );
+            __m128d x_i0 = _mm_set_pd( x_2, x_0 );
+            __m128d y_i0 = _mm_set_pd( y_2, y_0 );
+            __m128d d_i1 = _mm_set_pd( d_3, d_4 );
+            __m128d x_i1 = _mm_set_pd( x_3, x_4 );
+            __m128d y_i1 = _mm_set_pd( y_3, y_4 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
-            size = 4;
             break;
         }
         case 1288:
@@ -892,21 +1074,28 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
         case 1480:
         case 1512: {
             // size=5 outside=0000000000000000000000000000000000000000000000000000000000001000 mod=0,1,2,[ 3, 2 ],[ 3, 4 ],4
+            size = 6;
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF m_0 = d_3 / ( d_2 - d_3 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 3 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 2 ] - reinterpret_cast<double *>( &px_0 )[ 3 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 3 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 2 ] - reinterpret_cast<double *>( &py_0 )[ 3 ] );
-            TF m_1 = d_3 / ( d_4 - d_3 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 3 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 4 ] - reinterpret_cast<double *>( &px_0 )[ 3 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 3 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 4 ] - reinterpret_cast<double *>( &py_0 )[ 3 ] );
+            TF x_2 = reinterpret_cast<const TF *>( &px_0 )[ 2 ];
+            TF x_3 = reinterpret_cast<const TF *>( &px_0 )[ 3 ];
+            TF x_4 = reinterpret_cast<const TF *>( &px_0 )[ 4 ];
+            TF y_2 = reinterpret_cast<const TF *>( &py_0 )[ 2 ];
+            TF y_3 = reinterpret_cast<const TF *>( &py_0 )[ 3 ];
+            TF y_4 = reinterpret_cast<const TF *>( &py_0 )[ 4 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x40908020100ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set1_pd( d_3 );
+            __m128d x_i0 = _mm_set1_pd( x_3 );
+            __m128d y_i0 = _mm_set1_pd( y_3 );
+            __m128d d_i1 = _mm_set_pd( d_4, d_2 );
+            __m128d x_i1 = _mm_set_pd( x_4, x_2 );
+            __m128d y_i1 = _mm_set_pd( y_4, y_2 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
-            size = 6;
             break;
         }
         case 1292:
@@ -922,15 +1111,24 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF m_0 = d_2 / ( d_1 - d_2 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 2 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 1 ] - reinterpret_cast<double *>( &px_0 )[ 2 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 2 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 1 ] - reinterpret_cast<double *>( &py_0 )[ 2 ] );
-            TF m_1 = d_3 / ( d_4 - d_3 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 3 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 4 ] - reinterpret_cast<double *>( &px_0 )[ 3 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 3 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 4 ] - reinterpret_cast<double *>( &py_0 )[ 3 ] );
+            TF x_1 = reinterpret_cast<const TF *>( &px_0 )[ 1 ];
+            TF x_2 = reinterpret_cast<const TF *>( &px_0 )[ 2 ];
+            TF x_3 = reinterpret_cast<const TF *>( &px_0 )[ 3 ];
+            TF x_4 = reinterpret_cast<const TF *>( &px_0 )[ 4 ];
+            TF y_1 = reinterpret_cast<const TF *>( &py_0 )[ 1 ];
+            TF y_2 = reinterpret_cast<const TF *>( &py_0 )[ 2 ];
+            TF y_3 = reinterpret_cast<const TF *>( &py_0 )[ 3 ];
+            TF y_4 = reinterpret_cast<const TF *>( &py_0 )[ 4 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x409080100ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set_pd( d_3, d_2 );
+            __m128d x_i0 = _mm_set_pd( x_3, x_2 );
+            __m128d y_i0 = _mm_set_pd( y_3, y_2 );
+            __m128d d_i1 = _mm_set_pd( d_4, d_1 );
+            __m128d x_i1 = _mm_set_pd( x_4, x_1 );
+            __m128d y_i1 = _mm_set_pd( y_4, y_1 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             break;
@@ -944,22 +1142,31 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
         case 1486:
         case 1518: {
             // size=5 outside=0000000000000000000000000000000000000000000000000000000000001110 mod=0,[ 1, 0 ],[ 3, 4 ],4
+            size = 4;
             TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF m_0 = d_1 / ( d_0 - d_1 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 1 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 0 ] - reinterpret_cast<double *>( &px_0 )[ 1 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 1 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 0 ] - reinterpret_cast<double *>( &py_0 )[ 1 ] );
-            TF m_1 = d_3 / ( d_4 - d_3 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 3 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 4 ] - reinterpret_cast<double *>( &px_0 )[ 3 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 3 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 4 ] - reinterpret_cast<double *>( &py_0 )[ 3 ] );
+            TF x_0 = reinterpret_cast<const TF *>( &px_0 )[ 0 ];
+            TF x_1 = reinterpret_cast<const TF *>( &px_0 )[ 1 ];
+            TF x_3 = reinterpret_cast<const TF *>( &px_0 )[ 3 ];
+            TF x_4 = reinterpret_cast<const TF *>( &px_0 )[ 4 ];
+            TF y_0 = reinterpret_cast<const TF *>( &py_0 )[ 0 ];
+            TF y_1 = reinterpret_cast<const TF *>( &py_0 )[ 1 ];
+            TF y_3 = reinterpret_cast<const TF *>( &py_0 )[ 3 ];
+            TF y_4 = reinterpret_cast<const TF *>( &py_0 )[ 4 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x4090800ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set_pd( d_3, d_1 );
+            __m128d x_i0 = _mm_set_pd( x_3, x_1 );
+            __m128d y_i0 = _mm_set_pd( y_3, y_1 );
+            __m128d d_i1 = _mm_set_pd( d_4, d_0 );
+            __m128d x_i1 = _mm_set_pd( x_4, x_0 );
+            __m128d y_i1 = _mm_set_pd( y_4, y_0 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
-            size = 4;
             break;
         }
         case 1295:
@@ -971,21 +1178,28 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
         case 1487:
         case 1519: {
             // size=5 outside=0000000000000000000000000000000000000000000000000000000000001111 mod=[ 0, 4 ],[ 3, 4 ],4
+            size = 3;
             TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF m_0 = d_0 / ( d_4 - d_0 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 4 ] - reinterpret_cast<double *>( &px_0 )[ 0 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 4 ] - reinterpret_cast<double *>( &py_0 )[ 0 ] );
-            TF m_1 = d_3 / ( d_4 - d_3 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 3 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 4 ] - reinterpret_cast<double *>( &px_0 )[ 3 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 3 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 4 ] - reinterpret_cast<double *>( &py_0 )[ 3 ] );
+            TF x_0 = reinterpret_cast<const TF *>( &px_0 )[ 0 ];
+            TF x_3 = reinterpret_cast<const TF *>( &px_0 )[ 3 ];
+            TF x_4 = reinterpret_cast<const TF *>( &px_0 )[ 4 ];
+            TF y_0 = reinterpret_cast<const TF *>( &py_0 )[ 0 ];
+            TF y_3 = reinterpret_cast<const TF *>( &py_0 )[ 3 ];
+            TF y_4 = reinterpret_cast<const TF *>( &py_0 )[ 4 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x40908ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set_pd( d_3, d_0 );
+            __m128d x_i0 = _mm_set_pd( x_3, x_0 );
+            __m128d y_i0 = _mm_set_pd( y_3, y_0 );
+            __m128d d_i1 = _mm_set1_pd( d_4 );
+            __m128d x_i1 = _mm_set1_pd( x_4 );
+            __m128d y_i1 = _mm_set1_pd( y_4 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
-            size = 3;
             break;
         }
         case 1296:
@@ -997,21 +1211,28 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
         case 1488:
         case 1520: {
             // size=5 outside=0000000000000000000000000000000000000000000000000000000000010000 mod=0,1,2,3,[ 4, 3 ],[ 4, 0 ]
+            size = 6;
             TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF m_0 = d_4 / ( d_3 - d_4 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 4 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 3 ] - reinterpret_cast<double *>( &px_0 )[ 4 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 4 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 3 ] - reinterpret_cast<double *>( &py_0 )[ 4 ] );
-            TF m_1 = d_4 / ( d_0 - d_4 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 4 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 0 ] - reinterpret_cast<double *>( &px_0 )[ 4 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 4 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 0 ] - reinterpret_cast<double *>( &py_0 )[ 4 ] );
+            TF x_0 = reinterpret_cast<const TF *>( &px_0 )[ 0 ];
+            TF x_3 = reinterpret_cast<const TF *>( &px_0 )[ 3 ];
+            TF x_4 = reinterpret_cast<const TF *>( &px_0 )[ 4 ];
+            TF y_0 = reinterpret_cast<const TF *>( &py_0 )[ 0 ];
+            TF y_3 = reinterpret_cast<const TF *>( &py_0 )[ 3 ];
+            TF y_4 = reinterpret_cast<const TF *>( &py_0 )[ 4 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x90803020100ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set1_pd( d_4 );
+            __m128d x_i0 = _mm_set1_pd( x_4 );
+            __m128d y_i0 = _mm_set1_pd( y_4 );
+            __m128d d_i1 = _mm_set_pd( d_0, d_3 );
+            __m128d x_i1 = _mm_set_pd( x_0, x_3 );
+            __m128d y_i1 = _mm_set_pd( y_0, y_3 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
-            size = 6;
             break;
         }
         case 1297:
@@ -1027,15 +1248,24 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF m_0 = d_0 / ( d_1 - d_0 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 1 ] - reinterpret_cast<double *>( &px_0 )[ 0 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 1 ] - reinterpret_cast<double *>( &py_0 )[ 0 ] );
-            TF m_1 = d_4 / ( d_3 - d_4 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 4 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 3 ] - reinterpret_cast<double *>( &px_0 )[ 4 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 4 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 3 ] - reinterpret_cast<double *>( &py_0 )[ 4 ] );
+            TF x_0 = reinterpret_cast<const TF *>( &px_0 )[ 0 ];
+            TF x_1 = reinterpret_cast<const TF *>( &px_0 )[ 1 ];
+            TF x_3 = reinterpret_cast<const TF *>( &px_0 )[ 3 ];
+            TF x_4 = reinterpret_cast<const TF *>( &px_0 )[ 4 ];
+            TF y_0 = reinterpret_cast<const TF *>( &py_0 )[ 0 ];
+            TF y_1 = reinterpret_cast<const TF *>( &py_0 )[ 1 ];
+            TF y_3 = reinterpret_cast<const TF *>( &py_0 )[ 3 ];
+            TF y_4 = reinterpret_cast<const TF *>( &py_0 )[ 4 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x903020108ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set_pd( d_4, d_0 );
+            __m128d x_i0 = _mm_set_pd( x_4, x_0 );
+            __m128d y_i0 = _mm_set_pd( y_4, y_0 );
+            __m128d d_i1 = _mm_set_pd( d_3, d_1 );
+            __m128d x_i1 = _mm_set_pd( x_3, x_1 );
+            __m128d y_i1 = _mm_set_pd( y_3, y_1 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             break;
@@ -1049,22 +1279,31 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
         case 1491:
         case 1523: {
             // size=5 outside=0000000000000000000000000000000000000000000000000000000000010011 mod=[ 4, 3 ],[ 1, 2 ],2,3
+            size = 4;
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF m_0 = d_4 / ( d_3 - d_4 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 4 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 3 ] - reinterpret_cast<double *>( &px_0 )[ 4 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 4 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 3 ] - reinterpret_cast<double *>( &py_0 )[ 4 ] );
-            TF m_1 = d_1 / ( d_2 - d_1 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 1 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 2 ] - reinterpret_cast<double *>( &px_0 )[ 1 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 1 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 2 ] - reinterpret_cast<double *>( &py_0 )[ 1 ] );
+            TF x_1 = reinterpret_cast<const TF *>( &px_0 )[ 1 ];
+            TF x_2 = reinterpret_cast<const TF *>( &px_0 )[ 2 ];
+            TF x_3 = reinterpret_cast<const TF *>( &px_0 )[ 3 ];
+            TF x_4 = reinterpret_cast<const TF *>( &px_0 )[ 4 ];
+            TF y_1 = reinterpret_cast<const TF *>( &py_0 )[ 1 ];
+            TF y_2 = reinterpret_cast<const TF *>( &py_0 )[ 2 ];
+            TF y_3 = reinterpret_cast<const TF *>( &py_0 )[ 3 ];
+            TF y_4 = reinterpret_cast<const TF *>( &py_0 )[ 4 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x3020908ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set_pd( d_1, d_4 );
+            __m128d x_i0 = _mm_set_pd( x_1, x_4 );
+            __m128d y_i0 = _mm_set_pd( y_1, y_4 );
+            __m128d d_i1 = _mm_set_pd( d_2, d_3 );
+            __m128d x_i1 = _mm_set_pd( x_2, x_3 );
+            __m128d y_i1 = _mm_set_pd( y_2, y_3 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
-            size = 4;
             break;
         }
         case 1303:
@@ -1076,21 +1315,28 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
         case 1495:
         case 1527: {
             // size=5 outside=0000000000000000000000000000000000000000000000000000000000010111 mod=3,[ 4, 3 ],[ 2, 3 ]
+            size = 3;
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF m_0 = d_4 / ( d_3 - d_4 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 4 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 3 ] - reinterpret_cast<double *>( &px_0 )[ 4 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 4 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 3 ] - reinterpret_cast<double *>( &py_0 )[ 4 ] );
-            TF m_1 = d_2 / ( d_3 - d_2 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 2 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 3 ] - reinterpret_cast<double *>( &px_0 )[ 2 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 2 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 3 ] - reinterpret_cast<double *>( &py_0 )[ 2 ] );
+            TF x_2 = reinterpret_cast<const TF *>( &px_0 )[ 2 ];
+            TF x_3 = reinterpret_cast<const TF *>( &px_0 )[ 3 ];
+            TF x_4 = reinterpret_cast<const TF *>( &px_0 )[ 4 ];
+            TF y_2 = reinterpret_cast<const TF *>( &py_0 )[ 2 ];
+            TF y_3 = reinterpret_cast<const TF *>( &py_0 )[ 3 ];
+            TF y_4 = reinterpret_cast<const TF *>( &py_0 )[ 4 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x90803ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set_pd( d_2, d_4 );
+            __m128d x_i0 = _mm_set_pd( x_2, x_4 );
+            __m128d y_i0 = _mm_set_pd( y_2, y_4 );
+            __m128d d_i1 = _mm_set1_pd( d_3 );
+            __m128d x_i1 = _mm_set1_pd( x_3 );
+            __m128d y_i1 = _mm_set1_pd( y_3 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
-            size = 3;
             break;
         }
         case 1304:
@@ -1106,15 +1352,24 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF m_0 = d_3 / ( d_2 - d_3 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 3 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 2 ] - reinterpret_cast<double *>( &px_0 )[ 3 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 3 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 2 ] - reinterpret_cast<double *>( &py_0 )[ 3 ] );
-            TF m_1 = d_4 / ( d_0 - d_4 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 4 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 0 ] - reinterpret_cast<double *>( &px_0 )[ 4 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 4 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 0 ] - reinterpret_cast<double *>( &py_0 )[ 4 ] );
+            TF x_0 = reinterpret_cast<const TF *>( &px_0 )[ 0 ];
+            TF x_2 = reinterpret_cast<const TF *>( &px_0 )[ 2 ];
+            TF x_3 = reinterpret_cast<const TF *>( &px_0 )[ 3 ];
+            TF x_4 = reinterpret_cast<const TF *>( &px_0 )[ 4 ];
+            TF y_0 = reinterpret_cast<const TF *>( &py_0 )[ 0 ];
+            TF y_2 = reinterpret_cast<const TF *>( &py_0 )[ 2 ];
+            TF y_3 = reinterpret_cast<const TF *>( &py_0 )[ 3 ];
+            TF y_4 = reinterpret_cast<const TF *>( &py_0 )[ 4 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x908020100ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set_pd( d_4, d_3 );
+            __m128d x_i0 = _mm_set_pd( x_4, x_3 );
+            __m128d y_i0 = _mm_set_pd( y_4, y_3 );
+            __m128d d_i1 = _mm_set_pd( d_0, d_2 );
+            __m128d x_i1 = _mm_set_pd( x_0, x_2 );
+            __m128d y_i1 = _mm_set_pd( y_0, y_2 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             break;
@@ -1128,22 +1383,31 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
         case 1497:
         case 1529: {
             // size=5 outside=0000000000000000000000000000000000000000000000000000000000011001 mod=[ 0, 1 ],1,2,[ 3, 2 ]
+            size = 4;
             TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF m_0 = d_0 / ( d_1 - d_0 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 1 ] - reinterpret_cast<double *>( &px_0 )[ 0 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 1 ] - reinterpret_cast<double *>( &py_0 )[ 0 ] );
-            TF m_1 = d_3 / ( d_2 - d_3 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 3 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 2 ] - reinterpret_cast<double *>( &px_0 )[ 3 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 3 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 2 ] - reinterpret_cast<double *>( &py_0 )[ 3 ] );
+            TF x_0 = reinterpret_cast<const TF *>( &px_0 )[ 0 ];
+            TF x_1 = reinterpret_cast<const TF *>( &px_0 )[ 1 ];
+            TF x_2 = reinterpret_cast<const TF *>( &px_0 )[ 2 ];
+            TF x_3 = reinterpret_cast<const TF *>( &px_0 )[ 3 ];
+            TF y_0 = reinterpret_cast<const TF *>( &py_0 )[ 0 ];
+            TF y_1 = reinterpret_cast<const TF *>( &py_0 )[ 1 ];
+            TF y_2 = reinterpret_cast<const TF *>( &py_0 )[ 2 ];
+            TF y_3 = reinterpret_cast<const TF *>( &py_0 )[ 3 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x9020108ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set_pd( d_3, d_0 );
+            __m128d x_i0 = _mm_set_pd( x_3, x_0 );
+            __m128d y_i0 = _mm_set_pd( y_3, y_0 );
+            __m128d d_i1 = _mm_set_pd( d_2, d_1 );
+            __m128d x_i1 = _mm_set_pd( x_2, x_1 );
+            __m128d y_i1 = _mm_set_pd( y_2, y_1 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
-            size = 4;
             break;
         }
         case 1307:
@@ -1155,21 +1419,28 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
         case 1499:
         case 1531: {
             // size=5 outside=0000000000000000000000000000000000000000000000000000000000011011 mod=[ 3, 2 ],[ 1, 2 ],2
+            size = 3;
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF m_0 = d_3 / ( d_2 - d_3 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 3 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 2 ] - reinterpret_cast<double *>( &px_0 )[ 3 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 3 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 2 ] - reinterpret_cast<double *>( &py_0 )[ 3 ] );
-            TF m_1 = d_1 / ( d_2 - d_1 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 1 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 2 ] - reinterpret_cast<double *>( &px_0 )[ 1 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 1 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 2 ] - reinterpret_cast<double *>( &py_0 )[ 1 ] );
+            TF x_1 = reinterpret_cast<const TF *>( &px_0 )[ 1 ];
+            TF x_2 = reinterpret_cast<const TF *>( &px_0 )[ 2 ];
+            TF x_3 = reinterpret_cast<const TF *>( &px_0 )[ 3 ];
+            TF y_1 = reinterpret_cast<const TF *>( &py_0 )[ 1 ];
+            TF y_2 = reinterpret_cast<const TF *>( &py_0 )[ 2 ];
+            TF y_3 = reinterpret_cast<const TF *>( &py_0 )[ 3 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x20908ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set_pd( d_1, d_3 );
+            __m128d x_i0 = _mm_set_pd( x_1, x_3 );
+            __m128d y_i0 = _mm_set_pd( y_1, y_3 );
+            __m128d d_i1 = _mm_set1_pd( d_2 );
+            __m128d x_i1 = _mm_set1_pd( x_2 );
+            __m128d y_i1 = _mm_set1_pd( y_2 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
-            size = 3;
             break;
         }
         case 1308:
@@ -1181,22 +1452,31 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
         case 1500:
         case 1532: {
             // size=5 outside=0000000000000000000000000000000000000000000000000000000000011100 mod=0,1,[ 2, 1 ],[ 4, 0 ]
+            size = 4;
             TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF m_0 = d_2 / ( d_1 - d_2 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 2 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 1 ] - reinterpret_cast<double *>( &px_0 )[ 2 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 2 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 1 ] - reinterpret_cast<double *>( &py_0 )[ 2 ] );
-            TF m_1 = d_4 / ( d_0 - d_4 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 4 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 0 ] - reinterpret_cast<double *>( &px_0 )[ 4 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 4 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 0 ] - reinterpret_cast<double *>( &py_0 )[ 4 ] );
+            TF x_0 = reinterpret_cast<const TF *>( &px_0 )[ 0 ];
+            TF x_1 = reinterpret_cast<const TF *>( &px_0 )[ 1 ];
+            TF x_2 = reinterpret_cast<const TF *>( &px_0 )[ 2 ];
+            TF x_4 = reinterpret_cast<const TF *>( &px_0 )[ 4 ];
+            TF y_0 = reinterpret_cast<const TF *>( &py_0 )[ 0 ];
+            TF y_1 = reinterpret_cast<const TF *>( &py_0 )[ 1 ];
+            TF y_2 = reinterpret_cast<const TF *>( &py_0 )[ 2 ];
+            TF y_4 = reinterpret_cast<const TF *>( &py_0 )[ 4 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x9080100ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set_pd( d_4, d_2 );
+            __m128d x_i0 = _mm_set_pd( x_4, x_2 );
+            __m128d y_i0 = _mm_set_pd( y_4, y_2 );
+            __m128d d_i1 = _mm_set_pd( d_0, d_1 );
+            __m128d x_i1 = _mm_set_pd( x_0, x_1 );
+            __m128d y_i1 = _mm_set_pd( y_0, y_1 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
-            size = 4;
             break;
         }
         case 1309:
@@ -1208,21 +1488,28 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
         case 1501:
         case 1533: {
             // size=5 outside=0000000000000000000000000000000000000000000000000000000000011101 mod=[ 0, 1 ],1,[ 2, 1 ]
+            size = 3;
             TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF m_0 = d_0 / ( d_1 - d_0 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 1 ] - reinterpret_cast<double *>( &px_0 )[ 0 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 1 ] - reinterpret_cast<double *>( &py_0 )[ 0 ] );
-            TF m_1 = d_2 / ( d_1 - d_2 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 2 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 1 ] - reinterpret_cast<double *>( &px_0 )[ 2 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 2 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 1 ] - reinterpret_cast<double *>( &py_0 )[ 2 ] );
+            TF x_0 = reinterpret_cast<const TF *>( &px_0 )[ 0 ];
+            TF x_1 = reinterpret_cast<const TF *>( &px_0 )[ 1 ];
+            TF x_2 = reinterpret_cast<const TF *>( &px_0 )[ 2 ];
+            TF y_0 = reinterpret_cast<const TF *>( &py_0 )[ 0 ];
+            TF y_1 = reinterpret_cast<const TF *>( &py_0 )[ 1 ];
+            TF y_2 = reinterpret_cast<const TF *>( &py_0 )[ 2 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x90108ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set_pd( d_2, d_0 );
+            __m128d x_i0 = _mm_set_pd( x_2, x_0 );
+            __m128d y_i0 = _mm_set_pd( y_2, y_0 );
+            __m128d d_i1 = _mm_set1_pd( d_1 );
+            __m128d x_i1 = _mm_set1_pd( x_1 );
+            __m128d y_i1 = _mm_set1_pd( y_1 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
-            size = 3;
             break;
         }
         case 1310:
@@ -1234,21 +1521,28 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
         case 1502:
         case 1534: {
             // size=5 outside=0000000000000000000000000000000000000000000000000000000000011110 mod=0,[ 1, 0 ],[ 4, 0 ]
+            size = 3;
             TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF m_0 = d_1 / ( d_0 - d_1 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 1 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 0 ] - reinterpret_cast<double *>( &px_0 )[ 1 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 1 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 0 ] - reinterpret_cast<double *>( &py_0 )[ 1 ] );
-            TF m_1 = d_4 / ( d_0 - d_4 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 4 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 0 ] - reinterpret_cast<double *>( &px_0 )[ 4 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 4 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 0 ] - reinterpret_cast<double *>( &py_0 )[ 4 ] );
+            TF x_0 = reinterpret_cast<const TF *>( &px_0 )[ 0 ];
+            TF x_1 = reinterpret_cast<const TF *>( &px_0 )[ 1 ];
+            TF x_4 = reinterpret_cast<const TF *>( &px_0 )[ 4 ];
+            TF y_0 = reinterpret_cast<const TF *>( &py_0 )[ 0 ];
+            TF y_1 = reinterpret_cast<const TF *>( &py_0 )[ 1 ];
+            TF y_4 = reinterpret_cast<const TF *>( &py_0 )[ 4 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x90800ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set_pd( d_4, d_1 );
+            __m128d x_i0 = _mm_set_pd( x_4, x_1 );
+            __m128d y_i0 = _mm_set_pd( y_4, y_1 );
+            __m128d d_i1 = _mm_set1_pd( d_0 );
+            __m128d x_i1 = _mm_set1_pd( x_0 );
+            __m128d y_i1 = _mm_set1_pd( y_0 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
-            size = 3;
             break;
         }
         case 1537:
@@ -1256,21 +1550,28 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
         case 1665:
         case 1729: {
             // size=6 outside=0000000000000000000000000000000000000000000000000000000000000001 mod=[ 0, 1 ],1,2,3,4,5,[ 0, 5 ]
+            size = 7;
             TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF m_0 = d_0 / ( d_1 - d_0 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 1 ] - reinterpret_cast<double *>( &px_0 )[ 0 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 1 ] - reinterpret_cast<double *>( &py_0 )[ 0 ] );
-            TF m_1 = d_0 / ( d_5 - d_0 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 0 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 5 ] - reinterpret_cast<double *>( &px_0 )[ 0 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 0 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 5 ] - reinterpret_cast<double *>( &py_0 )[ 0 ] );
+            TF x_0 = reinterpret_cast<const TF *>( &px_0 )[ 0 ];
+            TF x_1 = reinterpret_cast<const TF *>( &px_0 )[ 1 ];
+            TF x_5 = reinterpret_cast<const TF *>( &px_0 )[ 5 ];
+            TF y_0 = reinterpret_cast<const TF *>( &py_0 )[ 0 ];
+            TF y_1 = reinterpret_cast<const TF *>( &py_0 )[ 1 ];
+            TF y_5 = reinterpret_cast<const TF *>( &py_0 )[ 5 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x9050403020108ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set1_pd( d_0 );
+            __m128d x_i0 = _mm_set1_pd( x_0 );
+            __m128d y_i0 = _mm_set1_pd( y_0 );
+            __m128d d_i1 = _mm_set_pd( d_5, d_1 );
+            __m128d x_i1 = _mm_set_pd( x_5, x_1 );
+            __m128d y_i1 = _mm_set_pd( y_5, y_1 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
-            size = 7;
             break;
         }
         case 1538:
@@ -1278,21 +1579,28 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
         case 1666:
         case 1730: {
             // size=6 outside=0000000000000000000000000000000000000000000000000000000000000010 mod=[ 1, 0 ],[ 1, 2 ],2,3,4,5,0
+            size = 7;
             TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF m_0 = d_1 / ( d_0 - d_1 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 1 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 0 ] - reinterpret_cast<double *>( &px_0 )[ 1 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 1 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 0 ] - reinterpret_cast<double *>( &py_0 )[ 1 ] );
-            TF m_1 = d_1 / ( d_2 - d_1 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 1 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 2 ] - reinterpret_cast<double *>( &px_0 )[ 1 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 1 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 2 ] - reinterpret_cast<double *>( &py_0 )[ 1 ] );
+            TF x_0 = reinterpret_cast<const TF *>( &px_0 )[ 0 ];
+            TF x_1 = reinterpret_cast<const TF *>( &px_0 )[ 1 ];
+            TF x_2 = reinterpret_cast<const TF *>( &px_0 )[ 2 ];
+            TF y_0 = reinterpret_cast<const TF *>( &py_0 )[ 0 ];
+            TF y_1 = reinterpret_cast<const TF *>( &py_0 )[ 1 ];
+            TF y_2 = reinterpret_cast<const TF *>( &py_0 )[ 2 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x50403020908ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set1_pd( d_1 );
+            __m128d x_i0 = _mm_set1_pd( x_1 );
+            __m128d y_i0 = _mm_set1_pd( y_1 );
+            __m128d d_i1 = _mm_set_pd( d_2, d_0 );
+            __m128d x_i1 = _mm_set_pd( x_2, x_0 );
+            __m128d y_i1 = _mm_set_pd( y_2, y_0 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
-            size = 7;
             break;
         }
         case 1539:
@@ -1304,15 +1612,24 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
             TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF m_0 = d_0 / ( d_5 - d_0 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 5 ] - reinterpret_cast<double *>( &px_0 )[ 0 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 5 ] - reinterpret_cast<double *>( &py_0 )[ 0 ] );
-            TF m_1 = d_1 / ( d_2 - d_1 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 1 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 2 ] - reinterpret_cast<double *>( &px_0 )[ 1 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 1 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 2 ] - reinterpret_cast<double *>( &py_0 )[ 1 ] );
+            TF x_0 = reinterpret_cast<const TF *>( &px_0 )[ 0 ];
+            TF x_1 = reinterpret_cast<const TF *>( &px_0 )[ 1 ];
+            TF x_2 = reinterpret_cast<const TF *>( &px_0 )[ 2 ];
+            TF x_5 = reinterpret_cast<const TF *>( &px_0 )[ 5 ];
+            TF y_0 = reinterpret_cast<const TF *>( &py_0 )[ 0 ];
+            TF y_1 = reinterpret_cast<const TF *>( &py_0 )[ 1 ];
+            TF y_2 = reinterpret_cast<const TF *>( &py_0 )[ 2 ];
+            TF y_5 = reinterpret_cast<const TF *>( &py_0 )[ 5 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x50403020908ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set_pd( d_1, d_0 );
+            __m128d x_i0 = _mm_set_pd( x_1, x_0 );
+            __m128d y_i0 = _mm_set_pd( y_1, y_0 );
+            __m128d d_i1 = _mm_set_pd( d_2, d_5 );
+            __m128d x_i1 = _mm_set_pd( x_2, x_5 );
+            __m128d y_i1 = _mm_set_pd( y_2, y_5 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             break;
@@ -1322,21 +1639,28 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
         case 1668:
         case 1732: {
             // size=6 outside=0000000000000000000000000000000000000000000000000000000000000100 mod=1,[ 2, 1 ],[ 2, 3 ],3,4,5,0
+            size = 7;
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF m_0 = d_2 / ( d_1 - d_2 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 2 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 1 ] - reinterpret_cast<double *>( &px_0 )[ 2 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 2 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 1 ] - reinterpret_cast<double *>( &py_0 )[ 2 ] );
-            TF m_1 = d_2 / ( d_3 - d_2 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 2 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 3 ] - reinterpret_cast<double *>( &px_0 )[ 2 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 2 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 3 ] - reinterpret_cast<double *>( &py_0 )[ 2 ] );
+            TF x_1 = reinterpret_cast<const TF *>( &px_0 )[ 1 ];
+            TF x_2 = reinterpret_cast<const TF *>( &px_0 )[ 2 ];
+            TF x_3 = reinterpret_cast<const TF *>( &px_0 )[ 3 ];
+            TF y_1 = reinterpret_cast<const TF *>( &py_0 )[ 1 ];
+            TF y_2 = reinterpret_cast<const TF *>( &py_0 )[ 2 ];
+            TF y_3 = reinterpret_cast<const TF *>( &py_0 )[ 3 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x50403090801ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set1_pd( d_2 );
+            __m128d x_i0 = _mm_set1_pd( x_2 );
+            __m128d y_i0 = _mm_set1_pd( y_2 );
+            __m128d d_i1 = _mm_set_pd( d_3, d_1 );
+            __m128d x_i1 = _mm_set_pd( x_3, x_1 );
+            __m128d y_i1 = _mm_set_pd( y_3, y_1 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
-            size = 7;
             break;
         }
         case 1542:
@@ -1348,15 +1672,24 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF m_0 = d_1 / ( d_0 - d_1 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 1 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 0 ] - reinterpret_cast<double *>( &px_0 )[ 1 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 1 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 0 ] - reinterpret_cast<double *>( &py_0 )[ 1 ] );
-            TF m_1 = d_2 / ( d_3 - d_2 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 2 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 3 ] - reinterpret_cast<double *>( &px_0 )[ 2 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 2 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 3 ] - reinterpret_cast<double *>( &py_0 )[ 2 ] );
+            TF x_0 = reinterpret_cast<const TF *>( &px_0 )[ 0 ];
+            TF x_1 = reinterpret_cast<const TF *>( &px_0 )[ 1 ];
+            TF x_2 = reinterpret_cast<const TF *>( &px_0 )[ 2 ];
+            TF x_3 = reinterpret_cast<const TF *>( &px_0 )[ 3 ];
+            TF y_0 = reinterpret_cast<const TF *>( &py_0 )[ 0 ];
+            TF y_1 = reinterpret_cast<const TF *>( &py_0 )[ 1 ];
+            TF y_2 = reinterpret_cast<const TF *>( &py_0 )[ 2 ];
+            TF y_3 = reinterpret_cast<const TF *>( &py_0 )[ 3 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x50403090800ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set_pd( d_2, d_1 );
+            __m128d x_i0 = _mm_set_pd( x_2, x_1 );
+            __m128d y_i0 = _mm_set_pd( y_2, y_1 );
+            __m128d d_i1 = _mm_set_pd( d_3, d_0 );
+            __m128d x_i1 = _mm_set_pd( x_3, x_0 );
+            __m128d y_i1 = _mm_set_pd( y_3, y_0 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             break;
@@ -1366,22 +1699,31 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
         case 1671:
         case 1735: {
             // size=6 outside=0000000000000000000000000000000000000000000000000000000000000111 mod=5,[ 0, 5 ],[ 2, 3 ],3,4
+            size = 5;
             TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
             TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF m_0 = d_0 / ( d_5 - d_0 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 5 ] - reinterpret_cast<double *>( &px_0 )[ 0 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 5 ] - reinterpret_cast<double *>( &py_0 )[ 0 ] );
-            TF m_1 = d_2 / ( d_3 - d_2 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 2 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 3 ] - reinterpret_cast<double *>( &px_0 )[ 2 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 2 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 3 ] - reinterpret_cast<double *>( &py_0 )[ 2 ] );
+            TF x_0 = reinterpret_cast<const TF *>( &px_0 )[ 0 ];
+            TF x_2 = reinterpret_cast<const TF *>( &px_0 )[ 2 ];
+            TF x_3 = reinterpret_cast<const TF *>( &px_0 )[ 3 ];
+            TF x_5 = reinterpret_cast<const TF *>( &px_0 )[ 5 ];
+            TF y_0 = reinterpret_cast<const TF *>( &py_0 )[ 0 ];
+            TF y_2 = reinterpret_cast<const TF *>( &py_0 )[ 2 ];
+            TF y_3 = reinterpret_cast<const TF *>( &py_0 )[ 3 ];
+            TF y_5 = reinterpret_cast<const TF *>( &py_0 )[ 5 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x403090805ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set_pd( d_2, d_0 );
+            __m128d x_i0 = _mm_set_pd( x_2, x_0 );
+            __m128d y_i0 = _mm_set_pd( y_2, y_0 );
+            __m128d d_i1 = _mm_set_pd( d_3, d_5 );
+            __m128d x_i1 = _mm_set_pd( x_3, x_5 );
+            __m128d y_i1 = _mm_set_pd( y_3, y_5 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
-            size = 5;
             break;
         }
         case 1544:
@@ -1389,21 +1731,28 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
         case 1672:
         case 1736: {
             // size=6 outside=0000000000000000000000000000000000000000000000000000000000001000 mod=0,1,2,[ 3, 2 ],[ 3, 4 ],4,5
+            size = 7;
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF m_0 = d_3 / ( d_2 - d_3 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 3 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 2 ] - reinterpret_cast<double *>( &px_0 )[ 3 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 3 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 2 ] - reinterpret_cast<double *>( &py_0 )[ 3 ] );
-            TF m_1 = d_3 / ( d_4 - d_3 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 3 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 4 ] - reinterpret_cast<double *>( &px_0 )[ 3 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 3 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 4 ] - reinterpret_cast<double *>( &py_0 )[ 3 ] );
+            TF x_2 = reinterpret_cast<const TF *>( &px_0 )[ 2 ];
+            TF x_3 = reinterpret_cast<const TF *>( &px_0 )[ 3 ];
+            TF x_4 = reinterpret_cast<const TF *>( &px_0 )[ 4 ];
+            TF y_2 = reinterpret_cast<const TF *>( &py_0 )[ 2 ];
+            TF y_3 = reinterpret_cast<const TF *>( &py_0 )[ 3 ];
+            TF y_4 = reinterpret_cast<const TF *>( &py_0 )[ 4 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x5040908020100ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set1_pd( d_3 );
+            __m128d x_i0 = _mm_set1_pd( x_3 );
+            __m128d y_i0 = _mm_set1_pd( y_3 );
+            __m128d d_i1 = _mm_set_pd( d_4, d_2 );
+            __m128d x_i1 = _mm_set_pd( x_4, x_2 );
+            __m128d y_i1 = _mm_set_pd( y_4, y_2 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
-            size = 7;
             break;
         }
         case 1548:
@@ -1415,15 +1764,24 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF m_0 = d_2 / ( d_1 - d_2 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 2 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 1 ] - reinterpret_cast<double *>( &px_0 )[ 2 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 2 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 1 ] - reinterpret_cast<double *>( &py_0 )[ 2 ] );
-            TF m_1 = d_3 / ( d_4 - d_3 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 3 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 4 ] - reinterpret_cast<double *>( &px_0 )[ 3 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 3 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 4 ] - reinterpret_cast<double *>( &py_0 )[ 3 ] );
+            TF x_1 = reinterpret_cast<const TF *>( &px_0 )[ 1 ];
+            TF x_2 = reinterpret_cast<const TF *>( &px_0 )[ 2 ];
+            TF x_3 = reinterpret_cast<const TF *>( &px_0 )[ 3 ];
+            TF x_4 = reinterpret_cast<const TF *>( &px_0 )[ 4 ];
+            TF y_1 = reinterpret_cast<const TF *>( &py_0 )[ 1 ];
+            TF y_2 = reinterpret_cast<const TF *>( &py_0 )[ 2 ];
+            TF y_3 = reinterpret_cast<const TF *>( &py_0 )[ 3 ];
+            TF y_4 = reinterpret_cast<const TF *>( &py_0 )[ 4 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x50409080100ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set_pd( d_3, d_2 );
+            __m128d x_i0 = _mm_set_pd( x_3, x_2 );
+            __m128d y_i0 = _mm_set_pd( y_3, y_2 );
+            __m128d d_i1 = _mm_set_pd( d_4, d_1 );
+            __m128d x_i1 = _mm_set_pd( x_4, x_1 );
+            __m128d y_i1 = _mm_set_pd( y_4, y_1 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             break;
@@ -1433,22 +1791,31 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
         case 1678:
         case 1742: {
             // size=6 outside=0000000000000000000000000000000000000000000000000000000000001110 mod=0,[ 1, 0 ],[ 3, 4 ],4,5
+            size = 5;
             TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF m_0 = d_1 / ( d_0 - d_1 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 1 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 0 ] - reinterpret_cast<double *>( &px_0 )[ 1 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 1 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 0 ] - reinterpret_cast<double *>( &py_0 )[ 1 ] );
-            TF m_1 = d_3 / ( d_4 - d_3 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 3 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 4 ] - reinterpret_cast<double *>( &px_0 )[ 3 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 3 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 4 ] - reinterpret_cast<double *>( &py_0 )[ 3 ] );
+            TF x_0 = reinterpret_cast<const TF *>( &px_0 )[ 0 ];
+            TF x_1 = reinterpret_cast<const TF *>( &px_0 )[ 1 ];
+            TF x_3 = reinterpret_cast<const TF *>( &px_0 )[ 3 ];
+            TF x_4 = reinterpret_cast<const TF *>( &px_0 )[ 4 ];
+            TF y_0 = reinterpret_cast<const TF *>( &py_0 )[ 0 ];
+            TF y_1 = reinterpret_cast<const TF *>( &py_0 )[ 1 ];
+            TF y_3 = reinterpret_cast<const TF *>( &py_0 )[ 3 ];
+            TF y_4 = reinterpret_cast<const TF *>( &py_0 )[ 4 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x504090800ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set_pd( d_3, d_1 );
+            __m128d x_i0 = _mm_set_pd( x_3, x_1 );
+            __m128d y_i0 = _mm_set_pd( y_3, y_1 );
+            __m128d d_i1 = _mm_set_pd( d_4, d_0 );
+            __m128d x_i1 = _mm_set_pd( x_4, x_0 );
+            __m128d y_i1 = _mm_set_pd( y_4, y_0 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
-            size = 5;
             break;
         }
         case 1551:
@@ -1456,22 +1823,31 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
         case 1679:
         case 1743: {
             // size=6 outside=0000000000000000000000000000000000000000000000000000000000001111 mod=[ 0, 5 ],[ 3, 4 ],4,5
+            size = 4;
             TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
             TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF m_0 = d_0 / ( d_5 - d_0 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 5 ] - reinterpret_cast<double *>( &px_0 )[ 0 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 5 ] - reinterpret_cast<double *>( &py_0 )[ 0 ] );
-            TF m_1 = d_3 / ( d_4 - d_3 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 3 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 4 ] - reinterpret_cast<double *>( &px_0 )[ 3 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 3 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 4 ] - reinterpret_cast<double *>( &py_0 )[ 3 ] );
+            TF x_0 = reinterpret_cast<const TF *>( &px_0 )[ 0 ];
+            TF x_3 = reinterpret_cast<const TF *>( &px_0 )[ 3 ];
+            TF x_4 = reinterpret_cast<const TF *>( &px_0 )[ 4 ];
+            TF x_5 = reinterpret_cast<const TF *>( &px_0 )[ 5 ];
+            TF y_0 = reinterpret_cast<const TF *>( &py_0 )[ 0 ];
+            TF y_3 = reinterpret_cast<const TF *>( &py_0 )[ 3 ];
+            TF y_4 = reinterpret_cast<const TF *>( &py_0 )[ 4 ];
+            TF y_5 = reinterpret_cast<const TF *>( &py_0 )[ 5 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x5040908ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set_pd( d_3, d_0 );
+            __m128d x_i0 = _mm_set_pd( x_3, x_0 );
+            __m128d y_i0 = _mm_set_pd( y_3, y_0 );
+            __m128d d_i1 = _mm_set_pd( d_4, d_5 );
+            __m128d x_i1 = _mm_set_pd( x_4, x_5 );
+            __m128d y_i1 = _mm_set_pd( y_4, y_5 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
-            size = 4;
             break;
         }
         case 1552:
@@ -1479,21 +1855,28 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
         case 1680:
         case 1744: {
             // size=6 outside=0000000000000000000000000000000000000000000000000000000000010000 mod=0,1,2,3,[ 4, 3 ],[ 4, 5 ],5
+            size = 7;
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
             TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF m_0 = d_4 / ( d_3 - d_4 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 4 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 3 ] - reinterpret_cast<double *>( &px_0 )[ 4 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 4 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 3 ] - reinterpret_cast<double *>( &py_0 )[ 4 ] );
-            TF m_1 = d_4 / ( d_5 - d_4 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 4 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 5 ] - reinterpret_cast<double *>( &px_0 )[ 4 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 4 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 5 ] - reinterpret_cast<double *>( &py_0 )[ 4 ] );
+            TF x_3 = reinterpret_cast<const TF *>( &px_0 )[ 3 ];
+            TF x_4 = reinterpret_cast<const TF *>( &px_0 )[ 4 ];
+            TF x_5 = reinterpret_cast<const TF *>( &px_0 )[ 5 ];
+            TF y_3 = reinterpret_cast<const TF *>( &py_0 )[ 3 ];
+            TF y_4 = reinterpret_cast<const TF *>( &py_0 )[ 4 ];
+            TF y_5 = reinterpret_cast<const TF *>( &py_0 )[ 5 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x5090803020100ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set1_pd( d_4 );
+            __m128d x_i0 = _mm_set1_pd( x_4 );
+            __m128d y_i0 = _mm_set1_pd( y_4 );
+            __m128d d_i1 = _mm_set_pd( d_5, d_3 );
+            __m128d x_i1 = _mm_set_pd( x_5, x_3 );
+            __m128d y_i1 = _mm_set_pd( y_5, y_3 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
-            size = 7;
             break;
         }
         case 1560:
@@ -1505,15 +1888,24 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
             TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF m_0 = d_3 / ( d_2 - d_3 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 3 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 2 ] - reinterpret_cast<double *>( &px_0 )[ 3 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 3 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 2 ] - reinterpret_cast<double *>( &py_0 )[ 3 ] );
-            TF m_1 = d_4 / ( d_5 - d_4 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 4 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 5 ] - reinterpret_cast<double *>( &px_0 )[ 4 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 4 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 5 ] - reinterpret_cast<double *>( &py_0 )[ 4 ] );
+            TF x_2 = reinterpret_cast<const TF *>( &px_0 )[ 2 ];
+            TF x_3 = reinterpret_cast<const TF *>( &px_0 )[ 3 ];
+            TF x_4 = reinterpret_cast<const TF *>( &px_0 )[ 4 ];
+            TF x_5 = reinterpret_cast<const TF *>( &px_0 )[ 5 ];
+            TF y_2 = reinterpret_cast<const TF *>( &py_0 )[ 2 ];
+            TF y_3 = reinterpret_cast<const TF *>( &py_0 )[ 3 ];
+            TF y_4 = reinterpret_cast<const TF *>( &py_0 )[ 4 ];
+            TF y_5 = reinterpret_cast<const TF *>( &py_0 )[ 5 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x50908020100ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set_pd( d_4, d_3 );
+            __m128d x_i0 = _mm_set_pd( x_4, x_3 );
+            __m128d y_i0 = _mm_set_pd( y_4, y_3 );
+            __m128d d_i1 = _mm_set_pd( d_5, d_2 );
+            __m128d x_i1 = _mm_set_pd( x_5, x_2 );
+            __m128d y_i1 = _mm_set_pd( y_5, y_2 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             break;
@@ -1523,22 +1915,31 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
         case 1692:
         case 1756: {
             // size=6 outside=0000000000000000000000000000000000000000000000000000000000011100 mod=0,1,[ 2, 1 ],[ 4, 5 ],5
+            size = 5;
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
             TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF m_0 = d_2 / ( d_1 - d_2 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 2 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 1 ] - reinterpret_cast<double *>( &px_0 )[ 2 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 2 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 1 ] - reinterpret_cast<double *>( &py_0 )[ 2 ] );
-            TF m_1 = d_4 / ( d_5 - d_4 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 4 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 5 ] - reinterpret_cast<double *>( &px_0 )[ 4 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 4 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 5 ] - reinterpret_cast<double *>( &py_0 )[ 4 ] );
+            TF x_1 = reinterpret_cast<const TF *>( &px_0 )[ 1 ];
+            TF x_2 = reinterpret_cast<const TF *>( &px_0 )[ 2 ];
+            TF x_4 = reinterpret_cast<const TF *>( &px_0 )[ 4 ];
+            TF x_5 = reinterpret_cast<const TF *>( &px_0 )[ 5 ];
+            TF y_1 = reinterpret_cast<const TF *>( &py_0 )[ 1 ];
+            TF y_2 = reinterpret_cast<const TF *>( &py_0 )[ 2 ];
+            TF y_4 = reinterpret_cast<const TF *>( &py_0 )[ 4 ];
+            TF y_5 = reinterpret_cast<const TF *>( &py_0 )[ 5 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x509080100ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set_pd( d_4, d_2 );
+            __m128d x_i0 = _mm_set_pd( x_4, x_2 );
+            __m128d y_i0 = _mm_set_pd( y_4, y_2 );
+            __m128d d_i1 = _mm_set_pd( d_5, d_1 );
+            __m128d x_i1 = _mm_set_pd( x_5, x_1 );
+            __m128d y_i1 = _mm_set_pd( y_5, y_1 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
-            size = 5;
             break;
         }
         case 1566:
@@ -1546,22 +1947,31 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
         case 1694:
         case 1758: {
             // size=6 outside=0000000000000000000000000000000000000000000000000000000000011110 mod=0,[ 1, 0 ],[ 4, 5 ],5
+            size = 4;
             TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
             TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF m_0 = d_1 / ( d_0 - d_1 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 1 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 0 ] - reinterpret_cast<double *>( &px_0 )[ 1 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 1 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 0 ] - reinterpret_cast<double *>( &py_0 )[ 1 ] );
-            TF m_1 = d_4 / ( d_5 - d_4 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 4 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 5 ] - reinterpret_cast<double *>( &px_0 )[ 4 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 4 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 5 ] - reinterpret_cast<double *>( &py_0 )[ 4 ] );
+            TF x_0 = reinterpret_cast<const TF *>( &px_0 )[ 0 ];
+            TF x_1 = reinterpret_cast<const TF *>( &px_0 )[ 1 ];
+            TF x_4 = reinterpret_cast<const TF *>( &px_0 )[ 4 ];
+            TF x_5 = reinterpret_cast<const TF *>( &px_0 )[ 5 ];
+            TF y_0 = reinterpret_cast<const TF *>( &py_0 )[ 0 ];
+            TF y_1 = reinterpret_cast<const TF *>( &py_0 )[ 1 ];
+            TF y_4 = reinterpret_cast<const TF *>( &py_0 )[ 4 ];
+            TF y_5 = reinterpret_cast<const TF *>( &py_0 )[ 5 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x5090800ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set_pd( d_4, d_1 );
+            __m128d x_i0 = _mm_set_pd( x_4, x_1 );
+            __m128d y_i0 = _mm_set_pd( y_4, y_1 );
+            __m128d d_i1 = _mm_set_pd( d_5, d_0 );
+            __m128d x_i1 = _mm_set_pd( x_5, x_0 );
+            __m128d y_i1 = _mm_set_pd( y_5, y_0 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
-            size = 4;
             break;
         }
         case 1567:
@@ -1569,21 +1979,28 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
         case 1695:
         case 1759: {
             // size=6 outside=0000000000000000000000000000000000000000000000000000000000011111 mod=[ 0, 5 ],[ 4, 5 ],5
+            size = 3;
             TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
             TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF m_0 = d_0 / ( d_5 - d_0 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 5 ] - reinterpret_cast<double *>( &px_0 )[ 0 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 5 ] - reinterpret_cast<double *>( &py_0 )[ 0 ] );
-            TF m_1 = d_4 / ( d_5 - d_4 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 4 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 5 ] - reinterpret_cast<double *>( &px_0 )[ 4 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 4 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 5 ] - reinterpret_cast<double *>( &py_0 )[ 4 ] );
+            TF x_0 = reinterpret_cast<const TF *>( &px_0 )[ 0 ];
+            TF x_4 = reinterpret_cast<const TF *>( &px_0 )[ 4 ];
+            TF x_5 = reinterpret_cast<const TF *>( &px_0 )[ 5 ];
+            TF y_0 = reinterpret_cast<const TF *>( &py_0 )[ 0 ];
+            TF y_4 = reinterpret_cast<const TF *>( &py_0 )[ 4 ];
+            TF y_5 = reinterpret_cast<const TF *>( &py_0 )[ 5 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x50908ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set_pd( d_4, d_0 );
+            __m128d x_i0 = _mm_set_pd( x_4, x_0 );
+            __m128d y_i0 = _mm_set_pd( y_4, y_0 );
+            __m128d d_i1 = _mm_set1_pd( d_5 );
+            __m128d x_i1 = _mm_set1_pd( x_5 );
+            __m128d y_i1 = _mm_set1_pd( y_5 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
-            size = 3;
             break;
         }
         case 1568:
@@ -1591,21 +2008,28 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
         case 1696:
         case 1760: {
             // size=6 outside=0000000000000000000000000000000000000000000000000000000000100000 mod=0,1,2,3,4,[ 5, 4 ],[ 5, 0 ]
+            size = 7;
             TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
             TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF m_0 = d_5 / ( d_4 - d_5 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 5 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 4 ] - reinterpret_cast<double *>( &px_0 )[ 5 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 5 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 4 ] - reinterpret_cast<double *>( &py_0 )[ 5 ] );
-            TF m_1 = d_5 / ( d_0 - d_5 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 5 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 0 ] - reinterpret_cast<double *>( &px_0 )[ 5 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 5 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 0 ] - reinterpret_cast<double *>( &py_0 )[ 5 ] );
+            TF x_0 = reinterpret_cast<const TF *>( &px_0 )[ 0 ];
+            TF x_4 = reinterpret_cast<const TF *>( &px_0 )[ 4 ];
+            TF x_5 = reinterpret_cast<const TF *>( &px_0 )[ 5 ];
+            TF y_0 = reinterpret_cast<const TF *>( &py_0 )[ 0 ];
+            TF y_4 = reinterpret_cast<const TF *>( &py_0 )[ 4 ];
+            TF y_5 = reinterpret_cast<const TF *>( &py_0 )[ 5 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x9080403020100ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set1_pd( d_5 );
+            __m128d x_i0 = _mm_set1_pd( x_5 );
+            __m128d y_i0 = _mm_set1_pd( y_5 );
+            __m128d d_i1 = _mm_set_pd( d_0, d_4 );
+            __m128d x_i1 = _mm_set_pd( x_0, x_4 );
+            __m128d y_i1 = _mm_set_pd( y_0, y_4 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
-            size = 7;
             break;
         }
         case 1569:
@@ -1617,15 +2041,24 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
             TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF m_0 = d_0 / ( d_1 - d_0 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 1 ] - reinterpret_cast<double *>( &px_0 )[ 0 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 1 ] - reinterpret_cast<double *>( &py_0 )[ 0 ] );
-            TF m_1 = d_5 / ( d_4 - d_5 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 5 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 4 ] - reinterpret_cast<double *>( &px_0 )[ 5 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 5 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 4 ] - reinterpret_cast<double *>( &py_0 )[ 5 ] );
+            TF x_0 = reinterpret_cast<const TF *>( &px_0 )[ 0 ];
+            TF x_1 = reinterpret_cast<const TF *>( &px_0 )[ 1 ];
+            TF x_4 = reinterpret_cast<const TF *>( &px_0 )[ 4 ];
+            TF x_5 = reinterpret_cast<const TF *>( &px_0 )[ 5 ];
+            TF y_0 = reinterpret_cast<const TF *>( &py_0 )[ 0 ];
+            TF y_1 = reinterpret_cast<const TF *>( &py_0 )[ 1 ];
+            TF y_4 = reinterpret_cast<const TF *>( &py_0 )[ 4 ];
+            TF y_5 = reinterpret_cast<const TF *>( &py_0 )[ 5 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x90403020108ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set_pd( d_5, d_0 );
+            __m128d x_i0 = _mm_set_pd( x_5, x_0 );
+            __m128d y_i0 = _mm_set_pd( y_5, y_0 );
+            __m128d d_i1 = _mm_set_pd( d_4, d_1 );
+            __m128d x_i1 = _mm_set_pd( x_4, x_1 );
+            __m128d y_i1 = _mm_set_pd( y_4, y_1 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             break;
@@ -1635,22 +2068,31 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
         case 1699:
         case 1763: {
             // size=6 outside=0000000000000000000000000000000000000000000000000000000000100011 mod=[ 5, 4 ],[ 1, 2 ],2,3,4
+            size = 5;
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
             TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF m_0 = d_5 / ( d_4 - d_5 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 5 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 4 ] - reinterpret_cast<double *>( &px_0 )[ 5 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 5 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 4 ] - reinterpret_cast<double *>( &py_0 )[ 5 ] );
-            TF m_1 = d_1 / ( d_2 - d_1 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 1 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 2 ] - reinterpret_cast<double *>( &px_0 )[ 1 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 1 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 2 ] - reinterpret_cast<double *>( &py_0 )[ 1 ] );
+            TF x_1 = reinterpret_cast<const TF *>( &px_0 )[ 1 ];
+            TF x_2 = reinterpret_cast<const TF *>( &px_0 )[ 2 ];
+            TF x_4 = reinterpret_cast<const TF *>( &px_0 )[ 4 ];
+            TF x_5 = reinterpret_cast<const TF *>( &px_0 )[ 5 ];
+            TF y_1 = reinterpret_cast<const TF *>( &py_0 )[ 1 ];
+            TF y_2 = reinterpret_cast<const TF *>( &py_0 )[ 2 ];
+            TF y_4 = reinterpret_cast<const TF *>( &py_0 )[ 4 ];
+            TF y_5 = reinterpret_cast<const TF *>( &py_0 )[ 5 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x403020908ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set_pd( d_1, d_5 );
+            __m128d x_i0 = _mm_set_pd( x_1, x_5 );
+            __m128d y_i0 = _mm_set_pd( y_1, y_5 );
+            __m128d d_i1 = _mm_set_pd( d_2, d_4 );
+            __m128d x_i1 = _mm_set_pd( x_2, x_4 );
+            __m128d y_i1 = _mm_set_pd( y_2, y_4 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
-            size = 5;
             break;
         }
         case 1575:
@@ -1658,22 +2100,31 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
         case 1703:
         case 1767: {
             // size=6 outside=0000000000000000000000000000000000000000000000000000000000100111 mod=4,[ 5, 4 ],[ 2, 3 ],3
+            size = 4;
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
             TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF m_0 = d_5 / ( d_4 - d_5 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 5 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 4 ] - reinterpret_cast<double *>( &px_0 )[ 5 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 5 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 4 ] - reinterpret_cast<double *>( &py_0 )[ 5 ] );
-            TF m_1 = d_2 / ( d_3 - d_2 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 2 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 3 ] - reinterpret_cast<double *>( &px_0 )[ 2 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 2 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 3 ] - reinterpret_cast<double *>( &py_0 )[ 2 ] );
+            TF x_2 = reinterpret_cast<const TF *>( &px_0 )[ 2 ];
+            TF x_3 = reinterpret_cast<const TF *>( &px_0 )[ 3 ];
+            TF x_4 = reinterpret_cast<const TF *>( &px_0 )[ 4 ];
+            TF x_5 = reinterpret_cast<const TF *>( &px_0 )[ 5 ];
+            TF y_2 = reinterpret_cast<const TF *>( &py_0 )[ 2 ];
+            TF y_3 = reinterpret_cast<const TF *>( &py_0 )[ 3 ];
+            TF y_4 = reinterpret_cast<const TF *>( &py_0 )[ 4 ];
+            TF y_5 = reinterpret_cast<const TF *>( &py_0 )[ 5 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x3090804ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set_pd( d_2, d_5 );
+            __m128d x_i0 = _mm_set_pd( x_2, x_5 );
+            __m128d y_i0 = _mm_set_pd( y_2, y_5 );
+            __m128d d_i1 = _mm_set_pd( d_3, d_4 );
+            __m128d x_i1 = _mm_set_pd( x_3, x_4 );
+            __m128d y_i1 = _mm_set_pd( y_3, y_4 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
-            size = 4;
             break;
         }
         case 1583:
@@ -1681,21 +2132,28 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
         case 1711:
         case 1775: {
             // size=6 outside=0000000000000000000000000000000000000000000000000000000000101111 mod=[ 3, 4 ],4,[ 5, 4 ]
+            size = 3;
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
             TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF m_0 = d_3 / ( d_4 - d_3 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 3 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 4 ] - reinterpret_cast<double *>( &px_0 )[ 3 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 3 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 4 ] - reinterpret_cast<double *>( &py_0 )[ 3 ] );
-            TF m_1 = d_5 / ( d_4 - d_5 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 5 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 4 ] - reinterpret_cast<double *>( &px_0 )[ 5 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 5 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 4 ] - reinterpret_cast<double *>( &py_0 )[ 5 ] );
+            TF x_3 = reinterpret_cast<const TF *>( &px_0 )[ 3 ];
+            TF x_4 = reinterpret_cast<const TF *>( &px_0 )[ 4 ];
+            TF x_5 = reinterpret_cast<const TF *>( &px_0 )[ 5 ];
+            TF y_3 = reinterpret_cast<const TF *>( &py_0 )[ 3 ];
+            TF y_4 = reinterpret_cast<const TF *>( &py_0 )[ 4 ];
+            TF y_5 = reinterpret_cast<const TF *>( &py_0 )[ 5 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x90408ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set_pd( d_5, d_3 );
+            __m128d x_i0 = _mm_set_pd( x_5, x_3 );
+            __m128d y_i0 = _mm_set_pd( y_5, y_3 );
+            __m128d d_i1 = _mm_set1_pd( d_4 );
+            __m128d x_i1 = _mm_set1_pd( x_4 );
+            __m128d y_i1 = _mm_set1_pd( y_4 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
-            size = 3;
             break;
         }
         case 1584:
@@ -1707,15 +2165,24 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
             TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF m_0 = d_4 / ( d_3 - d_4 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 4 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 3 ] - reinterpret_cast<double *>( &px_0 )[ 4 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 4 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 3 ] - reinterpret_cast<double *>( &py_0 )[ 4 ] );
-            TF m_1 = d_5 / ( d_0 - d_5 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 5 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 0 ] - reinterpret_cast<double *>( &px_0 )[ 5 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 5 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 0 ] - reinterpret_cast<double *>( &py_0 )[ 5 ] );
+            TF x_0 = reinterpret_cast<const TF *>( &px_0 )[ 0 ];
+            TF x_3 = reinterpret_cast<const TF *>( &px_0 )[ 3 ];
+            TF x_4 = reinterpret_cast<const TF *>( &px_0 )[ 4 ];
+            TF x_5 = reinterpret_cast<const TF *>( &px_0 )[ 5 ];
+            TF y_0 = reinterpret_cast<const TF *>( &py_0 )[ 0 ];
+            TF y_3 = reinterpret_cast<const TF *>( &py_0 )[ 3 ];
+            TF y_4 = reinterpret_cast<const TF *>( &py_0 )[ 4 ];
+            TF y_5 = reinterpret_cast<const TF *>( &py_0 )[ 5 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x90803020100ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set_pd( d_5, d_4 );
+            __m128d x_i0 = _mm_set_pd( x_5, x_4 );
+            __m128d y_i0 = _mm_set_pd( y_5, y_4 );
+            __m128d d_i1 = _mm_set_pd( d_0, d_3 );
+            __m128d x_i1 = _mm_set_pd( x_0, x_3 );
+            __m128d y_i1 = _mm_set_pd( y_0, y_3 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             break;
@@ -1725,22 +2192,31 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
         case 1713:
         case 1777: {
             // size=6 outside=0000000000000000000000000000000000000000000000000000000000110001 mod=[ 0, 1 ],1,2,3,[ 4, 3 ]
+            size = 5;
             TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF m_0 = d_0 / ( d_1 - d_0 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 1 ] - reinterpret_cast<double *>( &px_0 )[ 0 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 1 ] - reinterpret_cast<double *>( &py_0 )[ 0 ] );
-            TF m_1 = d_4 / ( d_3 - d_4 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 4 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 3 ] - reinterpret_cast<double *>( &px_0 )[ 4 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 4 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 3 ] - reinterpret_cast<double *>( &py_0 )[ 4 ] );
+            TF x_0 = reinterpret_cast<const TF *>( &px_0 )[ 0 ];
+            TF x_1 = reinterpret_cast<const TF *>( &px_0 )[ 1 ];
+            TF x_3 = reinterpret_cast<const TF *>( &px_0 )[ 3 ];
+            TF x_4 = reinterpret_cast<const TF *>( &px_0 )[ 4 ];
+            TF y_0 = reinterpret_cast<const TF *>( &py_0 )[ 0 ];
+            TF y_1 = reinterpret_cast<const TF *>( &py_0 )[ 1 ];
+            TF y_3 = reinterpret_cast<const TF *>( &py_0 )[ 3 ];
+            TF y_4 = reinterpret_cast<const TF *>( &py_0 )[ 4 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x903020108ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set_pd( d_4, d_0 );
+            __m128d x_i0 = _mm_set_pd( x_4, x_0 );
+            __m128d y_i0 = _mm_set_pd( y_4, y_0 );
+            __m128d d_i1 = _mm_set_pd( d_3, d_1 );
+            __m128d x_i1 = _mm_set_pd( x_3, x_1 );
+            __m128d y_i1 = _mm_set_pd( y_3, y_1 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
-            size = 5;
             break;
         }
         case 1587:
@@ -1748,22 +2224,31 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
         case 1715:
         case 1779: {
             // size=6 outside=0000000000000000000000000000000000000000000000000000000000110011 mod=[ 4, 3 ],[ 1, 2 ],2,3
+            size = 4;
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF m_0 = d_4 / ( d_3 - d_4 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 4 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 3 ] - reinterpret_cast<double *>( &px_0 )[ 4 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 4 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 3 ] - reinterpret_cast<double *>( &py_0 )[ 4 ] );
-            TF m_1 = d_1 / ( d_2 - d_1 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 1 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 2 ] - reinterpret_cast<double *>( &px_0 )[ 1 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 1 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 2 ] - reinterpret_cast<double *>( &py_0 )[ 1 ] );
+            TF x_1 = reinterpret_cast<const TF *>( &px_0 )[ 1 ];
+            TF x_2 = reinterpret_cast<const TF *>( &px_0 )[ 2 ];
+            TF x_3 = reinterpret_cast<const TF *>( &px_0 )[ 3 ];
+            TF x_4 = reinterpret_cast<const TF *>( &px_0 )[ 4 ];
+            TF y_1 = reinterpret_cast<const TF *>( &py_0 )[ 1 ];
+            TF y_2 = reinterpret_cast<const TF *>( &py_0 )[ 2 ];
+            TF y_3 = reinterpret_cast<const TF *>( &py_0 )[ 3 ];
+            TF y_4 = reinterpret_cast<const TF *>( &py_0 )[ 4 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x3020908ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set_pd( d_1, d_4 );
+            __m128d x_i0 = _mm_set_pd( x_1, x_4 );
+            __m128d y_i0 = _mm_set_pd( y_1, y_4 );
+            __m128d d_i1 = _mm_set_pd( d_2, d_3 );
+            __m128d x_i1 = _mm_set_pd( x_2, x_3 );
+            __m128d y_i1 = _mm_set_pd( y_2, y_3 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
-            size = 4;
             break;
         }
         case 1591:
@@ -1771,21 +2256,28 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
         case 1719:
         case 1783: {
             // size=6 outside=0000000000000000000000000000000000000000000000000000000000110111 mod=3,[ 4, 3 ],[ 2, 3 ]
+            size = 3;
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF m_0 = d_4 / ( d_3 - d_4 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 4 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 3 ] - reinterpret_cast<double *>( &px_0 )[ 4 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 4 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 3 ] - reinterpret_cast<double *>( &py_0 )[ 4 ] );
-            TF m_1 = d_2 / ( d_3 - d_2 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 2 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 3 ] - reinterpret_cast<double *>( &px_0 )[ 2 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 2 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 3 ] - reinterpret_cast<double *>( &py_0 )[ 2 ] );
+            TF x_2 = reinterpret_cast<const TF *>( &px_0 )[ 2 ];
+            TF x_3 = reinterpret_cast<const TF *>( &px_0 )[ 3 ];
+            TF x_4 = reinterpret_cast<const TF *>( &px_0 )[ 4 ];
+            TF y_2 = reinterpret_cast<const TF *>( &py_0 )[ 2 ];
+            TF y_3 = reinterpret_cast<const TF *>( &py_0 )[ 3 ];
+            TF y_4 = reinterpret_cast<const TF *>( &py_0 )[ 4 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x90803ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set_pd( d_2, d_4 );
+            __m128d x_i0 = _mm_set_pd( x_2, x_4 );
+            __m128d y_i0 = _mm_set_pd( y_2, y_4 );
+            __m128d d_i1 = _mm_set1_pd( d_3 );
+            __m128d x_i1 = _mm_set1_pd( x_3 );
+            __m128d y_i1 = _mm_set1_pd( y_3 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
-            size = 3;
             break;
         }
         case 1592:
@@ -1793,22 +2285,31 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
         case 1720:
         case 1784: {
             // size=6 outside=0000000000000000000000000000000000000000000000000000000000111000 mod=0,1,2,[ 3, 2 ],[ 5, 0 ]
+            size = 5;
             TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
             TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF m_0 = d_3 / ( d_2 - d_3 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 3 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 2 ] - reinterpret_cast<double *>( &px_0 )[ 3 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 3 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 2 ] - reinterpret_cast<double *>( &py_0 )[ 3 ] );
-            TF m_1 = d_5 / ( d_0 - d_5 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 5 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 0 ] - reinterpret_cast<double *>( &px_0 )[ 5 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 5 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 0 ] - reinterpret_cast<double *>( &py_0 )[ 5 ] );
+            TF x_0 = reinterpret_cast<const TF *>( &px_0 )[ 0 ];
+            TF x_2 = reinterpret_cast<const TF *>( &px_0 )[ 2 ];
+            TF x_3 = reinterpret_cast<const TF *>( &px_0 )[ 3 ];
+            TF x_5 = reinterpret_cast<const TF *>( &px_0 )[ 5 ];
+            TF y_0 = reinterpret_cast<const TF *>( &py_0 )[ 0 ];
+            TF y_2 = reinterpret_cast<const TF *>( &py_0 )[ 2 ];
+            TF y_3 = reinterpret_cast<const TF *>( &py_0 )[ 3 ];
+            TF y_5 = reinterpret_cast<const TF *>( &py_0 )[ 5 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x908020100ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set_pd( d_5, d_3 );
+            __m128d x_i0 = _mm_set_pd( x_5, x_3 );
+            __m128d y_i0 = _mm_set_pd( y_5, y_3 );
+            __m128d d_i1 = _mm_set_pd( d_0, d_2 );
+            __m128d x_i1 = _mm_set_pd( x_0, x_2 );
+            __m128d y_i1 = _mm_set_pd( y_0, y_2 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
-            size = 5;
             break;
         }
         case 1593:
@@ -1816,22 +2317,31 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
         case 1721:
         case 1785: {
             // size=6 outside=0000000000000000000000000000000000000000000000000000000000111001 mod=[ 0, 1 ],1,2,[ 3, 2 ]
+            size = 4;
             TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF m_0 = d_0 / ( d_1 - d_0 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 1 ] - reinterpret_cast<double *>( &px_0 )[ 0 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 1 ] - reinterpret_cast<double *>( &py_0 )[ 0 ] );
-            TF m_1 = d_3 / ( d_2 - d_3 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 3 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 2 ] - reinterpret_cast<double *>( &px_0 )[ 3 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 3 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 2 ] - reinterpret_cast<double *>( &py_0 )[ 3 ] );
+            TF x_0 = reinterpret_cast<const TF *>( &px_0 )[ 0 ];
+            TF x_1 = reinterpret_cast<const TF *>( &px_0 )[ 1 ];
+            TF x_2 = reinterpret_cast<const TF *>( &px_0 )[ 2 ];
+            TF x_3 = reinterpret_cast<const TF *>( &px_0 )[ 3 ];
+            TF y_0 = reinterpret_cast<const TF *>( &py_0 )[ 0 ];
+            TF y_1 = reinterpret_cast<const TF *>( &py_0 )[ 1 ];
+            TF y_2 = reinterpret_cast<const TF *>( &py_0 )[ 2 ];
+            TF y_3 = reinterpret_cast<const TF *>( &py_0 )[ 3 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x9020108ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set_pd( d_3, d_0 );
+            __m128d x_i0 = _mm_set_pd( x_3, x_0 );
+            __m128d y_i0 = _mm_set_pd( y_3, y_0 );
+            __m128d d_i1 = _mm_set_pd( d_2, d_1 );
+            __m128d x_i1 = _mm_set_pd( x_2, x_1 );
+            __m128d y_i1 = _mm_set_pd( y_2, y_1 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
-            size = 4;
             break;
         }
         case 1595:
@@ -1839,21 +2349,28 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
         case 1723:
         case 1787: {
             // size=6 outside=0000000000000000000000000000000000000000000000000000000000111011 mod=[ 3, 2 ],[ 1, 2 ],2
+            size = 3;
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF m_0 = d_3 / ( d_2 - d_3 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 3 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 2 ] - reinterpret_cast<double *>( &px_0 )[ 3 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 3 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 2 ] - reinterpret_cast<double *>( &py_0 )[ 3 ] );
-            TF m_1 = d_1 / ( d_2 - d_1 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 1 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 2 ] - reinterpret_cast<double *>( &px_0 )[ 1 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 1 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 2 ] - reinterpret_cast<double *>( &py_0 )[ 1 ] );
+            TF x_1 = reinterpret_cast<const TF *>( &px_0 )[ 1 ];
+            TF x_2 = reinterpret_cast<const TF *>( &px_0 )[ 2 ];
+            TF x_3 = reinterpret_cast<const TF *>( &px_0 )[ 3 ];
+            TF y_1 = reinterpret_cast<const TF *>( &py_0 )[ 1 ];
+            TF y_2 = reinterpret_cast<const TF *>( &py_0 )[ 2 ];
+            TF y_3 = reinterpret_cast<const TF *>( &py_0 )[ 3 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x20908ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set_pd( d_1, d_3 );
+            __m128d x_i0 = _mm_set_pd( x_1, x_3 );
+            __m128d y_i0 = _mm_set_pd( y_1, y_3 );
+            __m128d d_i1 = _mm_set1_pd( d_2 );
+            __m128d x_i1 = _mm_set1_pd( x_2 );
+            __m128d y_i1 = _mm_set1_pd( y_2 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
-            size = 3;
             break;
         }
         case 1596:
@@ -1861,22 +2378,31 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
         case 1724:
         case 1788: {
             // size=6 outside=0000000000000000000000000000000000000000000000000000000000111100 mod=0,1,[ 2, 1 ],[ 5, 0 ]
+            size = 4;
             TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
             TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF m_0 = d_2 / ( d_1 - d_2 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 2 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 1 ] - reinterpret_cast<double *>( &px_0 )[ 2 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 2 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 1 ] - reinterpret_cast<double *>( &py_0 )[ 2 ] );
-            TF m_1 = d_5 / ( d_0 - d_5 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 5 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 0 ] - reinterpret_cast<double *>( &px_0 )[ 5 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 5 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 0 ] - reinterpret_cast<double *>( &py_0 )[ 5 ] );
+            TF x_0 = reinterpret_cast<const TF *>( &px_0 )[ 0 ];
+            TF x_1 = reinterpret_cast<const TF *>( &px_0 )[ 1 ];
+            TF x_2 = reinterpret_cast<const TF *>( &px_0 )[ 2 ];
+            TF x_5 = reinterpret_cast<const TF *>( &px_0 )[ 5 ];
+            TF y_0 = reinterpret_cast<const TF *>( &py_0 )[ 0 ];
+            TF y_1 = reinterpret_cast<const TF *>( &py_0 )[ 1 ];
+            TF y_2 = reinterpret_cast<const TF *>( &py_0 )[ 2 ];
+            TF y_5 = reinterpret_cast<const TF *>( &py_0 )[ 5 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x9080100ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set_pd( d_5, d_2 );
+            __m128d x_i0 = _mm_set_pd( x_5, x_2 );
+            __m128d y_i0 = _mm_set_pd( y_5, y_2 );
+            __m128d d_i1 = _mm_set_pd( d_0, d_1 );
+            __m128d x_i1 = _mm_set_pd( x_0, x_1 );
+            __m128d y_i1 = _mm_set_pd( y_0, y_1 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
-            size = 4;
             break;
         }
         case 1597:
@@ -1884,21 +2410,28 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
         case 1725:
         case 1789: {
             // size=6 outside=0000000000000000000000000000000000000000000000000000000000111101 mod=[ 0, 1 ],1,[ 2, 1 ]
+            size = 3;
             TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF m_0 = d_0 / ( d_1 - d_0 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 1 ] - reinterpret_cast<double *>( &px_0 )[ 0 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 1 ] - reinterpret_cast<double *>( &py_0 )[ 0 ] );
-            TF m_1 = d_2 / ( d_1 - d_2 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 2 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 1 ] - reinterpret_cast<double *>( &px_0 )[ 2 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 2 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 1 ] - reinterpret_cast<double *>( &py_0 )[ 2 ] );
+            TF x_0 = reinterpret_cast<const TF *>( &px_0 )[ 0 ];
+            TF x_1 = reinterpret_cast<const TF *>( &px_0 )[ 1 ];
+            TF x_2 = reinterpret_cast<const TF *>( &px_0 )[ 2 ];
+            TF y_0 = reinterpret_cast<const TF *>( &py_0 )[ 0 ];
+            TF y_1 = reinterpret_cast<const TF *>( &py_0 )[ 1 ];
+            TF y_2 = reinterpret_cast<const TF *>( &py_0 )[ 2 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x90108ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set_pd( d_2, d_0 );
+            __m128d x_i0 = _mm_set_pd( x_2, x_0 );
+            __m128d y_i0 = _mm_set_pd( y_2, y_0 );
+            __m128d d_i1 = _mm_set1_pd( d_1 );
+            __m128d x_i1 = _mm_set1_pd( x_1 );
+            __m128d y_i1 = _mm_set1_pd( y_1 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
-            size = 3;
             break;
         }
         case 1598:
@@ -1906,61 +2439,82 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
         case 1726:
         case 1790: {
             // size=6 outside=0000000000000000000000000000000000000000000000000000000000111110 mod=0,[ 1, 0 ],[ 5, 0 ]
+            size = 3;
             TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF m_0 = d_1 / ( d_0 - d_1 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 1 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 0 ] - reinterpret_cast<double *>( &px_0 )[ 1 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 1 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 0 ] - reinterpret_cast<double *>( &py_0 )[ 1 ] );
-            TF m_1 = d_5 / ( d_0 - d_5 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 5 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 0 ] - reinterpret_cast<double *>( &px_0 )[ 5 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 5 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 0 ] - reinterpret_cast<double *>( &py_0 )[ 5 ] );
+            TF x_0 = reinterpret_cast<const TF *>( &px_0 )[ 0 ];
+            TF x_1 = reinterpret_cast<const TF *>( &px_0 )[ 1 ];
+            TF x_5 = reinterpret_cast<const TF *>( &px_0 )[ 5 ];
+            TF y_0 = reinterpret_cast<const TF *>( &py_0 )[ 0 ];
+            TF y_1 = reinterpret_cast<const TF *>( &py_0 )[ 1 ];
+            TF y_5 = reinterpret_cast<const TF *>( &py_0 )[ 5 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x90800ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set_pd( d_5, d_1 );
+            __m128d x_i0 = _mm_set_pd( x_5, x_1 );
+            __m128d y_i0 = _mm_set_pd( y_5, y_1 );
+            __m128d d_i1 = _mm_set1_pd( d_0 );
+            __m128d x_i1 = _mm_set1_pd( x_0 );
+            __m128d y_i1 = _mm_set1_pd( y_0 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
-            size = 3;
             break;
         }
         case 1793:
         case 1921: {
             // size=7 outside=0000000000000000000000000000000000000000000000000000000000000001 mod=[ 0, 1 ],1,2,3,4,5,6,[ 0, 6 ]
+            size = 8;
             TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_0 = d_0 / ( d_1 - d_0 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 1 ] - reinterpret_cast<double *>( &px_0 )[ 0 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 1 ] - reinterpret_cast<double *>( &py_0 )[ 0 ] );
-            TF m_1 = d_0 / ( d_6 - d_0 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 0 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 6 ] - reinterpret_cast<double *>( &px_0 )[ 0 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 0 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 6 ] - reinterpret_cast<double *>( &py_0 )[ 0 ] );
+            TF x_0 = reinterpret_cast<const TF *>( &px_0 )[ 0 ];
+            TF x_1 = reinterpret_cast<const TF *>( &px_0 )[ 1 ];
+            TF x_6 = reinterpret_cast<const TF *>( &px_0 )[ 6 ];
+            TF y_0 = reinterpret_cast<const TF *>( &py_0 )[ 0 ];
+            TF y_1 = reinterpret_cast<const TF *>( &py_0 )[ 1 ];
+            TF y_6 = reinterpret_cast<const TF *>( &py_0 )[ 6 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x906050403020108ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set1_pd( d_0 );
+            __m128d x_i0 = _mm_set1_pd( x_0 );
+            __m128d y_i0 = _mm_set1_pd( y_0 );
+            __m128d d_i1 = _mm_set_pd( d_6, d_1 );
+            __m128d x_i1 = _mm_set_pd( x_6, x_1 );
+            __m128d y_i1 = _mm_set_pd( y_6, y_1 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
-            size = 8;
             break;
         }
         case 1794:
         case 1922: {
             // size=7 outside=0000000000000000000000000000000000000000000000000000000000000010 mod=[ 1, 0 ],[ 1, 2 ],2,3,4,5,6,0
+            size = 8;
             TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF m_0 = d_1 / ( d_0 - d_1 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 1 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 0 ] - reinterpret_cast<double *>( &px_0 )[ 1 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 1 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 0 ] - reinterpret_cast<double *>( &py_0 )[ 1 ] );
-            TF m_1 = d_1 / ( d_2 - d_1 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 1 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 2 ] - reinterpret_cast<double *>( &px_0 )[ 1 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 1 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 2 ] - reinterpret_cast<double *>( &py_0 )[ 1 ] );
+            TF x_0 = reinterpret_cast<const TF *>( &px_0 )[ 0 ];
+            TF x_1 = reinterpret_cast<const TF *>( &px_0 )[ 1 ];
+            TF x_2 = reinterpret_cast<const TF *>( &px_0 )[ 2 ];
+            TF y_0 = reinterpret_cast<const TF *>( &py_0 )[ 0 ];
+            TF y_1 = reinterpret_cast<const TF *>( &py_0 )[ 1 ];
+            TF y_2 = reinterpret_cast<const TF *>( &py_0 )[ 2 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x6050403020908ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set1_pd( d_1 );
+            __m128d x_i0 = _mm_set1_pd( x_1 );
+            __m128d y_i0 = _mm_set1_pd( y_1 );
+            __m128d d_i1 = _mm_set_pd( d_2, d_0 );
+            __m128d x_i1 = _mm_set_pd( x_2, x_0 );
+            __m128d y_i1 = _mm_set_pd( y_2, y_0 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
-            size = 8;
             break;
         }
         case 1795:
@@ -1970,15 +2524,24 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
             TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_0 = d_0 / ( d_6 - d_0 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 6 ] - reinterpret_cast<double *>( &px_0 )[ 0 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 6 ] - reinterpret_cast<double *>( &py_0 )[ 0 ] );
-            TF m_1 = d_1 / ( d_2 - d_1 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 1 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 2 ] - reinterpret_cast<double *>( &px_0 )[ 1 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 1 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 2 ] - reinterpret_cast<double *>( &py_0 )[ 1 ] );
+            TF x_0 = reinterpret_cast<const TF *>( &px_0 )[ 0 ];
+            TF x_1 = reinterpret_cast<const TF *>( &px_0 )[ 1 ];
+            TF x_2 = reinterpret_cast<const TF *>( &px_0 )[ 2 ];
+            TF x_6 = reinterpret_cast<const TF *>( &px_0 )[ 6 ];
+            TF y_0 = reinterpret_cast<const TF *>( &py_0 )[ 0 ];
+            TF y_1 = reinterpret_cast<const TF *>( &py_0 )[ 1 ];
+            TF y_2 = reinterpret_cast<const TF *>( &py_0 )[ 2 ];
+            TF y_6 = reinterpret_cast<const TF *>( &py_0 )[ 6 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x6050403020908ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set_pd( d_1, d_0 );
+            __m128d x_i0 = _mm_set_pd( x_1, x_0 );
+            __m128d y_i0 = _mm_set_pd( y_1, y_0 );
+            __m128d d_i1 = _mm_set_pd( d_2, d_6 );
+            __m128d x_i1 = _mm_set_pd( x_2, x_6 );
+            __m128d y_i1 = _mm_set_pd( y_2, y_6 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             break;
@@ -1986,21 +2549,28 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
         case 1796:
         case 1924: {
             // size=7 outside=0000000000000000000000000000000000000000000000000000000000000100 mod=1,[ 2, 1 ],[ 2, 3 ],3,4,5,6,0
+            size = 8;
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF m_0 = d_2 / ( d_1 - d_2 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 2 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 1 ] - reinterpret_cast<double *>( &px_0 )[ 2 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 2 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 1 ] - reinterpret_cast<double *>( &py_0 )[ 2 ] );
-            TF m_1 = d_2 / ( d_3 - d_2 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 2 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 3 ] - reinterpret_cast<double *>( &px_0 )[ 2 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 2 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 3 ] - reinterpret_cast<double *>( &py_0 )[ 2 ] );
+            TF x_1 = reinterpret_cast<const TF *>( &px_0 )[ 1 ];
+            TF x_2 = reinterpret_cast<const TF *>( &px_0 )[ 2 ];
+            TF x_3 = reinterpret_cast<const TF *>( &px_0 )[ 3 ];
+            TF y_1 = reinterpret_cast<const TF *>( &py_0 )[ 1 ];
+            TF y_2 = reinterpret_cast<const TF *>( &py_0 )[ 2 ];
+            TF y_3 = reinterpret_cast<const TF *>( &py_0 )[ 3 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x6050403090801ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set1_pd( d_2 );
+            __m128d x_i0 = _mm_set1_pd( x_2 );
+            __m128d y_i0 = _mm_set1_pd( y_2 );
+            __m128d d_i1 = _mm_set_pd( d_3, d_1 );
+            __m128d x_i1 = _mm_set_pd( x_3, x_1 );
+            __m128d y_i1 = _mm_set_pd( y_3, y_1 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
-            size = 8;
             break;
         }
         case 1798:
@@ -2010,15 +2580,24 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF m_0 = d_1 / ( d_0 - d_1 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 1 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 0 ] - reinterpret_cast<double *>( &px_0 )[ 1 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 1 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 0 ] - reinterpret_cast<double *>( &py_0 )[ 1 ] );
-            TF m_1 = d_2 / ( d_3 - d_2 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 2 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 3 ] - reinterpret_cast<double *>( &px_0 )[ 2 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 2 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 3 ] - reinterpret_cast<double *>( &py_0 )[ 2 ] );
+            TF x_0 = reinterpret_cast<const TF *>( &px_0 )[ 0 ];
+            TF x_1 = reinterpret_cast<const TF *>( &px_0 )[ 1 ];
+            TF x_2 = reinterpret_cast<const TF *>( &px_0 )[ 2 ];
+            TF x_3 = reinterpret_cast<const TF *>( &px_0 )[ 3 ];
+            TF y_0 = reinterpret_cast<const TF *>( &py_0 )[ 0 ];
+            TF y_1 = reinterpret_cast<const TF *>( &py_0 )[ 1 ];
+            TF y_2 = reinterpret_cast<const TF *>( &py_0 )[ 2 ];
+            TF y_3 = reinterpret_cast<const TF *>( &py_0 )[ 3 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x6050403090800ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set_pd( d_2, d_1 );
+            __m128d x_i0 = _mm_set_pd( x_2, x_1 );
+            __m128d y_i0 = _mm_set_pd( y_2, y_1 );
+            __m128d d_i1 = _mm_set_pd( d_3, d_0 );
+            __m128d x_i1 = _mm_set_pd( x_3, x_0 );
+            __m128d y_i1 = _mm_set_pd( y_3, y_0 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             break;
@@ -2026,42 +2605,58 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
         case 1799:
         case 1927: {
             // size=7 outside=0000000000000000000000000000000000000000000000000000000000000111 mod=6,[ 0, 6 ],[ 2, 3 ],3,4,5
+            size = 6;
             TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
             TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_0 = d_0 / ( d_6 - d_0 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 6 ] - reinterpret_cast<double *>( &px_0 )[ 0 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 6 ] - reinterpret_cast<double *>( &py_0 )[ 0 ] );
-            TF m_1 = d_2 / ( d_3 - d_2 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 2 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 3 ] - reinterpret_cast<double *>( &px_0 )[ 2 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 2 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 3 ] - reinterpret_cast<double *>( &py_0 )[ 2 ] );
+            TF x_0 = reinterpret_cast<const TF *>( &px_0 )[ 0 ];
+            TF x_2 = reinterpret_cast<const TF *>( &px_0 )[ 2 ];
+            TF x_3 = reinterpret_cast<const TF *>( &px_0 )[ 3 ];
+            TF x_6 = reinterpret_cast<const TF *>( &px_0 )[ 6 ];
+            TF y_0 = reinterpret_cast<const TF *>( &py_0 )[ 0 ];
+            TF y_2 = reinterpret_cast<const TF *>( &py_0 )[ 2 ];
+            TF y_3 = reinterpret_cast<const TF *>( &py_0 )[ 3 ];
+            TF y_6 = reinterpret_cast<const TF *>( &py_0 )[ 6 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x50403090806ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set_pd( d_2, d_0 );
+            __m128d x_i0 = _mm_set_pd( x_2, x_0 );
+            __m128d y_i0 = _mm_set_pd( y_2, y_0 );
+            __m128d d_i1 = _mm_set_pd( d_3, d_6 );
+            __m128d x_i1 = _mm_set_pd( x_3, x_6 );
+            __m128d y_i1 = _mm_set_pd( y_3, y_6 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
-            size = 6;
             break;
         }
         case 1800:
         case 1928: {
             // size=7 outside=0000000000000000000000000000000000000000000000000000000000001000 mod=0,1,2,[ 3, 2 ],[ 3, 4 ],4,5,6
+            size = 8;
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF m_0 = d_3 / ( d_2 - d_3 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 3 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 2 ] - reinterpret_cast<double *>( &px_0 )[ 3 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 3 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 2 ] - reinterpret_cast<double *>( &py_0 )[ 3 ] );
-            TF m_1 = d_3 / ( d_4 - d_3 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 3 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 4 ] - reinterpret_cast<double *>( &px_0 )[ 3 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 3 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 4 ] - reinterpret_cast<double *>( &py_0 )[ 3 ] );
+            TF x_2 = reinterpret_cast<const TF *>( &px_0 )[ 2 ];
+            TF x_3 = reinterpret_cast<const TF *>( &px_0 )[ 3 ];
+            TF x_4 = reinterpret_cast<const TF *>( &px_0 )[ 4 ];
+            TF y_2 = reinterpret_cast<const TF *>( &py_0 )[ 2 ];
+            TF y_3 = reinterpret_cast<const TF *>( &py_0 )[ 3 ];
+            TF y_4 = reinterpret_cast<const TF *>( &py_0 )[ 4 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x605040908020100ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set1_pd( d_3 );
+            __m128d x_i0 = _mm_set1_pd( x_3 );
+            __m128d y_i0 = _mm_set1_pd( y_3 );
+            __m128d d_i1 = _mm_set_pd( d_4, d_2 );
+            __m128d x_i1 = _mm_set_pd( x_4, x_2 );
+            __m128d y_i1 = _mm_set_pd( y_4, y_2 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
-            size = 8;
             break;
         }
         case 1804:
@@ -2071,15 +2666,24 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF m_0 = d_2 / ( d_1 - d_2 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 2 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 1 ] - reinterpret_cast<double *>( &px_0 )[ 2 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 2 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 1 ] - reinterpret_cast<double *>( &py_0 )[ 2 ] );
-            TF m_1 = d_3 / ( d_4 - d_3 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 3 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 4 ] - reinterpret_cast<double *>( &px_0 )[ 3 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 3 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 4 ] - reinterpret_cast<double *>( &py_0 )[ 3 ] );
+            TF x_1 = reinterpret_cast<const TF *>( &px_0 )[ 1 ];
+            TF x_2 = reinterpret_cast<const TF *>( &px_0 )[ 2 ];
+            TF x_3 = reinterpret_cast<const TF *>( &px_0 )[ 3 ];
+            TF x_4 = reinterpret_cast<const TF *>( &px_0 )[ 4 ];
+            TF y_1 = reinterpret_cast<const TF *>( &py_0 )[ 1 ];
+            TF y_2 = reinterpret_cast<const TF *>( &py_0 )[ 2 ];
+            TF y_3 = reinterpret_cast<const TF *>( &py_0 )[ 3 ];
+            TF y_4 = reinterpret_cast<const TF *>( &py_0 )[ 4 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x6050409080100ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set_pd( d_3, d_2 );
+            __m128d x_i0 = _mm_set_pd( x_3, x_2 );
+            __m128d y_i0 = _mm_set_pd( y_3, y_2 );
+            __m128d d_i1 = _mm_set_pd( d_4, d_1 );
+            __m128d x_i1 = _mm_set_pd( x_4, x_1 );
+            __m128d y_i1 = _mm_set_pd( y_4, y_1 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             break;
@@ -2087,63 +2691,88 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
         case 1806:
         case 1934: {
             // size=7 outside=0000000000000000000000000000000000000000000000000000000000001110 mod=6,0,[ 1, 0 ],[ 3, 4 ],4,5
+            size = 6;
             TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF m_0 = d_1 / ( d_0 - d_1 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 1 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 0 ] - reinterpret_cast<double *>( &px_0 )[ 1 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 1 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 0 ] - reinterpret_cast<double *>( &py_0 )[ 1 ] );
-            TF m_1 = d_3 / ( d_4 - d_3 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 3 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 4 ] - reinterpret_cast<double *>( &px_0 )[ 3 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 3 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 4 ] - reinterpret_cast<double *>( &py_0 )[ 3 ] );
+            TF x_0 = reinterpret_cast<const TF *>( &px_0 )[ 0 ];
+            TF x_1 = reinterpret_cast<const TF *>( &px_0 )[ 1 ];
+            TF x_3 = reinterpret_cast<const TF *>( &px_0 )[ 3 ];
+            TF x_4 = reinterpret_cast<const TF *>( &px_0 )[ 4 ];
+            TF y_0 = reinterpret_cast<const TF *>( &py_0 )[ 0 ];
+            TF y_1 = reinterpret_cast<const TF *>( &py_0 )[ 1 ];
+            TF y_3 = reinterpret_cast<const TF *>( &py_0 )[ 3 ];
+            TF y_4 = reinterpret_cast<const TF *>( &py_0 )[ 4 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x50409080006ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set_pd( d_3, d_1 );
+            __m128d x_i0 = _mm_set_pd( x_3, x_1 );
+            __m128d y_i0 = _mm_set_pd( y_3, y_1 );
+            __m128d d_i1 = _mm_set_pd( d_4, d_0 );
+            __m128d x_i1 = _mm_set_pd( x_4, x_0 );
+            __m128d y_i1 = _mm_set_pd( y_4, y_0 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
-            size = 6;
             break;
         }
         case 1807:
         case 1935: {
             // size=7 outside=0000000000000000000000000000000000000000000000000000000000001111 mod=5,6,[ 0, 6 ],[ 3, 4 ],4
+            size = 5;
             TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
             TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_0 = d_0 / ( d_6 - d_0 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 6 ] - reinterpret_cast<double *>( &px_0 )[ 0 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 6 ] - reinterpret_cast<double *>( &py_0 )[ 0 ] );
-            TF m_1 = d_3 / ( d_4 - d_3 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 3 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 4 ] - reinterpret_cast<double *>( &px_0 )[ 3 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 3 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 4 ] - reinterpret_cast<double *>( &py_0 )[ 3 ] );
+            TF x_0 = reinterpret_cast<const TF *>( &px_0 )[ 0 ];
+            TF x_3 = reinterpret_cast<const TF *>( &px_0 )[ 3 ];
+            TF x_4 = reinterpret_cast<const TF *>( &px_0 )[ 4 ];
+            TF x_6 = reinterpret_cast<const TF *>( &px_0 )[ 6 ];
+            TF y_0 = reinterpret_cast<const TF *>( &py_0 )[ 0 ];
+            TF y_3 = reinterpret_cast<const TF *>( &py_0 )[ 3 ];
+            TF y_4 = reinterpret_cast<const TF *>( &py_0 )[ 4 ];
+            TF y_6 = reinterpret_cast<const TF *>( &py_0 )[ 6 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x409080605ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set_pd( d_3, d_0 );
+            __m128d x_i0 = _mm_set_pd( x_3, x_0 );
+            __m128d y_i0 = _mm_set_pd( y_3, y_0 );
+            __m128d d_i1 = _mm_set_pd( d_4, d_6 );
+            __m128d x_i1 = _mm_set_pd( x_4, x_6 );
+            __m128d y_i1 = _mm_set_pd( y_4, y_6 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
-            size = 5;
             break;
         }
         case 1808:
         case 1936: {
             // size=7 outside=0000000000000000000000000000000000000000000000000000000000010000 mod=0,1,2,3,[ 4, 3 ],[ 4, 5 ],5,6
+            size = 8;
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
             TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF m_0 = d_4 / ( d_3 - d_4 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 4 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 3 ] - reinterpret_cast<double *>( &px_0 )[ 4 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 4 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 3 ] - reinterpret_cast<double *>( &py_0 )[ 4 ] );
-            TF m_1 = d_4 / ( d_5 - d_4 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 4 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 5 ] - reinterpret_cast<double *>( &px_0 )[ 4 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 4 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 5 ] - reinterpret_cast<double *>( &py_0 )[ 4 ] );
+            TF x_3 = reinterpret_cast<const TF *>( &px_0 )[ 3 ];
+            TF x_4 = reinterpret_cast<const TF *>( &px_0 )[ 4 ];
+            TF x_5 = reinterpret_cast<const TF *>( &px_0 )[ 5 ];
+            TF y_3 = reinterpret_cast<const TF *>( &py_0 )[ 3 ];
+            TF y_4 = reinterpret_cast<const TF *>( &py_0 )[ 4 ];
+            TF y_5 = reinterpret_cast<const TF *>( &py_0 )[ 5 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x605090803020100ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set1_pd( d_4 );
+            __m128d x_i0 = _mm_set1_pd( x_4 );
+            __m128d y_i0 = _mm_set1_pd( y_4 );
+            __m128d d_i1 = _mm_set_pd( d_5, d_3 );
+            __m128d x_i1 = _mm_set_pd( x_5, x_3 );
+            __m128d y_i1 = _mm_set_pd( y_5, y_3 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
-            size = 8;
             break;
         }
         case 1816:
@@ -2153,15 +2782,24 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
             TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF m_0 = d_3 / ( d_2 - d_3 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 3 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 2 ] - reinterpret_cast<double *>( &px_0 )[ 3 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 3 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 2 ] - reinterpret_cast<double *>( &py_0 )[ 3 ] );
-            TF m_1 = d_4 / ( d_5 - d_4 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 4 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 5 ] - reinterpret_cast<double *>( &px_0 )[ 4 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 4 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 5 ] - reinterpret_cast<double *>( &py_0 )[ 4 ] );
+            TF x_2 = reinterpret_cast<const TF *>( &px_0 )[ 2 ];
+            TF x_3 = reinterpret_cast<const TF *>( &px_0 )[ 3 ];
+            TF x_4 = reinterpret_cast<const TF *>( &px_0 )[ 4 ];
+            TF x_5 = reinterpret_cast<const TF *>( &px_0 )[ 5 ];
+            TF y_2 = reinterpret_cast<const TF *>( &py_0 )[ 2 ];
+            TF y_3 = reinterpret_cast<const TF *>( &py_0 )[ 3 ];
+            TF y_4 = reinterpret_cast<const TF *>( &py_0 )[ 4 ];
+            TF y_5 = reinterpret_cast<const TF *>( &py_0 )[ 5 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x6050908020100ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set_pd( d_4, d_3 );
+            __m128d x_i0 = _mm_set_pd( x_4, x_3 );
+            __m128d y_i0 = _mm_set_pd( y_4, y_3 );
+            __m128d d_i1 = _mm_set_pd( d_5, d_2 );
+            __m128d x_i1 = _mm_set_pd( x_5, x_2 );
+            __m128d y_i1 = _mm_set_pd( y_5, y_2 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             break;
@@ -2169,84 +2807,118 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
         case 1820:
         case 1948: {
             // size=7 outside=0000000000000000000000000000000000000000000000000000000000011100 mod=0,1,[ 2, 1 ],[ 4, 5 ],5,6
+            size = 6;
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
             TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF m_0 = d_2 / ( d_1 - d_2 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 2 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 1 ] - reinterpret_cast<double *>( &px_0 )[ 2 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 2 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 1 ] - reinterpret_cast<double *>( &py_0 )[ 2 ] );
-            TF m_1 = d_4 / ( d_5 - d_4 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 4 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 5 ] - reinterpret_cast<double *>( &px_0 )[ 4 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 4 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 5 ] - reinterpret_cast<double *>( &py_0 )[ 4 ] );
+            TF x_1 = reinterpret_cast<const TF *>( &px_0 )[ 1 ];
+            TF x_2 = reinterpret_cast<const TF *>( &px_0 )[ 2 ];
+            TF x_4 = reinterpret_cast<const TF *>( &px_0 )[ 4 ];
+            TF x_5 = reinterpret_cast<const TF *>( &px_0 )[ 5 ];
+            TF y_1 = reinterpret_cast<const TF *>( &py_0 )[ 1 ];
+            TF y_2 = reinterpret_cast<const TF *>( &py_0 )[ 2 ];
+            TF y_4 = reinterpret_cast<const TF *>( &py_0 )[ 4 ];
+            TF y_5 = reinterpret_cast<const TF *>( &py_0 )[ 5 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x60509080100ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set_pd( d_4, d_2 );
+            __m128d x_i0 = _mm_set_pd( x_4, x_2 );
+            __m128d y_i0 = _mm_set_pd( y_4, y_2 );
+            __m128d d_i1 = _mm_set_pd( d_5, d_1 );
+            __m128d x_i1 = _mm_set_pd( x_5, x_1 );
+            __m128d y_i1 = _mm_set_pd( y_5, y_1 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
-            size = 6;
             break;
         }
         case 1822:
         case 1950: {
             // size=7 outside=0000000000000000000000000000000000000000000000000000000000011110 mod=0,[ 1, 0 ],[ 4, 5 ],5,6
+            size = 5;
             TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
             TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF m_0 = d_1 / ( d_0 - d_1 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 1 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 0 ] - reinterpret_cast<double *>( &px_0 )[ 1 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 1 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 0 ] - reinterpret_cast<double *>( &py_0 )[ 1 ] );
-            TF m_1 = d_4 / ( d_5 - d_4 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 4 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 5 ] - reinterpret_cast<double *>( &px_0 )[ 4 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 4 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 5 ] - reinterpret_cast<double *>( &py_0 )[ 4 ] );
+            TF x_0 = reinterpret_cast<const TF *>( &px_0 )[ 0 ];
+            TF x_1 = reinterpret_cast<const TF *>( &px_0 )[ 1 ];
+            TF x_4 = reinterpret_cast<const TF *>( &px_0 )[ 4 ];
+            TF x_5 = reinterpret_cast<const TF *>( &px_0 )[ 5 ];
+            TF y_0 = reinterpret_cast<const TF *>( &py_0 )[ 0 ];
+            TF y_1 = reinterpret_cast<const TF *>( &py_0 )[ 1 ];
+            TF y_4 = reinterpret_cast<const TF *>( &py_0 )[ 4 ];
+            TF y_5 = reinterpret_cast<const TF *>( &py_0 )[ 5 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x605090800ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set_pd( d_4, d_1 );
+            __m128d x_i0 = _mm_set_pd( x_4, x_1 );
+            __m128d y_i0 = _mm_set_pd( y_4, y_1 );
+            __m128d d_i1 = _mm_set_pd( d_5, d_0 );
+            __m128d x_i1 = _mm_set_pd( x_5, x_0 );
+            __m128d y_i1 = _mm_set_pd( y_5, y_0 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
-            size = 5;
             break;
         }
         case 1823:
         case 1951: {
             // size=7 outside=0000000000000000000000000000000000000000000000000000000000011111 mod=[ 0, 6 ],[ 4, 5 ],5,6
+            size = 4;
             TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
             TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
             TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_0 = d_0 / ( d_6 - d_0 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 6 ] - reinterpret_cast<double *>( &px_0 )[ 0 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 6 ] - reinterpret_cast<double *>( &py_0 )[ 0 ] );
-            TF m_1 = d_4 / ( d_5 - d_4 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 4 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 5 ] - reinterpret_cast<double *>( &px_0 )[ 4 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 4 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 5 ] - reinterpret_cast<double *>( &py_0 )[ 4 ] );
+            TF x_0 = reinterpret_cast<const TF *>( &px_0 )[ 0 ];
+            TF x_4 = reinterpret_cast<const TF *>( &px_0 )[ 4 ];
+            TF x_5 = reinterpret_cast<const TF *>( &px_0 )[ 5 ];
+            TF x_6 = reinterpret_cast<const TF *>( &px_0 )[ 6 ];
+            TF y_0 = reinterpret_cast<const TF *>( &py_0 )[ 0 ];
+            TF y_4 = reinterpret_cast<const TF *>( &py_0 )[ 4 ];
+            TF y_5 = reinterpret_cast<const TF *>( &py_0 )[ 5 ];
+            TF y_6 = reinterpret_cast<const TF *>( &py_0 )[ 6 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x6050908ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set_pd( d_4, d_0 );
+            __m128d x_i0 = _mm_set_pd( x_4, x_0 );
+            __m128d y_i0 = _mm_set_pd( y_4, y_0 );
+            __m128d d_i1 = _mm_set_pd( d_5, d_6 );
+            __m128d x_i1 = _mm_set_pd( x_5, x_6 );
+            __m128d y_i1 = _mm_set_pd( y_5, y_6 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
-            size = 4;
             break;
         }
         case 1824:
         case 1952: {
             // size=7 outside=0000000000000000000000000000000000000000000000000000000000100000 mod=0,1,2,3,4,[ 5, 4 ],[ 5, 6 ],6
+            size = 8;
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
             TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
             TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_0 = d_5 / ( d_4 - d_5 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 5 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 4 ] - reinterpret_cast<double *>( &px_0 )[ 5 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 5 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 4 ] - reinterpret_cast<double *>( &py_0 )[ 5 ] );
-            TF m_1 = d_5 / ( d_6 - d_5 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 5 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 6 ] - reinterpret_cast<double *>( &px_0 )[ 5 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 5 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 6 ] - reinterpret_cast<double *>( &py_0 )[ 5 ] );
+            TF x_4 = reinterpret_cast<const TF *>( &px_0 )[ 4 ];
+            TF x_5 = reinterpret_cast<const TF *>( &px_0 )[ 5 ];
+            TF x_6 = reinterpret_cast<const TF *>( &px_0 )[ 6 ];
+            TF y_4 = reinterpret_cast<const TF *>( &py_0 )[ 4 ];
+            TF y_5 = reinterpret_cast<const TF *>( &py_0 )[ 5 ];
+            TF y_6 = reinterpret_cast<const TF *>( &py_0 )[ 6 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x609080403020100ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set1_pd( d_5 );
+            __m128d x_i0 = _mm_set1_pd( x_5 );
+            __m128d y_i0 = _mm_set1_pd( y_5 );
+            __m128d d_i1 = _mm_set_pd( d_6, d_4 );
+            __m128d x_i1 = _mm_set_pd( x_6, x_4 );
+            __m128d y_i1 = _mm_set_pd( y_6, y_4 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
-            size = 8;
             break;
         }
         case 1840:
@@ -2256,15 +2928,24 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
             TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
             TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_0 = d_4 / ( d_3 - d_4 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 4 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 3 ] - reinterpret_cast<double *>( &px_0 )[ 4 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 4 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 3 ] - reinterpret_cast<double *>( &py_0 )[ 4 ] );
-            TF m_1 = d_5 / ( d_6 - d_5 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 5 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 6 ] - reinterpret_cast<double *>( &px_0 )[ 5 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 5 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 6 ] - reinterpret_cast<double *>( &py_0 )[ 5 ] );
+            TF x_3 = reinterpret_cast<const TF *>( &px_0 )[ 3 ];
+            TF x_4 = reinterpret_cast<const TF *>( &px_0 )[ 4 ];
+            TF x_5 = reinterpret_cast<const TF *>( &px_0 )[ 5 ];
+            TF x_6 = reinterpret_cast<const TF *>( &px_0 )[ 6 ];
+            TF y_3 = reinterpret_cast<const TF *>( &py_0 )[ 3 ];
+            TF y_4 = reinterpret_cast<const TF *>( &py_0 )[ 4 ];
+            TF y_5 = reinterpret_cast<const TF *>( &py_0 )[ 5 ];
+            TF y_6 = reinterpret_cast<const TF *>( &py_0 )[ 6 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x6090803020100ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set_pd( d_5, d_4 );
+            __m128d x_i0 = _mm_set_pd( x_5, x_4 );
+            __m128d y_i0 = _mm_set_pd( y_5, y_4 );
+            __m128d d_i1 = _mm_set_pd( d_6, d_3 );
+            __m128d x_i1 = _mm_set_pd( x_6, x_3 );
+            __m128d y_i1 = _mm_set_pd( y_6, y_3 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             break;
@@ -2272,104 +2953,145 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
         case 1848:
         case 1976: {
             // size=7 outside=0000000000000000000000000000000000000000000000000000000000111000 mod=0,1,2,[ 3, 2 ],[ 5, 6 ],6
+            size = 6;
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
             TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
             TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_0 = d_3 / ( d_2 - d_3 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 3 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 2 ] - reinterpret_cast<double *>( &px_0 )[ 3 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 3 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 2 ] - reinterpret_cast<double *>( &py_0 )[ 3 ] );
-            TF m_1 = d_5 / ( d_6 - d_5 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 5 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 6 ] - reinterpret_cast<double *>( &px_0 )[ 5 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 5 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 6 ] - reinterpret_cast<double *>( &py_0 )[ 5 ] );
+            TF x_2 = reinterpret_cast<const TF *>( &px_0 )[ 2 ];
+            TF x_3 = reinterpret_cast<const TF *>( &px_0 )[ 3 ];
+            TF x_5 = reinterpret_cast<const TF *>( &px_0 )[ 5 ];
+            TF x_6 = reinterpret_cast<const TF *>( &px_0 )[ 6 ];
+            TF y_2 = reinterpret_cast<const TF *>( &py_0 )[ 2 ];
+            TF y_3 = reinterpret_cast<const TF *>( &py_0 )[ 3 ];
+            TF y_5 = reinterpret_cast<const TF *>( &py_0 )[ 5 ];
+            TF y_6 = reinterpret_cast<const TF *>( &py_0 )[ 6 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x60908020100ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set_pd( d_5, d_3 );
+            __m128d x_i0 = _mm_set_pd( x_5, x_3 );
+            __m128d y_i0 = _mm_set_pd( y_5, y_3 );
+            __m128d d_i1 = _mm_set_pd( d_6, d_2 );
+            __m128d x_i1 = _mm_set_pd( x_6, x_2 );
+            __m128d y_i1 = _mm_set_pd( y_6, y_2 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
-            size = 6;
             break;
         }
         case 1852:
         case 1980: {
             // size=7 outside=0000000000000000000000000000000000000000000000000000000000111100 mod=0,1,[ 2, 1 ],[ 5, 6 ],6
+            size = 5;
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
             TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
             TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_0 = d_2 / ( d_1 - d_2 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 2 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 1 ] - reinterpret_cast<double *>( &px_0 )[ 2 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 2 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 1 ] - reinterpret_cast<double *>( &py_0 )[ 2 ] );
-            TF m_1 = d_5 / ( d_6 - d_5 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 5 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 6 ] - reinterpret_cast<double *>( &px_0 )[ 5 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 5 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 6 ] - reinterpret_cast<double *>( &py_0 )[ 5 ] );
+            TF x_1 = reinterpret_cast<const TF *>( &px_0 )[ 1 ];
+            TF x_2 = reinterpret_cast<const TF *>( &px_0 )[ 2 ];
+            TF x_5 = reinterpret_cast<const TF *>( &px_0 )[ 5 ];
+            TF x_6 = reinterpret_cast<const TF *>( &px_0 )[ 6 ];
+            TF y_1 = reinterpret_cast<const TF *>( &py_0 )[ 1 ];
+            TF y_2 = reinterpret_cast<const TF *>( &py_0 )[ 2 ];
+            TF y_5 = reinterpret_cast<const TF *>( &py_0 )[ 5 ];
+            TF y_6 = reinterpret_cast<const TF *>( &py_0 )[ 6 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x609080100ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set_pd( d_5, d_2 );
+            __m128d x_i0 = _mm_set_pd( x_5, x_2 );
+            __m128d y_i0 = _mm_set_pd( y_5, y_2 );
+            __m128d d_i1 = _mm_set_pd( d_6, d_1 );
+            __m128d x_i1 = _mm_set_pd( x_6, x_1 );
+            __m128d y_i1 = _mm_set_pd( y_6, y_1 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
-            size = 5;
             break;
         }
         case 1854:
         case 1982: {
             // size=7 outside=0000000000000000000000000000000000000000000000000000000000111110 mod=0,[ 1, 0 ],[ 5, 6 ],6
+            size = 4;
             TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
             TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_0 = d_1 / ( d_0 - d_1 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 1 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 0 ] - reinterpret_cast<double *>( &px_0 )[ 1 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 1 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 0 ] - reinterpret_cast<double *>( &py_0 )[ 1 ] );
-            TF m_1 = d_5 / ( d_6 - d_5 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 5 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 6 ] - reinterpret_cast<double *>( &px_0 )[ 5 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 5 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 6 ] - reinterpret_cast<double *>( &py_0 )[ 5 ] );
+            TF x_0 = reinterpret_cast<const TF *>( &px_0 )[ 0 ];
+            TF x_1 = reinterpret_cast<const TF *>( &px_0 )[ 1 ];
+            TF x_5 = reinterpret_cast<const TF *>( &px_0 )[ 5 ];
+            TF x_6 = reinterpret_cast<const TF *>( &px_0 )[ 6 ];
+            TF y_0 = reinterpret_cast<const TF *>( &py_0 )[ 0 ];
+            TF y_1 = reinterpret_cast<const TF *>( &py_0 )[ 1 ];
+            TF y_5 = reinterpret_cast<const TF *>( &py_0 )[ 5 ];
+            TF y_6 = reinterpret_cast<const TF *>( &py_0 )[ 6 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x6090800ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set_pd( d_5, d_1 );
+            __m128d x_i0 = _mm_set_pd( x_5, x_1 );
+            __m128d y_i0 = _mm_set_pd( y_5, y_1 );
+            __m128d d_i1 = _mm_set_pd( d_6, d_0 );
+            __m128d x_i1 = _mm_set_pd( x_6, x_0 );
+            __m128d y_i1 = _mm_set_pd( y_6, y_0 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
-            size = 4;
             break;
         }
         case 1855:
         case 1983: {
             // size=7 outside=0000000000000000000000000000000000000000000000000000000000111111 mod=[ 0, 6 ],[ 5, 6 ],6
+            size = 3;
             TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
             TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
             TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_0 = d_0 / ( d_6 - d_0 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 6 ] - reinterpret_cast<double *>( &px_0 )[ 0 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 6 ] - reinterpret_cast<double *>( &py_0 )[ 0 ] );
-            TF m_1 = d_5 / ( d_6 - d_5 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 5 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 6 ] - reinterpret_cast<double *>( &px_0 )[ 5 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 5 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 6 ] - reinterpret_cast<double *>( &py_0 )[ 5 ] );
+            TF x_0 = reinterpret_cast<const TF *>( &px_0 )[ 0 ];
+            TF x_5 = reinterpret_cast<const TF *>( &px_0 )[ 5 ];
+            TF x_6 = reinterpret_cast<const TF *>( &px_0 )[ 6 ];
+            TF y_0 = reinterpret_cast<const TF *>( &py_0 )[ 0 ];
+            TF y_5 = reinterpret_cast<const TF *>( &py_0 )[ 5 ];
+            TF y_6 = reinterpret_cast<const TF *>( &py_0 )[ 6 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x60908ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set_pd( d_5, d_0 );
+            __m128d x_i0 = _mm_set_pd( x_5, x_0 );
+            __m128d y_i0 = _mm_set_pd( y_5, y_0 );
+            __m128d d_i1 = _mm_set1_pd( d_6 );
+            __m128d x_i1 = _mm_set1_pd( x_6 );
+            __m128d y_i1 = _mm_set1_pd( y_6 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
-            size = 3;
             break;
         }
         case 1856:
         case 1984: {
             // size=7 outside=0000000000000000000000000000000000000000000000000000000001000000 mod=0,1,2,3,4,5,[ 6, 5 ],[ 6, 0 ]
+            size = 8;
             TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
             TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
             TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_0 = d_6 / ( d_5 - d_6 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 6 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 5 ] - reinterpret_cast<double *>( &px_0 )[ 6 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 6 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 5 ] - reinterpret_cast<double *>( &py_0 )[ 6 ] );
-            TF m_1 = d_6 / ( d_0 - d_6 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 6 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 0 ] - reinterpret_cast<double *>( &px_0 )[ 6 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 6 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 0 ] - reinterpret_cast<double *>( &py_0 )[ 6 ] );
+            TF x_0 = reinterpret_cast<const TF *>( &px_0 )[ 0 ];
+            TF x_5 = reinterpret_cast<const TF *>( &px_0 )[ 5 ];
+            TF x_6 = reinterpret_cast<const TF *>( &px_0 )[ 6 ];
+            TF y_0 = reinterpret_cast<const TF *>( &py_0 )[ 0 ];
+            TF y_5 = reinterpret_cast<const TF *>( &py_0 )[ 5 ];
+            TF y_6 = reinterpret_cast<const TF *>( &py_0 )[ 6 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x908050403020100ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set1_pd( d_6 );
+            __m128d x_i0 = _mm_set1_pd( x_6 );
+            __m128d y_i0 = _mm_set1_pd( y_6 );
+            __m128d d_i1 = _mm_set_pd( d_0, d_5 );
+            __m128d x_i1 = _mm_set_pd( x_0, x_5 );
+            __m128d y_i1 = _mm_set_pd( y_0, y_5 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
-            size = 8;
             break;
         }
         case 1857:
@@ -2379,15 +3101,24 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
             TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_0 = d_0 / ( d_1 - d_0 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 1 ] - reinterpret_cast<double *>( &px_0 )[ 0 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 1 ] - reinterpret_cast<double *>( &py_0 )[ 0 ] );
-            TF m_1 = d_6 / ( d_5 - d_6 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 6 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 5 ] - reinterpret_cast<double *>( &px_0 )[ 6 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 6 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 5 ] - reinterpret_cast<double *>( &py_0 )[ 6 ] );
+            TF x_0 = reinterpret_cast<const TF *>( &px_0 )[ 0 ];
+            TF x_1 = reinterpret_cast<const TF *>( &px_0 )[ 1 ];
+            TF x_5 = reinterpret_cast<const TF *>( &px_0 )[ 5 ];
+            TF x_6 = reinterpret_cast<const TF *>( &px_0 )[ 6 ];
+            TF y_0 = reinterpret_cast<const TF *>( &py_0 )[ 0 ];
+            TF y_1 = reinterpret_cast<const TF *>( &py_0 )[ 1 ];
+            TF y_5 = reinterpret_cast<const TF *>( &py_0 )[ 5 ];
+            TF y_6 = reinterpret_cast<const TF *>( &py_0 )[ 6 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x9050403020108ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set_pd( d_6, d_0 );
+            __m128d x_i0 = _mm_set_pd( x_6, x_0 );
+            __m128d y_i0 = _mm_set_pd( y_6, y_0 );
+            __m128d d_i1 = _mm_set_pd( d_5, d_1 );
+            __m128d x_i1 = _mm_set_pd( x_5, x_1 );
+            __m128d y_i1 = _mm_set_pd( y_5, y_1 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             break;
@@ -2395,84 +3126,118 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
         case 1859:
         case 1987: {
             // size=7 outside=0000000000000000000000000000000000000000000000000000000001000011 mod=[ 6, 5 ],[ 1, 2 ],2,3,4,5
+            size = 6;
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
             TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
             TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_0 = d_6 / ( d_5 - d_6 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 6 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 5 ] - reinterpret_cast<double *>( &px_0 )[ 6 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 6 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 5 ] - reinterpret_cast<double *>( &py_0 )[ 6 ] );
-            TF m_1 = d_1 / ( d_2 - d_1 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 1 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 2 ] - reinterpret_cast<double *>( &px_0 )[ 1 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 1 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 2 ] - reinterpret_cast<double *>( &py_0 )[ 1 ] );
+            TF x_1 = reinterpret_cast<const TF *>( &px_0 )[ 1 ];
+            TF x_2 = reinterpret_cast<const TF *>( &px_0 )[ 2 ];
+            TF x_5 = reinterpret_cast<const TF *>( &px_0 )[ 5 ];
+            TF x_6 = reinterpret_cast<const TF *>( &px_0 )[ 6 ];
+            TF y_1 = reinterpret_cast<const TF *>( &py_0 )[ 1 ];
+            TF y_2 = reinterpret_cast<const TF *>( &py_0 )[ 2 ];
+            TF y_5 = reinterpret_cast<const TF *>( &py_0 )[ 5 ];
+            TF y_6 = reinterpret_cast<const TF *>( &py_0 )[ 6 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x50403020908ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set_pd( d_1, d_6 );
+            __m128d x_i0 = _mm_set_pd( x_1, x_6 );
+            __m128d y_i0 = _mm_set_pd( y_1, y_6 );
+            __m128d d_i1 = _mm_set_pd( d_2, d_5 );
+            __m128d x_i1 = _mm_set_pd( x_2, x_5 );
+            __m128d y_i1 = _mm_set_pd( y_2, y_5 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
-            size = 6;
             break;
         }
         case 1863:
         case 1991: {
             // size=7 outside=0000000000000000000000000000000000000000000000000000000001000111 mod=5,[ 6, 5 ],[ 2, 3 ],3,4
+            size = 5;
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
             TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
             TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_0 = d_6 / ( d_5 - d_6 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 6 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 5 ] - reinterpret_cast<double *>( &px_0 )[ 6 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 6 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 5 ] - reinterpret_cast<double *>( &py_0 )[ 6 ] );
-            TF m_1 = d_2 / ( d_3 - d_2 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 2 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 3 ] - reinterpret_cast<double *>( &px_0 )[ 2 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 2 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 3 ] - reinterpret_cast<double *>( &py_0 )[ 2 ] );
+            TF x_2 = reinterpret_cast<const TF *>( &px_0 )[ 2 ];
+            TF x_3 = reinterpret_cast<const TF *>( &px_0 )[ 3 ];
+            TF x_5 = reinterpret_cast<const TF *>( &px_0 )[ 5 ];
+            TF x_6 = reinterpret_cast<const TF *>( &px_0 )[ 6 ];
+            TF y_2 = reinterpret_cast<const TF *>( &py_0 )[ 2 ];
+            TF y_3 = reinterpret_cast<const TF *>( &py_0 )[ 3 ];
+            TF y_5 = reinterpret_cast<const TF *>( &py_0 )[ 5 ];
+            TF y_6 = reinterpret_cast<const TF *>( &py_0 )[ 6 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x403090805ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set_pd( d_2, d_6 );
+            __m128d x_i0 = _mm_set_pd( x_2, x_6 );
+            __m128d y_i0 = _mm_set_pd( y_2, y_6 );
+            __m128d d_i1 = _mm_set_pd( d_3, d_5 );
+            __m128d x_i1 = _mm_set_pd( x_3, x_5 );
+            __m128d y_i1 = _mm_set_pd( y_3, y_5 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
-            size = 5;
             break;
         }
         case 1871:
         case 1999: {
             // size=7 outside=0000000000000000000000000000000000000000000000000000000001001111 mod=4,5,[ 6, 5 ],[ 3, 4 ]
+            size = 4;
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
             TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
             TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_0 = d_6 / ( d_5 - d_6 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 6 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 5 ] - reinterpret_cast<double *>( &px_0 )[ 6 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 6 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 5 ] - reinterpret_cast<double *>( &py_0 )[ 6 ] );
-            TF m_1 = d_3 / ( d_4 - d_3 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 3 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 4 ] - reinterpret_cast<double *>( &px_0 )[ 3 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 3 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 4 ] - reinterpret_cast<double *>( &py_0 )[ 3 ] );
+            TF x_3 = reinterpret_cast<const TF *>( &px_0 )[ 3 ];
+            TF x_4 = reinterpret_cast<const TF *>( &px_0 )[ 4 ];
+            TF x_5 = reinterpret_cast<const TF *>( &px_0 )[ 5 ];
+            TF x_6 = reinterpret_cast<const TF *>( &px_0 )[ 6 ];
+            TF y_3 = reinterpret_cast<const TF *>( &py_0 )[ 3 ];
+            TF y_4 = reinterpret_cast<const TF *>( &py_0 )[ 4 ];
+            TF y_5 = reinterpret_cast<const TF *>( &py_0 )[ 5 ];
+            TF y_6 = reinterpret_cast<const TF *>( &py_0 )[ 6 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x9080504ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set_pd( d_3, d_6 );
+            __m128d x_i0 = _mm_set_pd( x_3, x_6 );
+            __m128d y_i0 = _mm_set_pd( y_3, y_6 );
+            __m128d d_i1 = _mm_set_pd( d_4, d_5 );
+            __m128d x_i1 = _mm_set_pd( x_4, x_5 );
+            __m128d y_i1 = _mm_set_pd( y_4, y_5 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
-            size = 4;
             break;
         }
         case 1887:
         case 2015: {
             // size=7 outside=0000000000000000000000000000000000000000000000000000000001011111 mod=[ 4, 5 ],5,[ 6, 5 ]
+            size = 3;
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
             TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
             TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_0 = d_4 / ( d_5 - d_4 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 4 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 5 ] - reinterpret_cast<double *>( &px_0 )[ 4 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 4 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 5 ] - reinterpret_cast<double *>( &py_0 )[ 4 ] );
-            TF m_1 = d_6 / ( d_5 - d_6 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 6 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 5 ] - reinterpret_cast<double *>( &px_0 )[ 6 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 6 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 5 ] - reinterpret_cast<double *>( &py_0 )[ 6 ] );
+            TF x_4 = reinterpret_cast<const TF *>( &px_0 )[ 4 ];
+            TF x_5 = reinterpret_cast<const TF *>( &px_0 )[ 5 ];
+            TF x_6 = reinterpret_cast<const TF *>( &px_0 )[ 6 ];
+            TF y_4 = reinterpret_cast<const TF *>( &py_0 )[ 4 ];
+            TF y_5 = reinterpret_cast<const TF *>( &py_0 )[ 5 ];
+            TF y_6 = reinterpret_cast<const TF *>( &py_0 )[ 6 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x90508ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set_pd( d_6, d_4 );
+            __m128d x_i0 = _mm_set_pd( x_6, x_4 );
+            __m128d y_i0 = _mm_set_pd( y_6, y_4 );
+            __m128d d_i1 = _mm_set1_pd( d_5 );
+            __m128d x_i1 = _mm_set1_pd( x_5 );
+            __m128d y_i1 = _mm_set1_pd( y_5 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
-            size = 3;
             break;
         }
         case 1888:
@@ -2482,15 +3247,24 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
             TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
             TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_0 = d_5 / ( d_4 - d_5 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 5 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 4 ] - reinterpret_cast<double *>( &px_0 )[ 5 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 5 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 4 ] - reinterpret_cast<double *>( &py_0 )[ 5 ] );
-            TF m_1 = d_6 / ( d_0 - d_6 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 6 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 0 ] - reinterpret_cast<double *>( &px_0 )[ 6 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 6 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 0 ] - reinterpret_cast<double *>( &py_0 )[ 6 ] );
+            TF x_0 = reinterpret_cast<const TF *>( &px_0 )[ 0 ];
+            TF x_4 = reinterpret_cast<const TF *>( &px_0 )[ 4 ];
+            TF x_5 = reinterpret_cast<const TF *>( &px_0 )[ 5 ];
+            TF x_6 = reinterpret_cast<const TF *>( &px_0 )[ 6 ];
+            TF y_0 = reinterpret_cast<const TF *>( &py_0 )[ 0 ];
+            TF y_4 = reinterpret_cast<const TF *>( &py_0 )[ 4 ];
+            TF y_5 = reinterpret_cast<const TF *>( &py_0 )[ 5 ];
+            TF y_6 = reinterpret_cast<const TF *>( &py_0 )[ 6 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x9080403020100ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set_pd( d_6, d_5 );
+            __m128d x_i0 = _mm_set_pd( x_6, x_5 );
+            __m128d y_i0 = _mm_set_pd( y_6, y_5 );
+            __m128d d_i1 = _mm_set_pd( d_0, d_4 );
+            __m128d x_i1 = _mm_set_pd( x_0, x_4 );
+            __m128d y_i1 = _mm_set_pd( y_0, y_4 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             break;
@@ -2498,334 +3272,457 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
         case 1889:
         case 2017: {
             // size=7 outside=0000000000000000000000000000000000000000000000000000000001100001 mod=[ 0, 1 ],1,2,3,4,[ 5, 4 ]
+            size = 6;
             TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
             TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF m_0 = d_0 / ( d_1 - d_0 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 1 ] - reinterpret_cast<double *>( &px_0 )[ 0 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 1 ] - reinterpret_cast<double *>( &py_0 )[ 0 ] );
-            TF m_1 = d_5 / ( d_4 - d_5 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 5 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 4 ] - reinterpret_cast<double *>( &px_0 )[ 5 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 5 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 4 ] - reinterpret_cast<double *>( &py_0 )[ 5 ] );
+            TF x_0 = reinterpret_cast<const TF *>( &px_0 )[ 0 ];
+            TF x_1 = reinterpret_cast<const TF *>( &px_0 )[ 1 ];
+            TF x_4 = reinterpret_cast<const TF *>( &px_0 )[ 4 ];
+            TF x_5 = reinterpret_cast<const TF *>( &px_0 )[ 5 ];
+            TF y_0 = reinterpret_cast<const TF *>( &py_0 )[ 0 ];
+            TF y_1 = reinterpret_cast<const TF *>( &py_0 )[ 1 ];
+            TF y_4 = reinterpret_cast<const TF *>( &py_0 )[ 4 ];
+            TF y_5 = reinterpret_cast<const TF *>( &py_0 )[ 5 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x90403020108ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set_pd( d_5, d_0 );
+            __m128d x_i0 = _mm_set_pd( x_5, x_0 );
+            __m128d y_i0 = _mm_set_pd( y_5, y_0 );
+            __m128d d_i1 = _mm_set_pd( d_4, d_1 );
+            __m128d x_i1 = _mm_set_pd( x_4, x_1 );
+            __m128d y_i1 = _mm_set_pd( y_4, y_1 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
-            size = 6;
             break;
         }
         case 1891:
         case 2019: {
             // size=7 outside=0000000000000000000000000000000000000000000000000000000001100011 mod=[ 5, 4 ],[ 1, 2 ],2,3,4
+            size = 5;
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
             TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF m_0 = d_5 / ( d_4 - d_5 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 5 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 4 ] - reinterpret_cast<double *>( &px_0 )[ 5 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 5 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 4 ] - reinterpret_cast<double *>( &py_0 )[ 5 ] );
-            TF m_1 = d_1 / ( d_2 - d_1 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 1 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 2 ] - reinterpret_cast<double *>( &px_0 )[ 1 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 1 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 2 ] - reinterpret_cast<double *>( &py_0 )[ 1 ] );
+            TF x_1 = reinterpret_cast<const TF *>( &px_0 )[ 1 ];
+            TF x_2 = reinterpret_cast<const TF *>( &px_0 )[ 2 ];
+            TF x_4 = reinterpret_cast<const TF *>( &px_0 )[ 4 ];
+            TF x_5 = reinterpret_cast<const TF *>( &px_0 )[ 5 ];
+            TF y_1 = reinterpret_cast<const TF *>( &py_0 )[ 1 ];
+            TF y_2 = reinterpret_cast<const TF *>( &py_0 )[ 2 ];
+            TF y_4 = reinterpret_cast<const TF *>( &py_0 )[ 4 ];
+            TF y_5 = reinterpret_cast<const TF *>( &py_0 )[ 5 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x403020908ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set_pd( d_1, d_5 );
+            __m128d x_i0 = _mm_set_pd( x_1, x_5 );
+            __m128d y_i0 = _mm_set_pd( y_1, y_5 );
+            __m128d d_i1 = _mm_set_pd( d_2, d_4 );
+            __m128d x_i1 = _mm_set_pd( x_2, x_4 );
+            __m128d y_i1 = _mm_set_pd( y_2, y_4 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
-            size = 5;
             break;
         }
         case 1895:
         case 2023: {
             // size=7 outside=0000000000000000000000000000000000000000000000000000000001100111 mod=4,[ 5, 4 ],[ 2, 3 ],3
+            size = 4;
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
             TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF m_0 = d_5 / ( d_4 - d_5 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 5 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 4 ] - reinterpret_cast<double *>( &px_0 )[ 5 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 5 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 4 ] - reinterpret_cast<double *>( &py_0 )[ 5 ] );
-            TF m_1 = d_2 / ( d_3 - d_2 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 2 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 3 ] - reinterpret_cast<double *>( &px_0 )[ 2 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 2 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 3 ] - reinterpret_cast<double *>( &py_0 )[ 2 ] );
+            TF x_2 = reinterpret_cast<const TF *>( &px_0 )[ 2 ];
+            TF x_3 = reinterpret_cast<const TF *>( &px_0 )[ 3 ];
+            TF x_4 = reinterpret_cast<const TF *>( &px_0 )[ 4 ];
+            TF x_5 = reinterpret_cast<const TF *>( &px_0 )[ 5 ];
+            TF y_2 = reinterpret_cast<const TF *>( &py_0 )[ 2 ];
+            TF y_3 = reinterpret_cast<const TF *>( &py_0 )[ 3 ];
+            TF y_4 = reinterpret_cast<const TF *>( &py_0 )[ 4 ];
+            TF y_5 = reinterpret_cast<const TF *>( &py_0 )[ 5 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x3090804ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set_pd( d_2, d_5 );
+            __m128d x_i0 = _mm_set_pd( x_2, x_5 );
+            __m128d y_i0 = _mm_set_pd( y_2, y_5 );
+            __m128d d_i1 = _mm_set_pd( d_3, d_4 );
+            __m128d x_i1 = _mm_set_pd( x_3, x_4 );
+            __m128d y_i1 = _mm_set_pd( y_3, y_4 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
-            size = 4;
             break;
         }
         case 1903:
         case 2031: {
             // size=7 outside=0000000000000000000000000000000000000000000000000000000001101111 mod=[ 3, 4 ],4,[ 5, 4 ]
+            size = 3;
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
             TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF m_0 = d_3 / ( d_4 - d_3 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 3 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 4 ] - reinterpret_cast<double *>( &px_0 )[ 3 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 3 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 4 ] - reinterpret_cast<double *>( &py_0 )[ 3 ] );
-            TF m_1 = d_5 / ( d_4 - d_5 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 5 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 4 ] - reinterpret_cast<double *>( &px_0 )[ 5 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 5 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 4 ] - reinterpret_cast<double *>( &py_0 )[ 5 ] );
+            TF x_3 = reinterpret_cast<const TF *>( &px_0 )[ 3 ];
+            TF x_4 = reinterpret_cast<const TF *>( &px_0 )[ 4 ];
+            TF x_5 = reinterpret_cast<const TF *>( &px_0 )[ 5 ];
+            TF y_3 = reinterpret_cast<const TF *>( &py_0 )[ 3 ];
+            TF y_4 = reinterpret_cast<const TF *>( &py_0 )[ 4 ];
+            TF y_5 = reinterpret_cast<const TF *>( &py_0 )[ 5 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x90408ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set_pd( d_5, d_3 );
+            __m128d x_i0 = _mm_set_pd( x_5, x_3 );
+            __m128d y_i0 = _mm_set_pd( y_5, y_3 );
+            __m128d d_i1 = _mm_set1_pd( d_4 );
+            __m128d x_i1 = _mm_set1_pd( x_4 );
+            __m128d y_i1 = _mm_set1_pd( y_4 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
-            size = 3;
             break;
         }
         case 1904:
         case 2032: {
             // size=7 outside=0000000000000000000000000000000000000000000000000000000001110000 mod=0,1,2,3,[ 4, 3 ],[ 6, 0 ]
+            size = 6;
             TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
             TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_0 = d_4 / ( d_3 - d_4 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 4 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 3 ] - reinterpret_cast<double *>( &px_0 )[ 4 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 4 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 3 ] - reinterpret_cast<double *>( &py_0 )[ 4 ] );
-            TF m_1 = d_6 / ( d_0 - d_6 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 6 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 0 ] - reinterpret_cast<double *>( &px_0 )[ 6 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 6 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 0 ] - reinterpret_cast<double *>( &py_0 )[ 6 ] );
+            TF x_0 = reinterpret_cast<const TF *>( &px_0 )[ 0 ];
+            TF x_3 = reinterpret_cast<const TF *>( &px_0 )[ 3 ];
+            TF x_4 = reinterpret_cast<const TF *>( &px_0 )[ 4 ];
+            TF x_6 = reinterpret_cast<const TF *>( &px_0 )[ 6 ];
+            TF y_0 = reinterpret_cast<const TF *>( &py_0 )[ 0 ];
+            TF y_3 = reinterpret_cast<const TF *>( &py_0 )[ 3 ];
+            TF y_4 = reinterpret_cast<const TF *>( &py_0 )[ 4 ];
+            TF y_6 = reinterpret_cast<const TF *>( &py_0 )[ 6 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x90803020100ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set_pd( d_6, d_4 );
+            __m128d x_i0 = _mm_set_pd( x_6, x_4 );
+            __m128d y_i0 = _mm_set_pd( y_6, y_4 );
+            __m128d d_i1 = _mm_set_pd( d_0, d_3 );
+            __m128d x_i1 = _mm_set_pd( x_0, x_3 );
+            __m128d y_i1 = _mm_set_pd( y_0, y_3 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
-            size = 6;
             break;
         }
         case 1905:
         case 2033: {
             // size=7 outside=0000000000000000000000000000000000000000000000000000000001110001 mod=[ 0, 1 ],1,2,3,[ 4, 3 ]
+            size = 5;
             TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF m_0 = d_0 / ( d_1 - d_0 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 1 ] - reinterpret_cast<double *>( &px_0 )[ 0 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 1 ] - reinterpret_cast<double *>( &py_0 )[ 0 ] );
-            TF m_1 = d_4 / ( d_3 - d_4 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 4 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 3 ] - reinterpret_cast<double *>( &px_0 )[ 4 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 4 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 3 ] - reinterpret_cast<double *>( &py_0 )[ 4 ] );
+            TF x_0 = reinterpret_cast<const TF *>( &px_0 )[ 0 ];
+            TF x_1 = reinterpret_cast<const TF *>( &px_0 )[ 1 ];
+            TF x_3 = reinterpret_cast<const TF *>( &px_0 )[ 3 ];
+            TF x_4 = reinterpret_cast<const TF *>( &px_0 )[ 4 ];
+            TF y_0 = reinterpret_cast<const TF *>( &py_0 )[ 0 ];
+            TF y_1 = reinterpret_cast<const TF *>( &py_0 )[ 1 ];
+            TF y_3 = reinterpret_cast<const TF *>( &py_0 )[ 3 ];
+            TF y_4 = reinterpret_cast<const TF *>( &py_0 )[ 4 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x903020108ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set_pd( d_4, d_0 );
+            __m128d x_i0 = _mm_set_pd( x_4, x_0 );
+            __m128d y_i0 = _mm_set_pd( y_4, y_0 );
+            __m128d d_i1 = _mm_set_pd( d_3, d_1 );
+            __m128d x_i1 = _mm_set_pd( x_3, x_1 );
+            __m128d y_i1 = _mm_set_pd( y_3, y_1 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
-            size = 5;
             break;
         }
         case 1907:
         case 2035: {
             // size=7 outside=0000000000000000000000000000000000000000000000000000000001110011 mod=[ 4, 3 ],[ 1, 2 ],2,3
+            size = 4;
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF m_0 = d_4 / ( d_3 - d_4 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 4 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 3 ] - reinterpret_cast<double *>( &px_0 )[ 4 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 4 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 3 ] - reinterpret_cast<double *>( &py_0 )[ 4 ] );
-            TF m_1 = d_1 / ( d_2 - d_1 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 1 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 2 ] - reinterpret_cast<double *>( &px_0 )[ 1 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 1 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 2 ] - reinterpret_cast<double *>( &py_0 )[ 1 ] );
+            TF x_1 = reinterpret_cast<const TF *>( &px_0 )[ 1 ];
+            TF x_2 = reinterpret_cast<const TF *>( &px_0 )[ 2 ];
+            TF x_3 = reinterpret_cast<const TF *>( &px_0 )[ 3 ];
+            TF x_4 = reinterpret_cast<const TF *>( &px_0 )[ 4 ];
+            TF y_1 = reinterpret_cast<const TF *>( &py_0 )[ 1 ];
+            TF y_2 = reinterpret_cast<const TF *>( &py_0 )[ 2 ];
+            TF y_3 = reinterpret_cast<const TF *>( &py_0 )[ 3 ];
+            TF y_4 = reinterpret_cast<const TF *>( &py_0 )[ 4 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x3020908ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set_pd( d_1, d_4 );
+            __m128d x_i0 = _mm_set_pd( x_1, x_4 );
+            __m128d y_i0 = _mm_set_pd( y_1, y_4 );
+            __m128d d_i1 = _mm_set_pd( d_2, d_3 );
+            __m128d x_i1 = _mm_set_pd( x_2, x_3 );
+            __m128d y_i1 = _mm_set_pd( y_2, y_3 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
-            size = 4;
             break;
         }
         case 1911:
         case 2039: {
             // size=7 outside=0000000000000000000000000000000000000000000000000000000001110111 mod=3,[ 4, 3 ],[ 2, 3 ]
+            size = 3;
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF m_0 = d_4 / ( d_3 - d_4 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 4 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 3 ] - reinterpret_cast<double *>( &px_0 )[ 4 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 4 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 3 ] - reinterpret_cast<double *>( &py_0 )[ 4 ] );
-            TF m_1 = d_2 / ( d_3 - d_2 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 2 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 3 ] - reinterpret_cast<double *>( &px_0 )[ 2 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 2 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 3 ] - reinterpret_cast<double *>( &py_0 )[ 2 ] );
+            TF x_2 = reinterpret_cast<const TF *>( &px_0 )[ 2 ];
+            TF x_3 = reinterpret_cast<const TF *>( &px_0 )[ 3 ];
+            TF x_4 = reinterpret_cast<const TF *>( &px_0 )[ 4 ];
+            TF y_2 = reinterpret_cast<const TF *>( &py_0 )[ 2 ];
+            TF y_3 = reinterpret_cast<const TF *>( &py_0 )[ 3 ];
+            TF y_4 = reinterpret_cast<const TF *>( &py_0 )[ 4 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x90803ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set_pd( d_2, d_4 );
+            __m128d x_i0 = _mm_set_pd( x_2, x_4 );
+            __m128d y_i0 = _mm_set_pd( y_2, y_4 );
+            __m128d d_i1 = _mm_set1_pd( d_3 );
+            __m128d x_i1 = _mm_set1_pd( x_3 );
+            __m128d y_i1 = _mm_set1_pd( y_3 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
-            size = 3;
             break;
         }
         case 1912:
         case 2040: {
             // size=7 outside=0000000000000000000000000000000000000000000000000000000001111000 mod=0,1,2,[ 3, 2 ],[ 6, 0 ]
+            size = 5;
             TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
             TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_0 = d_3 / ( d_2 - d_3 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 3 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 2 ] - reinterpret_cast<double *>( &px_0 )[ 3 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 3 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 2 ] - reinterpret_cast<double *>( &py_0 )[ 3 ] );
-            TF m_1 = d_6 / ( d_0 - d_6 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 6 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 0 ] - reinterpret_cast<double *>( &px_0 )[ 6 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 6 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 0 ] - reinterpret_cast<double *>( &py_0 )[ 6 ] );
+            TF x_0 = reinterpret_cast<const TF *>( &px_0 )[ 0 ];
+            TF x_2 = reinterpret_cast<const TF *>( &px_0 )[ 2 ];
+            TF x_3 = reinterpret_cast<const TF *>( &px_0 )[ 3 ];
+            TF x_6 = reinterpret_cast<const TF *>( &px_0 )[ 6 ];
+            TF y_0 = reinterpret_cast<const TF *>( &py_0 )[ 0 ];
+            TF y_2 = reinterpret_cast<const TF *>( &py_0 )[ 2 ];
+            TF y_3 = reinterpret_cast<const TF *>( &py_0 )[ 3 ];
+            TF y_6 = reinterpret_cast<const TF *>( &py_0 )[ 6 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x908020100ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set_pd( d_6, d_3 );
+            __m128d x_i0 = _mm_set_pd( x_6, x_3 );
+            __m128d y_i0 = _mm_set_pd( y_6, y_3 );
+            __m128d d_i1 = _mm_set_pd( d_0, d_2 );
+            __m128d x_i1 = _mm_set_pd( x_0, x_2 );
+            __m128d y_i1 = _mm_set_pd( y_0, y_2 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
-            size = 5;
             break;
         }
         case 1913:
         case 2041: {
             // size=7 outside=0000000000000000000000000000000000000000000000000000000001111001 mod=[ 0, 1 ],1,2,[ 3, 2 ]
+            size = 4;
             TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF m_0 = d_0 / ( d_1 - d_0 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 1 ] - reinterpret_cast<double *>( &px_0 )[ 0 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 1 ] - reinterpret_cast<double *>( &py_0 )[ 0 ] );
-            TF m_1 = d_3 / ( d_2 - d_3 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 3 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 2 ] - reinterpret_cast<double *>( &px_0 )[ 3 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 3 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 2 ] - reinterpret_cast<double *>( &py_0 )[ 3 ] );
+            TF x_0 = reinterpret_cast<const TF *>( &px_0 )[ 0 ];
+            TF x_1 = reinterpret_cast<const TF *>( &px_0 )[ 1 ];
+            TF x_2 = reinterpret_cast<const TF *>( &px_0 )[ 2 ];
+            TF x_3 = reinterpret_cast<const TF *>( &px_0 )[ 3 ];
+            TF y_0 = reinterpret_cast<const TF *>( &py_0 )[ 0 ];
+            TF y_1 = reinterpret_cast<const TF *>( &py_0 )[ 1 ];
+            TF y_2 = reinterpret_cast<const TF *>( &py_0 )[ 2 ];
+            TF y_3 = reinterpret_cast<const TF *>( &py_0 )[ 3 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x9020108ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set_pd( d_3, d_0 );
+            __m128d x_i0 = _mm_set_pd( x_3, x_0 );
+            __m128d y_i0 = _mm_set_pd( y_3, y_0 );
+            __m128d d_i1 = _mm_set_pd( d_2, d_1 );
+            __m128d x_i1 = _mm_set_pd( x_2, x_1 );
+            __m128d y_i1 = _mm_set_pd( y_2, y_1 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
-            size = 4;
             break;
         }
         case 1915:
         case 2043: {
             // size=7 outside=0000000000000000000000000000000000000000000000000000000001111011 mod=[ 3, 2 ],[ 1, 2 ],2
+            size = 3;
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF m_0 = d_3 / ( d_2 - d_3 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 3 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 2 ] - reinterpret_cast<double *>( &px_0 )[ 3 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 3 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 2 ] - reinterpret_cast<double *>( &py_0 )[ 3 ] );
-            TF m_1 = d_1 / ( d_2 - d_1 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 1 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 2 ] - reinterpret_cast<double *>( &px_0 )[ 1 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 1 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 2 ] - reinterpret_cast<double *>( &py_0 )[ 1 ] );
+            TF x_1 = reinterpret_cast<const TF *>( &px_0 )[ 1 ];
+            TF x_2 = reinterpret_cast<const TF *>( &px_0 )[ 2 ];
+            TF x_3 = reinterpret_cast<const TF *>( &px_0 )[ 3 ];
+            TF y_1 = reinterpret_cast<const TF *>( &py_0 )[ 1 ];
+            TF y_2 = reinterpret_cast<const TF *>( &py_0 )[ 2 ];
+            TF y_3 = reinterpret_cast<const TF *>( &py_0 )[ 3 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x20908ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set_pd( d_1, d_3 );
+            __m128d x_i0 = _mm_set_pd( x_1, x_3 );
+            __m128d y_i0 = _mm_set_pd( y_1, y_3 );
+            __m128d d_i1 = _mm_set1_pd( d_2 );
+            __m128d x_i1 = _mm_set1_pd( x_2 );
+            __m128d y_i1 = _mm_set1_pd( y_2 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
-            size = 3;
             break;
         }
         case 1916:
         case 2044: {
             // size=7 outside=0000000000000000000000000000000000000000000000000000000001111100 mod=0,1,[ 2, 1 ],[ 6, 0 ]
+            size = 4;
             TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
             TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_0 = d_2 / ( d_1 - d_2 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 2 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 1 ] - reinterpret_cast<double *>( &px_0 )[ 2 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 2 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 1 ] - reinterpret_cast<double *>( &py_0 )[ 2 ] );
-            TF m_1 = d_6 / ( d_0 - d_6 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 6 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 0 ] - reinterpret_cast<double *>( &px_0 )[ 6 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 6 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 0 ] - reinterpret_cast<double *>( &py_0 )[ 6 ] );
+            TF x_0 = reinterpret_cast<const TF *>( &px_0 )[ 0 ];
+            TF x_1 = reinterpret_cast<const TF *>( &px_0 )[ 1 ];
+            TF x_2 = reinterpret_cast<const TF *>( &px_0 )[ 2 ];
+            TF x_6 = reinterpret_cast<const TF *>( &px_0 )[ 6 ];
+            TF y_0 = reinterpret_cast<const TF *>( &py_0 )[ 0 ];
+            TF y_1 = reinterpret_cast<const TF *>( &py_0 )[ 1 ];
+            TF y_2 = reinterpret_cast<const TF *>( &py_0 )[ 2 ];
+            TF y_6 = reinterpret_cast<const TF *>( &py_0 )[ 6 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x9080100ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set_pd( d_6, d_2 );
+            __m128d x_i0 = _mm_set_pd( x_6, x_2 );
+            __m128d y_i0 = _mm_set_pd( y_6, y_2 );
+            __m128d d_i1 = _mm_set_pd( d_0, d_1 );
+            __m128d x_i1 = _mm_set_pd( x_0, x_1 );
+            __m128d y_i1 = _mm_set_pd( y_0, y_1 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
-            size = 4;
             break;
         }
         case 1917:
         case 2045: {
             // size=7 outside=0000000000000000000000000000000000000000000000000000000001111101 mod=[ 0, 1 ],1,[ 2, 1 ]
+            size = 3;
             TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF m_0 = d_0 / ( d_1 - d_0 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 1 ] - reinterpret_cast<double *>( &px_0 )[ 0 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 1 ] - reinterpret_cast<double *>( &py_0 )[ 0 ] );
-            TF m_1 = d_2 / ( d_1 - d_2 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 2 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 1 ] - reinterpret_cast<double *>( &px_0 )[ 2 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 2 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 1 ] - reinterpret_cast<double *>( &py_0 )[ 2 ] );
+            TF x_0 = reinterpret_cast<const TF *>( &px_0 )[ 0 ];
+            TF x_1 = reinterpret_cast<const TF *>( &px_0 )[ 1 ];
+            TF x_2 = reinterpret_cast<const TF *>( &px_0 )[ 2 ];
+            TF y_0 = reinterpret_cast<const TF *>( &py_0 )[ 0 ];
+            TF y_1 = reinterpret_cast<const TF *>( &py_0 )[ 1 ];
+            TF y_2 = reinterpret_cast<const TF *>( &py_0 )[ 2 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x90108ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set_pd( d_2, d_0 );
+            __m128d x_i0 = _mm_set_pd( x_2, x_0 );
+            __m128d y_i0 = _mm_set_pd( y_2, y_0 );
+            __m128d d_i1 = _mm_set1_pd( d_1 );
+            __m128d x_i1 = _mm_set1_pd( x_1 );
+            __m128d y_i1 = _mm_set1_pd( y_1 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
-            size = 3;
             break;
         }
         case 1918:
         case 2046: {
             // size=7 outside=0000000000000000000000000000000000000000000000000000000001111110 mod=0,[ 1, 0 ],[ 6, 0 ]
+            size = 3;
             TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_0 = d_1 / ( d_0 - d_1 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 1 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 0 ] - reinterpret_cast<double *>( &px_0 )[ 1 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 1 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 0 ] - reinterpret_cast<double *>( &py_0 )[ 1 ] );
-            TF m_1 = d_6 / ( d_0 - d_6 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 6 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 0 ] - reinterpret_cast<double *>( &px_0 )[ 6 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 6 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 0 ] - reinterpret_cast<double *>( &py_0 )[ 6 ] );
+            TF x_0 = reinterpret_cast<const TF *>( &px_0 )[ 0 ];
+            TF x_1 = reinterpret_cast<const TF *>( &px_0 )[ 1 ];
+            TF x_6 = reinterpret_cast<const TF *>( &px_0 )[ 6 ];
+            TF y_0 = reinterpret_cast<const TF *>( &py_0 )[ 0 ];
+            TF y_1 = reinterpret_cast<const TF *>( &py_0 )[ 1 ];
+            TF y_6 = reinterpret_cast<const TF *>( &py_0 )[ 6 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x90800ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set_pd( d_6, d_1 );
+            __m128d x_i0 = _mm_set_pd( x_6, x_1 );
+            __m128d y_i0 = _mm_set_pd( y_6, y_1 );
+            __m128d d_i1 = _mm_set1_pd( d_0 );
+            __m128d x_i1 = _mm_set1_pd( x_0 );
+            __m128d y_i1 = _mm_set1_pd( y_0 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
-            size = 3;
             break;
         }
         case 2049: {
             // size=8 outside=0000000000000000000000000000000000000000000000000000000000000001 mod=[ 0, 1 ],1,2,3,4,5,6,7,[ 0, 7 ]
+            size = 9;
             TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_0 = d_0 / ( d_1 - d_0 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 1 ] - reinterpret_cast<double *>( &px_0 )[ 0 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 1 ] - reinterpret_cast<double *>( &py_0 )[ 0 ] );
+            TF x_0 = reinterpret_cast<const TF *>( &px_0 )[ 0 ];
+            TF x_1 = reinterpret_cast<const TF *>( &px_0 )[ 1 ];
+            TF x_7 = reinterpret_cast<const TF *>( &px_0 )[ 7 ];
+            TF y_0 = reinterpret_cast<const TF *>( &py_0 )[ 0 ];
+            TF y_1 = reinterpret_cast<const TF *>( &py_0 )[ 1 ];
+            TF y_7 = reinterpret_cast<const TF *>( &py_0 )[ 7 ];
             TF m_0_7 = d_0 / ( d_7 - d_0 );
-            TF x_8 = x[ 0 ] - m_0_7 * ( x[ 7 ] - x[ 0 ] );
-            TF y_8 = y[ 0 ] - m_0_7 * ( y[ 7 ] - y[ 0 ] );
-            x[ 8 ] = x_8;
-            y[ 8 ] = y_8;
+            x[ 8 ] = x_0 - m_0_7 * ( x_7 - x_0 );
+            y[ 8 ] = y_0 - m_0_7 * ( y_7 - y_0 );
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x706050403020108ul ) );
-            __m512d inter_x = _mm512_set1_pd( x_0 );
-            __m512d inter_y = _mm512_set1_pd( y_0 );
+            TF m = d_0 / ( d_1 - d_0 ); // 1
+            __m512d inter_x = _mm512_set1_pd( x_0 - m * ( x_1 - x_0 ) );
+            __m512d inter_y = _mm512_set1_pd( y_0 - m * ( y_1 - y_0 ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
-            size = 9;
             break;
         }
         case 2050: {
             // size=8 outside=0000000000000000000000000000000000000000000000000000000000000010 mod=[ 1, 0 ],[ 1, 2 ],2,3,4,5,6,7,0
+            size = 9;
             TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF m_0 = d_1 / ( d_0 - d_1 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 1 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 0 ] - reinterpret_cast<double *>( &px_0 )[ 1 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 1 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 0 ] - reinterpret_cast<double *>( &py_0 )[ 1 ] );
-            TF m_1 = d_1 / ( d_2 - d_1 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 1 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 2 ] - reinterpret_cast<double *>( &px_0 )[ 1 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 1 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 2 ] - reinterpret_cast<double *>( &py_0 )[ 1 ] );
-            TF x_8 = x[ 0 ];
-            TF y_8 = y[ 0 ];
-            x[ 8 ] = x_8;
-            y[ 8 ] = y_8;
+            TF x_0 = reinterpret_cast<const TF *>( &px_0 )[ 0 ];
+            TF x_1 = reinterpret_cast<const TF *>( &px_0 )[ 1 ];
+            TF x_2 = reinterpret_cast<const TF *>( &px_0 )[ 2 ];
+            TF y_0 = reinterpret_cast<const TF *>( &py_0 )[ 0 ];
+            TF y_1 = reinterpret_cast<const TF *>( &py_0 )[ 1 ];
+            TF y_2 = reinterpret_cast<const TF *>( &py_0 )[ 2 ];
+            x[ 8 ] = x_0;
+            y[ 8 ] = y_0;
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x706050403020908ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set1_pd( d_1 );
+            __m128d x_i0 = _mm_set1_pd( x_1 );
+            __m128d y_i0 = _mm_set1_pd( y_1 );
+            __m128d d_i1 = _mm_set_pd( d_2, d_0 );
+            __m128d x_i1 = _mm_set_pd( x_2, x_0 );
+            __m128d y_i1 = _mm_set_pd( y_2, y_0 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
-            size = 9;
             break;
         }
         case 2051: {
@@ -2834,40 +3731,56 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
             TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_0 = d_0 / ( d_7 - d_0 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 7 ] - reinterpret_cast<double *>( &px_0 )[ 0 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 7 ] - reinterpret_cast<double *>( &py_0 )[ 0 ] );
-            TF m_1 = d_1 / ( d_2 - d_1 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 1 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 2 ] - reinterpret_cast<double *>( &px_0 )[ 1 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 1 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 2 ] - reinterpret_cast<double *>( &py_0 )[ 1 ] );
+            TF x_0 = reinterpret_cast<const TF *>( &px_0 )[ 0 ];
+            TF x_1 = reinterpret_cast<const TF *>( &px_0 )[ 1 ];
+            TF x_2 = reinterpret_cast<const TF *>( &px_0 )[ 2 ];
+            TF x_7 = reinterpret_cast<const TF *>( &px_0 )[ 7 ];
+            TF y_0 = reinterpret_cast<const TF *>( &py_0 )[ 0 ];
+            TF y_1 = reinterpret_cast<const TF *>( &py_0 )[ 1 ];
+            TF y_2 = reinterpret_cast<const TF *>( &py_0 )[ 2 ];
+            TF y_7 = reinterpret_cast<const TF *>( &py_0 )[ 7 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x706050403020908ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set_pd( d_1, d_0 );
+            __m128d x_i0 = _mm_set_pd( x_1, x_0 );
+            __m128d y_i0 = _mm_set_pd( y_1, y_0 );
+            __m128d d_i1 = _mm_set_pd( d_2, d_7 );
+            __m128d x_i1 = _mm_set_pd( x_2, x_7 );
+            __m128d y_i1 = _mm_set_pd( y_2, y_7 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             break;
         }
         case 2052: {
             // size=8 outside=0000000000000000000000000000000000000000000000000000000000000100 mod=1,[ 2, 1 ],[ 2, 3 ],3,4,5,6,7,0
+            size = 9;
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF m_0 = d_2 / ( d_1 - d_2 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 2 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 1 ] - reinterpret_cast<double *>( &px_0 )[ 2 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 2 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 1 ] - reinterpret_cast<double *>( &py_0 )[ 2 ] );
-            TF m_1 = d_2 / ( d_3 - d_2 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 2 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 3 ] - reinterpret_cast<double *>( &px_0 )[ 2 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 2 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 3 ] - reinterpret_cast<double *>( &py_0 )[ 2 ] );
-            TF x_8 = x[ 0 ];
-            TF y_8 = y[ 0 ];
-            x[ 8 ] = x_8;
-            y[ 8 ] = y_8;
+            TF x_0 = reinterpret_cast<const TF *>( &px_0 )[ 0 ];
+            TF x_1 = reinterpret_cast<const TF *>( &px_0 )[ 1 ];
+            TF x_2 = reinterpret_cast<const TF *>( &px_0 )[ 2 ];
+            TF x_3 = reinterpret_cast<const TF *>( &px_0 )[ 3 ];
+            TF y_0 = reinterpret_cast<const TF *>( &py_0 )[ 0 ];
+            TF y_1 = reinterpret_cast<const TF *>( &py_0 )[ 1 ];
+            TF y_2 = reinterpret_cast<const TF *>( &py_0 )[ 2 ];
+            TF y_3 = reinterpret_cast<const TF *>( &py_0 )[ 3 ];
+            x[ 8 ] = x_0;
+            y[ 8 ] = y_0;
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x706050403090801ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set1_pd( d_2 );
+            __m128d x_i0 = _mm_set1_pd( x_2 );
+            __m128d y_i0 = _mm_set1_pd( y_2 );
+            __m128d d_i1 = _mm_set_pd( d_3, d_1 );
+            __m128d x_i1 = _mm_set_pd( x_3, x_1 );
+            __m128d y_i1 = _mm_set_pd( y_3, y_1 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
-            size = 9;
             break;
         }
         case 2054: {
@@ -2876,60 +3789,85 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF m_0 = d_1 / ( d_0 - d_1 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 1 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 0 ] - reinterpret_cast<double *>( &px_0 )[ 1 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 1 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 0 ] - reinterpret_cast<double *>( &py_0 )[ 1 ] );
-            TF m_1 = d_2 / ( d_3 - d_2 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 2 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 3 ] - reinterpret_cast<double *>( &px_0 )[ 2 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 2 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 3 ] - reinterpret_cast<double *>( &py_0 )[ 2 ] );
+            TF x_0 = reinterpret_cast<const TF *>( &px_0 )[ 0 ];
+            TF x_1 = reinterpret_cast<const TF *>( &px_0 )[ 1 ];
+            TF x_2 = reinterpret_cast<const TF *>( &px_0 )[ 2 ];
+            TF x_3 = reinterpret_cast<const TF *>( &px_0 )[ 3 ];
+            TF y_0 = reinterpret_cast<const TF *>( &py_0 )[ 0 ];
+            TF y_1 = reinterpret_cast<const TF *>( &py_0 )[ 1 ];
+            TF y_2 = reinterpret_cast<const TF *>( &py_0 )[ 2 ];
+            TF y_3 = reinterpret_cast<const TF *>( &py_0 )[ 3 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x706050403090800ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set_pd( d_2, d_1 );
+            __m128d x_i0 = _mm_set_pd( x_2, x_1 );
+            __m128d y_i0 = _mm_set_pd( y_2, y_1 );
+            __m128d d_i1 = _mm_set_pd( d_3, d_0 );
+            __m128d x_i1 = _mm_set_pd( x_3, x_0 );
+            __m128d y_i1 = _mm_set_pd( y_3, y_0 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             break;
         }
         case 2055: {
             // size=8 outside=0000000000000000000000000000000000000000000000000000000000000111 mod=7,[ 0, 7 ],[ 2, 3 ],3,4,5,6
+            size = 7;
             TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
             TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_0 = d_0 / ( d_7 - d_0 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 7 ] - reinterpret_cast<double *>( &px_0 )[ 0 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 7 ] - reinterpret_cast<double *>( &py_0 )[ 0 ] );
-            TF m_1 = d_2 / ( d_3 - d_2 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 2 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 3 ] - reinterpret_cast<double *>( &px_0 )[ 2 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 2 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 3 ] - reinterpret_cast<double *>( &py_0 )[ 2 ] );
+            TF x_0 = reinterpret_cast<const TF *>( &px_0 )[ 0 ];
+            TF x_2 = reinterpret_cast<const TF *>( &px_0 )[ 2 ];
+            TF x_3 = reinterpret_cast<const TF *>( &px_0 )[ 3 ];
+            TF x_7 = reinterpret_cast<const TF *>( &px_0 )[ 7 ];
+            TF y_0 = reinterpret_cast<const TF *>( &py_0 )[ 0 ];
+            TF y_2 = reinterpret_cast<const TF *>( &py_0 )[ 2 ];
+            TF y_3 = reinterpret_cast<const TF *>( &py_0 )[ 3 ];
+            TF y_7 = reinterpret_cast<const TF *>( &py_0 )[ 7 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x6050403090807ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set_pd( d_2, d_0 );
+            __m128d x_i0 = _mm_set_pd( x_2, x_0 );
+            __m128d y_i0 = _mm_set_pd( y_2, y_0 );
+            __m128d d_i1 = _mm_set_pd( d_3, d_7 );
+            __m128d x_i1 = _mm_set_pd( x_3, x_7 );
+            __m128d y_i1 = _mm_set_pd( y_3, y_7 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
-            size = 7;
             break;
         }
         case 2056: {
             // size=8 outside=0000000000000000000000000000000000000000000000000000000000001000 mod=1,2,[ 3, 2 ],[ 3, 4 ],4,5,6,7,0
+            size = 9;
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF m_0 = d_3 / ( d_2 - d_3 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 3 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 2 ] - reinterpret_cast<double *>( &px_0 )[ 3 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 3 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 2 ] - reinterpret_cast<double *>( &py_0 )[ 3 ] );
-            TF m_1 = d_3 / ( d_4 - d_3 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 3 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 4 ] - reinterpret_cast<double *>( &px_0 )[ 3 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 3 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 4 ] - reinterpret_cast<double *>( &py_0 )[ 3 ] );
-            TF x_8 = x[ 0 ];
-            TF y_8 = y[ 0 ];
-            x[ 8 ] = x_8;
-            y[ 8 ] = y_8;
+            TF x_0 = reinterpret_cast<const TF *>( &px_0 )[ 0 ];
+            TF x_2 = reinterpret_cast<const TF *>( &px_0 )[ 2 ];
+            TF x_3 = reinterpret_cast<const TF *>( &px_0 )[ 3 ];
+            TF x_4 = reinterpret_cast<const TF *>( &px_0 )[ 4 ];
+            TF y_0 = reinterpret_cast<const TF *>( &py_0 )[ 0 ];
+            TF y_2 = reinterpret_cast<const TF *>( &py_0 )[ 2 ];
+            TF y_3 = reinterpret_cast<const TF *>( &py_0 )[ 3 ];
+            TF y_4 = reinterpret_cast<const TF *>( &py_0 )[ 4 ];
+            x[ 8 ] = x_0;
+            y[ 8 ] = y_0;
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x706050409080201ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set1_pd( d_3 );
+            __m128d x_i0 = _mm_set1_pd( x_3 );
+            __m128d y_i0 = _mm_set1_pd( y_3 );
+            __m128d d_i1 = _mm_set_pd( d_4, d_2 );
+            __m128d x_i1 = _mm_set_pd( x_4, x_2 );
+            __m128d y_i1 = _mm_set_pd( y_4, y_2 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
-            size = 9;
             break;
         }
         case 2060: {
@@ -2938,80 +3876,114 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF m_0 = d_2 / ( d_1 - d_2 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 2 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 1 ] - reinterpret_cast<double *>( &px_0 )[ 2 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 2 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 1 ] - reinterpret_cast<double *>( &py_0 )[ 2 ] );
-            TF m_1 = d_3 / ( d_4 - d_3 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 3 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 4 ] - reinterpret_cast<double *>( &px_0 )[ 3 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 3 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 4 ] - reinterpret_cast<double *>( &py_0 )[ 3 ] );
+            TF x_1 = reinterpret_cast<const TF *>( &px_0 )[ 1 ];
+            TF x_2 = reinterpret_cast<const TF *>( &px_0 )[ 2 ];
+            TF x_3 = reinterpret_cast<const TF *>( &px_0 )[ 3 ];
+            TF x_4 = reinterpret_cast<const TF *>( &px_0 )[ 4 ];
+            TF y_1 = reinterpret_cast<const TF *>( &py_0 )[ 1 ];
+            TF y_2 = reinterpret_cast<const TF *>( &py_0 )[ 2 ];
+            TF y_3 = reinterpret_cast<const TF *>( &py_0 )[ 3 ];
+            TF y_4 = reinterpret_cast<const TF *>( &py_0 )[ 4 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x706050409080100ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set_pd( d_3, d_2 );
+            __m128d x_i0 = _mm_set_pd( x_3, x_2 );
+            __m128d y_i0 = _mm_set_pd( y_3, y_2 );
+            __m128d d_i1 = _mm_set_pd( d_4, d_1 );
+            __m128d x_i1 = _mm_set_pd( x_4, x_1 );
+            __m128d y_i1 = _mm_set_pd( y_4, y_1 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             break;
         }
         case 2062: {
             // size=8 outside=0000000000000000000000000000000000000000000000000000000000001110 mod=7,0,[ 1, 0 ],[ 3, 4 ],4,5,6
+            size = 7;
             TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF m_0 = d_1 / ( d_0 - d_1 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 1 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 0 ] - reinterpret_cast<double *>( &px_0 )[ 1 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 1 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 0 ] - reinterpret_cast<double *>( &py_0 )[ 1 ] );
-            TF m_1 = d_3 / ( d_4 - d_3 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 3 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 4 ] - reinterpret_cast<double *>( &px_0 )[ 3 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 3 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 4 ] - reinterpret_cast<double *>( &py_0 )[ 3 ] );
+            TF x_0 = reinterpret_cast<const TF *>( &px_0 )[ 0 ];
+            TF x_1 = reinterpret_cast<const TF *>( &px_0 )[ 1 ];
+            TF x_3 = reinterpret_cast<const TF *>( &px_0 )[ 3 ];
+            TF x_4 = reinterpret_cast<const TF *>( &px_0 )[ 4 ];
+            TF y_0 = reinterpret_cast<const TF *>( &py_0 )[ 0 ];
+            TF y_1 = reinterpret_cast<const TF *>( &py_0 )[ 1 ];
+            TF y_3 = reinterpret_cast<const TF *>( &py_0 )[ 3 ];
+            TF y_4 = reinterpret_cast<const TF *>( &py_0 )[ 4 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x6050409080007ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set_pd( d_3, d_1 );
+            __m128d x_i0 = _mm_set_pd( x_3, x_1 );
+            __m128d y_i0 = _mm_set_pd( y_3, y_1 );
+            __m128d d_i1 = _mm_set_pd( d_4, d_0 );
+            __m128d x_i1 = _mm_set_pd( x_4, x_0 );
+            __m128d y_i1 = _mm_set_pd( y_4, y_0 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
-            size = 7;
             break;
         }
         case 2063: {
             // size=8 outside=0000000000000000000000000000000000000000000000000000000000001111 mod=6,7,[ 0, 7 ],[ 3, 4 ],4,5
+            size = 6;
             TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
             TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_0 = d_0 / ( d_7 - d_0 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 7 ] - reinterpret_cast<double *>( &px_0 )[ 0 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 7 ] - reinterpret_cast<double *>( &py_0 )[ 0 ] );
-            TF m_1 = d_3 / ( d_4 - d_3 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 3 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 4 ] - reinterpret_cast<double *>( &px_0 )[ 3 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 3 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 4 ] - reinterpret_cast<double *>( &py_0 )[ 3 ] );
+            TF x_0 = reinterpret_cast<const TF *>( &px_0 )[ 0 ];
+            TF x_3 = reinterpret_cast<const TF *>( &px_0 )[ 3 ];
+            TF x_4 = reinterpret_cast<const TF *>( &px_0 )[ 4 ];
+            TF x_7 = reinterpret_cast<const TF *>( &px_0 )[ 7 ];
+            TF y_0 = reinterpret_cast<const TF *>( &py_0 )[ 0 ];
+            TF y_3 = reinterpret_cast<const TF *>( &py_0 )[ 3 ];
+            TF y_4 = reinterpret_cast<const TF *>( &py_0 )[ 4 ];
+            TF y_7 = reinterpret_cast<const TF *>( &py_0 )[ 7 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x50409080706ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set_pd( d_3, d_0 );
+            __m128d x_i0 = _mm_set_pd( x_3, x_0 );
+            __m128d y_i0 = _mm_set_pd( y_3, y_0 );
+            __m128d d_i1 = _mm_set_pd( d_4, d_7 );
+            __m128d x_i1 = _mm_set_pd( x_4, x_7 );
+            __m128d y_i1 = _mm_set_pd( y_4, y_7 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
-            size = 6;
             break;
         }
         case 2064: {
             // size=8 outside=0000000000000000000000000000000000000000000000000000000000010000 mod=0,1,2,3,[ 4, 3 ],[ 4, 5 ],5,6,7
+            size = 9;
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
             TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF m_0 = d_4 / ( d_3 - d_4 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 4 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 3 ] - reinterpret_cast<double *>( &px_0 )[ 4 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 4 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 3 ] - reinterpret_cast<double *>( &py_0 )[ 4 ] );
-            TF m_1 = d_4 / ( d_5 - d_4 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 4 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 5 ] - reinterpret_cast<double *>( &px_0 )[ 4 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 4 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 5 ] - reinterpret_cast<double *>( &py_0 )[ 4 ] );
-            TF x_8 = x[ 7 ];
-            TF y_8 = y[ 7 ];
-            x[ 8 ] = x_8;
-            y[ 8 ] = y_8;
+            TF x_3 = reinterpret_cast<const TF *>( &px_0 )[ 3 ];
+            TF x_4 = reinterpret_cast<const TF *>( &px_0 )[ 4 ];
+            TF x_5 = reinterpret_cast<const TF *>( &px_0 )[ 5 ];
+            TF x_7 = reinterpret_cast<const TF *>( &px_0 )[ 7 ];
+            TF y_3 = reinterpret_cast<const TF *>( &py_0 )[ 3 ];
+            TF y_4 = reinterpret_cast<const TF *>( &py_0 )[ 4 ];
+            TF y_5 = reinterpret_cast<const TF *>( &py_0 )[ 5 ];
+            TF y_7 = reinterpret_cast<const TF *>( &py_0 )[ 7 ];
+            x[ 8 ] = x_7;
+            y[ 8 ] = y_7;
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x605090803020100ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set1_pd( d_4 );
+            __m128d x_i0 = _mm_set1_pd( x_4 );
+            __m128d y_i0 = _mm_set1_pd( y_4 );
+            __m128d d_i1 = _mm_set_pd( d_5, d_3 );
+            __m128d x_i1 = _mm_set_pd( x_5, x_3 );
+            __m128d y_i1 = _mm_set_pd( y_5, y_3 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
-            size = 9;
             break;
         }
         case 2072: {
@@ -3020,100 +3992,143 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
             TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF m_0 = d_3 / ( d_2 - d_3 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 3 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 2 ] - reinterpret_cast<double *>( &px_0 )[ 3 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 3 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 2 ] - reinterpret_cast<double *>( &py_0 )[ 3 ] );
-            TF m_1 = d_4 / ( d_5 - d_4 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 4 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 5 ] - reinterpret_cast<double *>( &px_0 )[ 4 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 4 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 5 ] - reinterpret_cast<double *>( &py_0 )[ 4 ] );
+            TF x_2 = reinterpret_cast<const TF *>( &px_0 )[ 2 ];
+            TF x_3 = reinterpret_cast<const TF *>( &px_0 )[ 3 ];
+            TF x_4 = reinterpret_cast<const TF *>( &px_0 )[ 4 ];
+            TF x_5 = reinterpret_cast<const TF *>( &px_0 )[ 5 ];
+            TF y_2 = reinterpret_cast<const TF *>( &py_0 )[ 2 ];
+            TF y_3 = reinterpret_cast<const TF *>( &py_0 )[ 3 ];
+            TF y_4 = reinterpret_cast<const TF *>( &py_0 )[ 4 ];
+            TF y_5 = reinterpret_cast<const TF *>( &py_0 )[ 5 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x706050908020100ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set_pd( d_4, d_3 );
+            __m128d x_i0 = _mm_set_pd( x_4, x_3 );
+            __m128d y_i0 = _mm_set_pd( y_4, y_3 );
+            __m128d d_i1 = _mm_set_pd( d_5, d_2 );
+            __m128d x_i1 = _mm_set_pd( x_5, x_2 );
+            __m128d y_i1 = _mm_set_pd( y_5, y_2 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             break;
         }
         case 2076: {
             // size=8 outside=0000000000000000000000000000000000000000000000000000000000011100 mod=0,1,[ 2, 1 ],[ 4, 5 ],5,6,7
+            size = 7;
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
             TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF m_0 = d_2 / ( d_1 - d_2 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 2 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 1 ] - reinterpret_cast<double *>( &px_0 )[ 2 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 2 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 1 ] - reinterpret_cast<double *>( &py_0 )[ 2 ] );
-            TF m_1 = d_4 / ( d_5 - d_4 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 4 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 5 ] - reinterpret_cast<double *>( &px_0 )[ 4 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 4 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 5 ] - reinterpret_cast<double *>( &py_0 )[ 4 ] );
+            TF x_1 = reinterpret_cast<const TF *>( &px_0 )[ 1 ];
+            TF x_2 = reinterpret_cast<const TF *>( &px_0 )[ 2 ];
+            TF x_4 = reinterpret_cast<const TF *>( &px_0 )[ 4 ];
+            TF x_5 = reinterpret_cast<const TF *>( &px_0 )[ 5 ];
+            TF y_1 = reinterpret_cast<const TF *>( &py_0 )[ 1 ];
+            TF y_2 = reinterpret_cast<const TF *>( &py_0 )[ 2 ];
+            TF y_4 = reinterpret_cast<const TF *>( &py_0 )[ 4 ];
+            TF y_5 = reinterpret_cast<const TF *>( &py_0 )[ 5 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x7060509080100ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set_pd( d_4, d_2 );
+            __m128d x_i0 = _mm_set_pd( x_4, x_2 );
+            __m128d y_i0 = _mm_set_pd( y_4, y_2 );
+            __m128d d_i1 = _mm_set_pd( d_5, d_1 );
+            __m128d x_i1 = _mm_set_pd( x_5, x_1 );
+            __m128d y_i1 = _mm_set_pd( y_5, y_1 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
-            size = 7;
             break;
         }
         case 2078: {
             // size=8 outside=0000000000000000000000000000000000000000000000000000000000011110 mod=0,[ 1, 0 ],[ 4, 5 ],5,6,7
+            size = 6;
             TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
             TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF m_0 = d_1 / ( d_0 - d_1 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 1 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 0 ] - reinterpret_cast<double *>( &px_0 )[ 1 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 1 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 0 ] - reinterpret_cast<double *>( &py_0 )[ 1 ] );
-            TF m_1 = d_4 / ( d_5 - d_4 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 4 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 5 ] - reinterpret_cast<double *>( &px_0 )[ 4 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 4 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 5 ] - reinterpret_cast<double *>( &py_0 )[ 4 ] );
+            TF x_0 = reinterpret_cast<const TF *>( &px_0 )[ 0 ];
+            TF x_1 = reinterpret_cast<const TF *>( &px_0 )[ 1 ];
+            TF x_4 = reinterpret_cast<const TF *>( &px_0 )[ 4 ];
+            TF x_5 = reinterpret_cast<const TF *>( &px_0 )[ 5 ];
+            TF y_0 = reinterpret_cast<const TF *>( &py_0 )[ 0 ];
+            TF y_1 = reinterpret_cast<const TF *>( &py_0 )[ 1 ];
+            TF y_4 = reinterpret_cast<const TF *>( &py_0 )[ 4 ];
+            TF y_5 = reinterpret_cast<const TF *>( &py_0 )[ 5 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x70605090800ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set_pd( d_4, d_1 );
+            __m128d x_i0 = _mm_set_pd( x_4, x_1 );
+            __m128d y_i0 = _mm_set_pd( y_4, y_1 );
+            __m128d d_i1 = _mm_set_pd( d_5, d_0 );
+            __m128d x_i1 = _mm_set_pd( x_5, x_0 );
+            __m128d y_i1 = _mm_set_pd( y_5, y_0 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
-            size = 6;
             break;
         }
         case 2079: {
             // size=8 outside=0000000000000000000000000000000000000000000000000000000000011111 mod=[ 0, 7 ],[ 4, 5 ],5,6,7
+            size = 5;
             TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
             TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
             TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_0 = d_0 / ( d_7 - d_0 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 7 ] - reinterpret_cast<double *>( &px_0 )[ 0 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 7 ] - reinterpret_cast<double *>( &py_0 )[ 0 ] );
-            TF m_1 = d_4 / ( d_5 - d_4 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 4 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 5 ] - reinterpret_cast<double *>( &px_0 )[ 4 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 4 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 5 ] - reinterpret_cast<double *>( &py_0 )[ 4 ] );
+            TF x_0 = reinterpret_cast<const TF *>( &px_0 )[ 0 ];
+            TF x_4 = reinterpret_cast<const TF *>( &px_0 )[ 4 ];
+            TF x_5 = reinterpret_cast<const TF *>( &px_0 )[ 5 ];
+            TF x_7 = reinterpret_cast<const TF *>( &px_0 )[ 7 ];
+            TF y_0 = reinterpret_cast<const TF *>( &py_0 )[ 0 ];
+            TF y_4 = reinterpret_cast<const TF *>( &py_0 )[ 4 ];
+            TF y_5 = reinterpret_cast<const TF *>( &py_0 )[ 5 ];
+            TF y_7 = reinterpret_cast<const TF *>( &py_0 )[ 7 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x706050908ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set_pd( d_4, d_0 );
+            __m128d x_i0 = _mm_set_pd( x_4, x_0 );
+            __m128d y_i0 = _mm_set_pd( y_4, y_0 );
+            __m128d d_i1 = _mm_set_pd( d_5, d_7 );
+            __m128d x_i1 = _mm_set_pd( x_5, x_7 );
+            __m128d y_i1 = _mm_set_pd( y_5, y_7 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
-            size = 5;
             break;
         }
         case 2080: {
             // size=8 outside=0000000000000000000000000000000000000000000000000000000000100000 mod=0,1,2,3,4,[ 5, 4 ],[ 5, 6 ],6,7
+            size = 9;
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
             TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
             TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_0 = d_5 / ( d_4 - d_5 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 5 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 4 ] - reinterpret_cast<double *>( &px_0 )[ 5 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 5 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 4 ] - reinterpret_cast<double *>( &py_0 )[ 5 ] );
-            TF m_1 = d_5 / ( d_6 - d_5 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 5 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 6 ] - reinterpret_cast<double *>( &px_0 )[ 5 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 5 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 6 ] - reinterpret_cast<double *>( &py_0 )[ 5 ] );
-            TF x_8 = x[ 7 ];
-            TF y_8 = y[ 7 ];
-            x[ 8 ] = x_8;
-            y[ 8 ] = y_8;
+            TF x_4 = reinterpret_cast<const TF *>( &px_0 )[ 4 ];
+            TF x_5 = reinterpret_cast<const TF *>( &px_0 )[ 5 ];
+            TF x_6 = reinterpret_cast<const TF *>( &px_0 )[ 6 ];
+            TF x_7 = reinterpret_cast<const TF *>( &px_0 )[ 7 ];
+            TF y_4 = reinterpret_cast<const TF *>( &py_0 )[ 4 ];
+            TF y_5 = reinterpret_cast<const TF *>( &py_0 )[ 5 ];
+            TF y_6 = reinterpret_cast<const TF *>( &py_0 )[ 6 ];
+            TF y_7 = reinterpret_cast<const TF *>( &py_0 )[ 7 ];
+            x[ 8 ] = x_7;
+            y[ 8 ] = y_7;
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x609080403020100ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set1_pd( d_5 );
+            __m128d x_i0 = _mm_set1_pd( x_5 );
+            __m128d y_i0 = _mm_set1_pd( y_5 );
+            __m128d d_i1 = _mm_set_pd( d_6, d_4 );
+            __m128d x_i1 = _mm_set_pd( x_6, x_4 );
+            __m128d y_i1 = _mm_set_pd( y_6, y_4 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
-            size = 9;
             break;
         }
         case 2096: {
@@ -3122,120 +4137,170 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
             TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
             TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_0 = d_4 / ( d_3 - d_4 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 4 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 3 ] - reinterpret_cast<double *>( &px_0 )[ 4 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 4 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 3 ] - reinterpret_cast<double *>( &py_0 )[ 4 ] );
-            TF m_1 = d_5 / ( d_6 - d_5 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 5 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 6 ] - reinterpret_cast<double *>( &px_0 )[ 5 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 5 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 6 ] - reinterpret_cast<double *>( &py_0 )[ 5 ] );
+            TF x_3 = reinterpret_cast<const TF *>( &px_0 )[ 3 ];
+            TF x_4 = reinterpret_cast<const TF *>( &px_0 )[ 4 ];
+            TF x_5 = reinterpret_cast<const TF *>( &px_0 )[ 5 ];
+            TF x_6 = reinterpret_cast<const TF *>( &px_0 )[ 6 ];
+            TF y_3 = reinterpret_cast<const TF *>( &py_0 )[ 3 ];
+            TF y_4 = reinterpret_cast<const TF *>( &py_0 )[ 4 ];
+            TF y_5 = reinterpret_cast<const TF *>( &py_0 )[ 5 ];
+            TF y_6 = reinterpret_cast<const TF *>( &py_0 )[ 6 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x706090803020100ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set_pd( d_5, d_4 );
+            __m128d x_i0 = _mm_set_pd( x_5, x_4 );
+            __m128d y_i0 = _mm_set_pd( y_5, y_4 );
+            __m128d d_i1 = _mm_set_pd( d_6, d_3 );
+            __m128d x_i1 = _mm_set_pd( x_6, x_3 );
+            __m128d y_i1 = _mm_set_pd( y_6, y_3 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             break;
         }
         case 2104: {
             // size=8 outside=0000000000000000000000000000000000000000000000000000000000111000 mod=0,1,2,[ 3, 2 ],[ 5, 6 ],6,7
+            size = 7;
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
             TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
             TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_0 = d_3 / ( d_2 - d_3 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 3 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 2 ] - reinterpret_cast<double *>( &px_0 )[ 3 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 3 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 2 ] - reinterpret_cast<double *>( &py_0 )[ 3 ] );
-            TF m_1 = d_5 / ( d_6 - d_5 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 5 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 6 ] - reinterpret_cast<double *>( &px_0 )[ 5 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 5 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 6 ] - reinterpret_cast<double *>( &py_0 )[ 5 ] );
+            TF x_2 = reinterpret_cast<const TF *>( &px_0 )[ 2 ];
+            TF x_3 = reinterpret_cast<const TF *>( &px_0 )[ 3 ];
+            TF x_5 = reinterpret_cast<const TF *>( &px_0 )[ 5 ];
+            TF x_6 = reinterpret_cast<const TF *>( &px_0 )[ 6 ];
+            TF y_2 = reinterpret_cast<const TF *>( &py_0 )[ 2 ];
+            TF y_3 = reinterpret_cast<const TF *>( &py_0 )[ 3 ];
+            TF y_5 = reinterpret_cast<const TF *>( &py_0 )[ 5 ];
+            TF y_6 = reinterpret_cast<const TF *>( &py_0 )[ 6 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x7060908020100ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set_pd( d_5, d_3 );
+            __m128d x_i0 = _mm_set_pd( x_5, x_3 );
+            __m128d y_i0 = _mm_set_pd( y_5, y_3 );
+            __m128d d_i1 = _mm_set_pd( d_6, d_2 );
+            __m128d x_i1 = _mm_set_pd( x_6, x_2 );
+            __m128d y_i1 = _mm_set_pd( y_6, y_2 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
-            size = 7;
             break;
         }
         case 2108: {
             // size=8 outside=0000000000000000000000000000000000000000000000000000000000111100 mod=0,1,[ 2, 1 ],[ 5, 6 ],6,7
+            size = 6;
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
             TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
             TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_0 = d_2 / ( d_1 - d_2 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 2 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 1 ] - reinterpret_cast<double *>( &px_0 )[ 2 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 2 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 1 ] - reinterpret_cast<double *>( &py_0 )[ 2 ] );
-            TF m_1 = d_5 / ( d_6 - d_5 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 5 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 6 ] - reinterpret_cast<double *>( &px_0 )[ 5 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 5 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 6 ] - reinterpret_cast<double *>( &py_0 )[ 5 ] );
+            TF x_1 = reinterpret_cast<const TF *>( &px_0 )[ 1 ];
+            TF x_2 = reinterpret_cast<const TF *>( &px_0 )[ 2 ];
+            TF x_5 = reinterpret_cast<const TF *>( &px_0 )[ 5 ];
+            TF x_6 = reinterpret_cast<const TF *>( &px_0 )[ 6 ];
+            TF y_1 = reinterpret_cast<const TF *>( &py_0 )[ 1 ];
+            TF y_2 = reinterpret_cast<const TF *>( &py_0 )[ 2 ];
+            TF y_5 = reinterpret_cast<const TF *>( &py_0 )[ 5 ];
+            TF y_6 = reinterpret_cast<const TF *>( &py_0 )[ 6 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x70609080100ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set_pd( d_5, d_2 );
+            __m128d x_i0 = _mm_set_pd( x_5, x_2 );
+            __m128d y_i0 = _mm_set_pd( y_5, y_2 );
+            __m128d d_i1 = _mm_set_pd( d_6, d_1 );
+            __m128d x_i1 = _mm_set_pd( x_6, x_1 );
+            __m128d y_i1 = _mm_set_pd( y_6, y_1 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
-            size = 6;
             break;
         }
         case 2110: {
             // size=8 outside=0000000000000000000000000000000000000000000000000000000000111110 mod=0,[ 1, 0 ],[ 5, 6 ],6,7
+            size = 5;
             TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
             TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_0 = d_1 / ( d_0 - d_1 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 1 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 0 ] - reinterpret_cast<double *>( &px_0 )[ 1 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 1 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 0 ] - reinterpret_cast<double *>( &py_0 )[ 1 ] );
-            TF m_1 = d_5 / ( d_6 - d_5 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 5 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 6 ] - reinterpret_cast<double *>( &px_0 )[ 5 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 5 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 6 ] - reinterpret_cast<double *>( &py_0 )[ 5 ] );
+            TF x_0 = reinterpret_cast<const TF *>( &px_0 )[ 0 ];
+            TF x_1 = reinterpret_cast<const TF *>( &px_0 )[ 1 ];
+            TF x_5 = reinterpret_cast<const TF *>( &px_0 )[ 5 ];
+            TF x_6 = reinterpret_cast<const TF *>( &px_0 )[ 6 ];
+            TF y_0 = reinterpret_cast<const TF *>( &py_0 )[ 0 ];
+            TF y_1 = reinterpret_cast<const TF *>( &py_0 )[ 1 ];
+            TF y_5 = reinterpret_cast<const TF *>( &py_0 )[ 5 ];
+            TF y_6 = reinterpret_cast<const TF *>( &py_0 )[ 6 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x706090800ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set_pd( d_5, d_1 );
+            __m128d x_i0 = _mm_set_pd( x_5, x_1 );
+            __m128d y_i0 = _mm_set_pd( y_5, y_1 );
+            __m128d d_i1 = _mm_set_pd( d_6, d_0 );
+            __m128d x_i1 = _mm_set_pd( x_6, x_0 );
+            __m128d y_i1 = _mm_set_pd( y_6, y_0 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
-            size = 5;
             break;
         }
         case 2111: {
             // size=8 outside=0000000000000000000000000000000000000000000000000000000000111111 mod=[ 0, 7 ],[ 5, 6 ],6,7
+            size = 4;
             TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
             TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
             TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
             TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_0 = d_0 / ( d_7 - d_0 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 7 ] - reinterpret_cast<double *>( &px_0 )[ 0 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 7 ] - reinterpret_cast<double *>( &py_0 )[ 0 ] );
-            TF m_1 = d_5 / ( d_6 - d_5 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 5 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 6 ] - reinterpret_cast<double *>( &px_0 )[ 5 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 5 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 6 ] - reinterpret_cast<double *>( &py_0 )[ 5 ] );
+            TF x_0 = reinterpret_cast<const TF *>( &px_0 )[ 0 ];
+            TF x_5 = reinterpret_cast<const TF *>( &px_0 )[ 5 ];
+            TF x_6 = reinterpret_cast<const TF *>( &px_0 )[ 6 ];
+            TF x_7 = reinterpret_cast<const TF *>( &px_0 )[ 7 ];
+            TF y_0 = reinterpret_cast<const TF *>( &py_0 )[ 0 ];
+            TF y_5 = reinterpret_cast<const TF *>( &py_0 )[ 5 ];
+            TF y_6 = reinterpret_cast<const TF *>( &py_0 )[ 6 ];
+            TF y_7 = reinterpret_cast<const TF *>( &py_0 )[ 7 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x7060908ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set_pd( d_5, d_0 );
+            __m128d x_i0 = _mm_set_pd( x_5, x_0 );
+            __m128d y_i0 = _mm_set_pd( y_5, y_0 );
+            __m128d d_i1 = _mm_set_pd( d_6, d_7 );
+            __m128d x_i1 = _mm_set_pd( x_6, x_7 );
+            __m128d y_i1 = _mm_set_pd( y_6, y_7 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
-            size = 4;
             break;
         }
         case 2112: {
             // size=8 outside=0000000000000000000000000000000000000000000000000000000001000000 mod=0,1,2,3,4,5,[ 6, 5 ],[ 6, 7 ],7
+            size = 9;
             TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
             TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
             TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_0 = d_6 / ( d_5 - d_6 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 6 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 5 ] - reinterpret_cast<double *>( &px_0 )[ 6 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 6 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 5 ] - reinterpret_cast<double *>( &py_0 )[ 6 ] );
-            TF m_1 = d_6 / ( d_7 - d_6 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 6 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 7 ] - reinterpret_cast<double *>( &px_0 )[ 6 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 6 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 7 ] - reinterpret_cast<double *>( &py_0 )[ 6 ] );
-            TF x_8 = x[ 7 ];
-            TF y_8 = y[ 7 ];
-            x[ 8 ] = x_8;
-            y[ 8 ] = y_8;
+            TF x_5 = reinterpret_cast<const TF *>( &px_0 )[ 5 ];
+            TF x_6 = reinterpret_cast<const TF *>( &px_0 )[ 6 ];
+            TF x_7 = reinterpret_cast<const TF *>( &px_0 )[ 7 ];
+            TF y_5 = reinterpret_cast<const TF *>( &py_0 )[ 5 ];
+            TF y_6 = reinterpret_cast<const TF *>( &py_0 )[ 6 ];
+            TF y_7 = reinterpret_cast<const TF *>( &py_0 )[ 7 ];
+            x[ 8 ] = x_7;
+            y[ 8 ] = y_7;
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x908050403020100ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set1_pd( d_6 );
+            __m128d x_i0 = _mm_set1_pd( x_6 );
+            __m128d y_i0 = _mm_set1_pd( y_6 );
+            __m128d d_i1 = _mm_set_pd( d_7, d_5 );
+            __m128d x_i1 = _mm_set_pd( x_7, x_5 );
+            __m128d y_i1 = _mm_set_pd( y_7, y_5 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
-            size = 9;
             break;
         }
         case 2144: {
@@ -3244,137 +4309,191 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
             TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
             TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_0 = d_5 / ( d_4 - d_5 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 5 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 4 ] - reinterpret_cast<double *>( &px_0 )[ 5 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 5 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 4 ] - reinterpret_cast<double *>( &py_0 )[ 5 ] );
-            TF m_1 = d_6 / ( d_7 - d_6 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 6 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 7 ] - reinterpret_cast<double *>( &px_0 )[ 6 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 6 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 7 ] - reinterpret_cast<double *>( &py_0 )[ 6 ] );
+            TF x_4 = reinterpret_cast<const TF *>( &px_0 )[ 4 ];
+            TF x_5 = reinterpret_cast<const TF *>( &px_0 )[ 5 ];
+            TF x_6 = reinterpret_cast<const TF *>( &px_0 )[ 6 ];
+            TF x_7 = reinterpret_cast<const TF *>( &px_0 )[ 7 ];
+            TF y_4 = reinterpret_cast<const TF *>( &py_0 )[ 4 ];
+            TF y_5 = reinterpret_cast<const TF *>( &py_0 )[ 5 ];
+            TF y_6 = reinterpret_cast<const TF *>( &py_0 )[ 6 ];
+            TF y_7 = reinterpret_cast<const TF *>( &py_0 )[ 7 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x709080403020100ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set_pd( d_6, d_5 );
+            __m128d x_i0 = _mm_set_pd( x_6, x_5 );
+            __m128d y_i0 = _mm_set_pd( y_6, y_5 );
+            __m128d d_i1 = _mm_set_pd( d_7, d_4 );
+            __m128d x_i1 = _mm_set_pd( x_7, x_4 );
+            __m128d y_i1 = _mm_set_pd( y_7, y_4 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             break;
         }
         case 2160: {
             // size=8 outside=0000000000000000000000000000000000000000000000000000000001110000 mod=0,1,2,3,[ 4, 3 ],[ 6, 7 ],7
+            size = 7;
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
             TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
             TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_0 = d_4 / ( d_3 - d_4 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 4 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 3 ] - reinterpret_cast<double *>( &px_0 )[ 4 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 4 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 3 ] - reinterpret_cast<double *>( &py_0 )[ 4 ] );
-            TF m_1 = d_6 / ( d_7 - d_6 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 6 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 7 ] - reinterpret_cast<double *>( &px_0 )[ 6 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 6 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 7 ] - reinterpret_cast<double *>( &py_0 )[ 6 ] );
+            TF x_3 = reinterpret_cast<const TF *>( &px_0 )[ 3 ];
+            TF x_4 = reinterpret_cast<const TF *>( &px_0 )[ 4 ];
+            TF x_6 = reinterpret_cast<const TF *>( &px_0 )[ 6 ];
+            TF x_7 = reinterpret_cast<const TF *>( &px_0 )[ 7 ];
+            TF y_3 = reinterpret_cast<const TF *>( &py_0 )[ 3 ];
+            TF y_4 = reinterpret_cast<const TF *>( &py_0 )[ 4 ];
+            TF y_6 = reinterpret_cast<const TF *>( &py_0 )[ 6 ];
+            TF y_7 = reinterpret_cast<const TF *>( &py_0 )[ 7 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x7090803020100ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set_pd( d_6, d_4 );
+            __m128d x_i0 = _mm_set_pd( x_6, x_4 );
+            __m128d y_i0 = _mm_set_pd( y_6, y_4 );
+            __m128d d_i1 = _mm_set_pd( d_7, d_3 );
+            __m128d x_i1 = _mm_set_pd( x_7, x_3 );
+            __m128d y_i1 = _mm_set_pd( y_7, y_3 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
-            size = 7;
             break;
         }
         case 2168: {
             // size=8 outside=0000000000000000000000000000000000000000000000000000000001111000 mod=0,1,2,[ 3, 2 ],[ 6, 7 ],7
+            size = 6;
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
             TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
             TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_0 = d_3 / ( d_2 - d_3 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 3 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 2 ] - reinterpret_cast<double *>( &px_0 )[ 3 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 3 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 2 ] - reinterpret_cast<double *>( &py_0 )[ 3 ] );
-            TF m_1 = d_6 / ( d_7 - d_6 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 6 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 7 ] - reinterpret_cast<double *>( &px_0 )[ 6 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 6 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 7 ] - reinterpret_cast<double *>( &py_0 )[ 6 ] );
+            TF x_2 = reinterpret_cast<const TF *>( &px_0 )[ 2 ];
+            TF x_3 = reinterpret_cast<const TF *>( &px_0 )[ 3 ];
+            TF x_6 = reinterpret_cast<const TF *>( &px_0 )[ 6 ];
+            TF x_7 = reinterpret_cast<const TF *>( &px_0 )[ 7 ];
+            TF y_2 = reinterpret_cast<const TF *>( &py_0 )[ 2 ];
+            TF y_3 = reinterpret_cast<const TF *>( &py_0 )[ 3 ];
+            TF y_6 = reinterpret_cast<const TF *>( &py_0 )[ 6 ];
+            TF y_7 = reinterpret_cast<const TF *>( &py_0 )[ 7 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x70908020100ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set_pd( d_6, d_3 );
+            __m128d x_i0 = _mm_set_pd( x_6, x_3 );
+            __m128d y_i0 = _mm_set_pd( y_6, y_3 );
+            __m128d d_i1 = _mm_set_pd( d_7, d_2 );
+            __m128d x_i1 = _mm_set_pd( x_7, x_2 );
+            __m128d y_i1 = _mm_set_pd( y_7, y_2 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
-            size = 6;
             break;
         }
         case 2172: {
             // size=8 outside=0000000000000000000000000000000000000000000000000000000001111100 mod=0,1,[ 2, 1 ],[ 6, 7 ],7
+            size = 5;
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
             TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
             TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_0 = d_2 / ( d_1 - d_2 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 2 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 1 ] - reinterpret_cast<double *>( &px_0 )[ 2 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 2 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 1 ] - reinterpret_cast<double *>( &py_0 )[ 2 ] );
-            TF m_1 = d_6 / ( d_7 - d_6 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 6 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 7 ] - reinterpret_cast<double *>( &px_0 )[ 6 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 6 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 7 ] - reinterpret_cast<double *>( &py_0 )[ 6 ] );
+            TF x_1 = reinterpret_cast<const TF *>( &px_0 )[ 1 ];
+            TF x_2 = reinterpret_cast<const TF *>( &px_0 )[ 2 ];
+            TF x_6 = reinterpret_cast<const TF *>( &px_0 )[ 6 ];
+            TF x_7 = reinterpret_cast<const TF *>( &px_0 )[ 7 ];
+            TF y_1 = reinterpret_cast<const TF *>( &py_0 )[ 1 ];
+            TF y_2 = reinterpret_cast<const TF *>( &py_0 )[ 2 ];
+            TF y_6 = reinterpret_cast<const TF *>( &py_0 )[ 6 ];
+            TF y_7 = reinterpret_cast<const TF *>( &py_0 )[ 7 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x709080100ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set_pd( d_6, d_2 );
+            __m128d x_i0 = _mm_set_pd( x_6, x_2 );
+            __m128d y_i0 = _mm_set_pd( y_6, y_2 );
+            __m128d d_i1 = _mm_set_pd( d_7, d_1 );
+            __m128d x_i1 = _mm_set_pd( x_7, x_1 );
+            __m128d y_i1 = _mm_set_pd( y_7, y_1 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
-            size = 5;
             break;
         }
         case 2174: {
             // size=8 outside=0000000000000000000000000000000000000000000000000000000001111110 mod=0,[ 1, 0 ],[ 6, 7 ],7
+            size = 4;
             TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
             TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_0 = d_1 / ( d_0 - d_1 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 1 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 0 ] - reinterpret_cast<double *>( &px_0 )[ 1 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 1 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 0 ] - reinterpret_cast<double *>( &py_0 )[ 1 ] );
-            TF m_1 = d_6 / ( d_7 - d_6 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 6 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 7 ] - reinterpret_cast<double *>( &px_0 )[ 6 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 6 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 7 ] - reinterpret_cast<double *>( &py_0 )[ 6 ] );
+            TF x_0 = reinterpret_cast<const TF *>( &px_0 )[ 0 ];
+            TF x_1 = reinterpret_cast<const TF *>( &px_0 )[ 1 ];
+            TF x_6 = reinterpret_cast<const TF *>( &px_0 )[ 6 ];
+            TF x_7 = reinterpret_cast<const TF *>( &px_0 )[ 7 ];
+            TF y_0 = reinterpret_cast<const TF *>( &py_0 )[ 0 ];
+            TF y_1 = reinterpret_cast<const TF *>( &py_0 )[ 1 ];
+            TF y_6 = reinterpret_cast<const TF *>( &py_0 )[ 6 ];
+            TF y_7 = reinterpret_cast<const TF *>( &py_0 )[ 7 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x7090800ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set_pd( d_6, d_1 );
+            __m128d x_i0 = _mm_set_pd( x_6, x_1 );
+            __m128d y_i0 = _mm_set_pd( y_6, y_1 );
+            __m128d d_i1 = _mm_set_pd( d_7, d_0 );
+            __m128d x_i1 = _mm_set_pd( x_7, x_0 );
+            __m128d y_i1 = _mm_set_pd( y_7, y_0 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
-            size = 4;
             break;
         }
         case 2175: {
             // size=8 outside=0000000000000000000000000000000000000000000000000000000001111111 mod=[ 0, 7 ],[ 6, 7 ],7
+            size = 3;
             TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
             TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
             TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_0 = d_0 / ( d_7 - d_0 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 7 ] - reinterpret_cast<double *>( &px_0 )[ 0 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 7 ] - reinterpret_cast<double *>( &py_0 )[ 0 ] );
-            TF m_1 = d_6 / ( d_7 - d_6 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 6 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 7 ] - reinterpret_cast<double *>( &px_0 )[ 6 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 6 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 7 ] - reinterpret_cast<double *>( &py_0 )[ 6 ] );
+            TF x_0 = reinterpret_cast<const TF *>( &px_0 )[ 0 ];
+            TF x_6 = reinterpret_cast<const TF *>( &px_0 )[ 6 ];
+            TF x_7 = reinterpret_cast<const TF *>( &px_0 )[ 7 ];
+            TF y_0 = reinterpret_cast<const TF *>( &py_0 )[ 0 ];
+            TF y_6 = reinterpret_cast<const TF *>( &py_0 )[ 6 ];
+            TF y_7 = reinterpret_cast<const TF *>( &py_0 )[ 7 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x70908ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set_pd( d_6, d_0 );
+            __m128d x_i0 = _mm_set_pd( x_6, x_0 );
+            __m128d y_i0 = _mm_set_pd( y_6, y_0 );
+            __m128d d_i1 = _mm_set1_pd( d_7 );
+            __m128d x_i1 = _mm_set1_pd( x_7 );
+            __m128d y_i1 = _mm_set1_pd( y_7 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
-            size = 3;
             break;
         }
         case 2176: {
             // size=8 outside=0000000000000000000000000000000000000000000000000000000010000000 mod=0,1,2,3,4,5,6,[ 7, 6 ],[ 7, 0 ]
+            size = 9;
             TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
             TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
             TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_0 = d_7 / ( d_6 - d_7 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 7 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 6 ] - reinterpret_cast<double *>( &px_0 )[ 7 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 7 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 6 ] - reinterpret_cast<double *>( &py_0 )[ 7 ] );
+            TF x_0 = reinterpret_cast<const TF *>( &px_0 )[ 0 ];
+            TF x_6 = reinterpret_cast<const TF *>( &px_0 )[ 6 ];
+            TF x_7 = reinterpret_cast<const TF *>( &px_0 )[ 7 ];
+            TF y_0 = reinterpret_cast<const TF *>( &py_0 )[ 0 ];
+            TF y_6 = reinterpret_cast<const TF *>( &py_0 )[ 6 ];
+            TF y_7 = reinterpret_cast<const TF *>( &py_0 )[ 7 ];
             TF m_7_0 = d_7 / ( d_0 - d_7 );
-            TF x_8 = x[ 7 ] - m_7_0 * ( x[ 0 ] - x[ 7 ] );
-            TF y_8 = y[ 7 ] - m_7_0 * ( y[ 0 ] - y[ 7 ] );
-            x[ 8 ] = x_8;
-            y[ 8 ] = y_8;
+            x[ 8 ] = x_7 - m_7_0 * ( x_0 - x_7 );
+            y[ 8 ] = y_7 - m_7_0 * ( y_0 - y_7 );
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x806050403020100ul ) );
-            __m512d inter_x = _mm512_set1_pd( x_0 );
-            __m512d inter_y = _mm512_set1_pd( y_0 );
+            TF m = d_7 / ( d_6 - d_7 ); // 1
+            __m512d inter_x = _mm512_set1_pd( x_7 - m * ( x_6 - x_7 ) );
+            __m512d inter_y = _mm512_set1_pd( y_7 - m * ( y_6 - y_7 ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
-            size = 9;
             break;
         }
         case 2177: {
@@ -3383,116 +4502,168 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
             TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_0 = d_0 / ( d_1 - d_0 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 1 ] - reinterpret_cast<double *>( &px_0 )[ 0 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 1 ] - reinterpret_cast<double *>( &py_0 )[ 0 ] );
-            TF m_1 = d_7 / ( d_6 - d_7 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 7 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 6 ] - reinterpret_cast<double *>( &px_0 )[ 7 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 7 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 6 ] - reinterpret_cast<double *>( &py_0 )[ 7 ] );
+            TF x_0 = reinterpret_cast<const TF *>( &px_0 )[ 0 ];
+            TF x_1 = reinterpret_cast<const TF *>( &px_0 )[ 1 ];
+            TF x_6 = reinterpret_cast<const TF *>( &px_0 )[ 6 ];
+            TF x_7 = reinterpret_cast<const TF *>( &px_0 )[ 7 ];
+            TF y_0 = reinterpret_cast<const TF *>( &py_0 )[ 0 ];
+            TF y_1 = reinterpret_cast<const TF *>( &py_0 )[ 1 ];
+            TF y_6 = reinterpret_cast<const TF *>( &py_0 )[ 6 ];
+            TF y_7 = reinterpret_cast<const TF *>( &py_0 )[ 7 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x906050403020108ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set_pd( d_7, d_0 );
+            __m128d x_i0 = _mm_set_pd( x_7, x_0 );
+            __m128d y_i0 = _mm_set_pd( y_7, y_0 );
+            __m128d d_i1 = _mm_set_pd( d_6, d_1 );
+            __m128d x_i1 = _mm_set_pd( x_6, x_1 );
+            __m128d y_i1 = _mm_set_pd( y_6, y_1 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             break;
         }
         case 2179: {
             // size=8 outside=0000000000000000000000000000000000000000000000000000000010000011 mod=[ 7, 6 ],[ 1, 2 ],2,3,4,5,6
+            size = 7;
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
             TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
             TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_0 = d_7 / ( d_6 - d_7 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 7 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 6 ] - reinterpret_cast<double *>( &px_0 )[ 7 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 7 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 6 ] - reinterpret_cast<double *>( &py_0 )[ 7 ] );
-            TF m_1 = d_1 / ( d_2 - d_1 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 1 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 2 ] - reinterpret_cast<double *>( &px_0 )[ 1 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 1 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 2 ] - reinterpret_cast<double *>( &py_0 )[ 1 ] );
+            TF x_1 = reinterpret_cast<const TF *>( &px_0 )[ 1 ];
+            TF x_2 = reinterpret_cast<const TF *>( &px_0 )[ 2 ];
+            TF x_6 = reinterpret_cast<const TF *>( &px_0 )[ 6 ];
+            TF x_7 = reinterpret_cast<const TF *>( &px_0 )[ 7 ];
+            TF y_1 = reinterpret_cast<const TF *>( &py_0 )[ 1 ];
+            TF y_2 = reinterpret_cast<const TF *>( &py_0 )[ 2 ];
+            TF y_6 = reinterpret_cast<const TF *>( &py_0 )[ 6 ];
+            TF y_7 = reinterpret_cast<const TF *>( &py_0 )[ 7 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x6050403020908ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set_pd( d_1, d_7 );
+            __m128d x_i0 = _mm_set_pd( x_1, x_7 );
+            __m128d y_i0 = _mm_set_pd( y_1, y_7 );
+            __m128d d_i1 = _mm_set_pd( d_2, d_6 );
+            __m128d x_i1 = _mm_set_pd( x_2, x_6 );
+            __m128d y_i1 = _mm_set_pd( y_2, y_6 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
-            size = 7;
             break;
         }
         case 2183: {
             // size=8 outside=0000000000000000000000000000000000000000000000000000000010000111 mod=6,[ 7, 6 ],[ 2, 3 ],3,4,5
+            size = 6;
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
             TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
             TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_0 = d_7 / ( d_6 - d_7 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 7 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 6 ] - reinterpret_cast<double *>( &px_0 )[ 7 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 7 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 6 ] - reinterpret_cast<double *>( &py_0 )[ 7 ] );
-            TF m_1 = d_2 / ( d_3 - d_2 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 2 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 3 ] - reinterpret_cast<double *>( &px_0 )[ 2 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 2 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 3 ] - reinterpret_cast<double *>( &py_0 )[ 2 ] );
+            TF x_2 = reinterpret_cast<const TF *>( &px_0 )[ 2 ];
+            TF x_3 = reinterpret_cast<const TF *>( &px_0 )[ 3 ];
+            TF x_6 = reinterpret_cast<const TF *>( &px_0 )[ 6 ];
+            TF x_7 = reinterpret_cast<const TF *>( &px_0 )[ 7 ];
+            TF y_2 = reinterpret_cast<const TF *>( &py_0 )[ 2 ];
+            TF y_3 = reinterpret_cast<const TF *>( &py_0 )[ 3 ];
+            TF y_6 = reinterpret_cast<const TF *>( &py_0 )[ 6 ];
+            TF y_7 = reinterpret_cast<const TF *>( &py_0 )[ 7 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x50403090806ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set_pd( d_2, d_7 );
+            __m128d x_i0 = _mm_set_pd( x_2, x_7 );
+            __m128d y_i0 = _mm_set_pd( y_2, y_7 );
+            __m128d d_i1 = _mm_set_pd( d_3, d_6 );
+            __m128d x_i1 = _mm_set_pd( x_3, x_6 );
+            __m128d y_i1 = _mm_set_pd( y_3, y_6 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
-            size = 6;
             break;
         }
         case 2191: {
             // size=8 outside=0000000000000000000000000000000000000000000000000000000010001111 mod=5,6,[ 7, 6 ],[ 3, 4 ],4
+            size = 5;
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
             TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
             TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_0 = d_7 / ( d_6 - d_7 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 7 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 6 ] - reinterpret_cast<double *>( &px_0 )[ 7 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 7 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 6 ] - reinterpret_cast<double *>( &py_0 )[ 7 ] );
-            TF m_1 = d_3 / ( d_4 - d_3 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 3 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 4 ] - reinterpret_cast<double *>( &px_0 )[ 3 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 3 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 4 ] - reinterpret_cast<double *>( &py_0 )[ 3 ] );
+            TF x_3 = reinterpret_cast<const TF *>( &px_0 )[ 3 ];
+            TF x_4 = reinterpret_cast<const TF *>( &px_0 )[ 4 ];
+            TF x_6 = reinterpret_cast<const TF *>( &px_0 )[ 6 ];
+            TF x_7 = reinterpret_cast<const TF *>( &px_0 )[ 7 ];
+            TF y_3 = reinterpret_cast<const TF *>( &py_0 )[ 3 ];
+            TF y_4 = reinterpret_cast<const TF *>( &py_0 )[ 4 ];
+            TF y_6 = reinterpret_cast<const TF *>( &py_0 )[ 6 ];
+            TF y_7 = reinterpret_cast<const TF *>( &py_0 )[ 7 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x409080605ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set_pd( d_3, d_7 );
+            __m128d x_i0 = _mm_set_pd( x_3, x_7 );
+            __m128d y_i0 = _mm_set_pd( y_3, y_7 );
+            __m128d d_i1 = _mm_set_pd( d_4, d_6 );
+            __m128d x_i1 = _mm_set_pd( x_4, x_6 );
+            __m128d y_i1 = _mm_set_pd( y_4, y_6 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
-            size = 5;
             break;
         }
         case 2207: {
             // size=8 outside=0000000000000000000000000000000000000000000000000000000010011111 mod=[ 4, 5 ],5,6,[ 7, 6 ]
+            size = 4;
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
             TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
             TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
             TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_0 = d_4 / ( d_5 - d_4 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 4 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 5 ] - reinterpret_cast<double *>( &px_0 )[ 4 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 4 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 5 ] - reinterpret_cast<double *>( &py_0 )[ 4 ] );
-            TF m_1 = d_7 / ( d_6 - d_7 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 7 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 6 ] - reinterpret_cast<double *>( &px_0 )[ 7 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 7 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 6 ] - reinterpret_cast<double *>( &py_0 )[ 7 ] );
+            TF x_4 = reinterpret_cast<const TF *>( &px_0 )[ 4 ];
+            TF x_5 = reinterpret_cast<const TF *>( &px_0 )[ 5 ];
+            TF x_6 = reinterpret_cast<const TF *>( &px_0 )[ 6 ];
+            TF x_7 = reinterpret_cast<const TF *>( &px_0 )[ 7 ];
+            TF y_4 = reinterpret_cast<const TF *>( &py_0 )[ 4 ];
+            TF y_5 = reinterpret_cast<const TF *>( &py_0 )[ 5 ];
+            TF y_6 = reinterpret_cast<const TF *>( &py_0 )[ 6 ];
+            TF y_7 = reinterpret_cast<const TF *>( &py_0 )[ 7 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x9060508ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set_pd( d_7, d_4 );
+            __m128d x_i0 = _mm_set_pd( x_7, x_4 );
+            __m128d y_i0 = _mm_set_pd( y_7, y_4 );
+            __m128d d_i1 = _mm_set_pd( d_6, d_5 );
+            __m128d x_i1 = _mm_set_pd( x_6, x_5 );
+            __m128d y_i1 = _mm_set_pd( y_6, y_5 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
-            size = 4;
             break;
         }
         case 2239: {
             // size=8 outside=0000000000000000000000000000000000000000000000000000000010111111 mod=[ 5, 6 ],6,[ 7, 6 ]
+            size = 3;
             TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
             TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
             TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_0 = d_5 / ( d_6 - d_5 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 5 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 6 ] - reinterpret_cast<double *>( &px_0 )[ 5 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 5 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 6 ] - reinterpret_cast<double *>( &py_0 )[ 5 ] );
-            TF m_1 = d_7 / ( d_6 - d_7 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 7 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 6 ] - reinterpret_cast<double *>( &px_0 )[ 7 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 7 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 6 ] - reinterpret_cast<double *>( &py_0 )[ 7 ] );
+            TF x_5 = reinterpret_cast<const TF *>( &px_0 )[ 5 ];
+            TF x_6 = reinterpret_cast<const TF *>( &px_0 )[ 6 ];
+            TF x_7 = reinterpret_cast<const TF *>( &px_0 )[ 7 ];
+            TF y_5 = reinterpret_cast<const TF *>( &py_0 )[ 5 ];
+            TF y_6 = reinterpret_cast<const TF *>( &py_0 )[ 6 ];
+            TF y_7 = reinterpret_cast<const TF *>( &py_0 )[ 7 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x90608ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set_pd( d_7, d_5 );
+            __m128d x_i0 = _mm_set_pd( x_7, x_5 );
+            __m128d y_i0 = _mm_set_pd( y_7, y_5 );
+            __m128d d_i1 = _mm_set1_pd( d_6 );
+            __m128d x_i1 = _mm_set1_pd( x_6 );
+            __m128d y_i1 = _mm_set1_pd( y_6 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
-            size = 3;
             break;
         }
         case 2240: {
@@ -3501,411 +4672,588 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
             TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
             TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
             TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_0 = d_6 / ( d_5 - d_6 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 6 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 5 ] - reinterpret_cast<double *>( &px_0 )[ 6 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 6 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 5 ] - reinterpret_cast<double *>( &py_0 )[ 6 ] );
-            TF m_1 = d_7 / ( d_0 - d_7 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 7 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 0 ] - reinterpret_cast<double *>( &px_0 )[ 7 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 7 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 0 ] - reinterpret_cast<double *>( &py_0 )[ 7 ] );
+            TF x_0 = reinterpret_cast<const TF *>( &px_0 )[ 0 ];
+            TF x_5 = reinterpret_cast<const TF *>( &px_0 )[ 5 ];
+            TF x_6 = reinterpret_cast<const TF *>( &px_0 )[ 6 ];
+            TF x_7 = reinterpret_cast<const TF *>( &px_0 )[ 7 ];
+            TF y_0 = reinterpret_cast<const TF *>( &py_0 )[ 0 ];
+            TF y_5 = reinterpret_cast<const TF *>( &py_0 )[ 5 ];
+            TF y_6 = reinterpret_cast<const TF *>( &py_0 )[ 6 ];
+            TF y_7 = reinterpret_cast<const TF *>( &py_0 )[ 7 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x908050403020100ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set_pd( d_7, d_6 );
+            __m128d x_i0 = _mm_set_pd( x_7, x_6 );
+            __m128d y_i0 = _mm_set_pd( y_7, y_6 );
+            __m128d d_i1 = _mm_set_pd( d_0, d_5 );
+            __m128d x_i1 = _mm_set_pd( x_0, x_5 );
+            __m128d y_i1 = _mm_set_pd( y_0, y_5 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             break;
         }
         case 2241: {
             // size=8 outside=0000000000000000000000000000000000000000000000000000000011000001 mod=[ 0, 1 ],1,2,3,4,5,[ 6, 5 ]
+            size = 7;
             TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
             TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_0 = d_0 / ( d_1 - d_0 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 1 ] - reinterpret_cast<double *>( &px_0 )[ 0 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 1 ] - reinterpret_cast<double *>( &py_0 )[ 0 ] );
-            TF m_1 = d_6 / ( d_5 - d_6 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 6 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 5 ] - reinterpret_cast<double *>( &px_0 )[ 6 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 6 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 5 ] - reinterpret_cast<double *>( &py_0 )[ 6 ] );
+            TF x_0 = reinterpret_cast<const TF *>( &px_0 )[ 0 ];
+            TF x_1 = reinterpret_cast<const TF *>( &px_0 )[ 1 ];
+            TF x_5 = reinterpret_cast<const TF *>( &px_0 )[ 5 ];
+            TF x_6 = reinterpret_cast<const TF *>( &px_0 )[ 6 ];
+            TF y_0 = reinterpret_cast<const TF *>( &py_0 )[ 0 ];
+            TF y_1 = reinterpret_cast<const TF *>( &py_0 )[ 1 ];
+            TF y_5 = reinterpret_cast<const TF *>( &py_0 )[ 5 ];
+            TF y_6 = reinterpret_cast<const TF *>( &py_0 )[ 6 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x9050403020108ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set_pd( d_6, d_0 );
+            __m128d x_i0 = _mm_set_pd( x_6, x_0 );
+            __m128d y_i0 = _mm_set_pd( y_6, y_0 );
+            __m128d d_i1 = _mm_set_pd( d_5, d_1 );
+            __m128d x_i1 = _mm_set_pd( x_5, x_1 );
+            __m128d y_i1 = _mm_set_pd( y_5, y_1 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
-            size = 7;
             break;
         }
         case 2243: {
             // size=8 outside=0000000000000000000000000000000000000000000000000000000011000011 mod=[ 6, 5 ],[ 1, 2 ],2,3,4,5
+            size = 6;
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
             TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
             TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_0 = d_6 / ( d_5 - d_6 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 6 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 5 ] - reinterpret_cast<double *>( &px_0 )[ 6 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 6 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 5 ] - reinterpret_cast<double *>( &py_0 )[ 6 ] );
-            TF m_1 = d_1 / ( d_2 - d_1 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 1 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 2 ] - reinterpret_cast<double *>( &px_0 )[ 1 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 1 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 2 ] - reinterpret_cast<double *>( &py_0 )[ 1 ] );
+            TF x_1 = reinterpret_cast<const TF *>( &px_0 )[ 1 ];
+            TF x_2 = reinterpret_cast<const TF *>( &px_0 )[ 2 ];
+            TF x_5 = reinterpret_cast<const TF *>( &px_0 )[ 5 ];
+            TF x_6 = reinterpret_cast<const TF *>( &px_0 )[ 6 ];
+            TF y_1 = reinterpret_cast<const TF *>( &py_0 )[ 1 ];
+            TF y_2 = reinterpret_cast<const TF *>( &py_0 )[ 2 ];
+            TF y_5 = reinterpret_cast<const TF *>( &py_0 )[ 5 ];
+            TF y_6 = reinterpret_cast<const TF *>( &py_0 )[ 6 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x50403020908ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set_pd( d_1, d_6 );
+            __m128d x_i0 = _mm_set_pd( x_1, x_6 );
+            __m128d y_i0 = _mm_set_pd( y_1, y_6 );
+            __m128d d_i1 = _mm_set_pd( d_2, d_5 );
+            __m128d x_i1 = _mm_set_pd( x_2, x_5 );
+            __m128d y_i1 = _mm_set_pd( y_2, y_5 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
-            size = 6;
             break;
         }
         case 2247: {
             // size=8 outside=0000000000000000000000000000000000000000000000000000000011000111 mod=5,[ 6, 5 ],[ 2, 3 ],3,4
+            size = 5;
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
             TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
             TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_0 = d_6 / ( d_5 - d_6 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 6 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 5 ] - reinterpret_cast<double *>( &px_0 )[ 6 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 6 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 5 ] - reinterpret_cast<double *>( &py_0 )[ 6 ] );
-            TF m_1 = d_2 / ( d_3 - d_2 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 2 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 3 ] - reinterpret_cast<double *>( &px_0 )[ 2 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 2 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 3 ] - reinterpret_cast<double *>( &py_0 )[ 2 ] );
+            TF x_2 = reinterpret_cast<const TF *>( &px_0 )[ 2 ];
+            TF x_3 = reinterpret_cast<const TF *>( &px_0 )[ 3 ];
+            TF x_5 = reinterpret_cast<const TF *>( &px_0 )[ 5 ];
+            TF x_6 = reinterpret_cast<const TF *>( &px_0 )[ 6 ];
+            TF y_2 = reinterpret_cast<const TF *>( &py_0 )[ 2 ];
+            TF y_3 = reinterpret_cast<const TF *>( &py_0 )[ 3 ];
+            TF y_5 = reinterpret_cast<const TF *>( &py_0 )[ 5 ];
+            TF y_6 = reinterpret_cast<const TF *>( &py_0 )[ 6 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x403090805ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set_pd( d_2, d_6 );
+            __m128d x_i0 = _mm_set_pd( x_2, x_6 );
+            __m128d y_i0 = _mm_set_pd( y_2, y_6 );
+            __m128d d_i1 = _mm_set_pd( d_3, d_5 );
+            __m128d x_i1 = _mm_set_pd( x_3, x_5 );
+            __m128d y_i1 = _mm_set_pd( y_3, y_5 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
-            size = 5;
             break;
         }
         case 2255: {
             // size=8 outside=0000000000000000000000000000000000000000000000000000000011001111 mod=4,5,[ 6, 5 ],[ 3, 4 ]
+            size = 4;
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
             TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
             TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_0 = d_6 / ( d_5 - d_6 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 6 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 5 ] - reinterpret_cast<double *>( &px_0 )[ 6 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 6 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 5 ] - reinterpret_cast<double *>( &py_0 )[ 6 ] );
-            TF m_1 = d_3 / ( d_4 - d_3 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 3 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 4 ] - reinterpret_cast<double *>( &px_0 )[ 3 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 3 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 4 ] - reinterpret_cast<double *>( &py_0 )[ 3 ] );
+            TF x_3 = reinterpret_cast<const TF *>( &px_0 )[ 3 ];
+            TF x_4 = reinterpret_cast<const TF *>( &px_0 )[ 4 ];
+            TF x_5 = reinterpret_cast<const TF *>( &px_0 )[ 5 ];
+            TF x_6 = reinterpret_cast<const TF *>( &px_0 )[ 6 ];
+            TF y_3 = reinterpret_cast<const TF *>( &py_0 )[ 3 ];
+            TF y_4 = reinterpret_cast<const TF *>( &py_0 )[ 4 ];
+            TF y_5 = reinterpret_cast<const TF *>( &py_0 )[ 5 ];
+            TF y_6 = reinterpret_cast<const TF *>( &py_0 )[ 6 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x9080504ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set_pd( d_3, d_6 );
+            __m128d x_i0 = _mm_set_pd( x_3, x_6 );
+            __m128d y_i0 = _mm_set_pd( y_3, y_6 );
+            __m128d d_i1 = _mm_set_pd( d_4, d_5 );
+            __m128d x_i1 = _mm_set_pd( x_4, x_5 );
+            __m128d y_i1 = _mm_set_pd( y_4, y_5 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
-            size = 4;
             break;
         }
         case 2271: {
             // size=8 outside=0000000000000000000000000000000000000000000000000000000011011111 mod=[ 4, 5 ],5,[ 6, 5 ]
+            size = 3;
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
             TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
             TF d_6 = reinterpret_cast<const TF *>( &di_0 )[ 6 ];
-            TF m_0 = d_4 / ( d_5 - d_4 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 4 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 5 ] - reinterpret_cast<double *>( &px_0 )[ 4 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 4 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 5 ] - reinterpret_cast<double *>( &py_0 )[ 4 ] );
-            TF m_1 = d_6 / ( d_5 - d_6 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 6 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 5 ] - reinterpret_cast<double *>( &px_0 )[ 6 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 6 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 5 ] - reinterpret_cast<double *>( &py_0 )[ 6 ] );
+            TF x_4 = reinterpret_cast<const TF *>( &px_0 )[ 4 ];
+            TF x_5 = reinterpret_cast<const TF *>( &px_0 )[ 5 ];
+            TF x_6 = reinterpret_cast<const TF *>( &px_0 )[ 6 ];
+            TF y_4 = reinterpret_cast<const TF *>( &py_0 )[ 4 ];
+            TF y_5 = reinterpret_cast<const TF *>( &py_0 )[ 5 ];
+            TF y_6 = reinterpret_cast<const TF *>( &py_0 )[ 6 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x90508ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set_pd( d_6, d_4 );
+            __m128d x_i0 = _mm_set_pd( x_6, x_4 );
+            __m128d y_i0 = _mm_set_pd( y_6, y_4 );
+            __m128d d_i1 = _mm_set1_pd( d_5 );
+            __m128d x_i1 = _mm_set1_pd( x_5 );
+            __m128d y_i1 = _mm_set1_pd( y_5 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
-            size = 3;
             break;
         }
         case 2272: {
             // size=8 outside=0000000000000000000000000000000000000000000000000000000011100000 mod=0,1,2,3,4,[ 5, 4 ],[ 7, 0 ]
+            size = 7;
             TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
             TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
             TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_0 = d_5 / ( d_4 - d_5 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 5 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 4 ] - reinterpret_cast<double *>( &px_0 )[ 5 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 5 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 4 ] - reinterpret_cast<double *>( &py_0 )[ 5 ] );
-            TF m_1 = d_7 / ( d_0 - d_7 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 7 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 0 ] - reinterpret_cast<double *>( &px_0 )[ 7 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 7 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 0 ] - reinterpret_cast<double *>( &py_0 )[ 7 ] );
+            TF x_0 = reinterpret_cast<const TF *>( &px_0 )[ 0 ];
+            TF x_4 = reinterpret_cast<const TF *>( &px_0 )[ 4 ];
+            TF x_5 = reinterpret_cast<const TF *>( &px_0 )[ 5 ];
+            TF x_7 = reinterpret_cast<const TF *>( &px_0 )[ 7 ];
+            TF y_0 = reinterpret_cast<const TF *>( &py_0 )[ 0 ];
+            TF y_4 = reinterpret_cast<const TF *>( &py_0 )[ 4 ];
+            TF y_5 = reinterpret_cast<const TF *>( &py_0 )[ 5 ];
+            TF y_7 = reinterpret_cast<const TF *>( &py_0 )[ 7 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x9080403020100ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set_pd( d_7, d_5 );
+            __m128d x_i0 = _mm_set_pd( x_7, x_5 );
+            __m128d y_i0 = _mm_set_pd( y_7, y_5 );
+            __m128d d_i1 = _mm_set_pd( d_0, d_4 );
+            __m128d x_i1 = _mm_set_pd( x_0, x_4 );
+            __m128d y_i1 = _mm_set_pd( y_0, y_4 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
-            size = 7;
             break;
         }
         case 2273: {
             // size=8 outside=0000000000000000000000000000000000000000000000000000000011100001 mod=[ 0, 1 ],1,2,3,4,[ 5, 4 ]
+            size = 6;
             TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
             TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF m_0 = d_0 / ( d_1 - d_0 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 1 ] - reinterpret_cast<double *>( &px_0 )[ 0 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 1 ] - reinterpret_cast<double *>( &py_0 )[ 0 ] );
-            TF m_1 = d_5 / ( d_4 - d_5 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 5 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 4 ] - reinterpret_cast<double *>( &px_0 )[ 5 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 5 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 4 ] - reinterpret_cast<double *>( &py_0 )[ 5 ] );
+            TF x_0 = reinterpret_cast<const TF *>( &px_0 )[ 0 ];
+            TF x_1 = reinterpret_cast<const TF *>( &px_0 )[ 1 ];
+            TF x_4 = reinterpret_cast<const TF *>( &px_0 )[ 4 ];
+            TF x_5 = reinterpret_cast<const TF *>( &px_0 )[ 5 ];
+            TF y_0 = reinterpret_cast<const TF *>( &py_0 )[ 0 ];
+            TF y_1 = reinterpret_cast<const TF *>( &py_0 )[ 1 ];
+            TF y_4 = reinterpret_cast<const TF *>( &py_0 )[ 4 ];
+            TF y_5 = reinterpret_cast<const TF *>( &py_0 )[ 5 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x90403020108ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set_pd( d_5, d_0 );
+            __m128d x_i0 = _mm_set_pd( x_5, x_0 );
+            __m128d y_i0 = _mm_set_pd( y_5, y_0 );
+            __m128d d_i1 = _mm_set_pd( d_4, d_1 );
+            __m128d x_i1 = _mm_set_pd( x_4, x_1 );
+            __m128d y_i1 = _mm_set_pd( y_4, y_1 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
-            size = 6;
             break;
         }
         case 2275: {
             // size=8 outside=0000000000000000000000000000000000000000000000000000000011100011 mod=[ 5, 4 ],[ 1, 2 ],2,3,4
+            size = 5;
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
             TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF m_0 = d_5 / ( d_4 - d_5 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 5 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 4 ] - reinterpret_cast<double *>( &px_0 )[ 5 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 5 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 4 ] - reinterpret_cast<double *>( &py_0 )[ 5 ] );
-            TF m_1 = d_1 / ( d_2 - d_1 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 1 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 2 ] - reinterpret_cast<double *>( &px_0 )[ 1 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 1 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 2 ] - reinterpret_cast<double *>( &py_0 )[ 1 ] );
+            TF x_1 = reinterpret_cast<const TF *>( &px_0 )[ 1 ];
+            TF x_2 = reinterpret_cast<const TF *>( &px_0 )[ 2 ];
+            TF x_4 = reinterpret_cast<const TF *>( &px_0 )[ 4 ];
+            TF x_5 = reinterpret_cast<const TF *>( &px_0 )[ 5 ];
+            TF y_1 = reinterpret_cast<const TF *>( &py_0 )[ 1 ];
+            TF y_2 = reinterpret_cast<const TF *>( &py_0 )[ 2 ];
+            TF y_4 = reinterpret_cast<const TF *>( &py_0 )[ 4 ];
+            TF y_5 = reinterpret_cast<const TF *>( &py_0 )[ 5 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x403020908ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set_pd( d_1, d_5 );
+            __m128d x_i0 = _mm_set_pd( x_1, x_5 );
+            __m128d y_i0 = _mm_set_pd( y_1, y_5 );
+            __m128d d_i1 = _mm_set_pd( d_2, d_4 );
+            __m128d x_i1 = _mm_set_pd( x_2, x_4 );
+            __m128d y_i1 = _mm_set_pd( y_2, y_4 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
-            size = 5;
             break;
         }
         case 2279: {
             // size=8 outside=0000000000000000000000000000000000000000000000000000000011100111 mod=4,[ 5, 4 ],[ 2, 3 ],3
+            size = 4;
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
             TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF m_0 = d_5 / ( d_4 - d_5 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 5 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 4 ] - reinterpret_cast<double *>( &px_0 )[ 5 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 5 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 4 ] - reinterpret_cast<double *>( &py_0 )[ 5 ] );
-            TF m_1 = d_2 / ( d_3 - d_2 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 2 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 3 ] - reinterpret_cast<double *>( &px_0 )[ 2 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 2 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 3 ] - reinterpret_cast<double *>( &py_0 )[ 2 ] );
+            TF x_2 = reinterpret_cast<const TF *>( &px_0 )[ 2 ];
+            TF x_3 = reinterpret_cast<const TF *>( &px_0 )[ 3 ];
+            TF x_4 = reinterpret_cast<const TF *>( &px_0 )[ 4 ];
+            TF x_5 = reinterpret_cast<const TF *>( &px_0 )[ 5 ];
+            TF y_2 = reinterpret_cast<const TF *>( &py_0 )[ 2 ];
+            TF y_3 = reinterpret_cast<const TF *>( &py_0 )[ 3 ];
+            TF y_4 = reinterpret_cast<const TF *>( &py_0 )[ 4 ];
+            TF y_5 = reinterpret_cast<const TF *>( &py_0 )[ 5 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x3090804ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set_pd( d_2, d_5 );
+            __m128d x_i0 = _mm_set_pd( x_2, x_5 );
+            __m128d y_i0 = _mm_set_pd( y_2, y_5 );
+            __m128d d_i1 = _mm_set_pd( d_3, d_4 );
+            __m128d x_i1 = _mm_set_pd( x_3, x_4 );
+            __m128d y_i1 = _mm_set_pd( y_3, y_4 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
-            size = 4;
             break;
         }
         case 2287: {
             // size=8 outside=0000000000000000000000000000000000000000000000000000000011101111 mod=[ 3, 4 ],4,[ 5, 4 ]
+            size = 3;
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
             TF d_5 = reinterpret_cast<const TF *>( &di_0 )[ 5 ];
-            TF m_0 = d_3 / ( d_4 - d_3 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 3 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 4 ] - reinterpret_cast<double *>( &px_0 )[ 3 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 3 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 4 ] - reinterpret_cast<double *>( &py_0 )[ 3 ] );
-            TF m_1 = d_5 / ( d_4 - d_5 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 5 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 4 ] - reinterpret_cast<double *>( &px_0 )[ 5 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 5 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 4 ] - reinterpret_cast<double *>( &py_0 )[ 5 ] );
+            TF x_3 = reinterpret_cast<const TF *>( &px_0 )[ 3 ];
+            TF x_4 = reinterpret_cast<const TF *>( &px_0 )[ 4 ];
+            TF x_5 = reinterpret_cast<const TF *>( &px_0 )[ 5 ];
+            TF y_3 = reinterpret_cast<const TF *>( &py_0 )[ 3 ];
+            TF y_4 = reinterpret_cast<const TF *>( &py_0 )[ 4 ];
+            TF y_5 = reinterpret_cast<const TF *>( &py_0 )[ 5 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x90408ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set_pd( d_5, d_3 );
+            __m128d x_i0 = _mm_set_pd( x_5, x_3 );
+            __m128d y_i0 = _mm_set_pd( y_5, y_3 );
+            __m128d d_i1 = _mm_set1_pd( d_4 );
+            __m128d x_i1 = _mm_set1_pd( x_4 );
+            __m128d y_i1 = _mm_set1_pd( y_4 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
-            size = 3;
             break;
         }
         case 2288: {
             // size=8 outside=0000000000000000000000000000000000000000000000000000000011110000 mod=0,1,2,3,[ 4, 3 ],[ 7, 0 ]
+            size = 6;
             TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
             TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_0 = d_4 / ( d_3 - d_4 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 4 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 3 ] - reinterpret_cast<double *>( &px_0 )[ 4 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 4 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 3 ] - reinterpret_cast<double *>( &py_0 )[ 4 ] );
-            TF m_1 = d_7 / ( d_0 - d_7 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 7 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 0 ] - reinterpret_cast<double *>( &px_0 )[ 7 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 7 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 0 ] - reinterpret_cast<double *>( &py_0 )[ 7 ] );
+            TF x_0 = reinterpret_cast<const TF *>( &px_0 )[ 0 ];
+            TF x_3 = reinterpret_cast<const TF *>( &px_0 )[ 3 ];
+            TF x_4 = reinterpret_cast<const TF *>( &px_0 )[ 4 ];
+            TF x_7 = reinterpret_cast<const TF *>( &px_0 )[ 7 ];
+            TF y_0 = reinterpret_cast<const TF *>( &py_0 )[ 0 ];
+            TF y_3 = reinterpret_cast<const TF *>( &py_0 )[ 3 ];
+            TF y_4 = reinterpret_cast<const TF *>( &py_0 )[ 4 ];
+            TF y_7 = reinterpret_cast<const TF *>( &py_0 )[ 7 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x90803020100ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set_pd( d_7, d_4 );
+            __m128d x_i0 = _mm_set_pd( x_7, x_4 );
+            __m128d y_i0 = _mm_set_pd( y_7, y_4 );
+            __m128d d_i1 = _mm_set_pd( d_0, d_3 );
+            __m128d x_i1 = _mm_set_pd( x_0, x_3 );
+            __m128d y_i1 = _mm_set_pd( y_0, y_3 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
-            size = 6;
             break;
         }
         case 2289: {
             // size=8 outside=0000000000000000000000000000000000000000000000000000000011110001 mod=[ 0, 1 ],1,2,3,[ 4, 3 ]
+            size = 5;
             TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF m_0 = d_0 / ( d_1 - d_0 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 1 ] - reinterpret_cast<double *>( &px_0 )[ 0 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 1 ] - reinterpret_cast<double *>( &py_0 )[ 0 ] );
-            TF m_1 = d_4 / ( d_3 - d_4 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 4 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 3 ] - reinterpret_cast<double *>( &px_0 )[ 4 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 4 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 3 ] - reinterpret_cast<double *>( &py_0 )[ 4 ] );
+            TF x_0 = reinterpret_cast<const TF *>( &px_0 )[ 0 ];
+            TF x_1 = reinterpret_cast<const TF *>( &px_0 )[ 1 ];
+            TF x_3 = reinterpret_cast<const TF *>( &px_0 )[ 3 ];
+            TF x_4 = reinterpret_cast<const TF *>( &px_0 )[ 4 ];
+            TF y_0 = reinterpret_cast<const TF *>( &py_0 )[ 0 ];
+            TF y_1 = reinterpret_cast<const TF *>( &py_0 )[ 1 ];
+            TF y_3 = reinterpret_cast<const TF *>( &py_0 )[ 3 ];
+            TF y_4 = reinterpret_cast<const TF *>( &py_0 )[ 4 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x903020108ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set_pd( d_4, d_0 );
+            __m128d x_i0 = _mm_set_pd( x_4, x_0 );
+            __m128d y_i0 = _mm_set_pd( y_4, y_0 );
+            __m128d d_i1 = _mm_set_pd( d_3, d_1 );
+            __m128d x_i1 = _mm_set_pd( x_3, x_1 );
+            __m128d y_i1 = _mm_set_pd( y_3, y_1 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
-            size = 5;
             break;
         }
         case 2291: {
             // size=8 outside=0000000000000000000000000000000000000000000000000000000011110011 mod=[ 4, 3 ],[ 1, 2 ],2,3
+            size = 4;
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF m_0 = d_4 / ( d_3 - d_4 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 4 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 3 ] - reinterpret_cast<double *>( &px_0 )[ 4 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 4 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 3 ] - reinterpret_cast<double *>( &py_0 )[ 4 ] );
-            TF m_1 = d_1 / ( d_2 - d_1 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 1 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 2 ] - reinterpret_cast<double *>( &px_0 )[ 1 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 1 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 2 ] - reinterpret_cast<double *>( &py_0 )[ 1 ] );
+            TF x_1 = reinterpret_cast<const TF *>( &px_0 )[ 1 ];
+            TF x_2 = reinterpret_cast<const TF *>( &px_0 )[ 2 ];
+            TF x_3 = reinterpret_cast<const TF *>( &px_0 )[ 3 ];
+            TF x_4 = reinterpret_cast<const TF *>( &px_0 )[ 4 ];
+            TF y_1 = reinterpret_cast<const TF *>( &py_0 )[ 1 ];
+            TF y_2 = reinterpret_cast<const TF *>( &py_0 )[ 2 ];
+            TF y_3 = reinterpret_cast<const TF *>( &py_0 )[ 3 ];
+            TF y_4 = reinterpret_cast<const TF *>( &py_0 )[ 4 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x3020908ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set_pd( d_1, d_4 );
+            __m128d x_i0 = _mm_set_pd( x_1, x_4 );
+            __m128d y_i0 = _mm_set_pd( y_1, y_4 );
+            __m128d d_i1 = _mm_set_pd( d_2, d_3 );
+            __m128d x_i1 = _mm_set_pd( x_2, x_3 );
+            __m128d y_i1 = _mm_set_pd( y_2, y_3 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
-            size = 4;
             break;
         }
         case 2295: {
             // size=8 outside=0000000000000000000000000000000000000000000000000000000011110111 mod=3,[ 4, 3 ],[ 2, 3 ]
+            size = 3;
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
             TF d_4 = reinterpret_cast<const TF *>( &di_0 )[ 4 ];
-            TF m_0 = d_4 / ( d_3 - d_4 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 4 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 3 ] - reinterpret_cast<double *>( &px_0 )[ 4 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 4 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 3 ] - reinterpret_cast<double *>( &py_0 )[ 4 ] );
-            TF m_1 = d_2 / ( d_3 - d_2 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 2 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 3 ] - reinterpret_cast<double *>( &px_0 )[ 2 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 2 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 3 ] - reinterpret_cast<double *>( &py_0 )[ 2 ] );
+            TF x_2 = reinterpret_cast<const TF *>( &px_0 )[ 2 ];
+            TF x_3 = reinterpret_cast<const TF *>( &px_0 )[ 3 ];
+            TF x_4 = reinterpret_cast<const TF *>( &px_0 )[ 4 ];
+            TF y_2 = reinterpret_cast<const TF *>( &py_0 )[ 2 ];
+            TF y_3 = reinterpret_cast<const TF *>( &py_0 )[ 3 ];
+            TF y_4 = reinterpret_cast<const TF *>( &py_0 )[ 4 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x90803ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set_pd( d_2, d_4 );
+            __m128d x_i0 = _mm_set_pd( x_2, x_4 );
+            __m128d y_i0 = _mm_set_pd( y_2, y_4 );
+            __m128d d_i1 = _mm_set1_pd( d_3 );
+            __m128d x_i1 = _mm_set1_pd( x_3 );
+            __m128d y_i1 = _mm_set1_pd( y_3 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
-            size = 3;
             break;
         }
         case 2296: {
             // size=8 outside=0000000000000000000000000000000000000000000000000000000011111000 mod=0,1,2,[ 3, 2 ],[ 7, 0 ]
+            size = 5;
             TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
             TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_0 = d_3 / ( d_2 - d_3 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 3 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 2 ] - reinterpret_cast<double *>( &px_0 )[ 3 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 3 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 2 ] - reinterpret_cast<double *>( &py_0 )[ 3 ] );
-            TF m_1 = d_7 / ( d_0 - d_7 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 7 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 0 ] - reinterpret_cast<double *>( &px_0 )[ 7 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 7 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 0 ] - reinterpret_cast<double *>( &py_0 )[ 7 ] );
+            TF x_0 = reinterpret_cast<const TF *>( &px_0 )[ 0 ];
+            TF x_2 = reinterpret_cast<const TF *>( &px_0 )[ 2 ];
+            TF x_3 = reinterpret_cast<const TF *>( &px_0 )[ 3 ];
+            TF x_7 = reinterpret_cast<const TF *>( &px_0 )[ 7 ];
+            TF y_0 = reinterpret_cast<const TF *>( &py_0 )[ 0 ];
+            TF y_2 = reinterpret_cast<const TF *>( &py_0 )[ 2 ];
+            TF y_3 = reinterpret_cast<const TF *>( &py_0 )[ 3 ];
+            TF y_7 = reinterpret_cast<const TF *>( &py_0 )[ 7 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x908020100ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set_pd( d_7, d_3 );
+            __m128d x_i0 = _mm_set_pd( x_7, x_3 );
+            __m128d y_i0 = _mm_set_pd( y_7, y_3 );
+            __m128d d_i1 = _mm_set_pd( d_0, d_2 );
+            __m128d x_i1 = _mm_set_pd( x_0, x_2 );
+            __m128d y_i1 = _mm_set_pd( y_0, y_2 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
-            size = 5;
             break;
         }
         case 2297: {
             // size=8 outside=0000000000000000000000000000000000000000000000000000000011111001 mod=[ 0, 1 ],1,2,[ 3, 2 ]
+            size = 4;
             TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF m_0 = d_0 / ( d_1 - d_0 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 1 ] - reinterpret_cast<double *>( &px_0 )[ 0 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 1 ] - reinterpret_cast<double *>( &py_0 )[ 0 ] );
-            TF m_1 = d_3 / ( d_2 - d_3 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 3 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 2 ] - reinterpret_cast<double *>( &px_0 )[ 3 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 3 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 2 ] - reinterpret_cast<double *>( &py_0 )[ 3 ] );
+            TF x_0 = reinterpret_cast<const TF *>( &px_0 )[ 0 ];
+            TF x_1 = reinterpret_cast<const TF *>( &px_0 )[ 1 ];
+            TF x_2 = reinterpret_cast<const TF *>( &px_0 )[ 2 ];
+            TF x_3 = reinterpret_cast<const TF *>( &px_0 )[ 3 ];
+            TF y_0 = reinterpret_cast<const TF *>( &py_0 )[ 0 ];
+            TF y_1 = reinterpret_cast<const TF *>( &py_0 )[ 1 ];
+            TF y_2 = reinterpret_cast<const TF *>( &py_0 )[ 2 ];
+            TF y_3 = reinterpret_cast<const TF *>( &py_0 )[ 3 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x9020108ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set_pd( d_3, d_0 );
+            __m128d x_i0 = _mm_set_pd( x_3, x_0 );
+            __m128d y_i0 = _mm_set_pd( y_3, y_0 );
+            __m128d d_i1 = _mm_set_pd( d_2, d_1 );
+            __m128d x_i1 = _mm_set_pd( x_2, x_1 );
+            __m128d y_i1 = _mm_set_pd( y_2, y_1 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
-            size = 4;
             break;
         }
         case 2299: {
             // size=8 outside=0000000000000000000000000000000000000000000000000000000011111011 mod=[ 3, 2 ],[ 1, 2 ],2
+            size = 3;
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
             TF d_3 = reinterpret_cast<const TF *>( &di_0 )[ 3 ];
-            TF m_0 = d_3 / ( d_2 - d_3 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 3 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 2 ] - reinterpret_cast<double *>( &px_0 )[ 3 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 3 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 2 ] - reinterpret_cast<double *>( &py_0 )[ 3 ] );
-            TF m_1 = d_1 / ( d_2 - d_1 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 1 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 2 ] - reinterpret_cast<double *>( &px_0 )[ 1 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 1 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 2 ] - reinterpret_cast<double *>( &py_0 )[ 1 ] );
+            TF x_1 = reinterpret_cast<const TF *>( &px_0 )[ 1 ];
+            TF x_2 = reinterpret_cast<const TF *>( &px_0 )[ 2 ];
+            TF x_3 = reinterpret_cast<const TF *>( &px_0 )[ 3 ];
+            TF y_1 = reinterpret_cast<const TF *>( &py_0 )[ 1 ];
+            TF y_2 = reinterpret_cast<const TF *>( &py_0 )[ 2 ];
+            TF y_3 = reinterpret_cast<const TF *>( &py_0 )[ 3 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x20908ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set_pd( d_1, d_3 );
+            __m128d x_i0 = _mm_set_pd( x_1, x_3 );
+            __m128d y_i0 = _mm_set_pd( y_1, y_3 );
+            __m128d d_i1 = _mm_set1_pd( d_2 );
+            __m128d x_i1 = _mm_set1_pd( x_2 );
+            __m128d y_i1 = _mm_set1_pd( y_2 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
-            size = 3;
             break;
         }
         case 2300: {
             // size=8 outside=0000000000000000000000000000000000000000000000000000000011111100 mod=0,1,[ 2, 1 ],[ 7, 0 ]
+            size = 4;
             TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
             TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_0 = d_2 / ( d_1 - d_2 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 2 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 1 ] - reinterpret_cast<double *>( &px_0 )[ 2 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 2 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 1 ] - reinterpret_cast<double *>( &py_0 )[ 2 ] );
-            TF m_1 = d_7 / ( d_0 - d_7 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 7 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 0 ] - reinterpret_cast<double *>( &px_0 )[ 7 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 7 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 0 ] - reinterpret_cast<double *>( &py_0 )[ 7 ] );
+            TF x_0 = reinterpret_cast<const TF *>( &px_0 )[ 0 ];
+            TF x_1 = reinterpret_cast<const TF *>( &px_0 )[ 1 ];
+            TF x_2 = reinterpret_cast<const TF *>( &px_0 )[ 2 ];
+            TF x_7 = reinterpret_cast<const TF *>( &px_0 )[ 7 ];
+            TF y_0 = reinterpret_cast<const TF *>( &py_0 )[ 0 ];
+            TF y_1 = reinterpret_cast<const TF *>( &py_0 )[ 1 ];
+            TF y_2 = reinterpret_cast<const TF *>( &py_0 )[ 2 ];
+            TF y_7 = reinterpret_cast<const TF *>( &py_0 )[ 7 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x9080100ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set_pd( d_7, d_2 );
+            __m128d x_i0 = _mm_set_pd( x_7, x_2 );
+            __m128d y_i0 = _mm_set_pd( y_7, y_2 );
+            __m128d d_i1 = _mm_set_pd( d_0, d_1 );
+            __m128d x_i1 = _mm_set_pd( x_0, x_1 );
+            __m128d y_i1 = _mm_set_pd( y_0, y_1 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
-            size = 4;
             break;
         }
         case 2301: {
             // size=8 outside=0000000000000000000000000000000000000000000000000000000011111101 mod=[ 0, 1 ],1,[ 2, 1 ]
+            size = 3;
             TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_2 = reinterpret_cast<const TF *>( &di_0 )[ 2 ];
-            TF m_0 = d_0 / ( d_1 - d_0 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 1 ] - reinterpret_cast<double *>( &px_0 )[ 0 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 0 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 1 ] - reinterpret_cast<double *>( &py_0 )[ 0 ] );
-            TF m_1 = d_2 / ( d_1 - d_2 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 2 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 1 ] - reinterpret_cast<double *>( &px_0 )[ 2 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 2 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 1 ] - reinterpret_cast<double *>( &py_0 )[ 2 ] );
+            TF x_0 = reinterpret_cast<const TF *>( &px_0 )[ 0 ];
+            TF x_1 = reinterpret_cast<const TF *>( &px_0 )[ 1 ];
+            TF x_2 = reinterpret_cast<const TF *>( &px_0 )[ 2 ];
+            TF y_0 = reinterpret_cast<const TF *>( &py_0 )[ 0 ];
+            TF y_1 = reinterpret_cast<const TF *>( &py_0 )[ 1 ];
+            TF y_2 = reinterpret_cast<const TF *>( &py_0 )[ 2 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x90108ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set_pd( d_2, d_0 );
+            __m128d x_i0 = _mm_set_pd( x_2, x_0 );
+            __m128d y_i0 = _mm_set_pd( y_2, y_0 );
+            __m128d d_i1 = _mm_set1_pd( d_1 );
+            __m128d x_i1 = _mm_set1_pd( x_1 );
+            __m128d y_i1 = _mm_set1_pd( y_1 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
-            size = 3;
             break;
         }
         case 2302: {
             // size=8 outside=0000000000000000000000000000000000000000000000000000000011111110 mod=0,[ 1, 0 ],[ 7, 0 ]
+            size = 3;
             TF d_0 = reinterpret_cast<const TF *>( &di_0 )[ 0 ];
             TF d_1 = reinterpret_cast<const TF *>( &di_0 )[ 1 ];
             TF d_7 = reinterpret_cast<const TF *>( &di_0 )[ 7 ];
-            TF m_0 = d_1 / ( d_0 - d_1 );
-            TF x_0 = reinterpret_cast<double *>( &px_0 )[ 1 ] - m_0 * ( reinterpret_cast<double *>( &px_0 )[ 0 ] - reinterpret_cast<double *>( &px_0 )[ 1 ] );
-            TF y_0 = reinterpret_cast<double *>( &py_0 )[ 1 ] - m_0 * ( reinterpret_cast<double *>( &py_0 )[ 0 ] - reinterpret_cast<double *>( &py_0 )[ 1 ] );
-            TF m_1 = d_7 / ( d_0 - d_7 );
-            TF x_1 = reinterpret_cast<double *>( &px_0 )[ 7 ] - m_1 * ( reinterpret_cast<double *>( &px_0 )[ 0 ] - reinterpret_cast<double *>( &px_0 )[ 7 ] );
-            TF y_1 = reinterpret_cast<double *>( &py_0 )[ 7 ] - m_1 * ( reinterpret_cast<double *>( &py_0 )[ 0 ] - reinterpret_cast<double *>( &py_0 )[ 7 ] );
+            TF x_0 = reinterpret_cast<const TF *>( &px_0 )[ 0 ];
+            TF x_1 = reinterpret_cast<const TF *>( &px_0 )[ 1 ];
+            TF x_7 = reinterpret_cast<const TF *>( &px_0 )[ 7 ];
+            TF y_0 = reinterpret_cast<const TF *>( &py_0 )[ 0 ];
+            TF y_1 = reinterpret_cast<const TF *>( &py_0 )[ 1 ];
+            TF y_7 = reinterpret_cast<const TF *>( &py_0 )[ 7 ];
             __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x90800ul ) );
-            __m512d inter_x = _mm512_castpd128_pd512( _mm_set_pd( x_1, x_0 ) );
-            __m512d inter_y = _mm512_castpd128_pd512( _mm_set_pd( y_1, y_0 ) );
+            __m128d d_i0 = _mm_set_pd( d_7, d_1 );
+            __m128d x_i0 = _mm_set_pd( x_7, x_1 );
+            __m128d y_i0 = _mm_set_pd( y_7, y_1 );
+            __m128d d_i1 = _mm_set1_pd( d_0 );
+            __m128d x_i1 = _mm_set1_pd( x_0 );
+            __m128d y_i1 = _mm_set1_pd( y_0 );
+            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
+            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
-            size = 3;
             break;
         }
         case 768:
@@ -4229,584 +5577,6 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
         case 253:
         case 254:
         case 255: {
-            break; // totally outside
-        }
-        case 256:
-        case 257:
-        case 258:
-        case 259:
-        case 260:
-        case 261:
-        case 262:
-        case 263:
-        case 264:
-        case 265:
-        case 266:
-        case 267:
-        case 268:
-        case 269:
-        case 270:
-        case 271:
-        case 272:
-        case 273:
-        case 274:
-        case 275:
-        case 276:
-        case 277:
-        case 278:
-        case 279:
-        case 280:
-        case 281:
-        case 282:
-        case 283:
-        case 284:
-        case 285:
-        case 286:
-        case 287:
-        case 288:
-        case 289:
-        case 290:
-        case 291:
-        case 292:
-        case 293:
-        case 294:
-        case 295:
-        case 296:
-        case 297:
-        case 298:
-        case 299:
-        case 300:
-        case 301:
-        case 302:
-        case 303:
-        case 304:
-        case 305:
-        case 306:
-        case 307:
-        case 308:
-        case 309:
-        case 310:
-        case 311:
-        case 312:
-        case 313:
-        case 314:
-        case 315:
-        case 316:
-        case 317:
-        case 318:
-        case 319:
-        case 320:
-        case 321:
-        case 322:
-        case 323:
-        case 324:
-        case 325:
-        case 326:
-        case 327:
-        case 328:
-        case 329:
-        case 330:
-        case 331:
-        case 332:
-        case 333:
-        case 334:
-        case 335:
-        case 336:
-        case 337:
-        case 338:
-        case 339:
-        case 340:
-        case 341:
-        case 342:
-        case 343:
-        case 344:
-        case 345:
-        case 346:
-        case 347:
-        case 348:
-        case 349:
-        case 350:
-        case 351:
-        case 352:
-        case 353:
-        case 354:
-        case 355:
-        case 356:
-        case 357:
-        case 358:
-        case 359:
-        case 360:
-        case 361:
-        case 362:
-        case 363:
-        case 364:
-        case 365:
-        case 366:
-        case 367:
-        case 368:
-        case 369:
-        case 370:
-        case 371:
-        case 372:
-        case 373:
-        case 374:
-        case 375:
-        case 376:
-        case 377:
-        case 378:
-        case 379:
-        case 380:
-        case 381:
-        case 382:
-        case 383:
-        case 384:
-        case 385:
-        case 386:
-        case 387:
-        case 388:
-        case 389:
-        case 390:
-        case 391:
-        case 392:
-        case 393:
-        case 394:
-        case 395:
-        case 396:
-        case 397:
-        case 398:
-        case 399:
-        case 400:
-        case 401:
-        case 402:
-        case 403:
-        case 404:
-        case 405:
-        case 406:
-        case 407:
-        case 408:
-        case 409:
-        case 410:
-        case 411:
-        case 412:
-        case 413:
-        case 414:
-        case 415:
-        case 416:
-        case 417:
-        case 418:
-        case 419:
-        case 420:
-        case 421:
-        case 422:
-        case 423:
-        case 424:
-        case 425:
-        case 426:
-        case 427:
-        case 428:
-        case 429:
-        case 430:
-        case 431:
-        case 432:
-        case 433:
-        case 434:
-        case 435:
-        case 436:
-        case 437:
-        case 438:
-        case 439:
-        case 440:
-        case 441:
-        case 442:
-        case 443:
-        case 444:
-        case 445:
-        case 446:
-        case 447:
-        case 448:
-        case 449:
-        case 450:
-        case 451:
-        case 452:
-        case 453:
-        case 454:
-        case 455:
-        case 456:
-        case 457:
-        case 458:
-        case 459:
-        case 460:
-        case 461:
-        case 462:
-        case 463:
-        case 464:
-        case 465:
-        case 466:
-        case 467:
-        case 468:
-        case 469:
-        case 470:
-        case 471:
-        case 472:
-        case 473:
-        case 474:
-        case 475:
-        case 476:
-        case 477:
-        case 478:
-        case 479:
-        case 480:
-        case 481:
-        case 482:
-        case 483:
-        case 484:
-        case 485:
-        case 486:
-        case 487:
-        case 488:
-        case 489:
-        case 490:
-        case 491:
-        case 492:
-        case 493:
-        case 494:
-        case 495:
-        case 496:
-        case 497:
-        case 498:
-        case 499:
-        case 500:
-        case 501:
-        case 502:
-        case 503:
-        case 504:
-        case 505:
-        case 506:
-        case 507:
-        case 508:
-        case 509:
-        case 510:
-        case 511:
-        case 512:
-        case 513:
-        case 514:
-        case 515:
-        case 516:
-        case 517:
-        case 518:
-        case 519:
-        case 520:
-        case 521:
-        case 522:
-        case 523:
-        case 524:
-        case 525:
-        case 526:
-        case 527:
-        case 528:
-        case 529:
-        case 530:
-        case 531:
-        case 532:
-        case 533:
-        case 534:
-        case 535:
-        case 536:
-        case 537:
-        case 538:
-        case 539:
-        case 540:
-        case 541:
-        case 542:
-        case 543:
-        case 544:
-        case 545:
-        case 546:
-        case 547:
-        case 548:
-        case 549:
-        case 550:
-        case 551:
-        case 552:
-        case 553:
-        case 554:
-        case 555:
-        case 556:
-        case 557:
-        case 558:
-        case 559:
-        case 560:
-        case 561:
-        case 562:
-        case 563:
-        case 564:
-        case 565:
-        case 566:
-        case 567:
-        case 568:
-        case 569:
-        case 570:
-        case 571:
-        case 572:
-        case 573:
-        case 574:
-        case 575:
-        case 576:
-        case 577:
-        case 578:
-        case 579:
-        case 580:
-        case 581:
-        case 582:
-        case 583:
-        case 584:
-        case 585:
-        case 586:
-        case 587:
-        case 588:
-        case 589:
-        case 590:
-        case 591:
-        case 592:
-        case 593:
-        case 594:
-        case 595:
-        case 596:
-        case 597:
-        case 598:
-        case 599:
-        case 600:
-        case 601:
-        case 602:
-        case 603:
-        case 604:
-        case 605:
-        case 606:
-        case 607:
-        case 608:
-        case 609:
-        case 610:
-        case 611:
-        case 612:
-        case 613:
-        case 614:
-        case 615:
-        case 616:
-        case 617:
-        case 618:
-        case 619:
-        case 620:
-        case 621:
-        case 622:
-        case 623:
-        case 624:
-        case 625:
-        case 626:
-        case 627:
-        case 628:
-        case 629:
-        case 630:
-        case 631:
-        case 632:
-        case 633:
-        case 634:
-        case 635:
-        case 636:
-        case 637:
-        case 638:
-        case 639:
-        case 640:
-        case 641:
-        case 642:
-        case 643:
-        case 644:
-        case 645:
-        case 646:
-        case 647:
-        case 648:
-        case 649:
-        case 650:
-        case 651:
-        case 652:
-        case 653:
-        case 654:
-        case 655:
-        case 656:
-        case 657:
-        case 658:
-        case 659:
-        case 660:
-        case 661:
-        case 662:
-        case 663:
-        case 664:
-        case 665:
-        case 666:
-        case 667:
-        case 668:
-        case 669:
-        case 670:
-        case 671:
-        case 672:
-        case 673:
-        case 674:
-        case 675:
-        case 676:
-        case 677:
-        case 678:
-        case 679:
-        case 680:
-        case 681:
-        case 682:
-        case 683:
-        case 684:
-        case 685:
-        case 686:
-        case 687:
-        case 688:
-        case 689:
-        case 690:
-        case 691:
-        case 692:
-        case 693:
-        case 694:
-        case 695:
-        case 696:
-        case 697:
-        case 698:
-        case 699:
-        case 700:
-        case 701:
-        case 702:
-        case 703:
-        case 704:
-        case 705:
-        case 706:
-        case 707:
-        case 708:
-        case 709:
-        case 710:
-        case 711:
-        case 712:
-        case 713:
-        case 714:
-        case 715:
-        case 716:
-        case 717:
-        case 718:
-        case 719:
-        case 720:
-        case 721:
-        case 722:
-        case 723:
-        case 724:
-        case 725:
-        case 726:
-        case 727:
-        case 728:
-        case 729:
-        case 730:
-        case 731:
-        case 732:
-        case 733:
-        case 734:
-        case 735:
-        case 736:
-        case 737:
-        case 738:
-        case 739:
-        case 740:
-        case 741:
-        case 742:
-        case 743:
-        case 744:
-        case 745:
-        case 746:
-        case 747:
-        case 748:
-        case 749:
-        case 750:
-        case 751:
-        case 752:
-        case 753:
-        case 754:
-        case 755:
-        case 756:
-        case 757:
-        case 758:
-        case 759:
-        case 760:
-        case 761:
-        case 762:
-        case 763:
-        case 764:
-        case 765:
-        case 766:
-        case 767:
-        case 775:
-        case 783:
-        case 791:
-        case 799:
-        case 807:
-        case 815:
-        case 823:
-        case 831:
-        case 839:
-        case 847:
-        case 855:
-        case 863:
-        case 871:
-        case 879:
-        case 887:
-        case 895:
-        case 903:
-        case 911:
-        case 919:
-        case 927:
-        case 935:
-        case 943:
-        case 951:
-        case 959:
-        case 967:
-        case 975:
-        case 983:
-        case 991:
-        case 999:
-        case 1007:
-        case 1015:
-        case 1023:
-        case 1039:
-        case 1055:
-        case 1071:
-        case 1087:
-        case 1103:
-        case 1119:
-        case 1135:
-        case 1151:
-        case 1167:
-        case 1183:
-        case 1199:
-        case 1215:
-        case 1231:
-        case 1247:
-        case 1263:
-        case 1279:
-        case 1311:
-        case 1343:
-        case 1375:
-        case 1407:
-        case 1439:
-        case 1471:
-        case 1503:
-        case 1535:
-        case 1599:
-        case 1663:
-        case 1727:
-        case 1791:
-        case 1919:
-        case 2047:
-        case 2303: {
-            size = 0;
             break; // totally outside
         }
         case 1029:
@@ -5415,15 +6185,594 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t 
         case 2293:
         case 2294:
         case 2298: {
-        plane_cut_gen( cut, N<flags>() );
-        px_0 = _mm512_load_pd( x + 0 );
-        py_0 = _mm512_load_pd( y + 0 );
+            plane_cut_gen( cut, N<flags>() );
+            px_0 = _mm512_load_pd( x + 0 );
+            py_0 = _mm512_load_pd( y + 0 );
+            break; // totally outside
+        }
+        case 256:
+        case 257:
+        case 258:
+        case 259:
+        case 260:
+        case 261:
+        case 262:
+        case 263:
+        case 264:
+        case 265:
+        case 266:
+        case 267:
+        case 268:
+        case 269:
+        case 270:
+        case 271:
+        case 272:
+        case 273:
+        case 274:
+        case 275:
+        case 276:
+        case 277:
+        case 278:
+        case 279:
+        case 280:
+        case 281:
+        case 282:
+        case 283:
+        case 284:
+        case 285:
+        case 286:
+        case 287:
+        case 288:
+        case 289:
+        case 290:
+        case 291:
+        case 292:
+        case 293:
+        case 294:
+        case 295:
+        case 296:
+        case 297:
+        case 298:
+        case 299:
+        case 300:
+        case 301:
+        case 302:
+        case 303:
+        case 304:
+        case 305:
+        case 306:
+        case 307:
+        case 308:
+        case 309:
+        case 310:
+        case 311:
+        case 312:
+        case 313:
+        case 314:
+        case 315:
+        case 316:
+        case 317:
+        case 318:
+        case 319:
+        case 320:
+        case 321:
+        case 322:
+        case 323:
+        case 324:
+        case 325:
+        case 326:
+        case 327:
+        case 328:
+        case 329:
+        case 330:
+        case 331:
+        case 332:
+        case 333:
+        case 334:
+        case 335:
+        case 336:
+        case 337:
+        case 338:
+        case 339:
+        case 340:
+        case 341:
+        case 342:
+        case 343:
+        case 344:
+        case 345:
+        case 346:
+        case 347:
+        case 348:
+        case 349:
+        case 350:
+        case 351:
+        case 352:
+        case 353:
+        case 354:
+        case 355:
+        case 356:
+        case 357:
+        case 358:
+        case 359:
+        case 360:
+        case 361:
+        case 362:
+        case 363:
+        case 364:
+        case 365:
+        case 366:
+        case 367:
+        case 368:
+        case 369:
+        case 370:
+        case 371:
+        case 372:
+        case 373:
+        case 374:
+        case 375:
+        case 376:
+        case 377:
+        case 378:
+        case 379:
+        case 380:
+        case 381:
+        case 382:
+        case 383:
+        case 384:
+        case 385:
+        case 386:
+        case 387:
+        case 388:
+        case 389:
+        case 390:
+        case 391:
+        case 392:
+        case 393:
+        case 394:
+        case 395:
+        case 396:
+        case 397:
+        case 398:
+        case 399:
+        case 400:
+        case 401:
+        case 402:
+        case 403:
+        case 404:
+        case 405:
+        case 406:
+        case 407:
+        case 408:
+        case 409:
+        case 410:
+        case 411:
+        case 412:
+        case 413:
+        case 414:
+        case 415:
+        case 416:
+        case 417:
+        case 418:
+        case 419:
+        case 420:
+        case 421:
+        case 422:
+        case 423:
+        case 424:
+        case 425:
+        case 426:
+        case 427:
+        case 428:
+        case 429:
+        case 430:
+        case 431:
+        case 432:
+        case 433:
+        case 434:
+        case 435:
+        case 436:
+        case 437:
+        case 438:
+        case 439:
+        case 440:
+        case 441:
+        case 442:
+        case 443:
+        case 444:
+        case 445:
+        case 446:
+        case 447:
+        case 448:
+        case 449:
+        case 450:
+        case 451:
+        case 452:
+        case 453:
+        case 454:
+        case 455:
+        case 456:
+        case 457:
+        case 458:
+        case 459:
+        case 460:
+        case 461:
+        case 462:
+        case 463:
+        case 464:
+        case 465:
+        case 466:
+        case 467:
+        case 468:
+        case 469:
+        case 470:
+        case 471:
+        case 472:
+        case 473:
+        case 474:
+        case 475:
+        case 476:
+        case 477:
+        case 478:
+        case 479:
+        case 480:
+        case 481:
+        case 482:
+        case 483:
+        case 484:
+        case 485:
+        case 486:
+        case 487:
+        case 488:
+        case 489:
+        case 490:
+        case 491:
+        case 492:
+        case 493:
+        case 494:
+        case 495:
+        case 496:
+        case 497:
+        case 498:
+        case 499:
+        case 500:
+        case 501:
+        case 502:
+        case 503:
+        case 504:
+        case 505:
+        case 506:
+        case 507:
+        case 508:
+        case 509:
+        case 510:
+        case 511:
+        case 512:
+        case 513:
+        case 514:
+        case 515:
+        case 516:
+        case 517:
+        case 518:
+        case 519:
+        case 520:
+        case 521:
+        case 522:
+        case 523:
+        case 524:
+        case 525:
+        case 526:
+        case 527:
+        case 528:
+        case 529:
+        case 530:
+        case 531:
+        case 532:
+        case 533:
+        case 534:
+        case 535:
+        case 536:
+        case 537:
+        case 538:
+        case 539:
+        case 540:
+        case 541:
+        case 542:
+        case 543:
+        case 544:
+        case 545:
+        case 546:
+        case 547:
+        case 548:
+        case 549:
+        case 550:
+        case 551:
+        case 552:
+        case 553:
+        case 554:
+        case 555:
+        case 556:
+        case 557:
+        case 558:
+        case 559:
+        case 560:
+        case 561:
+        case 562:
+        case 563:
+        case 564:
+        case 565:
+        case 566:
+        case 567:
+        case 568:
+        case 569:
+        case 570:
+        case 571:
+        case 572:
+        case 573:
+        case 574:
+        case 575:
+        case 576:
+        case 577:
+        case 578:
+        case 579:
+        case 580:
+        case 581:
+        case 582:
+        case 583:
+        case 584:
+        case 585:
+        case 586:
+        case 587:
+        case 588:
+        case 589:
+        case 590:
+        case 591:
+        case 592:
+        case 593:
+        case 594:
+        case 595:
+        case 596:
+        case 597:
+        case 598:
+        case 599:
+        case 600:
+        case 601:
+        case 602:
+        case 603:
+        case 604:
+        case 605:
+        case 606:
+        case 607:
+        case 608:
+        case 609:
+        case 610:
+        case 611:
+        case 612:
+        case 613:
+        case 614:
+        case 615:
+        case 616:
+        case 617:
+        case 618:
+        case 619:
+        case 620:
+        case 621:
+        case 622:
+        case 623:
+        case 624:
+        case 625:
+        case 626:
+        case 627:
+        case 628:
+        case 629:
+        case 630:
+        case 631:
+        case 632:
+        case 633:
+        case 634:
+        case 635:
+        case 636:
+        case 637:
+        case 638:
+        case 639:
+        case 640:
+        case 641:
+        case 642:
+        case 643:
+        case 644:
+        case 645:
+        case 646:
+        case 647:
+        case 648:
+        case 649:
+        case 650:
+        case 651:
+        case 652:
+        case 653:
+        case 654:
+        case 655:
+        case 656:
+        case 657:
+        case 658:
+        case 659:
+        case 660:
+        case 661:
+        case 662:
+        case 663:
+        case 664:
+        case 665:
+        case 666:
+        case 667:
+        case 668:
+        case 669:
+        case 670:
+        case 671:
+        case 672:
+        case 673:
+        case 674:
+        case 675:
+        case 676:
+        case 677:
+        case 678:
+        case 679:
+        case 680:
+        case 681:
+        case 682:
+        case 683:
+        case 684:
+        case 685:
+        case 686:
+        case 687:
+        case 688:
+        case 689:
+        case 690:
+        case 691:
+        case 692:
+        case 693:
+        case 694:
+        case 695:
+        case 696:
+        case 697:
+        case 698:
+        case 699:
+        case 700:
+        case 701:
+        case 702:
+        case 703:
+        case 704:
+        case 705:
+        case 706:
+        case 707:
+        case 708:
+        case 709:
+        case 710:
+        case 711:
+        case 712:
+        case 713:
+        case 714:
+        case 715:
+        case 716:
+        case 717:
+        case 718:
+        case 719:
+        case 720:
+        case 721:
+        case 722:
+        case 723:
+        case 724:
+        case 725:
+        case 726:
+        case 727:
+        case 728:
+        case 729:
+        case 730:
+        case 731:
+        case 732:
+        case 733:
+        case 734:
+        case 735:
+        case 736:
+        case 737:
+        case 738:
+        case 739:
+        case 740:
+        case 741:
+        case 742:
+        case 743:
+        case 744:
+        case 745:
+        case 746:
+        case 747:
+        case 748:
+        case 749:
+        case 750:
+        case 751:
+        case 752:
+        case 753:
+        case 754:
+        case 755:
+        case 756:
+        case 757:
+        case 758:
+        case 759:
+        case 760:
+        case 761:
+        case 762:
+        case 763:
+        case 764:
+        case 765:
+        case 766:
+        case 767:
+        case 775:
+        case 783:
+        case 791:
+        case 799:
+        case 807:
+        case 815:
+        case 823:
+        case 831:
+        case 839:
+        case 847:
+        case 855:
+        case 863:
+        case 871:
+        case 879:
+        case 887:
+        case 895:
+        case 903:
+        case 911:
+        case 919:
+        case 927:
+        case 935:
+        case 943:
+        case 951:
+        case 959:
+        case 967:
+        case 975:
+        case 983:
+        case 991:
+        case 999:
+        case 1007:
+        case 1015:
+        case 1023:
+        case 1039:
+        case 1055:
+        case 1071:
+        case 1087:
+        case 1103:
+        case 1119:
+        case 1135:
+        case 1151:
+        case 1167:
+        case 1183:
+        case 1199:
+        case 1215:
+        case 1231:
+        case 1247:
+        case 1263:
+        case 1279:
+        case 1311:
+        case 1343:
+        case 1375:
+        case 1407:
+        case 1439:
+        case 1471:
+        case 1503:
+        case 1535:
+        case 1599:
+        case 1663:
+        case 1727:
+        case 1791:
+        case 1919:
+        case 2047:
+        case 2303: {
+            size = 0;
+            break; // totally outside
         }
         default:
-          plane_cut_gen( cut, N<flags>() );
-          px_0 = _mm512_load_pd( x + 0 );
-          py_0 = _mm512_load_pd( y + 0 );
-          break;
+            plane_cut_gen( cut, N<flags>() );
+            px_0 = _mm512_load_pd( x + 0 );
+            py_0 = _mm512_load_pd( y + 0 );
+            break;
         }
     }
     _mm512_store_pd( x + 0, px_0 );

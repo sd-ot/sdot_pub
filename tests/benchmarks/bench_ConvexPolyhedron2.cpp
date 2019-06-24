@@ -108,7 +108,7 @@ int main() {
     }
     offsets.push_back( cuts.size() );
 
-    bench( offsets, cuts, /*simd*/ N<0>(), /*switch*/ N<0>() );
-    bench( offsets, cuts, /*simd*/ N<1>(), /*switch*/ N<0>() );
+    //    bench( offsets, cuts, /*simd*/ N<0>(), /*switch*/ N<0>() );
+    //    bench( offsets, cuts, /*simd*/ N<1>(), /*switch*/ N<0>() );
     bench( offsets, cuts, /*simd*/ N<1>(), /*switch*/ N<1>() );
 }

@@ -106,6 +106,6 @@ int main() {
 
     };
     using Cp = ConvexPolyhedron2<Pc>;
-    //    test_regular_cuts<Cp>();
+    test_regular_cuts<Cp>();
     test_measure<Cp>();
 }
