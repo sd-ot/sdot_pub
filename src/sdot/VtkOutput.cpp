@@ -111,6 +111,12 @@ void VtkOutput::add_polygon( const std::vector<Pt> &p, const std::vector<TF> &ce
         cell_fields[ i ].v_polygons.push_back( i < cell_values.size() ? cell_values[ i ] : TF( 0 ) );
 }
 
+void VtkOutput::add_lines( const std::vector<Pt> &p, const std::vector<TF> &cell_values ) {
+    lines.push_back( { p } );
+    for( std::size_t i = 0; i < cell_fields.size(); ++i )
+        cell_fields[ i ].v_lines.push_back( i < cell_values.size() ? cell_values[ i ] : TF( 0 ) );
+}
+
 
 //void VtkOutput::add_arc( PT C, PT A, PT B, PT tangent, const CV &cell_value, unsigned nb_divs ) {
 //    // add_lines( { A, A + tangent }, { 2 } );

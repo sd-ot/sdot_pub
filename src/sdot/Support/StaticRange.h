@@ -1,6 +1,7 @@
 #pragma once
 
 #include "StaticGenericListOfNumbers.h"
+#include <tuple>
 
 namespace sdot {
 
