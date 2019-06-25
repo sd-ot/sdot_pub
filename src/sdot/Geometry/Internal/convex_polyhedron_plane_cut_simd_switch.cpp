@@ -5,6 +5,7 @@
 #include <iostream>
 #include <sstream>
 #include <vector>
+#include <cmath>
 #include <map>
 #include <set>
 
@@ -323,7 +324,7 @@ struct Mod {
 };
 
 
-void get_code( std::ostringstream &code, int index, int max_size_included, int simd_size ) {
+bool get_code( std::ostringstream &code, int index, int max_size_included, int simd_size ) {
     int nb_regs = ( max_size_included + simd_size - 1 ) / simd_size;
     const int mul_size = 1 << max_size_included;
     const int size = index / mul_size;
@@ -331,16 +332,18 @@ void get_code( std::ostringstream &code, int index, int max_size_included, int s
     std::bitset<64> outside = index & ( ( 1 << size ) - 1 );
     const int nb_outside = sdot::popcnt( outside );
 
+    // nothing to change
+    if ( nb_outside == 0 ) {
+        code << "            break;\n";
+        return true;
+    }
+
+    // totally outside
     if ( size <= 2 || nb_outside == size ) {
         if ( size )
             code << "            size = 0;\n";
-        code << "            break; // totally outside\n";
-        return;
-    }
-
-    if ( nb_outside == 0 ) {
         code << "            break;\n";
-        return;
+        return true;
     }
 
     // get list of modifications
@@ -368,19 +371,13 @@ void get_code( std::ostringstream &code, int index, int max_size_included, int s
     int nb_interp = 0;
     for( Op op : mod.ops )
         nb_interp += op.i1 >= 0;
-    if ( nb_interp > 2 ) {
-        code << "            plane_cut_gen( cut, N<flags>() );\n";
-        for( int i = 0; i < nb_regs; ++i ) {
-            code << "            px_" << i << " = _mm512_load_pd( x + " << simd_size * i << " );\n";
-            code << "            py_" << i << " = _mm512_load_pd( y + " << simd_size * i << " );\n";
-        }
-        code << "            break; // totally outside\n";
-        return;
-    }
+    if ( nb_interp > 2 )
+        return false;
 
     // write code
     code << "            // size=" << size << " outside=" << outside << " mod=" << mod << "\n";
     mod.write_code( code, simd_size, nb_regs );
+    return true;
 }
 
 void generate( int simd_size, std::string /*ext*/, int max_size_included = 8 ) {
@@ -396,10 +393,9 @@ void generate( int simd_size, std::string /*ext*/, int max_size_included = 8 ) {
         std::cout << "    __m512d py_" << i << " = _mm512_load_pd( y + " << simd_size * i << " );\n";
     }
     std::cout << "    for( std::size_t num_cut = 0; num_cut < nb_cuts; ++num_cut ) {\n";
-    std::cout << "        const Cut &cut = cuts[ num_cut ];\n";
-    std::cout << "        __m512d rd = _mm512_set1_pd( cut.dist );\n";
-    std::cout << "        __m512d nx = _mm512_set1_pd( cut.dir.x );\n";
-    std::cout << "        __m512d ny = _mm512_set1_pd( cut.dir.y );\n";
+    std::cout << "        __m512d rd = _mm512_set1_pd( cut_ps[ num_cut ] );\n";
+    std::cout << "        __m512d nx = _mm512_set1_pd( cut_dx[ num_cut ] );\n";
+    std::cout << "        __m512d ny = _mm512_set1_pd( cut_dy[ num_cut ] );\n";
     for( int i = 0; i < nb_regs; ++i ) {
         std::cout << "        __m512d bi_" << i << " = _mm512_add_pd( _mm512_mul_pd( px_" << i << ", nx ), _mm512_mul_pd( py_" << i << ", ny ) );\n";
         std::cout << "        std::uint8_t outside_" << i << " = _mm512_cmp_pd_mask( bi_" << i << ", rd, _CMP_GT_OQ );\n"; // OQ => 46.9, QS => 47.1
@@ -413,8 +409,8 @@ void generate( int simd_size, std::string /*ext*/, int max_size_included = 8 ) {
     std::map<std::string,std::vector<int>> cases;
     for( int index = 0; index < max_index; ++index ) {
         std::ostringstream code;
-        get_code( code, index, max_size_included, simd_size );
-        cases[ code.str() ].push_back( index );
+        if ( get_code( code, index, max_size_included, simd_size ) )
+            cases[ code.str() ].push_back( index );
     }
 
     // cases
@@ -428,7 +424,13 @@ void generate( int simd_size, std::string /*ext*/, int max_size_included = 8 ) {
         std::cout << " {\n" << c.first << "        }";
     }
     std::cout << "\n        default:\n";
-    std::cout << "            plane_cut_gen( cut, N<flags>() );\n";
+    for( int i = 0; i < nb_regs; ++i ) {
+        std::cout << "            _mm512_store_pd( x + " << simd_size * i << ", px_" << i << " );\n";
+        std::cout << "            _mm512_store_pd( y + " << simd_size * i << ", py_" << i << " );\n";
+    }
+    std::cout << "            plane_cut_gen( cut_dx[ num_cut ], cut_dy[ num_cut ], cut_ps[ num_cut ], cut_id[ num_cut ], N<flags>() );\n";
+    std::cout << "            x = &nodes->x;\n";
+    std::cout << "            y = &nodes->y;\n";
     for( int i = 0; i < nb_regs; ++i ) {
         std::cout << "            px_" << i << " = _mm512_load_pd( x + " << simd_size * i << " );\n";
         std::cout << "            py_" << i << " = _mm512_load_pd( y + " << simd_size * i << " );\n";
@@ -446,28 +448,28 @@ void generate( int simd_size, std::string /*ext*/, int max_size_included = 8 ) {
 
 int main() {
     std::cout << "#include \"../ConvexPolyhedron2.h\"\n";
-    std::cout << "#define MM256_SET_PD( A, B, C, D ) _mm256_set_pd( D, C, B, A ) \n";
-    std::cout << "#define MM128_SET_PD( A, B ) _mm_set_pd( B, A ) \n";
+
+    std::cout << "\n";
     std::cout << "namespace sdot {\n";
 
-    //
+    // double + uint64 version
     std::cout << "\n";
     std::cout << "template<class Pc> template<int flags>\n";
-    std::cout << "void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t nb_cuts, N<flags>, S<double>, S<std::uint64_t> ) {\n";
+    std::cout << "void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const TF *cut_dx, const TF *cut_dy, const TF *cut_ps, const CI *cut_id, std::size_t nb_cuts, N<flags>, S<double>, S<std::uint64_t> ) {\n";
     std::cout << "    #ifdef __AVX512F__\n";
     generate( 8, "AVX512", 8 );
     std::cout << "    #else // __AVX512F__\n";
     std::cout << "    for( std::size_t i = 0; i < nb_cuts; ++i )\n";
-    std::cout << "        plane_cut_gen( cuts[ i ], N<flags>() );\n";
+    std::cout << "        plane_cut_gen( cut_dx[ i ], cut_dy[ i ], cut_ps[ i ], cut_id[ i ], N<flags>() );\n";
     std::cout << "    #endif // __AVX512F__\n";
     std::cout << "}\n";
 
     // generic version
     std::cout << "\n";
     std::cout << "template<class Pc> template<int flags,class T,class U>\n";
-    std::cout << "void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const Cut *cuts, std::size_t nb_cuts, N<flags>, S<T>, S<U> ) {\n";
+    std::cout << "void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const TF *cut_dx, const TF *cut_dy, const TF *cut_ps, const CI *cut_id, std::size_t nb_cuts, N<flags>, S<T>, S<U> ) {\n";
     std::cout << "    for( std::size_t i = 0; i < nb_cuts; ++i )\n";
-    std::cout << "        plane_cut_gen( cuts[ i ], N<flags>() );\n";
+    std::cout << "        plane_cut_gen( cut_dx[ i ], cut_dy[ i ], cut_ps[ i ], cut_id[ i ], N<flags>() );\n";
     std::cout << "}\n";
 
     std::cout << "\n";

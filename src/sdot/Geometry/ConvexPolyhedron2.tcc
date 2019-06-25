@@ -50,8 +50,8 @@ ConvexPolyhedron2<Pc>::ConvexPolyhedron2( const Box &box, CI cut_id ) : ConvexPo
 
 template<class Pc>
 ConvexPolyhedron2<Pc>::ConvexPolyhedron2() {
-    size = 0;
-    rese = block_size;
+    size  = 0;
+    rese  = block_size;
     nodes = new ( aligned_malloc( rese / block_size * sizeof( Node ), 64 ) ) Node;
 
     sphere_radius = 0;
@@ -65,6 +65,7 @@ ConvexPolyhedron2<Pc>::~ConvexPolyhedron2() {
 
 template<class Pc>
 ConvexPolyhedron2<Pc> &ConvexPolyhedron2<Pc>::operator=( const ConvexPolyhedron2 &that ) {
+    //    this->nb_changes = that.nb_changes;
     resize( that.nb_nodes() );
 
     for( std::size_t i = 0; ; i += block_size ) {
@@ -114,12 +115,12 @@ template<class Pc>
 void ConvexPolyhedron2<Pc>::write_to_stream( std::ostream &os ) const {
     os << "pos: ";
     for( TI i = 0; i < nb_nodes(); ++i )
-        os << ( i ? " [" : "[" ) << node( i ).pos() << "]";
-    if ( store_the_normals ) {
-        os << " nrms: ";
-        for( TI i = 0; i < nb_nodes(); ++i )
-            os << ( i ? " [" : "[" ) << node( i ).dir() << "]";
-    }
+        os << ( i ? " [" : "[" ) << node( i ).pos().x << " " << node( i ).pos().y << "]";
+    //    if ( store_the_normals ) {
+    //        os << " nrms: ";
+    //        for( TI i = 0; i < nb_nodes(); ++i )
+    //            os << ( i ? " [" : "[" ) << node( i ).dir() << "]";
+    //    }
     //    os << " sphere center: " << sphere_center << " sphere radius: " << sphere_radius;
 }
 
@@ -197,22 +198,22 @@ void ConvexPolyhedron2<Pc>::resize( TI new_size ) {
 }
 
 template<class Pc> template<int flags,class T,class U>
-void ConvexPolyhedron2<Pc>::plane_cut_simd_tzcnt( const Cut &cut, N<flags>, S<T>, S<U> ) {
-    plane_cut_gen( cut, N<flags>() );
+void ConvexPolyhedron2<Pc>::plane_cut_simd_tzcnt( TF cut_dx, TF cut_dy, TF cut_ps, CI cut_id, N<flags>, S<T>, S<U> ) {
+    plane_cut_gen( cut_dx, cut_dy, cut_ps, cut_id, N<flags>() );
 }
 
 template<class Pc> template<int flags>
-void ConvexPolyhedron2<Pc>::plane_cut_simd_tzcnt( const Cut &cut, N<flags>, S<double>, S<std::uint64_t> ) {
+void ConvexPolyhedron2<Pc>::plane_cut_simd_tzcnt( TF cut_dx, TF cut_dy, TF cut_ps, CI cut_id, N<flags>, S<double>, S<std::uint64_t> ) {
     #ifdef __AVX512F__
     constexpr int simd_size = 8;
 
     // for now this procedure works for 1 simd register
     if ( size > simd_size )
-        return plane_cut_gen( cut, N<flags>() );
+        return plane_cut_gen( cut_dx, cut_dy, cut_ps, cut_id, N<flags>() );
 
-    __m512d rd = _mm512_set1_pd( cut.dist );
-    __m512d nx = _mm512_set1_pd( cut.dir.x );
-    __m512d ny = _mm512_set1_pd( cut.dir.y );
+    __m512d rd = _mm512_set1_pd( cut_ps );
+    __m512d nx = _mm512_set1_pd( cut_dx );
+    __m512d ny = _mm512_set1_pd( cut_dy );
     __m512d px_0 = _mm512_load_pd( &nodes->x + 0 );
     __m512d py_0 = _mm512_load_pd( &nodes->y + 0 );
     __m512d bi_0 = _mm512_add_pd( _mm512_mul_pd( px_0, nx ), _mm512_mul_pd( py_0, ny ) );
@@ -222,6 +223,10 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_tzcnt( const Cut &cut, N<flags>, S<do
     // all inside ?
     if ( outside_0 == 0 )
         return;
+
+    // reg change
+    //    if ( flags & ConvexPolyhedron::get_nb_changes )
+    //        ++this->nb_changes;
 
     // all outside ?
     unsigned nb_outside = popcnt( outside_0 );
@@ -272,10 +277,10 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_tzcnt( const Cut &cut, N<flags>, S<do
 
         //        if ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized == 0 )
         //            dir = normalized( dir );
-        if ( store_the_normals ) {  n1.dir_x = cut.dir.x; n1.dir_y = cut.dir.y; }
+        if ( store_the_normals ) {  n1.dir_x = cut_dx; n1.dir_y = cut_dy; }
         n1.x = n0_x - m0 * ( n1.x - n0_x );
         n1.y = n0_y - m0 * ( n1.y - n0_y );
-        n1.cut_id.set( cut.id );
+        n1.cut_id.set( cut_id );
 
         return;
     }
@@ -303,8 +308,8 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_tzcnt( const Cut &cut, N<flags>, S<do
         TF m2 = s3 / ( s2 - s3 );
 
         // modified points
-        if ( store_the_normals ) { n1.dir_x = cut.dir.x; n1.dir_y = cut.dir.y; }
-        n1.cut_id.set( cut.id );
+        if ( store_the_normals ) { n1.dir_x = cut_dx; n1.dir_y = cut_dy; }
+        n1.cut_id.set( cut_id );
         n1.x = n0.x - m1 * ( n1.x - n0.x );
         n1.y = n0.y - m1 * ( n1.y - n0.y );
         n2.x = n3.x - m2 * ( n2.x - n3.x );
@@ -348,10 +353,10 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_tzcnt( const Cut &cut, N<flags>, S<do
             nodes->local_at( o ).get_straight_content_from( nodes->local_at( i2 + o ) );
         Node &no = nodes->local_at( o );
 
-        if ( store_the_normals ) { no.dir_x = cut.dir.x; no.dir_y = cut.dir.y; }
+        if ( store_the_normals ) { no.dir_x = cut_dx; no.dir_y = cut_dy; }
         no.x = n0.x - m1 * ( n1.x - n0.x );
         no.y = n0.y - m1 * ( n1.y - n0.y );
-        no.cut_id.set( cut.id );
+        no.cut_id.set( cut_id );
 
         size -= nb_outside - 2;
 
@@ -379,10 +384,10 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_tzcnt( const Cut &cut, N<flags>, S<do
     TF m2 = s3 / ( s2 - s3 );
 
     // modified and deleted points
-    if ( store_the_normals ) { n1.dir_x = cut.dir.x; n1.dir_y = cut.dir.y; }
+    if ( store_the_normals ) { n1.dir_x = cut_dx; n1.dir_y = cut_dy; }
     n1.x = n0.x - m1 * ( n1.x - n0.x );
     n1.y = n0.y - m1 * ( n1.y - n0.y );
-    n1.cut_id.set( cut.id );
+    n1.cut_id.set( cut_id );
 
     if ( store_the_normals ) { nn.dir_x = n2.dir_x; nn.dir_y = n2.dir_y; }
     nn.x = n3.x - m2 * ( n2.x - n3.x );
@@ -396,24 +401,28 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_tzcnt( const Cut &cut, N<flags>, S<do
     // modification of the number of points
     size -= nb_to_rem;
     #else
-    plane_cut_gen( cut, N<flags>() );
+    plane_cut_gen( cut_dx, cut_dy, cut_ps, cut_id, N<flags>() );
     #endif
 }
 
 template<class Pc> template<int flags,class BS,class DS>
-void ConvexPolyhedron2<Pc>::plane_cut_gen( const Cut &cut, N<flags>, BS &outside, DS &distances ) {
+void ConvexPolyhedron2<Pc>::plane_cut_gen( TF cut_dx, TF cut_dy, TF cut_ps, CI cut_id, N<flags>, BS &outside, DS &distances ) {
     reset( outside );
     std::size_t cpt_node = 0;
     for_each_node( [&]( const Node &node ) {
-        TF d = dot( node.pos(), cut.dir );
-        outside[ cpt_node ] = d > cut.dist;
-        distances[ cpt_node ] = d - cut.dist;
+        TF d = node.x * cut_dx + node.y * cut_dy;
+        outside[ cpt_node ] = d > cut_ps;
+        distances[ cpt_node ] = d - cut_ps;
         ++cpt_node;
     } );
 
     // all inside ?
     if ( none( outside ) )
         return;
+
+    // reg change
+    //    if ( flags & ConvexPolyhedron::get_nb_changes )
+    //        ++this->nb_changes;
 
     // all outside ?
     unsigned nb_outside = popcnt( outside );
@@ -463,10 +472,10 @@ void ConvexPolyhedron2<Pc>::plane_cut_gen( const Cut &cut, N<flags>, BS &outside
 
         //        if ( flags & ConvexPolyhedron::plane_cut_flag_dir_is_normalized == 0 )
         //            dir = normalized( dir );
-        if ( store_the_normals ) {  n1.dir_x = cut.dir.x; n1.dir_y = cut.dir.y; }
+        if ( store_the_normals ) {  n1.dir_x = cut_dx; n1.dir_y = cut_dy; }
         n1.x = n0_x - m0 * ( n1.x - n0_x );
         n1.y = n0_y - m0 * ( n1.y - n0_y );
-        n1.cut_id.set( cut.id );
+        n1.cut_id.set( cut_id );
 
         return;
     }
@@ -494,8 +503,8 @@ void ConvexPolyhedron2<Pc>::plane_cut_gen( const Cut &cut, N<flags>, BS &outside
         TF m2 = s3 / ( s2 - s3 );
 
         // modified points
-        if ( store_the_normals ) { n1.dir_x = cut.dir.x; n1.dir_y = cut.dir.y; }
-        n1.cut_id.set( cut.id );
+        if ( store_the_normals ) { n1.dir_x = cut_dx; n1.dir_y = cut_dy; }
+        n1.cut_id.set( cut_id );
         n1.x = n0.x - m1 * ( n1.x - n0.x );
         n1.y = n0.y - m1 * ( n1.y - n0.y );
         n2.x = n3.x - m2 * ( n2.x - n3.x );
@@ -539,10 +548,10 @@ void ConvexPolyhedron2<Pc>::plane_cut_gen( const Cut &cut, N<flags>, BS &outside
             node( o ).get_straight_content_from( node( i2 + o ) );
         Node &no = node( o );
 
-        if ( store_the_normals ) { no.dir_x = cut.dir.x; no.dir_y = cut.dir.y; }
+        if ( store_the_normals ) { no.dir_x = cut_dx; no.dir_y = cut_dy; }
         no.x = n0.x - m1 * ( n1.x - n0.x );
         no.y = n0.y - m1 * ( n1.y - n0.y );
-        no.cut_id.set( cut.id );
+        no.cut_id.set( cut_id );
 
         size -= nb_outside - 2;
 
@@ -570,10 +579,10 @@ void ConvexPolyhedron2<Pc>::plane_cut_gen( const Cut &cut, N<flags>, BS &outside
     TF m2 = s3 / ( s2 - s3 );
 
     // modified and deleted points
-    if ( store_the_normals ) { n1.dir_x = cut.dir.x; n1.dir_y = cut.dir.y; }
+    if ( store_the_normals ) { n1.dir_x = cut_dx; n1.dir_y = cut_dy; }
     n1.x = n0.x - m1 * ( n1.x - n0.x );
     n1.y = n0.y - m1 * ( n1.y - n0.y );
-    n1.cut_id.set( cut.id );
+    n1.cut_id.set( cut_id );
 
     if ( store_the_normals ) { nn.dir_x = n2.dir_x; nn.dir_y = n2.dir_y; }
     nn.x = n3.x - m2 * ( n2.x - n3.x );
@@ -589,41 +598,41 @@ void ConvexPolyhedron2<Pc>::plane_cut_gen( const Cut &cut, N<flags>, BS &outside
 }
 
 template<class Pc> template<int flags>
-void ConvexPolyhedron2<Pc>::plane_cut_gen( const Cut &cut, N<flags> ) {
+void ConvexPolyhedron2<Pc>::plane_cut_gen( TF cut_dx, TF cut_dy, TF cut_ps, CI cut_id, N<flags> ) {
     if ( size <= 64 ) {
         std::bitset<64> outside;
         std::array<TF,64> distances;
-        return plane_cut_gen( cut, N<flags>(), outside, distances );
+        return plane_cut_gen( cut_dx, cut_dy, cut_ps, cut_id, N<flags>(), outside, distances );
     }
 
     std::vector<TF> distances( size );
     std::vector<bool> outside( size );
-    return plane_cut_gen( cut, N<flags>(), outside, distances );
+    return plane_cut_gen( cut_dx, cut_dy, cut_ps, cut_id, N<flags>(), outside, distances );
 }
 
 template<class Pc> template<int flags>
-void ConvexPolyhedron2<Pc>::plane_cut( const Cut *cuts, std::size_t nb_cuts, N<flags> ) {
+void ConvexPolyhedron2<Pc>::plane_cut( const TF *cut_dx, const TF *cut_dy, const TF *cut_ps, const CI *cut_id, std::size_t nb_cuts, N<flags> ) {
     // no simd ?
     if ( flags & ConvexPolyhedron::do_not_use_simd ) {
         for( std::size_t i = 0; i < nb_cuts; ++i )
-            plane_cut_gen( cuts[ i ], N<flags>() );
+            plane_cut_gen( cut_dx[ i ], cut_dy[ i ], cut_ps[ i ], cut_id[ i ], N<flags>() );
         return;
     }
 
     // no switch version ?
     if ( flags & ConvexPolyhedron::do_not_use_switch ) {
         for( std::size_t i = 0; i < nb_cuts; ++i )
-            plane_cut_simd_tzcnt( cuts[ i ], N<flags>(), S<TF>(), S<CI>() );
+            plane_cut_simd_tzcnt( cut_dx[ i ], cut_dy[ i ], cut_ps[ i ], cut_id[ i ], N<flags>(), S<TF>(), S<CI>() );
         return;
     }
 
     // => default version
-    plane_cut_simd_switch( cuts, nb_cuts, N<flags>(), S<TF>(), S<CI>() );
+    plane_cut_simd_switch( cut_dx, cut_dy, cut_ps, cut_id, nb_cuts, N<flags>(), S<TF>(), S<CI>() );
 }
 
 template<class Pc>
-void ConvexPolyhedron2<Pc>::plane_cut( const Cut *cuts, std::size_t nb_cuts ) {
-    return plane_cut( cuts, nb_cuts, N<0>() );
+void ConvexPolyhedron2<Pc>::plane_cut( const TF *cut_dx, const TF *cut_dy, const TF *cut_ps, const CI *cut_id, std::size_t nb_cuts ) {
+    return plane_cut( cut_dx, cut_dy, cut_ps, cut_id, nb_cuts, N<0>() );
 }
 
 template<class Pc>
@@ -662,7 +671,7 @@ typename ConvexPolyhedron2<Pc>::TF ConvexPolyhedron2<Pc>::integral() const {
     // triangles
     TF res = 0;
     Pt A = node( 0 ).pos();
-    for( size_t i = 2; i < nb_nodes(); ++i ) {
+    for( std::size_t i = 2; i < nb_nodes(); ++i ) {
         Pt B = node( i - 1 ).pos();
         Pt C = node( i - 0 ).pos();
         TF tr2_area = A.x * ( B.y - C.y ) + B.x * ( C.y - A.y ) + C.x * ( A.y - B.y );

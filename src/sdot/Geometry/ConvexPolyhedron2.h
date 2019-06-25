@@ -30,7 +30,7 @@ namespace sdot {
     TI cut_id      [ bs ]
 */
 template<class Pc>
-class ConvexPolyhedron2 {
+class ConvexPolyhedron2 : public ConvexPolyhedron {
 public:
     using                                TF                        = typename Pc::TF; ///< floating point type
     using                                TI                        = typename Pc::TI; ///< index type
@@ -42,7 +42,6 @@ public:
     static constexpr TI                  block_size                = 64;
     using                                Node                      = ConvexPolyhedron2NodeBlock<TF,TI,block_size,store_the_normals,allow_ball_cut>;
     struct                               Edge                      { Node *nodes[ 2 ]; }; ///< tmp structure
-    struct                               Cut                       { Pt dir; TF dist; CI id; void write_to_stream( std::ostream &os ) const { os << dir << " " << dist; } };
 
     // types for the ctor
     struct                               Box                       { Pt p0, p1; };
@@ -58,8 +57,8 @@ public:
     template<class F> void               for_each_edge             ( const F &f ) const;
     template<class F> void               for_each_node             ( const F &f ) const;
     TI                                   nb_nodes                  () const;
-    bool                                 empty                     () const;
     void                                 display                   ( VtkOutput &vo, const std::vector<TF> &cell_values = {}, Pt offset = TF( 0 ) ) const;
+    bool                                 empty                     () const;
     const Node&                          node                      ( TI index ) const;
     Node&                                node                      ( TI index );
 
@@ -67,9 +66,8 @@ public:
     void                                 resize                    ( TI new_nb_nodes );
 
     // geometric modifications
-    template<int flags>                  __attribute__             ((noinline))
-    void                                 plane_cut                 ( const Cut *cuts, std::size_t nb_cuts, N<flags> ); ///< return true if effective cut
-    void                                 plane_cut                 ( const Cut *cuts, std::size_t nb_cuts ); ///< return true if effective cut
+    template<int flags>  void            plane_cut                 ( const TF *cut_dx, const TF *cut_dy, const TF *cut_ps, const CI *cut_id, std::size_t nb_cuts, N<flags> ); ///< return true if effective cut
+    void                                 plane_cut                 ( const TF *cut_dx, const TF *cut_dy, const TF *cut_ps, const CI *cut_id, std::size_t nb_cuts ); ///< return true if effective cut
     void                                 ball_cut                  ( Pt center, TF radius, CI cut_id = {} ); ///< beware: only one sphere cut is authorized, and it must be done after all the plane cuts.
 
     //
@@ -80,12 +78,12 @@ public:
     CI                                   sphere_id;
 
 private:
-    template<int f> void                 plane_cut_simd_switch     ( const Cut *cuts, std::size_t nb_cuts, N<f>, S<double>, S<std::uint64_t> );
-    template<int f,class T,class U> void plane_cut_simd_switch     ( const Cut *cuts, std::size_t nb_cuts, N<f>, S<T>, S<U> );
-    template<int f> void                 plane_cut_simd_tzcnt      ( const Cut &cut, N<f>, S<double>, S<std::uint64_t> );
-    template<int f,class T,class U> void plane_cut_simd_tzcnt      ( const Cut &cut, N<f>, S<T>, S<U> );
-    template<int f> void                 plane_cut_gen             ( const Cut &cut, N<f> );
-    template<int f,class B,class D> void plane_cut_gen             ( const Cut &cut, N<f>, B &outside, D &distances );
+    template<int f> void                 plane_cut_simd_switch     ( const TF *cut_dx, const TF *cut_dy, const TF *cut_ps, const CI *cut_id, std::size_t nb_cuts, N<f>, S<double>, S<std::uint64_t> );
+    template<int f,class T,class U> void plane_cut_simd_switch     ( const TF *cut_dx, const TF *cut_dy, const TF *cut_ps, const CI *cut_id, std::size_t nb_cuts, N<f>, S<T>, S<U> );
+    template<int f> void                 plane_cut_simd_tzcnt      ( TF cut_dx, TF cut_dy, TF cut_ps, CI cut_id, N<f>, S<double>, S<std::uint64_t> );
+    template<int f,class T,class U> void plane_cut_simd_tzcnt      ( TF cut_dx, TF cut_dy, TF cut_ps, CI cut_id, N<f>, S<T>, S<U> );
+    template<int f> void                 plane_cut_gen             ( TF cut_dx, TF cut_dy, TF cut_ps, CI cut_id, N<f> );
+    template<int f,class B,class D> void plane_cut_gen             ( TF cut_dx, TF cut_dy, TF cut_ps, CI cut_id, N<f>, B &outside, D &distances );
 
     Node*                                nodes;                    ///< aligned data. @see ConvexPolyhedron2
     TI                                   size;                     ///< nb nodes

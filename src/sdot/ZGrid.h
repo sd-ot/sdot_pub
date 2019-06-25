@@ -20,15 +20,16 @@ public:
     using                        CI                     = typename CP::CI; ///< cut info
     using                        Pt                     = typename CP::Pt; ///< cut info
 
+    enum {                       homogeneous_weights    = 1 };
+    enum {                       ball_cut               = 2 };
+
     /* ctor */                   ZGrid                  ( std::size_t max_diracs_per_cell = 11 );
 
-    void                         update                 ( const Pt *positions, const TF *weights, std::size_t nb_diracs, bool positions_have_changed = true, bool weights_have_changed = true, bool ball_cut = false );
-    template<int bc> void        update                 ( const Pt *positions, const TF *weights, std::size_t nb_diracs, bool positions_have_changed, bool weights_have_changed, N<bc> ball_cut );
+    template<int flags> void     update                 ( const Pt *positions, const TF *weights, std::size_t nb_diracs, N<flags>, bool positions_have_changed = true, bool weights_have_changed = true );
 
-    int                          for_each_laguerre_cell ( const std::function<void( CP &lc, TI num, int num_thread )> &f, const CP &starting_lc, const Pt *positions, const TF *weights, TI nb_diracs, bool stop_if_void_lc = false, bool ball_cut = false ); ///< version with num_thread
-    template<int bc> int         for_each_laguerre_cell ( const std::function<void( CP &lc, TI num, int num_thread )> &f, const CP &starting_lc, const Pt *positions, const TF *weights, TI nb_diracs, bool stop_if_void_lc, N<bc> ball_cut ); ///< version with num_thread
+    template<int flags> int      for_each_laguerre_cell ( const std::function<void( CP &lc, TI num, int num_thread )> &f, const CP &starting_lc, const Pt *positions, const TF *weights, TI nb_diracs, N<flags>, bool stop_if_void_lc = false ); ///< version with num_thread
 
-    void                         display_tikz           ( std::ostream &os ) const;
+    void                         display_tikz           ( std::ostream &os, TF scale = 1.0 ) const;
     void                         display                ( VtkOutput &vtk_output ) const; ///< for debug purpose
 
     // values used by update
@@ -36,7 +37,7 @@ public:
     std::vector<Pt>              translations;
 
 private:
-    static constexpr int         nb_bits_per_axis       = 63 / dim;
+    static constexpr int         nb_bits_per_axis       = 20;
     static constexpr int         sizeof_zcoords         = ( dim * nb_bits_per_axis + 7 ) / 8; ///< nb meaningful bytes in z-coordinates
     using                        TZ                     = std::uint64_t; ///< zcoords
 
@@ -71,9 +72,10 @@ private:
     void                         update_the_limits      ( const Pt *positions, const TF *weights, std::size_t nb_diracs );
     void                         update_neighbors       ();
     void                         fill_the_grid          ( const Pt *positions, const TF *weights, std::size_t nb_diracs );
-    template<int bc> TF          min_w_to_cut           ( const CP &lc, Pt c0, TF w0, const Cell &cr_cell, const Pt *positions, const TF *weights, N<bc> );
+    template<int flags> TF       min_w_to_cut           ( const CP &lc, const Pt &c0, TF w0, const Cell &cr_cell, N<flags> );
     template<class C> TZ         zcoords_for            ( const C &pos ); ///< floating point position
     template<int d>   TZ         ng_zcoord              ( TZ zcoords, TZ off, N<d> ) const;
+    template<int flags> bool     may_cut                ( const CP &lc, const Pt &c0, TF w0, const Cell &cr_cell, N<flags> );
 
     // tmp
     using                        RsTmp                  = std::vector<std::array<std::size_t,256>>;

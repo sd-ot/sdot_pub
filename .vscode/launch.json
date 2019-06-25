@@ -8,7 +8,7 @@
             "name": "(gdb) Launch",
             "type": "cppdbg",
             "request": "launch",
-            "program": "/home/leclerc/.nsmake/build/test_ConvexPolyhedron2.exe",
+            "program": "/home/leclerc/.nsmake/build/bench_Zgrid.exe",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
