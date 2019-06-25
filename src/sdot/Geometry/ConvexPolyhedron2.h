@@ -58,6 +58,7 @@ public:
     template<class F> void               for_each_edge             ( const F &f ) const;
     template<class F> void               for_each_node             ( const F &f ) const;
     TI                                   nb_nodes                  () const;
+    bool                                 empty                     () const;
     void                                 display                   ( VtkOutput &vo, const std::vector<TF> &cell_values = {}, Pt offset = TF( 0 ) ) const;
     const Node&                          node                      ( TI index ) const;
     Node&                                node                      ( TI index );

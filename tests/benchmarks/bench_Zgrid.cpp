@@ -25,25 +25,46 @@ struct Pc {
 
 int main() {
     using Grid = ZGrid<Pc>;
+    using CP = Grid::CP;
     using Pt = Grid::Pt;
     using TF = Grid::TF;
 
     std::vector<Pt> positions;
     std::vector<TF> weights;
-    for( std::size_t i = 0; i < 1000; ++i ) {
+    for( std::size_t i = 0; i < 200; ++i ) {
         TF x = double( rand() ) / RAND_MAX;
         TF y = double( rand() ) / RAND_MAX;
-        positions.push_back( { 0.0 + 0.05 * x + 0.10 * y, y } );
-        positions.push_back( { 1.0 - 0.05 * x - 0.15 * y, y } );
+        positions.push_back( { x, y } );
         weights.push_back( 0.0 );
-        weights.push_back( 0.0 );
+        //        TF x = double( rand() ) / RAND_MAX;
+        //        TF y = double( rand() ) / RAND_MAX;
+        //        positions.push_back( { 0.0 + 0.05 * x + 0.10 * y, y } );
+        //        positions.push_back( { 1.0 - 0.05 * x - 0.35 * y, y } );
+        //        weights.push_back( 0.0 );
+        //        weights.push_back( 0.0 );
     }
 
-    Grid grid( 10 );
+    Grid grid( 3 );
     grid.update( positions.data(), weights.data(), weights.size() );
 
+    TF vol = 0;
+    std::mutex m;
+    CP b( CP::Box{ { 0, 0 }, { 1, 1 } } );
+    grid.for_each_laguerre_cell( [&]( CP &cp, std::size_t /*num*/, int /*num_thread*/ ) {
+        m.lock();
+        vol += cp.integral();
+        m.unlock();
+    }, b, positions.data(), weights.data(), weights.size() );
 
-    VtkOutput vo;
-    grid.display( vo );
-    vo.save( "vtk/grid.vtk" );
+    P( vol );
+
+    //    grid.display_tikz( std::cout );
+    //    for( std::size_t i = 0; i < positions.size(); ++i )
+    //        std::cout << "\\draw[blue] (" << positions[ i ].x << "," << positions[ i ].y << ") node {$\\times$};\n";
+
+    //    VtkOutput vo;
+    //    grid.display( vo );
+    //    vo.save( "vtk/grid.vtk" );
+
+
 }

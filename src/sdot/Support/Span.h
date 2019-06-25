@@ -7,6 +7,7 @@
 template<class T>
 class Span {
 public:
+    /*  */                     Span      ( const T *data, std::size_t beg, std::size_t end ) : _data( data + beg ), _size( end - beg ) { }
     /*  */                     Span      ( const T *begin, std::size_t size ) : _data( begin ), _size( size ) { }
     /*  */                     Span      ( const T *begin, const T *end ) : _data( begin ), _size( end - begin ) { }
 

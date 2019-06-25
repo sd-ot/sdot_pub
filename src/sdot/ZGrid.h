@@ -28,6 +28,7 @@ public:
     int                          for_each_laguerre_cell ( const std::function<void( CP &lc, TI num, int num_thread )> &f, const CP &starting_lc, const Pt *positions, const TF *weights, TI nb_diracs, bool stop_if_void_lc = false, bool ball_cut = false ); ///< version with num_thread
     template<int bc> int         for_each_laguerre_cell ( const std::function<void( CP &lc, TI num, int num_thread )> &f, const CP &starting_lc, const Pt *positions, const TF *weights, TI nb_diracs, bool stop_if_void_lc, N<bc> ball_cut ); ///< version with num_thread
 
+    void                         display_tikz           ( std::ostream &os ) const;
     void                         display                ( VtkOutput &vtk_output ) const; ///< for debug purpose
 
     // values used by update

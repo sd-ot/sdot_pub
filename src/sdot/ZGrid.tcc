@@ -175,152 +175,109 @@ void ZGrid<Pc>::update( const Pt *positions, const TF *weights, std::size_t nb_d
 ////    return false;
 ////}
 
-//template<class Pc>
-//int ZGrid<Pc>::for_each_laguerre_cell( const std::function<void( CP &, std::size_t num )> &cb, const CP &starting_lc, const Pt *positions, const TF *weights, std::size_t nb_diracs, bool stop_if_void_lc ) {
-//    return for_each_laguerre_cell( [&]( CP &cp, std::size_t num, int ) {
-//        cb( cp, num );
-//    }, starting_lc, positions, weights, nb_diracs, stop_if_void_lc );
-//}
+template<class Pc>
+int ZGrid<Pc>::for_each_laguerre_cell( const std::function<void( CP &, TI num, int num_thread )> &cb, const CP &starting_lc, const Pt *positions, const TF *weights, TI nb_diracs, bool stop_if_void_lc, bool ball_cut ) {
+    return ball_cut ?
+        for_each_laguerre_cell( cb, starting_lc, positions, weights, nb_diracs, stop_if_void_lc, N<1>() ) :
+        for_each_laguerre_cell( cb, starting_lc, positions, weights, nb_diracs, stop_if_void_lc, N<0>() ) ;
+}
 
-//template<class Pc>
-//int ZGrid<Pc>::for_each_laguerre_cell( const std::function<void( CP &, std::size_t num, int num_thread )> &cb, const CP &starting_lc, const Pt *positions, const TF *weights, std::size_t nb_diracs, bool stop_if_void_lc, bool ball_cut ) {
-//    return ball_cut ?
-//        for_each_laguerre_cell( cb, starting_lc, positions, weights, nb_diracs, stop_if_void_lc, N<1>() ) :
-//        for_each_laguerre_cell( cb, starting_lc, positions, weights, nb_diracs, stop_if_void_lc, N<0>() ) ;
-//}
+template<class Pc> template<int ball_cut>
+int ZGrid<Pc>::for_each_laguerre_cell( const std::function<void( CP &, TI num, int num_thread )> &cb, const CP &starting_lc, const Pt *positions, const TF *weights, TI /*nb_diracs*/, bool stop_if_void_lc, N<ball_cut> ) {
+    using Front = FrontZgrid<ZGrid>;
+    using std::sqrt;
 
-//template<class Pc> template<int ball_cut>
-//int ZGrid<Pc>::for_each_laguerre_cell( const std::function<void( CP &, std::size_t num, int num_thread )> &cb, const CP &starting_lc, const Pt *positions, const TF *weights, std::size_t nb_diracs, bool stop_if_void_lc, N<ball_cut> ) {
-//    using Front = FrontZgrid<ZGrid>;
-//    using std::sqrt;
+    auto cut = [&]( Pt c0, TF w0, TI i1 ) -> typename CP::Cut {
+        Pt V = positions[ i1 ] - c0;
+        TF n = norm_2_p2( V );
+        TF x = TF( 0.5 ) + TF( 0.5 ) * ( w0 - weights[ i1 ] ) / n;
+        return { V, dot( c0 + x * V, V ), i1 };
+    };
 
-//    //    struct Ratio {
-//    //        Ratio() : c( 0 ), t( 0 ) {
-//    //        }
-//    //        ~Ratio() {
-//    //            P( t, TF( c ) / TF( t ) );
-//    //        }
-//    //        void operator()( bool v ) {
-//    //            if ( v )
-//    //                ++c;
-//    //            ++t;
-//    //        }
-//    //        std::atomic<TI> c, t;
-//    //    };
-//    //    static Ratio ratio;
+    // vectors for stuff that will be reused inside the execution threads
+    int nb_threads = thread_pool.nb_threads(), nb_jobs = 4 * nb_threads;
+    std::vector<std::vector<TI>> visited( nb_threads );
+    std::vector<TI> op_counts( nb_threads, 0 );
 
-//    auto plane_cut = [&]( CP &lc, Pt c0, TF w0, TI i1 ) {
-//        Pt V = positions[ i1 ] - c0;
-//        TF n = norm_2_p2( V );
-//        TF x = TF( 0.5 ) + TF( 0.5 ) * ( w0 - weights[ i1 ] ) / n;
-//        //        TF i = TF( 1 ) / sqrt( n );
-//        lc.plane_cut( c0 + x * V, /*i * */V, i1, N<0>() );
-//        // ratio( cut );
-//    };
+    for( int num_thread = 0; num_thread < nb_threads; ++num_thread )
+        visited[ num_thread ].resize( grid.cells.size(), op_counts[ num_thread ] );
 
-//    // vectors for stuff that will be reused inside the execution threads
-//    int nb_threads = thread_pool.nb_threads(), nb_jobs = 4 * nb_threads;
-//    std::vector<std::vector<std::vector<TI>>> visited( nb_threads );
-//    std::vector<TI> op_counts( nb_threads, 0 );
+    // for each item
+    int err = 0;
+    thread_pool.execute( nb_jobs, [&]( std::size_t num_job, int num_thread ) {
+        Front front( op_counts[ num_thread ], visited[ num_thread ] );
+        typename CP::Cut cuts[ 32 ];
+        CP lc;
 
-//    for( int num_thread = 0; num_thread < nb_threads; ++num_thread ) {
-//        visited[ num_thread ].resize( grids.size() );
-//        for( std::size_t num_grid = 0; num_grid < grids.size(); ++num_grid )
-//            visited[ num_thread ][ num_grid ].resize( grids[ num_grid ].cells.size(), op_counts[ num_thread ] );
-//    }
+        TI beg_cell = ( num_job + 0 ) * ( grid.cells.size() - 1 ) / nb_jobs;
+        TI end_cell = ( num_job + 1 ) * ( grid.cells.size() - 1 ) / nb_jobs;
+        for( TI num_cell = beg_cell; num_cell < end_cell && err == 0; ++num_cell ) {
+            const Cell &cell = grid.cells[ num_cell + 0 ];
+            const Cell &dell = grid.cells[ num_cell + 1 ];
+            for( TI num_dirac : Span<TI>{ grid.dpc_values.data() + cell.dpc_offset, grid.dpc_values.data() + grid.cells[ num_cell + 1 ].dpc_offset } ) {
+                const Pt c0 = positions[ num_dirac ];
+                const TF w0 = weights[ num_dirac ];
 
-//    // for each item
-//    int err = 0;
-//    for( std::size_t num_grid = 0; num_grid < grids.size(); ++num_grid ) {
-//        Grid &grid = grids[ num_grid ];
+                // start of lc: cut with nodes in the same cell
+                lc = starting_lc;
 
-//        thread_pool.execute( nb_jobs, [&]( std::size_t num_job, int num_thread ) {
-//            Front front( op_counts[ num_thread ], visited[ num_thread ] );
-//            CP lc;
+                //
+                TI nb_cuts = 0;
+                for( TI num_cr_dirac : Span<TI>{ grid.dpc_values.data(), cell.dpc_offset, dell.dpc_offset } )
+                    if ( num_cr_dirac != num_dirac )
+                        cuts[ nb_cuts++ ] = cut( c0, w0, num_cr_dirac );
+                lc.plane_cut( cuts, nb_cuts );
 
-//            TI beg_cell = ( num_job + 0 ) * ( grid.cells.size() - 1 ) / nb_jobs;
-//            TI end_cell = ( num_job + 1 ) * ( grid.cells.size() - 1 ) / nb_jobs;
-//            for( TI num_cell = beg_cell; num_cell < end_cell && err == 0; ++num_cell ) {
-//                const Cell &cell = grid.cells[ num_cell ];
-//                for( TI num_dirac : Span<TI>{ grid.dpc_values.data() + cell.dpc_offset, grid.dpc_values.data() + grid.cells[ num_cell + 1 ].dpc_offset } ) {
-//                    const Pt c0 = positions[ num_dirac ];
-//                    const TF w0 = weights[ num_dirac ];
+                // front
+                front.init( num_cell, positions[ num_dirac ], weights[ num_dirac ] );
 
-//                    // start of lc: cut with nodes in the same cell
-//                    lc = starting_lc;
+                // => neighbors in the same grid
+                for( TI num_ng_cell : Span<TI>{ grid.ng_indices.data() + grid.ng_offsets[ num_cell + 0 ], grid.ng_indices.data() + grid.ng_offsets[ num_cell + 1 ] } )
+                    front.push_without_check( num_ng_cell, grid );
 
-//                    for( TI num_cr_dirac : Span<TI>{ grid.dpc_values.data() + cell.dpc_offset, grid.dpc_values.data() + grid.cells[ num_cell + 1 ].dpc_offset } )
-//                        if ( num_cr_dirac != num_dirac )
-//                            plane_cut( lc, c0, w0, num_cr_dirac );
+                // neighbors
+                while( ! front.empty() ) {
+                    typename Front::Item cr = front.pop();
+                    const Cell &cr_cell = grid.cells[ cr.num_cell ];
 
-//                    // front
-//                    front.init( grids, num_grid, num_cell, positions[ num_dirac ], weights[ num_dirac ] );
+                    //                    // if no cut is possible, we don't go further.
+                    //                    TF min_w = min_w_to_cut( lc, c0, w0, cr_cell, positions, weights, N<ball_cut>() );
+                    //                    if ( grid.max_weight <= min_w )
+                    //                        continue;
 
-//                    // => neighbors in the same grid
-//                    for( TI num_ng_cell : Span<TI>{ grid.ng_indices.data() + grid.ng_offsets[ num_cell + 0 ], grid.ng_indices.data() + grid.ng_offsets[ num_cell + 1 ] } )
-//                        front.push_without_check( num_grid, num_ng_cell, grids );
+                    // if we have diracs in cr that may cut, try them
+                    // if ( cr_cell.max_weight > min_w )
+                    TI nb_cuts = 0;
+                    for( TI num_cr_dirac : Span<TI>{ grid.dpc_values.data() + cr_cell.dpc_offset, grid.dpc_values.data() + grid.cells[ cr.num_cell + 1 ].dpc_offset } )
+                        //                        if ( weights[ num_cr_dirac ] > min_w )
+                        cuts[ nb_cuts++ ] = cut( c0, w0, num_cr_dirac );
+                    lc.plane_cut( cuts, nb_cuts );
 
-//                    // => items from the grids made for != weight (containing the dirac position)
-//                    for( std::size_t num_pa_grid = 0; num_pa_grid < grids.size(); ++num_pa_grid ) {
-//                        if ( num_pa_grid != num_grid ) {
-//                            const Grid &pa_grid = grids[ num_pa_grid ];
-//                            TI num_pa_cell = pa_grid.cell_index_vs_dirac_number[ num_dirac ];
+                    // update the front
+                    for( TI num_ng_cell : Span<TI>{ grid.ng_indices.data() + grid.ng_offsets[ cr.num_cell + 0 ], grid.ng_indices.data() + grid.ng_offsets[ cr.num_cell + 1 ] } )
+                        front.push( num_ng_cell, grid );
+                }
 
-//                            // cut with items in pa cell
-//                            front.set_visited( grids, num_pa_grid, num_pa_cell );
-//                            for( TI num_pa_dirac : Span<TI>{ pa_grid.dpc_values.data() + pa_grid.cells[ num_pa_cell + 0 ].dpc_offset, pa_grid.dpc_values.data() + pa_grid.cells[ num_pa_cell + 1 ].dpc_offset } )
-//                                plane_cut( lc, c0, w0, num_pa_dirac );
+                //
+                //                if ( ball_cut )
+                //                    lc.ball_cut( positions[ num_dirac ], sqrt( weights[ num_dirac ] ), num_dirac );
+                //                else
+                //                    lc.sphere_center = positions[ num_dirac ];
 
-//                            // add neighbors in the front
-//                            for( TI num_ng_cell : Span<TI>{ pa_grid.ng_indices.data() + pa_grid.ng_offsets[ num_pa_cell + 0 ], pa_grid.ng_indices.data() + pa_grid.ng_offsets[ num_pa_cell + 1 ] } )
-//                                front.push_without_check( num_pa_grid, num_ng_cell, grids );
-//                        }
-//                    }
+                //
+                if ( stop_if_void_lc && lc.empty() ) {
+                    err = 1;
+                    break;
+                }
 
-//                    // neighbors
-//                    while( ! front.empty() ) {
-//                        typename Front::Item cr = front.pop();
+                //
+                cb( lc, num_dirac, num_thread );
+            }
+        }
+    } );
 
-//                        const Grid &cr_grid = grids[ cr.num_grid ];
-//                        const Cell &cr_cell = cr_grid.cells[ cr.num_cell ];
-
-//                        // if no cut is possible, we don't go further.
-//                        TF min_w = min_w_to_cut( lc, c0, w0, cr_cell, positions, weights, N<ball_cut>() );
-//                        if ( cr_grid.max_weight <= min_w )
-//                            continue;
-
-//                        // if we have diracs in cr that may cut, try them
-//                        // if ( cr_cell.max_weight > min_w )
-//                        for( TI num_cr_dirac : Span<TI>{ cr_grid.dpc_values.data() + cr_cell.dpc_offset, cr_grid.dpc_values.data() + cr_grid.cells[ cr.num_cell + 1 ].dpc_offset } )
-//                            if ( weights[ num_cr_dirac ] > min_w )
-//                                plane_cut( lc, c0, w0, num_cr_dirac );
-
-//                        // update the front
-//                        for( TI num_ng_cell : Span<TI>{ cr_grid.ng_indices.data() + cr_grid.ng_offsets[ cr.num_cell + 0 ], cr_grid.ng_indices.data() + cr_grid.ng_offsets[ cr.num_cell + 1 ] } )
-//                            front.push( cr.num_grid, num_ng_cell, grids );
-//                    }
-
-//                    //
-//                    if ( ball_cut )
-//                        lc.ball_cut( positions[ num_dirac ], sqrt( weights[ num_dirac ] ), num_dirac );
-//                    else
-//                        lc.sphere_center = positions[ num_dirac ];
-
-//                    //
-//                    if ( stop_if_void_lc && lc.empty() ) {
-//                        err = 1;
-//                        break;
-//                    }
-
-//                    //
-//                    cb( lc, num_dirac, num_thread );
-//                }
-//            }
-//        } );
-//    }
-
-//    return err;
-//}
+    return err;
+}
 
 //template<class Pc>
 //bool ZGrid<Pc>::check_sanity( const Pt *positions ) const {
@@ -636,6 +593,32 @@ typename ZGrid<Pc>::TZ ZGrid<Pc>::zcoords_for( const C &pos ) {
     }
 
     return res;
+}
+
+template<class Pc>
+void ZGrid<Pc>::display_tikz( std::ostream &os ) const {
+    for( TI num_cell = 0; num_cell < grid.cells.size() - 1; ++num_cell ) {
+        Pt p;
+        for( int d = 0; d < dim; ++d )
+            p[ d ] = grid.cells[ num_cell ].pos[ d ];
+
+        TF a = 0, b = grid.cells[ num_cell ].size;
+        switch ( dim ) {
+        case 2:
+            os << "\\draw ";
+            os << "(" << p[ 0 ] + a << "," << p[ 1 ] + a << ") -- ";
+            os << "(" << p[ 0 ] + b << "," << p[ 1 ] + a << ") -- ";
+            os << "(" << p[ 0 ] + b << "," << p[ 1 ] + b << ") -- ";
+            os << "(" << p[ 0 ] + a << "," << p[ 1 ] + b << ") -- ";
+            os << "(" << p[ 0 ] + a << "," << p[ 1 ] + a << ") ;\n";
+            break;
+        case 3:
+            TODO;
+            break;
+        default:
+            TODO;
+        }
+    }
 }
 
 template<class Pc>

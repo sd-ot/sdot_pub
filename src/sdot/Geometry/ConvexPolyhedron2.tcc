@@ -163,6 +163,11 @@ typename ConvexPolyhedron2<Pc>::TI ConvexPolyhedron2<Pc>::nb_nodes() const {
 }
 
 template<class Pc>
+bool ConvexPolyhedron2<Pc>::empty() const {
+    return size == 0;
+}
+
+template<class Pc>
 const typename ConvexPolyhedron2<Pc>::Node &ConvexPolyhedron2<Pc>::node( TI index ) const {
     return nodes->global_at( index );
 }
