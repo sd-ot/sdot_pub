@@ -12,7 +12,7 @@ using namespace sdot;
 // // nsmake cpp_flag -march=skylake
 
 //// nsmake cpp_flag -march=native
-// // nsmake cpp_flag -O2
+//// nsmake cpp_flag -O2
 
 struct Pc {
     enum { store_the_normals = false };
@@ -25,18 +25,18 @@ struct Pc {
 };
 
 template<class Pt,class TF>
-void test_vol( const std::vector<Pt> &positions, const std::vector<TF> &weights ) {
+void test_vol( const std::vector<TF> &positions_x, const std::vector<TF> &positions_y, const std::vector<TF> &weights ) {
     using Grid = ZGrid<Pc>;
     using CP = Grid::CP;
 
     Grid grid( 10 );
-    grid.update( positions.data(), weights.data(), weights.size(), N<Grid::homogeneous_weights>() );
+    grid.update( { positions_x.data(), positions_y.data() }, weights.data(), weights.size(), N<Grid::homogeneous_weights>() );
 
     CP b( CP::Box{ { 0, 0 }, { 1, 1 } } );
     std::vector<TF> vols( thread_pool.nb_threads(), 0 );
     grid.for_each_laguerre_cell( [&]( CP &cp, std::size_t /*num*/, int num_thread ) {
         vols[ num_thread ] += cp.integral();
-    }, b, positions.data(), weights.data(), weights.size(), N<Grid::homogeneous_weights>() );
+    }, b, { positions_x.data(), positions_y.data() }, weights.data(), weights.size(), N<Grid::homogeneous_weights>() );
 
     TF vol = 0;
     for( TF v : vols )
@@ -50,14 +50,16 @@ int main() {
     using Pt = Grid::Pt;
     using TF = Grid::TF;
 
-    thread_pool.init( 1 );
+    // thread_pool.init( 1 );
 
-    std::vector<Pt> positions;
+    std::vector<TF> positions_x;
+    std::vector<TF> positions_y;
     std::vector<TF> weights;
     for( std::size_t i = 0; i < 10000000; ++i ) {
         TF x = double( rand() ) / RAND_MAX;
         TF y = double( rand() ) / RAND_MAX;
-        positions.push_back( { x, y } );
+        positions_x.push_back( x );
+        positions_y.push_back( y );
         weights.push_back( 0.0 );
         //        TF x = double( rand() ) / RAND_MAX;
         //        TF y = double( rand() ) / RAND_MAX;
@@ -68,11 +70,11 @@ int main() {
     }
 
     // check if computation is correct
-    test_vol( positions, weights );
+    test_vol( positions_x, positions_y, weights );
 
     // get timings
     double best_dt_sum = 1e6, smurf = 0;
-    for( std::size_t nb_diracs_per_cell = 20; nb_diracs_per_cell < 40; nb_diracs_per_cell += 1 ) {
+    for( std::size_t nb_diracs_per_cell = 20; nb_diracs_per_cell < 26; nb_diracs_per_cell += 1 ) {
         std::uint64_t t0_grid = 0, t1_grid = 0;
         RDTSC_START( t0_grid );
         Grid grid( nb_diracs_per_cell );

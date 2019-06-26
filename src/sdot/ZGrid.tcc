@@ -15,7 +15,7 @@ ZGrid<Pc>::ZGrid( std::size_t max_diracs_per_cell ) : max_diracs_per_cell( max_d
 }
 
 template<class Pc> template<int flags>
-void ZGrid<Pc>::update( const Pt *positions, const TF *weights, std::size_t nb_diracs, N<flags>, bool positions_have_changed, bool weights_have_changed ) {
+void ZGrid<Pc>::update( std::array<const TF *,dim> positions, const TF *weights, std::size_t nb_diracs, N<flags>, bool positions_have_changed, bool weights_have_changed ) {
     if ( positions_have_changed || weights_have_changed ) {
         update_the_limits( positions, weights, nb_diracs );
         fill_the_grid    ( positions, weights, nb_diracs );
@@ -129,7 +129,7 @@ bool ZGrid<Pc>::may_cut( const CP &lc, const Pt &c0, TF w0, const Cell &cr_cell,
 }
 
 template<class Pc> template<int flags>
-int ZGrid<Pc>::for_each_laguerre_cell( const std::function<void( CP &, TI num, int num_thread )> &cb, const CP &starting_lc, const Pt *positions, const TF *weights, TI /*nb_diracs*/, N<flags>, bool stop_if_void_lc ) {
+int ZGrid<Pc>::for_each_laguerre_cell( const std::function<void( CP &, TI num, int num_thread )> &cb, const CP &starting_lc, std::array<const TF *,dim> positions, const TF *weights, TI /*nb_diracs*/, N<flags>, bool stop_if_void_lc ) {
     using Front = FrontZgrid<ZGrid>;
     using std::sqrt;
 
@@ -160,13 +160,18 @@ int ZGrid<Pc>::for_each_laguerre_cell( const std::function<void( CP &, TI num, i
                 lc = starting_lc;
 
                 //
-                alignas(32) TF cut_dx[ 128 ];
-                alignas(32) TF cut_dy[ 128 ];
-                alignas(32) TF cut_ps[ 128 ];
-                alignas(32) CI cut_id[ 128 ];
+                struct alignas(64) Cut {
+                    TF dx[ 128 ];
+                    TF dy[ 128 ];
+                    TF ps[ 128 ];
+                    CI id[ 128 ];
+                };
+                Cut cut;
+
                 #ifdef __AVX512F__
-                TI nb_cuts = dell.dpc_offset - cell.dpc_offset, n = 0;
-                for( TI n = 0; n + 8 <= nb_cuts; n += 8 ) {
+                TI nb_cuts = dell.dpc_offset - cell.dpc_offset;
+                TI n = 0;
+                for( ; n + 8 <= nb_cuts; n += 8 ) {
                     const void *x = &positions[ 0 ].x;
                     const void *y = &positions[ 0 ].y;
                     __m512i i1 = _mm512_loadu_si512( grid.dpc_values.data() + cell.dpc_offset + n );
@@ -177,41 +182,49 @@ int ZGrid<Pc>::for_each_laguerre_cell( const std::function<void( CP &, TI num, i
                     __m512d vy = _mm512_sub_pd( _mm512_i64gather_pd( m1, y, 1 ), cy );
                     __m512d v2 = _mm512_add_pd( _mm512_mul_pd( vx, vx ), _mm512_mul_pd( vy, vy ) );
                     __m512d ps = _mm512_add_pd( _mm512_add_pd( _mm512_mul_pd( cx, vx ), _mm512_mul_pd( cy, vy ) ),
-                                 _mm512_set1_pd( 0.5 ) * ( flags & homogeneous_weights ? v2 : _mm512_add_pd( v2, _mm512_set1_pd( w0 ) ) - _mm512_i64gather_pd( i1, weights, 8 ) ) );
-                    _mm512_store_pd( cut_dx + n, vx );
-                    _mm512_store_pd( cut_dy + n, vy );
-                    _mm512_store_pd( cut_ps + n, ps );
-                    _mm512_store_epi64( cut_id + n, i1 );
+                                                _mm512_set1_pd( 0.5 ) * ( flags & homogeneous_weights ? v2 : _mm512_add_pd( v2, _mm512_set1_pd( w0 ) ) - _mm512_i64gather_pd( i1, weights, 8 ) ) );
+                    _mm512_store_pd( cut.dx + n, vx );
+                    _mm512_store_pd( cut.dy + n, vy );
+                    _mm512_store_pd( cut.ps + n, ps );
+                    _mm512_store_epi64( cut.id + n, i1 );
                 }
                 for( ; n < nb_cuts; ++n ) {
                     TI i1 = grid.dpc_values[ cell.dpc_offset + n ];
                     Pt V = positions[ i1 ] - c0;
-                    cut_dx[ n ] = V.x;
-                    cut_dy[ n ] = V.y;
-                    cut_id[ n ] = i1;
-                    cut_ps[ n ] = dot( c0, V ) + TF( 0.5 ) * ( flags & homogeneous_weights ? norm_2_p2( V ) : norm_2_p2( V ) + w0 - weights[ i1 ] );
+                    cut.dx[ n ] = V.x;
+                    cut.dy[ n ] = V.y;
+                    cut.id[ n ] = i1;
+                    cut.ps[ n ] = dot( c0, V ) + TF( 0.5 ) * ( flags & homogeneous_weights ? norm_2_p2( V ) : norm_2_p2( V ) + w0 - weights[ i1 ] );
                 }
+
                 --nb_cuts;
-                cut_dx[ i0 ] = cut_dx[ nb_cuts ];
-                cut_dy[ i0 ] = cut_dy[ nb_cuts ];
-                cut_id[ i0 ] = cut_id[ nb_cuts ];
-                cut_ps[ i0 ] = cut_ps[ nb_cuts ];
+                for( TI n = 0; n < nb_cuts; ++n ) {
+                    if ( grid.dpc_values[ cell.dpc_offset + n ] == i0 ) {
+                        cut.dx[ n ] = cut.dx[ nb_cuts ];
+                        cut.dy[ n ] = cut.dy[ nb_cuts ];
+                        cut.id[ n ] = cut.id[ nb_cuts ];
+                        cut.ps[ n ] = cut.ps[ nb_cuts ];
+                        break;
+                    }
+                }
+
                 #else
                 TI nb_cuts = 0;
                 for( TI i1 : Span<TI>{ grid.dpc_values.data(), cell.dpc_offset, dell.dpc_offset } ) {
                     if ( i1 != i0 ) {
                         Pt V = positions[ i1 ] - c0;
-                        cut_dx[ nb_cuts ] = V.x;
-                        cut_dy[ nb_cuts ] = V.y;
-                        cut_id[ nb_cuts ] = i1;
-                        cut_ps[ nb_cuts ] = dot( c0, V ) + TF( 0.5 ) * ( flags & homogeneous_weights ? norm_2_p2( V ) : norm_2_p2( V ) + w0 - weights[ i1 ] );
+                        cut.dx[ nb_cuts ] = V.x;
+                        cut.dy[ nb_cuts ] = V.y;
+                        cut.id[ nb_cuts ] = i1;
+                        cut.ps[ nb_cuts ] = dot( c0, V ) + TF( 0.5 ) * ( flags & homogeneous_weights ? norm_2_p2( V ) : norm_2_p2( V ) + w0 - weights[ i1 ] );
                         ++nb_cuts;
                     }
                 }
+
                 #endif
 
                 // do the cuts
-                lc.plane_cut( cut_dx, cut_dy, cut_ps, cut_id, nb_cuts );
+                lc.plane_cut( cut.dx, cut.dy, cut.ps, cut.id, nb_cuts );
 
                 // front
                 front.init( num_cell, positions[ i0 ], weights[ i0 ] );
@@ -230,23 +243,48 @@ int ZGrid<Pc>::for_each_laguerre_cell( const std::function<void( CP &, TI num, i
                         continue;
 
                     // if we have diracs in cr that may cut, try them
-                    //                    TI nb_cuts = 0;
-                    //                    typename CP::Cut cuts[ 128 ];
-                    //                    for( TI num_cr_dirac : Span<TI>{ grid.dpc_values.data(), cr_cell.dpc_offset, grid.cells[ cr.num_cell + 1 ].dpc_offset } )
-                    //                        cuts[ nb_cuts++ ] = cut( c0, w0, num_cr_dirac );
-                    //                    lc.plane_cut( cuts, nb_cuts );
-                    TI nb_cuts = 0;
                     const Cell &dr_cell = grid.cells[ cr.num_cell + 1 ];
+                    #ifdef __AVX512F__
+                    TI nb_cuts = dr_cell.dpc_offset - cr_cell.dpc_offset;
+                    TI n = 0;
+                    for( ; n + 8 <= nb_cuts; n += 8 ) {
+                        const void *x = &positions[ 0 ].x;
+                        const void *y = &positions[ 0 ].y;
+                        __m512i i1 = _mm512_loadu_si512( grid.dpc_values.data() + cr_cell.dpc_offset + n );
+                        __m512i m1 = _mm512_mullo_epi64( i1, _mm512_set1_epi64( 16 ) );
+                        __m512d cx = _mm512_set1_pd( c0.x );
+                        __m512d cy = _mm512_set1_pd( c0.y );
+                        __m512d vx = _mm512_sub_pd( _mm512_i64gather_pd( m1, x, 1 ), cx );
+                        __m512d vy = _mm512_sub_pd( _mm512_i64gather_pd( m1, y, 1 ), cy );
+                        __m512d v2 = _mm512_add_pd( _mm512_mul_pd( vx, vx ), _mm512_mul_pd( vy, vy ) );
+                        __m512d ps = _mm512_add_pd( _mm512_add_pd( _mm512_mul_pd( cx, vx ), _mm512_mul_pd( cy, vy ) ),
+                                    _mm512_set1_pd( 0.5 ) * ( flags & homogeneous_weights ? v2 : _mm512_add_pd( v2, _mm512_set1_pd( w0 ) ) - _mm512_i64gather_pd( i1, weights, 8 ) ) );
+                        _mm512_store_pd( cut.dx + n, vx );
+                        _mm512_store_pd( cut.dy + n, vy );
+                        _mm512_store_pd( cut.ps + n, ps );
+                        _mm512_store_epi64( cut.id + n, i1 );
+                    }
+                    for( ; n < nb_cuts; ++n ) {
+                        TI i1 = grid.dpc_values[ cr_cell.dpc_offset + n ];
+                        Pt V = positions[ i1 ] - c0;
+                        cut.dx[ n ] = V.x;
+                        cut.dy[ n ] = V.y;
+                        cut.id[ n ] = i1;
+                        cut.ps[ n ] = dot( c0, V ) + TF( 0.5 ) * ( flags & homogeneous_weights ? norm_2_p2( V ) : norm_2_p2( V ) + w0 - weights[ i1 ] );
+                    }
+                    #else
+                    TI nb_cuts = 0;
                     for( TI i1 : Span<TI>{ grid.dpc_values.data(), cr_cell.dpc_offset, dr_cell.dpc_offset } ) {
                         Pt V = positions[ i1 ] - c0;
-                        cut_dx[ nb_cuts ] = V.x;
-                        cut_dy[ nb_cuts ] = V.y;
-                        cut_id[ nb_cuts ] = i1;
-                        cut_ps[ nb_cuts ] = dot( c0, V ) + TF( 0.5 ) * ( flags & homogeneous_weights ? norm_2_p2( V ) : norm_2_p2( V ) + w0 - weights[ i1 ] );
+                        cut.dx[ nb_cuts ] = V.x;
+                        cut.dy[ nb_cuts ] = V.y;
+                        cut.id[ nb_cuts ] = i1;
+                        cut.ps[ nb_cuts ] = dot( c0, V ) + TF( 0.5 ) * ( flags & homogeneous_weights ? norm_2_p2( V ) : norm_2_p2( V ) + w0 - weights[ i1 ] );
                         ++nb_cuts;
                     }
+                    #endif
 
-                    lc.plane_cut( cut_dx, cut_dy, cut_ps, cut_id, nb_cuts );
+                    lc.plane_cut( cut.dx, cut.dy, cut.ps, cut.id, nb_cuts );
 
                     // update the front
                     for( TI num_ng_cell : Span<TI>{ grid.ng_indices.data(), grid.ng_offsets[ cr.num_cell + 0 ], grid.ng_offsets[ cr.num_cell + 1 ] } )
@@ -275,7 +313,7 @@ int ZGrid<Pc>::for_each_laguerre_cell( const std::function<void( CP &, TI num, i
 }
 
 template<class Pc>
-void ZGrid<Pc>::update_the_limits( const Pt *positions, const TF *weights, std::size_t nb_diracs ) {
+void ZGrid<Pc>::update_the_limits( std::array<const TF *,dim> positions, const TF *weights, std::size_t nb_diracs ) {
     using std::min;
     using std::max;
 
@@ -392,7 +430,7 @@ void ZGrid<Pc>::update_neighbors() {
 }
 
 template<class Pc>
-void ZGrid<Pc>::fill_grid_using_zcoords( const Pt *positions, const TF */*weights*/, std::size_t nb_diracs ) {
+void ZGrid<Pc>::fill_grid_using_zcoords( std::array<const TF *,dim> positions, const TF */*weights*/, std::size_t nb_diracs ) {
     using std::round;
     using std::ceil;
     using std::pow;

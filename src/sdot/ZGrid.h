@@ -18,16 +18,16 @@ public:
     using                        TF                     = typename CP::TF; ///< floating point type
     using                        TI                     = typename CP::TI; ///< index type
     using                        CI                     = typename CP::CI; ///< cut info
-    using                        Pt                     = typename CP::Pt; ///< cut info
+    using                        Pt                     = typename CP::Pt; ///< point type
 
     enum {                       homogeneous_weights    = 1 };
     enum {                       ball_cut               = 2 };
 
     /* ctor */                   ZGrid                  ( std::size_t max_diracs_per_cell = 11 );
 
-    template<int flags> void     update                 ( const Pt *positions, const TF *weights, std::size_t nb_diracs, N<flags>, bool positions_have_changed = true, bool weights_have_changed = true );
+    template<int flags> void     update                 ( std::array<const TF *,dim> positions, const TF *weights, std::size_t nb_diracs, N<flags>, bool positions_have_changed = true, bool weights_have_changed = true );
 
-    template<int flags> int      for_each_laguerre_cell ( const std::function<void( CP &lc, TI num, int num_thread )> &f, const CP &starting_lc, const Pt *positions, const TF *weights, TI nb_diracs, N<flags>, bool stop_if_void_lc = false ); ///< version with num_thread
+    template<int flags> int      for_each_laguerre_cell ( const std::function<void( CP &lc, TI num, int num_thread )> &f, const CP &starting_lc, std::array<const TF *,dim> positions, const TF *weights, TI nb_diracs, N<flags>, bool stop_if_void_lc = false ); ///< version with num_thread
 
     void                         display_tikz           ( std::ostream &os, TF scale = 1.0 ) const;
     void                         display                ( VtkOutput &vtk_output ) const; ///< for debug purpose
@@ -66,12 +66,11 @@ private:
         TI                       index;
     };
 
-    void                         fill_grid_using_zcoords( const Pt *positions, const TF *weights, std::size_t nb_diracs );
+    void                         fill_grid_using_zcoords( std::array<const TF *,dim> positions, const TF *weights, std::size_t nb_diracs );
     void                         repl_zcoords_by_ccoords( const TF *weights );
-    void                         find_englobing_cousins ( const Pt *positions ); ///< find englobing cells for each dirac (and for each grid). Must be done after repl_zcoords_by_ccoords
-    void                         update_the_limits      ( const Pt *positions, const TF *weights, std::size_t nb_diracs );
+    void                         update_the_limits      ( std::array<const TF *,dim> positions, const TF *weights, std::size_t nb_diracs );
     void                         update_neighbors       ();
-    void                         fill_the_grid          ( const Pt *positions, const TF *weights, std::size_t nb_diracs );
+    void                         fill_the_grid          ( std::array<const TF *,dim> positions, const TF *weights, std::size_t nb_diracs );
     template<int flags> TF       min_w_to_cut           ( const CP &lc, const Pt &c0, TF w0, const Cell &cr_cell, N<flags> );
     template<class C> TZ         zcoords_for            ( const C &pos ); ///< floating point position
     template<int d>   TZ         ng_zcoord              ( TZ zcoords, TZ off, N<d> ) const;
