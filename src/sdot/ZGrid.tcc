@@ -4,6 +4,7 @@
 #include "Support/RadixSort.h"
 #include "Support/Stat.h"
 #include "Support/Span.h"
+#include "Support/Time.h"
 #include "ZGrid.h"
 #include <cmath>
 #include <set>
@@ -15,7 +16,7 @@ ZGrid<Pc>::ZGrid( std::size_t max_diracs_per_cell ) : max_diracs_per_cell( max_d
 }
 
 template<class Pc> template<int flags>
-void ZGrid<Pc>::update( std::array<const TF *,dim> positions, const TF *weights, std::size_t nb_diracs, N<flags>, bool positions_have_changed, bool weights_have_changed ) {
+void ZGrid<Pc>::update( std::array<const TF *,dim> positions, const TF *weights, TI nb_diracs, N<flags>, bool positions_have_changed, bool weights_have_changed ) {
     if ( positions_have_changed || weights_have_changed ) {
         update_the_limits( positions, weights, nb_diracs );
         fill_the_grid    ( positions, weights, nb_diracs );
@@ -153,7 +154,7 @@ int ZGrid<Pc>::for_each_laguerre_cell( const std::function<void( CP &, TI num, i
             const Cell &cell = grid.cells[ num_cell + 0 ];
             const Cell &dell = grid.cells[ num_cell + 1 ];
             for( TI i0 : Span<TI>{ grid.dpc_values.data(), cell.dpc_offset, dell.dpc_offset } ) {
-                const Pt c0 = positions[ i0 ];
+                const Pt c0 = pt( positions, i0 );
                 const TF w0 = weights[ i0 ];
 
                 // start of lc: cut with nodes in the same cell
@@ -172,14 +173,11 @@ int ZGrid<Pc>::for_each_laguerre_cell( const std::function<void( CP &, TI num, i
                 TI nb_cuts = dell.dpc_offset - cell.dpc_offset;
                 TI n = 0;
                 for( ; n + 8 <= nb_cuts; n += 8 ) {
-                    const void *x = &positions[ 0 ].x;
-                    const void *y = &positions[ 0 ].y;
-                    __m512i i1 = _mm512_loadu_si512( grid.dpc_values.data() + cell.dpc_offset + n );
-                    __m512i m1 = _mm512_mullo_epi64( i1, _mm512_set1_epi64( 16 ) );
                     __m512d cx = _mm512_set1_pd( c0.x );
                     __m512d cy = _mm512_set1_pd( c0.y );
-                    __m512d vx = _mm512_sub_pd( _mm512_i64gather_pd( m1, x, 1 ), cx );
-                    __m512d vy = _mm512_sub_pd( _mm512_i64gather_pd( m1, y, 1 ), cy );
+                    __m512i i1 = _mm512_loadu_si512( grid.dpc_values.data() + cell.dpc_offset + n );
+                    __m512d vx = _mm512_sub_pd( _mm512_i64gather_pd( i1, positions[ 0 ], 8 ), cx );
+                    __m512d vy = _mm512_sub_pd( _mm512_i64gather_pd( i1, positions[ 1 ], 8 ), cy );
                     __m512d v2 = _mm512_add_pd( _mm512_mul_pd( vx, vx ), _mm512_mul_pd( vy, vy ) );
                     __m512d ps = _mm512_add_pd( _mm512_add_pd( _mm512_mul_pd( cx, vx ), _mm512_mul_pd( cy, vy ) ),
                                                 _mm512_set1_pd( 0.5 ) * ( flags & homogeneous_weights ? v2 : _mm512_add_pd( v2, _mm512_set1_pd( w0 ) ) - _mm512_i64gather_pd( i1, weights, 8 ) ) );
@@ -190,7 +188,7 @@ int ZGrid<Pc>::for_each_laguerre_cell( const std::function<void( CP &, TI num, i
                 }
                 for( ; n < nb_cuts; ++n ) {
                     TI i1 = grid.dpc_values[ cell.dpc_offset + n ];
-                    Pt V = positions[ i1 ] - c0;
+                    Pt V = pt( positions, i1 ) - c0;
                     cut.dx[ n ] = V.x;
                     cut.dy[ n ] = V.y;
                     cut.id[ n ] = i1;
@@ -212,7 +210,7 @@ int ZGrid<Pc>::for_each_laguerre_cell( const std::function<void( CP &, TI num, i
                 TI nb_cuts = 0;
                 for( TI i1 : Span<TI>{ grid.dpc_values.data(), cell.dpc_offset, dell.dpc_offset } ) {
                     if ( i1 != i0 ) {
-                        Pt V = positions[ i1 ] - c0;
+                        Pt V = pt( positions, i1 ) - c0;
                         cut.dx[ nb_cuts ] = V.x;
                         cut.dy[ nb_cuts ] = V.y;
                         cut.id[ nb_cuts ] = i1;
@@ -220,14 +218,13 @@ int ZGrid<Pc>::for_each_laguerre_cell( const std::function<void( CP &, TI num, i
                         ++nb_cuts;
                     }
                 }
-
                 #endif
 
                 // do the cuts
                 lc.plane_cut( cut.dx, cut.dy, cut.ps, cut.id, nb_cuts );
 
                 // front
-                front.init( num_cell, positions[ i0 ], weights[ i0 ] );
+                front.init( num_cell, c0, w0 );
 
                 // => neighbors in the same grid
                 for( TI num_ng_cell : Span<TI>{ grid.ng_indices.data(), grid.ng_offsets[ num_cell + 0 ], grid.ng_offsets[ num_cell + 1 ] } )
@@ -248,14 +245,11 @@ int ZGrid<Pc>::for_each_laguerre_cell( const std::function<void( CP &, TI num, i
                     TI nb_cuts = dr_cell.dpc_offset - cr_cell.dpc_offset;
                     TI n = 0;
                     for( ; n + 8 <= nb_cuts; n += 8 ) {
-                        const void *x = &positions[ 0 ].x;
-                        const void *y = &positions[ 0 ].y;
-                        __m512i i1 = _mm512_loadu_si512( grid.dpc_values.data() + cr_cell.dpc_offset + n );
-                        __m512i m1 = _mm512_mullo_epi64( i1, _mm512_set1_epi64( 16 ) );
                         __m512d cx = _mm512_set1_pd( c0.x );
                         __m512d cy = _mm512_set1_pd( c0.y );
-                        __m512d vx = _mm512_sub_pd( _mm512_i64gather_pd( m1, x, 1 ), cx );
-                        __m512d vy = _mm512_sub_pd( _mm512_i64gather_pd( m1, y, 1 ), cy );
+                        __m512i i1 = _mm512_loadu_si512( grid.dpc_values.data() + cr_cell.dpc_offset + n );
+                        __m512d vx = _mm512_sub_pd( _mm512_i64gather_pd( i1, positions[ 0 ], 8 ), cx );
+                        __m512d vy = _mm512_sub_pd( _mm512_i64gather_pd( i1, positions[ 1 ], 8 ), cy );
                         __m512d v2 = _mm512_add_pd( _mm512_mul_pd( vx, vx ), _mm512_mul_pd( vy, vy ) );
                         __m512d ps = _mm512_add_pd( _mm512_add_pd( _mm512_mul_pd( cx, vx ), _mm512_mul_pd( cy, vy ) ),
                                     _mm512_set1_pd( 0.5 ) * ( flags & homogeneous_weights ? v2 : _mm512_add_pd( v2, _mm512_set1_pd( w0 ) ) - _mm512_i64gather_pd( i1, weights, 8 ) ) );
@@ -266,7 +260,7 @@ int ZGrid<Pc>::for_each_laguerre_cell( const std::function<void( CP &, TI num, i
                     }
                     for( ; n < nb_cuts; ++n ) {
                         TI i1 = grid.dpc_values[ cr_cell.dpc_offset + n ];
-                        Pt V = positions[ i1 ] - c0;
+                        Pt V = pt( positions, i1 ) - c0;
                         cut.dx[ n ] = V.x;
                         cut.dy[ n ] = V.y;
                         cut.id[ n ] = i1;
@@ -275,7 +269,7 @@ int ZGrid<Pc>::for_each_laguerre_cell( const std::function<void( CP &, TI num, i
                     #else
                     TI nb_cuts = 0;
                     for( TI i1 : Span<TI>{ grid.dpc_values.data(), cr_cell.dpc_offset, dr_cell.dpc_offset } ) {
-                        Pt V = positions[ i1 ] - c0;
+                        Pt V = pt( positions, i1 ) - c0;
                         cut.dx[ nb_cuts ] = V.x;
                         cut.dy[ nb_cuts ] = V.y;
                         cut.id[ nb_cuts ] = i1;
@@ -293,9 +287,9 @@ int ZGrid<Pc>::for_each_laguerre_cell( const std::function<void( CP &, TI num, i
 
                 //
                 // if ( flags & ball_cut )
-                //     lc.ball_cut( positions[ num_dirac ], sqrt( weights[ num_dirac ] ), num_dirac );
+                //     lc.ball_cut( c0, sqrt( w0 ), num_dirac );
                 // else
-                //     lc.sphere_center = positions[ num_dirac ];
+                //     lc.sphere_center = c0;
 
                 //
                 if ( stop_if_void_lc && lc.empty() ) {
@@ -313,7 +307,8 @@ int ZGrid<Pc>::for_each_laguerre_cell( const std::function<void( CP &, TI num, i
 }
 
 template<class Pc>
-void ZGrid<Pc>::update_the_limits( std::array<const TF *,dim> positions, const TF *weights, std::size_t nb_diracs ) {
+void ZGrid<Pc>::update_the_limits( std::array<const TF *,dim> positions, const TF *weights, TI nb_diracs ) {
+    RaiiTime rt( "update_the_limits" );
     using std::min;
     using std::max;
 
@@ -327,8 +322,8 @@ void ZGrid<Pc>::update_the_limits( std::array<const TF *,dim> positions, const T
 
     for( std::size_t num_dirac = 0; num_dirac < nb_diracs; ++num_dirac ) {
         for( std::size_t d = 0; d < dim; ++d ) {
-            min_point[ d ] = min( min_point[ d ], positions[ num_dirac ][ d ] );
-            max_point[ d ] = max( max_point[ d ], positions[ num_dirac ][ d ] );
+            min_point[ d ] = min( min_point[ d ], positions[ d ][ num_dirac ] );
+            max_point[ d ] = max( max_point[ d ], positions[ d ][ num_dirac ] );
         }
         min_weight = min( min_weight, weights[ num_dirac ] );
         max_weight = max( max_weight, weights[ num_dirac ] );
@@ -341,53 +336,64 @@ void ZGrid<Pc>::update_the_limits( std::array<const TF *,dim> positions, const T
     grid_length *= 1 + std::numeric_limits<TF>::epsilon();
 
     step_length = grid_length / ( TZ( 1 ) << nb_bits_per_axis );
+    inv_step_length = TF( 1 ) / step_length;
 }
 
 
 template<class Pc>
 void ZGrid<Pc>::update_neighbors() {
+    RaiiTime rt( "update_neighbors" );
+
     // make a list of requests to get the neighbors
-    znodes.resize( 0 );
-    znodes.reserve( 2 * dim * zcells.size() );
-    for( TI num_cell = 0; num_cell < zcells.size() - 1; ++num_cell ) {
+    znodes_keys.clear();
+    znodes_inds.clear();
+    znodes_keys.reserve( 2 * dim * zcells_keys.size() );
+    znodes_inds.reserve( 2 * dim * zcells_inds.size() );
+    for( TI num_cell = 0; num_cell < zcells_keys.size() - 1; ++num_cell ) {
         constexpr TZ f00 = ~ ( ( TZ( 1 ) << dim * nb_bits_per_axis ) - 1 );
         StaticRange<dim>::for_each( [&]( auto d ) {
-            TZ z0 = zcells[ num_cell + 0 ].zcoords;
-            TZ z1 = zcells[ num_cell + 1 ].zcoords;
+            TZ z0 = zcells_keys[ num_cell + 0 ];
+            TZ z1 = zcells_keys[ num_cell + 1 ];
             TZ nz = ng_zcoord( z0, z1 - z0, d );
-            if ( ( nz & f00 ) == 0 ) // test for overflow
-                znodes.push_back( { nz, num_cell } );
+            if ( ( nz & f00 ) == 0 ) { // test for overflow
+                znodes_keys.push_back( nz );
+                znodes_inds.push_back( num_cell );
+            }
         } );
     }
 
-    znodes.reserve( 2 * znodes.size() );
-    ZNode *sorted_znodes = radix_sort( znodes.data() + znodes.size(), znodes.data(), znodes.size(), N<sizeof_zcoords>(), rs_tmps );
+    znodes_keys.reserve( 2 * znodes_keys.size() );
+    znodes_inds.reserve( 2 * znodes_inds.size() );
+    std::pair<TZ *,TI *> sorted_znodes = radix_sort(
+                std::make_pair( znodes_keys.data() + znodes_keys.size(), znodes_inds.data() + znodes_inds.size() ),
+                std::make_pair( znodes_keys.data(), znodes_inds.data() ),
+                znodes_keys.size(), N<dim*nb_bits_per_axis>(), rs_tmps );
 
     // helper function to get the neighbors for each node
     auto for_each_ng = [&]( auto cb ) {
-        for( TI i = 0, j = 0; i < znodes.size(); ++i ) {
+        for( TI i = 0, j = 0; i < znodes_keys.size(); ++i ) {
             // find first node with zcoords > sorted_znodes[ i ].zcoords
-            while ( zcells[ j ].zcoords <= sorted_znodes[ i ].zcoords )
+            while ( zcells_keys[ j ] <= sorted_znodes.first[ i ] )
                 ++j;
 
             // first node
-            TI index_node = sorted_znodes[ i ].index;
+            TI index_node = sorted_znodes.second[ i ];
             TI index_nbor = j - 1;
             cb( index_node, index_nbor );
 
             // next touching ones
-            TZ off = zcells[ index_node + 1 ].zcoords - zcells[ index_node ].zcoords;
-            TZ lim = zcells[ index_nbor ].zcoords + off;
-            if ( zcells[ index_nbor + 1 ].zcoords < lim ) {
+            TZ off = zcells_keys[ index_node + 1 ] - zcells_keys[ index_node ];
+            TZ lim = zcells_keys[ index_nbor ] + off;
+            if ( zcells_keys[ index_nbor + 1 ] < lim ) {
                 // find direction to ng
                 StaticRange<dim>::for_each_cont( [&]( auto dir ) {
                     using Zooa = typename ZCoords<TZ,dim,nb_bits_per_axis>::template _ZcoordsOnesOnAxis<dir.val>;
-                    if ( ( zcells[ index_node ].zcoords & Zooa::value ) != ( zcells[ index_nbor ].zcoords & Zooa::value ) ) {
-                        TZ dv = zcells[ index_nbor++ ].zcoords & Zooa::value;
+                    if ( ( zcells_keys[ index_node ] & Zooa::value ) != ( zcells_keys[ index_nbor ] & Zooa::value ) ) {
+                        TZ dv = zcells_keys[ index_nbor++ ] & Zooa::value;
                         do {
-                            if ( ( zcells[ index_nbor ].zcoords & Zooa::value ) == dv )
+                            if ( ( zcells_keys[ index_nbor ] & Zooa::value ) == dv )
                                 cb( index_node, index_nbor );
-                        } while ( zcells[ ++index_nbor ].zcoords < lim );
+                        } while ( zcells_keys[ ++index_nbor ] < lim );
                         return false;
                     }
                     return true;
@@ -397,8 +403,8 @@ void ZGrid<Pc>::update_neighbors() {
     };
 
     //
-    grid.ng_offsets.resize( zcells.size() );
-    for( TI i = 0; i < zcells.size(); ++i )
+    grid.ng_offsets.resize( zcells_keys.size() );
+    for( TI i = 0; i < zcells_keys.size(); ++i )
         grid.ng_offsets[ i ] = 0;
 
     // get count
@@ -408,7 +414,7 @@ void ZGrid<Pc>::update_neighbors() {
     } );
 
     // suffix scan
-    for( TI i = 0, acc = 0; i < zcells.size(); ++i ) {
+    for( TI i = 0, acc = 0; i < zcells_keys.size(); ++i ) {
         TI v = acc;
         acc += grid.ng_offsets[ i ];
         grid.ng_offsets[ i ] = v;
@@ -430,7 +436,8 @@ void ZGrid<Pc>::update_neighbors() {
 }
 
 template<class Pc>
-void ZGrid<Pc>::fill_grid_using_zcoords( std::array<const TF *,dim> positions, const TF */*weights*/, std::size_t nb_diracs ) {
+void ZGrid<Pc>::fill_grid_using_zcoords( std::array<const TF *,dim> positions, const TF */*weights*/, TI nb_diracs ) {
+    RaiiTime rt( "fill_grid_using_zcoords" );
     using std::round;
     using std::ceil;
     using std::pow;
@@ -438,46 +445,54 @@ void ZGrid<Pc>::fill_grid_using_zcoords( std::array<const TF *,dim> positions, c
     using std::max;
 
     // get zcoords for each dirac
-    znodes.clear();
-    znodes.reserve( 2 * nb_diracs );
-    for( TI index = 0; index < nb_diracs; ++index )
-        znodes.push_back( { zcoords_for( positions[ index ] ), index } );
+    znodes_keys.reserve( 2 * nb_diracs );
+    znodes_inds.reserve( 2 * nb_diracs );
+    znodes_keys.resize( nb_diracs );
+    znodes_inds.resize( nb_diracs );
+    make_znodes<nb_bits_per_axis>( znodes_keys.data(), znodes_inds.data(), positions, nb_diracs, min_point, inv_step_length );
 
     // prepare cell_index_vs_dirac_number => we will set the values for the diracs in this grid
-    grid.cell_index_vs_dirac_number.resize( nb_diracs, 666000 );
+    grid.cell_index_vs_dirac_number.resize( nb_diracs );
 
     // sorting w.r.t. zcoords
-    znodes.reserve( 2 * znodes.size() );
-    ZNode *sorted_znodes = radix_sort( znodes.data() + znodes.size(), znodes.data(), znodes.size(), N<sizeof_zcoords>(), rs_tmps );
+    znodes_keys.reserve( 2 * znodes_keys.size() );
+    znodes_inds.reserve( 2 * znodes_inds.size() );
+    std::pair<TZ *,TI *> sorted_znodes = radix_sort(
+        std::make_pair( znodes_keys.data() + znodes_keys.size(), znodes_inds.data() + znodes_inds.size() ),
+        std::make_pair( znodes_keys.data(), znodes_inds.data() ),
+        znodes_keys.size(),
+        N<dim*nb_bits_per_axis>(),
+        rs_tmps
+    );
 
     // fill `cells` with zcoords
     int level = 0;
     TZ prev_z = 0;
-    zcells.resize( 0 );
-    zcells.reserve( znodes.size() );
+    zcells_keys.clear();
+    zcells_inds.clear();
+    zcells_keys.reserve( znodes_keys.size() );
+    zcells_inds.reserve( znodes_inds.size() );
     grid.dpc_values.resize( 0 );
-    grid.dpc_values.reserve( znodes.size() );
+    grid.dpc_values.reserve( znodes_keys.size() );
     for( TI index = max_diracs_per_cell; ; ) {
-        if ( index >= znodes.size() ) {
+        if ( index >= znodes_keys.size() ) {
             while ( prev_z < ( TZ( 1 ) << dim * nb_bits_per_axis ) ) {
                 for( ; ; ++level ) {
                     TZ m = TZ( 1 ) << dim * ( level + 1 );
                     if ( level == nb_bits_per_axis || prev_z & ( m - 1 ) ) {
                         TZ new_prev_z = prev_z + ( TZ( 1 ) << dim * level );
+                        TI cell_index = grid.dpc_values.size();
 
-                        ZNode cell;
-                        cell.zcoords = prev_z;
-
-                        cell.index = grid.dpc_values.size();
-                        for( TI n = index - max_diracs_per_cell; n < znodes.size(); ++n ) {
-                            if ( sorted_znodes[ n ].zcoords >= prev_z && sorted_znodes[ n ].zcoords < new_prev_z ) {
-                                grid.cell_index_vs_dirac_number[ sorted_znodes[ n ].index ] = zcells.size();
-                                grid.dpc_values.push_back( sorted_znodes[ n ].index );
+                        for( TI n = index - max_diracs_per_cell; n < znodes_keys.size(); ++n ) {
+                            if ( sorted_znodes.first[ n ] >= prev_z && sorted_znodes.first[ n ] < new_prev_z ) {
+                                grid.cell_index_vs_dirac_number[ sorted_znodes.second[ n ] ] = zcells_keys.size();
+                                grid.dpc_values.push_back( sorted_znodes.second[ n ] );
                                 ++index;
                             }
                         }
 
-                        zcells.push_back( cell );
+                        zcells_keys.push_back( prev_z );
+                        zcells_inds.push_back( cell_index );
                         prev_z = new_prev_z;
                         break;
                     }
@@ -489,7 +504,7 @@ void ZGrid<Pc>::fill_grid_using_zcoords( std::array<const TF *,dim> positions, c
         // level too high ?
         for( ; ; --level ) {
             TZ m = TZ( 1 ) << dim * ( level + 1 );
-            if ( sorted_znodes[ index ].zcoords >= prev_z + m )
+            if ( sorted_znodes.first[ index ] >= prev_z + m )
                 break;
             if ( level == 0 )
                 break;
@@ -499,22 +514,20 @@ void ZGrid<Pc>::fill_grid_using_zcoords( std::array<const TF *,dim> positions, c
         // look for a level before the one that will take the $max_diracs_per_cell next points or that will lead to an illegal cell
         for( ; ; ++level ) {
             TZ m = TZ( 1 ) << dim * ( level + 1 );
-            if ( sorted_znodes[ index ].zcoords < prev_z + m || ( prev_z & ( m - 1 ) ) ) {
+            if ( sorted_znodes.first[ index ] < prev_z + m || ( prev_z & ( m - 1 ) ) ) {
                 TZ new_prev_z = prev_z + ( TZ( 1 ) << dim * level );
+                TI cell_index = grid.dpc_values.size();
 
-                ZNode zcell;
-                zcell.zcoords = prev_z;
-
-                zcell.index = grid.dpc_values.size();
                 for( TI n = index - max_diracs_per_cell, l = index; n < l; ++n ) {
-                    if ( sorted_znodes[ n ].zcoords >= prev_z && sorted_znodes[ n ].zcoords < new_prev_z ) {
-                        grid.cell_index_vs_dirac_number[ sorted_znodes[ n ].index ] = zcells.size();
-                        grid.dpc_values.push_back( sorted_znodes[ n ].index );
+                    if ( sorted_znodes.first[ n ] >= prev_z && sorted_znodes.first[ n ] < new_prev_z ) {
+                        grid.cell_index_vs_dirac_number[ sorted_znodes.second[ n ] ] = zcells_keys.size();
+                        grid.dpc_values.push_back( sorted_znodes.second[ n ] );
                         ++index;
                     }
                 }
 
-                zcells.push_back( zcell );
+                zcells_keys.push_back( prev_z );
+                zcells_inds.push_back( cell_index );
                 prev_z = new_prev_z;
                 break;
             }
@@ -522,14 +535,12 @@ void ZGrid<Pc>::fill_grid_using_zcoords( std::array<const TF *,dim> positions, c
     }
 
     // add an ending cell
-    ZNode zcell;
-    zcell.index = grid.dpc_values.size();
-    zcell.zcoords = TZ( 1 ) << dim * nb_bits_per_axis;
-    zcells.push_back( zcell );
+    zcells_keys.push_back( TZ( 1 ) << dim * nb_bits_per_axis );
+    zcells_inds.push_back( grid.dpc_values.size() );
 }
 
 template<class Pc>
-void ZGrid<Pc>::fill_the_grid( const Pt *positions, const TF *weights, std::size_t nb_diracs ) {
+void ZGrid<Pc>::fill_the_grid( std::array<const TF *,dim> positions, const TF *weights, TI nb_diracs ) {
     static_assert( sizeof( TZ ) >= sizeof_zcoords, "zcoords types is not large enough" );
 
     // set grid content
@@ -538,34 +549,6 @@ void ZGrid<Pc>::fill_the_grid( const Pt *positions, const TF *weights, std::size
     repl_zcoords_by_ccoords( weights );
 }
 
-template<class Pc> template<class C>
-typename ZGrid<Pc>::TZ ZGrid<Pc>::zcoords_for( const C &pos ) {
-    std::array<TZ,dim> c;
-    for( int d = 0; d < dim; ++d )
-        c[ d ] = TZ( TF( TZ( 1 ) << nb_bits_per_axis ) * ( pos[ d ] - min_point[ d ] ) / grid_length );
-
-    TZ res = 0;
-    switch ( dim ) {
-    case 1:
-        res = c[ 0 ];
-        break;
-    case 2:
-        for( int o = 0; o < nb_bits_per_axis; o += 8 )
-            res |= TZ( morton_256_2D_x[ ( c[ 0 ] >> o ) & 0xFF ] |
-                       morton_256_2D_y[ ( c[ 1 ] >> o ) & 0xFF ] ) << dim *  o;
-        break;
-    case 3:
-        for( int o = 0; o < nb_bits_per_axis; o += 8 )
-            res |= TZ( morton_256_3D_x[ ( c[ 0 ] >> o ) & 0xFF ] |
-                       morton_256_3D_y[ ( c[ 1 ] >> o ) & 0xFF ] |
-                       morton_256_3D_z[ ( c[ 2 ] >> o ) & 0xFF ] ) << dim *  o;
-        break;
-    default:
-        TODO;
-    }
-
-    return res;
-}
 
 template<class Pc>
 void ZGrid<Pc>::display_tikz( std::ostream &os, TF scale ) const {
@@ -630,31 +613,33 @@ typename ZGrid<Pc>::TZ ZGrid<Pc>::ng_zcoord( TZ zcoords, TZ off, N<axis> ) const
 
 template<class Pc>
 void ZGrid<Pc>::repl_zcoords_by_ccoords( const TF */*weights*/ ) {
+    RaiiTime rt( "repl_zcoords_by_ccoords" );
     using std::max;
 
     // convert zcoords to cartesian coords
-    grid.cells.resize( zcells.size() );
+    grid.cells.resize( zcells_keys.size() );
     for( TI num_cell = 0; num_cell < grid.cells.size() - 1; ++num_cell ) {
-        const ZNode &p = zcells[ num_cell + 0 ];
-        const ZNode &n = zcells[ num_cell + 1 ];
+        TZ zcoords = zcells_keys[ num_cell + 0 ];
+        TZ acoords = zcells_keys[ num_cell + 1 ];
+        TZ index = zcells_inds[ num_cell + 0 ];
 
         Cell &c = grid.cells[ num_cell ];
-        c.size = step_length * round( pow( n.zcoords - p.zcoords, 1.0 / dim ) );
-        c.zcoords = p.zcoords;
-        c.dpc_offset = p.index;
+        c.size = step_length * round( pow( acoords - zcoords, 1.0 / dim ) );
+        c.zcoords = zcoords;
+        c.dpc_offset = index;
 
         StaticRange<dim>::for_each( [&]( auto d ) {
             c.pos[ d ] = TF( 0 );
             StaticRange<nb_bits_per_axis>::for_each( [&]( auto i ) {
-                c.pos[ d ] += ( p.zcoords & ( TZ( 1 ) << ( dim * i + d ) ) ) >> ( ( dim - 1 ) * i + d );
+                c.pos[ d ] += ( zcoords & ( TZ( 1 ) << ( dim * i + d ) ) ) >> ( ( dim - 1 ) * i + d );
             } );
             c.pos[ d ] = min_point[ d ] + step_length * c.pos[ d ];
         } );
     }
 
     Cell &c = grid.cells.back();
-    c.dpc_offset = zcells.back().index;
-    c.zcoords = zcells.back().zcoords;
+    c.dpc_offset = zcells_inds.back();
+    c.zcoords = zcells_keys.back();
     c.size = 0;
     c.pos = max_point;
 }

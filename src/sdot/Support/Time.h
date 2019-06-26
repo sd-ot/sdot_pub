@@ -1,5 +1,6 @@
 #pragma once
 
+#include <iostream>
 #include <chrono>
 
 namespace sdot {
@@ -17,6 +18,15 @@ public:
 inline Time time() {
     return { std::chrono::high_resolution_clock::now() };
 }
+
+/** */
+class RaiiTime {
+public:
+    /**/        RaiiTime( const char *str ) : str( str ), t0( time() ) {}
+    /**/       ~RaiiTime() { double dt = time() - t0; std::cout << "  " << str << " => " << dt << std::endl; }
+    const char *str;
+    Time        t0;
+};
 
 #define RDTSC_START(cycles)                                                   \
     do {                                                                      \
