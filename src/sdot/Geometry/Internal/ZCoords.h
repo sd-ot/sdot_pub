@@ -1,6 +1,9 @@
 #pragma once
 
+#include "../../Support/StaticRange.h"
+#include "../../Support/ThreadPool.h"
 #include "../../Support/Time.h"
+#include <immintrin.h>
 #include <array>
 
 namespace sdot {
@@ -76,60 +79,55 @@ TZ zcoords_for( std::array<const TF *,3> positions, TI index, Pt min_point, TF i
     return res;
 }
 
-#ifdef __AVX512F__
-template<int nb_bits_per_axis,class Pt>
-void make_znodes( std::uint64_t *zcoords, std::uint64_t *indices, std::array<const double *,2> positions, std::size_t nb_diracs, Pt min_point, double grid_length ) {
-    RaiiTime rt( "fill_grid_using_zcoords.zcf 512" );
-    for( std::uint64_t index = 0; index < nb_diracs; ++index ) {
-        zcoords[ index ] = zcoords_for<std::uint64_t,nb_bits_per_axis>( positions, index, min_point, grid_length );
-        indices[ index ] = index;
-    }
-}
-#endif
+//#ifdef __AVX512F__
+//template<int nb_bits_per_axis,class Pt>
+//void make_znodes( std::uint64_t *zcoords, std::uint64_t *indices, std::array<const double *,2> positions, std::size_t nb_diracs, Pt min_point, double inv_step_length ) {
+//    RaiiTime rt( "fill_grid_using_zcoords.zcf 512" );
+//    __m512d isl = _mm512_set1_pd( inv_step_length );
+//    __m512d mix = _mm512_set1_pd( min_point.x );
+//    __m512d miy = _mm512_set1_pd( min_point.y );
+//    __m512i msk = _mm512_set1_epi64( 0xFF );
+//    __m512i ind = _mm512_set_epi64( 7, 6, 5, 4, 3, 2, 1, 0 );
+//    __m512i c_8 = _mm512_set1_epi64( 8 );
 
+//    std::uint64_t index = 0;
+//    for( ; index + 8 <= nb_diracs; index += 8 ) {
+//        __m512i x_0 = _mm512_cvtpd_epi64( _mm512_mul_pd( isl, _mm512_sub_pd( _mm512_loadu_pd( positions[ 0 ] + index ), mix ) ) );
+//        __m512i y_0 = _mm512_cvtpd_epi64( _mm512_mul_pd( isl, _mm512_sub_pd( _mm512_loadu_pd( positions[ 1 ] + index ), miy ) ) );
+
+//        __m512i res = _mm512_set1_epi64( 0 );
+//        StaticRange<(nb_bits_per_axis+7)/8>::for_each( [&]( auto i ) {
+//            constexpr int o = i.val * 8;
+//            res = _mm512_or_si512( res, _mm512_slli_epi64( _mm512_or_si512(
+//                _mm512_i64gather_epi64( _mm512_and_si512( msk, _mm512_srli_epi64( x_0, o ) ), morton_256_2D_x_64, 8 ),
+//                _mm512_i64gather_epi64( _mm512_and_si512( msk, _mm512_srli_epi64( y_0, o ) ), morton_256_2D_y_64, 8 )
+//            ), 2 * o ) );
+//        } );
+
+//        _mm512_storeu_si512( zcoords + index, res );
+//        _mm512_storeu_si512( indices + index, ind );
+
+//        ind = _mm512_add_epi64( ind, c_8 );
+//    }
+//    for( ; index < nb_diracs; ++index ) {
+//        zcoords[ index ] = zcoords_for<std::uint64_t,nb_bits_per_axis>( positions, index, min_point, inv_step_length );
+//        indices[ index ] = index;
+//    }
+//}
+//#endif
 
 template<int nb_bits_per_axis,class TZ,class TI,class TF,std::size_t dim,class Pt>
 void make_znodes( TZ *zcoords, TI *indices, std::array<const TF *,dim> positions, TI nb_diracs, Pt min_point, TF inv_step_length ) {
     RaiiTime rt( "fill_grid_using_zcoords.zcf" );
-    for( TI index = 0; index < nb_diracs; ++index ) {
-        zcoords[ index ] = zcoords_for<TZ,nb_bits_per_axis>( positions, index, min_point, inv_step_length );
-        indices[ index ] = index;
-    }
+    TI nb_jobs = thread_pool.nb_threads();
+    thread_pool.execute( nb_jobs, [&]( TI num_job, int ) {
+        TI beg = ( num_job + 0 ) * nb_diracs / nb_jobs;
+        TI end = ( num_job + 1 ) * nb_diracs / nb_jobs;
+        for( TI index = beg; index < end; ++index ) {
+            zcoords[ index ] = zcoords_for<TZ,nb_bits_per_axis>( positions, index, min_point, inv_step_length );
+            indices[ index ] = index;
+        }
+    } );
 }
-
-//    if ( dim == 2 )
-//        //        std::array<TZ,dim> c;
-//        //        for( int d = 0; d < dim; ++d )
-//        //            c[ d ] = TZ( TF( TZ( 1 ) << nb_bits_per_axis ) * ( pos[ d ] - min_point[ d ] ) / grid_length );
-
-//        //        TZ res = 0;
-//        //        switch ( dim ) {
-//        //        case 1:
-//        //            res = c[ 0 ];
-//        //            break;
-//        //        case 2:
-//        //            for( int o = 0; o < nb_bits_per_axis; o += 8 )
-//        //                res |= TZ( morton_256_2D_x[ ( c[ 0 ] >> o ) & 0xFF ] |
-//        //                           morton_256_2D_y[ ( c[ 1 ] >> o ) & 0xFF ] ) << dim *  o;
-//        //            break;
-//        //        case 3:
-//        //            for( int o = 0; o < nb_bits_per_axis; o += 8 )
-//        //                res |= TZ( morton_256_3D_x[ ( c[ 0 ] >> o ) & 0xFF ] |
-//        //                           morton_256_3D_y[ ( c[ 1 ] >> o ) & 0xFF ] |
-//        //                           morton_256_3D_z[ ( c[ 2 ] >> o ) & 0xFF ] ) << dim *  o;
-//        //            break;
-//        //        default:
-//        //            TODO;
-//        //        }
-
-//        //        return res;
-//#endif //  __AVX512F__
-//        for( TI index = 0; index < nb_diracs; ++index ) {
-//            znodes_keys.push_back( zcoords_for( pt( positions, index ) ) );
-//            znodes_inds.push_back( index );
-//        }
-//#ifdef __AVX512F__
-//#endif //  __AVX512F__
-//}
 
 }

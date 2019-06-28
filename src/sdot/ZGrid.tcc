@@ -308,7 +308,6 @@ int ZGrid<Pc>::for_each_laguerre_cell( const std::function<void( CP &, TI num, i
 
 template<class Pc>
 void ZGrid<Pc>::update_the_limits( std::array<const TF *,dim> positions, const TF *weights, TI nb_diracs ) {
-    RaiiTime rt( "update_the_limits" );
     using std::min;
     using std::max;
 
@@ -342,8 +341,6 @@ void ZGrid<Pc>::update_the_limits( std::array<const TF *,dim> positions, const T
 
 template<class Pc>
 void ZGrid<Pc>::update_neighbors() {
-    RaiiTime rt( "update_neighbors" );
-
     // make a list of requests to get the neighbors
     znodes_keys.clear();
     znodes_inds.clear();
@@ -437,7 +434,6 @@ void ZGrid<Pc>::update_neighbors() {
 
 template<class Pc>
 void ZGrid<Pc>::fill_grid_using_zcoords( std::array<const TF *,dim> positions, const TF */*weights*/, TI nb_diracs ) {
-    RaiiTime rt( "fill_grid_using_zcoords" );
     using std::round;
     using std::ceil;
     using std::pow;
@@ -541,7 +537,7 @@ void ZGrid<Pc>::fill_grid_using_zcoords( std::array<const TF *,dim> positions, c
 
 template<class Pc>
 void ZGrid<Pc>::fill_the_grid( std::array<const TF *,dim> positions, const TF *weights, TI nb_diracs ) {
-    static_assert( sizeof( TZ ) >= sizeof_zcoords, "zcoords types is not large enough" );
+    static_assert( sizeof( TZ ) >= sizeof_zcoords, "zcoords types (TZ) is not large enough" );
 
     // set grid content
     fill_grid_using_zcoords( positions, weights, nb_diracs );
@@ -613,29 +609,33 @@ typename ZGrid<Pc>::TZ ZGrid<Pc>::ng_zcoord( TZ zcoords, TZ off, N<axis> ) const
 
 template<class Pc>
 void ZGrid<Pc>::repl_zcoords_by_ccoords( const TF */*weights*/ ) {
-    RaiiTime rt( "repl_zcoords_by_ccoords" );
     using std::max;
 
     // convert zcoords to cartesian coords
     grid.cells.resize( zcells_keys.size() );
-    for( TI num_cell = 0; num_cell < grid.cells.size() - 1; ++num_cell ) {
-        TZ zcoords = zcells_keys[ num_cell + 0 ];
-        TZ acoords = zcells_keys[ num_cell + 1 ];
-        TZ index = zcells_inds[ num_cell + 0 ];
+    TI nb_jobs = thread_pool.nb_threads();
+    thread_pool.execute( nb_jobs, [&]( TI num_job, int ) {
+        TI beg = ( num_job + 0 ) * ( grid.cells.size() - 1 ) / nb_jobs;
+        TI end = ( num_job + 1 ) * ( grid.cells.size() - 1 ) / nb_jobs;
+        for( TI num_cell = beg; num_cell < end; ++num_cell ) {
+            TZ zcoords = zcells_keys[ num_cell + 0 ];
+            TZ acoords = zcells_keys[ num_cell + 1 ];
+            TZ index = zcells_inds[ num_cell + 0 ];
 
-        Cell &c = grid.cells[ num_cell ];
-        c.size = step_length * round( pow( acoords - zcoords, 1.0 / dim ) );
-        c.zcoords = zcoords;
-        c.dpc_offset = index;
+            Cell &c = grid.cells[ num_cell ];
+            c.size = step_length * round( pow( acoords - zcoords, 1.0 / dim ) );
+            c.zcoords = zcoords;
+            c.dpc_offset = index;
 
-        StaticRange<dim>::for_each( [&]( auto d ) {
-            c.pos[ d ] = TF( 0 );
-            StaticRange<nb_bits_per_axis>::for_each( [&]( auto i ) {
-                c.pos[ d ] += ( zcoords & ( TZ( 1 ) << ( dim * i + d ) ) ) >> ( ( dim - 1 ) * i + d );
+            StaticRange<dim>::for_each( [&]( auto d ) {
+                c.pos[ d ] = TF( 0 );
+                StaticRange<nb_bits_per_axis>::for_each( [&]( auto i ) {
+                    c.pos[ d ] += ( zcoords & ( TZ( 1 ) << ( dim * i + d ) ) ) >> ( ( dim - 1 ) * i + d );
+                } );
+                c.pos[ d ] = min_point[ d ] + step_length * c.pos[ d ];
             } );
-            c.pos[ d ] = min_point[ d ] + step_length * c.pos[ d ];
-        } );
-    }
+        }
+    } );
 
     Cell &c = grid.cells.back();
     c.dpc_offset = zcells_inds.back();

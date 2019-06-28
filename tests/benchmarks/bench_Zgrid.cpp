@@ -53,7 +53,7 @@ int main() {
     // thread_pool.init( 1 );
 
     std::map<std::size_t,double> nb_cycle_per_cell;
-    for( std::size_t nb_diracs : { /*1000000, 2000000, 4000000, 8000000, 16000000, */32000000/*, 64000000, 128000000, 256000000*/ } ) {
+    for( std::size_t nb_diracs : { /*1000000, 2000000, 4000000, */8000000/*, 16000000, 32000000, 64000000, 128000000, 256000000*/ } ) {
         std::vector<TF> positions_x;
         std::vector<TF> positions_y;
         std::vector<TF> weights;
@@ -76,7 +76,7 @@ int main() {
 
         // get timings
         double best_dt_sum = 1e6, smurf = 0;
-        for( std::size_t nb_diracs_per_cell = 20; nb_diracs_per_cell <= 20; nb_diracs_per_cell += 1 ) {
+        for( std::size_t nb_diracs_per_cell = 15; nb_diracs_per_cell <= 25; nb_diracs_per_cell += 1 ) {
             RaiiTime re("total");
 
             std::uint64_t t0_grid = 0, t1_grid = 0;
