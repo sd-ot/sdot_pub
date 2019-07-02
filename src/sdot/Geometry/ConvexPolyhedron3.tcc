@@ -201,8 +201,22 @@ void ConvexPolyhedron3<Pc>::display( VtkOutput &vo, const std::vector<TF> &cell_
 }
 
 template<class Pc> template<class F>
-void ConvexPolyhedron3<Pc>::for_each_edge( const F &/*f*/ ) const {
-    TODO;
+void ConvexPolyhedron3<Pc>::for_each_edge( const F &f ) const {
+    static_assert ( sizeof( Node ) % sizeof( TF ) == 0, "" );
+
+    Edge *ptr = edges;
+    for( TI i = 0; ; ++i ) {
+        if ( i + block_size >= edges_size ) {
+            for( TI j = 0; j < edges_size - i; ++j )
+                f( ptr->local_at( j ) );
+            break;
+        }
+
+        for( TI j = 0; j < block_size; ++j )
+            f( ptr->local_at( j ) );
+        i += block_size;
+        ++ptr;
+    }
 }
 
 template<class Pc> template<class F>
@@ -335,6 +349,63 @@ void ConvexPolyhedron3<Pc>::set_nb_edges( TI new_size ) {
 
 template<class Pc> template<int flags>
 void ConvexPolyhedron3<Pc>::plane_cut( std::array<const TF *,dim> cut_dir, const TF *cut_ps, const CI *cut_id, std::size_t nb_cuts, N<flags> ) {
+    for( std::size_t num_cut = 0; num_cut < nb_cuts; ++num_cut ) {
+        // distances
+        #ifdef __AVX5d12F__
+        //        __m512d rd = _mm512_set1_pd( cut_ps[ num_cut ] );
+        //        __m512d nx = _mm512_set1_pd( cut_dir[ 0 ][ num_cut ] );
+        //        __m512d ny = _mm512_set1_pd( cut_dir[ 1 ][ num_cut ] );
+        //        __m512d nz = _mm512_set1_pd( cut_dir[ 2 ][ num_cut ] );
+        //        for( std::size_t n = 0; n < nb_nodes(); n += 8 ) {
+        //            __m512d px_0 = _mm512_load_pd( x + 0 );
+        //            __m512d py_0 = _mm512_load_pd( y + 0 );
+        //            __m512i pc_0 = _mm512_load_epi64( c + 0 );
+        //            __m512d bi_0 = _mm512_add_pd( _mm512_mul_pd( px_0, nx ), _mm512_mul_pd( py_0, ny ) );
+        //            std::uint8_t outside_0 = _mm512_cmp_pd_mask( bi_0, rd, _CMP_GT_OQ );
+        //            __m512d di_0 = _mm512_sub_pd( bi_0, rd );
+        //        }
+        TODO;
+        #else
+        TI nb_outside_nodes = 0;
+        TF rd = cut_ps[ num_cut ];
+        TF nx = cut_dir[ 0 ][ num_cut ];
+        TF ny = cut_dir[ 1 ][ num_cut ];
+        TF nz = cut_dir[ 2 ][ num_cut ];
+        for_each_node( [&]( Node &node ) {
+            node.d = node.x * nx + node.y * ny + node.z * nz - rd;
+            nb_outside_nodes += node.d > 0;
+        } );
+        if ( nb_outside_nodes == 0 )
+            return;
+        if ( nb_outside_nodes == nb_nodes() ) {
+            nodes_size = 0;
+            return;
+        }
+
+        // reservation for the new edges.
+        TI nb_partially_outside_edges = 0;
+        for_each_edge( [&]( Edge &edge ) {
+            bool o0 = node( edge.node_0 ).outside();
+            bool o1 = node( edge.node_1 ).outside();
+            nb_partially_outside_edges += o0 ^ o1;
+        } );
+
+        TI old_edges_size = edges_size;
+        TI old_nodes_size = nodes_size;
+        set_nb_edges( edges_size + nb_partially_outside_edges );
+        set_nb_nodes( nodes_size + nb_partially_outside_edges );
+
+        // make the new edges.
+        for_each_edge( [&]( Edge &edge ) {
+            bool o0 = node( edge.node_0 ).outside();
+            bool o1 = node( edge.node_1 ).outside();
+            if ( o0 ^ o1 ) {
+                node()
+            }
+        } );
+
+        #endif
+    }
 }
 
 template<class Pc>

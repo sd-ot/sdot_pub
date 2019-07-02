@@ -18,7 +18,7 @@ public:
     void        set_face                 ( int o, TI num ) { ( o ? face_1 : face_0 ).set( num ); }
 
     const Edge& local_at                 ( TI index ) const { return *reinterpret_cast<const Edge *>( reinterpret_cast<const TF *>( this ) + index ); }
-    Edge&       local_at                 ( TI index ) { return *reinterpret_cast<Edge *>( reinterpret_cast<const TF *>( this ) + index ); }
+    Edge&       local_at                 ( TI index ) { return *reinterpret_cast<Edge *>( reinterpret_cast<TF *>( this ) + index ); }
 
     const Edge& global_at                ( TI index ) const { return *reinterpret_cast<const Edge *>( reinterpret_cast<const TF *>( this + index / bs ) + index % bs ); }
     Edge&       global_at                ( TI index ) { return *reinterpret_cast<Edge *>( reinterpret_cast<TF *>( this + index / bs ) + index % bs ); }

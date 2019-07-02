@@ -23,12 +23,15 @@ public:
     const Node& global_at                ( TI index ) const { return *reinterpret_cast<const Node *>( &this[ index / bs ].x + index % bs ); }
     Node&       global_at                ( TI index ) { return *reinterpret_cast<Node *>( &this[ index / bs ].x + index % bs ); }
 
+    bool        outside                  () const { return d > 0; }
+
     void        get_content_from         ( const Node &b ) { get_straight_content_from( b ); }
     void        get_straight_content_from( const Node &b ) { x = b.x; y = b.y; z = b.z; }
 
     TF          x, _pad_x[ bs - 1 ];
     TF          y, _pad_y[ bs - 1 ];
     TF          z, _pad_z[ bs - 1 ];
+    TF          d, _pad_d[ bs - 1 ];     ///< dist
 };
 
 } // namespace sdot

@@ -24,21 +24,28 @@ void test_regular_cuts( VtkOutput &vo, int &cpt_vo ) {
     // cuts
     std::vector<TF> cut_dx, cut_dy, cut_dz, cut_ps;
     std::vector<CI> cut_id;
-    for( int dz = -1, c = 0; dz <= 1; ++dz ) {
-        for( int dy = -1; dy <= 1; ++dy ) {
-            for( int dx = -1; dx <= 1; ++dx ) {
-                if ( dx || dy || dz ) {
-                    Pt n( dx, dy, dz );
-                    n /= norm_2( n );
-                    cut_dx.push_back( n.x );
-                    cut_dy.push_back( n.y );
-                    cut_dz.push_back( n.z );
-                    cut_ps.push_back( 1.0 );
-                    cut_id.push_back( c++ );
-                }
-            }
-        }
-    }
+    //    for( int dz = -1, c = 0; dz <= 1; ++dz ) {
+    //        for( int dy = -1; dy <= 1; ++dy ) {
+    //            for( int dx = -1; dx <= 1; ++dx ) {
+    //                if ( dx || dy || dz ) {
+    //                    Pt n( dx, dy, dz );
+    //                    n /= norm_2( n );
+    //                    cut_dx.push_back( n.x );
+    //                    cut_dy.push_back( n.y );
+    //                    cut_dz.push_back( n.z );
+    //                    cut_ps.push_back( 1.0 );
+    //                    cut_id.push_back( c++ );
+    //                }
+    //            }
+    //        }
+    //    }
+
+    cut_dx.push_back( 1 );
+    cut_dy.push_back( 0 );
+    cut_dz.push_back( 0 );
+    cut_ps.push_back( 1 );
+    cut_id.push_back( 9 );
+
     lc.plane_cut( { cut_dx.data(), cut_dy.data(), cut_dz.data() }, cut_ps.data(), cut_id.data(), cut_dx.size(), N<flags>() );
 
     // display
