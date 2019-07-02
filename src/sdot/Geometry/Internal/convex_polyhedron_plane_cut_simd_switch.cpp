@@ -26,8 +26,9 @@ struct Op {
         return i0 != i;
     }
 
-    int i0; ///<
-    int i1; ///< -1 means we take the values only from i0
+    int i0;  ///<
+    int i1;  ///< -1 means we take the values only from i0
+    int dir; ///< 1 -> going out, -1 -> going in, 0 -> staying inside
 };
 
 /**
@@ -62,68 +63,76 @@ struct Mod {
         return res;
     }
 
-    void write_code_mm256xy( std::ostream &code, int simd_size, int nb_regs ) {
-        // get op indices for each type of operation
-        std::vector<std::size_t> permutation_indices, interpolation_indices;
-        for( std::size_t i = 0; i < std::min( ops.size(), std::size_t( nb_regs * simd_size ) ); ++i ) {
-            if ( ops[ i ].i1 >= 0 )
-                interpolation_indices.push_back( i );
-            else
-                permutation_indices.push_back( i );
-        }
+    //    void write_code_mm256xy( std::ostream &code, int simd_size, int nb_regs ) {
+    //        // get op indices for each type of operation
+    //        std::vector<std::size_t> permutation_indices, interpolation_indices;
+    //        for( std::size_t i = 0; i < std::min( ops.size(), std::size_t( nb_regs * simd_size ) ); ++i ) {
+    //            if ( ops[ i ].i1 >= 0 )
+    //                interpolation_indices.push_back( i );
+    //            else
+    //                permutation_indices.push_back( i );
+    //        }
 
-        // make `idx_0` and `idy_0` (for _mm512_permutex2var_pd)
-        std::uint64_t idx_0 = 0, idy_0 = 0;
-        for( std::size_t i = 0; i < interpolation_indices.size(); ++i ) {
-            idx_0 += ( std::uint64_t( 8 + 2 * i ) << 8 * interpolation_indices[ i ] );
-            idy_0 += ( std::uint64_t( 9 + 2 * i ) << 8 * interpolation_indices[ i ] );
-        }
-        for( std::size_t i : permutation_indices ) {
-            idx_0 += std::uint64_t( ops[ i ].i0 ) << 8 * i;
-            idy_0 += std::uint64_t( ops[ i ].i0 ) << 8 * i;
-        }
-        code << "            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x" << std::hex << idx_0 << "ul ) );\n";
-        code << "            __m512i idy_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x" << std::hex << idy_0 << "ul ) );\n";
-        if ( nb_regs > 1 )
-            TODO;
+    //        // make `idx_0` and `idy_0` (for _mm512_permutex2var_pd)
+    //        std::uint64_t idx_0 = 0, idy_0 = 0;
+    //        for( std::size_t i = 0; i < interpolation_indices.size(); ++i ) {
+    //            idx_0 += ( std::uint64_t( 8 + 2 * i ) << 8 * interpolation_indices[ i ] );
+    //            idy_0 += ( std::uint64_t( 9 + 2 * i ) << 8 * interpolation_indices[ i ] );
+    //        }
+    //        for( std::size_t i : permutation_indices ) {
+    //            idx_0 += std::uint64_t( ops[ i ].i0 ) << 8 * i;
+    //            idy_0 += std::uint64_t( ops[ i ].i0 ) << 8 * i;
+    //        }
+    //        code << "            __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x" << std::hex << idx_0 << "ul ) );\n";
+    //        code << "            __m512i idy_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x" << std::hex << idy_0 << "ul ) );\n";
+    //        if ( nb_regs > 1 )
+    //            TODO;
 
-        if ( interpolation_indices.size() == 2 ) {
-            auto set_pd = [&]( std::string out, std::string x, std::string y, int i0, int i1 ) {
-                if ( i0 == i1 && x == y )
-                    code << "            __m256d " << out << " = _mm256_set1_pd( " << x << "_" << i0 << " );\n";
-                else if ( x == y )
-                    code << "            __m256d " << out << " = _mm256_set_pd( " << y << "_" << i1 << ", " << x << "_" << i1 << ", " << y << "_" << i0 << ", " << x << "_" << i0 << " );\n";
-                else
-                    code << "            __m256d " << out << " = _mm256_set_pd( " << y << "_" << i1 << ", " << x << "_" << i1 << ", " << y << "_" << i0 << ", " << x << "_" << i0 << " );\n";
-            };
+    //        if ( interpolation_indices.size() == 2 ) {
+    //            auto set_pd = [&]( std::string out, std::string x, std::string y, int i0, int i1 ) {
+    //                if ( i0 == i1 && x == y )
+    //                    code << "            __m256d " << out << " = _mm256_set1_pd( " << x << "_" << i0 << " );\n";
+    //                else if ( x == y )
+    //                    code << "            __m256d " << out << " = _mm256_set_pd( " << y << "_" << i1 << ", " << x << "_" << i1 << ", " << y << "_" << i0 << ", " << x << "_" << i0 << " );\n";
+    //                else
+    //                    code << "            __m256d " << out << " = _mm256_set_pd( " << y << "_" << i1 << ", " << x << "_" << i1 << ", " << y << "_" << i0 << ", " << x << "_" << i0 << " );\n";
+    //            };
 
-            std::size_t it_0 = interpolation_indices[ 0 ];
-            std::size_t it_1 = interpolation_indices[ 1 ];
-            const Op &op_0 = ops[ it_0 ];
-            const Op &op_1 = ops[ it_1 ];
+    //            std::size_t it_0 = interpolation_indices[ 0 ];
+    //            std::size_t it_1 = interpolation_indices[ 1 ];
+    //            const Op &op_0 = ops[ it_0 ];
+    //            const Op &op_1 = ops[ it_1 ];
 
-            set_pd( "d_i0", "d", "d", op_0.i0, op_1.i0 );
-            set_pd( "z_i0", "x", "y", op_0.i0, op_1.i0 );
+    //            set_pd( "d_i0", "d", "d", op_0.i0, op_1.i0 );
+    //            set_pd( "z_i0", "x", "y", op_0.i0, op_1.i0 );
 
-            set_pd( "d_i1", "d", "d", op_0.i1, op_1.i1 );
-            set_pd( "z_i1", "x", "y", op_0.i1, op_1.i1 );
+    //            set_pd( "d_i1", "d", "d", op_0.i1, op_1.i1 );
+    //            set_pd( "z_i1", "x", "y", op_0.i1, op_1.i1 );
 
-            code << "            __m256d m = _mm256_div_pd( d_i0, _mm256_sub_pd( d_i1, d_i0 ) );\n";
-            code << "            __m512d inter_z = _mm512_castpd256_pd512( _mm256_sub_pd( z_i0, _mm256_mul_pd( m, _mm256_sub_pd( z_i1, z_i0 ) ) ) );\n";
-        } else {
-            ASSERT( interpolation_indices.size() == 1, "weird" );
-            std::size_t it_0 = interpolation_indices[ 0 ];
-            const Op &op_0 = ops[ it_0 ];
+    //            code << "            __m256d m = _mm256_div_pd( d_i0, _mm256_sub_pd( d_i1, d_i0 ) );\n";
+    //            code << "            __m512d inter_z = _mm512_castpd256_pd512( _mm256_sub_pd( z_i0, _mm256_mul_pd( m, _mm256_sub_pd( z_i1, z_i0 ) ) ) );\n";
+    //        } else {
+    //            ASSERT( interpolation_indices.size() == 1, "weird" );
+    //            std::size_t it_0 = interpolation_indices[ 0 ];
+    //            const Op &op_0 = ops[ it_0 ];
 
-            code << "            TF m = d_" << op_0.i0 << " / ( d_" << op_0.i1 << " - d_" << op_0.i0 << " ); // 1\n";
-            code << "            __m512d inter_z = _mm512_castpd128_pd512( _mm_set_pd( y_" << op_0.i0 << " - m * ( y_" << op_0.i1 << " - y_" << op_0.i0 << " ), x_" << op_0.i0 << " - m * ( x_" << op_0.i1 << " - x_" << op_0.i0 << " ) ) );\n";
-        }
+    //            code << "            TF m = d_" << op_0.i0 << " / ( d_" << op_0.i1 << " - d_" << op_0.i0 << " ); // 1\n";
+    //            code << "            __m512d inter_z = _mm512_castpd128_pd512( _mm_set_pd( y_" << op_0.i0 << " - m * ( y_" << op_0.i1 << " - y_" << op_0.i0 << " ), x_" << op_0.i0 << " - m * ( x_" << op_0.i1 << " - x_" << op_0.i0 << " ) ) );\n";
+    //        }
 
-        code << "            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_z );\n";
-        code << "            py_0 = _mm512_permutex2var_pd( py_0, idy_0, inter_z );\n";
-    }
+    //        code << "            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_z );\n";
+    //        code << "            py_0 = _mm512_permutex2var_pd( py_0, idy_0, inter_z );\n";
+    //    }
 
     void write_code_mm128( std::ostream &code, int simd_size, int nb_regs, bool inplace = false ) {
+        // helper
+        auto disp_c = [&]( const Op &op ) {
+            if ( op.dir > 0 )
+                code << "cut_id[ num_cut ]";
+            else
+                code << "reinterpret_cast<const CI *>( &pc_" << op.i0 / simd_size << " )[ " << op.i0 % simd_size << " ]";
+        };
+
         // get op indices for each type of operation
         std::vector<std::size_t> permutation_indices, interpolation_indices;
         for( std::size_t i = 0; i < std::min( ops.size(), std::size_t( nb_regs * simd_size ) ); ++i ) {
@@ -204,6 +213,12 @@ struct Mod {
                 code << "            __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );\n";
                 code << "            __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );\n";
                 code << "            __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );\n";
+
+                code << "            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( ";
+                disp_c( op_1 );
+                code << ", ";
+                disp_c( op_0 );
+                code << " ) );\n";
             }
         } else {
             // make a `idx_0` (for _mm512_permutex2var_pd)
@@ -222,10 +237,14 @@ struct Mod {
             code << "            TF m = d_" << op_0.i0 << " / ( d_" << op_0.i1 << " - d_" << op_0.i0 << " ); // 1\n";
             code << "            __m512d inter_x = _mm512_set1_pd( x_" << op_0.i0 << " - m * ( x_" << op_0.i1 << " - x_" << op_0.i0 << " ) );\n";
             code << "            __m512d inter_y = _mm512_set1_pd( y_" << op_0.i0 << " - m * ( y_" << op_0.i1 << " - y_" << op_0.i0 << " ) );\n";
+            code << "            __m512i inter_c = _mm512_set1_epi64( ";
+            disp_c( op_0 );
+            code << " );\n";
         }
 
         code << "            px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );\n";
         code << "            py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );\n";
+        code << "            pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );\n";
     }
 
     void write_code_scalar( std::ostream &code ) {
@@ -309,6 +328,11 @@ struct Mod {
                 code << "            x[ " << i << " ] = x_" << i0 << ";\n";
                 code << "            y[ " << i << " ] = y_" << i0 << ";\n";
             }
+
+            if ( ops[ i ].dir > 0 )
+                code << "            c[ " << i << " ] = cut_id[ num_cut ];\n";
+            else
+                code << "            c[ " << i << " ] = reinterpret_cast<const CI *>( &pc_" << i0 / simd_size << " )[ " << i0 % simd_size << " ];\n";
         }
 
         // bulk
@@ -355,15 +379,15 @@ bool get_code( std::ostringstream &code, int index, int max_size_included, int s
 
         // inside point => we keep it
         if ( outside[ i ] == 0 ) {
-            mod.ops.push_back( { i, -1 } );
+            mod.ops.push_back( { i, -1, 0 } );
             continue;
         }
 
         // outside point => create points on boundaries
         if ( ! outside[ h ] )
-            mod.ops.push_back( { i, h } );
+            mod.ops.push_back( { i, h, +1 } );
         if ( ! outside[ j ] )
-            mod.ops.push_back( { i, j } );
+            mod.ops.push_back( { i, j, -1 } );
     }
     mod.find_best_rotation();
 
@@ -388,14 +412,16 @@ void generate( int simd_size, std::string /*ext*/, int max_size_included = 8 ) {
     std::cout << "    // outsize list\n";
     std::cout << "    TF *x = &nodes->x;\n";
     std::cout << "    TF *y = &nodes->y;\n";
+    std::cout << "    CI *c = &nodes->cut_id.val;\n";
     for( int i = 0; i < nb_regs; ++i ) {
         std::cout << "    __m512d px_" << i << " = _mm512_load_pd( x + " << simd_size * i << " );\n";
         std::cout << "    __m512d py_" << i << " = _mm512_load_pd( y + " << simd_size * i << " );\n";
+        std::cout << "    __m512i pc_" << i << " = _mm512_load_epi64( c + " << simd_size * i << " );\n";
     }
     std::cout << "    for( std::size_t num_cut = 0; num_cut < nb_cuts; ++num_cut ) {\n";
     std::cout << "        __m512d rd = _mm512_set1_pd( cut_ps[ num_cut ] );\n";
-    std::cout << "        __m512d nx = _mm512_set1_pd( cut_dx[ num_cut ] );\n";
-    std::cout << "        __m512d ny = _mm512_set1_pd( cut_dy[ num_cut ] );\n";
+    std::cout << "        __m512d nx = _mm512_set1_pd( cut_dir[ 0 ][ num_cut ] );\n";
+    std::cout << "        __m512d ny = _mm512_set1_pd( cut_dir[ 1 ][ num_cut ] );\n";
     for( int i = 0; i < nb_regs; ++i ) {
         std::cout << "        __m512d bi_" << i << " = _mm512_add_pd( _mm512_mul_pd( px_" << i << ", nx ), _mm512_mul_pd( py_" << i << ", ny ) );\n";
         std::cout << "        std::uint8_t outside_" << i << " = _mm512_cmp_pd_mask( bi_" << i << ", rd, _CMP_GT_OQ );\n"; // OQ => 46.9, QS => 47.1
@@ -427,13 +453,16 @@ void generate( int simd_size, std::string /*ext*/, int max_size_included = 8 ) {
     for( int i = 0; i < nb_regs; ++i ) {
         std::cout << "            _mm512_store_pd( x + " << simd_size * i << ", px_" << i << " );\n";
         std::cout << "            _mm512_store_pd( y + " << simd_size * i << ", py_" << i << " );\n";
+        std::cout << "            _mm512_store_epi64( c + " << simd_size * i << ", pc_" << i << " );\n";
     }
-    std::cout << "            plane_cut_gen( cut_dx[ num_cut ], cut_dy[ num_cut ], cut_ps[ num_cut ], cut_id[ num_cut ], N<flags>() );\n";
+    std::cout << "            plane_cut_gen( cut_dir[ 0 ][ num_cut ], cut_dir[ 1 ][ num_cut ], cut_ps[ num_cut ], cut_id[ num_cut ], N<flags>() );\n";
     std::cout << "            x = &nodes->x;\n";
     std::cout << "            y = &nodes->y;\n";
+    std::cout << "            c = &nodes->cut_id.val;\n";
     for( int i = 0; i < nb_regs; ++i ) {
         std::cout << "            px_" << i << " = _mm512_load_pd( x + " << simd_size * i << " );\n";
         std::cout << "            py_" << i << " = _mm512_load_pd( y + " << simd_size * i << " );\n";
+        std::cout << "            pc_" << i << " = _mm512_load_epi64( c + " << simd_size * i << " );\n";
     }
     std::cout << "            break;\n";
     std::cout << "        }\n";
@@ -443,6 +472,7 @@ void generate( int simd_size, std::string /*ext*/, int max_size_included = 8 ) {
     for( int i = 0; i < nb_regs; ++i ) {
         std::cout << "    _mm512_store_pd( x + " << simd_size * i << ", px_" << i << " );\n";
         std::cout << "    _mm512_store_pd( y + " << simd_size * i << ", py_" << i << " );\n";
+        std::cout << "    _mm512_store_epi64( c + " << simd_size * i << ", pc_" << i << " );\n";
     }
 }
 
@@ -455,21 +485,21 @@ int main() {
     // double + uint64 version
     std::cout << "\n";
     std::cout << "template<class Pc> template<int flags>\n";
-    std::cout << "void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const TF *cut_dx, const TF *cut_dy, const TF *cut_ps, const CI *cut_id, std::size_t nb_cuts, N<flags>, S<double>, S<std::uint64_t> ) {\n";
+    std::cout << "void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cut_dir, const TF *cut_ps, const CI *cut_id, std::size_t nb_cuts, N<flags>, S<double>, S<std::uint64_t> ) {\n";
     std::cout << "    #ifdef __AVX512F__\n";
     generate( 8, "AVX512", 8 );
     std::cout << "    #else // __AVX512F__\n";
     std::cout << "    for( std::size_t i = 0; i < nb_cuts; ++i )\n";
-    std::cout << "        plane_cut_gen( cut_dx[ i ], cut_dy[ i ], cut_ps[ i ], cut_id[ i ], N<flags>() );\n";
+    std::cout << "        plane_cut_gen( cut_dir[ 0 ][ i ], cut_dir[ 1 ][ i ], cut_ps[ i ], cut_id[ i ], N<flags>() );\n";
     std::cout << "    #endif // __AVX512F__\n";
     std::cout << "}\n";
 
     // generic version
     std::cout << "\n";
     std::cout << "template<class Pc> template<int flags,class T,class U>\n";
-    std::cout << "void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( const TF *cut_dx, const TF *cut_dy, const TF *cut_ps, const CI *cut_id, std::size_t nb_cuts, N<flags>, S<T>, S<U> ) {\n";
+    std::cout << "void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cut_dir, const TF *cut_ps, const CI *cut_id, std::size_t nb_cuts, N<flags>, S<T>, S<U> ) {\n";
     std::cout << "    for( std::size_t i = 0; i < nb_cuts; ++i )\n";
-    std::cout << "        plane_cut_gen( cut_dx[ i ], cut_dy[ i ], cut_ps[ i ], cut_id[ i ], N<flags>() );\n";
+    std::cout << "        plane_cut_gen( cut_dir[ 0 ][ i ], cut_dir[ 1 ][ i ], cut_ps[ i ], cut_id[ i ], N<flags>() );\n";
     std::cout << "}\n";
 
     std::cout << "\n";

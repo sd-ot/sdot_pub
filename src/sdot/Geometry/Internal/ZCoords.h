@@ -82,7 +82,6 @@ TZ zcoords_for( std::array<const TF *,3> positions, TI index, Pt min_point, TF i
 //#ifdef __AVX512F__
 //template<int nb_bits_per_axis,class Pt>
 //void make_znodes( std::uint64_t *zcoords, std::uint64_t *indices, std::array<const double *,2> positions, std::size_t nb_diracs, Pt min_point, double inv_step_length ) {
-//    RaiiTime rt( "fill_grid_using_zcoords.zcf 512" );
 //    __m512d isl = _mm512_set1_pd( inv_step_length );
 //    __m512d mix = _mm512_set1_pd( min_point.x );
 //    __m512d miy = _mm512_set1_pd( min_point.y );
@@ -118,7 +117,6 @@ TZ zcoords_for( std::array<const TF *,3> positions, TI index, Pt min_point, TF i
 
 template<int nb_bits_per_axis,class TZ,class TI,class TF,std::size_t dim,class Pt>
 void make_znodes( TZ *zcoords, TI *indices, std::array<const TF *,dim> positions, TI nb_diracs, Pt min_point, TF inv_step_length ) {
-    RaiiTime rt( "fill_grid_using_zcoords.zcf" );
     TI nb_jobs = thread_pool.nb_threads();
     thread_pool.execute( nb_jobs, [&]( TI num_job, int ) {
         TI beg = ( num_job + 0 ) * nb_diracs / nb_jobs;

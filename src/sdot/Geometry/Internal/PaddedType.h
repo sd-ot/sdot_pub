@@ -1,49 +1,62 @@
 #pragma once
 
 #include <cstdint>
+#include <cstring>
 
 namespace sdot {
 
 /**
 */
-template<class TI,int bs,int sizeof_TF_on_sizeof_TI,int sizeof_TI_on_sizeof_TF>
-class ConvexPolyhedron2NodeCutId;
+template<class TI,int bs,int sizeof_TF,bool sizeof_TI_sup_sizeof_TF>
+class PaddedType;
 
 //
-template<class TI,int bs>
-class ConvexPolyhedron2NodeCutId<TI,bs,1,1> {
+template<class TI,int bs,int sizeof_TF>
+class PaddedType<TI,bs,sizeof_TF,false> {
 public:
-    TI   get() const { return val; }
-    void set( TI n ) { val = n; }
+    TI                   get      () const { return val; }
+    void                 set      ( TI n ) { val = n; }
 
-    TI   val, _pad_val[ bs - 1 ];
+    void                 operator=( TI nval ) { set( nval ); }
+    operator             TI       () { return get(); }
+
+    TI                   val;
+    char                 _pad[ sizeof_TF * bs - sizeof( TI ) ];
 };
 
 //
-template<int bs>
-class ConvexPolyhedron2NodeCutId<std::uint64_t,bs,0,2> {
+template<class TI,int bs,int sizeof_TF>
+class PaddedType<TI,bs,sizeof_TF,true> {
 public:
-    using TI = std::uint64_t;
-    using TP = std::uint32_t;
+    static constexpr int n        = ( sizeof( TI ) + sizeof_TF - 1 ) / sizeof_TF;
+    struct               Pad      { char values[ sizeof_TF * bs ]; };
 
-    TI    get() const { return TI( v_0 ) | ( TI( v_1 ) << 32 ); }
-    void  set( TI n ) { v_0 = TP( n ); v_1 = TP( n >> 32 ); }
+    TI                   get      () const;
+    void                 set      ( TI n );
 
-    TP    v_0, _pad_v_0[ bs - 1 ];
-    TP    v_1, _pad_v_1[ bs - 1 ];
+    void                 operator=( TI nval ) { set( nval ); }
+    operator             TI       () { return get(); }
+
+    Pad                  pads[ n ];
 };
 
-//
-template<class TI,int bs,int sizeof_TF_on_sizeof_TI>
-class ConvexPolyhedron2NodeCutId<TI,bs,sizeof_TF_on_sizeof_TI,0> {
-public:
-    struct TP { TI v; char p[ sizeof( TI ) * ( sizeof_TF_on_sizeof_TI - 1 ) ]; };
+template<class TI,int bs,int sizeof_TF>
+TI PaddedType<TI,bs,sizeof_TF,true>::get() const {
+    TI res = 0;
+    int o = 0, n = 0;
+    for( ; o + sizeof_TF <= n; o += sizeof_TF, ++n )
+        std::memcpy( reinterpret_cast<char *>( &res ) + o, pads[ n ].values, sizeof_TF );
+    std::memcpy( reinterpret_cast<char *>( &res ) + o, pads[ n ].values, sizeof( TI ) - o );
+    return res;
+}
 
-    TI     get() const { return val.v; }
-    void   set( TI n ) { val.v = n; }
-
-    TP     val, _pad_val[ bs - 1 ];
-};
+template<class TI,int bs,int sizeof_TF>
+void PaddedType<TI,bs,sizeof_TF,true>::set( TI nval ) {
+    int o = 0, n = 0;
+    for( ; o + sizeof_TF <= n; o += sizeof_TF, ++n )
+        std::memcpy( pads[ n ].values, reinterpret_cast<const char *>( &nval ) + o, sizeof_TF );
+    std::memcpy( pads[ n ].values, reinterpret_cast<const char *>( &nval ) + o, sizeof( TI ) - o );
+}
 
 } // namespace sdot
 

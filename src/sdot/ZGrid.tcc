@@ -221,7 +221,7 @@ int ZGrid<Pc>::for_each_laguerre_cell( const std::function<void( CP &, TI num, i
                 #endif
 
                 // do the cuts
-                lc.plane_cut( cut.dx, cut.dy, cut.ps, cut.id, nb_cuts );
+                lc.plane_cut( { cut.dx, cut.dy }, cut.ps, cut.id, nb_cuts );
 
                 // front
                 front.init( num_cell, c0, w0 );
@@ -278,7 +278,7 @@ int ZGrid<Pc>::for_each_laguerre_cell( const std::function<void( CP &, TI num, i
                     }
                     #endif
 
-                    lc.plane_cut( cut.dx, cut.dy, cut.ps, cut.id, nb_cuts );
+                    lc.plane_cut( { cut.dx, cut.dy }, cut.ps, cut.id, nb_cuts );
 
                     // update the front
                     for( TI num_ng_cell : Span<TI>{ grid.ng_indices.data(), grid.ng_offsets[ cr.num_cell + 0 ], grid.ng_offsets[ cr.num_cell + 1 ] } )
@@ -447,9 +447,6 @@ void ZGrid<Pc>::fill_grid_using_zcoords( std::array<const TF *,dim> positions, c
     znodes_inds.resize( nb_diracs );
     make_znodes<nb_bits_per_axis>( znodes_keys.data(), znodes_inds.data(), positions, nb_diracs, min_point, inv_step_length );
 
-    // prepare cell_index_vs_dirac_number => we will set the values for the diracs in this grid
-    grid.cell_index_vs_dirac_number.resize( nb_diracs );
-
     // sorting w.r.t. zcoords
     znodes_keys.reserve( 2 * znodes_keys.size() );
     znodes_inds.reserve( 2 * znodes_inds.size() );
@@ -481,7 +478,6 @@ void ZGrid<Pc>::fill_grid_using_zcoords( std::array<const TF *,dim> positions, c
 
                         for( TI n = index - max_diracs_per_cell; n < znodes_keys.size(); ++n ) {
                             if ( sorted_znodes.first[ n ] >= prev_z && sorted_znodes.first[ n ] < new_prev_z ) {
-                                grid.cell_index_vs_dirac_number[ sorted_znodes.second[ n ] ] = zcells_keys.size();
                                 grid.dpc_values.push_back( sorted_znodes.second[ n ] );
                                 ++index;
                             }
@@ -516,7 +512,6 @@ void ZGrid<Pc>::fill_grid_using_zcoords( std::array<const TF *,dim> positions, c
 
                 for( TI n = index - max_diracs_per_cell, l = index; n < l; ++n ) {
                     if ( sorted_znodes.first[ n ] >= prev_z && sorted_znodes.first[ n ] < new_prev_z ) {
-                        grid.cell_index_vs_dirac_number[ sorted_znodes.second[ n ] ] = zcells_keys.size();
                         grid.dpc_values.push_back( sorted_znodes.second[ n ] );
                         ++index;
                     }

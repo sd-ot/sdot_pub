@@ -1,7 +1,7 @@
 #pragma once
 
 #include "PaddedType.h"
-#include "../Point2.h"
+#include "../Point3.h"
 
 namespace sdot {
 
@@ -9,11 +9,12 @@ namespace sdot {
   Data layout:
 */
 template<class TF,class TI,class CI,int bs,bool store_the_normals,bool allow_ball_cut>
-class alignas(32) ConvexPolyhedron2NodeBlock {
+class alignas(32) ConvexPolyhedron3NodeBlock {
 public:
-    using       Node                     = ConvexPolyhedron2NodeBlock;
-    using       PCI                      = PaddedType<CI,bs,sizeof(TF),(sizeof(CI )>sizeof(TF))>;
-    using       Pt                       = Point2<TF>;
+    using       Node                     = ConvexPolyhedron3NodeBlock;
+    using       PC                       = PaddedType<CI ,bs,sizeof(TF),(sizeof(CI )>sizeof(TF))>;
+    using       PI                       = PaddedType<int,bs,sizeof(TF),(sizeof(int)>sizeof(TF))>;
+    using       Pt                       = Point3<TF>;
 
     Pt          pos                      () const { return { x, y }; }
     Pt          dir                      () const { return { dir_x, dir_y }; }
@@ -34,7 +35,7 @@ public:
     TF          arc_radius  , _pad_arc_radius  [ bs - 1 ]; // < 0 if straight line
     TF          arc_center_x, _pad_arc_center_x[ bs - 1 ]; // arc center x
     TF          arc_center_y, _pad_arc_center_y[ bs - 1 ]; // arc center y
-    PCI         cut_id;                                    // actually stored as TI
+    PC          cut_id;                                    // actually stored as TI
 };
 
 } // namespace sdot

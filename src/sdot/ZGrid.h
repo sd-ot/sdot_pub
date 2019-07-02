@@ -49,11 +49,10 @@ private:
     };
 
     struct                         Grid {
-        std::vector<TI>            cell_index_vs_dirac_number; ///< num cell for each dirac
-        std::vector<TI>            dirac_indices;              ///< filled only if blocks.size() > 1
-        std::vector<TI>            dpc_values;                 ///< diracs indices for each cell
-        std::vector<TI>            ng_indices;                 ///< list of cell index of direct neighbors
-        std::vector<TI>            ng_offsets;                 ///< offsets in ng_indices for each cell
+        // std::vector<TI>         dirac_indices;         ///< filled only if blocks.size() > 1
+        std::vector<TI>            dpc_values;            ///< index of diracs for each cell
+        std::vector<TI>            ng_indices;            ///< list of cell index of direct neighbors
+        std::vector<TI>            ng_offsets;            ///< offsets in ng_indices for each cell
         TF                         min_weight;
         TF                         max_weight;
         std::vector<Cell>          cells;

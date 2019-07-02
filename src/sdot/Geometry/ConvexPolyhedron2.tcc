@@ -106,7 +106,7 @@ ConvexPolyhedron2<Pc> &ConvexPolyhedron2<Pc>::operator=( const ConvexPolyhedron2
 
     sphere_radius = that.sphere_radius;
     sphere_center = that.sphere_center;
-    sphere_id     = that.sphere_id;
+    sphere_cut_id     = that.sphere_cut_id;
 
     return *this;
 }
@@ -176,6 +176,41 @@ const typename ConvexPolyhedron2<Pc>::Node &ConvexPolyhedron2<Pc>::node( TI inde
 template<class Pc>
 typename ConvexPolyhedron2<Pc>::Node &ConvexPolyhedron2<Pc>::node( TI index ) {
     return nodes->global_at( index );
+}
+
+template<class Pc>
+void ConvexPolyhedron2<Pc>::for_each_boundary_item( const std::function<void( const BoundaryItem &boundary_item )> &f, TF /*weight*/ ) const {
+    if ( nb_nodes() == 0 ) {
+        if ( sphere_radius >= 0 ) {
+            BoundaryItem item;
+            item.id = sphere_cut_id;
+            item.measure = 2 * pi( S<TF>() ) * sphere_radius;
+            item.a0 = 1;
+            item.a1 = 0;
+            f( item );
+        }
+        return;
+    }
+
+    for( size_t i1 = 0, i0 = nb_nodes() - 1; i1 < nb_nodes(); i0 = i1++ ) {
+        BoundaryItem item;
+        item.id = node( i0 ).cut_id.get();
+        item.points[ 0 ] = node( i0 ).pos();
+        item.points[ 1 ] = node( i1 ).pos();
+
+        if ( allow_ball_cut && node( i0 ).arc_radius > 0 ) {
+            using std::atan2;
+            item.a0 = atan2( node( i0 ).y - sphere_center.y, node( i0 ).x - sphere_center.x );
+            item.a1 = atan2( node( i1 ).y - sphere_center.y, node( i1 ).x - sphere_center.x );
+            if ( item.a1 < item.a0 )
+                item.a1 += 2 * pi( S<TF>() );
+            item.measure = ( item.a1 - item.a0 ) * sphere_radius;
+        } else {
+            item.measure = norm_2( node( i1 ).pos() - node( i0 ).pos() );
+        }
+
+        f( item );
+    }
 }
 
 template<class Pc>
@@ -611,28 +646,28 @@ void ConvexPolyhedron2<Pc>::plane_cut_gen( TF cut_dx, TF cut_dy, TF cut_ps, CI c
 }
 
 template<class Pc> template<int flags>
-void ConvexPolyhedron2<Pc>::plane_cut( const TF *cut_dx, const TF *cut_dy, const TF *cut_ps, const CI *cut_id, std::size_t nb_cuts, N<flags> ) {
+void ConvexPolyhedron2<Pc>::plane_cut( std::array<const TF *,dim> cut_dir, const TF *cut_ps, const CI *cut_id, std::size_t nb_cuts, N<flags> ) {
     // no simd ?
     if ( flags & ConvexPolyhedron::do_not_use_simd ) {
         for( std::size_t i = 0; i < nb_cuts; ++i )
-            plane_cut_gen( cut_dx[ i ], cut_dy[ i ], cut_ps[ i ], cut_id[ i ], N<flags>() );
+            plane_cut_gen( cut_dir[ 0 ][ i ], cut_dir[ 1 ][ i ], cut_ps[ i ], cut_id[ i ], N<flags>() );
         return;
     }
 
     // no switch version ?
     if ( flags & ConvexPolyhedron::do_not_use_switch ) {
         for( std::size_t i = 0; i < nb_cuts; ++i )
-            plane_cut_simd_tzcnt( cut_dx[ i ], cut_dy[ i ], cut_ps[ i ], cut_id[ i ], N<flags>(), S<TF>(), S<CI>() );
+            plane_cut_simd_tzcnt( cut_dir[ 0 ][ i ], cut_dir[ 1 ][ i ], cut_ps[ i ], cut_id[ i ], N<flags>(), S<TF>(), S<CI>() );
         return;
     }
 
     // => default version
-    plane_cut_simd_switch( cut_dx, cut_dy, cut_ps, cut_id, nb_cuts, N<flags>(), S<TF>(), S<CI>() );
+    plane_cut_simd_switch( cut_dir, cut_ps, cut_id, nb_cuts, N<flags>(), S<TF>(), S<CI>() );
 }
 
 template<class Pc>
-void ConvexPolyhedron2<Pc>::plane_cut( const TF *cut_dx, const TF *cut_dy, const TF *cut_ps, const CI *cut_id, std::size_t nb_cuts ) {
-    return plane_cut( cut_dx, cut_dy, cut_ps, cut_id, nb_cuts, N<0>() );
+void ConvexPolyhedron2<Pc>::plane_cut( std::array<const TF *,dim> cut_dir, const TF *cut_ps, const CI *cut_id, std::size_t nb_cuts ) {
+    return plane_cut( cut_dir, cut_ps, cut_id, nb_cuts, N<0>() );
 }
 
 template<class Pc>
@@ -688,6 +723,11 @@ typename ConvexPolyhedron2<Pc>::TF ConvexPolyhedron2<Pc>::integral() const {
     }
 
     return res;
+}
+
+template<class Pc> template<class TL>
+void ConvexPolyhedron2<Pc>::BoundaryItem::add_simplex_list( TL &lst ) const {
+    lst.push_back( { points[ 0 ], points[ 1 ] } );
 }
 
 } // namespace sdot
