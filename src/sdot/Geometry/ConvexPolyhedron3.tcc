@@ -69,17 +69,17 @@ ConvexPolyhedron3<Pc>::ConvexPolyhedron3( const Box &box, CI cut_id ) : ConvexPo
         if ( allow_ball_cut )
             face.round = false;
 
-        face.num_in_edge_beg = num_in_edges.size();
-        face.num_in_edge_len = num_in_edges.size();
+        face.num_in_edge_beg = num_in_edges_m2.size();
+        face.num_in_edge_len = num_in_edges_m2.size();
         face.normal          = normalized( cross_prod( P0 - P1, P2 - P1 ) );
         face.cut_id          = cut_id;
 
         faces.push_back( face );
 
-        num_in_edges.push_back( e0 );
-        num_in_edges.push_back( e1 );
-        num_in_edges.push_back( e2 );
-        num_in_edges.push_back( e3 );
+        num_in_edges_m2.push_back( e0 );
+        num_in_edges_m2.push_back( e1 );
+        num_in_edges_m2.push_back( e2 );
+        num_in_edges_m2.push_back( e3 );
 
         edges( e0 / 2 ).set_face( e0 % 2, faces.size() );
         edges( e1 / 2 ).set_face( e1 % 2, faces.size() );
@@ -180,13 +180,20 @@ void ConvexPolyhedron3<Pc>::write_to_stream( std::ostream &os ) const {
 }
 
 template<class Pc>
-void ConvexPolyhedron3<Pc>::display( VtkOutput &vo, const std::vector<TF> &cell_values, Pt offset ) const {
+void ConvexPolyhedron3<Pc>::display( VtkOutput &vo, const std::vector<TF> &cell_values, Pt offset, bool display_both_sides ) const {
     std::vector<VtkOutput::Pt> pts;
-    pts.reserve( nb_nodes() );
-    for_each_node( [&]( const Node &node ) {
-        pts.push_back( node.pos() + offset );
-    } );
-    vo.add_polygon( pts, cell_values );
+    for( const Face &face : faces ) {
+        if ( face.round ) {
+            TODO;
+        } else if ( display_both_sides || face.cut_id > sphere_cut_id ) {
+            pts.resize( face.num_in_edge_len );
+            for( std::size_t i = 0; i < face.num_in_edge_len; ++i ) {
+                int num_in_edge = num_in_edges_m2[ face.num_in_edge_beg + i ];
+                pts[ i ] = node( edge( num_in_edge / 2 ).num_node( num_in_edge % 2 ) ).pos();
+            }
+            vo.add_polygon( pts, cell_values );
+        }
+    }
 }
 
 template<class Pc> template<class F>

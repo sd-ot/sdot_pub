@@ -60,7 +60,7 @@ public:
     template<class F> void               for_each_node             ( const F &f ) const;
     TI                                   nb_nodes                  () const;
     TI                                   nb_edges                  () const;
-    void                                 display                   ( VtkOutput &vo, const std::vector<TF> &cell_values = {}, Pt offset = TF( 0 ) ) const;
+    void                                 display                   ( VtkOutput &vo, const std::vector<TF> &cell_values = {}, Pt offset = TF( 0 ), bool display_both_sides = true ) const;
     bool                                 empty                     () const;
 
     const Node&                          node                      ( TI index ) const;
@@ -88,7 +88,7 @@ public:
     CI                                   sphere_cut_id;
 
 private:
-    std::vector<int>                     num_in_edges;             ///< 2 * real_num + 1 * reverse
+    std::vector<int>                     num_in_edges_m2;             ///< 2 * real_num + 1 * reverse
     TI                                   nodes_size;               ///< nb nodes
     TI                                   nodes_rese;               ///< nb nodes that can be stored without reallocation
     TI                                   edges_size;               ///< nb edges
