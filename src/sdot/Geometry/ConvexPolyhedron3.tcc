@@ -45,32 +45,32 @@ ConvexPolyhedron3<Pc>::ConvexPolyhedron3( const Box &box, CI cut_id ) : ConvexPo
 
     auto set_edge = [&]( TI index, TI n0, TI n1 ) { edge( index ).node_0 = n0; edge( index ).node_1 = n1; };
 
-    set_edge(  0, n0, n1 );
-    set_edge(  1, n1, n3 );
-    set_edge(  2, n3, n2 );
-    set_edge(  3, n2, n0 );
+    set_edge(  0, 0, 1 );
+    set_edge(  1, 1, 3 );
+    set_edge(  2, 3, 2 );
+    set_edge(  3, 2, 0 );
 
-    set_edge(  4, n4, n6 );
-    set_edge(  5, n6, n7 );
-    set_edge(  6, n7, n5 );
-    set_edge(  7, n5, n4 );
+    set_edge(  4, 4, 6 );
+    set_edge(  5, 6, 7 );
+    set_edge(  6, 7, 5 );
+    set_edge(  7, 5, 4 );
 
-    set_edge(  8, n0, n4 );
-    set_edge(  9, n1, n5 );
-    set_edge( 10, n3, n7 );
-    set_edge( 11, n2, n6 );
+    set_edge(  8, 0, 4 );
+    set_edge(  9, 1, 5 );
+    set_edge( 10, 3, 7 );
+    set_edge( 11, 2, 6 );
 
     auto add_face = [&]( int e0, int e1, int e2, int e3 ) {
-        Pt P0 = node( edges( e0 / 2 ).num_node( 0 + e0 % 2 ) ).pos();
-        Pt P1 = node( edges( e0 / 2 ).num_node( 1 - e0 % 2 ) ).pos();
-        Pt P2 = node( edges( e1 / 2 ).num_node( 1 - e1 % 2 ) ).pos();
+        Pt P0 = node( edge_n0( e0 ) ).pos();
+        Pt P1 = node( edge_n1( e0 ) ).pos();
+        Pt P2 = node( edge_n1( e1 ) ).pos();
 
         Face face;
         if ( allow_ball_cut )
             face.round = false;
 
         face.num_in_edge_beg = num_in_edges_m2.size();
-        face.num_in_edge_len = num_in_edges_m2.size();
+        face.num_in_edge_len = 4;
         face.normal          = normalized( cross_prod( P0 - P1, P2 - P1 ) );
         face.cut_id          = cut_id;
 
@@ -81,10 +81,10 @@ ConvexPolyhedron3<Pc>::ConvexPolyhedron3( const Box &box, CI cut_id ) : ConvexPo
         num_in_edges_m2.push_back( e2 );
         num_in_edges_m2.push_back( e3 );
 
-        edges( e0 / 2 ).set_face( e0 % 2, faces.size() );
-        edges( e1 / 2 ).set_face( e1 % 2, faces.size() );
-        edges( e2 / 2 ).set_face( e2 % 2, faces.size() );
-        edges( e3 / 2 ).set_face( e3 % 2, faces.size() );
+        edge( e0 / 2 ).set_face( e0 % 2, faces.size() );
+        edge( e1 / 2 ).set_face( e1 % 2, faces.size() );
+        edge( e2 / 2 ).set_face( e2 % 2, faces.size() );
+        edge( e3 / 2 ).set_face( e3 % 2, faces.size() );
     };
 
     const int a = 10;
@@ -108,6 +108,10 @@ ConvexPolyhedron3<Pc>::ConvexPolyhedron3() {
     nodes_size  = 0;
     nodes_rese  = block_size;
     nodes = new ( aligned_malloc( nodes_rese / block_size * sizeof( Node ), 64 ) ) Node;
+
+    edges_size  = 0;
+    edges_rese  = block_size;
+    edges = new ( aligned_malloc( edges_rese / block_size * sizeof( Edge ), 64 ) ) Edge;
 
     sphere_radius = 0;
 }
@@ -189,7 +193,7 @@ void ConvexPolyhedron3<Pc>::display( VtkOutput &vo, const std::vector<TF> &cell_
             pts.resize( face.num_in_edge_len );
             for( std::size_t i = 0; i < face.num_in_edge_len; ++i ) {
                 int num_in_edge = num_in_edges_m2[ face.num_in_edge_beg + i ];
-                pts[ i ] = node( edge( num_in_edge / 2 ).num_node( num_in_edge % 2 ) ).pos();
+                pts[ i ] = node( edge_n0( num_in_edge ) ).pos();
             }
             vo.add_polygon( pts, cell_values );
         }
@@ -256,38 +260,39 @@ typename ConvexPolyhedron3<Pc>::Edge &ConvexPolyhedron3<Pc>::edge( TI index ) {
 }
 
 template<class Pc>
-void ConvexPolyhedron3<Pc>::for_each_boundary_item( const std::function<void( const BoundaryItem &boundary_item )> &f, TF /*weight*/ ) const {
-    if ( nb_nodes() == 0 ) {
-        if ( sphere_radius >= 0 ) {
-            BoundaryItem item;
-            item.id = sphere_cut_id;
-            item.measure = 2 * pi( S<TF>() ) * sphere_radius;
-            item.a0 = 1;
-            item.a1 = 0;
-            f( item );
-        }
-        return;
-    }
+void ConvexPolyhedron3<Pc>::for_each_boundary_item( const std::function<void( const BoundaryItem &boundary_item )> &/*f*/, TF /*weight*/ ) const {
+    TODO;
+    //    if ( nb_nodes() == 0 ) {
+    //        if ( sphere_radius >= 0 ) {
+    //            BoundaryItem item;
+    //            item.id = sphere_cut_id;
+    //            item.measure = 2 * pi( S<TF>() ) * sphere_radius;
+    //            item.a0 = 1;
+    //            item.a1 = 0;
+    //            f( item );
+    //        }
+    //        return;
+    //    }
 
-    for( size_t i1 = 0, i0 = nb_nodes() - 1; i1 < nb_nodes(); i0 = i1++ ) {
-        BoundaryItem item;
-        item.id = node( i0 ).cut_id.get();
-        item.points[ 0 ] = node( i0 ).pos();
-        item.points[ 1 ] = node( i1 ).pos();
+    //    for( size_t i1 = 0, i0 = nb_nodes() - 1; i1 < nb_nodes(); i0 = i1++ ) {
+    //        BoundaryItem item;
+    //        //item.id = node( i0 ).cut_id.get();
+    //        item.points[ 0 ] = node( i0 ).pos();
+    //        item.points[ 1 ] = node( i1 ).pos();
 
-        if ( allow_ball_cut && node( i0 ).arc_radius > 0 ) {
-            using std::atan2;
-            item.a0 = atan2( node( i0 ).y - sphere_center.y, node( i0 ).x - sphere_center.x );
-            item.a1 = atan2( node( i1 ).y - sphere_center.y, node( i1 ).x - sphere_center.x );
-            if ( item.a1 < item.a0 )
-                item.a1 += 2 * pi( S<TF>() );
-            item.measure = ( item.a1 - item.a0 ) * sphere_radius;
-        } else {
-            item.measure = norm_2( node( i1 ).pos() - node( i0 ).pos() );
-        }
+    //        if ( allow_ball_cut && node( i0 ).arc_radius > 0 ) {
+    //            using std::atan2;
+    //            item.a0 = atan2( node( i0 ).y - sphere_center.y, node( i0 ).x - sphere_center.x );
+    //            item.a1 = atan2( node( i1 ).y - sphere_center.y, node( i1 ).x - sphere_center.x );
+    //            if ( item.a1 < item.a0 )
+    //                item.a1 += 2 * pi( S<TF>() );
+    //            item.measure = ( item.a1 - item.a0 ) * sphere_radius;
+    //        } else {
+    //            item.measure = norm_2( node( i1 ).pos() - node( i0 ).pos() );
+    //        }
 
-        f( item );
-    }
+    //        f( item );
+    //    }
 }
 
 template<class Pc>

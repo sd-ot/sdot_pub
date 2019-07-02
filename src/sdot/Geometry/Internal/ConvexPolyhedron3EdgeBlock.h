@@ -13,7 +13,7 @@ public:
     using       Edge                     = ConvexPolyhedron3EdgeBlock;
     using       PI                       = PaddedType<int,bs,sizeof(TF),(sizeof(int)>sizeof(TF))>;
 
-    int         num_node                 ( int o ) { return o ? node_1.get() : node_0.get(); }
+    int         num_node                 ( int o ) const { return o ? node_1.get() : node_0.get(); }
 
     void        set_face                 ( int o, TI num ) { ( o ? face_1 : face_0 ).set( num ); }
 
@@ -21,7 +21,7 @@ public:
     Edge&       local_at                 ( TI index ) { return *reinterpret_cast<Edge *>( reinterpret_cast<const TF *>( this ) + index ); }
 
     const Edge& global_at                ( TI index ) const { return *reinterpret_cast<const Edge *>( reinterpret_cast<const TF *>( this + index / bs ) + index % bs ); }
-    Edge&       global_at                ( TI index ) { return *reinterpret_cast<Edge *>( reinterpret_cast<const TF *>( this + index / bs ) + index % bs ); }
+    Edge&       global_at                ( TI index ) { return *reinterpret_cast<Edge *>( reinterpret_cast<TF *>( this + index / bs ) + index % bs ); }
 
     void        get_content_from         ( const Edge &b ) { get_straight_content_from( b ); if ( allow_ball_cut ) {
                                                              tangent_0_x = b.tangent_0_x; tangent_0_y = b.tangent_0_y; tangent_0_z = b.tangent_0_z;

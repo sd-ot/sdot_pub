@@ -41,7 +41,7 @@ public:
     static constexpr TI                  block_size                = 64;
     static constexpr TI                  dim                       = 3;
     struct                               BoundaryItem              { std::array<Pt,2> points; TF measure, a0, a1; CI id; template<class TL> void add_simplex_list( TL &lst ) const; };
-    using                                Node                      = ConvexPolyhedron3NodeBlock<TF,TI,CI,block_size,store_the_normals,allow_ball_cut>;
+    using                                Node                      = ConvexPolyhedron3NodeBlock<TF,TI,block_size>;
     using                                Edge                      = ConvexPolyhedron3EdgeBlock<TF,TI,block_size,allow_ball_cut>;
     struct                               Face                      { TI num_in_edge_beg; TI num_in_edge_len; Pt normal; CI cut_id; bool round; };
 
@@ -68,6 +68,9 @@ public:
 
     const Edge&                          edge                      ( TI index ) const;
     Edge&                                edge                      ( TI index );
+
+    int                                  edge_n0                   ( int num_edge_m2 ) const { return edge( num_edge_m2 / 2 ).num_node( 0 + num_edge_m2 % 2 ); }
+    int                                  edge_n1                   ( int num_edge_m2 ) const { return edge( num_edge_m2 / 2 ).num_node( 1 - num_edge_m2 % 2 ); }
 
     void                                 for_each_boundary_item    ( const std::function<void( const BoundaryItem &boundary_item )> &f, TF weight = 0 ) const;
 
