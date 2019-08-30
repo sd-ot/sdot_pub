@@ -19,7 +19,7 @@ void test_regular_cuts( VtkOutput &vo, int &cpt_vo, std::size_t nb_nodes, N<Simd
 
     // initial cell
     Cp lc( typename Cp::Box{ { -2, -2 }, { +2, +2 } } );
-    constexpr int flags = ConvexPolyhedron::do_not_use_simd     * ( Simd   == 0 ) +
+    constexpr int flags = ConvexPolyhedron::do_not_use_simd   * ( Simd   == 0 ) +
                           ConvexPolyhedron::do_not_use_switch * ( Switch == 0 );
 
     // cuts

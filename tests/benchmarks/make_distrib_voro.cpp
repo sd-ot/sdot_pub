@@ -90,7 +90,7 @@ void test( std::size_t nb_diracs, std::size_t nb_points ) {
     for( Boundary<Pc> &b : boundaries )
         b.acc /= acc;
 
-    boost::mt19937 rng; // I don't seed it on purpouse (it's not relevant)
+    boost::mt19937 rng; // not seeded (it's not relevant)
     boost::normal_distribution<> nd( 0.0, 0.001 );
     boost::variate_generator<boost::mt19937&,boost::normal_distribution<>> var_nor(rng, nd);
 

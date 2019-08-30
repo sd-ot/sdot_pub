@@ -20,100 +20,69 @@ namespace sdot {
 
 template<class Pc>
 ConvexPolyhedron3<Pc>::ConvexPolyhedron3( const Box &box, CI cut_id ) : ConvexPolyhedron3() {
-    set_nb_nodes(  8 );
-    set_nb_edges( 12 );
+    // nodes
+    auto set_node = [&]( TI index, TF x, TF y, TF z ) -> Node * {
+        Node *res = &node( index );
+        for( TI i = 0; i < 3; ++i )
+            res->next_in_faces[ i ].set( { nullptr, 0 } );
+        res->x = x;
+        res->y = y;
+        res->z = z;
 
-    Node &n0 = node( 0 );
-    Node &n1 = node( 1 );
-    Node &n2 = node( 2 );
-    Node &n3 = node( 3 );
-    Node &n4 = node( 4 );
-    Node &n5 = node( 5 );
-    Node &n6 = node( 6 );
-    Node &n7 = node( 7 );
-
-    auto set_node = [&]( TI index, TF x, TF y, TF z ) { node( index ).x = x; node( index ).y = y; node( index ).z = z; };
-
-    set_node( 0, box.p0.x, box.p0.y, box.p0.z );
-    set_node( 1, box.p1.x, box.p0.y, box.p0.z );
-    set_node( 2, box.p0.x, box.p1.y, box.p0.z );
-    set_node( 3, box.p1.x, box.p1.y, box.p0.z );
-    set_node( 4, box.p0.x, box.p0.y, box.p1.z );
-    set_node( 5, box.p1.x, box.p0.y, box.p1.z );
-    set_node( 6, box.p0.x, box.p1.y, box.p1.z );
-    set_node( 7, box.p1.x, box.p1.y, box.p1.z );
-
-    auto set_edge = [&]( TI index, TI n0, TI n1 ) { edge( index ).node_0 = n0; edge( index ).node_1 = n1; };
-
-    set_edge(  0, 0, 1 );
-    set_edge(  1, 1, 3 );
-    set_edge(  2, 3, 2 );
-    set_edge(  3, 2, 0 );
-
-    set_edge(  4, 4, 6 );
-    set_edge(  5, 6, 7 );
-    set_edge(  6, 7, 5 );
-    set_edge(  7, 5, 4 );
-
-    set_edge(  8, 0, 4 );
-    set_edge(  9, 1, 5 );
-    set_edge( 10, 3, 7 );
-    set_edge( 11, 2, 6 );
-
-    auto add_face = [&]( int e0, int e1, int e2, int e3 ) {
-        Pt P0 = node( edge_n0( e0 ) ).pos();
-        Pt P1 = node( edge_n1( e0 ) ).pos();
-        Pt P2 = node( edge_n1( e1 ) ).pos();
-
-        Face face;
-        if ( allow_ball_cut )
-            face.round = false;
-
-        face.num_in_edge_beg = num_in_edges_m2.size();
-        face.num_in_edge_len = 4;
-        face.normal          = normalized( cross_prod( P0 - P1, P2 - P1 ) );
-        face.cut_id          = cut_id;
-
-        faces.push_back( face );
-
-        num_in_edges_m2.push_back( e0 );
-        num_in_edges_m2.push_back( e1 );
-        num_in_edges_m2.push_back( e2 );
-        num_in_edges_m2.push_back( e3 );
-
-        edge( e0 / 2 ).set_face( e0 % 2, faces.size() );
-        edge( e1 / 2 ).set_face( e1 % 2, faces.size() );
-        edge( e2 / 2 ).set_face( e2 % 2, faces.size() );
-        edge( e3 / 2 ).set_face( e3 % 2, faces.size() );
+        return res;
     };
 
-    const int a = 10;
-    const int b = 11;
+    set_nb_nodes( 8 );
 
-    add_face( 2 * 0 + 0, 2 * 1 + 0, 2 * 2 + 0, 2 * 3 + 0 );
-    add_face( 2 * 4 + 0, 2 * 5 + 0, 2 * 6 + 0, 2 * 7 + 0 );
+    Node *n0 = set_node( 0, box.p0.x, box.p0.y, box.p0.z );
+    Node *n1 = set_node( 1, box.p1.x, box.p0.y, box.p0.z );
+    Node *n2 = set_node( 2, box.p0.x, box.p1.y, box.p0.z );
+    Node *n3 = set_node( 3, box.p1.x, box.p1.y, box.p0.z );
+    Node *n4 = set_node( 4, box.p0.x, box.p0.y, box.p1.z );
+    Node *n5 = set_node( 5, box.p1.x, box.p0.y, box.p1.z );
+    Node *n6 = set_node( 6, box.p0.x, box.p1.y, box.p1.z );
+    Node *n7 = set_node( 7, box.p1.x, box.p1.y, box.p1.z );
 
-    add_face( 2 * 8 + 0, 2 * 7 + 1, 2 * 9 + 1, 2 * 0 + 1 );
-    add_face( 2 * a + 0, 2 * 5 + 1, 2 * b + 1, 2 * 2 + 1 );
+    // faces
+    auto add_face = [&]( Node *n0, Node *n1, Node *n2, Node *n3 ) {
+        Pt P0 = n0->pos();
+        Pt P1 = n1->pos();
+        Pt P2 = n2->pos();
 
-    add_face( 2 * b + 0, 2 * 4 + 1, 2 * 8 + 1, 2 * 3 + 1 );
-    add_face( 2 * 9 + 0, 2 * 6 + 1, 2 * a + 1, 2 * 1 + 1 );
+        Face *face = faces.create();
+        if ( allow_ball_cut )
+            face->round = false;
+        face->normal = normalized( cross_prod( P0 - P1, P2 - P1 ) );
+        face->cut_id = cut_id;
 
-    //    if ( keep_min_max_coords )
-    //        update_min_max_coord();
+        TI o0 = n0->free_edge();
+        TI o1 = n1->free_edge();
+        TI o2 = n2->free_edge();
+        TI o3 = n3->free_edge();
+
+        face->first_edge = { n0, o0 };
+        n0->next_in_faces[ o0 ].set( { n1, o1 } );
+        n1->next_in_faces[ o1 ].set( { n2, o2 } );
+        n2->next_in_faces[ o2 ].set( { n3, o3 } );
+        n3->next_in_faces[ o3 ].set( { n0, o0 } );
+    };
+
+    add_face( n0, n2, n6, n4 );
+    add_face( n0, n1, n3, n2 );
+    add_face( n1, n5, n7, n3 );
+    add_face( n4, n6, n7, n5 );
+    add_face( n0, n4, n5, n1 );
+    add_face( n2, n3, n7, n6 );
 }
 
 template<class Pc>
 ConvexPolyhedron3<Pc>::ConvexPolyhedron3() {
-    nodes_size  = 0;
-    nodes_rese  = block_size;
+    nodes_size = 0;
+    nodes_rese = block_size;
     nodes = new ( aligned_malloc( nodes_rese / block_size * sizeof( Node ), 64 ) ) Node;
 
-    edges_size  = 0;
-    edges_rese  = block_size;
-    edges = new ( aligned_malloc( edges_rese / block_size * sizeof( Edge ), 64 ) ) Edge;
-
     sphere_radius = 0;
+    num_cut_proc  = 0;
 }
 
 template<class Pc>
@@ -124,57 +93,59 @@ ConvexPolyhedron3<Pc>::~ConvexPolyhedron3() {
 
 template<class Pc>
 ConvexPolyhedron3<Pc> &ConvexPolyhedron3<Pc>::operator=( const ConvexPolyhedron3 &that ) {
-    //    this->nb_changes = that.nb_changes;
-    set_nb_nodes( that.nb_nodes() );
+    TODO;
+    //    //    this->nb_changes = that.nb_changes;
+    //    set_nb_nodes( that.nb_nodes() );
 
-    for( std::size_t i = 0; ; i += block_size ) {
-        Node &n = nodes[ i / block_size ];
-        const Node &t = that.nodes[ i / block_size ];
-        if ( i + block_size > nodes_size ) {
-            std::size_t r = nodes_size - i;
-            std::memcpy( &n.x, &t.x, r * sizeof( TF ) );
-            std::memcpy( &n.y, &t.y, r * sizeof( TF ) );
-            if ( store_the_normals ) {
-                std::memcpy( &n.dir_x, &t.dir_x, r * sizeof( TF ) );
-                std::memcpy( &n.dir_y, &t.dir_y, r * sizeof( TF ) );
-            }
-            if ( allow_ball_cut ) {
-                std::memcpy( &n.arc_radius  , &t.arc_radius  , r * sizeof( TF ) );
-                std::memcpy( &n.arc_center_x, &t.arc_center_x, r * sizeof( TF ) );
-                std::memcpy( &n.arc_center_y, &t.arc_center_y, r * sizeof( TF ) );
-            }
-            for( std::size_t j = 0; j < r; ++j )
-                n.local_at( j ).cut_id.set( t.local_at( j ).cut_id.get() );
-            break;
-        }
+    //    for( std::size_t i = 0; ; i += block_size ) {
+    //        Node &n = nodes[ i / block_size ];
+    //        const Node &t = that.nodes[ i / block_size ];
+    //        if ( i + block_size > nodes_size ) {
+    //            std::size_t r = nodes_size - i;
+    //            std::memcpy( &n.x, &t.x, r * sizeof( TF ) );
+    //            std::memcpy( &n.y, &t.y, r * sizeof( TF ) );
+    //            if ( store_the_normals ) {
+    //                std::memcpy( &n.dir_x, &t.dir_x, r * sizeof( TF ) );
+    //                std::memcpy( &n.dir_y, &t.dir_y, r * sizeof( TF ) );
+    //            }
+    //            if ( allow_ball_cut ) {
+    //                std::memcpy( &n.arc_radius  , &t.arc_radius  , r * sizeof( TF ) );
+    //                std::memcpy( &n.arc_center_x, &t.arc_center_x, r * sizeof( TF ) );
+    //                std::memcpy( &n.arc_center_y, &t.arc_center_y, r * sizeof( TF ) );
+    //            }
+    //            for( std::size_t j = 0; j < r; ++j )
+    //                n.local_at( j ).cut_id.set( t.local_at( j ).cut_id.get() );
+    //            break;
+    //        }
 
-        std::memcpy( &n.x, &t.x, block_size * sizeof( TF ) );
-        std::memcpy( &n.y, &t.y, block_size * sizeof( TF ) );
-        if ( store_the_normals ) {
-            std::memcpy( &n.dir_x, &t.dir_x, block_size * sizeof( TF ) );
-            std::memcpy( &n.dir_y, &t.dir_y, block_size * sizeof( TF ) );
-        }
-        if ( allow_ball_cut ) {
-            std::memcpy( &n.arc_radius  , &t.arc_radius  , block_size * sizeof( TF ) );
-            std::memcpy( &n.arc_center_x, &t.arc_center_x, block_size * sizeof( TF ) );
-            std::memcpy( &n.arc_center_y, &t.arc_center_y, block_size * sizeof( TF ) );
-        }
-        for( std::size_t j = 0; j < block_size; ++j )
-            n.local_at( j ).cut_id.set( t.local_at( j ).cut_id.get() );
-    }
+    //        std::memcpy( &n.x, &t.x, block_size * sizeof( TF ) );
+    //        std::memcpy( &n.y, &t.y, block_size * sizeof( TF ) );
+    //        if ( store_the_normals ) {
+    //            std::memcpy( &n.dir_x, &t.dir_x, block_size * sizeof( TF ) );
+    //            std::memcpy( &n.dir_y, &t.dir_y, block_size * sizeof( TF ) );
+    //        }
+    //        if ( allow_ball_cut ) {
+    //            std::memcpy( &n.arc_radius  , &t.arc_radius  , block_size * sizeof( TF ) );
+    //            std::memcpy( &n.arc_center_x, &t.arc_center_x, block_size * sizeof( TF ) );
+    //            std::memcpy( &n.arc_center_y, &t.arc_center_y, block_size * sizeof( TF ) );
+    //        }
+    //        for( std::size_t j = 0; j < block_size; ++j )
+    //            n.local_at( j ).cut_id.set( t.local_at( j ).cut_id.get() );
+    //    }
 
-    sphere_radius = that.sphere_radius;
-    sphere_center = that.sphere_center;
-    sphere_cut_id     = that.sphere_cut_id;
+    //    sphere_radius = that.sphere_radius;
+    //    sphere_center = that.sphere_center;
+    //    sphere_cut_id     = that.sphere_cut_id;
 
     return *this;
 }
 
 template<class Pc>
 void ConvexPolyhedron3<Pc>::write_to_stream( std::ostream &os ) const {
-    os << "pos: ";
-    for( TI i = 0; i < nb_nodes(); ++i )
-        os << ( i ? " [" : "[" ) << node( i ).pos().x << " " << node( i ).pos().y << "]";
+    TODO;
+    //    os << "pos: ";
+    //    for( TI i = 0; i < nb_nodes(); ++i )
+    //        os << ( i ? " [" : "[" ) << node( i ).pos().x << " " << node( i ).pos().y << "]";
     //    if ( store_the_normals ) {
     //        os << " nrms: ";
     //        for( TI i = 0; i < nb_nodes(); ++i )
@@ -184,68 +155,65 @@ void ConvexPolyhedron3<Pc>::write_to_stream( std::ostream &os ) const {
 }
 
 template<class Pc>
-void ConvexPolyhedron3<Pc>::display( VtkOutput &vo, const std::vector<TF> &cell_values, Pt offset, bool display_both_sides ) const {
+void ConvexPolyhedron3<Pc>::display( VtkOutput &vo, const std::vector<TF> &cell_values, Pt /*offset*/, bool display_both_sides ) const {
     std::vector<VtkOutput::Pt> pts;
-    for( const Face &face : faces ) {
+    faces.foreach( [&]( Face &face ) {
         if ( face.round ) {
             TODO;
         } else if ( display_both_sides || face.cut_id > sphere_cut_id ) {
-            pts.resize( face.num_in_edge_len );
-            for( std::size_t i = 0; i < face.num_in_edge_len; ++i ) {
-                int num_in_edge = num_in_edges_m2[ face.num_in_edge_beg + i ];
-                pts[ i ] = node( edge_n0( num_in_edge ) ).pos();
-            }
+            pts.clear();
+            face.foreach_node( [&]( const Node &node ) {
+                pts.push_back( node.pos() );
+            } );
             vo.add_polygon( pts, cell_values );
         }
-    }
+    } );
 }
 
 template<class Pc> template<class F>
 void ConvexPolyhedron3<Pc>::for_each_edge( const F &f ) const {
     static_assert ( sizeof( Node ) % sizeof( TF ) == 0, "" );
+    TODO;
 
-    Edge *ptr = edges;
-    for( TI i = 0; ; ++i ) {
-        if ( i + block_size >= edges_size ) {
-            for( TI j = 0; j < edges_size - i; ++j )
-                f( ptr->local_at( j ) );
-            break;
-        }
+    //    Edge *ptr = edges;
+    //    for( TI i = 0; ; ++i ) {
+    //        if ( i + block_size >= edges_size ) {
+    //            for( TI j = 0; j < edges_size - i; ++j )
+    //                f( ptr->local_at( j ) );
+    //            break;
+    //        }
 
-        for( TI j = 0; j < block_size; ++j )
-            f( ptr->local_at( j ) );
-        i += block_size;
-        ++ptr;
-    }
+    //        for( TI j = 0; j < block_size; ++j )
+    //            f( ptr->local_at( j ) );
+    //        i += block_size;
+    //        ++ptr;
+    //    }
 }
 
 template<class Pc> template<class F>
 void ConvexPolyhedron3<Pc>::for_each_node( const F &f ) const {
     static_assert ( sizeof( Node ) % sizeof( TF ) == 0, "" );
 
-    Node *ptr = nodes;
-    for( TI i = 0; ; ++i ) {
-        if ( i + block_size >= nodes_size ) {
-            for( TI j = 0; j < nodes_size - i; ++j )
-                f( ptr->local_at( j ) );
-            break;
-        }
+    TODO;
 
-        for( TI j = 0; j < block_size; ++j )
-            f( ptr->local_at( j ) );
-        i += block_size;
-        ++ptr;
-    }
+    //    Node *ptr = nodes;
+    //    for( TI i = 0; ; ++i ) {
+    //        if ( i + block_size >= nodes_size ) {
+    //            for( TI j = 0; j < nodes_size - i; ++j )
+    //                f( ptr->local_at( j ) );
+    //            break;
+    //        }
+
+    //        for( TI j = 0; j < block_size; ++j )
+    //            f( ptr->local_at( j ) );
+    //        i += block_size;
+    //        ++ptr;
+    //    }
 }
 
 template<class Pc>
 typename ConvexPolyhedron3<Pc>::TI ConvexPolyhedron3<Pc>::nb_nodes() const {
     return nodes_size;
-}
-
-template<class Pc>
-typename ConvexPolyhedron3<Pc>::TI ConvexPolyhedron3<Pc>::nb_edges() const {
-    return edges_size;
 }
 
 template<class Pc>
@@ -261,16 +229,6 @@ const typename ConvexPolyhedron3<Pc>::Node &ConvexPolyhedron3<Pc>::node( TI inde
 template<class Pc>
 typename ConvexPolyhedron3<Pc>::Node &ConvexPolyhedron3<Pc>::node( TI index ) {
     return nodes->global_at( index );
-}
-
-template<class Pc>
-const typename ConvexPolyhedron3<Pc>::Edge &ConvexPolyhedron3<Pc>::edge( TI index ) const {
-    return edges->global_at( index );
-}
-
-template<class Pc>
-typename ConvexPolyhedron3<Pc>::Edge &ConvexPolyhedron3<Pc>::edge( TI index ) {
-    return edges->global_at( index );
 }
 
 template<class Pc>
@@ -310,7 +268,7 @@ void ConvexPolyhedron3<Pc>::for_each_boundary_item( const std::function<void( co
 }
 
 template<class Pc>
-void ConvexPolyhedron3<Pc>::set_nb_nodes( TI new_size ) {
+void ConvexPolyhedron3<Pc>::rese_nb_nodes( TI new_size ) {
     if ( new_size > nodes_rese ) {
         TI old_nb_blocks = nodes_rese / block_size;
         Node *old_nodes = nodes;
@@ -325,87 +283,132 @@ void ConvexPolyhedron3<Pc>::set_nb_nodes( TI new_size ) {
         if ( old_nb_blocks )
             aligned_free( old_nodes );
     }
-    nodes_size = new_size;
 }
 
 template<class Pc>
-void ConvexPolyhedron3<Pc>::set_nb_edges( TI new_size ) {
-    if ( new_size > edges_rese ) {
-        TI old_nb_blocks = edges_rese / block_size;
-        Edge *old_edges = edges;
-
-        TI nb_blocks = ( new_size + block_size - 1 ) / block_size;
-        edges_rese = nb_blocks * block_size;
-
-        edges = reinterpret_cast<Edge *>( aligned_malloc( nb_blocks * sizeof( Edge ), 64 ) );
-        for( TI i = 0; i < old_nb_blocks; ++i )
-            new ( edges + i ) Edge( std::move( old_edges[ i ] ) );
-
-        if ( old_nb_blocks )
-            aligned_free( old_edges );
-    }
-    edges_size = new_size;
+void ConvexPolyhedron3<Pc>::set_nb_nodes( TI new_size ) {
+    rese_nb_nodes( new_size );
+    nodes_size = new_size;
 }
 
 template<class Pc> template<int flags>
 void ConvexPolyhedron3<Pc>::plane_cut( std::array<const TF *,dim> cut_dir, const TF *cut_ps, const CI *cut_id, std::size_t nb_cuts, N<flags> ) {
-    for( std::size_t num_cut = 0; num_cut < nb_cuts; ++num_cut ) {
-        // distances
-        #ifdef __AVX5d12F__
-        //        __m512d rd = _mm512_set1_pd( cut_ps[ num_cut ] );
-        //        __m512d nx = _mm512_set1_pd( cut_dir[ 0 ][ num_cut ] );
-        //        __m512d ny = _mm512_set1_pd( cut_dir[ 1 ][ num_cut ] );
-        //        __m512d nz = _mm512_set1_pd( cut_dir[ 2 ][ num_cut ] );
-        //        for( std::size_t n = 0; n < nb_nodes(); n += 8 ) {
-        //            __m512d px_0 = _mm512_load_pd( x + 0 );
-        //            __m512d py_0 = _mm512_load_pd( y + 0 );
-        //            __m512i pc_0 = _mm512_load_epi64( c + 0 );
-        //            __m512d bi_0 = _mm512_add_pd( _mm512_mul_pd( px_0, nx ), _mm512_mul_pd( py_0, ny ) );
-        //            std::uint8_t outside_0 = _mm512_cmp_pd_mask( bi_0, rd, _CMP_GT_OQ );
-        //            __m512d di_0 = _mm512_sub_pd( bi_0, rd );
-        //        }
-        TODO;
-        #else
-        TI nb_outside_nodes = 0;
-        TF rd = cut_ps[ num_cut ];
-        TF nx = cut_dir[ 0 ][ num_cut ];
-        TF ny = cut_dir[ 1 ][ num_cut ];
-        TF nz = cut_dir[ 2 ][ num_cut ];
-        for_each_node( [&]( Node &node ) {
-            node.d = node.x * nx + node.y * ny + node.z * nz - rd;
-            nb_outside_nodes += node.d > 0;
-        } );
-        if ( nb_outside_nodes == 0 )
-            return;
-        if ( nb_outside_nodes == nb_nodes() ) {
-            nodes_size = 0;
-            return;
-        }
+    TODO;
+    //    for( std::size_t num_cut = 0; num_cut < nb_cuts; ++num_cut ) {
+    //        // distances
+    //        TI nb_outside_nodes = 0;
+    //        TF rd = cut_ps[ num_cut ];
+    //        TF nx = cut_dir[ 0 ][ num_cut ];
+    //        TF ny = cut_dir[ 1 ][ num_cut ];
+    //        TF nz = cut_dir[ 2 ][ num_cut ];
+    //        #ifdef __AVX5d12F__
+    //        //        __m512d rd = _mm512_set1_pd( cut_ps[ num_cut ] );
+    //        //        __m512d nx = _mm512_set1_pd( cut_dir[ 0 ][ num_cut ] );
+    //        //        __m512d ny = _mm512_set1_pd( cut_dir[ 1 ][ num_cut ] );
+    //        //        __m512d nz = _mm512_set1_pd( cut_dir[ 2 ][ num_cut ] );
+    //        //        for( std::size_t n = 0; n < nb_nodes(); n += 8 ) {
+    //        //            __m512d px_0 = _mm512_load_pd( x + 0 );
+    //        //            __m512d py_0 = _mm512_load_pd( y + 0 );
+    //        //            __m512i pc_0 = _mm512_load_epi64( c + 0 );
+    //        //            __m512d bi_0 = _mm512_add_pd( _mm512_mul_pd( px_0, nx ), _mm512_mul_pd( py_0, ny ) );
+    //        //            std::uint8_t outside_0 = _mm512_cmp_pd_mask( bi_0, rd, _CMP_GT_OQ );
+    //        //            __m512d di_0 = _mm512_sub_pd( bi_0, rd );
+    //        //        }
+    //        TODO;
+    //        #else
+    //        for_each_node( [&]( Node &node ) {
+    //            node.d = node.x * nx + node.y * ny + node.z * nz - rd;
+    //            nb_outside_nodes += node.outside();
+    //        } );
+    //        if ( nb_outside_nodes == 0 )
+    //            return;
+    //        if ( nb_outside_nodes == nb_nodes() ) {
+    //            nodes_size = 0;
+    //            return;
+    //        }
+    //        #endif
 
-        // reservation for the new edges.
-        TI nb_partially_outside_edges = 0;
-        for_each_edge( [&]( Edge &edge ) {
-            bool o0 = node( edge.node_0 ).outside();
-            bool o1 = node( edge.node_1 ).outside();
-            nb_partially_outside_edges += o0 ^ o1;
-        } );
+    //        // reservation for the new nodes and the new edges. Make a linked list of face impacted by the cut
+    //        ++num_cut_proc;
+    //        int last_cut_face = -1;
+    //        TI nb_partially_outside_edges = 0;
+    //        for_each_edge( [&]( Edge &edge ) {
+    //            bool o0 = node( edge.node_0 ).outside();
+    //            bool o1 = node( edge.node_1 ).outside();
+    //            nb_partially_outside_edges += o0 ^ o1;
 
-        TI old_edges_size = edges_size;
-        TI old_nodes_size = nodes_size;
-        set_nb_edges( edges_size + nb_partially_outside_edges );
-        set_nb_nodes( nodes_size + nb_partially_outside_edges );
+    //            if ( o0 || o1 ) {
+    //                auto reg_face = [&]( int num_face ) {
+    //                    Face &face = faces[ num_face ];
+    //                    if ( face.num_cut_proc != num_cut_proc ) {
+    //                        face.num_cut_proc = num_cut_proc;
+    //                        face.prev_cut_face = last_cut_face;
+    //                        last_cut_face = num_face;
+    //                    }
+    //                };
+    //                reg_face( edge.face_0 );
+    //                reg_face( edge.face_1 );
+    //            }
+    //        } );
 
-        // make the new edges.
-        for_each_edge( [&]( Edge &edge ) {
-            bool o0 = node( edge.node_0 ).outside();
-            bool o1 = node( edge.node_1 ).outside();
-            if ( o0 ^ o1 ) {
-                node()
-            }
-        } );
+    //        TI old_edges_size = edges_size;
+    //        TI old_nodes_size = nodes_size;
+    //        rese_nb_edges( edges_size + nb_partially_outside_edges );
+    //        rese_nb_nodes( nodes_size + nb_partially_outside_edges );
 
-        #endif
-    }
+    //        // make the new nodes and adjust the old edges.
+    //        for_each_edge( [&]( Edge &edge ) {
+    //            bool o0 = node( edge.node_0 ).outside();
+    //            bool o1 = node( edge.node_1 ).outside();
+    //            if ( o0 ) {
+    //                if ( ! o1 ) {
+    //                    node( nodes_size ).set_pos( node( edge.node_0 ).pos() + node( edge.node_0 ).d / ( node( edge.node_0 ).d - node( edge.node_1 ).d ) * ( node( edge.node_1 ).pos() - node( edge.node_0 ).pos() ) );
+    //                    edge.node_0 = nodes_size++;
+    //                }
+    //            } else if ( o1 ) {
+    //                node( nodes_size ).set_pos( node( edge.node_0 ).pos() + node( edge.node_0 ).d / ( node( edge.node_0 ).d - node( edge.node_1 ).d ) * ( node( edge.node_1 ).pos() - node( edge.node_0 ).pos() ) );
+    //                edge.node_1 = nodes_size++;
+    //            }
+    //        } );
+
+    //        // mark faces to be removed
+    //        ++num_cut_proc;
+    //        int last_rem_face = -1;
+    //        for( int cut_face = last_cut_face; cut_face >= 0; ) {
+    //            Face &face = faces[ cut_face ];
+    //            int prev_cut_face = face.prev_cut_face;
+
+    //            int nb_out_points = 0;
+    //            for( TI i = face.num_in_edge_beg; i < face.num_in_edge_end; ++i ) {
+    //                int n0 = edge_n0( num_in_edges_m2[ i ] );
+    //                if ( node( n0 ).outside() ) {
+    //                    ++nb_out_points;
+    //                }
+    //            }
+
+    //            if ( nb_out_points == face.num_in_edge_end - face.num_in_edge_beg ) {
+    //                face.num_cut_proc = num_cut_proc;
+    //                face.prev_cut_face = last_rem_face;
+    //                last_rem_face = cut_face;
+    //            }
+
+    //            cut_face = prev_cut_face;
+    //        }
+
+    //        // remove void faces
+    //        int last_valid_face = faces.size() - 1;
+    //        for( int cut_face = last_rem_face; cut_face >= 0; cut_face = faces[ cut_face ].prev_cut_face ) {
+    //            while ( last_valid_face >= 0 && faces[ last_valid_face ].num_cut_proc == num_cut_proc )
+    //                --last_valid_face;
+
+    //            if ( last_valid_face > cut_face ) {
+    //                TODO;
+    //            }
+
+    //            faces.pop_back();
+    //            P( cut_face );
+    //        }
+    //    }
 }
 
 template<class Pc>

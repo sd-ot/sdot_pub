@@ -46,7 +46,7 @@ void test_regular_cuts( VtkOutput &vo, int &cpt_vo ) {
     cut_ps.push_back( 1 );
     cut_id.push_back( 9 );
 
-    lc.plane_cut( { cut_dx.data(), cut_dy.data(), cut_dz.data() }, cut_ps.data(), cut_id.data(), cut_dx.size(), N<flags>() );
+//    lc.plane_cut( { cut_dx.data(), cut_dy.data(), cut_dz.data() }, cut_ps.data(), cut_id.data(), cut_dx.size(), N<flags>() );
 
     // display
     Pt off{ 4.5 * TF( cpt_vo % 8 ), 4.5 * TF( cpt_vo / 8 ), 0 };
@@ -71,6 +71,7 @@ int main() {
     struct Pc {
         enum { store_the_normals = false };
         enum { allow_ball_cut    = false };
+        enum { block_size        = 64    };
         enum { dim               = 3     };
         using  TF                = double;
         using  TI                = std::size_t;
