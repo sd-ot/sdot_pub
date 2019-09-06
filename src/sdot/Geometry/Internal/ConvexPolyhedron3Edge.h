@@ -23,7 +23,8 @@ public:
     using       TI                   = typename Carac::TI;
     using       Pt                   = Point3<TF>;
 
-    /**/        ConvexPolyhedron3Edge( Node *n0, TI o0 = 0 ) : content( n0, o0 ) {}
+    /**/        ConvexPolyhedron3Edge( const ConvexPolyhedron3Edge &that ) : content( that.content ) {}
+    /**/        ConvexPolyhedron3Edge( Node *n0, int o0 = 0 ) : content( n0, o0 ) {}
     /**/        ConvexPolyhedron3Edge() {}
 
     Edge        next                 () const { return content.ptr()->next_in_faces[ content.offset() ].get(); }

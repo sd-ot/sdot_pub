@@ -34,20 +34,22 @@ ConvexPolyhedron3<Pc>::ConvexPolyhedron3( const Box &box, CI cut_id ) : ConvexPo
 
     set_nb_nodes( 8 );
 
-    Node *n0 = set_node( 0, box.p0.x, box.p0.y, box.p0.z );
-    Node *n1 = set_node( 1, box.p1.x, box.p0.y, box.p0.z );
-    Node *n2 = set_node( 2, box.p0.x, box.p1.y, box.p0.z );
-    Node *n3 = set_node( 3, box.p1.x, box.p1.y, box.p0.z );
-    Node *n4 = set_node( 4, box.p0.x, box.p0.y, box.p1.z );
-    Node *n5 = set_node( 5, box.p1.x, box.p0.y, box.p1.z );
-    Node *n6 = set_node( 6, box.p0.x, box.p1.y, box.p1.z );
-    Node *n7 = set_node( 7, box.p1.x, box.p1.y, box.p1.z );
+    Node *n[ 8 ] = {
+        set_node( 0, box.p0.x, box.p0.y, box.p0.z ),
+        set_node( 1, box.p1.x, box.p0.y, box.p0.z ),
+        set_node( 2, box.p0.x, box.p1.y, box.p0.z ),
+        set_node( 3, box.p1.x, box.p1.y, box.p0.z ),
+        set_node( 4, box.p0.x, box.p0.y, box.p1.z ),
+        set_node( 5, box.p1.x, box.p0.y, box.p1.z ),
+        set_node( 6, box.p0.x, box.p1.y, box.p1.z ),
+        set_node( 7, box.p1.x, box.p1.y, box.p1.z )
+    };
 
     // faces
-    auto add_face = [&]( Node *n0, Node *n1, Node *n2, Node *n3 ) {
-        Pt P0 = n0->pos();
-        Pt P1 = n1->pos();
-        Pt P2 = n2->pos();
+    auto add_face = [&]( int n0, int n1, int n2, int n3, int o0, int o1, int o2, int o3 ) {
+        Pt P0 = n[ n0 ]->pos();
+        Pt P1 = n[ n1 ]->pos();
+        Pt P2 = n[ n2 ]->pos();
 
         Face *face = faces.create();
         if ( allow_ball_cut )
@@ -55,24 +57,33 @@ ConvexPolyhedron3<Pc>::ConvexPolyhedron3( const Box &box, CI cut_id ) : ConvexPo
         face->normal = normalized( cross_prod( P0 - P1, P2 - P1 ) );
         face->cut_id = cut_id;
 
-        TI o0 = n0->free_edge();
-        TI o1 = n1->free_edge();
-        TI o2 = n2->free_edge();
-        TI o3 = n3->free_edge();
+        n[ n0 ]->next_in_faces[ o0 ].set( { n[ n1 ], o1 } );
+        n[ n1 ]->next_in_faces[ o1 ].set( { n[ n2 ], o2 } );
+        n[ n2 ]->next_in_faces[ o2 ].set( { n[ n3 ], o3 } );
+        n[ n3 ]->next_in_faces[ o3 ].set( { n[ n0 ], o0 } );
 
-        face->first_edge = { n0, o0 };
-        n0->next_in_faces[ o0 ].set( { n1, o1 } );
-        n1->next_in_faces[ o1 ].set( { n2, o2 } );
-        n2->next_in_faces[ o2 ].set( { n3, o3 } );
-        n3->next_in_faces[ o3 ].set( { n0, o0 } );
+        face->first_edge = { n[ n0 ], o0 };
+
+        n[ n0 ]->faces[ o0 ].set( face );
+        n[ n1 ]->faces[ o1 ].set( face );
+        n[ n2 ]->faces[ o2 ].set( face );
+        n[ n3 ]->faces[ o3 ].set( face );
     };
 
-    add_face( n0, n2, n6, n4 );
-    add_face( n0, n1, n3, n2 );
-    add_face( n1, n5, n7, n3 );
-    add_face( n4, n6, n7, n5 );
-    add_face( n0, n4, n5, n1 );
-    add_face( n2, n3, n7, n6 );
+    add_face( 0, 2, 6, 4,  0, 0, 0, 0 );
+    add_face( 0, 1, 3, 2,  1, 0, 0, 1 );
+    add_face( 1, 5, 7, 3,  1, 0, 0, 1 );
+    add_face( 4, 6, 7, 5,  1, 1, 1, 1 );
+    add_face( 0, 4, 5, 1,  2, 2, 2, 2 );
+    add_face( 2, 3, 7, 6,  2, 2, 2, 2 );
+
+    for( std::size_t i0 = 0; i0 < 8; ++i0 ) {
+        Node *n0 = n[ i0 ];
+        for( std::size_t o0 = 0; o0 < 3; ++o0 ) {
+            Node *n1 = n0->next_in_faces[ o0 ].get().n0();
+            P( n0, n1 );
+        }
+    }
 }
 
 template<class Pc>
@@ -293,122 +304,129 @@ void ConvexPolyhedron3<Pc>::set_nb_nodes( TI new_size ) {
 
 template<class Pc> template<int flags>
 void ConvexPolyhedron3<Pc>::plane_cut( std::array<const TF *,dim> cut_dir, const TF *cut_ps, const CI *cut_id, std::size_t nb_cuts, N<flags> ) {
-    TODO;
-    //    for( std::size_t num_cut = 0; num_cut < nb_cuts; ++num_cut ) {
-    //        // distances
-    //        TI nb_outside_nodes = 0;
-    //        TF rd = cut_ps[ num_cut ];
-    //        TF nx = cut_dir[ 0 ][ num_cut ];
-    //        TF ny = cut_dir[ 1 ][ num_cut ];
-    //        TF nz = cut_dir[ 2 ][ num_cut ];
-    //        #ifdef __AVX5d12F__
-    //        //        __m512d rd = _mm512_set1_pd( cut_ps[ num_cut ] );
-    //        //        __m512d nx = _mm512_set1_pd( cut_dir[ 0 ][ num_cut ] );
-    //        //        __m512d ny = _mm512_set1_pd( cut_dir[ 1 ][ num_cut ] );
-    //        //        __m512d nz = _mm512_set1_pd( cut_dir[ 2 ][ num_cut ] );
-    //        //        for( std::size_t n = 0; n < nb_nodes(); n += 8 ) {
-    //        //            __m512d px_0 = _mm512_load_pd( x + 0 );
-    //        //            __m512d py_0 = _mm512_load_pd( y + 0 );
-    //        //            __m512i pc_0 = _mm512_load_epi64( c + 0 );
-    //        //            __m512d bi_0 = _mm512_add_pd( _mm512_mul_pd( px_0, nx ), _mm512_mul_pd( py_0, ny ) );
-    //        //            std::uint8_t outside_0 = _mm512_cmp_pd_mask( bi_0, rd, _CMP_GT_OQ );
-    //        //            __m512d di_0 = _mm512_sub_pd( bi_0, rd );
-    //        //        }
-    //        TODO;
-    //        #else
-    //        for_each_node( [&]( Node &node ) {
-    //            node.d = node.x * nx + node.y * ny + node.z * nz - rd;
-    //            nb_outside_nodes += node.outside();
-    //        } );
-    //        if ( nb_outside_nodes == 0 )
-    //            return;
-    //        if ( nb_outside_nodes == nb_nodes() ) {
-    //            nodes_size = 0;
-    //            return;
-    //        }
-    //        #endif
+    for( std::size_t num_cut = 0; num_cut < nb_cuts; ++num_cut ) {
+        // distances
+        TI nb_outside_nodes = 0;
+        TF rd = cut_ps[ num_cut ];
+        TF nx = cut_dir[ 0 ][ num_cut ];
+        TF ny = cut_dir[ 1 ][ num_cut ];
+        TF nz = cut_dir[ 2 ][ num_cut ];
+        #ifdef __AVX5d12F__
+        //        __m512d rd = _mm512_set1_pd( cut_ps[ num_cut ] );
+        //        __m512d nx = _mm512_set1_pd( cut_dir[ 0 ][ num_cut ] );
+        //        __m512d ny = _mm512_set1_pd( cut_dir[ 1 ][ num_cut ] );
+        //        __m512d nz = _mm512_set1_pd( cut_dir[ 2 ][ num_cut ] );
+        //        for( std::size_t n = 0; n < nb_nodes(); n += 8 ) {
+        //            __m512d px_0 = _mm512_load_pd( x + 0 );
+        //            __m512d py_0 = _mm512_load_pd( y + 0 );
+        //            __m512i pc_0 = _mm512_load_epi64( c + 0 );
+        //            __m512d bi_0 = _mm512_add_pd( _mm512_mul_pd( px_0, nx ), _mm512_mul_pd( py_0, ny ) );
+        //            std::uint8_t outside_0 = _mm512_cmp_pd_mask( bi_0, rd, _CMP_GT_OQ );
+        //            __m512d di_0 = _mm512_sub_pd( bi_0, rd );
+        //        }
+        TODO;
+        #else
+        for_each_node( [&]( Node &node ) {
+            node.d = node.x * nx + node.y * ny + node.z * nz - rd;
+            nb_outside_nodes += node.outside();
+        } );
+        if ( nb_outside_nodes == 0 )
+            return;
+        if ( nb_outside_nodes == nb_nodes() ) {
+            nodes_size = 0;
+            return;
+        }
+        #endif
 
-    //        // reservation for the new nodes and the new edges. Make a linked list of face impacted by the cut
-    //        ++num_cut_proc;
-    //        int last_cut_face = -1;
-    //        TI nb_partially_outside_edges = 0;
-    //        for_each_edge( [&]( Edge &edge ) {
-    //            bool o0 = node( edge.node_0 ).outside();
-    //            bool o1 = node( edge.node_1 ).outside();
-    //            nb_partially_outside_edges += o0 ^ o1;
+        // mark impacted faces
+        //        ++num_cut_proc;
+        //        for_each_node( [&]( Node &node ) {
+        //            if ( node.outside() ) {
 
-    //            if ( o0 || o1 ) {
-    //                auto reg_face = [&]( int num_face ) {
-    //                    Face &face = faces[ num_face ];
-    //                    if ( face.num_cut_proc != num_cut_proc ) {
-    //                        face.num_cut_proc = num_cut_proc;
-    //                        face.prev_cut_face = last_cut_face;
-    //                        last_cut_face = num_face;
-    //                    }
-    //                };
-    //                reg_face( edge.face_0 );
-    //                reg_face( edge.face_1 );
-    //            }
-    //        } );
+        //            }
+        //        } );
 
-    //        TI old_edges_size = edges_size;
-    //        TI old_nodes_size = nodes_size;
-    //        rese_nb_edges( edges_size + nb_partially_outside_edges );
-    //        rese_nb_nodes( nodes_size + nb_partially_outside_edges );
+        //        // reservation for the new nodes and the new edges. Make a linked list of face impacted by the cut
+        //        ++num_cut_proc;
+        //        int last_cut_face = -1;
+        //        TI nb_partially_outside_edges = 0;
+        //        for_each_edge( [&]( Edge &edge ) {
+        //            bool o0 = node( edge.node_0 ).outside();
+        //            bool o1 = node( edge.node_1 ).outside();
+        //            nb_partially_outside_edges += o0 ^ o1;
 
-    //        // make the new nodes and adjust the old edges.
-    //        for_each_edge( [&]( Edge &edge ) {
-    //            bool o0 = node( edge.node_0 ).outside();
-    //            bool o1 = node( edge.node_1 ).outside();
-    //            if ( o0 ) {
-    //                if ( ! o1 ) {
-    //                    node( nodes_size ).set_pos( node( edge.node_0 ).pos() + node( edge.node_0 ).d / ( node( edge.node_0 ).d - node( edge.node_1 ).d ) * ( node( edge.node_1 ).pos() - node( edge.node_0 ).pos() ) );
-    //                    edge.node_0 = nodes_size++;
-    //                }
-    //            } else if ( o1 ) {
-    //                node( nodes_size ).set_pos( node( edge.node_0 ).pos() + node( edge.node_0 ).d / ( node( edge.node_0 ).d - node( edge.node_1 ).d ) * ( node( edge.node_1 ).pos() - node( edge.node_0 ).pos() ) );
-    //                edge.node_1 = nodes_size++;
-    //            }
-    //        } );
+        //            if ( o0 || o1 ) {
+        //                auto reg_face = [&]( int num_face ) {
+        //                    Face &face = faces[ num_face ];
+        //                    if ( face.num_cut_proc != num_cut_proc ) {
+        //                        face.num_cut_proc = num_cut_proc;
+        //                        face.prev_cut_face = last_cut_face;
+        //                        last_cut_face = num_face;
+        //                    }
+        //                };
+        //                reg_face( edge.face_0 );
+        //                reg_face( edge.face_1 );
+        //            }
+        //        } );
 
-    //        // mark faces to be removed
-    //        ++num_cut_proc;
-    //        int last_rem_face = -1;
-    //        for( int cut_face = last_cut_face; cut_face >= 0; ) {
-    //            Face &face = faces[ cut_face ];
-    //            int prev_cut_face = face.prev_cut_face;
+        //        TI old_edges_size = edges_size;
+        //        TI old_nodes_size = nodes_size;
+        //        rese_nb_edges( edges_size + nb_partially_outside_edges );
+        //        rese_nb_nodes( nodes_size + nb_partially_outside_edges );
 
-    //            int nb_out_points = 0;
-    //            for( TI i = face.num_in_edge_beg; i < face.num_in_edge_end; ++i ) {
-    //                int n0 = edge_n0( num_in_edges_m2[ i ] );
-    //                if ( node( n0 ).outside() ) {
-    //                    ++nb_out_points;
-    //                }
-    //            }
+        //        // make the new nodes and adjust the old edges.
+        //        for_each_edge( [&]( Edge &edge ) {
+        //            bool o0 = node( edge.node_0 ).outside();
+        //            bool o1 = node( edge.node_1 ).outside();
+        //            if ( o0 ) {
+        //                if ( ! o1 ) {
+        //                    node( nodes_size ).set_pos( node( edge.node_0 ).pos() + node( edge.node_0 ).d / ( node( edge.node_0 ).d - node( edge.node_1 ).d ) * ( node( edge.node_1 ).pos() - node( edge.node_0 ).pos() ) );
+        //                    edge.node_0 = nodes_size++;
+        //                }
+        //            } else if ( o1 ) {
+        //                node( nodes_size ).set_pos( node( edge.node_0 ).pos() + node( edge.node_0 ).d / ( node( edge.node_0 ).d - node( edge.node_1 ).d ) * ( node( edge.node_1 ).pos() - node( edge.node_0 ).pos() ) );
+        //                edge.node_1 = nodes_size++;
+        //            }
+        //        } );
 
-    //            if ( nb_out_points == face.num_in_edge_end - face.num_in_edge_beg ) {
-    //                face.num_cut_proc = num_cut_proc;
-    //                face.prev_cut_face = last_rem_face;
-    //                last_rem_face = cut_face;
-    //            }
+        //        // mark faces to be removed
+        //        ++num_cut_proc;
+        //        int last_rem_face = -1;
+        //        for( int cut_face = last_cut_face; cut_face >= 0; ) {
+        //            Face &face = faces[ cut_face ];
+        //            int prev_cut_face = face.prev_cut_face;
 
-    //            cut_face = prev_cut_face;
-    //        }
+        //            int nb_out_points = 0;
+        //            for( TI i = face.num_in_edge_beg; i < face.num_in_edge_end; ++i ) {
+        //                int n0 = edge_n0( num_in_edges_m2[ i ] );
+        //                if ( node( n0 ).outside() ) {
+        //                    ++nb_out_points;
+        //                }
+        //            }
 
-    //        // remove void faces
-    //        int last_valid_face = faces.size() - 1;
-    //        for( int cut_face = last_rem_face; cut_face >= 0; cut_face = faces[ cut_face ].prev_cut_face ) {
-    //            while ( last_valid_face >= 0 && faces[ last_valid_face ].num_cut_proc == num_cut_proc )
-    //                --last_valid_face;
+        //            if ( nb_out_points == face.num_in_edge_end - face.num_in_edge_beg ) {
+        //                face.num_cut_proc = num_cut_proc;
+        //                face.prev_cut_face = last_rem_face;
+        //                last_rem_face = cut_face;
+        //            }
 
-    //            if ( last_valid_face > cut_face ) {
-    //                TODO;
-    //            }
+        //            cut_face = prev_cut_face;
+        //        }
 
-    //            faces.pop_back();
-    //            P( cut_face );
-    //        }
-    //    }
+        //        // remove void faces
+        //        int last_valid_face = faces.size() - 1;
+        //        for( int cut_face = last_rem_face; cut_face >= 0; cut_face = faces[ cut_face ].prev_cut_face ) {
+        //            while ( last_valid_face >= 0 && faces[ last_valid_face ].num_cut_proc == num_cut_proc )
+        //                --last_valid_face;
+
+        //            if ( last_valid_face > cut_face ) {
+        //                TODO;
+        //            }
+
+        //            faces.pop_back();
+        //            P( cut_face );
+        //        }
+    }
 }
 
 template<class Pc>

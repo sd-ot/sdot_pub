@@ -11,6 +11,7 @@ class PointerWithSmallOffset {
 public:
     union       U                     { T *p; std::size_t o; };
 
+    /**/        PointerWithSmallOffset( const PointerWithSmallOffset &p ) : u( p.u ) {}
     /**/        PointerWithSmallOffset( T *p, std::size_t o = 0 ) { u.p = p; u.o += o; }
     /**/        PointerWithSmallOffset() {}
 

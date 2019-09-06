@@ -50,8 +50,6 @@ public:
     void        get_content_from         ( const Node &b ) { get_straight_content_from( b ); }
     void        get_straight_content_from( const Node &b ) { x = b.x; y = b.y; z = b.z; }
 
-    TI          free_edge                () const { for( TI i = 0; i < 3; ++i ) if ( ! next_in_faces[ i ].get() ) return i; return TI( -1 ); }
-
     // attributes
     TF          x, _pad_x[ bs - 1 ];     ///< position
     TF          y, _pad_y[ bs - 1 ];     ///< position
