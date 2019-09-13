@@ -26,14 +26,14 @@ T *IntrusivePool<T,bs>::create() {
         last_bucket = b;
 
         for( int i = 0; i < nb_item_per_bucket; ++i ) {
-            b->items[ i ].prev_in_pool = last_free;
+            b->items[ i ].next_in_pool = last_free;
             last_free = b->items + i;
         }
     }
 
     // remove from the free list
     T *res = last_free;
-    last_free = res->prev_in_pool;
+    last_free = res->next_in_pool;
 
     // add to the active list
     res->prev_in_pool = last_active;
@@ -56,7 +56,7 @@ void IntrusivePool<T,bs>::free( T *item ) {
         item->prev_in_pool->next_in_pool = item->next_in_pool;
 
     // add to the free list
-    item->prev_in_pool = last_free;
+    item->next_in_pool = last_free;
     last_free = item;
 }
 

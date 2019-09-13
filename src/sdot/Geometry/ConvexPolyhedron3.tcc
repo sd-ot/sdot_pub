@@ -21,6 +21,8 @@ namespace sdot {
 template<class Pc>
 ConvexPolyhedron3<Pc>::ConvexPolyhedron3( const Box &box, CI cut_id ) : ConvexPolyhedron3() {
     // nodes
+    set_nb_nodes( 8 );
+
     auto set_node = [&]( TI index, TF x, TF y, TF z ) -> Node * {
         Node *res = &node( index );
         for( TI i = 0; i < 3; ++i )
@@ -31,8 +33,6 @@ ConvexPolyhedron3<Pc>::ConvexPolyhedron3( const Box &box, CI cut_id ) : ConvexPo
 
         return res;
     };
-
-    set_nb_nodes( 8 );
 
     Node *n[ 8 ] = {
         set_node( 0, box.p0.x, box.p0.y, box.p0.z ),
@@ -46,44 +46,37 @@ ConvexPolyhedron3<Pc>::ConvexPolyhedron3( const Box &box, CI cut_id ) : ConvexPo
     };
 
     // faces
-    auto add_face = [&]( int n0, int n1, int n2, int n3, int o0, int o1, int o2, int o3 ) {
-        Pt P0 = n[ n0 ]->pos();
-        Pt P1 = n[ n1 ]->pos();
-        Pt P2 = n[ n2 ]->pos();
-
+    auto add_face = [&]( int n0, int n1, int n2, int n3, int off, Pt normal, int se0, int se1, int se2, int se3 ) {
         Face *face = faces.create();
         if ( allow_ball_cut )
             face->round = false;
-        face->normal = normalized( cross_prod( P0 - P1, P2 - P1 ) );
+        face->normal = normal;
         face->cut_id = cut_id;
 
-        n[ n0 ]->next_in_faces[ o0 ].set( { n[ n1 ], o1 } );
-        n[ n1 ]->next_in_faces[ o1 ].set( { n[ n2 ], o2 } );
-        n[ n2 ]->next_in_faces[ o2 ].set( { n[ n3 ], o3 } );
-        n[ n3 ]->next_in_faces[ o3 ].set( { n[ n0 ], o0 } );
+        n[ n0 ]->next_in_faces[ off ].set( { n[ n1 ], off } );
+        n[ n1 ]->next_in_faces[ off ].set( { n[ n2 ], off } );
+        n[ n2 ]->next_in_faces[ off ].set( { n[ n3 ], off } );
+        n[ n3 ]->next_in_faces[ off ].set( { n[ n0 ], off } );
 
-        face->first_edge = { n[ n0 ], o0 };
+        face->first_edge = { n[ n0 ], off };
 
-        n[ n0 ]->faces[ o0 ].set( face );
-        n[ n1 ]->faces[ o1 ].set( face );
-        n[ n2 ]->faces[ o2 ].set( face );
-        n[ n3 ]->faces[ o3 ].set( face );
+        n[ n0 ]->faces[ off ].set( face );
+        n[ n1 ]->faces[ off ].set( face );
+        n[ n2 ]->faces[ off ].set( face );
+        n[ n3 ]->faces[ off ].set( face );
+
+        n[ n0 ]->sibling_edges[ off ].set( { n[ n1 ], se0 } );
+        n[ n1 ]->sibling_edges[ off ].set( { n[ n2 ], se1 } );
+        n[ n2 ]->sibling_edges[ off ].set( { n[ n3 ], se2 } );
+        n[ n3 ]->sibling_edges[ off ].set( { n[ n0 ], se3 } );
     };
 
-    add_face( 0, 2, 6, 4,  0, 0, 0, 0 );
-    add_face( 0, 1, 3, 2,  1, 0, 0, 1 );
-    add_face( 1, 5, 7, 3,  1, 0, 0, 1 );
-    add_face( 4, 6, 7, 5,  1, 1, 1, 1 );
-    add_face( 0, 4, 5, 1,  2, 2, 2, 2 );
-    add_face( 2, 3, 7, 6,  2, 2, 2, 2 );
-
-    for( std::size_t i0 = 0; i0 < 8; ++i0 ) {
-        Node *n0 = n[ i0 ];
-        for( std::size_t o0 = 0; o0 < 3; ++o0 ) {
-            Node *n1 = n0->next_in_faces[ o0 ].get().n0();
-            P( n0, n1 );
-        }
-    }
+    add_face( 0, 2, 3, 1,  0,  { 0, 0, -1 },  2, 1, 2, 1 ); // count=11110000
+    add_face( 4, 5, 7, 6,  0,  { 0, 0, +1 },  1, 2, 1, 2 ); // count=11111111
+    add_face( 0, 1, 5, 4,  1,  { 0, -1, 0 },  0, 2, 0, 2 ); // count=22112211
+    add_face( 2, 6, 7, 3,  1,  { 0, +1, 0 },  2, 0, 2, 0 ); // count=22222222
+    add_face( 0, 4, 6, 2,  2,  { -1, 0, 0 },  1, 0, 1, 0 ); // ...
+    add_face( 1, 3, 7, 5,  2,  { +1, 0, 0 },  0, 1, 0, 1 ); //
 }
 
 template<class Pc>
@@ -152,8 +145,20 @@ ConvexPolyhedron3<Pc> &ConvexPolyhedron3<Pc>::operator=( const ConvexPolyhedron3
 }
 
 template<class Pc>
-void ConvexPolyhedron3<Pc>::write_to_stream( std::ostream &os ) const {
-    TODO;
+void ConvexPolyhedron3<Pc>::write_to_stream( std::ostream &os, bool debug ) const {
+    faces.foreach( [&]( const Face &face ) {
+        face.normal.write_to_stream( os << "face n=" );
+        os << "\n";
+        face.foreach_edge( [&]( const Edge &edge ) {
+            os << "  " << edge.n0()->x << " " << edge.n0()->y << " " << edge.n0()->z;
+            if ( debug ) {
+                os << "  i=" << edge.n0()->x + 2 * edge.n0()->y + 4 * edge.n0()->z;
+                edge.face()->normal.write_to_stream( os << " fn0=" );
+                edge.sibling().face()->normal.write_to_stream( os << " fn1=" );
+            }
+            os << "\n";
+        } );
+    } );
     //    os << "pos: ";
     //    for( TI i = 0; i < nb_nodes(); ++i )
     //        os << ( i ? " [" : "[" ) << node( i ).pos().x << " " << node( i ).pos().y << "]";
@@ -205,21 +210,19 @@ template<class Pc> template<class F>
 void ConvexPolyhedron3<Pc>::for_each_node( const F &f ) const {
     static_assert ( sizeof( Node ) % sizeof( TF ) == 0, "" );
 
-    TODO;
+    Node *ptr = nodes;
+    for( TI i = 0; ; ++i ) {
+        if ( i + block_size >= nodes_size ) {
+            for( TI j = 0; j < nodes_size - i; ++j )
+                f( ptr->local_at( j ) );
+            break;
+        }
 
-    //    Node *ptr = nodes;
-    //    for( TI i = 0; ; ++i ) {
-    //        if ( i + block_size >= nodes_size ) {
-    //            for( TI j = 0; j < nodes_size - i; ++j )
-    //                f( ptr->local_at( j ) );
-    //            break;
-    //        }
-
-    //        for( TI j = 0; j < block_size; ++j )
-    //            f( ptr->local_at( j ) );
-    //        i += block_size;
-    //        ++ptr;
-    //    }
+        for( TI j = 0; j < block_size; ++j )
+            f( ptr->local_at( j ) );
+        i += block_size;
+        ++ptr;
+    }
 }
 
 template<class Pc>
@@ -337,6 +340,36 @@ void ConvexPolyhedron3<Pc>::plane_cut( std::array<const TF *,dim> cut_dir, const
             return;
         }
         #endif
+
+        // Face *last_face_to_rem = nullptr;
+        faces.foreach( [&]( Face &face ) {
+            // helper find a inside -> outside edge
+            auto find_inside_outside = [&]( Edge beg, Node *end ) -> Edge {
+                while ( true ) {
+                    if ( beg.n0()->outside() == false && beg.n1()->outside() )
+                        return beg;
+                    if ( beg.n1() == end )
+                        return nullptr;
+                    beg = beg.next();
+                }
+            };
+
+            // find a first inside -> outside edge
+            Edge last_valid = find_inside_outside( face.first_edge, face.first_edge.n0() );
+            if ( ! last_valid ) {
+                if ( face.first_edge.n0()->outside() )
+                    faces.free( &face );
+                return;
+            }
+
+            // creation of a new node if not already done
+            Face *adjacent_face = last_valid.sibling().face();
+            if ( &face < adjacent_face ) {
+
+            }
+
+
+        } );
 
         // mark impacted faces
         //        ++num_cut_proc;

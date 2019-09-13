@@ -7,9 +7,8 @@
 #include <map>
 using namespace sdot;
 
-//// nsmake cpp_flag -march=native
+// // nsmake cpp_flag -march=native
 //// nsmake cpp_flag -O2
-
 
 template<class Cp>
 void test_regular_cuts( VtkOutput &vo, int &cpt_vo ) {
@@ -19,7 +18,8 @@ void test_regular_cuts( VtkOutput &vo, int &cpt_vo ) {
     constexpr int flags = 0;
 
     // initial cell
-    Cp lc( typename Cp::Box{ { -2, -2, -2 }, { +2, +2, +2 } } );
+    Cp lc( typename Cp::Box{ { 0, 0, 0 }, { 1, 1, 1 } } );
+    // lc.write_to_stream( std::cout, 1 );
 
     // cuts
     std::vector<TF> cut_dx, cut_dy, cut_dz, cut_ps;
@@ -43,10 +43,10 @@ void test_regular_cuts( VtkOutput &vo, int &cpt_vo ) {
     cut_dx.push_back( 1 );
     cut_dy.push_back( 0 );
     cut_dz.push_back( 0 );
-    cut_ps.push_back( 1 );
+    cut_ps.push_back( 0.5 );
     cut_id.push_back( 9 );
 
-//    lc.plane_cut( { cut_dx.data(), cut_dy.data(), cut_dz.data() }, cut_ps.data(), cut_id.data(), cut_dx.size(), N<flags>() );
+    lc.plane_cut( { cut_dx.data(), cut_dy.data(), cut_dz.data() }, cut_ps.data(), cut_id.data(), cut_dx.size(), N<flags>() );
 
     // display
     Pt off{ 4.5 * TF( cpt_vo % 8 ), 4.5 * TF( cpt_vo / 8 ), 0 };

@@ -55,8 +55,8 @@ public:
     TF          y, _pad_y[ bs - 1 ];     ///< position
     TF          z, _pad_z[ bs - 1 ];     ///< position
     TF          d, _pad_d[ bs - 1 ];     ///< dist, computed for each intersection
-    PNoI        sibling_in_faces[ 3 ];   ///< for each edge, address + offset (between 0 and 3) in the `_in_faces` lists
     PNoI        next_in_faces[ 3 ];      ///< for each edge, address + offset (between 0 and 3) in the `_in_faces` lists
+    PNoI        sibling_edges[ 3 ];      ///< for each edge, address + offset for sibling edges
     PRoundStuff round_stuff[ 3 ];        ///< for each edge
     PFace       faces[ 3 ];              ///< for each edge
 };
