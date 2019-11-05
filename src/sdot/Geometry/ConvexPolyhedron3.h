@@ -53,6 +53,7 @@ public:
     TI                                   nb_nodes                  () const;
     TI                                   nb_edges                  () const;
     void                                 display                   ( VtkOutput &vo, const std::vector<TF> &cell_values = {}, Pt offset = TF( 0 ), bool display_both_sides = true ) const;
+    void                                 check                     () const;
 
     bool                                 empty                     () const;
 

@@ -25,6 +25,7 @@ public:
 
     /**/        ConvexPolyhedron3Edge( const ConvexPolyhedron3Edge &that ) : content( that.content ) {}
     /**/        ConvexPolyhedron3Edge( Node *n0, int o0 = 0 ) : content( n0, o0 ) {}
+    /**/        ConvexPolyhedron3Edge( Content content ) : content( content ) {}
     /**/        ConvexPolyhedron3Edge() : content( nullptr, 0 ) {}
 
     Edge        next                 () const { return content.ptr()->next_in_faces[ content.offset() ].get(); }
@@ -34,6 +35,7 @@ public:
     Edge        sibling              () const { return content.ptr()->sibling_edges[ content.offset() ].get(); }
     Face       *face                 () const { return content.ptr()->faces[ content.offset() ].get(); }
 
+    Edge        with_1_xored_offset  () const { return content.with_1_xored_offset(); }
     int         offset               () const { return content.offset(); }
 
     operator    bool                 () const { return content; }

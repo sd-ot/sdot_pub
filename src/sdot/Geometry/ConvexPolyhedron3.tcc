@@ -10,6 +10,7 @@
 #include <cstring>
 #include <iomanip>
 #include <bitset>
+#include <set>
 
 //#define _USE_MATH_DEFINES
 //#include <math.h>
@@ -172,17 +173,15 @@ void ConvexPolyhedron3<Pc>::write_to_stream( std::ostream &os, bool debug ) cons
 }
 
 template<class Pc>
-void ConvexPolyhedron3<Pc>::display( VtkOutput &vo, const std::vector<TF> &cell_values, Pt /*offset*/, bool display_both_sides ) const {
+void ConvexPolyhedron3<Pc>::display( VtkOutput &vo, const std::vector<TF> &cell_values, Pt offset, bool display_both_sides ) const {
     std::vector<VtkOutput::Pt> pts;
     faces.foreach( [&]( Face &face ) {
-        if ( face.round ) {
+        if ( allow_ball_cut && face.round ) {
             TODO;
         } else if ( display_both_sides || face.cut_id > sphere_cut_id ) {
             pts.clear();
-            P( &face );
             face.foreach_node( [&]( const Node &node ) {
-                P( node.pos() );
-                pts.push_back( node.pos() );
+                pts.push_back( node.pos() + offset );
             } );
             vo.add_polygon( pts, cell_values );
         }
@@ -346,14 +345,11 @@ void ConvexPolyhedron3<Pc>::plane_cut_mt_64( std::array<const TF *,dim> cut_dir,
 
         // find the faces with at least one outside node
         ++num_cut_proc;
-        bool stop = false;
+        Node *last_created_node;
         for_each_node( [&]( Node &node ) {
             if ( node.outside() == false )
                 return;
             for( std::size_t i = 0; i < 3; ++i ) {
-                if ( stop )
-                    break;
-
                 Face *face = node.faces[ i ].get();
                 if ( face->num_cut_proc == num_cut_proc )
                     continue;
@@ -378,56 +374,78 @@ void ConvexPolyhedron3<Pc>::plane_cut_mt_64( std::array<const TF *,dim> cut_dir,
                 };
 
                 // find a first inside -> outside edge
-                Edge ioe = find_outside_inside( face->first_edge, face->first_edge.n0() );
-                if ( ! ioe ) {
+                Edge oie = find_outside_inside( face->first_edge, face->first_edge.n0() );
+                if ( ! oie ) {
                     faces.free( face );
                     continue;
                 }
 
-                face->foreach_node( [&]( const Node &node ) {
-                    P( node.pos() );
-                } );
-
-                // creation/retrieval of the new node in ioe
-                Node *n_ioe;
-                int num_in_ioe;
-                Edge se_ioe = ioe.sibling();
-                Face *sf_ioe = se_ioe.face();
-                if ( sf_ioe->num_cut_proc == num_cut_proc ) {
-                    n_ioe = se_ioe.n1();
-
-                    n_ioe->next_in_faces[ 1 ].set( ioe );
-                    num_in_ioe = 1;
-                } else {
-                    Pt p = ioe.n0()->pos() + ioe.n0()->d / ( ioe.n0()->d - ioe.n1()->d ) * ( ioe.n1()->pos() - ioe.n0()->pos() );
-                    n_ioe = new_node( p );
-
-                    n_ioe->next_in_faces[ 0 ].set( ioe );
-                    num_in_ioe = 0;
-                }
-
-                // creation/retrieval of the new node in oie (next outside -> inside edge)
-                Edge oie = find_inside_outside( ioe.next() );
+                // get outside -> inside edge, siblings + register
+                Edge ioe = find_inside_outside( oie.next() );
                 Edge se_oie = oie.sibling();
-                Face *sf_oie = se_oie.face();
-                if ( sf_oie->num_cut_proc == num_cut_proc ) {
-                    Node *n_oie = se_oie.n0();
+                Edge se_ioe = ioe.sibling();
+                face->first_edge = ioe;
 
-                    oie.n0()->next_in_faces[ oie.offset() ].set( Edge( n_oie, 1 ) );
-                    n_oie->next_in_faces[ 1 ].set( Edge( n_ioe, num_in_ioe ) );
+                // creation/retrieval of the new node in oie
+                Node *n_oie;
+                int num_in_oie;
+                if ( se_oie.face()->num_cut_proc == num_cut_proc ) {
+                    n_oie = se_oie.n1();
+
+                    se_oie.n0()->sibling_edges[ se_oie.offset() ].set( { n_oie, 1 } );
+                    n_oie->sibling_edges[ 1 ].set( se_oie );
+
+                    n_oie->next_in_faces[ 1 ].set( oie.next() );
+                    n_oie->faces[ 1 ].set( face );
+                    num_in_oie = 1;
                 } else {
                     Pt p = oie.n0()->pos() + oie.n0()->d / ( oie.n0()->d - oie.n1()->d ) * ( oie.n1()->pos() - oie.n0()->pos() );
-                    Node *noie = new_node( p );
+                    n_oie = new_node( p );
 
-                    oie.n0()->next_in_faces[ oie.offset() ].set( Edge( noie, 0 ) );
-                    noie->next_in_faces[ 0 ].set( Edge( n_ioe, num_in_ioe ) );
+                    n_oie->next_in_faces[ 0 ].set( oie.next() );
+                    n_oie->faces[ 0 ].set( face );
+                    num_in_oie = 0;
+
+                    oie.n0()->next_in_faces[ oie.offset() ].set( Edge( n_oie, 0 ) ); // to have n_oie in se_ioe.n1() in the next round
                 }
 
-                P( stop, face );
-                stop = true;
+                // creation/retrieval of the new node in ioe (next outside -> inside edge)
+                if ( se_ioe.face()->num_cut_proc == num_cut_proc ) {
+                    Node *n_ioe = se_ioe.n1();
+
+                    ioe.n0()->sibling_edges[ ioe.offset() ].set( { n_ioe, 0 } );
+                    n_ioe->sibling_edges[ 0 ].set( ioe );
+
+                    ioe.n0()->next_in_faces[ ioe.offset() ].set( Edge( n_ioe, 1 ) );
+                    n_ioe->next_in_faces[ 1 ].set( Edge( n_oie, num_in_oie ) );
+                    n_ioe->faces[ 1 ].set( face );
+                } else {
+                    Pt p = ioe.n0()->pos() + ioe.n0()->d / ( ioe.n0()->d - ioe.n1()->d ) * ( ioe.n1()->pos() - ioe.n0()->pos() );
+                    Node *n_ioe = new_node( p );
+
+                    ioe.n0()->next_in_faces[ ioe.offset() ].set( Edge( n_ioe, 0 ) );
+                    n_ioe->next_in_faces[ 0 ].set( Edge( n_oie, num_in_oie ) );
+                    n_ioe->faces[ 0 ].set( face );
+                    last_created_node = n_ioe;
+                }
             }
         } );
 
+        // creation of the new face
+        Face *face = faces.create();
+        face->first_edge = { last_created_node, 2 };
+        for( Edge e( last_created_node, 0 ); ; e = e.next().with_1_xored_offset() ) { // offset = 0 because last_created_node = n_ioe
+            Node *n1 = e.n1();
+
+            e.n0()->sibling_edges[ e.offset() ].set( { n1, 2 } );
+            n1->sibling_edges[ 2 ].set( e );
+
+            n1->next_in_faces[ 2 ].set( { e.n0(), 2 } );
+            n1->faces[ 2 ].set( face );
+
+            if ( n1 == last_created_node )
+                break;
+        }
     }
 }
 
@@ -539,6 +557,37 @@ void ConvexPolyhedron3<Pc>::plane_cut( std::array<const TF *,dim> cut_dir, const
     //            P( cut_face );
     //        }
 }
+
+template<class Pc>
+void ConvexPolyhedron3<Pc>::check() const {
+    std::set<const Node *> used_nodes;
+    faces.foreach( [&]( const Face &face ) {
+        face.foreach_node( [&]( const Node &node ) {
+            used_nodes.insert( &node );
+        } );
+
+        face.foreach_edge( [&]( Edge edge ) {
+            if ( edge.face() != &face )
+                P( "bad face" );
+
+            Edge sedge = edge.sibling();
+            if ( edge.n1() != sedge.n0() || edge.n0() != sedge.n1() )
+                P( "bad sibling" );
+
+            Edge ssedge = sedge.sibling();
+            if ( edge.n0() != ssedge.n0() || edge.n1() != ssedge.n1() )
+                P( "bad sibling 2" );
+            if ( edge.face() != ssedge.face() )
+                P( "bad sibling 3" );
+        } );
+    } );
+
+    //    for_each_node( [&]( const Node &node ) {
+    //        if ( used_nodes.count( &node ) == 0 )
+    //            P( "lonely node" );
+    //    } );
+}
+
 
 template<class Pc>
 void ConvexPolyhedron3<Pc>::plane_cut( std::array<const TF *,dim> cut_dir, const TF *cut_ps, const CI *cut_id, std::size_t nb_cuts ) {
