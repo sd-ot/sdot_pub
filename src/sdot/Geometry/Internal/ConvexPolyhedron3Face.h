@@ -22,31 +22,39 @@ public:
     using       CI            = typename Carac::CI;
     using       Pt            = Point3<TF>;
 
-    void        foreach_edge  ( const std::function<void(const Edge &edge)> &f ) const {
-        if ( Edge e = first_edge ) {
-            Node *n0 = e.n0();
-            while ( true ) {
-                f( e );
-
-                if ( e.n1() == n0 )
-                    break;
-                e = e.next();
-            }
-        }
-    }
-
-    void        foreach_node  ( const std::function<void(const Node &node)> &f ) const {
-        foreach_edge( [&]( const Edge &edge ) { f( *edge.n0() ); } );
-    }
+    void        foreach_edge  ( const std::function<void(const Edge &edge)> &f ) const;
+    void        foreach_node  ( const std::function<void(const Node &node)> &f ) const;
 
     Face       *prev_in_pool; ///<
     Face       *next_in_pool; ///<
     TI          num_cut_proc; ///<
+    // Face    *prev_marked;  ///<
     Edge        first_edge;   ///<
     Pt          normal;       ///<
     CI          cut_id;       ///<
     bool        round;        ///<
 };
+
+
+// -------------------------------------------------------------------------------------------------------------------------
+template<class Carac>
+void ConvexPolyhedron3Face<Carac>::foreach_edge(const std::function<void (const ConvexPolyhedron3Face::Edge &)> &f) const {
+    if ( Edge e = first_edge ) {
+        Node *n0 = e.n0();
+        while ( true ) {
+            f( e );
+
+            if ( e.n1() == n0 )
+                break;
+            e = e.next();
+        }
+    }
+}
+
+template<class Carac>
+void ConvexPolyhedron3Face<Carac>::foreach_node(const std::function<void (const ConvexPolyhedron3Face::Node &)> &f) const {
+    foreach_edge( [&]( const Edge &edge ) { f( *edge.n0() ); } );
+}
 
 } // namespace sdot
 

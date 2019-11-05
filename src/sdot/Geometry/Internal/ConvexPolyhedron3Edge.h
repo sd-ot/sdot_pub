@@ -34,6 +34,8 @@ public:
     Edge        sibling              () const { return content.ptr()->sibling_edges[ content.offset() ].get(); }
     Face       *face                 () const { return content.ptr()->faces[ content.offset() ].get(); }
 
+    int         offset               () const { return content.offset(); }
+
     operator    bool                 () const { return content; }
 
 private:

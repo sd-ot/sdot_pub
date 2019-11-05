@@ -64,6 +64,7 @@ public:
     //
     void                                 rese_nb_nodes             ( TI new_nb_nodes );
     void                                 set_nb_nodes              ( TI new_nb_nodes );
+    Node                                *new_node                  ( Pt pos );
 
     // geometric modifications
     template<int flags>  void            plane_cut                 ( std::array<const TF *,dim> cut_dir, const TF *cut_ps, const CI *cut_id, std::size_t nb_cuts, N<flags> ); ///< return true if effective cut. @see ConvexPolyhedron for the flags
@@ -78,6 +79,9 @@ public:
     CI                                   sphere_cut_id;
 
 private:
+    template<int flags>  void            plane_cut_lt_64           ( std::array<const TF *,dim> cut_dir, const TF *cut_ps, const CI */*cut_id*/, std::size_t nb_cuts, N<flags> );
+    template<int flags>  void            plane_cut_mt_64           ( std::array<const TF *,dim> cut_dir, const TF *cut_ps, const CI */*cut_id*/, std::size_t nb_cuts, N<flags> );
+
     TI                                   num_cut_proc;             ///<
     TI                                   nodes_size;               ///< nb nodes
     TI                                   nodes_rese;               ///< nb nodes that can be stored without reallocation

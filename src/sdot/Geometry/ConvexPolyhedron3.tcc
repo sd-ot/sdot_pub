@@ -50,6 +50,7 @@ ConvexPolyhedron3<Pc>::ConvexPolyhedron3( const Box &box, CI cut_id ) : ConvexPo
         Face *face = faces.create();
         if ( allow_ball_cut )
             face->round = false;
+        face->num_cut_proc = 0;
         face->normal = normal;
         face->cut_id = cut_id;
 
@@ -96,7 +97,7 @@ ConvexPolyhedron3<Pc>::~ConvexPolyhedron3() {
 }
 
 template<class Pc>
-ConvexPolyhedron3<Pc> &ConvexPolyhedron3<Pc>::operator=( const ConvexPolyhedron3 &that ) {
+ConvexPolyhedron3<Pc> &ConvexPolyhedron3<Pc>::operator=( const ConvexPolyhedron3 &/*that*/ ) {
     TODO;
     //    //    this->nb_changes = that.nb_changes;
     //    set_nb_nodes( that.nb_nodes() );
@@ -178,7 +179,9 @@ void ConvexPolyhedron3<Pc>::display( VtkOutput &vo, const std::vector<TF> &cell_
             TODO;
         } else if ( display_both_sides || face.cut_id > sphere_cut_id ) {
             pts.clear();
+            P( &face );
             face.foreach_node( [&]( const Node &node ) {
+                P( node.pos() );
                 pts.push_back( node.pos() );
             } );
             vo.add_polygon( pts, cell_values );
@@ -187,7 +190,7 @@ void ConvexPolyhedron3<Pc>::display( VtkOutput &vo, const std::vector<TF> &cell_
 }
 
 template<class Pc> template<class F>
-void ConvexPolyhedron3<Pc>::for_each_edge( const F &f ) const {
+void ConvexPolyhedron3<Pc>::for_each_edge( const F &/*f*/ ) const {
     static_assert ( sizeof( Node ) % sizeof( TF ) == 0, "" );
     TODO;
 
@@ -211,9 +214,9 @@ void ConvexPolyhedron3<Pc>::for_each_node( const F &f ) const {
     static_assert ( sizeof( Node ) % sizeof( TF ) == 0, "" );
 
     Node *ptr = nodes;
-    for( TI i = 0; ; ++i ) {
-        if ( i + block_size >= nodes_size ) {
-            for( TI j = 0; j < nodes_size - i; ++j )
+    for( TI i = 0, s = nodes_size; ; ++i ) {
+        if ( i + block_size >= s ) {
+            for( TI j = 0; j < s - i; ++j )
                 f( ptr->local_at( j ) );
             break;
         }
@@ -296,6 +299,8 @@ void ConvexPolyhedron3<Pc>::rese_nb_nodes( TI new_size ) {
 
         if ( old_nb_blocks )
             aligned_free( old_nodes );
+
+        TODO; // pointers
     }
 }
 
@@ -305,161 +310,234 @@ void ConvexPolyhedron3<Pc>::set_nb_nodes( TI new_size ) {
     nodes_size = new_size;
 }
 
+template<class Pc>
+typename ConvexPolyhedron3<Pc>::Node *ConvexPolyhedron3<Pc>::new_node( Pt pos ) {
+    TI n = nb_nodes();
+    set_nb_nodes( n + 1 );
+
+    Node *res = &node( n );
+    res->set_pos( pos );
+    return res;
+}
+
+
 template<class Pc> template<int flags>
-void ConvexPolyhedron3<Pc>::plane_cut( std::array<const TF *,dim> cut_dir, const TF *cut_ps, const CI *cut_id, std::size_t nb_cuts, N<flags> ) {
+void ConvexPolyhedron3<Pc>::plane_cut_mt_64( std::array<const TF *,dim> cut_dir, const TF *cut_ps, const CI */*cut_id*/, std::size_t nb_cuts, N<flags> ) {
+    // we assume here that cells with nb nodes > 64 are not common. Thus this procedure is no fully optimized.
     for( std::size_t num_cut = 0; num_cut < nb_cuts; ++num_cut ) {
-        // distances
-        TI nb_outside_nodes = 0;
-        TF rd = cut_ps[ num_cut ];
         TF nx = cut_dir[ 0 ][ num_cut ];
         TF ny = cut_dir[ 1 ][ num_cut ];
         TF nz = cut_dir[ 2 ][ num_cut ];
-        #ifdef __AVX5d12F__
-        //        __m512d rd = _mm512_set1_pd( cut_ps[ num_cut ] );
-        //        __m512d nx = _mm512_set1_pd( cut_dir[ 0 ][ num_cut ] );
-        //        __m512d ny = _mm512_set1_pd( cut_dir[ 1 ][ num_cut ] );
-        //        __m512d nz = _mm512_set1_pd( cut_dir[ 2 ][ num_cut ] );
-        //        for( std::size_t n = 0; n < nb_nodes(); n += 8 ) {
-        //            __m512d px_0 = _mm512_load_pd( x + 0 );
-        //            __m512d py_0 = _mm512_load_pd( y + 0 );
-        //            __m512i pc_0 = _mm512_load_epi64( c + 0 );
-        //            __m512d bi_0 = _mm512_add_pd( _mm512_mul_pd( px_0, nx ), _mm512_mul_pd( py_0, ny ) );
-        //            std::uint8_t outside_0 = _mm512_cmp_pd_mask( bi_0, rd, _CMP_GT_OQ );
-        //            __m512d di_0 = _mm512_sub_pd( bi_0, rd );
-        //        }
-        TODO;
-        #else
+        TF rd = cut_ps[ num_cut ];
+
+        // get distances + nb_outside_nodes
+        TI nb_outside_nodes = 0;
         for_each_node( [&]( Node &node ) {
             node.d = node.x * nx + node.y * ny + node.z * nz - rd;
             nb_outside_nodes += node.outside();
         } );
         if ( nb_outside_nodes == 0 )
-            return;
+            continue;
         if ( nb_outside_nodes == nb_nodes() ) {
+            faces.foreach( [&]( Face &face ) { faces.free( &face ); } );
             nodes_size = 0;
             return;
         }
-        #endif
 
-        // Face *last_face_to_rem = nullptr;
-        faces.foreach( [&]( Face &face ) {
-            // helper find a inside -> outside edge
-            auto find_inside_outside = [&]( Edge beg, Node *end ) -> Edge {
-                while ( true ) {
-                    if ( beg.n0()->outside() == false && beg.n1()->outside() )
-                        return beg;
-                    if ( beg.n1() == end )
-                        return nullptr;
-                    beg = beg.next();
-                }
-            };
-
-            // find a first inside -> outside edge
-            Edge last_valid = find_inside_outside( face.first_edge, face.first_edge.n0() );
-            if ( ! last_valid ) {
-                if ( face.first_edge.n0()->outside() )
-                    faces.free( &face );
+        // find the faces with at least one outside node
+        ++num_cut_proc;
+        bool stop = false;
+        for_each_node( [&]( Node &node ) {
+            if ( node.outside() == false )
                 return;
+            for( std::size_t i = 0; i < 3; ++i ) {
+                if ( stop )
+                    break;
+
+                Face *face = node.faces[ i ].get();
+                if ( face->num_cut_proc == num_cut_proc )
+                    continue;
+                face->num_cut_proc = num_cut_proc;
+
+                // helpers to find a inside <-> outside edge
+                auto find_outside_inside = [&]( Edge beg, Node *end ) -> Edge {
+                    while ( true ) {
+                        if ( beg.n0()->outside() && beg.n1()->outside() == false )
+                            return beg;
+                        if ( beg.n1() == end )
+                            return nullptr;
+                        beg = beg.next();
+                    }
+                };
+                auto find_inside_outside = [&]( Edge beg ) -> Edge {
+                    while ( true ) {
+                        if ( beg.n0()->outside() == false && beg.n1()->outside() )
+                            return beg;
+                        beg = beg.next();
+                    }
+                };
+
+                // find a first inside -> outside edge
+                Edge ioe = find_outside_inside( face->first_edge, face->first_edge.n0() );
+                if ( ! ioe ) {
+                    faces.free( face );
+                    continue;
+                }
+
+                face->foreach_node( [&]( const Node &node ) {
+                    P( node.pos() );
+                } );
+
+                // creation/retrieval of the new node in ioe
+                Node *n_ioe;
+                int num_in_ioe;
+                Edge se_ioe = ioe.sibling();
+                Face *sf_ioe = se_ioe.face();
+                if ( sf_ioe->num_cut_proc == num_cut_proc ) {
+                    n_ioe = se_ioe.n1();
+
+                    n_ioe->next_in_faces[ 1 ].set( ioe );
+                    num_in_ioe = 1;
+                } else {
+                    Pt p = ioe.n0()->pos() + ioe.n0()->d / ( ioe.n0()->d - ioe.n1()->d ) * ( ioe.n1()->pos() - ioe.n0()->pos() );
+                    n_ioe = new_node( p );
+
+                    n_ioe->next_in_faces[ 0 ].set( ioe );
+                    num_in_ioe = 0;
+                }
+
+                // creation/retrieval of the new node in oie (next outside -> inside edge)
+                Edge oie = find_inside_outside( ioe.next() );
+                Edge se_oie = oie.sibling();
+                Face *sf_oie = se_oie.face();
+                if ( sf_oie->num_cut_proc == num_cut_proc ) {
+                    Node *n_oie = se_oie.n0();
+
+                    oie.n0()->next_in_faces[ oie.offset() ].set( Edge( n_oie, 1 ) );
+                    n_oie->next_in_faces[ 1 ].set( Edge( n_ioe, num_in_ioe ) );
+                } else {
+                    Pt p = oie.n0()->pos() + oie.n0()->d / ( oie.n0()->d - oie.n1()->d ) * ( oie.n1()->pos() - oie.n0()->pos() );
+                    Node *noie = new_node( p );
+
+                    oie.n0()->next_in_faces[ oie.offset() ].set( Edge( noie, 0 ) );
+                    noie->next_in_faces[ 0 ].set( Edge( n_ioe, num_in_ioe ) );
+                }
+
+                P( stop, face );
+                stop = true;
             }
-
-            // creation of a new node if not already done
-            Face *adjacent_face = last_valid.sibling().face();
-            if ( &face < adjacent_face ) {
-
-            }
-
-
         } );
 
-        // mark impacted faces
-        //        ++num_cut_proc;
-        //        for_each_node( [&]( Node &node ) {
-        //            if ( node.outside() ) {
-
-        //            }
-        //        } );
-
-        //        // reservation for the new nodes and the new edges. Make a linked list of face impacted by the cut
-        //        ++num_cut_proc;
-        //        int last_cut_face = -1;
-        //        TI nb_partially_outside_edges = 0;
-        //        for_each_edge( [&]( Edge &edge ) {
-        //            bool o0 = node( edge.node_0 ).outside();
-        //            bool o1 = node( edge.node_1 ).outside();
-        //            nb_partially_outside_edges += o0 ^ o1;
-
-        //            if ( o0 || o1 ) {
-        //                auto reg_face = [&]( int num_face ) {
-        //                    Face &face = faces[ num_face ];
-        //                    if ( face.num_cut_proc != num_cut_proc ) {
-        //                        face.num_cut_proc = num_cut_proc;
-        //                        face.prev_cut_face = last_cut_face;
-        //                        last_cut_face = num_face;
-        //                    }
-        //                };
-        //                reg_face( edge.face_0 );
-        //                reg_face( edge.face_1 );
-        //            }
-        //        } );
-
-        //        TI old_edges_size = edges_size;
-        //        TI old_nodes_size = nodes_size;
-        //        rese_nb_edges( edges_size + nb_partially_outside_edges );
-        //        rese_nb_nodes( nodes_size + nb_partially_outside_edges );
-
-        //        // make the new nodes and adjust the old edges.
-        //        for_each_edge( [&]( Edge &edge ) {
-        //            bool o0 = node( edge.node_0 ).outside();
-        //            bool o1 = node( edge.node_1 ).outside();
-        //            if ( o0 ) {
-        //                if ( ! o1 ) {
-        //                    node( nodes_size ).set_pos( node( edge.node_0 ).pos() + node( edge.node_0 ).d / ( node( edge.node_0 ).d - node( edge.node_1 ).d ) * ( node( edge.node_1 ).pos() - node( edge.node_0 ).pos() ) );
-        //                    edge.node_0 = nodes_size++;
-        //                }
-        //            } else if ( o1 ) {
-        //                node( nodes_size ).set_pos( node( edge.node_0 ).pos() + node( edge.node_0 ).d / ( node( edge.node_0 ).d - node( edge.node_1 ).d ) * ( node( edge.node_1 ).pos() - node( edge.node_0 ).pos() ) );
-        //                edge.node_1 = nodes_size++;
-        //            }
-        //        } );
-
-        //        // mark faces to be removed
-        //        ++num_cut_proc;
-        //        int last_rem_face = -1;
-        //        for( int cut_face = last_cut_face; cut_face >= 0; ) {
-        //            Face &face = faces[ cut_face ];
-        //            int prev_cut_face = face.prev_cut_face;
-
-        //            int nb_out_points = 0;
-        //            for( TI i = face.num_in_edge_beg; i < face.num_in_edge_end; ++i ) {
-        //                int n0 = edge_n0( num_in_edges_m2[ i ] );
-        //                if ( node( n0 ).outside() ) {
-        //                    ++nb_out_points;
-        //                }
-        //            }
-
-        //            if ( nb_out_points == face.num_in_edge_end - face.num_in_edge_beg ) {
-        //                face.num_cut_proc = num_cut_proc;
-        //                face.prev_cut_face = last_rem_face;
-        //                last_rem_face = cut_face;
-        //            }
-
-        //            cut_face = prev_cut_face;
-        //        }
-
-        //        // remove void faces
-        //        int last_valid_face = faces.size() - 1;
-        //        for( int cut_face = last_rem_face; cut_face >= 0; cut_face = faces[ cut_face ].prev_cut_face ) {
-        //            while ( last_valid_face >= 0 && faces[ last_valid_face ].num_cut_proc == num_cut_proc )
-        //                --last_valid_face;
-
-        //            if ( last_valid_face > cut_face ) {
-        //                TODO;
-        //            }
-
-        //            faces.pop_back();
-        //            P( cut_face );
-        //        }
     }
+}
+
+template<class Pc> template<int flags>
+void ConvexPolyhedron3<Pc>::plane_cut_lt_64( std::array<const TF *,dim> cut_dir, const TF *cut_ps, const CI *cut_id, std::size_t nb_cuts, N<flags> ) {
+    #ifdef __AVX5d12F__
+    //        __m512d rd = _mm512_set1_pd( cut_ps[ num_cut ] );
+    //        __m512d nx = _mm512_set1_pd( cut_dir[ 0 ][ num_cut ] );
+    //        __m512d ny = _mm512_set1_pd( cut_dir[ 1 ][ num_cut ] );
+    //        __m512d nz = _mm512_set1_pd( cut_dir[ 2 ][ num_cut ] );
+    //        for( std::size_t n = 0; n < nb_nodes(); n += 8 ) {
+    //            __m512d px_0 = _mm512_load_pd( x + 0 );
+    //            __m512d py_0 = _mm512_load_pd( y + 0 );
+    //            __m512i pc_0 = _mm512_load_epi64( c + 0 );
+    //            __m512d bi_0 = _mm512_add_pd( _mm512_mul_pd( px_0, nx ), _mm512_mul_pd( py_0, ny ) );
+    //            std::uint8_t outside_0 = _mm512_cmp_pd_mask( bi_0, rd, _CMP_GT_OQ );
+    //            __m512d di_0 = _mm512_sub_pd( bi_0, rd );
+    //        }
+    #else
+    #endif
+
+    return plane_cut_mt_64( cut_dir, cut_ps, cut_id, nb_cuts, N<flags>() );
+}
+
+template<class Pc> template<int flags>
+void ConvexPolyhedron3<Pc>::plane_cut( std::array<const TF *,dim> cut_dir, const TF *cut_ps, const CI *cut_id, std::size_t nb_cuts, N<flags> ) {
+    if ( nb_nodes() <= 64 )
+        return plane_cut_lt_64( cut_dir, cut_ps, cut_id, nb_cuts, N<flags>() );
+    return plane_cut_mt_64( cut_dir, cut_ps, cut_id, nb_cuts, N<flags>() );
+
+    //        // reservation for the new nodes and the new edges. Make a linked list of face impacted by the cut
+    //        ++num_cut_proc;
+    //        int last_cut_face = -1;
+    //        TI nb_partially_outside_edges = 0;
+    //        for_each_edge( [&]( Edge &edge ) {
+    //            bool o0 = node( edge.node_0 ).outside();
+    //            bool o1 = node( edge.node_1 ).outside();
+    //            nb_partially_outside_edges += o0 ^ o1;
+
+    //            if ( o0 || o1 ) {
+    //                auto reg_face = [&]( int num_face ) {
+    //                    Face &face = faces[ num_face ];
+    //                    if ( face.num_cut_proc != num_cut_proc ) {
+    //                        face.num_cut_proc = num_cut_proc;
+    //                        face.prev_cut_face = last_cut_face;
+    //                        last_cut_face = num_face;
+    //                    }
+    //                };
+    //                reg_face( edge.face_0 );
+    //                reg_face( edge.face_1 );
+    //            }
+    //        } );
+
+    //        TI old_edges_size = edges_size;
+    //        TI old_nodes_size = nodes_size;
+    //        rese_nb_edges( edges_size + nb_partially_outside_edges );
+    //        rese_nb_nodes( nodes_size + nb_partially_outside_edges );
+
+    //        // make the new nodes and adjust the old edges.
+    //        for_each_edge( [&]( Edge &edge ) {
+    //            bool o0 = node( edge.node_0 ).outside();
+    //            bool o1 = node( edge.node_1 ).outside();
+    //            if ( o0 ) {
+    //                if ( ! o1 ) {
+    //                    node( nodes_size ).set_pos( node( edge.node_0 ).pos() + node( edge.node_0 ).d / ( node( edge.node_0 ).d - node( edge.node_1 ).d ) * ( node( edge.node_1 ).pos() - node( edge.node_0 ).pos() ) );
+    //                    edge.node_0 = nodes_size++;
+    //                }
+    //            } else if ( o1 ) {
+    //                node( nodes_size ).set_pos( node( edge.node_0 ).pos() + node( edge.node_0 ).d / ( node( edge.node_0 ).d - node( edge.node_1 ).d ) * ( node( edge.node_1 ).pos() - node( edge.node_0 ).pos() ) );
+    //                edge.node_1 = nodes_size++;
+    //            }
+    //        } );
+
+    //        // mark faces to be removed
+    //        ++num_cut_proc;
+    //        int last_rem_face = -1;
+    //        for( int cut_face = last_cut_face; cut_face >= 0; ) {
+    //            Face &face = faces[ cut_face ];
+    //            int prev_cut_face = face.prev_cut_face;
+
+    //            int nb_out_points = 0;
+    //            for( TI i = face.num_in_edge_beg; i < face.num_in_edge_end; ++i ) {
+    //                int n0 = edge_n0( num_in_edges_m2[ i ] );
+    //                if ( node( n0 ).outside() ) {
+    //                    ++nb_out_points;
+    //                }
+    //            }
+
+    //            if ( nb_out_points == face.num_in_edge_end - face.num_in_edge_beg ) {
+    //                face.num_cut_proc = num_cut_proc;
+    //                face.prev_cut_face = last_rem_face;
+    //                last_rem_face = cut_face;
+    //            }
+
+    //            cut_face = prev_cut_face;
+    //        }
+
+    //        // remove void faces
+    //        int last_valid_face = faces.size() - 1;
+    //        for( int cut_face = last_rem_face; cut_face >= 0; cut_face = faces[ cut_face ].prev_cut_face ) {
+    //            while ( last_valid_face >= 0 && faces[ last_valid_face ].num_cut_proc == num_cut_proc )
+    //                --last_valid_face;
+
+    //            if ( last_valid_face > cut_face ) {
+    //                TODO;
+    //            }
+
+    //            faces.pop_back();
+    //            P( cut_face );
+    //        }
 }
 
 template<class Pc>

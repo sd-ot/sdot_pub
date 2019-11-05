@@ -43,7 +43,7 @@ void test_regular_cuts( VtkOutput &vo, int &cpt_vo ) {
     cut_dx.push_back( 1 );
     cut_dy.push_back( 0 );
     cut_dz.push_back( 0 );
-    cut_ps.push_back( 0.5 );
+    cut_ps.push_back( 0.2 );
     cut_id.push_back( 9 );
 
     lc.plane_cut( { cut_dx.data(), cut_dy.data(), cut_dz.data() }, cut_ps.data(), cut_id.data(), cut_dx.size(), N<flags>() );
