@@ -30,6 +30,7 @@ void test_regular_cuts( VtkOutput &vo, int &cpt_vo, typename Cp::Pt n, typename 
 
     lc.plane_cut( { cut_dx.data(), cut_dy.data(), cut_dz.data() }, cut_ps.data(), cut_id.data(), cut_dx.size(), N<flags>() );
     lc.check();
+    PN( lc );
 
     // display
     Pt off{ 1.5 * int( cpt_vo % 8 ), 1.5 * int( cpt_vo / 8 ), 0.0 };
@@ -67,8 +68,9 @@ void test_diam() {
         }
     }
 
-    lc.plane_cut( { cut_dx.data(), cut_dy.data(), cut_dz.data() }, cut_ps.data(), cut_id.data(), 1 /*cut_dx.size()*/, N<flags>() );
+    lc.plane_cut( { cut_dx.data(), cut_dy.data(), cut_dz.data() }, cut_ps.data(), cut_id.data(), 16 /*cut_dx.size()*/, N<flags>() );
     lc.check();
+    PN( lc );
 
     // display
     VtkOutput vo( { "smurf" } );
@@ -82,14 +84,14 @@ void test_regular_cuts() {
     VtkOutput vo( { "smurf" } );
 
     test_regular_cuts<Cp>( vo, cpt_vo, { +1, 0, 0 }, +0.2 );
-    test_regular_cuts<Cp>( vo, cpt_vo, { 0, +1, 0 }, +0.2 );
-    test_regular_cuts<Cp>( vo, cpt_vo, { 0, 0, +1 }, +0.2 );
-    test_regular_cuts<Cp>( vo, cpt_vo, { -1, 0, 0 }, -0.2 );
-    test_regular_cuts<Cp>( vo, cpt_vo, { 0, -1, 0 }, -0.2 );
-    test_regular_cuts<Cp>( vo, cpt_vo, { 0, 0, -1 }, -0.2 );
+    //    test_regular_cuts<Cp>( vo, cpt_vo, { 0, +1, 0 }, +0.2 );
+    //    test_regular_cuts<Cp>( vo, cpt_vo, { 0, 0, +1 }, +0.2 );
+    //    test_regular_cuts<Cp>( vo, cpt_vo, { -1, 0, 0 }, -0.2 );
+    //    test_regular_cuts<Cp>( vo, cpt_vo, { 0, -1, 0 }, -0.2 );
+    //    test_regular_cuts<Cp>( vo, cpt_vo, { 0, 0, -1 }, -0.2 );
 
-    test_regular_cuts<Cp>( vo, cpt_vo, { 1, 1, 1 }, 0.9 * std::sqrt( 3.0 ) );
-    test_regular_cuts<Cp>( vo, cpt_vo, { 1, 1, 1 }, 0.1 * std::sqrt( 3.0 ) );
+    //    test_regular_cuts<Cp>( vo, cpt_vo, { 1, 1, 1 }, 0.9 * std::sqrt( 3.0 ) );
+    //    test_regular_cuts<Cp>( vo, cpt_vo, { 1, 1, 1 }, 0.1 * std::sqrt( 3.0 ) );
 
     vo.save( "vtk/pd.vtk" );
 }
@@ -106,6 +108,6 @@ int main() {
 
     };
     using Cp = ConvexPolyhedron3<Pc>;
-    // test_regular_cuts<Cp>();
+    //    test_regular_cuts<Cp>();
     test_diam<Cp>();
 }

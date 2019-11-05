@@ -31,6 +31,7 @@ public:
     // shortcuts
     using       PRoundStuff              = PaddedType<RoundStuff *,Carac::block_size,sizeof(typename Carac::TF),(sizeof(void *)>sizeof(typename Carac::TF))>;
     using       PFace                    = PaddedType<ConvexPolyhedron3Face<Carac> *,Carac::block_size,sizeof(typename Carac::TF),(sizeof(void *)>sizeof(typename Carac::TF))>;
+    using       PNode                    = PaddedType<ConvexPolyhedron3NodeBlock *,Carac::block_size,sizeof(typename Carac::TF),(sizeof(void *)>sizeof(typename Carac::TF))>;
     using       PNoI                     = PaddedType<ConvexPolyhedron3Edge<Carac>,Carac::block_size,sizeof(typename Carac::TF),(sizeof(void *)>sizeof(typename Carac::TF))>;
     using       Node                     = ConvexPolyhedron3NodeBlock;
     enum {      bs                       = Carac::block_size };
@@ -58,6 +59,7 @@ public:
     PNoI        next_in_faces[ 3 ];      ///< for each edge, address + offset (between 0 and 3) in the `_in_faces` lists
     PNoI        sibling_edges[ 3 ];      ///< for each edge, address + offset for sibling edges
     PRoundStuff round_stuff[ 3 ];        ///< for each edge
+    PNode       next_free;
     PFace       faces[ 3 ];              ///< for each edge
 };
 

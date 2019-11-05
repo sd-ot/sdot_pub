@@ -48,6 +48,7 @@ public:
 
     // information
     void                                 write_to_stream           ( std::ostream &os, bool debug = false ) const;
+    template<class F> void               for_each_face             ( const F &f ) const;
     template<class F> void               for_each_edge             ( const F &f ) const;
     template<class F> void               for_each_node             ( const F &f ) const;
     TI                                   nb_nodes                  () const;

@@ -53,7 +53,8 @@ auto operator<<( std::ostream &os, const T &val ) -> typename std::enable_if<Has
     int cpt = 0;
     for( T cp = val; cp; ++cpt )
         os << ( cpt ? "," : "" ) << cp.pop();
-    return os << ']';
+    os << ']';
+    return os;
 }
 
 //

@@ -3,3 +3,4 @@ ext/
 vtk/
 callgrind.out*
 *.mesh
+pd.vtk
