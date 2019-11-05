@@ -29,6 +29,7 @@ ConvexPolyhedron3<Pc>::ConvexPolyhedron3( const Box &box, CI cut_id ) : ConvexPo
         Node *res = &node( index );
         for( TI i = 0; i < 3; ++i )
             res->next_in_faces[ i ].set( { nullptr, 0 } );
+        res->next_free.set( nullptr );
         res->x = x;
         res->y = y;
         res->z = z;
@@ -342,6 +343,7 @@ typename ConvexPolyhedron3<Pc>::Node *ConvexPolyhedron3<Pc>::new_node( Pt pos ) 
     set_nb_nodes( n + 1 );
 
     Node *res = &node( n );
+    res->next_free.set( nullptr );
     res->set_pos( pos );
     return res;
 }
@@ -464,6 +466,7 @@ void ConvexPolyhedron3<Pc>::plane_cut_mt_64( std::array<const TF *,dim> cut_dir,
 
         // creation of the new face
         Face *face = faces.create();
+        face->num_cut_proc = 0;
         face->first_edge = { last_created_node, 2 };
         for( Edge e( last_created_node, 0 ); ; e = e.next().with_1_xored_offset() ) { // offset = 0 because last_created_node = n_ioe
             Node *n1 = e.n1();
