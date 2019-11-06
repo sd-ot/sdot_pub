@@ -167,6 +167,7 @@ void ConvexPolyhedron3<Pc>::write_to_stream( std::ostream &os, bool /*debug*/ ) 
     faces.foreach( [&]( const Face &face ) {
         os << "  " << face_map[ &face ] << " => d=";
         face.normal.write_to_stream( os );
+
         os << " n=[";
         face.foreach_node( [&]( const Node &node ) {
             os << node_map[ &node ];
@@ -175,7 +176,7 @@ void ConvexPolyhedron3<Pc>::write_to_stream( std::ostream &os, bool /*debug*/ ) 
         os << "\n";
 
         face.foreach_edge( [&]( const Edge &edge ) {
-            os << "    " << node_map[ edge.n0() ] << node_map[ edge.n1() ];
+            os << "    " << node_map[ edge.n0() ] << " -> " << node_map[ edge.n1() ];
             os << " f:" << face_map[ edge.face() ];
             os << " s:" << node_map[ edge.sibling().n0() ] << node_map[ edge.sibling().n1() ];
             os << " fs:" << face_map[ edge.sibling().face() ];
@@ -239,7 +240,7 @@ void ConvexPolyhedron3<Pc>::for_each_node( const F &f ) const {
     static_assert ( sizeof( Node ) % sizeof( TF ) == 0, "" );
 
     Node *ptr = nodes;
-    for( TI i = 0, s = nodes_size; ; ++i ) {
+    for( TI i = 0, s = nodes_size; ; ) {
         if ( i + block_size >= s ) {
             for( TI j = 0; j < s - i; ++j )
                 if ( ! ptr->local_at( j ).next_free.get() )
@@ -353,8 +354,6 @@ template<class Pc> template<int flags>
 void ConvexPolyhedron3<Pc>::plane_cut_mt_64( std::array<const TF *,dim> cut_dir, const TF *cut_ps, const CI */*cut_id*/, std::size_t nb_cuts, N<flags> ) {
     // we assume here that cells with nb nodes > 64 are not common. Thus this procedure is no fully optimized.
     for( std::size_t num_cut = 0; num_cut < nb_cuts; ++num_cut ) {
-        P( nb_nodes() );
-
         TF nx = cut_dir[ 0 ][ num_cut ];
         TF ny = cut_dir[ 1 ][ num_cut ];
         TF nz = cut_dir[ 2 ][ num_cut ];
@@ -366,6 +365,7 @@ void ConvexPolyhedron3<Pc>::plane_cut_mt_64( std::array<const TF *,dim> cut_dir,
             node.d = node.x * nx + node.y * ny + node.z * nz - rd;
             nb_outside_nodes += node.outside();
         } );
+
         if ( nb_outside_nodes == 0 )
             continue;
         if ( nb_outside_nodes == nb_nodes() ) {
@@ -468,7 +468,7 @@ void ConvexPolyhedron3<Pc>::plane_cut_mt_64( std::array<const TF *,dim> cut_dir,
         Face *face = faces.create();
         face->num_cut_proc = 0;
         face->first_edge = { last_created_node, 2 };
-        for( Edge e( last_created_node, 0 ); ; e = e.next().with_1_xored_offset() ) { // offset = 0 because last_created_node = n_ioe
+        for( Edge e( last_created_node, 0 ); ; e = e.next().with_1_xored_offset() ) { // offset = 0 at the beginning because last_created_node = n_ioe
             Node *n1 = e.n1();
 
             e.n0()->sibling_edges[ e.offset() ].set( { n1, 2 } );

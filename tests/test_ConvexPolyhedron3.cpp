@@ -68,7 +68,7 @@ void test_diam() {
         }
     }
 
-    lc.plane_cut( { cut_dx.data(), cut_dy.data(), cut_dz.data() }, cut_ps.data(), cut_id.data(), 16 /*cut_dx.size()*/, N<flags>() );
+    lc.plane_cut( { cut_dx.data(), cut_dy.data(), cut_dz.data() }, cut_ps.data(), cut_id.data(), cut_dx.size(), N<flags>() );
     lc.check();
     PN( lc );
 

@@ -18,3 +18,6 @@ Pour le 3D, on peut utiliser des index voire des pointeurs globaux.
 Rq: si on compacte avec du int64 pour les bools, on ne pourra pas utiliser de pointeur dans les noeuds.
 
 Prop: on stocke les angles  
+
+
+L'hypothèse, c'est qu'on référence des noeuds qui sont sortis de la liste.
