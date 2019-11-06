@@ -40,7 +40,7 @@ public:
 
     operator    bool                 () const { return content; }
 
-    face->first_edge.repl();
+    Edge        repl                 () { return { content.ptr()->repl.get(), int( content.offset() ) }; }
 
 private:
     Content     content;

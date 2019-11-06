@@ -349,7 +349,7 @@ typename ConvexPolyhedron3<Pc>::Node *ConvexPolyhedron3<Pc>::new_node( Pt pos ) 
 
 
 template<class Pc> template<int flags>
-void ConvexPolyhedron3<Pc>::plane_cut_mt_64( std::array<const TF *,dim> cut_dir, const TF *cut_ps, const CI */*cut_id*/, std::size_t nb_cuts, N<flags> ) {
+void ConvexPolyhedron3<Pc>::plane_cut_mt_64( std::array<const TF *,dim> cut_dir, const TF *cut_ps, const CI *cut_id, std::size_t nb_cuts, N<flags> ) {
     // we assume here that cells with nb nodes > 64 are not common. Thus this procedure is no fully optimized.
     for( std::size_t num_cut = 0; num_cut < nb_cuts; ++num_cut ) {
         TF nx = cut_dir[ 0 ][ num_cut ];
@@ -437,6 +437,7 @@ void ConvexPolyhedron3<Pc>::plane_cut_mt_64( std::array<const TF *,dim> cut_dir,
                 } else {
                     Pt p = oie.n0()->pos() + oie.n0()->d / ( oie.n0()->d - oie.n1()->d ) * ( oie.n1()->pos() - oie.n0()->pos() );
                     n_oie = new_node( p );
+                    n_oie->d = -1;
 
                     n_oie->next_in_faces[ 0 ].set( oie.next() );
                     n_oie->faces[ 0 ].set( face );
@@ -458,6 +459,7 @@ void ConvexPolyhedron3<Pc>::plane_cut_mt_64( std::array<const TF *,dim> cut_dir,
                 } else {
                     Pt p = ioe.n0()->pos() + ioe.n0()->d / ( ioe.n0()->d - ioe.n1()->d ) * ( ioe.n1()->pos() - ioe.n0()->pos() );
                     Node *n_ioe = new_node( p );
+                    n_ioe->d = -1;
 
                     ioe.n0()->next_in_faces[ ioe.offset() ].set( Edge( n_ioe, 0 ) );
                     n_ioe->next_in_faces[ 0 ].set( Edge( n_oie, num_in_oie ) );
@@ -469,6 +471,8 @@ void ConvexPolyhedron3<Pc>::plane_cut_mt_64( std::array<const TF *,dim> cut_dir,
 
         // creation of the new face
         Face *face = faces.create();
+        face->normal = { nx, ny, nz };
+        face->cut_id = cut_id[ num_cut ];
         face->num_cut_proc = 0;
         face->first_edge = { last_created_node, 2 };
         for( Edge e( last_created_node, 0 ); ; e = e.next().with_1_xored_offset() ) { // offset = 0 at the beginning because last_created_node = n_ioe
@@ -484,7 +488,8 @@ void ConvexPolyhedron3<Pc>::plane_cut_mt_64( std::array<const TF *,dim> cut_dir,
                 break;
         }
 
-        // node replacement locations
+        // get node replacement locations + mark faces with replaced nodes
+        ++num_cut_proc;
         Face *last_marked_face = nullptr;
         last_free_node->repl.set( nullptr );
         std::size_t num_node_to_move = nb_nodes();
@@ -496,6 +501,10 @@ void ConvexPolyhedron3<Pc>::plane_cut_mt_64( std::array<const TF *,dim> cut_dir,
             if ( n->inside() ) {
                 for( std::size_t i = 0; i < 3; ++i ) {
                     Face *face = n->faces[ i ].get();
+                    if ( face->num_cut_proc == num_cut_proc )
+                        continue;
+                    face->num_cut_proc = num_cut_proc;
+
                     face->prev_marked = last_marked_face;
                     last_marked_face = face;
                 }
@@ -509,14 +518,37 @@ void ConvexPolyhedron3<Pc>::plane_cut_mt_64( std::array<const TF *,dim> cut_dir,
             }
         }
 
-        //
+        // modify node pointers in edges
         for( Face *face = last_marked_face; face; face = face->prev_marked ) {
-            face->first_edge.repl();
+            Edge e = face->first_edge;
+            for( Node *n0 = e.n0(); ; ) {
+                Node *node = e.n0(), *repl = node->repl.get();
+                int offset = e.offset();
+                Edge ne = e.next();
+
+                repl->next_in_faces[ offset ].set( node->next_in_faces[ offset ].get().repl() );
+                repl->sibling_edges[ offset ].set( node->sibling_edges[ offset ].get().repl() );
+
+                if ( ne.n0() == n0 )
+                    break;
+                e = ne;
+            }
+
+            face->first_edge = e.repl();
         }
 
-        TODO;
-        // move the nodes
+        // set node->repl to node
+        for( Node *node = first_free_node; ; ) {
+            Node *next = node->repl.get();
+            node->repl.set( node );
 
+            if ( ! next )
+                break;
+            node = next;
+        }
+
+        // modify nb nodes
+        nodes_size -= nb_outside_nodes;
     }
 }
 

@@ -75,7 +75,7 @@ void test_diam() {
     // display
     VtkOutput vo( { "smurf" } );
     lc.display( vo );
-    vo.save( "vtk/pd.vtk" );
+    vo.save( "vtk/diam.vtk" );
 }
 
 template<class Cp>
@@ -93,7 +93,7 @@ void test_regular_cuts() {
     test_regular_cuts<Cp>( vo, cpt_vo, { 1, 1, 1 }, 0.9 * std::sqrt( 3.0 ) );
     test_regular_cuts<Cp>( vo, cpt_vo, { 1, 1, 1 }, 0.1 * std::sqrt( 3.0 ) );
 
-    vo.save( "vtk/pd.vtk" );
+    vo.save( "vtk/regular_cuts.vtk" );
 }
 
 int main() {
@@ -108,6 +108,6 @@ int main() {
 
     };
     using Cp = ConvexPolyhedron3<Pc>;
-    test_regular_cuts<Cp>();
-    //    test_diam<Cp>();
+    // test_regular_cuts<Cp>();
+    test_diam<Cp>();
 }

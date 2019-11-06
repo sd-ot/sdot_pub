@@ -40,13 +40,13 @@ public:
 template<class Carac>
 void ConvexPolyhedron3Face<Carac>::foreach_edge(const std::function<void (const ConvexPolyhedron3Face::Edge &)> &f) const {
     if ( Edge e = first_edge ) {
-        Node *n0 = e.n0();
-        while ( true ) {
+        for( Node *n0 = e.n0(); ; ) {
+            Edge n = e.next();
             f( e );
 
-            if ( e.n1() == n0 )
+            if ( n.n0() == n0 )
                 break;
-            e = e.next();
+            e = n;
         }
     }
 }
