@@ -84,14 +84,14 @@ void test_regular_cuts() {
     VtkOutput vo( { "smurf" } );
 
     test_regular_cuts<Cp>( vo, cpt_vo, { +1, 0, 0 }, +0.2 );
-    //    test_regular_cuts<Cp>( vo, cpt_vo, { 0, +1, 0 }, +0.2 );
-    //    test_regular_cuts<Cp>( vo, cpt_vo, { 0, 0, +1 }, +0.2 );
-    //    test_regular_cuts<Cp>( vo, cpt_vo, { -1, 0, 0 }, -0.2 );
-    //    test_regular_cuts<Cp>( vo, cpt_vo, { 0, -1, 0 }, -0.2 );
-    //    test_regular_cuts<Cp>( vo, cpt_vo, { 0, 0, -1 }, -0.2 );
+    test_regular_cuts<Cp>( vo, cpt_vo, { 0, +1, 0 }, +0.2 );
+    test_regular_cuts<Cp>( vo, cpt_vo, { 0, 0, +1 }, +0.2 );
+    test_regular_cuts<Cp>( vo, cpt_vo, { -1, 0, 0 }, -0.2 );
+    test_regular_cuts<Cp>( vo, cpt_vo, { 0, -1, 0 }, -0.2 );
+    test_regular_cuts<Cp>( vo, cpt_vo, { 0, 0, -1 }, -0.2 );
 
-    //    test_regular_cuts<Cp>( vo, cpt_vo, { 1, 1, 1 }, 0.9 * std::sqrt( 3.0 ) );
-    //    test_regular_cuts<Cp>( vo, cpt_vo, { 1, 1, 1 }, 0.1 * std::sqrt( 3.0 ) );
+    test_regular_cuts<Cp>( vo, cpt_vo, { 1, 1, 1 }, 0.9 * std::sqrt( 3.0 ) );
+    test_regular_cuts<Cp>( vo, cpt_vo, { 1, 1, 1 }, 0.1 * std::sqrt( 3.0 ) );
 
     vo.save( "vtk/pd.vtk" );
 }
