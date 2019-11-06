@@ -10,5 +10,5 @@ all:
 	# nsmake run -g3 tests/test_IntrusivePool.cpp
 	# nsmake run -g3 tests/test_PointerWithOffset.cpp
 	# nsmake run -g3 tests/test_ConvexPolyhedron3.cpp
-	# nsmake run tests/benchmarks/make_distributions.cpp
-	python tests/benchmarks/distributions_gen/uniform.py
+	nsmake run tests/test_LGrid_2D.cpp
+	# python tests/benchmarks/distributions_gen/uniform.py
