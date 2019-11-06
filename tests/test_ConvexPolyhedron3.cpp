@@ -28,7 +28,7 @@ void test_regular_cuts( VtkOutput &vo, int &cpt_vo, typename Cp::Pt n, typename 
     std::vector<TF> cut_ps = { d      };
     std::vector<CI> cut_id = { 9      };
 
-    lc.plane_cut( { cut_dx.data(), cut_dy.data(), cut_dz.data() }, cut_ps.data(), cut_id.data(), cut_dx.size(), N<flags>() );
+    lc.plane_cut( { cut_dx.data(), cut_dy.data(), cut_dz.data() }, cut_ps.data(), cut_id.data(), 1 /*cut_dx.size()*/, N<flags>() );
     lc.check();
     PN( lc );
 
@@ -108,6 +108,6 @@ int main() {
 
     };
     using Cp = ConvexPolyhedron3<Pc>;
-    //    test_regular_cuts<Cp>();
-    test_diam<Cp>();
+    test_regular_cuts<Cp>();
+    //    test_diam<Cp>();
 }

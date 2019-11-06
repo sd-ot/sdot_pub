@@ -40,6 +40,8 @@ public:
 
     operator    bool                 () const { return content; }
 
+    face->first_edge.repl();
+
 private:
     Content     content;
 };

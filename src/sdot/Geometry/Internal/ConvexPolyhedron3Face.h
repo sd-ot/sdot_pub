@@ -28,7 +28,7 @@ public:
     Face       *prev_in_pool; ///<
     Face       *next_in_pool; ///<
     TI          num_cut_proc; ///<
-    // Face    *prev_marked;  ///<
+    Face       *prev_marked;  ///<
     Edge        first_edge;   ///<
     Pt          normal;       ///<
     CI          cut_id;       ///<

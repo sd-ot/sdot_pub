@@ -47,9 +47,10 @@ public:
     Node&       global_at                ( TI index ) { return *reinterpret_cast<Node *>( &this[ index / bs ].x + index % bs ); }
 
     bool        outside                  () const { return d > 0; }
+    bool        inside                   () const { return ! outside(); }
 
     void        get_content_from         ( const Node &b ) { get_straight_content_from( b ); }
-    void        get_straight_content_from( const Node &b ) { x = b.x; y = b.y; z = b.z; }
+    void        get_straight_content_from( const Node &b ) { x = b.x; y = b.y; z = b.z; for( std::size_t i = 0; i < 3; ++i ) faces[ i ].set( b.faces[ i ].get() ); }
 
     // attributes
     TF          x, _pad_x[ bs - 1 ];     ///< position
@@ -59,8 +60,9 @@ public:
     PNoI        next_in_faces[ 3 ];      ///< for each edge, address + offset (between 0 and 3) in the `_in_faces` lists
     PNoI        sibling_edges[ 3 ];      ///< for each edge, address + offset for sibling edges
     PRoundStuff round_stuff[ 3 ];        ///< for each edge
-    PNode       next_free;
     PFace       faces[ 3 ];              ///< for each edge
+
+    PNode       repl;                    ///< replacement (when node are moved)
 };
 
 } // namespace sdot

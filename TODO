@@ -21,3 +21,6 @@ Prop: on stocke les angles
 
 
 L'hypothèse, c'est qu'on référence des noeuds qui sont sortis de la liste.
+
+=> suppression des noeuds inutiles
+

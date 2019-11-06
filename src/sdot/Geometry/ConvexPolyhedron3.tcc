@@ -29,7 +29,7 @@ ConvexPolyhedron3<Pc>::ConvexPolyhedron3( const Box &box, CI cut_id ) : ConvexPo
         Node *res = &node( index );
         for( TI i = 0; i < 3; ++i )
             res->next_in_faces[ i ].set( { nullptr, 0 } );
-        res->next_free.set( nullptr );
+        res->repl.set( res );
         res->x = x;
         res->y = y;
         res->z = z;
@@ -243,14 +243,12 @@ void ConvexPolyhedron3<Pc>::for_each_node( const F &f ) const {
     for( TI i = 0, s = nodes_size; ; ) {
         if ( i + block_size >= s ) {
             for( TI j = 0; j < s - i; ++j )
-                if ( ! ptr->local_at( j ).next_free.get() )
-                    f( ptr->local_at( j ) );
+                f( ptr->local_at( j ) );
             break;
         }
 
         for( TI j = 0; j < block_size; ++j )
-            if ( ! ptr->local_at( j ).next_free.get() )
-                f( ptr->local_at( j ) );
+            f( ptr->local_at( j ) );
         i += block_size;
         ++ptr;
     }
@@ -344,7 +342,7 @@ typename ConvexPolyhedron3<Pc>::Node *ConvexPolyhedron3<Pc>::new_node( Pt pos ) 
     set_nb_nodes( n + 1 );
 
     Node *res = &node( n );
-    res->next_free.set( nullptr );
+    res->repl.set( res );
     res->set_pos( pos );
     return res;
 }
@@ -376,11 +374,16 @@ void ConvexPolyhedron3<Pc>::plane_cut_mt_64( std::array<const TF *,dim> cut_dir,
 
         // find the faces with at least one outside node
         ++num_cut_proc;
-        Node *last_created_node;
+        Node *last_created_node, *last_free_node = nullptr, *first_free_node;
         for_each_node( [&]( Node &node ) {
             if ( node.outside() == false )
                 return;
-            node.next_free.set( &node );
+
+            if ( last_free_node )
+                last_free_node->repl.set( &node );
+            else
+                first_free_node = &node;
+            last_free_node = &node;
 
             for( std::size_t i = 0; i < 3; ++i ) {
                 Face *face = node.faces[ i ].get();
@@ -480,6 +483,40 @@ void ConvexPolyhedron3<Pc>::plane_cut_mt_64( std::array<const TF *,dim> cut_dir,
             if ( n1 == last_created_node )
                 break;
         }
+
+        // node replacement locations
+        Face *last_marked_face = nullptr;
+        last_free_node->repl.set( nullptr );
+        std::size_t num_node_to_move = nb_nodes();
+        for( Node *node = first_free_node; ; ) {
+            // find the node to be moved to `node`
+            Node *n = &this->node( --num_node_to_move );
+            if ( n <= node )
+                break;
+            if ( n->inside() ) {
+                for( std::size_t i = 0; i < 3; ++i ) {
+                    Face *face = n->faces[ i ].get();
+                    face->prev_marked = last_marked_face;
+                    last_marked_face = face;
+                }
+
+                node->get_straight_content_from( *n );
+                n->repl.set( node );
+
+                node = node->repl.get();
+                if ( ! node )
+                    break;
+            }
+        }
+
+        //
+        for( Face *face = last_marked_face; face; face = face->prev_marked ) {
+            face->first_edge.repl();
+        }
+
+        TODO;
+        // move the nodes
+
     }
 }
 
