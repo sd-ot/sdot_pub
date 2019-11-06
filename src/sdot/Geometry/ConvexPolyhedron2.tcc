@@ -726,7 +726,7 @@ typename ConvexPolyhedron2<Pc>::TF ConvexPolyhedron2<Pc>::integral() const {
 }
 
 template<class Pc> template<class TL>
-void ConvexPolyhedron2<Pc>::BoundaryItem::add_simplex_list( TL &lst ) const {
+void ConvexPolyhedron2<Pc>::BoundaryItem::add_to_simplex_list( TL &lst ) const {
     lst.push_back( { points[ 0 ], points[ 1 ] } );
 }
 

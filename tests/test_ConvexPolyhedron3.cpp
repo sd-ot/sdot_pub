@@ -105,7 +105,6 @@ int main() {
         using  TF                = double;
         using  TI                = std::size_t;
         using  CI                = std::size_t;
-
     };
     using Cp = ConvexPolyhedron3<Pc>;
     // test_regular_cuts<Cp>();
