@@ -27,7 +27,7 @@ void test_with_Pc() {
     using         TI   = typename Grid::TI;
 
     // load
-    std::size_t nb_diracs = 100;
+    std::size_t nb_diracs = 10;
 
     std::vector<TF> data( nb_diracs * ( dim + 1 ) );
     for( std::size_t n = 0; n < nb_diracs; ++n ) {

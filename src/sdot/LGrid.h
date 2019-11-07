@@ -74,7 +74,7 @@ private:
 
     // grid content
     std::vector<TI>                dpc_indices;           ///< dirac indices for each cell
-    std::vector<MultiScaleInfo>    msi_info;
+    std::vector<MultiScaleInfo>    msi_info;              ///< multi-scale info
     std::vector<Cell>              cells;
 
     // grid dimensions
