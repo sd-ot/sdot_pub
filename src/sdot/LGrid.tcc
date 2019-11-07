@@ -28,6 +28,21 @@ int LGrid<Pc>::for_each_laguerre_cell( const std::function<void( CP &, TI num, i
 }
 
 template<class Pc>
+void LGrid<Pc>::write_to_stream( std::ostream &os ) const {
+    for( std::size_t i = 0; i + 1 < cells.size(); ++i ) {
+        const Cell &cell = cells[ i ];
+        os << "cell num=" << i << " size=" << cell.size;
+        for( std::size_t j = cell.msi_offset; j < cells[ i + 1 ].msi_offset; ++j ) {
+            os << "\n  ";
+            const MsiInfo &msi = msi_infos[ j ];
+            for( std::size_t k = 0; k < 3; ++k )
+                os << " " << msi.cell_indices[ k ];
+        }
+        os << "\n";
+    }
+}
+
+template<class Pc>
 void LGrid<Pc>::update_the_limits( std::array<const TF *,dim> positions, TI nb_diracs ) {
     using std::min;
     using std::max;
@@ -85,26 +100,49 @@ void LGrid<Pc>::fill_the_grid( std::array<const TF *,dim> positions, const TF *w
     );
 
     // get the cells zcoords and indices (offsets in dpc_indices) + dpc_indices
+    struct LevelInfo {
+        TI  num_msi;
+        int num_cell_indices = 3;
+    };
+    LevelInfo level_info[ nb_bits_per_axis ];
+
     int level = 0;
     TZ prev_z = 0;
     cells.resize( 0 );
-    cells.resize( znodes_keys.size() );
+    cells.reserve( znodes_keys.size() );
     dpc_indices.resize( 0 );
     dpc_indices.reserve( znodes_keys.size() );
-    msi_info.resize( 0 );
-    msi_info.reserve( znodes_keys.size() );
+    msi_infos.resize( 0 );
+    msi_infos.reserve( znodes_keys.size() );
     for( TI index = max_diracs_per_cell; ; ) {
         auto push_cell = [&]( TI l ) {
-            P( nb_bits_per_axis - level );
-
             // new cell
             Cell cell;
             cell.zcoords = prev_z;
+            cell.msi_offset = msi_infos.size();
             cell.dpc_offset = dpc_indices.size();
-            cells.push_back( cell );
 
             // msi_info
+            P( cells.size(), msi_infos.size() );
+            for( std::size_t sl = nb_bits_per_axis - level; sl--;  ) {
+                LevelInfo &li = level_info[ sl ];
+                int ci = ++li.num_cell_indices;
+                if ( ci < 4 ) {
+                    MsiInfo &msi = msi_infos[ li.num_msi ];
+                    msi.cell_indices[ ci - 1 ] = cells.size();
+                    break;
+                }
+                P( sl, ci );
 
+                li.num_cell_indices = 0;
+                li.num_msi = msi_infos.size();
+
+                MsiInfo msi;
+                msi_infos.push_back( msi );
+            }
+
+            // store the cell (after msi_info which uses cells.size())
+            cells.push_back( cell );
 
             // push diracs indices
             TZ new_prev_z = prev_z + ( TZ( 1 ) << dim * level );
@@ -156,6 +194,7 @@ void LGrid<Pc>::fill_the_grid( std::array<const TF *,dim> positions, const TF *w
     Cell cell;
     cell.zcoords = TZ( 1 ) << dim * nb_bits_per_axis;
     cell.dpc_offset = dpc_indices.size();
+    cell.msi_offset = msi_infos.size();
     cells.push_back( cell );
 
     // convert zcoords to cartesian coords

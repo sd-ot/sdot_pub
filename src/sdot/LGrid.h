@@ -33,6 +33,7 @@ public:
     template<int flags> void       update                 ( std::array<const TF *,dim> positions, const TF *weights, TI nb_diracs, N<flags>, bool positions_have_changed = true, bool weights_have_changed = true );
     template<int flags> int        for_each_laguerre_cell ( const std::function<void( CP &lc, TI num, int num_thread )> &f, const CP &starting_lc, std::array<const TF *,dim> positions, const TF *weights, TI nb_diracs, N<flags>, bool stop_if_void_lc = false ); ///< version with num_thread
 
+    void                           write_to_stream        ( std::ostream &os ) const;
     void                           display_tikz           ( std::ostream &os, TF scale = 1.0 ) const;
     void                           display                ( VtkOutput &vtk_output ) const; ///< for debug purpose
 
@@ -53,8 +54,8 @@ private:
         Pt                         pos;                   ///< lower left corner
     };
 
-    struct                         MultiScaleInfo {       ///<
-        TI                         indices[ 3 ];          ///< cell indices of the first degree sub-cells
+    struct                         MsiInfo {              ///<
+        TI                         cell_indices[ 3 ];     ///< cell indices of the first degree sub-cells
         TF                         max_weight;            ///<
     };
 
@@ -74,7 +75,7 @@ private:
 
     // grid content
     std::vector<TI>                dpc_indices;           ///< dirac indices for each cell
-    std::vector<MultiScaleInfo>    msi_info;              ///< multi-scale info
+    std::vector<MsiInfo>           msi_infos;             ///< multi-scale info
     std::vector<Cell>              cells;
 
     // grid dimensions

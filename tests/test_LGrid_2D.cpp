@@ -45,6 +45,8 @@ void test_with_Pc() {
     Grid grid( 1 );
     grid.update( positions, weights, nb_diracs, N<0>() );
 
+    PN( grid );
+
     VtkOutput vo;
     grid.display( vo );
     vo.save( "vtk/grid.vtk" );
