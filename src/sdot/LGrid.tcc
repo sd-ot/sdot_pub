@@ -24,6 +24,7 @@ void LGrid<Pc>::update( std::array<const TF *,dim> positions, const TF *weights,
 
 template<class Pc> template<int flags>
 int LGrid<Pc>::for_each_laguerre_cell( const std::function<void( CP &, TI num, int num_thread )> &cb, const CP &starting_lc, std::array<const TF *,dim> positions, const TF *weights, TI /*nb_diracs*/, N<flags>, bool stop_if_void_lc ) {
+    return 0;
 }
 
 template<class Pc>
@@ -81,23 +82,24 @@ void LGrid<Pc>::fill_grid_using_zcoords( std::array<const TF *,dim> positions, c
         rs_tmps
     );
 
-    // fill `cells` with zcoords
+    // get the cells zcoords and indices (offsets in dpc_indices) + dpc_indices
     int level = 0;
     TZ prev_z = 0;
-    zcells_keys.clear();
-    zcells_inds.clear();
-    zcells_keys.reserve( znodes_keys.size() );
-    zcells_inds.reserve( znodes_inds.size() );
+    cells.resize( 0 );
+    cells.resize( znodes_keys.size() );
     dpc_indices.resize( 0 );
     dpc_indices.reserve( znodes_keys.size() );
     for( TI index = max_diracs_per_cell; ; ) {
+        // last cell(s)
         if ( index >= znodes_keys.size() ) {
             while ( prev_z < ( TZ( 1 ) << dim * nb_bits_per_axis ) ) {
                 for( ; ; ++level ) {
                     TZ m = TZ( 1 ) << dim * ( level + 1 );
                     if ( level == nb_bits_per_axis || prev_z & ( m - 1 ) ) {
                         TZ new_prev_z = prev_z + ( TZ( 1 ) << dim * level );
-                        TI cell_index = dpc_indices.size();
+                        Cell cell;
+                        cell.dpc_index = dpc_indices.size();
+                        cell.zcoords = prev_z;
 
                         for( TI n = index - max_diracs_per_cell; n < znodes_keys.size(); ++n ) {
                             if ( sorted_znodes.first[ n ] >= prev_z && sorted_znodes.first[ n ] < new_prev_z ) {
@@ -106,8 +108,7 @@ void LGrid<Pc>::fill_grid_using_zcoords( std::array<const TF *,dim> positions, c
                             }
                         }
 
-                        zcells_keys.push_back( prev_z );
-                        zcells_inds.push_back( cell_index );
+                        cells.push_back( cell );
                         prev_z = new_prev_z;
                         break;
                     }
@@ -159,7 +160,7 @@ void LGrid<Pc>::fill_the_grid( std::array<const TF *,dim> positions, const TF *w
 
     // set grid content
     fill_grid_using_zcoords( positions, weights, nb_diracs );
-    repl_zcoords_by_ccoords( weights );
+    make_the_cell_list( weights );
 }
 
 
@@ -199,7 +200,7 @@ void LGrid<Pc>::display( VtkOutput &vtk_output ) const {
         TF a = 0, b = cells[ num_cell ].size;
         switch ( dim ) {
         case 2:
-            vtk_output.add_lines( {
+            vtk_output.add_polygon( {
                 Point2<TF>{ p[ 0 ] + a, p[ 1 ] + a },
                 Point2<TF>{ p[ 0 ] + b, p[ 1 ] + a },
                 Point2<TF>{ p[ 0 ] + b, p[ 1 ] + b },
@@ -225,7 +226,8 @@ typename LGrid<Pc>::TZ LGrid<Pc>::ng_zcoord( TZ zcoords, TZ off, N<axis> ) const
 }
 
 template<class Pc>
-void LGrid<Pc>::repl_zcoords_by_ccoords( const TF */*weights*/ ) {
+void LGrid<Pc>::make_the_cell_list( const TF */*weights*/ ) {
+    using std::round;
     using std::max;
 
     // convert zcoords to cartesian coords

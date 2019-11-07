@@ -24,3 +24,7 @@ L'hypothèse, c'est qu'on référence des noeuds qui sont sortis de la liste.
 
 => suppression des noeuds inutiles
 
+Pb d'une z-grille pour le récursif: pour chaque cellule qui contient des sous cellules, on a besoin d'une liste d'in    dices des sous cellules
+
+Est-ce qu'on pourrait faire msi_info en parallèle ?
+Algo séquentiel => pour chaque cellule, on regarde son niveau de rafinnement et le nombre de 0. Ça donne le nombre d'info multi-échelle. Pour chaque sous-échelle, 

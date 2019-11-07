@@ -47,13 +47,19 @@ private:
 
     struct                         Cell {
         TI                         dpc_offset;            ///< offsets in dpc_indices
-        TZ                         zcoords;
-        TF                         size;
-        Pt                         pos;
+        TI                         msi_offset;            ///< offsets in msi_info
+        TZ                         zcoords;               ///<
+        TF                         size;                  ///<
+        Pt                         pos;                   ///< lower left corner
+    };
+
+    struct                         MultiScaleInfo {       ///<
+        TI                         indices[ 3 ];          ///< cell indices of the first degree sub-cells
+        TF                         max_weight;            ///<
     };
 
     void                           fill_grid_using_zcoords( std::array<const TF *,dim> positions, const TF *weights, TI nb_diracs );
-    void                           repl_zcoords_by_ccoords( const TF *weights );
+    void                           make_the_cell_list     ( const TF *weights );
     void                           update_the_limits      ( std::array<const TF *,dim> positions, TI nb_diracs );
     void                           fill_the_grid          ( std::array<const TF *,dim> positions, const TF *weights, TI nb_diracs );
     template<int flags> TF         min_w_to_cut           ( const CP &lc, const Pt &c0, TF w0, const Cell &cr_cell, N<flags> );
@@ -64,12 +70,11 @@ private:
     // buffers
     std::vector<TZ>                znodes_keys;           ///< tmp znodes
     std::vector<TI>                znodes_inds;           ///< tmp znodes
-    std::vector<TZ>                zcells_keys;           ///<
-    std::vector<TI>                zcells_inds;           ///<
-    std::vector<std::size_t>       rs_tmps;
+    std::vector<std::size_t>       rs_tmps;               ///< for the radix sort
 
     // grid content
     std::vector<TI>                dpc_indices;           ///< dirac indices for each cell
+    std::vector<MultiScaleInfo>    msi_info;
     std::vector<Cell>              cells;
 
     // grid dimensions
