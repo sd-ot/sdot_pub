@@ -33,7 +33,7 @@ void test_with_Pc() {
     for( std::size_t n = 0; n < nb_diracs; ++n ) {
         for( std::size_t i = 0; i < dim; ++i )
             data[ i * nb_diracs + n ] = 1.0 * rand() / RAND_MAX;
-        data[ dim * nb_diracs + n ] = 8 * ( data[ 0 * nb_diracs + n ] + 0 * data[ 1 * nb_diracs + n ] );
+        data[ dim * nb_diracs + n ] = 0.2 * data[ 0 * nb_diracs + n ] + 0 * data[ 1 * nb_diracs + n ];
     }
 
     std::array<const double *,dim> positions;
@@ -48,7 +48,7 @@ void test_with_Pc() {
     PN( grid );
 
     VtkOutput vo;
-    grid.display( vo );
+    grid.display( vo, 1 );
     vo.save( "vtk/grid.vtk" );
 
     //    CP b( typename CP::Box{ { 0, 0 }, { 1, 1 } } );

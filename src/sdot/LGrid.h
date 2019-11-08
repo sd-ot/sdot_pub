@@ -35,7 +35,7 @@ public:
 
     void                           write_to_stream        ( std::ostream &os ) const;
     void                           display_tikz           ( std::ostream &os, TF scale = 1.0 ) const;
-    void                           display                ( VtkOutput &vtk_output ) const; ///< for debug purpose
+    void                           display                ( VtkOutput &vtk_output, int disp_weights = 0 ) const; ///< for debug purpose
 
     // values used by update
     int                            max_diracs_per_cell;

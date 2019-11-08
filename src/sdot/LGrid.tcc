@@ -102,14 +102,14 @@ void LGrid<Pc>::fill_the_grid( std::array<const TF *,dim> positions, const TF *w
         rs_tmps
     );
 
-    // get the cells zcoords and indices (offsets in dpc_indices) + dpc_indices
+    // helpers to update level info
     struct LevelInfo {
         TI  num_msi          = 0;
         TF  max_weight;
         int num_cell_indices = 2;
     };
-    LevelInfo level_info[ nb_bits_per_axis ];
 
+    // get the cells zcoords and indices (offsets in dpc_indices) + dpc_indices
     int level = 0;
     TZ prev_z = 0;
     cells.resize( 0 );
@@ -118,6 +118,7 @@ void LGrid<Pc>::fill_the_grid( std::array<const TF *,dim> positions, const TF *w
     dpc_indices.reserve( znodes_keys.size() );
     msi_infos.resize( 0 );
     msi_infos.reserve( znodes_keys.size() );
+    LevelInfo level_info[ nb_bits_per_axis + 1 ];
     for( TI index = max_diracs_per_cell; ; ) {
         auto push_cell = [&]( TI l ) {
             // new cell
@@ -126,7 +127,7 @@ void LGrid<Pc>::fill_the_grid( std::array<const TF *,dim> positions, const TF *w
             cell.msi_offset = msi_infos.size();
             cell.dpc_offset = dpc_indices.size();
 
-            // push diracs indices
+            // push diracs indices + get weights info
             TF max_weight = - std::numeric_limits<TF>::max();
             TZ new_prev_z = prev_z + ( TZ( 1 ) << dim * level );
             for( TI n = index - max_diracs_per_cell; n < l; ++n ) {
@@ -143,20 +144,32 @@ void LGrid<Pc>::fill_the_grid( std::array<const TF *,dim> positions, const TF *w
             auto make_msi_info = [&]( std::size_t sl, auto last_level ) {
                 LevelInfo &li = level_info[ sl ];
                 int ci = ++li.num_cell_indices;
+
+                // if not in the first sub-cell (for this level)
                 if ( ci < 3 ) {
                     MsiInfo &msi = msi_infos[ li.num_msi ];
                     msi.cell_indices[ ci ] = cells.size();
 
                     if ( last_level ) {
                         li.max_weight = max( li.max_weight, max_weight );
-                    }
-
-                    if ( ci == 2 ) {
                         msi.max_weight = li.max_weight;
 
-                        if ( sl ) {
-                            TF &pm = level_info[ sl - 1 ].max_weight;
-                            pm = max( pm, li.max_weight );
+                        // last sub-cell of the most refined level
+                        if ( ci == 2 ) {
+                            while ( --sl ) {
+                                LevelInfo &pli = level_info[ sl ];
+                                if ( pli.num_cell_indices < 0 ) { // starting a new parent cell
+                                    pli.max_weight = level_info[ sl + 1 ].max_weight;
+                                } else {
+                                    pli.max_weight = max( pli.max_weight, level_info[ sl + 1 ].max_weight );
+
+                                    // last sub-cell of parent cell
+                                    if ( pli.num_cell_indices == 2 ) {
+                                        MsiInfo &pmsi = msi_infos[ pli.num_msi ];
+                                        pmsi.max_weight = pli.max_weight;
+                                    }
+                                }
+                            }
                         }
                     }
 
@@ -165,7 +178,8 @@ void LGrid<Pc>::fill_the_grid( std::array<const TF *,dim> positions, const TF *w
 
                 // prepapre a new cell set
                 li.num_cell_indices = -1;
-                li.max_weight = max_weight;
+                if ( last_level )
+                    li.max_weight = max_weight;
                 li.num_msi = msi_infos.size();
 
                 MsiInfo new_msi;
@@ -198,6 +212,10 @@ void LGrid<Pc>::fill_the_grid( std::array<const TF *,dim> positions, const TF *w
                     }
                 }
             }
+            // add a closing cell
+            push_cell( znodes_keys.size() );
+            cells.back().pos = max_point;
+            cells.back().size = 0;
             break;
         }
 
@@ -219,13 +237,6 @@ void LGrid<Pc>::fill_the_grid( std::array<const TF *,dim> positions, const TF *w
             }
         }
     }
-
-    // add an ending cell
-    Cell cell;
-    cell.zcoords = TZ( 1 ) << dim * nb_bits_per_axis;
-    cell.dpc_offset = dpc_indices.size();
-    cell.msi_offset = msi_infos.size();
-    cells.push_back( cell );
 
     // convert zcoords to cartesian coords
     TI nb_jobs = thread_pool.nb_threads();
@@ -249,9 +260,6 @@ void LGrid<Pc>::fill_the_grid( std::array<const TF *,dim> positions, const TF *w
             } );
         }
     } );
-
-    cells.back().size = 0;
-    cells.back().pos = max_point;
 }
 
 
@@ -282,29 +290,47 @@ void LGrid<Pc>::display_tikz( std::ostream &os, TF scale ) const {
 }
 
 template<class Pc>
-void LGrid<Pc>::display( VtkOutput &vtk_output ) const {
-    for( TI num_cell = 0; num_cell < cells.size() - 1; ++num_cell ) {
-        Pt p;
-        for( int d = 0; d < dim; ++d )
-            p[ d ] = cells[ num_cell ].pos[ d ];
+void LGrid<Pc>::display( VtkOutput &vtk_output, int disp_weights ) const {
+    auto disp_cell = [&]( Pt p, TF s, TF mw ) {
+        if ( disp_weights ) {
+            if ( mw == - std::numeric_limits<TF>::max() )
+                return;
+        }
 
-        TF a = 0, b = cells[ num_cell ].size;
+        TF a = 0, b = s;
         switch ( dim ) {
-        case 2:
+        case 2: {
+            TF wl[] = { 0, 0, 0, 0 };
+            if ( disp_weights ) {
+                for( std::size_t i = 0; i < 4; ++i )
+                    wl[ i ] = mw;
+            }
             vtk_output.add_polygon( {
-                Point2<TF>{ p[ 0 ] + a, p[ 1 ] + a },
-                Point2<TF>{ p[ 0 ] + b, p[ 1 ] + a },
-                Point2<TF>{ p[ 0 ] + b, p[ 1 ] + b },
-                Point2<TF>{ p[ 0 ] + a, p[ 1 ] + b },
-                Point2<TF>{ p[ 0 ] + a, p[ 1 ] + a },
+                Point3<TF>{ p[ 0 ] + a, p[ 1 ] + a, wl[ 0 ] },
+                Point3<TF>{ p[ 0 ] + b, p[ 1 ] + a, wl[ 1 ] },
+                Point3<TF>{ p[ 0 ] + b, p[ 1 ] + b, wl[ 2 ] },
+                Point3<TF>{ p[ 0 ] + a, p[ 1 ] + b, wl[ 3 ] },
+                Point3<TF>{ p[ 0 ] + a, p[ 1 ] + a, wl[ 0 ] },
             } );
             break;
+        }
         case 3:
             TODO;
             break;
         default:
             TODO;
         }
+    };
+
+    for( TI num_cell = 0; num_cell + 1 < cells.size(); ++num_cell ) {
+        // cell
+        Pt pos = cells[ num_cell ].pos;
+        TF size = cells[ num_cell ].size;
+        disp_cell( pos, size, cells[ num_cell ].max_weight );
+
+        // parent ones
+        for( TI off_pce = cells[ num_cell + 0 ].msi_offset; size *= 2, off_pce < cells[ num_cell + 1 ].msi_offset; ++off_pce )
+            disp_cell( pos, size, msi_infos[ off_pce ].max_weight );
     }
 }
 
