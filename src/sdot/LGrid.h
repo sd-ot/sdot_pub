@@ -46,9 +46,13 @@ private:
     static constexpr int           sizeof_zcoords         = ( dim * nb_bits_per_axis + 7 ) / 8; ///< nb meaningful bytes in z-coordinates
     using                          TZ                     = std::uint64_t; ///< zcoords
 
+    //    struct                   WithParent {
+    //        TI                   num_in_parent;         ///< in {0,1,2,3}: num sub-cell in parent cell
+    //        TI                   parent_index;          ///< index in cells. If no parent, parent_index is equal to -1
+    //        TI                   sub_level;             ///<
+    //    };
+
     struct                         Cell {
-        TI                         num_in_parent;         ///< in {0,1,2,3}: num sub-cell in parent cell
-        TI                         parent_index;          ///< index in msi_infos. If no parent, parent_index is equal to -1
         TI                         dpc_offset;            ///< offsets in dpc_indices
         TI                         msi_offset;            ///< offsets in msi_info
         TF                         max_weight;
@@ -57,10 +61,8 @@ private:
         Pt                         pos;                   ///< lower left corner
     };
 
-    struct                         MsiInfo {              ///<
+    struct                         MsiInfo { ///<
         TI                         cell_indices[ 3 ];     ///< cell indices of the first degree sub-cells
-        TI                         num_in_parent;         ///< in {0,1,2,3}: num sub-cell in parent cell
-        TI                         parent_index;          ///< index in msi_infos. If no parent, parent_index is equal to -1
         TF                         max_weight;            ///<
     };
 

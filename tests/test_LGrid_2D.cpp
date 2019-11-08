@@ -52,9 +52,9 @@ void test_with_Pc() {
     grid.display( vo, 1 );
     vo.save( "vtk/grid.vtk" );
 
-    //    CP b( typename CP::Box{ { 0, 0 }, { 1, 1 } } );
-    //    grid.for_each_laguerre_cell( [&]( CP &cp, std::size_t /*num*/, int num_thread ) {
-    //    }, b, { positions[ 0 ], positions[ 1 ] }, weights, nb_diracs, N<0>() );
+    CP b( typename CP::Box{ { 0, 0 }, { 1, 1 } } );
+    grid.for_each_laguerre_cell( [&]( CP &/*cp*/, std::size_t /*num*/, int /*num_thread*/ ) {
+    }, b, { positions[ 0 ], positions[ 1 ] }, weights, nb_diracs, N<0>() );
 }
 
 int main() {
