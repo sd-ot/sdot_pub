@@ -29,24 +29,54 @@ int LGrid<Pc>::for_each_laguerre_cell( const std::function<void( CP &, TI num, i
 
     //
     int err = 0;
-    auto self_inter = [&]( const Cell *cell, const std::vector<MsiAndNum> &mans )  {
-        //        struct Msi {
-        //            bool           operator<( const Msi &that ) const { return dist > that.dist; }
+    auto make_lc_from = [&]( const Cell *cell, const std::vector<MsiAndNum> &mans )  {
+        Pt cell_center = cell->pos + 0.5 * cell->size;
 
-        //            const MsiInfo *msi_info;
-        //            TF             dist;
-        //        };
-        // std::priority_queue<Msi> queue;
-        // P( cell - cells.data() );
-        //        for( const MsiAndNum &m : mans )
-        //            P( m.num_in_msi );
+        auto center = [&]( const Cell *dell, TF size, TI num_in_msi ) {
+            Pt res;
+            for( std::size_t d = 0, i = 1; d < dim; ++d, i *= 2 )
+                res[ d ] = dell->pos[ d ] + ( num_in_msi & i ? 0.75 : 0.25 ) * size;
+            return res;
+        };
+
+        struct Msi {
+            bool           operator<( const Msi &that ) const { return dist > that.dist; }
+            TI             num_in_msi;
+            const MsiInfo *msi_info;
+            Pt             center;
+            const Cell    *cell;
+            TF             dist;
+            TF             size;
+        };
+        auto append_msi = [&]( std::priority_queue<Msi> &queue, const Cell *dell, const MsiInfo *msi_info, TI num_in_msi, TF size ) {
+            Pt dell_center = center( dell, size, num_in_msi );
+            queue.push( Msi{ num_in_msi, msi_info, dell_center, cell, norm_2( dell_center - cell_center ), size } );
+        };
+
+        // fill a first queue
+        TF size = grid_length;
+        std::priority_queue<Msi> queue;
+        for( const MsiAndNum &m : mans ) {
+            for( TI nim = 0; nim < ( 1 << dim ); ++nim )
+                if ( m.num_in_msi != nim )
+                    append_msi( queue, m.cell, m.msi_info, nim, size );
+            size /= 2;
+        }
+
+        if ( cell == cells.data() ) {
+            while ( ! queue.empty() ) {
+                const Msi &msi = queue.top();
+                P( 8.0 / grid_length * ( msi.center - min_point ) );
+                queue.pop();
+            }
+        }
     };
 
     // if no msi info (no super cell)
     if ( cells[ 1 ].msi_offset == cells[ 0 ].msi_offset ) {
         if ( cells.size() ) {
             ASSERT( cells.size() == 1, "" );
-            self_inter( &cells[ 0 ], {} );
+            make_lc_from( &cells[ 0 ], {} );
         }
         return err;
     }
@@ -57,7 +87,7 @@ int LGrid<Pc>::for_each_laguerre_cell( const std::function<void( CP &, TI num, i
         const Cell *end_cell = cells.data() + ( num_job + 1 ) * ( cells.size() - 1 ) / nb_jobs;
         TI beg_cell = ( num_job + 0 ) * ( cells.size() - 1 ) / nb_jobs;
 
-        //
+        // first stack (path to `beg_cell`)
         std::vector<MsiAndNum> mans;
         mans.reserve( nb_bits_per_axis );
         const Cell *cell = cells.data();
@@ -79,7 +109,7 @@ int LGrid<Pc>::for_each_laguerre_cell( const std::function<void( CP &, TI num, i
             }
         }
 
-        //
+        // traversal of all the cells (with update of mans)
         while ( true ) {
             MsiAndNum *man = &mans.back();
 
@@ -89,8 +119,7 @@ int LGrid<Pc>::for_each_laguerre_cell( const std::function<void( CP &, TI num, i
                 return;
 
             // current cell
-            P( beg_cell, cell - cells.data() );
-            self_inter( cell, mans );
+            make_lc_from( cell, mans );
 
             // next one
             while ( true ) {
@@ -107,14 +136,6 @@ int LGrid<Pc>::for_each_laguerre_cell( const std::function<void( CP &, TI num, i
                 man = &mans.back();
             }
         }
-
-        //        for( TI num_cell = beg_cell; num_cell < end_cell && err == 0; ++num_cell ) {
-        //            const Cell &cell = cells[ num_cell + 0 ];
-        //            const Cell &dell = cells[ num_cell + 1 ];
-
-        //            // push msi_info in the queue
-        //        }
-
     } );
 
     return err;
