@@ -49,6 +49,7 @@ private:
     struct                         Cell {
         TI                         dpc_offset;            ///< offsets in dpc_indices
         TI                         msi_offset;            ///< offsets in msi_info
+        TF                         max_weight;
         TZ                         zcoords;               ///<
         TF                         size;                  ///<
         Pt                         pos;                   ///< lower left corner

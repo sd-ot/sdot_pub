@@ -31,12 +31,15 @@ template<class Pc>
 void LGrid<Pc>::write_to_stream( std::ostream &os ) const {
     for( std::size_t i = 0; i + 1 < cells.size(); ++i ) {
         const Cell &cell = cells[ i ];
-        os << "cell num=" << i << " size=" << cell.size;
+        os << "cell num=" << i;
+        if ( cells[ i ].dpc_offset != cells[ i + 1 ].dpc_offset )
+            os << " max_weight=" << cell.max_weight;
         for( std::size_t j = cell.msi_offset; j < cells[ i + 1 ].msi_offset; ++j ) {
             os << "\n  ";
             const MsiInfo &msi = msi_infos[ j ];
             for( std::size_t k = 0; k < 3; ++k )
                 os << " " << msi.cell_indices[ k ];
+            os << "  max_weight=" << msi.max_weight;
         }
         os << "\n";
     }
@@ -101,8 +104,9 @@ void LGrid<Pc>::fill_the_grid( std::array<const TF *,dim> positions, const TF *w
 
     // get the cells zcoords and indices (offsets in dpc_indices) + dpc_indices
     struct LevelInfo {
-        TI  num_msi;
-        int num_cell_indices = 3;
+        TI  num_msi          = 0;
+        TF  max_weight;
+        int num_cell_indices = 2;
     };
     LevelInfo level_info[ nb_bits_per_axis ];
 
@@ -122,36 +126,62 @@ void LGrid<Pc>::fill_the_grid( std::array<const TF *,dim> positions, const TF *w
             cell.msi_offset = msi_infos.size();
             cell.dpc_offset = dpc_indices.size();
 
-            // msi_info
-            P( cells.size(), msi_infos.size() );
-            for( std::size_t sl = nb_bits_per_axis - level; sl--;  ) {
-                LevelInfo &li = level_info[ sl ];
-                int ci = ++li.num_cell_indices;
-                if ( ci < 4 ) {
-                    MsiInfo &msi = msi_infos[ li.num_msi ];
-                    msi.cell_indices[ ci - 1 ] = cells.size();
-                    break;
-                }
-                P( sl, ci );
-
-                li.num_cell_indices = 0;
-                li.num_msi = msi_infos.size();
-
-                MsiInfo msi;
-                msi_infos.push_back( msi );
-            }
-
-            // store the cell (after msi_info which uses cells.size())
-            cells.push_back( cell );
-
             // push diracs indices
+            TF max_weight = - std::numeric_limits<TF>::max();
             TZ new_prev_z = prev_z + ( TZ( 1 ) << dim * level );
             for( TI n = index - max_diracs_per_cell; n < l; ++n ) {
                 if ( sorted_znodes.first[ n ] >= prev_z && sorted_znodes.first[ n ] < new_prev_z ) {
-                    dpc_indices.push_back( sorted_znodes.second[ n ] );
+                    TI ind = sorted_znodes.second[ n ];
+                    dpc_indices.push_back( ind );
                     ++index;
+
+                    max_weight = max( max_weight, weights[ ind ] );
                 }
             }
+
+            // msi_info
+            auto make_msi_info = [&]( std::size_t sl, auto last_level ) {
+                LevelInfo &li = level_info[ sl ];
+                int ci = ++li.num_cell_indices;
+                if ( ci < 3 ) {
+                    MsiInfo &msi = msi_infos[ li.num_msi ];
+                    msi.cell_indices[ ci ] = cells.size();
+
+                    if ( last_level ) {
+                        li.max_weight = max( li.max_weight, max_weight );
+                    }
+
+                    if ( ci == 2 ) {
+                        msi.max_weight = li.max_weight;
+
+                        if ( sl ) {
+                            TF &pm = level_info[ sl - 1 ].max_weight;
+                            pm = max( pm, li.max_weight );
+                        }
+                    }
+
+                    return true;
+                }
+
+                // prepapre a new cell set
+                li.num_cell_indices = -1;
+                li.max_weight = max_weight;
+                li.num_msi = msi_infos.size();
+
+                MsiInfo new_msi;
+                msi_infos.push_back( new_msi );
+
+                return false;
+            };
+            if ( std::size_t sl = nb_bits_per_axis - level )
+                if ( ! make_msi_info( sl, N<1>() ) )
+                    while( --sl )
+                        if ( make_msi_info( sl, N<0>() ) )
+                            break;
+
+            // store the cell (must be done after weight update, and msi_info which uses cells.size())
+            cell.max_weight = max_weight;
+            cells.push_back( cell );
 
             // update prev_z
             prev_z = new_prev_z;
