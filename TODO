@@ -28,3 +28,4 @@ Pb d'une z-grille pour le récursif: pour chaque cellule qui contient des sous c
 
 Est-ce qu'on pourrait faire msi_info en parallèle ?
 Algo séquentiel => pour chaque cellule, on regarde son niveau de rafinnement et le nombre de 0. Ça donne le nombre d'info multi-échelle. Pour chaque sous-échelle, 
+

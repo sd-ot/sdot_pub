@@ -37,9 +37,9 @@ int LGrid<Pc>::for_each_laguerre_cell( const std::function<void( CP &, TI num, i
         //            TF             dist;
         //        };
         // std::priority_queue<Msi> queue;
-        P( cell - cells.data() );
-        for( const MsiAndNum &m : mans )
-            P( m.num_in_msi );
+        // P( cell - cells.data() );
+        //        for( const MsiAndNum &m : mans )
+        //            P( m.num_in_msi );
     };
 
     // if no msi info (no super cell)
@@ -52,7 +52,7 @@ int LGrid<Pc>::for_each_laguerre_cell( const std::function<void( CP &, TI num, i
     }
 
     // parallel traversal
-    int nb_threads = thread_pool.nb_threads(), nb_jobs = 4 * nb_threads;
+    int nb_threads = thread_pool.nb_threads(), nb_jobs = nb_threads;
     thread_pool.execute( nb_jobs, [&]( std::size_t num_job, int /*num_thread*/ ) {
         const Cell *end_cell = cells.data() + ( num_job + 1 ) * ( cells.size() - 1 ) / nb_jobs;
         TI beg_cell = ( num_job + 0 ) * ( cells.size() - 1 ) / nb_jobs;
@@ -63,11 +63,17 @@ int LGrid<Pc>::for_each_laguerre_cell( const std::function<void( CP &, TI num, i
         const Cell *cell = cells.data();
         for( std::size_t msi_offset = cell[ 1 ].msi_offset; msi_offset-- > cell[ 0 ].msi_offset; ) {
             const MsiInfo *msi_info = msi_infos.data() + msi_offset;
-            for( std::size_t num_in_msi = 0; ; ++num_in_msi ) {
+            if ( beg_cell < msi_info->cell_indices[ 0 ] ) {
+                mans.push_back( { cell, msi_info, 0 } );
+                continue;
+            }
+
+            for( std::size_t num_in_msi = 1; ; ++num_in_msi ) {
                 if ( num_in_msi == 3 || msi_info->cell_indices[ num_in_msi ] > beg_cell ) {
                     mans.push_back( { cell, msi_info, num_in_msi } );
-                    if ( num_in_msi )
-                        cell = cells.data() + msi_info->cell_indices[ num_in_msi - 1 ];
+
+                    cell = cells.data() + msi_info->cell_indices[ num_in_msi - 1 ];
+                    msi_offset = cell[ 1 ].msi_offset;
                     break;
                 }
             }
@@ -83,6 +89,7 @@ int LGrid<Pc>::for_each_laguerre_cell( const std::function<void( CP &, TI num, i
                 return;
 
             // current cell
+            P( beg_cell, cell - cells.data() );
             self_inter( cell, mans );
 
             // next one
