@@ -157,18 +157,25 @@ void LGrid<Pc>::fill_the_grid( std::array<const TF *,dim> positions, const TF *w
                         // last sub-cell of the most refined level
                         if ( ci == 2 ) {
                             while ( --sl ) {
-                                LevelInfo &pli = level_info[ sl ];
-                                if ( pli.num_cell_indices < 0 ) { // starting a new parent cell
-                                    pli.max_weight = level_info[ sl + 1 ].max_weight;
-                                } else {
-                                    pli.max_weight = max( pli.max_weight, level_info[ sl + 1 ].max_weight );
+                                LevelInfo &pli = level_info[ sl + 0 ];
+                                LevelInfo &cli = level_info[ sl + 1 ];
 
-                                    // last sub-cell of parent cell
-                                    if ( pli.num_cell_indices == 2 ) {
-                                        MsiInfo &pmsi = msi_infos[ pli.num_msi ];
-                                        pmsi.max_weight = pli.max_weight;
-                                    }
+                                // starting cell ?
+                                if ( pli.num_cell_indices < 0 ) {
+                                    pli.max_weight = cli.max_weight;
+                                    break;
                                 }
+
+                                // update weight info
+                                pli.max_weight = max( pli.max_weight, cli.max_weight );
+
+                                // not ended => we don't have the final result
+                                if ( pli.num_cell_indices < 2 )
+                                    break;
+
+                                // => last sub-cell of parent cell
+                                MsiInfo &pmsi = msi_infos[ pli.num_msi ];
+                                pmsi.max_weight = pli.max_weight;
                             }
                         }
                     }

@@ -33,7 +33,8 @@ void test_with_Pc() {
     for( std::size_t n = 0; n < nb_diracs; ++n ) {
         for( std::size_t i = 0; i < dim; ++i )
             data[ i * nb_diracs + n ] = 1.0 * rand() / RAND_MAX;
-        data[ dim * nb_diracs + n ] = 0.2 * data[ 0 * nb_diracs + n ] + 0 * data[ 1 * nb_diracs + n ];
+        // data[ dim * nb_diracs + n ] = 0.25 * cos( 3 * data[ 0 * nb_diracs + n ] + 0 * data[ 1 * nb_diracs + n ] );
+        data[ dim * nb_diracs + n ] = 0.2 * data[ 0 * nb_diracs + n ];
     }
 
     std::array<const double *,dim> positions;
