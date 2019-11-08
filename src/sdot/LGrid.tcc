@@ -34,6 +34,10 @@ void LGrid<Pc>::write_to_stream( std::ostream &os ) const {
         os << "cell num=" << i;
         if ( cells[ i ].dpc_offset != cells[ i + 1 ].dpc_offset )
             os << " max_weight=" << cell.max_weight;
+        if ( cell.parent_index != TI( -1 ) ) {
+            os << "  parent=" << cell.parent_index;
+            os << "  nip=" << cell.num_in_parent;
+        }
         for( std::size_t j = cell.msi_offset; j < cells[ i + 1 ].msi_offset; ++j ) {
             os << "\n  ";
             const MsiInfo &msi = msi_infos[ j ];
@@ -41,7 +45,7 @@ void LGrid<Pc>::write_to_stream( std::ostream &os ) const {
                 os << " " << msi.cell_indices[ k ];
             os << "  msi_index=" << j;
             os << "  max_weight=" << msi.max_weight;
-            if ( msi.parent_index != j ) {
+            if ( msi.parent_index != TI( -1 ) ) {
                 os << "  parent=" << msi.parent_index;
                 os << "  nip=" << msi.num_in_parent;
             }
@@ -109,7 +113,7 @@ void LGrid<Pc>::fill_the_grid( std::array<const TF *,dim> positions, const TF *w
 
     // helpers to update level info
     struct LevelInfo {
-        TI  num_msi          = 0;
+        TI  num_msi          = 140;
         TF  max_weight;
         int num_cell_indices = 2;
     };
@@ -131,6 +135,7 @@ void LGrid<Pc>::fill_the_grid( std::array<const TF *,dim> positions, const TF *w
             cell.zcoords = prev_z;
             cell.msi_offset = msi_infos.size();
             cell.dpc_offset = dpc_indices.size();
+            cell.parent_index = TI( -1 );
 
             // push diracs indices + get weights info
             TF max_weight = - std::numeric_limits<TF>::max();
@@ -149,6 +154,11 @@ void LGrid<Pc>::fill_the_grid( std::array<const TF *,dim> positions, const TF *w
             auto make_msi_info = [&]( std::size_t sl, auto last_level ) {
                 LevelInfo &li = level_info[ sl ];
                 int ci = ++li.num_cell_indices;
+
+                //                if ( last_level ) {
+                //                    cell.parent_index = msi_infos.size();
+                //                    cell.num_in_parent = ci;
+                //                }
 
                 // if not in the first sub-cell (for this level)
                 if ( ci < 3 ) {
@@ -198,19 +208,22 @@ void LGrid<Pc>::fill_the_grid( std::array<const TF *,dim> positions, const TF *w
                 li.num_msi = msi_infos.size();
 
                 MsiInfo new_msi;
-                new_msi.parent_index = msi_infos.size();
+                new_msi.parent_index = TI( -1 );
                 new_msi.num_in_parent = TI( -1 );
                 msi_infos.push_back( new_msi );
 
                 return false;
             };
-            if ( std::size_t sl = nb_bits_per_axis - level )
+            if ( std::size_t sl = nb_bits_per_axis - level ) {
                 if ( ! make_msi_info( sl, N<1>() ) )
                     while( --sl )
                         if ( make_msi_info( sl, N<0>() ) )
                             break;
+            }
 
             // store the cell (must be done after weight update, and msi_info which uses cells.size())
+            cell.num_in_parent = level_info[ nb_bits_per_axis - level ].num_cell_indices + 1;
+            cell.parent_index = level_info[ nb_bits_per_axis - level ].num_msi;
             cell.max_weight = max_weight;
             cells.push_back( cell );
 

@@ -47,6 +47,8 @@ private:
     using                          TZ                     = std::uint64_t; ///< zcoords
 
     struct                         Cell {
+        TI                         num_in_parent;         ///< in {0,1,2,3}: num sub-cell in parent cell
+        TI                         parent_index;          ///< index in msi_infos. If no parent, parent_index is equal to -1
         TI                         dpc_offset;            ///< offsets in dpc_indices
         TI                         msi_offset;            ///< offsets in msi_info
         TF                         max_weight;
@@ -58,7 +60,7 @@ private:
     struct                         MsiInfo {              ///<
         TI                         cell_indices[ 3 ];     ///< cell indices of the first degree sub-cells
         TI                         num_in_parent;         ///< in {0,1,2,3}: num sub-cell in parent cell
-        TI                         parent_index;          ///< index in msi_infos. If no parent, parent_index is equal to the msi_info index
+        TI                         parent_index;          ///< index in msi_infos. If no parent, parent_index is equal to -1
         TF                         max_weight;            ///<
     };
 
