@@ -39,7 +39,12 @@ void LGrid<Pc>::write_to_stream( std::ostream &os ) const {
             const MsiInfo &msi = msi_infos[ j ];
             for( std::size_t k = 0; k < 3; ++k )
                 os << " " << msi.cell_indices[ k ];
+            os << "  msi_index=" << j;
             os << "  max_weight=" << msi.max_weight;
+            if ( msi.parent_index != j ) {
+                os << "  parent=" << msi.parent_index;
+                os << "  nip=" << msi.num_in_parent;
+            }
         }
         os << "\n";
     }
@@ -160,6 +165,9 @@ void LGrid<Pc>::fill_the_grid( std::array<const TF *,dim> positions, const TF *w
                                 LevelInfo &pli = level_info[ sl + 0 ];
                                 LevelInfo &cli = level_info[ sl + 1 ];
 
+                                msi_infos[ cli.num_msi ].num_in_parent = pli.num_cell_indices + 1;
+                                msi_infos[ cli.num_msi ].parent_index = pli.num_msi;
+
                                 // starting cell ?
                                 if ( pli.num_cell_indices < 0 ) {
                                     pli.max_weight = cli.max_weight;
@@ -190,6 +198,8 @@ void LGrid<Pc>::fill_the_grid( std::array<const TF *,dim> positions, const TF *w
                 li.num_msi = msi_infos.size();
 
                 MsiInfo new_msi;
+                new_msi.parent_index = msi_infos.size();
+                new_msi.num_in_parent = TI( -1 );
                 msi_infos.push_back( new_msi );
 
                 return false;
