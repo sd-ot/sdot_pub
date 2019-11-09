@@ -29,6 +29,12 @@ int LGrid<Pc>::for_each_laguerre_cell( const std::function<void( CP &, TI num, i
 
     //
     int err = 0;
+    auto cell_cut = [&]( const Cell *cell, const Cell *dell ) {
+        if ( cell == cells.data() )
+            P( dell - cells.data() );
+    };
+
+    //
     auto make_lc_from = [&]( const Cell *cell, const std::vector<MsiAndNum> &mans )  {
         Pt cell_center = cell->pos + 0.5 * cell->size;
 
@@ -63,11 +69,27 @@ int LGrid<Pc>::for_each_laguerre_cell( const std::function<void( CP &, TI num, i
             size /= 2;
         }
 
-        if ( cell == cells.data() ) {
-            while ( ! queue.empty() ) {
-                const Msi &msi = queue.top();
-                P( 8.0 / grid_length * ( msi.center - min_point ) );
-                queue.pop();
+        while ( ! queue.empty() ) {
+            Msi msi = queue.top();
+            queue.pop();
+
+            // if not potential cut, we don't go further
+
+            //
+            if ( cell == cells.data() )
+                P( msi.num_in_msi );
+            if ( msi.num_in_msi == 0 ) {
+                if ( msi.msi_info == msi_infos.data() + msi.cell->msi_offset ) {
+                    cell_cut( cell, msi.cell );
+                } else {
+
+                }
+                //                    MsiInfo *new_msi_info = msi.msi_info - 1;
+                //                    for( TI nim = 0; nim < ( 1 << dim ); ++nim )
+                //                        append_msi( queue, m.cell, m.msi_info, nim, size );
+            } else {
+                // append_msi( queue, m.cell, m.msi_info, nim, size );
+
             }
         }
     };

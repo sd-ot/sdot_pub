@@ -29,3 +29,47 @@ Pb d'une z-grille pour le récursif: pour chaque cellule qui contient des sous c
 Est-ce qu'on pourrait faire msi_info en parallèle ?
 Algo séquentiel => pour chaque cellule, on regarde son niveau de rafinnement et le nombre de 0. Ça donne le nombre d'info multi-échelle. Pour chaque sous-échelle, 
 
+Rq: ça serait plus simple si on avait un objet qui présentait la même interface pour les cellules et les sur-cellules.
+
+Par exemple
+struct GenericCell {
+    TI msi_offset;            ///< offsets in msi_info
+    TF max_weight;
+    TZ zcoords;               ///<
+    TF size;                  ///<
+    Pt pos;                   ///< lower left corner
+};
+
+struct SuperCell : GenericCell {
+    TI cell_indices[ 1 << dim ]; ///< cell indices of the first degree sub-cells
+};
+
+struct FinalCell : GenericCell {
+    TI dpc_offset;            ///< offsets in dpc_indices
+};
+
+La solution pourrait être d'avoir un pool de Cell et d'utiliser des pointeurs
+
+struct Cell {
+    TI    nb_sub_cells;
+    TF    max_weight[ 4 ];
+    Pt    min_pos;             ///< lower left corner
+    Pt    max_pos;             ///< upper left corner
+
+    // cree en mémoire avec la taille nécessaireG.
+    Cell *sub_cells[ nb_sub_cells ]; ///< 
+};
+
+Ça a l'air cool mais ça prend beaucoup de mémoire.
+
+Autre proposition: 
+
+struct Cell {
+    TI max_weight[ 4 ]; /// obligatoire    
+    TI offset; /// si pair => index    
+};
+
+
+
+
+
