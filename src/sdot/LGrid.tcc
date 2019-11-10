@@ -12,6 +12,7 @@ namespace sdot {
 
 template<class Pc>
 LGrid<Pc>::LGrid( std::size_t max_diracs_per_cell ) : max_diracs_per_cell( max_diracs_per_cell ) {
+    nb_final_cells = 0;
     root_cell = nullptr;
 }
 
@@ -26,8 +27,7 @@ void LGrid<Pc>::update( std::array<const TF *,dim> positions, const TF *weights,
 
 template<class Pc> template<int flags>
 int LGrid<Pc>::for_each_laguerre_cell( const std::function<void( CP &, TI num, int num_thread )> &cb, const CP &starting_lc, std::array<const TF *,dim> positions, const TF *weights, TI /*nb_diracs*/, N<flags>, bool stop_if_void_lc ) {
-    //    struct MsiAndNum { const Cell *cell; const MsiInfo *msi_info; TI num_in_msi; };
-    int err = 0;
+    struct CpAndNum { const SuperCell *cell; TI num; };
 
     //    //
     //    auto cell_cut = [&]( const Cell *cell, const Cell *dell ) {
@@ -104,62 +104,68 @@ int LGrid<Pc>::for_each_laguerre_cell( const std::function<void( CP &, TI num, i
     //        return err;
     //    }
 
-    //    // parallel traversal
-    //    int nb_threads = thread_pool.nb_threads(), nb_jobs = nb_threads;
-    //    thread_pool.execute( nb_jobs, [&]( std::size_t num_job, int /*num_thread*/ ) {
-    //        const Cell *end_cell = cells.data() + ( num_job + 1 ) * ( cells.size() - 1 ) / nb_jobs;
-    //        TI beg_cell = ( num_job + 0 ) * ( cells.size() - 1 ) / nb_jobs;
+    //
+    int err = 0;
+    auto make_lc_from = [&]( const FinalCell *cell, CpAndNum */*cans*/, TI /*nb_cans*/ )  {
+        P( cell->dirac_indices[ 0 ] );
+    };
 
-    //        // first stack (path to `beg_cell`)
-    //        std::vector<MsiAndNum> mans;
-    //        mans.reserve( nb_bits_per_axis );
-    //        const Cell *cell = cells.data();
-    //        for( std::size_t msi_offset = cell[ 1 ].msi_offset; msi_offset-- > cell[ 0 ].msi_offset; ) {
-    //            const MsiInfo *msi_info = msi_infos.data() + msi_offset;
-    //            if ( beg_cell < msi_info->cell_indices[ 0 ] ) {
-    //                mans.push_back( { cell, msi_info, 0 } );
-    //                continue;
-    //            }
+    if ( ! root_cell )
+        return err;
+    if ( root_cell->final_cell() ) {
+        const FinalCell *cell =static_cast<const FinalCell *>( root_cell );
+        make_lc_from( cell, nullptr, 0 );
+        return err;
+    }
 
-    //            for( std::size_t num_in_msi = 1; ; ++num_in_msi ) {
-    //                if ( num_in_msi == 3 || msi_info->cell_indices[ num_in_msi ] > beg_cell ) {
-    //                    mans.push_back( { cell, msi_info, num_in_msi } );
+    // parallel traversal of the cells
+    std::mutex m;
+    int nb_threads = thread_pool.nb_threads(), nb_jobs = nb_threads;
+    thread_pool.execute( nb_jobs, [&]( std::size_t num_job, int /*num_thread*/ ) {
+        TI beg_cell = ( num_job + 0 ) * nb_final_cells / nb_jobs;
+        TI end_cell = ( num_job + 1 ) * nb_final_cells / nb_jobs;
 
-    //                    cell = cells.data() + msi_info->cell_indices[ num_in_msi - 1 ];
-    //                    msi_offset = cell[ 1 ].msi_offset;
-    //                    break;
-    //                }
-    //            }
-    //        }
+        // first path to `beg_cell`
+        CpAndNum cans[ nb_bits_per_axis ];
+        TI nb_cans = 0;
+        for( BaseCell *cell = root_cell; ; ) {
+            if ( cell->final_cell() )
+                break;
+            SuperCell *spc = static_cast<SuperCell *>( cell );
+            for( std::size_t i = 0; ; ++i ) {
+                BaseCell *suc = spc->sub_cells[ i ];
+                if ( suc->end_ind_in_fcells > beg_cell ) {
+                    cans[ nb_cans ].cell = spc;
+                    cans[ nb_cans ].num = i;
+                    cell = suc;
+                    ++nb_cans;
+                    break;
+                }
+            }
+        }
 
-    //        // traversal of all the cells (with update of mans)
-    //        while ( true ) {
-    //            MsiAndNum *man = &mans.back();
 
-    //            // on the ending cell ?
-    //            const Cell *cell = man->num_in_msi ? cells.data() + man->msi_info->cell_indices[ man->num_in_msi - 1 ] : man->cell;
-    //            if ( cell == end_cell )
-    //                return;
+        // up to end_cell
+        m.lock();
+        P( beg_cell, end_cell );
+        while ( true ) {
+            const SuperCell *spc = cans[ nb_cans - 1 ].cell;
+            const FinalCell *cell = static_cast<const FinalCell *>( spc->sub_cells[ cans[ nb_cans - 1 ].num ] );
+            P( cell->end_ind_in_fcells - 1 );
 
-    //            // current cell
-    //            make_lc_from( cell, mans );
+            //            // current cell
+            //            make_lc_from( cell, mans );
 
-    //            // next one
-    //            while ( true ) {
-    //                if ( ++man->num_in_msi < 4 ) {
-    //                    const Cell *cell = cells.data() + man->msi_info->cell_indices[ man->num_in_msi - 1 ];
-    //                    for( std::size_t msi_offset = cell[ 1 ].msi_offset; msi_offset-- > cell[ 0 ].msi_offset; )
-    //                        mans.push_back( { cell, msi_infos.data() + msi_offset, 0 } );
-    //                    break;
-    //                }
-
-    //                mans.pop_back();
-    //                if ( mans.empty() )
-    //                    return;
-    //                man = &mans.back();
-    //            }
-    //        }
-    //    } );
+            // next one
+            while ( true ) {
+                if ( ++cans[ nb_cans - 1 ].num < cans[ nb_cans - 1 ].cell->nb_sub_cells() ) {
+                    break;
+                }
+                --nb_cans;
+            }
+        }
+        m.unlock();
+    } );
 
     return err;
 }
@@ -177,8 +183,9 @@ void LGrid<Pc>::write_to_stream( std::ostream &os, BaseCell *cell, std::string s
         return;
     }
 
-    cell->min_pos.write_to_stream( os << sp  );
-    cell->max_pos.write_to_stream( os << " " );
+    cell->min_pos.write_to_stream( os << sp << "mip=" );
+    cell->max_pos.write_to_stream( os << " map=" );
+    os << " e=" << cell->end_ind_in_fcells;
     if ( cell->super_cell() ) {
         const SuperCell *sc = static_cast<const SuperCell *>( cell );
         os << " nb_sub=" << sc->nb_sub_cells();
@@ -270,6 +277,7 @@ void LGrid<Pc>::fill_the_grid( std::array<const TF *,dim> positions, const TF *w
     int level = 0;
     TZ prev_z = 0;
     root_cell = nullptr;
+    nb_final_cells = 0;
     for( TI index = max_diracs_per_cell; ; ) {
         auto push_cell = [&]( TI l ) {
             TZ old_prev_z = prev_z;
@@ -299,6 +307,7 @@ void LGrid<Pc>::fill_the_grid( std::array<const TF *,dim> positions, const TF *w
             if ( len_ind_nz ) {
                 cell = reinterpret_cast<BaseCell *>( mem_pool.allocate( sizeof( BaseCell ) + len_ind_nz * sizeof( TI ) ) );
                 FinalCell *fcell = static_cast<FinalCell *>( cell );
+                cell->end_ind_in_fcells = ++nb_final_cells;
                 cell->nb_sub_items = len_ind_nz;
 
                 // store diracs indices and get bounds
@@ -346,6 +355,7 @@ void LGrid<Pc>::fill_the_grid( std::array<const TF *,dim> positions, const TF *w
                 LevelInfo *oli = li++;
                 if ( oli->nb_sub_cells ) {
                     cell = reinterpret_cast<BaseCell *>( mem_pool.allocate( sizeof( BaseCell ) + oli->nb_sub_cells * sizeof( BaseCell * ) ) );
+                    cell->end_ind_in_fcells = nb_final_cells;
                     cell->nb_sub_items = - oli->nb_sub_cells;
 
                     SuperCell *scell = static_cast<SuperCell *>( cell );

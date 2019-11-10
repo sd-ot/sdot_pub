@@ -52,6 +52,7 @@ private:
         bool                       super_cell             () const { return nb_sub_items < 0; }
         bool                       final_cell             () const { return nb_sub_items > 0; }
 
+        TI                         end_ind_in_fcells;     ///< end index in final cells
         SI                         nb_sub_items;          ///< > 0 => final cell (nb diracs). < 0 => super cell (nb sub cells).
         TF                         max_weight;            ///<
         Pt                         min_pos;               ///< (real) lower left corner
@@ -85,6 +86,7 @@ private:
 
     // grid
     TF                             inv_step_length;
+    TI                             nb_final_cells;
     TF                             step_length;
     TF                             grid_length;
     Pt                             min_point;

@@ -12,4 +12,4 @@ all:
 	# nsmake run -g3 tests/test_ConvexPolyhedron3.cpp
 	nsmake run -g3 tests/test_LGrid_2D.cpp
 	# python tests/benchmarks/distributions_gen/uniform.py
-	# nsmake run tests/benchmarks/bench_geogram_3D.cpp --exec-with valgrind 
+	# nsmake run tests/benchmarks/bench_geogram_3D.cpp --exec-with valgrind .
