@@ -24,6 +24,7 @@ public:
 
     using                          TF                     = typename CP::TF; ///< floating point type
     using                          TI                     = typename CP::TI; ///< index type
+    using                          SI                     = typename Pc::SI; ///< signed index type
     using                          CI                     = typename CP::CI; ///< cut info
     using                          Pt                     = typename CP::Pt; ///< point type
 
@@ -46,62 +47,49 @@ private:
     static constexpr int           nb_bits_per_axis       = 20;
     static constexpr int           sizeof_zcoords         = ( dim * nb_bits_per_axis + 7 ) / 8; ///< nb meaningful bytes in z-coordinates
     using                          TZ                     = std::uint64_t; ///< zcoords
-    using                          TZ                     = std::uint64_t; ///< zcoords
 
-    //    struct                   WithParent {
-    //        TI                   num_in_parent;         ///< in {0,1,2,3}: num sub-cell in parent cell
-    //        TI                   parent_index;          ///< index in cells. If no parent, parent_index is equal to -1
-    //        TI                   sub_level;             ///<
-    //    };
+    struct                         BaseCell {
+        bool                       super_cell             () const { return nb_sub_items < 0; }
+        bool                       final_cell             () const { return nb_sub_items > 0; }
 
-    struct                         BaseCellInfo {
-        TI                         nb_sub_cells;          ///< 0 => final cell. 0<.<8 => super cell. 9 => in the disk...
-        TI                         dpc_offset;            ///< offsets in dpc_indices
-        TF                         max_weight;
-        Pt                         min_pos;                   ///< lower left corner
-        Pt                         max_pos;                   ///< lower left corner
-    };
-
-    struct                         FinalCell : BaseCellInfo {
-        TI                         nb_sub_cells;          ///< 0 => final cell. 0<.<8 => super cell. 9 => in the disk...
-        TI                         dpc_offset;            ///< offsets in dpc_indices
-        TI                         msi_offset;            ///< offsets in msi_info
-        TF                         max_weight;
-        TZ                         zcoords;               ///<
-        TF                         size;                  ///<
-        Pt                         pos;                   ///< lower left corner
-    };
-
-    struct                         MsiInfo { ///<
-        TI                         cell_indices[ 3 ];     ///< cell indices of the first degree sub-cells
+        SI                         nb_sub_items;          ///< > 0 => final cell (nb diracs). < 0 => super cell (nb sub cells).
         TF                         max_weight;            ///<
+        Pt                         min_pos;               ///< (real) lower left corner
+        Pt                         max_pos;               ///< (real) upper right corner
+    };
+
+    struct                         SuperCell : BaseCell {
+        TI                         nb_sub_cells           () const { return - this->nb_sub_items; }
+
+        BaseCell                  *sub_cells[ 1 ];        ///<
+    };
+
+    struct                         FinalCell : BaseCell {
+        TI                         nb_diracs              () const { return this->nb_sub_items; }
+
+        TI                         dirac_indices[ 1 ];    ///<
     };
 
     void                           fill_grid_using_zcoords( std::array<const TF *,dim> positions, const TF *weights, TI nb_diracs );
-    void                           make_the_cell_list     ( const TF *weights );
     void                           update_the_limits      ( std::array<const TF *,dim> positions, TI nb_diracs );
+    void                           write_to_stream        ( std::ostream &os, BaseCell *cell, std::string sp ) const;
     void                           fill_the_grid          ( std::array<const TF *,dim> positions, const TF *weights, TI nb_diracs );
-    template<int flags> TF         min_w_to_cut           ( const CP &lc, const Pt &c0, TF w0, const Cell &cr_cell, N<flags> );
-    template<int d>   TZ           ng_zcoord              ( TZ zcoords, TZ off, N<d> ) const;
-    template<int flags> bool       may_cut                ( const CP &lc, const Pt &c0, TF w0, const Cell &cr_cell, N<flags> );
+    void                           display                ( VtkOutput &vtk_output, BaseCell *cell, int disp_weights ) const;
     Pt                             pt                     ( std::array<const TF *,dim> positions, TI index ) const { Pt res; for( std::size_t i = 0; i < dim; ++i ) res[ i ] = positions[ i ][ index ]; return res; }
 
     // buffers
     std::vector<TZ>                znodes_keys;           ///< tmp znodes
     std::vector<TI>                znodes_inds;           ///< tmp znodes
+    BumpPointerPool                mem_pool;              ///< store the cells
     std::vector<std::size_t>       rs_tmps;               ///< for the radix sort
 
-    // grid content
-    std::vector<TI>                dpc_indices;           ///< dirac indices for each cell
-    std::vector<MsiInfo>           msi_infos;             ///< multi-scale info
-    std::vector<Cell>              cells;
-
-    // grid dimensions
+    // grid
     TF                             inv_step_length;
     TF                             step_length;
     TF                             grid_length;
     Pt                             min_point;
     Pt                             max_point;
+    BaseCell                      *root_cell;
 };
 
 } // namespace sdot

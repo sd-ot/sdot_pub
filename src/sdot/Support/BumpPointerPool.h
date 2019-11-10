@@ -13,6 +13,7 @@ public:
     /* */   ~BumpPointerPool();
 
     char*    allocate       ( std::size_t size, std::size_t alig );
+    char*    allocate       ( std::size_t size );
 
     template                <class T,class... Args>
     T*       create         ( Args &&...args );

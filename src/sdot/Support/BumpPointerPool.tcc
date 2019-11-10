@@ -53,6 +53,33 @@ char *BumpPointerPool::allocate( std::size_t size, std::size_t alig ) {
     return res;
 }
 
+inline
+char *BumpPointerPool::allocate( std::size_t size ) {
+    using std::malloc;
+    using std::max;
+
+    // get aligned ptr
+    char *res = current_ptr.cp;
+
+    // room
+    current_ptr.cp += size;
+    if ( current_ptr.cp > ending_ptr ) {
+        std::size_t frame_size = max( 4096ul, sizeof( Frame * ) + size );
+        Frame* new_frame = new ( malloc( frame_size ) ) Frame;
+        new_frame->prev_frame = last_frame;
+        last_frame = new_frame;
+
+        ending_ptr = reinterpret_cast<char *>( new_frame ) + frame_size;
+        current_ptr.cp = new_frame->content;
+
+        res = current_ptr.cp;
+
+        current_ptr.cp += size;
+    }
+
+    return res;
+}
+
 template <class T,class... Args>
 T* BumpPointerPool::create( Args &&...args ) {
     if ( std::is_trivially_destructible<T>::value )

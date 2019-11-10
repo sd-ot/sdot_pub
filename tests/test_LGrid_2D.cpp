@@ -12,9 +12,10 @@ struct Pc {
     enum { store_the_normals = false };
     enum { allow_ball_cut    = false };
     enum { dim               = _dim };
-    using  TF                = double;
-    using  TI                = std::size_t;
+    using  TI                = std::uint64_t;
+    using  SI                = std::int64_t;
     using  CI                = std::size_t;
+    using  TF                = double;
 };
 
 template<class Pc>
@@ -52,9 +53,9 @@ void test_with_Pc() {
     grid.display( vo, 1 );
     vo.save( "vtk/grid.vtk" );
 
-    CP b( typename CP::Box{ { 0, 0 }, { 1, 1 } } );
-    grid.for_each_laguerre_cell( [&]( CP &/*cp*/, std::size_t /*num*/, int /*num_thread*/ ) {
-    }, b, { positions[ 0 ], positions[ 1 ] }, weights, nb_diracs, N<0>() );
+    //    CP b( typename CP::Box{ { 0, 0 }, { 1, 1 } } );
+    //    grid.for_each_laguerre_cell( [&]( CP &/*cp*/, std::size_t /*num*/, int /*num_thread*/ ) {
+    //    }, b, { positions[ 0 ], positions[ 1 ] }, weights, nb_diracs, N<0>() );
 }
 
 int main() {

@@ -12,6 +12,7 @@ namespace sdot {
 
 template<class Pc>
 LGrid<Pc>::LGrid( std::size_t max_diracs_per_cell ) : max_diracs_per_cell( max_diracs_per_cell ) {
+    root_cell = nullptr;
 }
 
 template<class Pc> template<int flags>
@@ -25,170 +26,168 @@ void LGrid<Pc>::update( std::array<const TF *,dim> positions, const TF *weights,
 
 template<class Pc> template<int flags>
 int LGrid<Pc>::for_each_laguerre_cell( const std::function<void( CP &, TI num, int num_thread )> &cb, const CP &starting_lc, std::array<const TF *,dim> positions, const TF *weights, TI /*nb_diracs*/, N<flags>, bool stop_if_void_lc ) {
-    struct MsiAndNum { const Cell *cell; const MsiInfo *msi_info; TI num_in_msi; };
-
-    //
+    //    struct MsiAndNum { const Cell *cell; const MsiInfo *msi_info; TI num_in_msi; };
     int err = 0;
-    auto cell_cut = [&]( const Cell *cell, const Cell *dell ) {
-        if ( cell == cells.data() )
-            P( dell - cells.data() );
-    };
 
-    //
-    auto make_lc_from = [&]( const Cell *cell, const std::vector<MsiAndNum> &mans )  {
-        Pt cell_center = cell->pos + 0.5 * cell->size;
+    //    //
+    //    auto cell_cut = [&]( const Cell *cell, const Cell *dell ) {
+    //        if ( cell == cells.data() )
+    //            P( dell - cells.data() );
+    //    };
 
-        auto center = [&]( const Cell *dell, TF size, TI num_in_msi ) {
-            Pt res;
-            for( std::size_t d = 0, i = 1; d < dim; ++d, i *= 2 )
-                res[ d ] = dell->pos[ d ] + ( num_in_msi & i ? 0.75 : 0.25 ) * size;
-            return res;
-        };
+    //    //
+    //    auto make_lc_from = [&]( const Cell *cell, const std::vector<MsiAndNum> &mans )  {
+    //        Pt cell_center = cell->pos + 0.5 * cell->size;
 
-        struct Msi {
-            bool           operator<( const Msi &that ) const { return dist > that.dist; }
-            TI             num_in_msi;
-            const MsiInfo *msi_info;
-            Pt             center;
-            const Cell    *cell;
-            TF             dist;
-            TF             size;
-        };
-        auto append_msi = [&]( std::priority_queue<Msi> &queue, const Cell *dell, const MsiInfo *msi_info, TI num_in_msi, TF size ) {
-            Pt dell_center = center( dell, size, num_in_msi );
-            queue.push( Msi{ num_in_msi, msi_info, dell_center, cell, norm_2( dell_center - cell_center ), size } );
-        };
+    //        auto center = [&]( const Cell *dell, TF size, TI num_in_msi ) {
+    //            Pt res;
+    //            for( std::size_t d = 0, i = 1; d < dim; ++d, i *= 2 )
+    //                res[ d ] = dell->pos[ d ] + ( num_in_msi & i ? 0.75 : 0.25 ) * size;
+    //            return res;
+    //        };
 
-        // fill a first queue
-        TF size = grid_length;
-        std::priority_queue<Msi> queue;
-        for( const MsiAndNum &m : mans ) {
-            for( TI nim = 0; nim < ( 1 << dim ); ++nim )
-                if ( m.num_in_msi != nim )
-                    append_msi( queue, m.cell, m.msi_info, nim, size );
-            size /= 2;
-        }
+    //        struct Msi {
+    //            bool           operator<( const Msi &that ) const { return dist > that.dist; }
+    //            TI             num_in_msi;
+    //            const MsiInfo *msi_info;
+    //            Pt             center;
+    //            const Cell    *cell;
+    //            TF             dist;
+    //            TF             size;
+    //        };
+    //        auto append_msi = [&]( std::priority_queue<Msi> &queue, const Cell *dell, const MsiInfo *msi_info, TI num_in_msi, TF size ) {
+    //            Pt dell_center = center( dell, size, num_in_msi );
+    //            queue.push( Msi{ num_in_msi, msi_info, dell_center, cell, norm_2( dell_center - cell_center ), size } );
+    //        };
 
-        while ( ! queue.empty() ) {
-            Msi msi = queue.top();
-            queue.pop();
+    //        // fill a first queue
+    //        TF size = grid_length;
+    //        std::priority_queue<Msi> queue;
+    //        for( const MsiAndNum &m : mans ) {
+    //            for( TI nim = 0; nim < ( 1 << dim ); ++nim )
+    //                if ( m.num_in_msi != nim )
+    //                    append_msi( queue, m.cell, m.msi_info, nim, size );
+    //            size /= 2;
+    //        }
 
-            // if not potential cut, we don't go further
+    //        while ( ! queue.empty() ) {
+    //            Msi msi = queue.top();
+    //            queue.pop();
 
-            //
-            if ( cell == cells.data() )
-                P( msi.num_in_msi );
-            if ( msi.num_in_msi == 0 ) {
-                if ( msi.msi_info == msi_infos.data() + msi.cell->msi_offset ) {
-                    cell_cut( cell, msi.cell );
-                } else {
+    //            // if not potential cut, we don't go further
 
-                }
-                //                    MsiInfo *new_msi_info = msi.msi_info - 1;
-                //                    for( TI nim = 0; nim < ( 1 << dim ); ++nim )
-                //                        append_msi( queue, m.cell, m.msi_info, nim, size );
-            } else {
-                // append_msi( queue, m.cell, m.msi_info, nim, size );
+    //            //
+    //            if ( cell == cells.data() )
+    //                P( msi.num_in_msi );
+    //            if ( msi.num_in_msi == 0 ) {
+    //                if ( msi.msi_info == msi_infos.data() + msi.cell->msi_offset ) {
+    //                    cell_cut( cell, msi.cell );
+    //                } else {
 
-            }
-        }
-    };
+    //                }
+    //                //                    MsiInfo *new_msi_info = msi.msi_info - 1;
+    //                //                    for( TI nim = 0; nim < ( 1 << dim ); ++nim )
+    //                //                        append_msi( queue, m.cell, m.msi_info, nim, size );
+    //            } else {
+    //                // append_msi( queue, m.cell, m.msi_info, nim, size );
 
-    // if no msi info (no super cell)
-    if ( cells[ 1 ].msi_offset == cells[ 0 ].msi_offset ) {
-        if ( cells.size() ) {
-            ASSERT( cells.size() == 1, "" );
-            make_lc_from( &cells[ 0 ], {} );
-        }
-        return err;
-    }
+    //            }
+    //        }
+    //    };
 
-    // parallel traversal
-    int nb_threads = thread_pool.nb_threads(), nb_jobs = nb_threads;
-    thread_pool.execute( nb_jobs, [&]( std::size_t num_job, int /*num_thread*/ ) {
-        const Cell *end_cell = cells.data() + ( num_job + 1 ) * ( cells.size() - 1 ) / nb_jobs;
-        TI beg_cell = ( num_job + 0 ) * ( cells.size() - 1 ) / nb_jobs;
+    //    // if no msi info (no super cell)
+    //    if ( cells[ 1 ].msi_offset == cells[ 0 ].msi_offset ) {
+    //        if ( cells.size() ) {
+    //            ASSERT( cells.size() == 1, "" );
+    //            make_lc_from( &cells[ 0 ], {} );
+    //        }
+    //        return err;
+    //    }
 
-        // first stack (path to `beg_cell`)
-        std::vector<MsiAndNum> mans;
-        mans.reserve( nb_bits_per_axis );
-        const Cell *cell = cells.data();
-        for( std::size_t msi_offset = cell[ 1 ].msi_offset; msi_offset-- > cell[ 0 ].msi_offset; ) {
-            const MsiInfo *msi_info = msi_infos.data() + msi_offset;
-            if ( beg_cell < msi_info->cell_indices[ 0 ] ) {
-                mans.push_back( { cell, msi_info, 0 } );
-                continue;
-            }
+    //    // parallel traversal
+    //    int nb_threads = thread_pool.nb_threads(), nb_jobs = nb_threads;
+    //    thread_pool.execute( nb_jobs, [&]( std::size_t num_job, int /*num_thread*/ ) {
+    //        const Cell *end_cell = cells.data() + ( num_job + 1 ) * ( cells.size() - 1 ) / nb_jobs;
+    //        TI beg_cell = ( num_job + 0 ) * ( cells.size() - 1 ) / nb_jobs;
 
-            for( std::size_t num_in_msi = 1; ; ++num_in_msi ) {
-                if ( num_in_msi == 3 || msi_info->cell_indices[ num_in_msi ] > beg_cell ) {
-                    mans.push_back( { cell, msi_info, num_in_msi } );
+    //        // first stack (path to `beg_cell`)
+    //        std::vector<MsiAndNum> mans;
+    //        mans.reserve( nb_bits_per_axis );
+    //        const Cell *cell = cells.data();
+    //        for( std::size_t msi_offset = cell[ 1 ].msi_offset; msi_offset-- > cell[ 0 ].msi_offset; ) {
+    //            const MsiInfo *msi_info = msi_infos.data() + msi_offset;
+    //            if ( beg_cell < msi_info->cell_indices[ 0 ] ) {
+    //                mans.push_back( { cell, msi_info, 0 } );
+    //                continue;
+    //            }
 
-                    cell = cells.data() + msi_info->cell_indices[ num_in_msi - 1 ];
-                    msi_offset = cell[ 1 ].msi_offset;
-                    break;
-                }
-            }
-        }
+    //            for( std::size_t num_in_msi = 1; ; ++num_in_msi ) {
+    //                if ( num_in_msi == 3 || msi_info->cell_indices[ num_in_msi ] > beg_cell ) {
+    //                    mans.push_back( { cell, msi_info, num_in_msi } );
 
-        // traversal of all the cells (with update of mans)
-        while ( true ) {
-            MsiAndNum *man = &mans.back();
+    //                    cell = cells.data() + msi_info->cell_indices[ num_in_msi - 1 ];
+    //                    msi_offset = cell[ 1 ].msi_offset;
+    //                    break;
+    //                }
+    //            }
+    //        }
 
-            // on the ending cell ?
-            const Cell *cell = man->num_in_msi ? cells.data() + man->msi_info->cell_indices[ man->num_in_msi - 1 ] : man->cell;
-            if ( cell == end_cell )
-                return;
+    //        // traversal of all the cells (with update of mans)
+    //        while ( true ) {
+    //            MsiAndNum *man = &mans.back();
 
-            // current cell
-            make_lc_from( cell, mans );
+    //            // on the ending cell ?
+    //            const Cell *cell = man->num_in_msi ? cells.data() + man->msi_info->cell_indices[ man->num_in_msi - 1 ] : man->cell;
+    //            if ( cell == end_cell )
+    //                return;
 
-            // next one
-            while ( true ) {
-                if ( ++man->num_in_msi < 4 ) {
-                    const Cell *cell = cells.data() + man->msi_info->cell_indices[ man->num_in_msi - 1 ];
-                    for( std::size_t msi_offset = cell[ 1 ].msi_offset; msi_offset-- > cell[ 0 ].msi_offset; )
-                        mans.push_back( { cell, msi_infos.data() + msi_offset, 0 } );
-                    break;
-                }
+    //            // current cell
+    //            make_lc_from( cell, mans );
 
-                mans.pop_back();
-                if ( mans.empty() )
-                    return;
-                man = &mans.back();
-            }
-        }
-    } );
+    //            // next one
+    //            while ( true ) {
+    //                if ( ++man->num_in_msi < 4 ) {
+    //                    const Cell *cell = cells.data() + man->msi_info->cell_indices[ man->num_in_msi - 1 ];
+    //                    for( std::size_t msi_offset = cell[ 1 ].msi_offset; msi_offset-- > cell[ 0 ].msi_offset; )
+    //                        mans.push_back( { cell, msi_infos.data() + msi_offset, 0 } );
+    //                    break;
+    //                }
+
+    //                mans.pop_back();
+    //                if ( mans.empty() )
+    //                    return;
+    //                man = &mans.back();
+    //            }
+    //        }
+    //    } );
 
     return err;
 }
 
 template<class Pc>
 void LGrid<Pc>::write_to_stream( std::ostream &os ) const {
-    for( std::size_t i = 0; i + 1 < cells.size(); ++i ) {
-        const Cell &cell = cells[ i ];
-        os << "cell num=" << i;
-        if ( cells[ i ].dpc_offset != cells[ i + 1 ].dpc_offset )
-            os << " max_weight=" << cell.max_weight;
-        //        if ( cell.parent_index != TI( -1 ) ) {
-        //            os << "  sub_level=" << cell.sub_level;
-        //            os << "  parent=" << cell.parent_index;
-        //            os << "  nip=" << cell.num_in_parent;
-        //        }
-        for( std::size_t j = cell.msi_offset; j < cells[ i + 1 ].msi_offset; ++j ) {
-            os << "\n  ";
-            const MsiInfo &msi = msi_infos[ j ];
-            for( std::size_t k = 0; k < 3; ++k )
-                os << " " << msi.cell_indices[ k ];
-            os << "  msi_index=" << j;
-            os << "  max_weight=" << msi.max_weight;
-            //            if ( msi.parent_index != TI( -1 ) ) {
-            //                os << "  sub_level=" << msi.sub_level;
-            //                os << "  parent=" << msi.parent_index;
-            //                os << "  nip=" << msi.num_in_parent;
-            //            }
-        }
-        os << "\n";
+    write_to_stream( os, root_cell, {} );
+}
+
+
+template<class Pc>
+void LGrid<Pc>::write_to_stream( std::ostream &os, BaseCell *cell, std::string sp ) const {
+    if ( ! cell ) {
+        os << sp << "null";
+        return;
+    }
+
+    cell->min_pos.write_to_stream( os << sp  );
+    cell->max_pos.write_to_stream( os << " " );
+    if ( cell->super_cell() ) {
+        const SuperCell *sc = static_cast<const SuperCell *>( cell );
+        os << " nb_sub=" << sc->nb_sub_cells();
+        for( std::size_t i = 0; i < sc->nb_sub_cells(); ++i )
+            write_to_stream( os << "\n", sc->sub_cells[ i ], sp + "  " );
+    }
+    if ( cell->final_cell() ) {
+        const FinalCell *sc = static_cast<const FinalCell *>( cell );
+        os << " nb_diracs=" << sc->nb_diracs();
     }
 }
 
@@ -234,154 +233,149 @@ void LGrid<Pc>::fill_the_grid( std::array<const TF *,dim> positions, const TF *w
     // get zcoords for each dirac
     znodes_keys.reserve( 2 * nb_diracs );
     znodes_inds.reserve( 2 * nb_diracs );
-    znodes_keys.resize( nb_diracs );
-    znodes_inds.resize( nb_diracs );
     make_znodes<nb_bits_per_axis>( znodes_keys.data(), znodes_inds.data(), positions, nb_diracs, min_point, inv_step_length );
 
     // sorting w.r.t. zcoords
-    znodes_keys.reserve( 2 * znodes_keys.size() );
-    znodes_inds.reserve( 2 * znodes_inds.size() );
     std::pair<TZ *,TI *> sorted_znodes = radix_sort(
-        std::make_pair( znodes_keys.data() + znodes_keys.size(), znodes_inds.data() + znodes_inds.size() ),
+        std::make_pair( znodes_keys.data() + nb_diracs, znodes_inds.data() + znodes_inds.size() ),
         std::make_pair( znodes_keys.data(), znodes_inds.data() ),
-        znodes_keys.size(),
+        nb_diracs,
         N<dim*nb_bits_per_axis>(),
         rs_tmps
     );
 
     // helpers to update level info
     struct LevelInfo {
-        TI  num_msi;
-        TI  num_cell;
-        TF  max_weight;
-        int num_cell_indices = 2;
+        TI        num_sub_cell = 0;      ///<
+        TI        nb_sub_cells = 0;      ///<
+        BaseCell *sub_cells[ 1 << dim ]; ///<
+
+        TF        max_weight;            ///<
+        Pt        min_pos;               ///<
+        Pt        max_pos;               ///<
     };
+    LevelInfo level_info[ nb_bits_per_axis + 1 ];
 
     // get the cells zcoords and indices (offsets in dpc_indices) + dpc_indices
     int level = 0;
     TZ prev_z = 0;
-    cells.resize( 0 );
-    cells.reserve( znodes_keys.size() );
-    dpc_indices.resize( 0 );
-    dpc_indices.reserve( znodes_keys.size() );
-    msi_infos.resize( 0 );
-    msi_infos.reserve( znodes_keys.size() );
-    LevelInfo level_info[ nb_bits_per_axis + 1 ];
+    root_cell = nullptr;
     for( TI index = max_diracs_per_cell; ; ) {
         auto push_cell = [&]( TI l ) {
-            // new cell
-            Cell cell;
-            cell.zcoords = prev_z;
-            cell.msi_offset = msi_infos.size();
-            cell.dpc_offset = dpc_indices.size();
-            // cell.parent_index = TI( -1 );
+            TZ old_prev_z = prev_z;
+            prev_z += TZ( 1 ) << dim * level;
 
-            // push diracs indices + get weights info
-            TF max_weight = - std::numeric_limits<TF>::max();
-            TZ new_prev_z = prev_z + ( TZ( 1 ) << dim * level );
+            // beg/end of cells to push (indices in sorted_znodes)
+            TI beg_ind_zn = l, len_ind_nz = 0;
             for( TI n = index - max_diracs_per_cell; n < l; ++n ) {
-                if ( sorted_znodes.first[ n ] >= prev_z && sorted_znodes.first[ n ] < new_prev_z ) {
-                    TI ind = sorted_znodes.second[ n ];
-                    dpc_indices.push_back( ind );
-                    ++index;
-
-                    max_weight = max( max_weight, weights[ ind ] );
-                }
-            }
-
-            // msi_info
-            auto make_msi_info = [&]( std::size_t sl, auto last_level ) {
-                LevelInfo &li = level_info[ sl ];
-                int ci = ++li.num_cell_indices;
-
-                // if not in the first sub-cell (for this level)
-                if ( ci < 3 ) {
-                    MsiInfo &msi = msi_infos[ li.num_msi ];
-                    msi.cell_indices[ ci ] = cells.size();
-
-                    if ( last_level ) {
-                        li.max_weight = max( li.max_weight, max_weight );
-                        msi.max_weight = li.max_weight;
-
-                        // last sub-cell of the most refined level
-                        if ( ci == 2 ) {
-                            while ( --sl ) {
-                                LevelInfo &pli = level_info[ sl + 0 ];
-                                LevelInfo &cli = level_info[ sl + 1 ];
-
-                                // msi_infos[ cli.num_msi ].num_in_parent = pli.num_cell_indices + 1;
-                                // msi_infos[ cli.num_msi ].parent_index = pli.num_cell;
-
-                                // starting cell ?
-                                if ( pli.num_cell_indices < 0 ) {
-                                    pli.max_weight = cli.max_weight;
-                                    break;
-                                }
-
-                                // update weight info
-                                pli.max_weight = max( pli.max_weight, cli.max_weight );
-
-                                // not ended => we don't have the final result
-                                if ( pli.num_cell_indices < 2 )
-                                    break;
-
-                                // => last sub-cell of parent cell
-                                MsiInfo &pmsi = msi_infos[ pli.num_msi ];
-                                pmsi.max_weight = pli.max_weight;
-                            }
+                if ( sorted_znodes.first[ n ] >= old_prev_z ) {
+                    beg_ind_zn = n;
+                    for( ; ; ++n  ) {
+                        if ( n == l || sorted_znodes.first[ n ] >= prev_z ) {
+                            len_ind_nz = n - beg_ind_zn;
+                            break;
                         }
                     }
-
-                    return true;
+                    break;
                 }
-
-                // prepapre a new cell set
-                li.num_cell_indices = -1;
-                if ( last_level )
-                    li.max_weight = max_weight;
-                li.num_msi = msi_infos.size();
-                li.num_cell = cells.size();
-
-                MsiInfo new_msi;
-                // new_msi.parent_index = TI( -1 );
-                // new_msi.num_in_parent = TI( -1 );
-                msi_infos.push_back( new_msi );
-
-                return false;
-            };
-            if ( std::size_t sl = nb_bits_per_axis - level ) {
-                if ( ! make_msi_info( sl, N<1>() ) )
-                    while( --sl )
-                        if ( make_msi_info( sl, N<0>() ) )
-                            break;
             }
 
-            // store the cell (must be done after weight update, and msi_info which uses cells.size())
-            // cell.num_in_parent = level_info[ nb_bits_per_axis - level ].num_cell_indices + 1;
-            // cell.parent_index = level_info[ nb_bits_per_axis - level ].num_cell;
-            // cell.sub_level = 0;
-            cell.max_weight = max_weight;
-            cells.push_back( cell );
+            //
+            index += len_ind_nz;
 
-            // update prev_z
-            prev_z = new_prev_z;
+            // prepare a new cell, register it in level_info
+            LevelInfo *li = level_info + level;
+            BaseCell *cell = nullptr;
+            if ( len_ind_nz ) {
+                cell = reinterpret_cast<BaseCell *>( mem_pool.allocate( sizeof( BaseCell ) + len_ind_nz * sizeof( TI ) ) );
+                FinalCell *fcell = static_cast<FinalCell *>( cell );
+                cell->nb_sub_items = len_ind_nz;
+
+                // store diracs indices and get bounds
+                TF max_weight = - std::numeric_limits<TF>::max();
+                Pt min_pos = + std::numeric_limits<TF>::max();
+                Pt max_pos = - std::numeric_limits<TF>::max();
+                for( TI i = 0; i < len_ind_nz; ++i ) {
+                    TI ind = sorted_znodes.second[ beg_ind_zn + i ];
+                    fcell->dirac_indices[ i ] = ind;
+
+                    max_weight = max( max_weight, weights[ ind ] );
+                    max_pos = max( max_pos, pt( positions, ind ) );
+                    min_pos = min( min_pos, pt( positions, ind ) );
+                }
+
+                //
+                cell->max_weight = max_weight;
+                cell->min_pos = min_pos;
+                cell->max_pos = max_pos;
+
+                //
+                li->sub_cells[ li->nb_sub_cells++ ] = cell;
+            }
+
+            // multilevel
+            P( index );
+            for( std::size_t sl = level; ; ++sl ) {
+                P( sl, cell, cell ? cell->nb_sub_items : 0 );
+                // coarser level ?
+                if ( sl == nb_bits_per_axis ) {
+                    root_cell = cell;
+                    break;
+                }
+
+                // if the sub cells are not finished, stay in this level
+                if ( li->num_sub_cell < ( 1 << dim ) - 1 ) {
+                    ++li->num_sub_cell;
+                    break;
+                }
+
+                // else, make a new super cell
+                cell = nullptr;
+                LevelInfo *oli = li++;
+                if ( oli->nb_sub_cells ) {
+                    cell = reinterpret_cast<BaseCell *>( mem_pool.allocate( sizeof( BaseCell ) + oli->nb_sub_cells * sizeof( BaseCell * ) ) );
+                    cell->nb_sub_items = - oli->nb_sub_cells;
+
+                    SuperCell *scell = static_cast<SuperCell *>( cell );
+                    for( std::size_t i = 0; i < oli->nb_sub_cells; ++i )
+                        scell->sub_cells[ i ] = oli->sub_cells[ i ];
+
+                    // bounds
+                    TF max_weight = 0; // oli->max_weight;
+                    Pt min_pos    = TF( 0 ); // oli->min_pos;
+                    Pt max_pos    = TF( 0 ); // oli->max_pos;
+                    //                    for( TI i = 0; i < oli->nb_sub_cells; ++i ) {
+                    //                        max_weight = max( max_weight, weights[ ind ] );
+                    //                        max_pos = max( max_pos, pt( positions, ind ) );
+                    //                        min_pos = min( min_pos, pt( positions, ind ) );
+                    //                    }
+
+                    //
+                    cell->max_weight = max_weight;
+                    cell->min_pos = min_pos;
+                    cell->max_pos = max_pos;
+
+                    //
+                    li->sub_cells[ li->nb_sub_cells++ ] = cell;
+                }
+
+                // and reset the previous level
+                oli->num_sub_cell = 0;
+                oli->nb_sub_cells = 0;
+            }
         };
 
         // last cell(s)
-        if ( index >= znodes_keys.size() ) {
+        if ( index >= nb_diracs ) {
             while ( prev_z < ( TZ( 1 ) << dim * nb_bits_per_axis ) ) {
                 for( ; ; ++level ) {
                     TZ m = TZ( 1 ) << dim * ( level + 1 );
                     if ( level == nb_bits_per_axis || prev_z & ( m - 1 ) ) {
-                        push_cell( znodes_keys.size() );
+                        push_cell( nb_diracs );
                         break;
                     }
                 }
             }
-            // add a closing cell
-            push_cell( znodes_keys.size() );
-            cells.back().pos = max_point;
-            cells.back().size = 0;
             break;
         }
 
@@ -403,109 +397,104 @@ void LGrid<Pc>::fill_the_grid( std::array<const TF *,dim> positions, const TF *w
             }
         }
     }
-
-    // convert zcoords to cartesian coords
-    TI nb_jobs = thread_pool.nb_threads();
-    thread_pool.execute( nb_jobs, [&]( TI num_job, int ) {
-        TI beg = ( num_job + 0 ) * ( cells.size() - 1 ) / nb_jobs;
-        TI end = ( num_job + 1 ) * ( cells.size() - 1 ) / nb_jobs;
-        for( TI num_cell = beg; num_cell < end; ++num_cell ) {
-            TZ zcoords = cells[ num_cell + 0 ].zcoords;
-            TZ acoords = cells[ num_cell + 1 ].zcoords;
-
-            Cell &c = cells[ num_cell ];
-            c.size = step_length * round( pow( acoords - zcoords, 1.0 / dim ) );
-
-            StaticRange<dim>::for_each( [&]( auto d ) {
-                c.pos[ d ] = TF( 0 );
-                StaticRange<nb_bits_per_axis>::for_each( [&]( auto i ) {
-                    TZ p = zcoords & ( TZ( 1 ) << ( dim * i + d ) );
-                    c.pos[ d ] += p >> ( ( dim - 1 ) * i + d );
-                } );
-                c.pos[ d ] = min_point[ d ] + step_length * c.pos[ d ];
-            } );
-        }
-    } );
 }
 
 
 template<class Pc>
 void LGrid<Pc>::display_tikz( std::ostream &os, TF scale ) const {
-    for( TI num_cell = 0; num_cell < cells.size() - 1; ++num_cell ) {
-        Pt p;
-        for( int d = 0; d < dim; ++d )
-            p[ d ] = cells[ num_cell ].pos[ d ];
+    //    for( TI num_cell = 0; num_cell < cells.size() - 1; ++num_cell ) {
+    //        Pt p;
+    //        for( int d = 0; d < dim; ++d )
+    //            p[ d ] = cells[ num_cell ].pos[ d ];
 
-        TF a = 0, b = cells[ num_cell ].size;
-        switch ( dim ) {
-        case 2:
-            os << "\\draw ";
-            os << "(" << scale * ( p[ 0 ] + a ) << "," << scale * ( p[ 1 ] + a ) << ") -- ";
-            os << "(" << scale * ( p[ 0 ] + b ) << "," << scale * ( p[ 1 ] + a ) << ") -- ";
-            os << "(" << scale * ( p[ 0 ] + b ) << "," << scale * ( p[ 1 ] + b ) << ") -- ";
-            os << "(" << scale * ( p[ 0 ] + a ) << "," << scale * ( p[ 1 ] + b ) << ") -- ";
-            os << "(" << scale * ( p[ 0 ] + a ) << "," << scale * ( p[ 1 ] + a ) << ") ;\n";
-            break;
-        case 3:
-            TODO;
-            break;
-        default:
-            TODO;
-        }
-    }
+    //        TF a = 0, b = cells[ num_cell ].size;
+    //        switch ( dim ) {
+    //        case 2:
+    //            os << "\\draw ";
+    //            os << "(" << scale * ( p[ 0 ] + a ) << "," << scale * ( p[ 1 ] + a ) << ") -- ";
+    //            os << "(" << scale * ( p[ 0 ] + b ) << "," << scale * ( p[ 1 ] + a ) << ") -- ";
+    //            os << "(" << scale * ( p[ 0 ] + b ) << "," << scale * ( p[ 1 ] + b ) << ") -- ";
+    //            os << "(" << scale * ( p[ 0 ] + a ) << "," << scale * ( p[ 1 ] + b ) << ") -- ";
+    //            os << "(" << scale * ( p[ 0 ] + a ) << "," << scale * ( p[ 1 ] + a ) << ") ;\n";
+    //            break;
+    //        case 3:
+    //            TODO;
+    //            break;
+    //        default:
+    //            TODO;
+    //        }
+    //    }
+    TODO;
 }
 
 template<class Pc>
 void LGrid<Pc>::display( VtkOutput &vtk_output, int disp_weights ) const {
-    auto disp_cell = [&]( Pt p, TF s, TF mw ) {
-        if ( disp_weights ) {
-            if ( mw == - std::numeric_limits<TF>::max() )
-                return;
-        }
-
-        TF a = 0, b = s;
-        switch ( dim ) {
-        case 2: {
-            TF wl[] = { 0, 0, 0, 0 };
-            if ( disp_weights ) {
-                for( std::size_t i = 0; i < 4; ++i )
-                    wl[ i ] = mw;
-            }
-            vtk_output.add_polygon( {
-                Point3<TF>{ p[ 0 ] + a, p[ 1 ] + a, wl[ 0 ] },
-                Point3<TF>{ p[ 0 ] + b, p[ 1 ] + a, wl[ 1 ] },
-                Point3<TF>{ p[ 0 ] + b, p[ 1 ] + b, wl[ 2 ] },
-                Point3<TF>{ p[ 0 ] + a, p[ 1 ] + b, wl[ 3 ] },
-                Point3<TF>{ p[ 0 ] + a, p[ 1 ] + a, wl[ 0 ] },
-            } );
-            break;
-        }
-        case 3:
-            TODO;
-            break;
-        default:
-            TODO;
-        }
-    };
-
-    for( TI num_cell = 0; num_cell + 1 < cells.size(); ++num_cell ) {
-        // cell
-        Pt pos = cells[ num_cell ].pos;
-        TF size = cells[ num_cell ].size;
-        disp_cell( pos, size, cells[ num_cell ].max_weight );
-
-        // parent ones
-        for( TI off_pce = cells[ num_cell + 0 ].msi_offset; size *= 2, off_pce < cells[ num_cell + 1 ].msi_offset; ++off_pce )
-            disp_cell( pos, size, msi_infos[ off_pce ].max_weight );
-    }
+    if ( root_cell )
+        display( vtk_output, root_cell, disp_weights );
 }
 
-template<class Pc> template<int axis>
-typename LGrid<Pc>::TZ LGrid<Pc>::ng_zcoord( TZ zcoords, TZ off, N<axis> ) const {
-    using Zzoa = typename ZCoords<TZ,dim,nb_bits_per_axis>::template _ZcoordsZerosOnAxis<axis>;
-    TZ ff0 = Zzoa::value;
-    TZ res = ( ( zcoords | ff0 ) + off ) & ~ ff0;
-    return res | ( zcoords & ff0 );
+template<class Pc>
+void LGrid<Pc>::display( VtkOutput &vtk_output, BaseCell *cell, int disp_weights ) const {
+    //    if ( cell->super_cell() ) {
+    //        const SuperCell *sc = static_cast<const SuperCell *>( cell );
+    //        for( std::size_t i = 0; i < sc->nb_sub_cells(); ++i )
+    //            write_to_stream( os << "\n", sc->sub_cells[ i ], sp + "  " );
+    //    }
+    if ( cell->final_cell() ) {
+        const FinalCell *sc = static_cast<const FinalCell *>( cell );
+        Pt a = sc->min_pos, b = sc->max_pos;
+
+        vtk_output.add_polygon( {
+            Point3<TF>{ a[ 0 ], a[ 1 ], 0 },
+            Point3<TF>{ b[ 0 ], a[ 1 ], 0 },
+            Point3<TF>{ b[ 0 ], b[ 1 ], 0 },
+            Point3<TF>{ a[ 0 ], b[ 1 ], 0 },
+            Point3<TF>{ a[ 0 ], a[ 1 ], 0 },
+        } );
+
+    }
+
+    //    auto disp_cell = [&]( Pt p, TF s, TF mw ) {
+    //        if ( disp_weights ) {
+    //            if ( mw == - std::numeric_limits<TF>::max() )
+    //                return;
+    //        }
+
+    //        TF a = 0, b = s;
+    //        switch ( dim ) {
+    //        case 2: {
+    //            TF wl[] = { 0, 0, 0, 0 };
+    //            if ( disp_weights ) {
+    //                for( std::size_t i = 0; i < 4; ++i )
+    //                    wl[ i ] = mw;
+    //            }
+    //            vtk_output.add_polygon( {
+    //                Point3<TF>{ p[ 0 ] + a, p[ 1 ] + a, wl[ 0 ] },
+    //                Point3<TF>{ p[ 0 ] + b, p[ 1 ] + a, wl[ 1 ] },
+    //                Point3<TF>{ p[ 0 ] + b, p[ 1 ] + b, wl[ 2 ] },
+    //                Point3<TF>{ p[ 0 ] + a, p[ 1 ] + b, wl[ 3 ] },
+    //                Point3<TF>{ p[ 0 ] + a, p[ 1 ] + a, wl[ 0 ] },
+    //            } );
+    //            break;
+    //        }
+    //        case 3:
+    //            TODO;
+    //            break;
+    //        default:
+    //            TODO;
+    //        }
+    //    };
+
+    //    for( TI num_cell = 0; num_cell + 1 < cells.size(); ++num_cell ) {
+    //        // cell
+    //        Pt pos = cells[ num_cell ].pos;
+    //        TF size = cells[ num_cell ].size;
+    //        disp_cell( pos, size, cells[ num_cell ].max_weight );
+
+    //        // parent ones
+    //        for( TI off_pce = cells[ num_cell + 0 ].msi_offset; size *= 2, off_pce < cells[ num_cell + 1 ].msi_offset; ++off_pce )
+    //            disp_cell( pos, size, msi_infos[ off_pce ].max_weight );
+    //    }
 }
 
 } // namespace sdot
