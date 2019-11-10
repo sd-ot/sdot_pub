@@ -237,7 +237,7 @@ void LGrid<Pc>::fill_the_grid( std::array<const TF *,dim> positions, const TF *w
 
     // sorting w.r.t. zcoords
     std::pair<TZ *,TI *> sorted_znodes = radix_sort(
-        std::make_pair( znodes_keys.data() + nb_diracs, znodes_inds.data() + znodes_inds.size() ),
+        std::make_pair( znodes_keys.data() + nb_diracs, znodes_inds.data() + nb_diracs ),
         std::make_pair( znodes_keys.data(), znodes_inds.data() ),
         nb_diracs,
         N<dim*nb_bits_per_axis>(),
@@ -246,15 +246,25 @@ void LGrid<Pc>::fill_the_grid( std::array<const TF *,dim> positions, const TF *w
 
     // helpers to update level info
     struct LevelInfo {
-        TI        num_sub_cell = 0;      ///<
-        TI        nb_sub_cells = 0;      ///<
+        void      reset() {
+            num_sub_cell = 0;
+            nb_sub_cells = 0;
+            max_weight   = - std::numeric_limits<TF>::max();
+            min_pos      = + std::numeric_limits<TF>::max();
+            max_pos      = - std::numeric_limits<TF>::max();
+        }
+        TI        num_sub_cell;          ///<
+        TI        nb_sub_cells;          ///<
         BaseCell *sub_cells[ 1 << dim ]; ///<
 
         TF        max_weight;            ///<
         Pt        min_pos;               ///<
         Pt        max_pos;               ///<
     };
+
     LevelInfo level_info[ nb_bits_per_axis + 1 ];
+    for( LevelInfo &l : level_info )
+        l.reset();
 
     // get the cells zcoords and indices (offsets in dpc_indices) + dpc_indices
     int level = 0;
@@ -311,12 +321,14 @@ void LGrid<Pc>::fill_the_grid( std::array<const TF *,dim> positions, const TF *w
 
                 //
                 li->sub_cells[ li->nb_sub_cells++ ] = cell;
+
+                li->max_weight = max( li->max_weight, max_weight );
+                li->max_pos = max( li->max_pos, max_pos );
+                li->min_pos = min( li->min_pos, min_pos );
             }
 
             // multilevel
-            P( index );
             for( std::size_t sl = level; ; ++sl ) {
-                P( sl, cell, cell ? cell->nb_sub_items : 0 );
                 // coarser level ?
                 if ( sl == nb_bits_per_axis ) {
                     root_cell = cell;
@@ -340,28 +352,21 @@ void LGrid<Pc>::fill_the_grid( std::array<const TF *,dim> positions, const TF *w
                     for( std::size_t i = 0; i < oli->nb_sub_cells; ++i )
                         scell->sub_cells[ i ] = oli->sub_cells[ i ];
 
-                    // bounds
-                    TF max_weight = 0; // oli->max_weight;
-                    Pt min_pos    = TF( 0 ); // oli->min_pos;
-                    Pt max_pos    = TF( 0 ); // oli->max_pos;
-                    //                    for( TI i = 0; i < oli->nb_sub_cells; ++i ) {
-                    //                        max_weight = max( max_weight, weights[ ind ] );
-                    //                        max_pos = max( max_pos, pt( positions, ind ) );
-                    //                        min_pos = min( min_pos, pt( positions, ind ) );
-                    //                    }
-
                     //
-                    cell->max_weight = max_weight;
-                    cell->min_pos = min_pos;
-                    cell->max_pos = max_pos;
+                    cell->max_weight = oli->max_weight;
+                    cell->min_pos = oli->min_pos;
+                    cell->max_pos = oli->max_pos;
 
                     //
                     li->sub_cells[ li->nb_sub_cells++ ] = cell;
+
+                    li->max_weight = max( li->max_weight, oli->max_weight );
+                    li->max_pos = max( li->max_pos, oli->max_pos );
+                    li->min_pos = min( li->min_pos, oli->min_pos );
                 }
 
                 // and reset the previous level
-                oli->num_sub_cell = 0;
-                oli->nb_sub_cells = 0;
+                oli->reset();
             }
         };
 
@@ -428,30 +433,33 @@ void LGrid<Pc>::display_tikz( std::ostream &os, TF scale ) const {
 }
 
 template<class Pc>
-void LGrid<Pc>::display( VtkOutput &vtk_output, int disp_weights ) const {
+void LGrid<Pc>::display( VtkOutput &vtk_output, std::array<const TF *,dim> positions, const TF *weights, int disp_weights ) const {
     if ( root_cell )
-        display( vtk_output, root_cell, disp_weights );
+        display( vtk_output, positions, weights, root_cell, disp_weights );
 }
 
 template<class Pc>
-void LGrid<Pc>::display( VtkOutput &vtk_output, BaseCell *cell, int disp_weights ) const {
-    //    if ( cell->super_cell() ) {
-    //        const SuperCell *sc = static_cast<const SuperCell *>( cell );
-    //        for( std::size_t i = 0; i < sc->nb_sub_cells(); ++i )
-    //            write_to_stream( os << "\n", sc->sub_cells[ i ], sp + "  " );
-    //    }
+void LGrid<Pc>::display( VtkOutput &vtk_output, std::array<const TF *,dim> positions, const TF *weights, BaseCell *cell, int disp_weights ) const {
+    Pt a = cell->min_pos, b = cell->max_pos;
+
+    vtk_output.add_polygon( {
+        Point3<TF>{ a[ 0 ], a[ 1 ], 0 },
+        Point3<TF>{ b[ 0 ], a[ 1 ], 0 },
+        Point3<TF>{ b[ 0 ], b[ 1 ], 0 },
+        Point3<TF>{ a[ 0 ], b[ 1 ], 0 },
+        Point3<TF>{ a[ 0 ], a[ 1 ], 0 },
+    } );
+
+    if ( cell->super_cell() ) {
+        const SuperCell *sc = static_cast<const SuperCell *>( cell );
+        for( std::size_t i = 0; i < sc->nb_sub_cells(); ++i )
+            display( vtk_output, positions, weights, sc->sub_cells[ i ], disp_weights );
+    }
+
     if ( cell->final_cell() ) {
         const FinalCell *sc = static_cast<const FinalCell *>( cell );
-        Pt a = sc->min_pos, b = sc->max_pos;
-
-        vtk_output.add_polygon( {
-            Point3<TF>{ a[ 0 ], a[ 1 ], 0 },
-            Point3<TF>{ b[ 0 ], a[ 1 ], 0 },
-            Point3<TF>{ b[ 0 ], b[ 1 ], 0 },
-            Point3<TF>{ a[ 0 ], b[ 1 ], 0 },
-            Point3<TF>{ a[ 0 ], a[ 1 ], 0 },
-        } );
-
+        for( std::size_t i = 0; i < sc->nb_diracs(); ++i )
+            vtk_output.add_point( pt( positions, sc->dirac_indices[ i ] ) );
     }
 
     //    auto disp_cell = [&]( Pt p, TF s, TF mw ) {

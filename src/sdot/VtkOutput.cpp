@@ -78,12 +78,14 @@ void VtkOutput::save( std::ostream &os ) const {
 }
 
 
-//void VtkOutput::add_point( PT p, const CV &cell_value ) {
-//    _points.push_back( { p, cell_value } );
-//}
+void VtkOutput::add_point( Pt p, const std::vector<TF> &cell_values ) {
+    points.push_back( { p } );
+    for( std::size_t i = 0; i < cell_fields.size(); ++i )
+        cell_fields[ i ].v_points.push_back( i < cell_values.size() ? cell_values[ i ] : TF( 0 ) );
+}
 
 
-//void VtkOutput::add_point( P2 p, const CV &cell_value ) {
+//void VtkOutput::add_point( P2 p, const std::vector<TF> &cell_value ) {
 //    add_point( { p.x, p.y, 0.0 }, cell_value );
 //}
 

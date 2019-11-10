@@ -18,12 +18,12 @@ public:
     /**/                     VtkOutput         ( const std::vector<std::string> &cell_fields_names = {} );
 
     //    void                     add_arc           ( Pt center, PT A, PT B, PT tangent, const CV &cell_value = {}, unsigned n = 50 );
-    //    void                     add_point         ( Pt p, const CV &cell_value = {} );
     //    void                     add_lines         ( const std::vector<P2> &p, const CV &cell_value = {} );
     //    void                     add_arrow         ( PT center, PT dir, const CV &cell_value = {} );
     //    void                     add_circle        ( PT center, PT normal, TF radius, const CV &cell_value = {}, unsigned n = 50 );
-    void                     add_polygon       ( const std::vector<Pt> &p, const std::vector<TF> &cell_value = {} );
-    void                     add_lines         ( const std::vector<Pt> &p, const std::vector<TF> &cell_value = {} );
+    void                     add_polygon       ( const std::vector<Pt> &p, const std::vector<TF> &cell_values = {} );
+    void                     add_lines         ( const std::vector<Pt> &p, const std::vector<TF> &cell_values = {} );
+    void                     add_point         ( Pt p, const std::vector<TF> &cell_values = {} );
 
     void                     save              ( std::string filename ) const;
     void                     save              ( std::ostream &os ) const;

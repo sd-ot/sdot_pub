@@ -50,7 +50,7 @@ void test_with_Pc() {
     PN( grid );
 
     VtkOutput vo;
-    grid.display( vo, 1 );
+    grid.display( vo, positions, weights, 1 );
     vo.save( "vtk/grid.vtk" );
 
     //    CP b( typename CP::Box{ { 0, 0 }, { 1, 1 } } );

@@ -37,7 +37,7 @@ public:
 
     void                           write_to_stream        ( std::ostream &os ) const;
     void                           display_tikz           ( std::ostream &os, TF scale = 1.0 ) const;
-    void                           display                ( VtkOutput &vtk_output, int disp_weights = 0 ) const; ///< for debug purpose
+    void                           display                ( VtkOutput &vtk_output, std::array<const TF *,dim> positions, const TF *weights, int disp_weights = 0 ) const; ///< for debug purpose
 
     // values used by update
     int                            max_diracs_per_cell;
@@ -74,7 +74,7 @@ private:
     void                           update_the_limits      ( std::array<const TF *,dim> positions, TI nb_diracs );
     void                           write_to_stream        ( std::ostream &os, BaseCell *cell, std::string sp ) const;
     void                           fill_the_grid          ( std::array<const TF *,dim> positions, const TF *weights, TI nb_diracs );
-    void                           display                ( VtkOutput &vtk_output, BaseCell *cell, int disp_weights ) const;
+    void                           display                ( VtkOutput &vtk_output, std::array<const TF *,dim> positions, const TF *weights, BaseCell *cell, int disp_weights ) const;
     Pt                             pt                     ( std::array<const TF *,dim> positions, TI index ) const { Pt res; for( std::size_t i = 0; i < dim; ++i ) res[ i ] = positions[ i ][ index ]; return res; }
 
     // buffers
