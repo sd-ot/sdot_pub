@@ -28,6 +28,7 @@ public:
     using                          CI                     = typename CP::CI; ///< cut info
     using                          Pt                     = typename CP::Pt; ///< point type
 
+    enum {                         homogeneous_weights    = 1 };
     enum {                         ball_cut               = 2 };
 
     /* ctor */                     LGrid                  ( std::size_t max_diracs_per_cell = 11 );
@@ -75,6 +76,7 @@ private:
     void                           update_the_limits      ( std::array<const TF *,dim> positions, TI nb_diracs );
     void                           write_to_stream        ( std::ostream &os, BaseCell *cell, std::string sp ) const;
     void                           fill_the_grid          ( std::array<const TF *,dim> positions, const TF *weights, TI nb_diracs );
+    template<int flags> bool       may_cut                ( const CP &lc, Pt &c0, TF w0, const BaseCell *cell, N<flags> ) const;
     void                           display                ( VtkOutput &vtk_output, std::array<const TF *,dim> positions, const TF *weights, BaseCell *cell, int disp_weights ) const;
     Pt                             pt                     ( std::array<const TF *,dim> positions, TI index ) const { Pt res; for( std::size_t i = 0; i < dim; ++i ) res[ i ] = positions[ i ][ index ]; return res; }
 

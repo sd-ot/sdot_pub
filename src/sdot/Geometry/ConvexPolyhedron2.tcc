@@ -707,8 +707,7 @@ typename ConvexPolyhedron2<Pc>::TF ConvexPolyhedron2<Pc>::integral() const {
     TF res = 0;
     Pt A = node( 0 ).pos();
     for( std::size_t i = 2; i < nb_nodes(); ++i ) {
-        Pt B = node( i - 1 ).pos();
-        Pt C = node( i - 0 ).pos();
+        Pt B = node( i - 1 ).pos(), C = node( i - 0 ).pos();
         TF tr2_area = A.x * ( B.y - C.y ) + B.x * ( C.y - A.y ) + C.x * ( A.y - B.y );
         res += tr2_area;
     }

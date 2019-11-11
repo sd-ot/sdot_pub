@@ -27,54 +27,128 @@ void LGrid<Pc>::update( std::array<const TF *,dim> positions, const TF *weights,
 
 template<class Pc> template<int flags>
 int LGrid<Pc>::for_each_laguerre_cell( const std::function<void( CP &, TI num, int num_thread )> &cb, const CP &starting_lc, std::array<const TF *,dim> positions, const TF *weights, TI /*nb_diracs*/, N<flags>, bool stop_if_void_lc ) {
+    struct Msi { bool operator<( const Msi &that ) const { return dist > that.dist; } Pt center; const BaseCell *cell; TF dist; };
     struct CpAndNum { const SuperCell *cell; TI num; };
 
-    //    //
-    //    auto cell_cut = [&]( const Cell *cell, const Cell *dell ) {
-    //        if ( cell == cells.data() )
-    //            P( dell - cells.data() );
-    //    };
+    //
+    auto cut_lc = [&]( CP &lc, Pt c0, TF w0, TI i0, const FinalCell *dell, auto avoid_n0, TI n0 ) {
+        //
+        if ( dim == 3 )
+            TODO;
+        struct alignas(64) Cut {
+            TF dx[ 128 ];
+            TF dy[ 128 ];
+            TF ps[ 128 ];
+            CI id[ 128 ];
+        };
+        Cut cut;
+
+        #ifdef __AVX512F__
+        TI n1 = 0, nb_cuts = dell->nb_diracs();
+        for( ; n1 + 8 <= nb_cuts; n1 += 8 ) {
+            __m512d cx = _mm512_set1_pd( c0.x );
+            __m512d cy = _mm512_set1_pd( c0.y );
+            __m512i i1 = _mm512_loadu_si512( dell->dirac_indices + n1 );
+            __m512d vx = _mm512_sub_pd( _mm512_i64gather_pd( i1, positions[ 0 ], 8 ), cx );
+            __m512d vy = _mm512_sub_pd( _mm512_i64gather_pd( i1, positions[ 1 ], 8 ), cy );
+            __m512d v2 = _mm512_add_pd( _mm512_mul_pd( vx, vx ), _mm512_mul_pd( vy, vy ) );
+            __m512d ps = _mm512_add_pd( _mm512_add_pd( _mm512_mul_pd( cx, vx ), _mm512_mul_pd( cy, vy ) ),
+                                        _mm512_set1_pd( 0.5 ) * ( flags & homogeneous_weights ? v2 : _mm512_add_pd( v2, _mm512_set1_pd( w0 ) ) - _mm512_i64gather_pd( i1, weights, 8 ) ) );
+            _mm512_store_pd( cut.dx + n1, vx );
+            _mm512_store_pd( cut.dy + n1, vy );
+            _mm512_store_pd( cut.ps + n1, ps );
+            _mm512_store_epi64( cut.id + n1, i1 );
+        }
+        for( ; n1 < nb_cuts; ++n1 ) {
+            TI i1 = dell->dirac_indices[ n1 ];
+            Pt dc = pt( positions, i1 ) - c0;
+            TF w1 = weights[ i1 ];
+            cut.dx[ n1 ] = dc.x;
+            cut.dy[ n1 ] = dc.y;
+            cut.id[ n1 ] = i1;
+            cut.ps[ n1 ] = dot( c0, dc ) + TF( 0.5 ) * ( flags & homogeneous_weights ? norm_2_p2( dc ) : norm_2_p2( dc ) + w0 - w1 );
+        }
+
+        if ( avoid_n0 ) {
+            --nb_cuts;
+            cut.dx[ n0 ] = cut.dx[ nb_cuts ];
+            cut.dy[ n0 ] = cut.dy[ nb_cuts ];
+            cut.id[ n0 ] = cut.id[ nb_cuts ];
+            cut.ps[ n0 ] = cut.ps[ nb_cuts ];
+        }
+
+        #else
+        TI nb_cuts = 0;
+        for( std::size_t n1 = 0; n1 < dell->nb_diracs(); ++n1 ) {
+            if ( avoid_n0 && n1 == n0 )
+                continue;
+            TI i1 = dell->dirac_indices[ n1 ];
+            Pt dc = pt( positions, i1 ) - c0;
+            TF w1 = weights[ i1 ];
+            cut.dx[ nb_cuts ] = dc.x;
+            cut.dy[ nb_cuts ] = dc.y;
+            cut.id[ nb_cuts ] = i1;
+            cut.ps[ nb_cuts ] = dot( c0, dc ) + TF( 0.5 ) * ( flags & homogeneous_weights ? norm_2_p2( dc ) : norm_2_p2( dc ) + w0 - w1 );
+            ++nb_cuts;
+        }
+        #endif
+
+        // do the cuts
+        lc.plane_cut( { cut.dx, cut.dy }, cut.ps, cut.id, nb_cuts );
+    };
 
     //
     int err;
-    auto make_lc_from = [&]( const FinalCell *cell, const CpAndNum *path, TI path_len )  {
-        struct Msi {
-            bool            operator<( const Msi &that ) const { return dist > that.dist; }
-            Pt              center;
-            const BaseCell *cell;
-            TF              dist;
-        };
-
-        const Pt cell_center = 0.5 * ( cell->min_pos + cell->max_pos );
-        auto append_msi = [&]( std::priority_queue<Msi> &queue, const BaseCell *dell ) {
+    auto make_lc_from = [&]( std::priority_queue<Msi> &base_queue, std::priority_queue<Msi> &queue, CP &lc, const FinalCell *cell, const CpAndNum *path, TI path_len, int num_thread )  {
+        // helper to add a cell in the queue
+        auto append_msi = [&]( std::priority_queue<Msi> &queue, const BaseCell *dell, Pt cell_center ) {
             Pt dell_center = 0.5 * ( dell->min_pos + dell->max_pos );
             queue.push( Msi{ dell_center, dell, norm_2( dell_center - cell_center ) } );
         };
 
-
         // fill a first queue
-        TF size = grid_length;
-        std::priority_queue<Msi> queue;
+        base_queue = {};
+        const Pt cell_center = 0.5 * ( cell->min_pos + cell->max_pos );
         for( std::size_t num_in_path = 0; num_in_path < path_len; ++num_in_path )
             for( std::size_t i = 0; i < path[ num_in_path ].cell->nb_sub_cells(); ++i )
                 if ( i != path[ num_in_path ].num )
-                    append_msi( queue, path[ num_in_path ].cell->sub_cells[ i ] );
+                    append_msi( base_queue, path[ num_in_path ].cell->sub_cells[ i ], cell_center );
 
-        while ( ! queue.empty() ) {
-            Msi msi = queue.top();
-            queue.pop();
+        // for each dirac
+        for( std::size_t n0 = 0; n0 < cell->nb_diracs(); ++n0 ) {
+            TI i0 = cell->dirac_indices[ n0 ];
+            Pt c0 = pt( positions, i0 );
+            TI w0 = weights[ i0 ];
+            lc = starting_lc;
 
-            // if final cell, do the cuts and continue the loop
-            if ( msi.cell->final_cell() ) {
-                continue;
+            // cut with diracs from the same cell
+            cut_lc( lc, c0, w0, i0, cell, N<1>(), n0 );
+
+            // neighbors
+            queue = base_queue;
+            while ( ! queue.empty() ) {
+                Msi msi = queue.top();
+                queue.pop();
+
+                // if not potential cut, we don't go further
+                if ( may_cut( lc, c0, w0, msi.cell, N<flags>() ) == false )
+                    continue;
+
+                // if final cell, do the cuts and continue the loop
+                if ( msi.cell->final_cell() ) {
+                    const FinalCell *dell = static_cast<const FinalCell *>( msi.cell );
+                    cut_lc( lc, c0, w0, i0, dell, N<0>(), 0 );
+                    continue;
+                }
+
+                // else, add sub_cells in the queue
+                const SuperCell *spc = static_cast<const SuperCell *>( msi.cell );
+                for( std::size_t i = 0; i < spc->nb_sub_cells(); ++i )
+                    append_msi( queue, spc->sub_cells[ i ], c0 );
             }
 
-            // if not potential cut, we don't go further
-            const SuperCell *spc = static_cast<const SuperCell *>( msi.cell );
-
-            // else, add sub_cells in the queue
-            for( std::size_t i = 0; i < spc->nb_sub_cells(); ++i )
-                append_msi( queue, spc->sub_cells[ i ] );
+            //
+            cb( lc, i0, num_thread );
         }
     };
 
@@ -82,13 +156,16 @@ int LGrid<Pc>::for_each_laguerre_cell( const std::function<void( CP &, TI num, i
         return err;
     if ( root_cell->final_cell() ) {
         const FinalCell *cell =static_cast<const FinalCell *>( root_cell );
-        make_lc_from( cell, nullptr, 0 );
+        std::priority_queue<Msi> base_queue, queue;
+        CP lc;
+
+        make_lc_from( base_queue, queue, lc, cell, nullptr, 0, 0 );
         return err;
     }
 
     // parallel traversal of the cells
     int nb_threads = thread_pool.nb_threads(), nb_jobs = nb_threads;
-    thread_pool.execute( nb_jobs, [&]( std::size_t num_job, int /*num_thread*/ ) {
+    thread_pool.execute( nb_jobs, [&]( std::size_t num_job, int num_thread ) {
         TI beg_cell = ( num_job + 0 ) * nb_final_cells / nb_jobs;
         TI end_cell = ( num_job + 1 ) * nb_final_cells / nb_jobs;
         TI end_indc = end_cell + 1;
@@ -112,6 +189,8 @@ int LGrid<Pc>::for_each_laguerre_cell( const std::function<void( CP &, TI num, i
         }
 
         // up to end_cell
+        std::priority_queue<Msi> base_queue, queue;
+        CP lc;
         while ( true ) {
             const BaseCell  *lbce = path[ path_len - 1 ].cell->sub_cells[ path[ path_len - 1 ].num ];
             const FinalCell *cell = static_cast<const FinalCell *>( lbce );
@@ -119,7 +198,7 @@ int LGrid<Pc>::for_each_laguerre_cell( const std::function<void( CP &, TI num, i
                 return;
 
             // current cell
-            make_lc_from( cell, path, path_len );
+            make_lc_from( base_queue, queue, lc, cell, path, path_len, num_thread );
 
             // next one
             while ( ++path[ path_len - 1 ].num == path[ path_len - 1 ].cell->nb_sub_cells() )
@@ -137,6 +216,89 @@ int LGrid<Pc>::for_each_laguerre_cell( const std::function<void( CP &, TI num, i
     } );
 
     return err;
+}
+
+
+template<class Pc> template<int flags>
+bool LGrid<Pc>::may_cut( const CP &lc, Pt &c0, TF w0, const BaseCell *cell, N<flags> ) const {
+    using std::sqrt;
+    using std::max;
+    using std::min;
+    using std::pow;
+    using std::abs;
+
+    //
+    if ( flags & ball_cut ) {
+        TF md = 0; // min dist pow 2
+        for( size_t d = 0; d < dim; ++d ) {
+            TF o = c0[ d ] - cell->min_pos[ d ];
+            if ( o > 0 )
+                o = max( TF( 0 ), c0[ d ] - cell->max_pos[ d ] );
+            md += pow( o, 2 );
+        }
+
+        return md < pow( sqrt( cell->max_weight ) + sqrt( w0 ), 2 );
+    }
+
+    #ifdef __AVX512F__
+    if ( lc.nb_nodes() <= 8 ) {
+        __m512d p_x = _mm512_load_pd( &lc.node( 0 ).x );
+        __m512d p_y = _mm512_load_pd( &lc.node( 0 ).y );
+        __m512d c0x = _mm512_set1_pd( c0.x );
+        __m512d c0y = _mm512_set1_pd( c0.y );
+        __m512d d0x = _mm512_sub_pd( p_x, c0x );
+        __m512d d0y = _mm512_sub_pd( p_y, c0y );
+
+        const TF s = TF( 0.5 ) * cr_cell.size;
+        const Pt C = cr_cell.pos + s;
+
+        // | p - c1 | => max( 0, abs( p - C ) - s )
+        __m512d sp = _mm512_set1_pd( s );
+        __m512d zp = _mm512_setzero_pd();
+        __m512d d1x = _mm512_max_pd( zp, _mm512_sub_pd( _mm512_abs_pd( _mm512_sub_pd( p_x, _mm512_set1_pd( C.x ) ) ), sp ) );
+        __m512d d1y = _mm512_max_pd( zp, _mm512_sub_pd( _mm512_abs_pd( _mm512_sub_pd( p_y, _mm512_set1_pd( C.y ) ) ), sp ) );
+
+        // | p - c0 |^2, | p - c1 |^2
+        __m512d d02 = _mm512_add_pd( _mm512_mul_pd( d0x, d0x ), _mm512_mul_pd( d0y, d0y ) );
+        __m512d d12 = _mm512_add_pd( _mm512_mul_pd( d1x, d1x ), _mm512_mul_pd( d1y, d1y ) );
+
+        if ( flags & homogeneous_weights ) {
+            // | p - c1 |^2 < | p - c0 |^2
+            int n = _mm512_cmp_pd_mask( d12, d02, _CMP_LT_OQ );
+            if ( n & ( ( 1 << lc.nb_nodes() ) - 1 ) )
+                return true;
+        } else {
+            // | p - c1 |^2 - | p - c0 |^2 < w1^2 - w0^2
+            int n = _mm512_cmp_pd_mask( _mm512_sub_pd( d12, d02 ), _mm512_set1_pd( pow( max_weight, 2 ) - pow( w0, 2 ) ), _CMP_LT_OQ );
+            if ( n & ( ( 1 << lc.nb_nodes() ) - 1 ) )
+                return true;
+        }
+    } else {
+        const Pt C = cr_cell.pos + TF( 0.5 ) * cr_cell.size;
+        const TF s = sqrt( TF( 0.5 ) ) * cr_cell.size;
+        for( TI num_lc_point = 0; num_lc_point < lc.nb_nodes(); ++num_lc_point ) {
+            Pt p = lc.node( num_lc_point ).pos();
+            TF r2 = norm_2_p2( p - c0 );
+            if ( ( flags & homogeneous_weights ) == 0 )
+                r2 += max_weight - w0;
+            if ( pow( norm_2( p - C ) - s, 2 ) < r2 )
+                return true;
+        }
+    }
+    #else
+    const TF s = TF( 0.5 ) * norm_2( cell->max_pos - cell->min_pos );
+    const Pt C = TF( 0.5 ) * ( cell->min_pos + cell->max_pos );
+    for( TI num_lc_point = 0; num_lc_point < lc.nb_nodes(); ++num_lc_point ) {
+        Pt p = lc.node( num_lc_point ).pos();
+        TF r2 = norm_2_p2( p - c0 );
+//        if ( ( flags & homogeneous_weights ) == 0 )
+//            r2 += max_weight - w0;
+        if ( pow( norm_2( p - C ) - s, 2 ) < r2 )
+            return true;
+    }
+    #endif
+
+    return false;
 }
 
 template<class Pc>
