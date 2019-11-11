@@ -35,79 +35,47 @@ int LGrid<Pc>::for_each_laguerre_cell( const std::function<void( CP &, TI num, i
     //            P( dell - cells.data() );
     //    };
 
-    //    //
-    //    auto make_lc_from = [&]( const Cell *cell, const std::vector<MsiAndNum> &mans )  {
-    //        Pt cell_center = cell->pos + 0.5 * cell->size;
-
-    //        auto center = [&]( const Cell *dell, TF size, TI num_in_msi ) {
-    //            Pt res;
-    //            for( std::size_t d = 0, i = 1; d < dim; ++d, i *= 2 )
-    //                res[ d ] = dell->pos[ d ] + ( num_in_msi & i ? 0.75 : 0.25 ) * size;
-    //            return res;
-    //        };
-
-    //        struct Msi {
-    //            bool           operator<( const Msi &that ) const { return dist > that.dist; }
-    //            TI             num_in_msi;
-    //            const MsiInfo *msi_info;
-    //            Pt             center;
-    //            const Cell    *cell;
-    //            TF             dist;
-    //            TF             size;
-    //        };
-    //        auto append_msi = [&]( std::priority_queue<Msi> &queue, const Cell *dell, const MsiInfo *msi_info, TI num_in_msi, TF size ) {
-    //            Pt dell_center = center( dell, size, num_in_msi );
-    //            queue.push( Msi{ num_in_msi, msi_info, dell_center, cell, norm_2( dell_center - cell_center ), size } );
-    //        };
-
-    //        // fill a first queue
-    //        TF size = grid_length;
-    //        std::priority_queue<Msi> queue;
-    //        for( const MsiAndNum &m : mans ) {
-    //            for( TI nim = 0; nim < ( 1 << dim ); ++nim )
-    //                if ( m.num_in_msi != nim )
-    //                    append_msi( queue, m.cell, m.msi_info, nim, size );
-    //            size /= 2;
-    //        }
-
-    //        while ( ! queue.empty() ) {
-    //            Msi msi = queue.top();
-    //            queue.pop();
-
-    //            // if not potential cut, we don't go further
-
-    //            //
-    //            if ( cell == cells.data() )
-    //                P( msi.num_in_msi );
-    //            if ( msi.num_in_msi == 0 ) {
-    //                if ( msi.msi_info == msi_infos.data() + msi.cell->msi_offset ) {
-    //                    cell_cut( cell, msi.cell );
-    //                } else {
-
-    //                }
-    //                //                    MsiInfo *new_msi_info = msi.msi_info - 1;
-    //                //                    for( TI nim = 0; nim < ( 1 << dim ); ++nim )
-    //                //                        append_msi( queue, m.cell, m.msi_info, nim, size );
-    //            } else {
-    //                // append_msi( queue, m.cell, m.msi_info, nim, size );
-
-    //            }
-    //        }
-    //    };
-
-    //    // if no msi info (no super cell)
-    //    if ( cells[ 1 ].msi_offset == cells[ 0 ].msi_offset ) {
-    //        if ( cells.size() ) {
-    //            ASSERT( cells.size() == 1, "" );
-    //            make_lc_from( &cells[ 0 ], {} );
-    //        }
-    //        return err;
-    //    }
-
     //
-    int err = 0;
-    auto make_lc_from = [&]( const FinalCell *cell, CpAndNum */*cans*/, TI /*nb_cans*/ )  {
-        P( cell->dirac_indices[ 0 ] );
+    int err;
+    auto make_lc_from = [&]( const FinalCell *cell, const CpAndNum *path, TI path_len )  {
+        struct Msi {
+            bool            operator<( const Msi &that ) const { return dist > that.dist; }
+            Pt              center;
+            const BaseCell *cell;
+            TF              dist;
+        };
+
+        const Pt cell_center = 0.5 * ( cell->min_pos + cell->max_pos );
+        auto append_msi = [&]( std::priority_queue<Msi> &queue, const BaseCell *dell ) {
+            Pt dell_center = 0.5 * ( dell->min_pos + dell->max_pos );
+            queue.push( Msi{ dell_center, dell, norm_2( dell_center - cell_center ) } );
+        };
+
+
+        // fill a first queue
+        TF size = grid_length;
+        std::priority_queue<Msi> queue;
+        for( std::size_t num_in_path = 0; num_in_path < path_len; ++num_in_path )
+            for( std::size_t i = 0; i < path[ num_in_path ].cell->nb_sub_cells(); ++i )
+                if ( i != path[ num_in_path ].num )
+                    append_msi( queue, path[ num_in_path ].cell->sub_cells[ i ] );
+
+        while ( ! queue.empty() ) {
+            Msi msi = queue.top();
+            queue.pop();
+
+            // if final cell, do the cuts and continue the loop
+            if ( msi.cell->final_cell() ) {
+                continue;
+            }
+
+            // if not potential cut, we don't go further
+            const SuperCell *spc = static_cast<const SuperCell *>( msi.cell );
+
+            // else, add sub_cells in the queue
+            for( std::size_t i = 0; i < spc->nb_sub_cells(); ++i )
+                append_msi( queue, spc->sub_cells[ i ] );
+        }
     };
 
     if ( ! root_cell )
@@ -119,52 +87,53 @@ int LGrid<Pc>::for_each_laguerre_cell( const std::function<void( CP &, TI num, i
     }
 
     // parallel traversal of the cells
-    std::mutex m;
     int nb_threads = thread_pool.nb_threads(), nb_jobs = nb_threads;
     thread_pool.execute( nb_jobs, [&]( std::size_t num_job, int /*num_thread*/ ) {
         TI beg_cell = ( num_job + 0 ) * nb_final_cells / nb_jobs;
         TI end_cell = ( num_job + 1 ) * nb_final_cells / nb_jobs;
+        TI end_indc = end_cell + 1;
 
-        // first path to `beg_cell`
-        CpAndNum cans[ nb_bits_per_axis ];
-        TI nb_cans = 0;
-        for( BaseCell *cell = root_cell; ; ) {
+        // path to `beg_cell`
+        TI path_len = 0;
+        CpAndNum path[ nb_bits_per_axis ];
+        for( BaseCell *cell = root_cell; ; ++path_len ) {
             if ( cell->final_cell() )
                 break;
             SuperCell *spc = static_cast<SuperCell *>( cell );
             for( std::size_t i = 0; ; ++i ) {
                 BaseCell *suc = spc->sub_cells[ i ];
                 if ( suc->end_ind_in_fcells > beg_cell ) {
-                    cans[ nb_cans ].cell = spc;
-                    cans[ nb_cans ].num = i;
+                    path[ path_len ].cell = spc;
+                    path[ path_len ].num = i;
                     cell = suc;
-                    ++nb_cans;
                     break;
                 }
             }
         }
-
 
         // up to end_cell
-        m.lock();
-        P( beg_cell, end_cell );
         while ( true ) {
-            const SuperCell *spc = cans[ nb_cans - 1 ].cell;
-            const FinalCell *cell = static_cast<const FinalCell *>( spc->sub_cells[ cans[ nb_cans - 1 ].num ] );
-            P( cell->end_ind_in_fcells - 1 );
+            const BaseCell  *lbce = path[ path_len - 1 ].cell->sub_cells[ path[ path_len - 1 ].num ];
+            const FinalCell *cell = static_cast<const FinalCell *>( lbce );
+            if ( cell->end_ind_in_fcells == end_indc )
+                return;
 
-            //            // current cell
-            //            make_lc_from( cell, mans );
+            // current cell
+            make_lc_from( cell, path, path_len );
 
             // next one
+            while ( ++path[ path_len - 1 ].num == path[ path_len - 1 ].cell->nb_sub_cells() )
+                if ( --path_len == 0 )
+                    return;
             while ( true ) {
-                if ( ++cans[ nb_cans - 1 ].num < cans[ nb_cans - 1 ].cell->nb_sub_cells() ) {
+                const BaseCell *tspc = path[ path_len - 1 ].cell->sub_cells[ path[ path_len - 1 ].num ];
+                if ( tspc->final_cell() )
                     break;
-                }
-                --nb_cans;
+                path[ path_len ].cell = static_cast<const SuperCell *>( tspc );
+                path[ path_len ].num = 0;
+                ++path_len;
             }
         }
-        m.unlock();
     } );
 
     return err;
@@ -354,18 +323,22 @@ void LGrid<Pc>::fill_the_grid( std::array<const TF *,dim> positions, const TF *w
                 cell = nullptr;
                 LevelInfo *oli = li++;
                 if ( oli->nb_sub_cells ) {
-                    cell = reinterpret_cast<BaseCell *>( mem_pool.allocate( sizeof( BaseCell ) + oli->nb_sub_cells * sizeof( BaseCell * ) ) );
-                    cell->end_ind_in_fcells = nb_final_cells;
-                    cell->nb_sub_items = - oli->nb_sub_cells;
+                    if ( oli->nb_sub_cells > 1 ) {
+                        cell = reinterpret_cast<BaseCell *>( mem_pool.allocate( sizeof( BaseCell ) + oli->nb_sub_cells * sizeof( BaseCell * ) ) );
+                        cell->end_ind_in_fcells = nb_final_cells;
+                        cell->nb_sub_items = - oli->nb_sub_cells;
 
-                    SuperCell *scell = static_cast<SuperCell *>( cell );
-                    for( std::size_t i = 0; i < oli->nb_sub_cells; ++i )
-                        scell->sub_cells[ i ] = oli->sub_cells[ i ];
+                        SuperCell *scell = static_cast<SuperCell *>( cell );
+                        for( std::size_t i = 0; i < oli->nb_sub_cells; ++i )
+                            scell->sub_cells[ i ] = oli->sub_cells[ i ];
 
-                    //
-                    cell->max_weight = oli->max_weight;
-                    cell->min_pos = oli->min_pos;
-                    cell->max_pos = oli->max_pos;
+                        //
+                        cell->max_weight = oli->max_weight;
+                        cell->min_pos = oli->min_pos;
+                        cell->max_pos = oli->max_pos;
+                    } else {
+                        cell = oli->sub_cells[ 0 ];
+                    }
 
                     //
                     li->sub_cells[ li->nb_sub_cells++ ] = cell;
