@@ -83,12 +83,12 @@ int LGrid<Pc>::for_each_laguerre_cell( const std::function<void( CP &, TI num, i
             if ( avoid_n0 && n1 == n0 )
                 continue;
             TI i1 = dell->dirac_indices[ n1 ];
-            Pt dc = pt( positions, i1 ) - c0;
-            TF w1 = weights[ i1 ];
-            cut.dx[ nb_cuts ] = dc.x;
-            cut.dy[ nb_cuts ] = dc.y;
+            Pt c1 = pt( positions, i1 );
+            TF dw = flags & homogeneous_weights ? 0 : weights[ i1 ] - w0;
+            cut.dx[ nb_cuts ] = c1.x - c0.x;
+            cut.dy[ nb_cuts ] = c1.y - c0.y;
             cut.id[ nb_cuts ] = i1;
-            cut.ps[ nb_cuts ] = dot( c0, dc ) + TF( 0.5 ) * ( flags & homogeneous_weights ? norm_2_p2( dc ) : norm_2_p2( dc ) + w0 - w1 );
+            cut.ps[ nb_cuts ] = TF( 0.5 ) * ( norm_2_p2( c1 ) - norm_2_p2( c0 ) + dw );
             ++nb_cuts;
         }
         #endif
@@ -118,7 +118,7 @@ int LGrid<Pc>::for_each_laguerre_cell( const std::function<void( CP &, TI num, i
         for( std::size_t n0 = 0; n0 < cell->nb_diracs(); ++n0 ) {
             TI i0 = cell->dirac_indices[ n0 ];
             Pt c0 = pt( positions, i0 );
-            TI w0 = weights[ i0 ];
+            TF w0 = flags & homogeneous_weights ? 0 : weights[ i0 ];
             lc = starting_lc;
 
             // cut with diracs from the same cell
@@ -218,6 +218,10 @@ int LGrid<Pc>::for_each_laguerre_cell( const std::function<void( CP &, TI num, i
     return err;
 }
 
+template<class Pc> template<int flags>
+bool LGrid<Pc>::can_be_evicted( const CP &lc, Pt &c0, TF w0, const CellBoundsPpos<Pc> &bounds, N<flags> ) const {
+    return false;
+}
 
 template<class Pc> template<int flags>
 bool LGrid<Pc>::can_be_evicted( const CP &lc, Pt &c0, TF w0, const CellBoundsP0<Pc> &bounds, N<flags> ) const {
@@ -543,8 +547,40 @@ void LGrid<Pc>::fill_the_grid( std::array<const TF *,dim> positions, const TF *w
             }
         }
     }
+
+    //
+    if ( CellBounds::need_phase_1 && root_cell ) {
+        BaseCell *path[ nb_bits_per_axis ];
+        update_cell_bounds_phase_1( positions, weights, root_cell, path, 0 );
+    }
 }
 
+template<class Pc>
+void LGrid<Pc>::update_cell_bounds_phase_1( std::array<const TF *,dim> positions, const TF *weights, BaseCell *cell, BaseCell **path, int level ) {
+    path[ level ] = cell;
+
+    if ( cell->final_cell() ) {
+        FinalCell *fc = static_cast<FinalCell *>( cell );
+        for( size_t n = 0; n < fc->nb_diracs(); ++n ) {
+            TI ind = fc->dirac_indices[ n ];
+            Pt pos = pt( positions, ind );
+            TF w = weights[ ind ];
+
+            for( size_t l = 0; l <= level; ++l )
+                path[ l ]->bounds.push( pos, w );
+        }
+        return;
+    }
+
+    if ( cell->super_cell() ) {
+        SuperCell *sc = static_cast<SuperCell *>( cell );
+        for( size_t i = 0; i < sc->nb_sub_cells(); ++i )
+            update_cell_bounds_phase_1( positions, weights, sc->sub_cells[ i ], path, level + 1 );
+        return;
+    }
+
+    TODO;
+}
 
 template<class Pc>
 void LGrid<Pc>::display_tikz( std::ostream &os, TF scale ) const {

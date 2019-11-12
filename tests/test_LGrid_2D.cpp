@@ -29,43 +29,45 @@ void test_with_Pc() {
     using         TI   = typename Grid::TI;
 
     // load
-    std::size_t nb_diracs = 1000;
-
+    std::size_t nb_diracs = 100;
     std::vector<TF> data( nb_diracs * ( dim + 1 ) );
     for( std::size_t n = 0; n < nb_diracs; ++n ) {
         for( std::size_t i = 0; i < dim; ++i )
-            data[ i * nb_diracs + n ] = 1.0 * rand() / RAND_MAX;
-        // data[ dim * nb_diracs + n ] = 0.25 * cos( 3 * data[ 0 * nb_diracs + n ] + 0 * data[ 1 * nb_diracs + n ] );
-        data[ dim * nb_diracs + n ] = 0.5 * data[ 0 * nb_diracs + n ];
+            data[ i * nb_diracs + n ] = 0.1 + 0.8 * rand() / RAND_MAX;
     }
 
-    std::array<const double *,dim> positions;
-    for( std::size_t i = 0; i < dim; ++i )
-        positions[ i ] = data.data() + i * nb_diracs;
-    double *weights = data.data() + dim * nb_diracs;
+    for( size_t mu = 0; mu < 2; ++mu ) {
+        for( std::size_t n = 0; n < nb_diracs; ++n )
+            data[ dim * nb_diracs + n ] = mu * 1e-1 * sin( data[ 0 * nb_diracs + n ] ) * sin( data[ 1 * nb_diracs + n ] );
 
-    // get timings
-    Grid grid( 20 );
-    grid.update( positions, weights, nb_diracs, N<0>() );
-    // PN( grid );
+        std::array<const double *,dim> positions;
+        for( std::size_t i = 0; i < dim; ++i )
+            positions[ i ] = data.data() + i * nb_diracs;
+        double *weights = data.data() + dim * nb_diracs;
 
-    VtkOutput vog;
-    grid.display( vog, positions, weights, 1 );
-    vog.save( "vtk/grid.vtk" );
+        // get timings
+        Grid grid( 200 );
+        grid.update( positions, weights, nb_diracs, N<0>() );
+        // PN( grid );
 
-    TF area = 0;
-    std::mutex m;
-    VtkOutput voc;
-    CP ic( typename CP::Box{ { 0, 0 }, { 1, 1 } } );
-    grid.for_each_laguerre_cell( [&]( CP &cp, std::size_t /*num*/, int /*num_thread*/ ) {
-        m.lock();
-        cp.display( voc );
-        area += cp.integral();
-        m.unlock();
-    }, ic, { positions[ 0 ], positions[ 1 ] }, weights, nb_diracs, N<0>() );
-    voc.save( "vtk/pd.vtk" );
+        VtkOutput vog;
+        grid.display( vog, positions, weights, 1 );
+        vog.save( "vtk/grid.vtk" );
 
-    P( area );
+        TF area = 0;
+        std::mutex m;
+        VtkOutput voc;
+        CP ic( typename CP::Box{ { 0, 0 }, { 1, 1 } } );
+        grid.for_each_laguerre_cell( [&]( CP &cp, std::size_t /*num*/, int /*num_thread*/ ) {
+            m.lock();
+            cp.display( voc );
+            area += cp.integral();
+            m.unlock();
+        }, ic, { positions[ 0 ], positions[ 1 ] }, weights, nb_diracs, N<0>() );
+        voc.save( va_string( "vtk/pd_{}.vtk", mu ) );
+
+        P( area );
+    }
 }
 
 int main() {
