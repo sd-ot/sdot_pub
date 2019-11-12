@@ -21,12 +21,13 @@ struct Pc {
 
 template<class Pc>
 void test_with_Pc() {
-    using         Grid = LGrid<Pc>;
-    constexpr int dim  = Pc::dim;
-    using         CP   = typename Grid::CP;
-    using         Pt   = typename Grid::Pt;
-    using         TF   = typename Grid::TF;
-    using         TI   = typename Grid::TI;
+    constexpr int flags = 0;
+    using         Grid  = LGrid<Pc>;
+    constexpr int dim   = Pc::dim;
+    using         CP    = typename Grid::CP;
+    using         Pt    = typename Grid::Pt;
+    using         TF    = typename Grid::TF;
+    using         TI    = typename Grid::TI;
 
     // load
     std::size_t nb_diracs = 1000;
@@ -40,7 +41,7 @@ void test_with_Pc() {
 
     // get timings
     Grid grid( 20 );
-    grid.update( positions.data(), weights.data(), nb_diracs, N<0>() );
+    grid.update( positions.data(), weights.data(), nb_diracs, N<flags>() );
     // PN( grid );
 
     VtkOutput vog;
@@ -56,7 +57,7 @@ void test_with_Pc() {
         cp.display( voc );
         area += cp.integral();
         m.unlock();
-    }, ic, N<0>() );
+    }, ic, N<flags>() );
     voc.save( "vtk/pd.vtk" );
 
     P( area );
