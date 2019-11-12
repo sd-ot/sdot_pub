@@ -1,9 +1,9 @@
-#include "Geometry/Internal/ZCoords.h"
-#include "Support/StaticRange.h"
-#include "Support/RadixSort.h"
-#include "Support/ASSERT.h"
-#include "Support/Stat.h"
-#include "Support/Span.h"
+#include "../Geometry/Internal/ZCoords.h"
+#include "../Support/StaticRange.h"
+#include "../Support/RadixSort.h"
+#include "../Support/ASSERT.h"
+#include "../Support/Stat.h"
+#include "../Support/Span.h"
 #include "LGrid.h"
 #include <queue>
 #include <cmath>
@@ -102,13 +102,13 @@ int LGrid<Pc>::for_each_laguerre_cell( const std::function<void( CP &, TI num, i
     auto make_lc_from = [&]( std::priority_queue<Msi> &base_queue, std::priority_queue<Msi> &queue, CP &lc, const FinalCell *cell, const CpAndNum *path, TI path_len, int num_thread )  {
         // helper to add a cell in the queue
         auto append_msi = [&]( std::priority_queue<Msi> &queue, const BaseCell *dell, Pt cell_center ) {
-            Pt dell_center = 0.5 * ( dell->min_pos + dell->max_pos );
+            Pt dell_center = 0.5 * ( dell->bounds.min_pos + dell->bounds.max_pos );
             queue.push( Msi{ dell_center, dell, norm_2( dell_center - cell_center ) } );
         };
 
         // fill a first queue
         base_queue = {};
-        const Pt cell_center = 0.5 * ( cell->min_pos + cell->max_pos );
+        const Pt cell_center = 0.5 * ( cell->bounds.min_pos + cell->bounds.max_pos );
         for( std::size_t num_in_path = 0; num_in_path < path_len; ++num_in_path )
             for( std::size_t i = 0; i < path[ num_in_path ].cell->nb_sub_cells(); ++i )
                 if ( i != path[ num_in_path ].num )
@@ -131,7 +131,7 @@ int LGrid<Pc>::for_each_laguerre_cell( const std::function<void( CP &, TI num, i
                 queue.pop();
 
                 // if not potential cut, we don't go further
-                if ( may_cut( lc, c0, w0, msi.cell, N<flags>() ) == false )
+                if ( can_be_evicted( lc, c0, w0, msi.cell->bounds, N<flags>() ) )
                     continue;
 
                 // if final cell, do the cuts and continue the loop
@@ -220,7 +220,7 @@ int LGrid<Pc>::for_each_laguerre_cell( const std::function<void( CP &, TI num, i
 
 
 template<class Pc> template<int flags>
-bool LGrid<Pc>::may_cut( const CP &lc, Pt &c0, TF w0, const BaseCell *cell, N<flags> ) const {
+bool LGrid<Pc>::can_be_evicted( const CP &lc, Pt &c0, TF w0, const CellBoundsP0<Pc> &bounds, N<flags> ) const {
     using std::sqrt;
     using std::max;
     using std::min;
@@ -229,76 +229,93 @@ bool LGrid<Pc>::may_cut( const CP &lc, Pt &c0, TF w0, const BaseCell *cell, N<fl
 
     //
     if ( flags & ball_cut ) {
-        TF md = 0; // min dist pow 2
-        for( size_t d = 0; d < dim; ++d ) {
-            TF o = c0[ d ] - cell->min_pos[ d ];
-            if ( o > 0 )
-                o = max( TF( 0 ), c0[ d ] - cell->max_pos[ d ] );
-            md += pow( o, 2 );
-        }
+        TODO;
+        //        TF md = 0; // min dist pow 2
+        //        for( size_t d = 0; d < dim; ++d ) {
+        //            TF o = c0[ d ] - cell->min_pos[ d ];
+        //            if ( o > 0 )
+        //                o = max( TF( 0 ), c0[ d ] - cell->max_pos[ d ] );
+        //            md += pow( o, 2 );
+        //        }
 
-        return md < pow( sqrt( cell->max_weight ) + sqrt( w0 ), 2 );
+        //        return md < pow( sqrt( cell->max_weight ) + sqrt( w0 ), 2 );
     }
 
-    #ifdef __AVX512F__
-    if ( lc.nb_nodes() <= 8 ) {
-        __m512d p_x = _mm512_load_pd( &lc.node( 0 ).x );
-        __m512d p_y = _mm512_load_pd( &lc.node( 0 ).y );
-        __m512d c0x = _mm512_set1_pd( c0.x );
-        __m512d c0y = _mm512_set1_pd( c0.y );
-        __m512d d0x = _mm512_sub_pd( p_x, c0x );
-        __m512d d0y = _mm512_sub_pd( p_y, c0y );
-
-        const TF s = TF( 0.5 ) * cr_cell.size;
-        const Pt C = cr_cell.pos + s;
-
-        // | p - c1 | => max( 0, abs( p - C ) - s )
-        __m512d sp = _mm512_set1_pd( s );
-        __m512d zp = _mm512_setzero_pd();
-        __m512d d1x = _mm512_max_pd( zp, _mm512_sub_pd( _mm512_abs_pd( _mm512_sub_pd( p_x, _mm512_set1_pd( C.x ) ) ), sp ) );
-        __m512d d1y = _mm512_max_pd( zp, _mm512_sub_pd( _mm512_abs_pd( _mm512_sub_pd( p_y, _mm512_set1_pd( C.y ) ) ), sp ) );
-
-        // | p - c0 |^2, | p - c1 |^2
-        __m512d d02 = _mm512_add_pd( _mm512_mul_pd( d0x, d0x ), _mm512_mul_pd( d0y, d0y ) );
-        __m512d d12 = _mm512_add_pd( _mm512_mul_pd( d1x, d1x ), _mm512_mul_pd( d1y, d1y ) );
-
-        if ( flags & homogeneous_weights ) {
-            // | p - c1 |^2 < | p - c0 |^2
-            int n = _mm512_cmp_pd_mask( d12, d02, _CMP_LT_OQ );
-            if ( n & ( ( 1 << lc.nb_nodes() ) - 1 ) )
-                return true;
-        } else {
-            // | p - c1 |^2 - | p - c0 |^2 < w1^2 - w0^2
-            int n = _mm512_cmp_pd_mask( _mm512_sub_pd( d12, d02 ), _mm512_set1_pd( pow( max_weight, 2 ) - pow( w0, 2 ) ), _CMP_LT_OQ );
-            if ( n & ( ( 1 << lc.nb_nodes() ) - 1 ) )
-                return true;
-        }
-    } else {
-        const Pt C = cr_cell.pos + TF( 0.5 ) * cr_cell.size;
-        const TF s = sqrt( TF( 0.5 ) ) * cr_cell.size;
-        for( TI num_lc_point = 0; num_lc_point < lc.nb_nodes(); ++num_lc_point ) {
-            Pt p = lc.node( num_lc_point ).pos();
-            TF r2 = norm_2_p2( p - c0 );
-            if ( ( flags & homogeneous_weights ) == 0 )
-                r2 += max_weight - w0;
-            if ( pow( norm_2( p - C ) - s, 2 ) < r2 )
-                return true;
-        }
-    }
-    #else
-    const TF s = TF( 0.5 ) * norm_2( cell->max_pos - cell->min_pos );
-    const Pt C = TF( 0.5 ) * ( cell->min_pos + cell->max_pos );
+    // for each point p in lc, can be evicted if m <= 0, with (b1=box)
+    // m = max_{c1 \in b1}}( || p - c0 ||^2 - w0 - || p - c1 ||^2 + w1(q1) )
+    // m = max_{c1 \in b1}}( || c0 ||^2 - || c1 ||^2 + 2 * dot( p, c1 - c0 ) - w0 + w1(q1) )
+    // m = max_{c1 \in b1}}( || c0 ||^2 - w0 + w1_M - || c1 ||^2 + 2 * dot( p, c1 - c0 ) )
+    TF cc = norm_2_p2( c0 ) - w0 + bounds.max_weight;
     for( TI num_lc_point = 0; num_lc_point < lc.nb_nodes(); ++num_lc_point ) {
         Pt p = lc.node( num_lc_point ).pos();
-        TF r2 = norm_2_p2( p - c0 );
-//        if ( ( flags & homogeneous_weights ) == 0 )
-//            r2 += max_weight - w0;
-        if ( pow( norm_2( p - C ) - s, 2 ) < r2 )
-            return true;
+        Pt c1 = max( min( p, bounds.max_pos ), bounds.min_pos );
+        if ( cc + 2 * dot( p, c1 - c0 ) > norm_2_p2( c1 ) )
+            return false;
     }
-    #endif
 
-    return false;
+    // Order 1, 2D:
+    // m = max_{c1 \in b1}}( || c0 ||^2 + w1_0 - w0 - c1_x^2 - c1_y^2 + 2 * p_x * ( c1_x - c0_x ) + 2 * p_y * ( c1_y - c0_y ) )
+    // => c1 = clamp(  )
+
+    //    #ifdef __AVX512F__
+    //    if ( lc.nb_nodes() <= 8 ) {
+    //        __m512d p_x = _mm512_load_pd( &lc.node( 0 ).x );
+    //        __m512d p_y = _mm512_load_pd( &lc.node( 0 ).y );
+    //        __m512d c0x = _mm512_set1_pd( c0.x );
+    //        __m512d c0y = _mm512_set1_pd( c0.y );
+    //        __m512d d0x = _mm512_sub_pd( p_x, c0x );
+    //        __m512d d0y = _mm512_sub_pd( p_y, c0y );
+
+    //        const TF s = TF( 0.5 ) * cr_cell.size;
+    //        const Pt C = cr_cell.pos + s;
+
+    //        // | p - c1 | => max( 0, abs( p - C ) - s )
+    //        __m512d sp = _mm512_set1_pd( s );
+    //        __m512d zp = _mm512_setzero_pd();
+    //        __m512d d1x = _mm512_max_pd( zp, _mm512_sub_pd( _mm512_abs_pd( _mm512_sub_pd( p_x, _mm512_set1_pd( C.x ) ) ), sp ) );
+    //        __m512d d1y = _mm512_max_pd( zp, _mm512_sub_pd( _mm512_abs_pd( _mm512_sub_pd( p_y, _mm512_set1_pd( C.y ) ) ), sp ) );
+
+    //        // | p - c0 |^2, | p - c1 |^2
+    //        __m512d d02 = _mm512_add_pd( _mm512_mul_pd( d0x, d0x ), _mm512_mul_pd( d0y, d0y ) );
+    //        __m512d d12 = _mm512_add_pd( _mm512_mul_pd( d1x, d1x ), _mm512_mul_pd( d1y, d1y ) );
+
+    //        if ( flags & homogeneous_weights ) {
+    //            // | p - c1 |^2 < | p - c0 |^2
+    //            int n = _mm512_cmp_pd_mask( d12, d02, _CMP_LT_OQ );
+    //            if ( n & ( ( 1 << lc.nb_nodes() ) - 1 ) )
+    //                return true;
+    //        } else {
+    //            // | p - c1 |^2 - | p - c0 |^2 < w1^2 - w0^2
+    //            int n = _mm512_cmp_pd_mask( _mm512_sub_pd( d12, d02 ), _mm512_set1_pd( pow( max_weight, 2 ) - pow( w0, 2 ) ), _CMP_LT_OQ );
+    //            if ( n & ( ( 1 << lc.nb_nodes() ) - 1 ) )
+    //                return true;
+    //        }
+    //    } else {
+    //        const Pt C = cr_cell.pos + TF( 0.5 ) * cr_cell.size;
+    //        const TF s = sqrt( TF( 0.5 ) ) * cr_cell.size;
+    //        for( TI num_lc_point = 0; num_lc_point < lc.nb_nodes(); ++num_lc_point ) {
+    //            Pt p = lc.node( num_lc_point ).pos();
+    //            TF r2 = norm_2_p2( p - c0 );
+    //            if ( ( flags & homogeneous_weights ) == 0 )
+    //                r2 += max_weight - w0;
+    //            if ( pow( norm_2( p - C ) - s, 2 ) < r2 )
+    //                return true;
+    //        }
+    //    }
+    //    #else
+    //    const TF s = TF( 0.5 ) * norm_2( cell->max_pos - cell->min_pos );
+    //    const Pt C = TF( 0.5 ) * ( cell->min_pos + cell->max_pos );
+    //    for( TI num_lc_point = 0; num_lc_point < lc.nb_nodes(); ++num_lc_point ) {
+    //        Pt p = lc.node( num_lc_point ).pos();
+    //        TF r2 = norm_2_p2( p - c0 );
+    //        //        if ( ( flags & homogeneous_weights ) == 0 )
+    //        //            r2 += max_weight - w0;
+    //        if ( pow( norm_2( p - C ) - s, 2 ) < r2 )
+    //            return true;
+    //    }
+    //    #endif
+
+    return true;
 }
 
 template<class Pc>
@@ -361,6 +378,7 @@ void LGrid<Pc>::update_the_limits( std::array<const TF *,dim> positions, TI nb_d
 template<class Pc>
 void LGrid<Pc>::fill_the_grid( std::array<const TF *,dim> positions, const TF *weights, TI nb_diracs ) {
     static_assert( sizeof( TZ ) >= sizeof_zcoords, "zcoords types (TZ) is not large enough" );
+    using LocalSolver = typename CellBounds::LocalSolver;
 
     using std::round;
     using std::ceil;
@@ -384,25 +402,17 @@ void LGrid<Pc>::fill_the_grid( std::array<const TF *,dim> positions, const TF *w
 
     // helpers to update level info
     struct LevelInfo {
-        void      reset() {
-            num_sub_cell = 0;
-            nb_sub_cells = 0;
-            max_weight   = - std::numeric_limits<TF>::max();
-            min_pos      = + std::numeric_limits<TF>::max();
-            max_pos      = - std::numeric_limits<TF>::max();
-        }
-        TI        num_sub_cell;          ///<
-        TI        nb_sub_cells;          ///<
-        BaseCell *sub_cells[ 1 << dim ]; ///<
+        void        clr                    () { num_sub_cell = 0; nb_sub_cells = 0; ls.clr(); }
 
-        TF        max_weight;            ///<
-        Pt        min_pos;               ///<
-        Pt        max_pos;               ///<
+        TI          num_sub_cell;          ///<
+        TI          nb_sub_cells;          ///<
+        BaseCell   *sub_cells[ 1 << dim ]; ///<
+        LocalSolver ls;
     };
 
     LevelInfo level_info[ nb_bits_per_axis + 1 ];
     for( LevelInfo &l : level_info )
-        l.reset();
+        l.clr();
 
     // get the cells zcoords and indices (offsets in dpc_indices) + dpc_indices
     int level = 0;
@@ -432,7 +442,7 @@ void LGrid<Pc>::fill_the_grid( std::array<const TF *,dim> positions, const TF *w
             //
             index += len_ind_nz;
 
-            // prepare a new cell, register it in level_info
+            // prepare a new cell, register it in corresponding level_info
             LevelInfo *li = level_info + level;
             BaseCell *cell = nullptr;
             if ( len_ind_nz ) {
@@ -441,30 +451,21 @@ void LGrid<Pc>::fill_the_grid( std::array<const TF *,dim> positions, const TF *w
                 cell->end_ind_in_fcells = ++nb_final_cells;
                 cell->nb_sub_items = len_ind_nz;
 
-                // store diracs indices and get bounds
-                TF max_weight = - std::numeric_limits<TF>::max();
-                Pt min_pos = + std::numeric_limits<TF>::max();
-                Pt max_pos = - std::numeric_limits<TF>::max();
+                // store diracs indices, get bounds
+                LocalSolver ls;
+                ls.clr();
                 for( TI i = 0; i < len_ind_nz; ++i ) {
                     TI ind = sorted_znodes.second[ beg_ind_zn + i ];
                     fcell->dirac_indices[ i ] = ind;
 
-                    max_weight = max( max_weight, weights[ ind ] );
-                    max_pos = max( max_pos, pt( positions, ind ) );
-                    min_pos = min( min_pos, pt( positions, ind ) );
+                    ls.push( pt( positions, ind ), weights[ ind ] );
                 }
 
-                //
-                cell->max_weight = max_weight;
-                cell->min_pos = min_pos;
-                cell->max_pos = max_pos;
+                ls.store_to( cell->bounds );
 
                 //
                 li->sub_cells[ li->nb_sub_cells++ ] = cell;
-
-                li->max_weight = max( li->max_weight, max_weight );
-                li->max_pos = max( li->max_pos, max_pos );
-                li->min_pos = min( li->min_pos, min_pos );
+                li->ls.push( ls );
             }
 
             // multilevel
@@ -495,23 +496,18 @@ void LGrid<Pc>::fill_the_grid( std::array<const TF *,dim> positions, const TF *w
                             scell->sub_cells[ i ] = oli->sub_cells[ i ];
 
                         //
-                        cell->max_weight = oli->max_weight;
-                        cell->min_pos = oli->min_pos;
-                        cell->max_pos = oli->max_pos;
+                        oli->ls.store_to( cell->bounds );
                     } else {
                         cell = oli->sub_cells[ 0 ];
                     }
 
                     //
                     li->sub_cells[ li->nb_sub_cells++ ] = cell;
-
-                    li->max_weight = max( li->max_weight, oli->max_weight );
-                    li->max_pos = max( li->max_pos, oli->max_pos );
-                    li->min_pos = min( li->min_pos, oli->min_pos );
+                    li->ls.push( oli->ls );
                 }
 
                 // and reset the previous level
-                oli->reset();
+                oli->clr();
             }
         };
 
@@ -585,15 +581,18 @@ void LGrid<Pc>::display( VtkOutput &vtk_output, std::array<const TF *,dim> posit
 
 template<class Pc>
 void LGrid<Pc>::display( VtkOutput &vtk_output, std::array<const TF *,dim> positions, const TF *weights, BaseCell *cell, int disp_weights ) const {
-    Pt a = cell->min_pos, b = cell->max_pos;
-
-    vtk_output.add_polygon( {
+    Pt a = cell->bounds.min_pos, b = cell->bounds.max_pos;
+    std::vector<Point3<TF>> pts = {
         Point3<TF>{ a[ 0 ], a[ 1 ], 0 },
         Point3<TF>{ b[ 0 ], a[ 1 ], 0 },
         Point3<TF>{ b[ 0 ], b[ 1 ], 0 },
         Point3<TF>{ a[ 0 ], b[ 1 ], 0 },
-        Point3<TF>{ a[ 0 ], a[ 1 ], 0 },
-    } );
+    };
+    if ( disp_weights ) {
+        for( Point3<TF> &pt : pts )
+            pt[ 2 ] = cell->bounds.get_w( { pt[ 0 ], pt[ 1 ] } );
+    }
+    vtk_output.add_polygon( pts );
 
     if ( cell->super_cell() ) {
         const SuperCell *sc = static_cast<const SuperCell *>( cell );
@@ -603,51 +602,13 @@ void LGrid<Pc>::display( VtkOutput &vtk_output, std::array<const TF *,dim> posit
 
     if ( cell->final_cell() ) {
         const FinalCell *sc = static_cast<const FinalCell *>( cell );
-        for( std::size_t i = 0; i < sc->nb_diracs(); ++i )
-            vtk_output.add_point( pt( positions, sc->dirac_indices[ i ] ) );
+        if ( disp_weights )
+            for( std::size_t i = 0; i < sc->nb_diracs(); ++i )
+                vtk_output.add_point( Point3<TF>{ positions[ 0 ][ sc->dirac_indices[ i ] ], positions[ 1 ][ sc->dirac_indices[ i ] ], weights[ sc->dirac_indices[ i ] ] } );
+        else
+            for( std::size_t i = 0; i < sc->nb_diracs(); ++i )
+                vtk_output.add_point( pt( positions, sc->dirac_indices[ i ] ) );
     }
-
-    //    auto disp_cell = [&]( Pt p, TF s, TF mw ) {
-    //        if ( disp_weights ) {
-    //            if ( mw == - std::numeric_limits<TF>::max() )
-    //                return;
-    //        }
-
-    //        TF a = 0, b = s;
-    //        switch ( dim ) {
-    //        case 2: {
-    //            TF wl[] = { 0, 0, 0, 0 };
-    //            if ( disp_weights ) {
-    //                for( std::size_t i = 0; i < 4; ++i )
-    //                    wl[ i ] = mw;
-    //            }
-    //            vtk_output.add_polygon( {
-    //                Point3<TF>{ p[ 0 ] + a, p[ 1 ] + a, wl[ 0 ] },
-    //                Point3<TF>{ p[ 0 ] + b, p[ 1 ] + a, wl[ 1 ] },
-    //                Point3<TF>{ p[ 0 ] + b, p[ 1 ] + b, wl[ 2 ] },
-    //                Point3<TF>{ p[ 0 ] + a, p[ 1 ] + b, wl[ 3 ] },
-    //                Point3<TF>{ p[ 0 ] + a, p[ 1 ] + a, wl[ 0 ] },
-    //            } );
-    //            break;
-    //        }
-    //        case 3:
-    //            TODO;
-    //            break;
-    //        default:
-    //            TODO;
-    //        }
-    //    };
-
-    //    for( TI num_cell = 0; num_cell + 1 < cells.size(); ++num_cell ) {
-    //        // cell
-    //        Pt pos = cells[ num_cell ].pos;
-    //        TF size = cells[ num_cell ].size;
-    //        disp_cell( pos, size, cells[ num_cell ].max_weight );
-
-    //        // parent ones
-    //        for( TI off_pce = cells[ num_cell + 0 ].msi_offset; size *= 2, off_pce < cells[ num_cell + 1 ].msi_offset; ++off_pce )
-    //            disp_cell( pos, size, msi_infos[ off_pce ].max_weight );
-    //    }
 }
 
 } // namespace sdot

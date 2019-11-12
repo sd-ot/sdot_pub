@@ -1,5 +1,5 @@
-#ifndef SDOT_CONVEX_POLYHEDRON_H
-#define SDOT_CONVEX_POLYHEDRON_H
+#ifndef SDOT_CONVEX_POLYHEDRON_2_H
+#define SDOT_CONVEX_POLYHEDRON_2_H
 
 //#include "../Integration/SpaceFunctions/Constant.h"
 //#include "../Integration/FunctionEnum.h"
@@ -98,4 +98,4 @@ private:
 
 #include "ConvexPolyhedron2.tcc"
 
-#endif // SDOT_CONVEX_POLYHEDRON_H
+#endif // SDOT_CONVEX_POLYHEDRON_2_H

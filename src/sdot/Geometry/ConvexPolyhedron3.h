@@ -1,5 +1,5 @@
-#ifndef SDOT_CONVEX_POLYHEDRON_H
-#define SDOT_CONVEX_POLYHEDRON_H
+#ifndef SDOT_CONVEX_POLYHEDRON_3_H
+#define SDOT_CONVEX_POLYHEDRON_3_H
 
 #include "Internal/ConvexPolyhedron3NodeBlock.h"
 #include "Internal/ConvexPolyhedron3Face.h"
@@ -95,4 +95,4 @@ private:
 
 #include "ConvexPolyhedron3.tcc"
 
-#endif // SDOT_CONVEX_POLYHEDRON_H
+#endif // SDOT_CONVEX_POLYHEDRON_3_H

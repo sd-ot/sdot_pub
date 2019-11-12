@@ -1,8 +1,9 @@
 #ifndef SDOT_LGrid_H
 #define SDOT_LGrid_H
 
-#include "Geometry/ConvexPolyhedron2.h"
-#include "Support/BumpPointerPool.h"
+#include "../Geometry/ConvexPolyhedronTraits.h"
+#include "../Support/BumpPointerPool.h"
+#include "Internal/CellBoundsTraits.h"
 
 namespace sdot {
 
@@ -18,13 +19,11 @@ template<class Pc>
 class LGrid {
 public:
     static constexpr std::size_t   dim                    = Pc::dim;         ///<
-    using                          CP2                    = ConvexPolyhedron2<Pc>;
-    using                          CP3                    = ConvexPolyhedron2<Pc>;
-    using                          CP                     = typename std::conditional<dim==3,CP3,CP2>::type;
+    using                          CP                     = typename ConvexPolyhedronTraits<Pc>::type;
+    using                          SI                     = typename Pc::SI; ///< signed index type
 
     using                          TF                     = typename CP::TF; ///< floating point type
     using                          TI                     = typename CP::TI; ///< index type
-    using                          SI                     = typename Pc::SI; ///< signed index type
     using                          CI                     = typename CP::CI; ///< cut info
     using                          Pt                     = typename CP::Pt; ///< point type
 
@@ -47,7 +46,9 @@ public:
 private:
     static constexpr int           nb_bits_per_axis       = 20;
     static constexpr int           sizeof_zcoords         = ( dim * nb_bits_per_axis + 7 ) / 8; ///< nb meaningful bytes in z-coordinates
+    using                          CellBounds             = typename CellBoundsTraits<Pc>::type;
     using                          TZ                     = std::uint64_t; ///< zcoords
+
 
     struct                         BaseCell {
         bool                       super_cell             () const { return nb_sub_items < 0; }
@@ -55,9 +56,7 @@ private:
 
         TI                         end_ind_in_fcells;     ///< end index in final cells
         SI                         nb_sub_items;          ///< > 0 => final cell (nb diracs). < 0 => super cell (nb sub cells).
-        TF                         max_weight;            ///<
-        Pt                         min_pos;               ///< (real) lower left corner
-        Pt                         max_pos;               ///< (real) upper right corner
+        CellBounds                 bounds;                ///< pos and weight bounds
     };
 
     struct                         SuperCell : BaseCell {
@@ -75,8 +74,8 @@ private:
     void                           fill_grid_using_zcoords( std::array<const TF *,dim> positions, const TF *weights, TI nb_diracs );
     void                           update_the_limits      ( std::array<const TF *,dim> positions, TI nb_diracs );
     void                           write_to_stream        ( std::ostream &os, BaseCell *cell, std::string sp ) const;
+    template<int flags> bool       can_be_evicted         ( const CP &lc, Pt &c0, TF w0, const CellBoundsP0<Pc> &bounds, N<flags> ) const;
     void                           fill_the_grid          ( std::array<const TF *,dim> positions, const TF *weights, TI nb_diracs );
-    template<int flags> bool       may_cut                ( const CP &lc, Pt &c0, TF w0, const BaseCell *cell, N<flags> ) const;
     void                           display                ( VtkOutput &vtk_output, std::array<const TF *,dim> positions, const TF *weights, BaseCell *cell, int disp_weights ) const;
     Pt                             pt                     ( std::array<const TF *,dim> positions, TI index ) const { Pt res; for( std::size_t i = 0; i < dim; ++i ) res[ i ] = positions[ i ][ index ]; return res; }
 

@@ -1,7 +1,7 @@
 #ifndef SDOT_ZGRID_H
 #define SDOT_ZGRID_H
 
-#include "Geometry/ConvexPolyhedron2.h"
+#include "../Geometry/ConvexPolyhedron2.h"
 
 namespace sdot {
 
