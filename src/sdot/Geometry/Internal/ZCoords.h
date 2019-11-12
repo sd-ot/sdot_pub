@@ -115,17 +115,4 @@ TZ zcoords_for( Point3<TF> position, Pt min_point, TF inv_step_length ) {
 //}
 //#endif
 
-template<int nb_bits_per_axis,class TZ,class TI,class Pt,class TF>
-void make_znodes( TZ *zcoords, TI *indices, const Pt *positions, TI nb_diracs, Pt min_point, TF inv_step_length ) {
-    TI nb_jobs = thread_pool.nb_threads();
-    thread_pool.execute( nb_jobs, [&]( TI num_job, int ) {
-        TI beg = ( num_job + 0 ) * nb_diracs / nb_jobs;
-        TI end = ( num_job + 1 ) * nb_diracs / nb_jobs;
-        for( TI index = beg; index < end; ++index ) {
-            zcoords[ index ] = zcoords_for<TZ,nb_bits_per_axis>( positions[ index ], min_point, inv_step_length );
-            indices[ index ] = index;
-        }
-    } );
-}
-
 }

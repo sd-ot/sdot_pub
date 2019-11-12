@@ -28,12 +28,15 @@ public:
     using                          CI                        = typename CP::CI; ///< cut info
     using                          Pt                        = typename CP::Pt; ///< point type
 
+    using                          Cb                        = std::function<void(const Pt *positions, const TF *weights, TI nb_diracs)>; ///<
+
     enum {                         homogeneous_weights       = 1 };
     enum {                         ball_cut                  = 2 };
 
     /* ctor */                     LGrid                     ( std::size_t max_diracs_per_cell = 11 );
 
     template<int flags> void       update                    ( const Pt *positions, const TF *weights, TI nb_diracs, N<flags>, bool positions_have_changed = true, bool weights_have_changed = true );
+    template<int flags> void       update                    ( const std::function<void(const Cb &cb)> &f, N<flags>, bool positions_have_changed = true, bool weights_have_changed = true );
     template<int flags> int        for_each_laguerre_cell    ( const std::function<void( CP &lc, TI num, int num_thread )> &f, const CP &starting_lc, N<flags>, bool stop_if_void_lc = false ); ///< version with num_thread
 
     void                           write_to_stream           ( std::ostream &os ) const;
@@ -83,14 +86,16 @@ private:
 
     void                           update_cell_bounds_phase_1( BaseCell *cell, BaseCell **path, int level );
     void                           fill_grid_using_zcoords   ( const Pt *positions, const TF *weights, TI nb_diracs );
-    void                           update_the_limits         ( const Pt *positions, TI nb_diracs );
+    void                           update_the_limits         ( const std::function<void(const Cb &cb)> &f );
     void                           write_to_stream           ( std::ostream &os, BaseCell *cell, std::string sp ) const;
     template<int flags> bool       can_be_evicted            ( const CP &lc, Pt &c0, TF w0, const CellBoundsP0<Pc> &bounds, N<flags> ) const;
     template<int flags> bool       can_be_evicted            ( const CP &lc, Pt &c0, TF w0, const CellBoundsPpos<Pc> &bounds, N<flags> ) const;
     void                           fill_the_grid             ( const Pt *positions, const TF *weights, TI nb_diracs );
     template<int flags> void       make_lcs_from             ( const std::function<void( CP &, TI num, int num_thread )> &cb, std::priority_queue<Msi> &base_queue, std::priority_queue<Msi> &queue, CP &lc, const FinalCell *cell, const CpAndNum *path, TI path_len, int num_thread, N<flags>, const CP &starting_lc ) const;
+    void                           make_znodes               ( TZ *zcoords, TI *indices, const std::function<void(const Cb &cb)> &f );
     void                           display                   ( VtkOutput &vtk_output, BaseCell *cell, int disp_weights ) const;
     template<int a_n0,int f> void  cut_lc                    ( CP &lc, Pt c0, TF w0, const FinalCell *dell, N<a_n0>, TI n0, N<f> ) const;
+
 
     // buffers
     std::vector<TZ>                znodes_keys;              ///< tmp znodes
@@ -101,6 +106,7 @@ private:
     // grid
     TF                             inv_step_length;
     TI                             nb_final_cells;
+    TI                             nb_diracs_tot;
     TF                             step_length;
     TF                             grid_length;
     Pt                             min_point;

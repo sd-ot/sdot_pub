@@ -17,11 +17,18 @@ LGrid<Pc>::LGrid( std::size_t max_diracs_per_cell ) : max_diracs_per_cell( max_d
 
 template<class Pc> template<int flags>
 void LGrid<Pc>::update( const Pt *positions, const TF *weights, TI nb_diracs, N<flags>, bool positions_have_changed, bool weights_have_changed ) {
+    update( [&]( const Cb &cb ) {
+        cb( positions, weights, nb_diracs );
+    }, N<flags>, bool positions_have_changed, bool weights_have_changed ) {
+}
+
+template<class Pc> template<int flags>
+void LGrid<Pc>::update( const std::function<void(const Cb &cb)> &f, N<flags>, bool positions_have_changed, bool weights_have_changed ) {
     if ( positions_have_changed )
-        update_the_limits( positions, nb_diracs );
+        update_the_limits( f );
 
     if ( positions_have_changed || weights_have_changed )
-        fill_the_grid( positions, weights, nb_diracs );
+        fill_the_grid( f );
 }
 
 template<class Pc> template<int avoid_n0,int flags>
@@ -369,7 +376,7 @@ void LGrid<Pc>::write_to_stream( std::ostream &os, BaseCell *cell, std::string s
 }
 
 template<class Pc>
-void LGrid<Pc>::update_the_limits( const Pt *positions, TI nb_diracs ) {
+void LGrid<Pc>::update_the_limits( const std::function<void(const Cb &cb)> &f ) {
     using std::min;
     using std::max;
 
@@ -379,12 +386,17 @@ void LGrid<Pc>::update_the_limits( const Pt *positions, TI nb_diracs ) {
         max_point[ d ] = - std::numeric_limits<TF>::max();
     }
 
-    for( std::size_t num_dirac = 0; num_dirac < nb_diracs; ++num_dirac ) {
-        for( std::size_t d = 0; d < dim; ++d ) {
-            min_point[ d ] = min( min_point[ d ], positions[ d ][ num_dirac ] );
-            max_point[ d ] = max( max_point[ d ], positions[ d ][ num_dirac ] );
+    nb_diracs_tot = 0;
+    f( [&]( const Pt *positions, const TF *weights, TI nb_diracs ) {
+        for( std::size_t num_dirac = 0; num_dirac < nb_diracs; ++num_dirac ) {
+            for( std::size_t d = 0; d < dim; ++d ) {
+                min_point[ d ] = min( min_point[ d ], positions[ d ][ num_dirac ] );
+                max_point[ d ] = max( max_point[ d ], positions[ d ][ num_dirac ] );
+            }
         }
-    }
+
+        nb_diracs_tot += nb_diracs;
+    } );
 
     // grid size
     grid_length = 0;
@@ -394,11 +406,29 @@ void LGrid<Pc>::update_the_limits( const Pt *positions, TI nb_diracs ) {
 
     step_length = grid_length / ( TZ( 1 ) << nb_bits_per_axis );
     inv_step_length = TF( 1 ) / step_length;
+
+    //
 }
 
 
 template<class Pc>
-void LGrid<Pc>::fill_the_grid( const Pt *positions, const TF *weights, TI nb_diracs ) {
+void LGrid<Pc>::make_znodes( TZ *zcoords, TI *indices, const std::function<void(const Cb &cb)> &f ) {
+    TI nb_jobs = thread_pool.nb_threads(), off = 0;
+    f( [&]( const Pt *positions, const TF */*weights*/, TI nb_diracs ) {
+        thread_pool.execute( nb_jobs, [&]( TI num_job, int ) {
+            TI beg = ( num_job + 0 ) * nb_diracs / nb_jobs;
+            TI end = ( num_job + 1 ) * nb_diracs / nb_jobs;
+            for( TI index = beg; index < end; ++index ) {
+                zcoords[ off + index ] = zcoords_for<TZ,nb_bits_per_axis>( positions[ index ], min_point, inv_step_length );
+                indices[ off + index ] = index;
+            }
+        } );
+        off += nb_diracs;
+    } );
+}
+
+template<class Pc>
+void LGrid<Pc>::fill_the_grid( const std::function<void(const Cb &cb)> &f ) {
     static_assert( sizeof( TZ ) >= sizeof_zcoords, "zcoords types (TZ) is not large enough" );
     using LocalSolver = typename CellBounds::LocalSolver;
 
@@ -411,7 +441,7 @@ void LGrid<Pc>::fill_the_grid( const Pt *positions, const TF *weights, TI nb_dir
     // get zcoords for each dirac
     znodes_keys.reserve( 2 * nb_diracs );
     znodes_inds.reserve( 2 * nb_diracs );
-    make_znodes<nb_bits_per_axis>( znodes_keys.data(), znodes_inds.data(), positions, nb_diracs, min_point, inv_step_length );
+    make_znodes<nb_bits_per_axis>( znodes_keys.data(), znodes_inds.data(), f );
 
     // sorting w.r.t. zcoords
     std::pair<TZ *,TI *> sorted_znodes = radix_sort(
