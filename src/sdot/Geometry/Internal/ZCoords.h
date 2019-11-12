@@ -2,7 +2,7 @@
 
 #include "../../Support/StaticRange.h"
 #include "../../Support/ThreadPool.h"
-#include "../../Support/Time.h"
+#include "../PointTraits.h"
 #include <immintrin.h>
 #include <array>
 
@@ -48,15 +48,15 @@ extern const std::uint64_t morton_256_3D_y_64[ 256 ];
 extern const std::uint64_t morton_256_3D_z_64[ 256 ];
 
 
-template<class TZ,int nb_bits_per_axis,class TF,class TI,class Pt>
-TZ zcoords_for( std::array<const TF *,1> positions, TI index, Pt min_point, TF inv_step_length ) {
-    return TZ( inv_step_length * ( positions[ 0 ][ index ] - min_point.x ) );
+template<class TZ,int nb_bits_per_axis,class TF,class Pt>
+TZ zcoords_for( Point1<TF> position, Pt min_point, TF inv_step_length ) {
+    return TZ( inv_step_length * ( position.x - min_point.x ) );
 }
 
-template<class TZ,int nb_bits_per_axis,class TF,class TI,class Pt>
-TZ zcoords_for( std::array<const TF *,2> positions, TI index, Pt min_point, TF inv_step_length ) {
-    TZ x = TZ( inv_step_length * ( positions[ 0 ][ index ] - min_point[ 0 ] ) );
-    TZ y = TZ( inv_step_length * ( positions[ 1 ][ index ] - min_point[ 1 ] ) );
+template<class TZ,int nb_bits_per_axis,class TF,class Pt>
+TZ zcoords_for( Point2<TF> position, Pt min_point, TF inv_step_length ) {
+    TZ x = TZ( inv_step_length * ( position.x - min_point[ 0 ] ) );
+    TZ y = TZ( inv_step_length * ( position.y - min_point[ 1 ] ) );
 
     TZ res = 0;
     for( int o = 0; o < nb_bits_per_axis; o += 8 )
@@ -65,11 +65,11 @@ TZ zcoords_for( std::array<const TF *,2> positions, TI index, Pt min_point, TF i
     return res;
 }
 
-template<class TZ,int nb_bits_per_axis,class TF,class TI,class Pt>
-TZ zcoords_for( std::array<const TF *,3> positions, TI index, Pt min_point, TF inv_step_length ) {
-    TZ x = TZ( inv_step_length * ( positions[ 0 ][ index ] - min_point[ 0 ] ) );
-    TZ y = TZ( inv_step_length * ( positions[ 1 ][ index ] - min_point[ 1 ] ) );
-    TZ z = TZ( inv_step_length * ( positions[ 2 ][ index ] - min_point[ 2 ] ) );
+template<class TZ,int nb_bits_per_axis,class TF,class Pt>
+TZ zcoords_for( Point3<TF> position, Pt min_point, TF inv_step_length ) {
+    TZ x = TZ( inv_step_length * ( position.x - min_point[ 0 ] ) );
+    TZ y = TZ( inv_step_length * ( position.y - min_point[ 1 ] ) );
+    TZ z = TZ( inv_step_length * ( position.z - min_point[ 2 ] ) );
 
     TZ res = 0;
     for( int o = 0; o < nb_bits_per_axis; o += 8 )
@@ -115,14 +115,14 @@ TZ zcoords_for( std::array<const TF *,3> positions, TI index, Pt min_point, TF i
 //}
 //#endif
 
-template<int nb_bits_per_axis,class TZ,class TI,class TF,std::size_t dim,class Pt>
-void make_znodes( TZ *zcoords, TI *indices, std::array<const TF *,dim> positions, TI nb_diracs, Pt min_point, TF inv_step_length ) {
+template<int nb_bits_per_axis,class TZ,class TI,class Pt,class TF>
+void make_znodes( TZ *zcoords, TI *indices, const Pt *positions, TI nb_diracs, Pt min_point, TF inv_step_length ) {
     TI nb_jobs = thread_pool.nb_threads();
     thread_pool.execute( nb_jobs, [&]( TI num_job, int ) {
         TI beg = ( num_job + 0 ) * nb_diracs / nb_jobs;
         TI end = ( num_job + 1 ) * nb_diracs / nb_jobs;
         for( TI index = beg; index < end; ++index ) {
-            zcoords[ index ] = zcoords_for<TZ,nb_bits_per_axis>( positions, index, min_point, inv_step_length );
+            zcoords[ index ] = zcoords_for<TZ,nb_bits_per_axis>( positions[ index ], min_point, inv_step_length );
             indices[ index ] = index;
         }
     } );

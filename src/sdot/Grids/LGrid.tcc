@@ -16,7 +16,7 @@ LGrid<Pc>::LGrid( std::size_t max_diracs_per_cell ) : max_diracs_per_cell( max_d
 }
 
 template<class Pc> template<int flags>
-void LGrid<Pc>::update( std::array<const TF *,dim> positions, const TF *weights, TI nb_diracs, N<flags>, bool positions_have_changed, bool weights_have_changed ) {
+void LGrid<Pc>::update( const Pt *positions, const TF *weights, TI nb_diracs, N<flags>, bool positions_have_changed, bool weights_have_changed ) {
     if ( positions_have_changed )
         update_the_limits( positions, nb_diracs );
 
@@ -25,7 +25,7 @@ void LGrid<Pc>::update( std::array<const TF *,dim> positions, const TF *weights,
 }
 
 template<class Pc> template<int avoid_n0,int flags>
-void LGrid<Pc>::cut_lc( std::array<const TF *,dim> positions, const TF *weights, CP &lc, Pt c0, TF w0, TI i0, const FinalCell *dell, N<avoid_n0>, TI n0, N<flags> ) const {
+void LGrid<Pc>::cut_lc( CP &lc, Pt c0, TF w0, const FinalCell *dell, N<avoid_n0>, TI n0, N<flags> ) const {
     //
     if ( dim == 3 )
         TODO;
@@ -76,12 +76,11 @@ void LGrid<Pc>::cut_lc( std::array<const TF *,dim> positions, const TF *weights,
     for( std::size_t n1 = 0; n1 < dell->nb_diracs(); ++n1 ) {
         if ( avoid_n0 && n1 == n0 )
             continue;
-        TI i1 = dell->dirac_indices[ n1 ];
-        Pt c1 = pt( positions, i1 );
-        TF dw = flags & homogeneous_weights ? 0 : weights[ i1 ] - w0;
+        Pt c1 = dell->pos( n1 );
+        TF dw = flags & homogeneous_weights ? 0 : dell->weight( n1 ) - w0;
         cut.dx[ nb_cuts ] = c1.x - c0.x;
         cut.dy[ nb_cuts ] = c1.y - c0.y;
-        cut.id[ nb_cuts ] = i1;
+        cut.id[ nb_cuts ] = dell->dirac_indices[ n1 ];
         cut.ps[ nb_cuts ] = TF( 0.5 ) * ( norm_2_p2( c1 ) - norm_2_p2( c0 ) - dw );
         ++nb_cuts;
     }
@@ -93,7 +92,7 @@ void LGrid<Pc>::cut_lc( std::array<const TF *,dim> positions, const TF *weights,
 
 
 template<class Pc> template<int flags>
-void LGrid<Pc>::make_lcs_from( const std::function<void( CP &, TI num, int num_thread )> &cb, std::array<const LGrid::TF *, LGrid::dim> positions, const LGrid::TF *weights, std::priority_queue<LGrid::Msi> &base_queue, std::priority_queue<LGrid::Msi> &queue, LGrid::CP &lc, const LGrid::FinalCell *cell, const LGrid::CpAndNum *path, LGrid::TI path_len, int num_thread, N<flags>, const CP &starting_lc ) const {
+void LGrid<Pc>::make_lcs_from( const std::function<void( CP &, TI num, int num_thread )> &cb, std::priority_queue<LGrid::Msi> &base_queue, std::priority_queue<LGrid::Msi> &queue, LGrid::CP &lc, const LGrid::FinalCell *cell, const LGrid::CpAndNum *path, LGrid::TI path_len, int num_thread, N<flags>, const CP &starting_lc ) const {
     // helper to add a cell in the queue
     auto append_msi = [&]( std::priority_queue<Msi> &queue, const BaseCell *dell, Pt cell_center ) {
         Pt dell_center = 0.5 * ( dell->bounds.min_pos + dell->bounds.max_pos );
@@ -110,13 +109,12 @@ void LGrid<Pc>::make_lcs_from( const std::function<void( CP &, TI num, int num_t
 
     // for each dirac
     for( std::size_t n0 = 0; n0 < cell->nb_diracs(); ++n0 ) {
-        TI i0 = cell->dirac_indices[ n0 ];
-        Pt c0 = pt( positions, i0 );
-        TF w0 = flags & homogeneous_weights ? 0 : weights[ i0 ];
+        TF w0 = flags & homogeneous_weights ? 0 : cell->weight( n0 );
+        Pt c0 = cell->pos( n0 );
         lc = starting_lc;
 
         // cut with diracs from the same cell
-        cut_lc( positions, weights, lc, c0, w0, i0, cell, N<1>(), n0, N<flags>() );
+        cut_lc( lc, c0, w0, cell, N<1>(), n0, N<flags>() );
 
         // neighbors
         queue = base_queue;
@@ -131,7 +129,7 @@ void LGrid<Pc>::make_lcs_from( const std::function<void( CP &, TI num, int num_t
             // if final cell, do the cuts and continue the loop
             if ( msi.cell->final_cell() ) {
                 const FinalCell *dell = static_cast<const FinalCell *>( msi.cell );
-                cut_lc( positions, weights, lc, c0, w0, i0, dell, N<0>(), 0, N<flags>() );
+                cut_lc( lc, c0, w0, dell, N<0>(), 0, N<flags>() );
                 continue;
             }
 
@@ -142,12 +140,13 @@ void LGrid<Pc>::make_lcs_from( const std::function<void( CP &, TI num, int num_t
         }
 
         //
+        TI i0 = cell->dirac_indice( n0 );
         cb( lc, i0, num_thread );
     }
 }
 
 template<class Pc> template<int flags>
-int LGrid<Pc>::for_each_laguerre_cell( const std::function<void( CP &, TI num, int num_thread )> &cb, const CP &starting_lc, std::array<const TF *,dim> positions, const TF *weights, TI /*nb_diracs*/, N<flags>, bool stop_if_void_lc ) {
+int LGrid<Pc>::for_each_laguerre_cell( const std::function<void( CP &, TI num, int num_thread )> &cb, const CP &starting_lc, N<flags>, bool stop_if_void_lc ) {
     //
     int err;
 
@@ -158,7 +157,7 @@ int LGrid<Pc>::for_each_laguerre_cell( const std::function<void( CP &, TI num, i
         std::priority_queue<Msi> base_queue, queue;
         CP lc;
 
-        make_lcs_from( cb, positions, weights, base_queue, queue, lc, cell, nullptr, 0, 0, N<flags>(), starting_lc );
+        make_lcs_from( cb, base_queue, queue, lc, cell, nullptr, 0, 0, N<flags>(), starting_lc );
         return err;
     }
 
@@ -197,7 +196,7 @@ int LGrid<Pc>::for_each_laguerre_cell( const std::function<void( CP &, TI num, i
                 return;
 
             // current cell
-            make_lcs_from( cb, positions, weights, base_queue, queue, lc, cell, path, path_len, num_thread, N<flags>(), starting_lc );
+            make_lcs_from( cb, base_queue, queue, lc, cell, path, path_len, num_thread, N<flags>(), starting_lc );
 
             // next one
             while ( ++path[ path_len - 1 ].num == path[ path_len - 1 ].cell->nb_sub_cells() )
@@ -370,7 +369,7 @@ void LGrid<Pc>::write_to_stream( std::ostream &os, BaseCell *cell, std::string s
 }
 
 template<class Pc>
-void LGrid<Pc>::update_the_limits( std::array<const TF *,dim> positions, TI nb_diracs ) {
+void LGrid<Pc>::update_the_limits( const Pt *positions, TI nb_diracs ) {
     using std::min;
     using std::max;
 
@@ -399,7 +398,7 @@ void LGrid<Pc>::update_the_limits( std::array<const TF *,dim> positions, TI nb_d
 
 
 template<class Pc>
-void LGrid<Pc>::fill_the_grid( std::array<const TF *,dim> positions, const TF *weights, TI nb_diracs ) {
+void LGrid<Pc>::fill_the_grid( const Pt *positions, const TF *weights, TI nb_diracs ) {
     static_assert( sizeof( TZ ) >= sizeof_zcoords, "zcoords types (TZ) is not large enough" );
     using LocalSolver = typename CellBounds::LocalSolver;
 
@@ -469,26 +468,35 @@ void LGrid<Pc>::fill_the_grid( std::array<const TF *,dim> positions, const TF *w
             LevelInfo *li = level_info + level;
             BaseCell *cell = nullptr;
             if ( len_ind_nz ) {
-                cell = reinterpret_cast<BaseCell *>( mem_pool.allocate( sizeof( BaseCell ) + len_ind_nz * sizeof( TI ) ) );
-                FinalCell *fcell = static_cast<FinalCell *>( cell );
-                cell->end_ind_in_fcells = ++nb_final_cells;
-                cell->nb_sub_items = len_ind_nz;
+                FinalCell *fcell = reinterpret_cast<FinalCell *>( mem_pool.allocate( sizeof( FinalCell ) ) );
+                fcell->end_ind_in_fcells = ++nb_final_cells;
+                fcell->nb_sub_items = len_ind_nz;
+
+                for( std::size_t d = 0; d < dim; ++d )
+                    fcell->positions[ d ] = reinterpret_cast<TF *>( mem_pool.allocate( sizeof( TF ) * len_ind_nz, 64 ) );
+                fcell->dirac_indices = reinterpret_cast<TI *>( mem_pool.allocate( sizeof( TI ) * len_ind_nz ) );
+                fcell->weights = reinterpret_cast<TF *>( mem_pool.allocate( sizeof( TF ) * len_ind_nz, 64 ) );
 
                 // store diracs indices, get bounds
                 LocalSolver ls;
                 ls.clr();
                 for( TI i = 0; i < len_ind_nz; ++i ) {
                     TI ind = sorted_znodes.second[ beg_ind_zn + i ];
+                    for( std::size_t d = 0; d < dim; ++d )
+                        fcell->positions[ d ][ i ] = positions[ ind ][ d ];
                     fcell->dirac_indices[ i ] = ind;
+                    fcell->weights[ i ] = weights[ ind ];
 
-                    ls.push( pt( positions, ind ), weights[ ind ] );
+                    ls.push( positions[ ind ], weights[ ind ] );
                 }
 
-                ls.store_to( cell->bounds );
+                ls.store_to( fcell->bounds );
 
                 //
-                li->sub_cells[ li->nb_sub_cells++ ] = cell;
+                li->sub_cells[ li->nb_sub_cells++ ] = fcell;
                 li->ls.push( ls );
+
+                cell = fcell;
             }
 
             // multilevel
@@ -510,16 +518,17 @@ void LGrid<Pc>::fill_the_grid( std::array<const TF *,dim> positions, const TF *w
                 LevelInfo *oli = li++;
                 if ( oli->nb_sub_cells ) {
                     if ( oli->nb_sub_cells > 1 ) {
-                        cell = reinterpret_cast<BaseCell *>( mem_pool.allocate( sizeof( BaseCell ) + oli->nb_sub_cells * sizeof( BaseCell * ) ) );
-                        cell->end_ind_in_fcells = nb_final_cells;
-                        cell->nb_sub_items = - oli->nb_sub_cells;
+                        SuperCell *scell = reinterpret_cast<SuperCell *>( mem_pool.allocate( sizeof( BaseCell ) + oli->nb_sub_cells * sizeof( BaseCell * ) ) );
+                        scell->end_ind_in_fcells = nb_final_cells;
+                        scell->nb_sub_items = - oli->nb_sub_cells;
 
-                        SuperCell *scell = static_cast<SuperCell *>( cell );
                         for( std::size_t i = 0; i < oli->nb_sub_cells; ++i )
                             scell->sub_cells[ i ] = oli->sub_cells[ i ];
 
                         //
-                        oli->ls.store_to( cell->bounds );
+                        oli->ls.store_to( scell->bounds );
+
+                        cell = scell;
                     } else {
                         cell = oli->sub_cells[ 0 ];
                     }
@@ -570,23 +579,21 @@ void LGrid<Pc>::fill_the_grid( std::array<const TF *,dim> positions, const TF *w
     //
     if ( CellBounds::need_phase_1 && root_cell ) {
         BaseCell *path[ nb_bits_per_axis ];
-        update_cell_bounds_phase_1( positions, weights, root_cell, path, 0 );
+        update_cell_bounds_phase_1( root_cell, path, 0 );
     }
 }
 
 template<class Pc>
-void LGrid<Pc>::update_cell_bounds_phase_1( std::array<const TF *,dim> positions, const TF *weights, BaseCell *cell, BaseCell **path, int level ) {
+void LGrid<Pc>::update_cell_bounds_phase_1( BaseCell *cell, BaseCell **path, int level ) {
     path[ level ] = cell;
 
     if ( cell->final_cell() ) {
         FinalCell *fc = static_cast<FinalCell *>( cell );
         for( size_t n = 0; n < fc->nb_diracs(); ++n ) {
-            TI ind = fc->dirac_indices[ n ];
-            Pt pos = pt( positions, ind );
-            TF w = weights[ ind ];
-
+            Pt pos = fc->pos( n );
+            TF weight = fc->weights[ n ];
             for( size_t l = 0; l <= level; ++l )
-                path[ l ]->bounds.push( pos, w );
+                path[ l ]->bounds.push( pos, weight );
         }
         return;
     }
@@ -594,7 +601,7 @@ void LGrid<Pc>::update_cell_bounds_phase_1( std::array<const TF *,dim> positions
     if ( cell->super_cell() ) {
         SuperCell *sc = static_cast<SuperCell *>( cell );
         for( size_t i = 0; i < sc->nb_sub_cells(); ++i )
-            update_cell_bounds_phase_1( positions, weights, sc->sub_cells[ i ], path, level + 1 );
+            update_cell_bounds_phase_1( sc->sub_cells[ i ], path, level + 1 );
         return;
     }
 
@@ -629,13 +636,13 @@ void LGrid<Pc>::display_tikz( std::ostream &os, TF scale ) const {
 }
 
 template<class Pc>
-void LGrid<Pc>::display( VtkOutput &vtk_output, std::array<const TF *,dim> positions, const TF *weights, int disp_weights ) const {
+void LGrid<Pc>::display( VtkOutput &vtk_output, int disp_weights ) const {
     if ( root_cell )
-        display( vtk_output, positions, weights, root_cell, disp_weights );
+        display( vtk_output, root_cell, disp_weights );
 }
 
 template<class Pc>
-void LGrid<Pc>::display( VtkOutput &vtk_output, std::array<const TF *,dim> positions, const TF *weights, BaseCell *cell, int disp_weights ) const {
+void LGrid<Pc>::display( VtkOutput &vtk_output, BaseCell *cell, int disp_weights ) const {
     Pt a = cell->bounds.min_pos, b = cell->bounds.max_pos;
     std::vector<Point3<TF>> pts = {
         Point3<TF>{ a[ 0 ], a[ 1 ], 0 },
@@ -651,17 +658,17 @@ void LGrid<Pc>::display( VtkOutput &vtk_output, std::array<const TF *,dim> posit
     if ( cell->super_cell() ) {
         const SuperCell *sc = static_cast<const SuperCell *>( cell );
         for( std::size_t i = 0; i < sc->nb_sub_cells(); ++i )
-            display( vtk_output, positions, weights, sc->sub_cells[ i ], disp_weights );
+            display( vtk_output, sc->sub_cells[ i ], disp_weights );
     }
 
     if ( cell->final_cell() ) {
         const FinalCell *sc = static_cast<const FinalCell *>( cell );
         if ( disp_weights )
             for( std::size_t i = 0; i < sc->nb_diracs(); ++i )
-                vtk_output.add_point( Point3<TF>{ positions[ 0 ][ sc->dirac_indices[ i ] ], positions[ 1 ][ sc->dirac_indices[ i ] ], weights[ sc->dirac_indices[ i ] ] } );
+                vtk_output.add_point( Point3<TF>{ sc->pos( i )[ 0 ], sc->pos( i )[ 1 ], sc->weights[ i ] } );
         else
             for( std::size_t i = 0; i < sc->nb_diracs(); ++i )
-                vtk_output.add_point( pt( positions, sc->dirac_indices[ i ] ) );
+                vtk_output.add_point( sc->pos( i ) );
     }
 }
 

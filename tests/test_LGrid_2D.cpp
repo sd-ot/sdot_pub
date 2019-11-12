@@ -30,25 +30,21 @@ void test_with_Pc() {
 
     // load
     std::size_t nb_diracs = 1000;
-    std::vector<TF> data( nb_diracs * ( dim + 1 ) );
-    for( std::size_t n = 0; n < nb_diracs; ++n )
-        for( std::size_t i = 0; i < dim; ++i )
-            data[ i * nb_diracs + n ] = 0.1 + 0.8 * rand() / RAND_MAX;
-    for( std::size_t n = 0; n < nb_diracs; ++n )
-        data[ dim * nb_diracs + n ] = 1e-1 * sin( data[ 0 * nb_diracs + n ] ) * sin( data[ 1 * nb_diracs + n ] );
-
-    std::array<const double *,dim> positions;
-    for( std::size_t i = 0; i < dim; ++i )
-        positions[ i ] = data.data() + i * nb_diracs;
-    double *weights = data.data() + dim * nb_diracs;
+    std::vector<Pt> positions( nb_diracs );
+    std::vector<TF> weights( nb_diracs );
+    for( std::size_t n = 0; n < nb_diracs; ++n ) {
+        for( std::size_t d = 0; d < dim; ++d )
+            positions[ n ][ d ] = 0.1 + 0.8 * rand() / RAND_MAX;
+        weights[ n ] = 1e-1 * sin( positions[ n ].x ) * sin( positions[ n ].y );
+    }
 
     // get timings
     Grid grid( 20 );
-    grid.update( positions, weights, nb_diracs, N<0>() );
+    grid.update( positions.data(), weights.data(), nb_diracs, N<0>() );
     // PN( grid );
 
     VtkOutput vog;
-    grid.display( vog, positions, weights, 1 );
+    grid.display( vog, 1 );
     vog.save( "vtk/grid.vtk" );
 
     TF area = 0;
@@ -60,7 +56,7 @@ void test_with_Pc() {
         cp.display( voc );
         area += cp.integral();
         m.unlock();
-    }, ic, { positions[ 0 ], positions[ 1 ] }, weights, nb_diracs, N<0>() );
+    }, ic, N<0>() );
     voc.save( "vtk/pd.vtk" );
 
     P( area );
