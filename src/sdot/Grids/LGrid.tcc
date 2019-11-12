@@ -5,7 +5,6 @@
 #include "../Support/Stat.h"
 #include "../Support/Span.h"
 #include "LGrid.h"
-#include <queue>
 #include <cmath>
 
 namespace sdot {
@@ -25,132 +24,132 @@ void LGrid<Pc>::update( std::array<const TF *,dim> positions, const TF *weights,
         fill_the_grid( positions, weights, nb_diracs );
 }
 
-template<class Pc> template<int flags>
-int LGrid<Pc>::for_each_laguerre_cell( const std::function<void( CP &, TI num, int num_thread )> &cb, const CP &starting_lc, std::array<const TF *,dim> positions, const TF *weights, TI /*nb_diracs*/, N<flags>, bool stop_if_void_lc ) {
-    struct Msi { bool operator<( const Msi &that ) const { return dist > that.dist; } Pt center; const BaseCell *cell; TF dist; };
-    struct CpAndNum { const SuperCell *cell; TI num; };
-
+template<class Pc> template<int avoid_n0,int flags>
+void LGrid<Pc>::cut_lc( std::array<const TF *,dim> positions, const TF *weights, CP &lc, Pt c0, TF w0, TI i0, const FinalCell *dell, N<avoid_n0>, TI n0, N<flags> ) const {
     //
-    auto cut_lc = [&]( CP &lc, Pt c0, TF w0, TI i0, const FinalCell *dell, auto avoid_n0, TI n0 ) {
-        //
-        if ( dim == 3 )
-            TODO;
-        struct alignas(64) Cut {
-            TF dx[ 128 ];
-            TF dy[ 128 ];
-            TF ps[ 128 ];
-            CI id[ 128 ];
-        };
-        Cut cut;
+    if ( dim == 3 )
+        TODO;
+    struct alignas(64) Cut {
+        TF dx[ 128 ];
+        TF dy[ 128 ];
+        TF ps[ 128 ];
+        CI id[ 128 ];
+    };
+    Cut cut;
 
-        #ifdef __AVX512F__
-        TI n1 = 0, nb_cuts = dell->nb_diracs();
-        for( ; n1 + 8 <= nb_cuts; n1 += 8 ) {
-            __m512d cx = _mm512_set1_pd( c0.x );
-            __m512d cy = _mm512_set1_pd( c0.y );
-            __m512i i1 = _mm512_loadu_si512( dell->dirac_indices + n1 );
-            __m512d vx = _mm512_sub_pd( _mm512_i64gather_pd( i1, positions[ 0 ], 8 ), cx );
-            __m512d vy = _mm512_sub_pd( _mm512_i64gather_pd( i1, positions[ 1 ], 8 ), cy );
-            __m512d v2 = _mm512_add_pd( _mm512_mul_pd( vx, vx ), _mm512_mul_pd( vy, vy ) );
-            __m512d ps = _mm512_add_pd( _mm512_add_pd( _mm512_mul_pd( cx, vx ), _mm512_mul_pd( cy, vy ) ),
-                                        _mm512_set1_pd( 0.5 ) * ( flags & homogeneous_weights ? v2 : _mm512_add_pd( v2, _mm512_set1_pd( w0 ) ) - _mm512_i64gather_pd( i1, weights, 8 ) ) );
-            _mm512_store_pd( cut.dx + n1, vx );
-            _mm512_store_pd( cut.dy + n1, vy );
-            _mm512_store_pd( cut.ps + n1, ps );
-            _mm512_store_epi64( cut.id + n1, i1 );
-        }
-        for( ; n1 < nb_cuts; ++n1 ) {
-            TI i1 = dell->dirac_indices[ n1 ];
-            Pt dc = pt( positions, i1 ) - c0;
-            TF w1 = weights[ i1 ];
-            cut.dx[ n1 ] = dc.x;
-            cut.dy[ n1 ] = dc.y;
-            cut.id[ n1 ] = i1;
-            cut.ps[ n1 ] = dot( c0, dc ) + TF( 0.5 ) * ( flags & homogeneous_weights ? norm_2_p2( dc ) : norm_2_p2( dc ) + w0 - w1 );
-        }
+    #ifdef __AVX512F__
+    TI n1 = 0, nb_cuts = dell->nb_diracs();
+    for( ; n1 + 8 <= nb_cuts; n1 += 8 ) {
+        __m512d cx = _mm512_set1_pd( c0.x );
+        __m512d cy = _mm512_set1_pd( c0.y );
+        __m512i i1 = _mm512_loadu_si512( dell->dirac_indices + n1 );
+        __m512d vx = _mm512_sub_pd( _mm512_i64gather_pd( i1, positions[ 0 ], 8 ), cx );
+        __m512d vy = _mm512_sub_pd( _mm512_i64gather_pd( i1, positions[ 1 ], 8 ), cy );
+        __m512d v2 = _mm512_add_pd( _mm512_mul_pd( vx, vx ), _mm512_mul_pd( vy, vy ) );
+        __m512d ps = _mm512_add_pd( _mm512_add_pd( _mm512_mul_pd( cx, vx ), _mm512_mul_pd( cy, vy ) ),
+                                    _mm512_set1_pd( 0.5 ) * ( flags & homogeneous_weights ? v2 : _mm512_add_pd( v2, _mm512_set1_pd( w0 ) ) - _mm512_i64gather_pd( i1, weights, 8 ) ) );
+        _mm512_store_pd( cut.dx + n1, vx );
+        _mm512_store_pd( cut.dy + n1, vy );
+        _mm512_store_pd( cut.ps + n1, ps );
+        _mm512_store_epi64( cut.id + n1, i1 );
+    }
+    for( ; n1 < nb_cuts; ++n1 ) {
+        TI i1 = dell->dirac_indices[ n1 ];
+        Pt dc = pt( positions, i1 ) - c0;
+        TF w1 = weights[ i1 ];
+        cut.dx[ n1 ] = dc.x;
+        cut.dy[ n1 ] = dc.y;
+        cut.id[ n1 ] = i1;
+        cut.ps[ n1 ] = dot( c0, dc ) + TF( 0.5 ) * ( flags & homogeneous_weights ? norm_2_p2( dc ) : norm_2_p2( dc ) + w0 - w1 );
+    }
 
-        if ( avoid_n0 ) {
-            --nb_cuts;
-            cut.dx[ n0 ] = cut.dx[ nb_cuts ];
-            cut.dy[ n0 ] = cut.dy[ nb_cuts ];
-            cut.id[ n0 ] = cut.id[ nb_cuts ];
-            cut.ps[ n0 ] = cut.ps[ nb_cuts ];
-        }
+    if ( avoid_n0 ) {
+        --nb_cuts;
+        cut.dx[ n0 ] = cut.dx[ nb_cuts ];
+        cut.dy[ n0 ] = cut.dy[ nb_cuts ];
+        cut.id[ n0 ] = cut.id[ nb_cuts ];
+        cut.ps[ n0 ] = cut.ps[ nb_cuts ];
+    }
 
-        #else
-        TI nb_cuts = 0;
-        for( std::size_t n1 = 0; n1 < dell->nb_diracs(); ++n1 ) {
-            if ( avoid_n0 && n1 == n0 )
-                continue;
-            TI i1 = dell->dirac_indices[ n1 ];
-            Pt c1 = pt( positions, i1 );
-            TF dw = flags & homogeneous_weights ? 0 : weights[ i1 ] - w0;
-            cut.dx[ nb_cuts ] = c1.x - c0.x;
-            cut.dy[ nb_cuts ] = c1.y - c0.y;
-            cut.id[ nb_cuts ] = i1;
-            cut.ps[ nb_cuts ] = TF( 0.5 ) * ( norm_2_p2( c1 ) - norm_2_p2( c0 ) + dw );
-            ++nb_cuts;
-        }
-        #endif
+    #else
+    TI nb_cuts = 0;
+    for( std::size_t n1 = 0; n1 < dell->nb_diracs(); ++n1 ) {
+        if ( avoid_n0 && n1 == n0 )
+            continue;
+        TI i1 = dell->dirac_indices[ n1 ];
+        Pt c1 = pt( positions, i1 );
+        TF dw = flags & homogeneous_weights ? 0 : weights[ i1 ] - w0;
+        cut.dx[ nb_cuts ] = c1.x - c0.x;
+        cut.dy[ nb_cuts ] = c1.y - c0.y;
+        cut.id[ nb_cuts ] = i1;
+        cut.ps[ nb_cuts ] = TF( 0.5 ) * ( norm_2_p2( c1 ) - norm_2_p2( c0 ) - dw );
+        ++nb_cuts;
+    }
+    #endif
 
-        // do the cuts
-        lc.plane_cut( { cut.dx, cut.dy }, cut.ps, cut.id, nb_cuts );
+    // do the cuts
+    lc.plane_cut( { cut.dx, cut.dy }, cut.ps, cut.id, nb_cuts );
+}
+
+
+template<class Pc> template<int flags>
+void LGrid<Pc>::make_lcs_from( const std::function<void( CP &, TI num, int num_thread )> &cb, std::array<const LGrid::TF *, LGrid::dim> positions, const LGrid::TF *weights, std::priority_queue<LGrid::Msi> &base_queue, std::priority_queue<LGrid::Msi> &queue, LGrid::CP &lc, const LGrid::FinalCell *cell, const LGrid::CpAndNum *path, LGrid::TI path_len, int num_thread, N<flags>, const CP &starting_lc ) const {
+    // helper to add a cell in the queue
+    auto append_msi = [&]( std::priority_queue<Msi> &queue, const BaseCell *dell, Pt cell_center ) {
+        Pt dell_center = 0.5 * ( dell->bounds.min_pos + dell->bounds.max_pos );
+        queue.push( Msi{ dell_center, dell, norm_2( dell_center - cell_center ) } );
     };
 
-    //
-    int err;
-    auto make_lc_from = [&]( std::priority_queue<Msi> &base_queue, std::priority_queue<Msi> &queue, CP &lc, const FinalCell *cell, const CpAndNum *path, TI path_len, int num_thread )  {
-        // helper to add a cell in the queue
-        auto append_msi = [&]( std::priority_queue<Msi> &queue, const BaseCell *dell, Pt cell_center ) {
-            Pt dell_center = 0.5 * ( dell->bounds.min_pos + dell->bounds.max_pos );
-            queue.push( Msi{ dell_center, dell, norm_2( dell_center - cell_center ) } );
-        };
+    // fill a first queue
+    base_queue = {};
+    const Pt cell_center = 0.5 * ( cell->bounds.min_pos + cell->bounds.max_pos );
+    for( std::size_t num_in_path = 0; num_in_path < path_len; ++num_in_path )
+        for( std::size_t i = 0; i < path[ num_in_path ].cell->nb_sub_cells(); ++i )
+            if ( i != path[ num_in_path ].num )
+                append_msi( base_queue, path[ num_in_path ].cell->sub_cells[ i ], cell_center );
 
-        // fill a first queue
-        base_queue = {};
-        const Pt cell_center = 0.5 * ( cell->bounds.min_pos + cell->bounds.max_pos );
-        for( std::size_t num_in_path = 0; num_in_path < path_len; ++num_in_path )
-            for( std::size_t i = 0; i < path[ num_in_path ].cell->nb_sub_cells(); ++i )
-                if ( i != path[ num_in_path ].num )
-                    append_msi( base_queue, path[ num_in_path ].cell->sub_cells[ i ], cell_center );
+    // for each dirac
+    for( std::size_t n0 = 0; n0 < cell->nb_diracs(); ++n0 ) {
+        TI i0 = cell->dirac_indices[ n0 ];
+        Pt c0 = pt( positions, i0 );
+        TF w0 = flags & homogeneous_weights ? 0 : weights[ i0 ];
+        lc = starting_lc;
 
-        // for each dirac
-        for( std::size_t n0 = 0; n0 < cell->nb_diracs(); ++n0 ) {
-            TI i0 = cell->dirac_indices[ n0 ];
-            Pt c0 = pt( positions, i0 );
-            TF w0 = flags & homogeneous_weights ? 0 : weights[ i0 ];
-            lc = starting_lc;
+        // cut with diracs from the same cell
+        cut_lc( positions, weights, lc, c0, w0, i0, cell, N<1>(), n0, N<flags>() );
 
-            // cut with diracs from the same cell
-            cut_lc( lc, c0, w0, i0, cell, N<1>(), n0 );
+        // neighbors
+        queue = base_queue;
+        while ( ! queue.empty() ) {
+            Msi msi = queue.top();
+            queue.pop();
 
-            // neighbors
-            queue = base_queue;
-            while ( ! queue.empty() ) {
-                Msi msi = queue.top();
-                queue.pop();
+            // if not potential cut, we don't go further
+            if ( can_be_evicted( lc, c0, w0, msi.cell->bounds, N<flags>() ) )
+                continue;
 
-                // if not potential cut, we don't go further
-                if ( can_be_evicted( lc, c0, w0, msi.cell->bounds, N<flags>() ) )
-                    continue;
-
-                // if final cell, do the cuts and continue the loop
-                if ( msi.cell->final_cell() ) {
-                    const FinalCell *dell = static_cast<const FinalCell *>( msi.cell );
-                    cut_lc( lc, c0, w0, i0, dell, N<0>(), 0 );
-                    continue;
-                }
-
-                // else, add sub_cells in the queue
-                const SuperCell *spc = static_cast<const SuperCell *>( msi.cell );
-                for( std::size_t i = 0; i < spc->nb_sub_cells(); ++i )
-                    append_msi( queue, spc->sub_cells[ i ], c0 );
+            // if final cell, do the cuts and continue the loop
+            if ( msi.cell->final_cell() ) {
+                const FinalCell *dell = static_cast<const FinalCell *>( msi.cell );
+                cut_lc( positions, weights, lc, c0, w0, i0, dell, N<0>(), 0, N<flags>() );
+                continue;
             }
 
-            //
-            cb( lc, i0, num_thread );
+            // else, add sub_cells in the queue
+            const SuperCell *spc = static_cast<const SuperCell *>( msi.cell );
+            for( std::size_t i = 0; i < spc->nb_sub_cells(); ++i )
+                append_msi( queue, spc->sub_cells[ i ], c0 );
         }
-    };
+
+        //
+        cb( lc, i0, num_thread );
+    }
+}
+
+template<class Pc> template<int flags>
+int LGrid<Pc>::for_each_laguerre_cell( const std::function<void( CP &, TI num, int num_thread )> &cb, const CP &starting_lc, std::array<const TF *,dim> positions, const TF *weights, TI /*nb_diracs*/, N<flags>, bool stop_if_void_lc ) {
+    //
+    int err;
 
     if ( ! root_cell )
         return err;
@@ -159,7 +158,7 @@ int LGrid<Pc>::for_each_laguerre_cell( const std::function<void( CP &, TI num, i
         std::priority_queue<Msi> base_queue, queue;
         CP lc;
 
-        make_lc_from( base_queue, queue, lc, cell, nullptr, 0, 0 );
+        make_lcs_from( cb, positions, weights, base_queue, queue, lc, cell, nullptr, 0, 0, N<flags>(), starting_lc );
         return err;
     }
 
@@ -198,7 +197,7 @@ int LGrid<Pc>::for_each_laguerre_cell( const std::function<void( CP &, TI num, i
                 return;
 
             // current cell
-            make_lc_from( base_queue, queue, lc, cell, path, path_len, num_thread );
+            make_lcs_from( cb, positions, weights, base_queue, queue, lc, cell, path, path_len, num_thread, N<flags>(), starting_lc );
 
             // next one
             while ( ++path[ path_len - 1 ].num == path[ path_len - 1 ].cell->nb_sub_cells() )
@@ -220,7 +219,27 @@ int LGrid<Pc>::for_each_laguerre_cell( const std::function<void( CP &, TI num, i
 
 template<class Pc> template<int flags>
 bool LGrid<Pc>::can_be_evicted( const CP &lc, Pt &c0, TF w0, const CellBoundsPpos<Pc> &bounds, N<flags> ) const {
-    return false;
+    if ( flags & ball_cut ) {
+        TODO;
+    }
+
+    // m = max_{c1 \in b1}}( || c0 ||^2 - w0 + w1_M - || c1 ||^2 + 2 * dot( p, c1 - c0 ) + dot( c1, w1_D ) )
+    // der => 2 * c1_x = 2 * p_x + w1_D_x
+    TF cc = norm_2_p2( c0 ) - w0 + bounds.poly_weight[ 0 ];
+    for( TI num_lc_point = 0; num_lc_point < lc.nb_nodes(); ++num_lc_point ) {
+        Pt p = lc.node( num_lc_point ).pos(), o = p;
+        for( std::size_t d = 0; d < dim; ++d )
+            o[ d ] += 0.5 * bounds.poly_weight[ d + 1 ];
+        Pt c1 = max( min( o, bounds.max_pos ), bounds.min_pos );
+
+        TF dd = 0;
+        for( std::size_t d = 0; d < dim; ++d )
+            dd += c1[ d ] * bounds.poly_weight[ d + 1 ];
+        if ( cc + 2 * dot( p, c1 - c0 ) + dd > norm_2_p2( c1 ) )
+            return false;
+    }
+
+    return true;
 }
 
 template<class Pc> template<int flags>
@@ -624,10 +643,9 @@ void LGrid<Pc>::display( VtkOutput &vtk_output, std::array<const TF *,dim> posit
         Point3<TF>{ b[ 0 ], b[ 1 ], 0 },
         Point3<TF>{ a[ 0 ], b[ 1 ], 0 },
     };
-    if ( disp_weights ) {
+    if ( disp_weights )
         for( Point3<TF> &pt : pts )
             pt[ 2 ] = cell->bounds.get_w( { pt[ 0 ], pt[ 1 ] } );
-    }
     vtk_output.add_polygon( pts );
 
     if ( cell->super_cell() ) {

@@ -4,6 +4,7 @@
 #include "../Geometry/ConvexPolyhedronTraits.h"
 #include "../Support/BumpPointerPool.h"
 #include "Internal/CellBoundsTraits.h"
+#include <queue>
 
 namespace sdot {
 
@@ -71,6 +72,9 @@ private:
         TI                         dirac_indices[ 1 ];       ///<
     };
 
+    struct                         CpAndNum                  { const SuperCell *cell; TI num; };
+    struct                         Msi                       { bool operator<( const Msi &that ) const { return dist > that.dist; } Pt center; const BaseCell *cell; TF dist; };
+
     void                           update_cell_bounds_phase_1( std::array<const TF *,dim> positions, const TF *weights, BaseCell *cell, BaseCell **path, int level );
     void                           fill_grid_using_zcoords   ( std::array<const TF *,dim> positions, const TF *weights, TI nb_diracs );
     void                           update_the_limits         ( std::array<const TF *,dim> positions, TI nb_diracs );
@@ -78,8 +82,11 @@ private:
     template<int flags> bool       can_be_evicted            ( const CP &lc, Pt &c0, TF w0, const CellBoundsP0<Pc> &bounds, N<flags> ) const;
     template<int flags> bool       can_be_evicted            ( const CP &lc, Pt &c0, TF w0, const CellBoundsPpos<Pc> &bounds, N<flags> ) const;
     void                           fill_the_grid             ( std::array<const TF *,dim> positions, const TF *weights, TI nb_diracs );
+    template<int flags> void       make_lcs_from             ( const std::function<void( CP &, TI num, int num_thread )> &cb, std::array<const TF *,dim> positions, const TF *weights, std::priority_queue<Msi> &base_queue, std::priority_queue<Msi> &queue, CP &lc, const FinalCell *cell, const CpAndNum *path, TI path_len, int num_thread, N<flags>, const CP &starting_lc ) const;
     void                           display                   ( VtkOutput &vtk_output, std::array<const TF *,dim> positions, const TF *weights, BaseCell *cell, int disp_weights ) const;
+    template<int a_n0,int f> void  cut_lc                    ( std::array<const TF *,dim> positions, const TF *weights, CP &lc, Pt c0, TF w0, TI i0, const FinalCell *dell, N<a_n0>, TI n0, N<f> ) const;
     Pt                             pt                        ( std::array<const TF *,dim> positions, TI index ) const { Pt res; for( std::size_t i = 0; i < dim; ++i ) res[ i ] = positions[ i ][ index ]; return res; }
+
 
     // buffers
     std::vector<TZ>                znodes_keys;              ///< tmp znodes
