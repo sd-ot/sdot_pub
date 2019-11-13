@@ -407,7 +407,12 @@ void LGrid<Pc>::update_the_limits( const std::function<void(const Cb &cb)> &f ) 
     step_length = grid_length / ( TZ( 1 ) << nb_bits_per_axis );
     inv_step_length = TF( 1 ) / step_length;
 
-    //
+    // make zcoords bounds for each out-of-memory phase
+    sub_structures.push_back( SubStructure{
+        TZ( 0 ),
+        TZ( 1 ) << dim * nb_bits_per_axis,
+        nb_diracs_tot
+    } );
 }
 
 
@@ -428,10 +433,7 @@ void LGrid<Pc>::make_znodes( TZ *zcoords, TI *indices, const std::function<void(
 }
 
 template<class Pc>
-void LGrid<Pc>::fill_the_grid( const std::function<void(const Cb &cb)> &f ) {
-    static_assert( sizeof( TZ ) >= sizeof_zcoords, "zcoords types (TZ) is not large enough" );
-    using LocalSolver = typename CellBounds::LocalSolver;
-
+void LGrid<Pc>::fill_the_grid( const std::function<void(const Cb &cb)> &f, TmpLevelInfo *level_info, const SubStructure &sst ) {
     using std::round;
     using std::ceil;
     using std::pow;
@@ -451,20 +453,6 @@ void LGrid<Pc>::fill_the_grid( const std::function<void(const Cb &cb)> &f ) {
         N<dim*nb_bits_per_axis>(),
         rs_tmps
     );
-
-    // helpers to update level info
-    struct LevelInfo {
-        void        clr                    () { num_sub_cell = 0; nb_sub_cells = 0; ls.clr(); }
-
-        TI          num_sub_cell;          ///<
-        TI          nb_sub_cells;          ///<
-        BaseCell   *sub_cells[ 1 << dim ]; ///<
-        LocalSolver ls;
-    };
-
-    LevelInfo level_info[ nb_bits_per_axis + 1 ];
-    for( LevelInfo &l : level_info )
-        l.clr();
 
     // get the cells zcoords and indices (offsets in dpc_indices) + dpc_indices
     int level = 0;
@@ -495,7 +483,7 @@ void LGrid<Pc>::fill_the_grid( const std::function<void(const Cb &cb)> &f ) {
             index += len_ind_nz;
 
             // prepare a new cell, register it in corresponding level_info
-            LevelInfo *li = level_info + level;
+            TmpLevelInfo *li = level_info + level;
             BaseCell *cell = nullptr;
             if ( len_ind_nz ) {
                 FinalCell *fcell = reinterpret_cast<FinalCell *>( mem_pool.allocate( sizeof( FinalCell ) ) );
@@ -545,7 +533,7 @@ void LGrid<Pc>::fill_the_grid( const std::function<void(const Cb &cb)> &f ) {
 
                 // else, make a new super cell
                 cell = nullptr;
-                LevelInfo *oli = li++;
+                TmpLevelInfo *oli = li++;
                 if ( oli->nb_sub_cells ) {
                     if ( oli->nb_sub_cells > 1 ) {
                         SuperCell *scell = reinterpret_cast<SuperCell *>( mem_pool.allocate( sizeof( BaseCell ) + oli->nb_sub_cells * sizeof( BaseCell * ) ) );
@@ -605,6 +593,18 @@ void LGrid<Pc>::fill_the_grid( const std::function<void(const Cb &cb)> &f ) {
             }
         }
     }
+}
+
+template<class Pc>
+void LGrid<Pc>::fill_the_grid( const std::function<void(const Cb &cb)> &f ) {
+    static_assert( sizeof( TZ ) >= sizeof_zcoords, "TZ (zcoords type) is not large enough" );
+
+    TmpLevelInfo level_info[ nb_bits_per_axis + 1 ];
+    for( TmpLevelInfo &l : level_info )
+        l.clr();
+
+    for( const SubStructure &sst : sub_structures )
+        fill_the_grid( f, level_info, sst );
 
     //
     if ( CellBounds::need_phase_1 && root_cell ) {

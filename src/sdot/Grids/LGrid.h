@@ -51,6 +51,7 @@ private:
     static constexpr int           nb_bits_per_axis          = 20;
     static constexpr int           sizeof_zcoords            = ( dim * nb_bits_per_axis + 7 ) / 8; ///< nb meaningful bytes in z-coordinates
     using                          CellBounds                = typename CellBoundsTraits<Pc>::type;
+    using                          LocalSolver               = typename CellBounds::LocalSolver;
     using                          TZ                        = std::uint64_t; ///< zcoords
 
 
@@ -81,6 +82,22 @@ private:
         TF                        *weights;
     };
 
+    struct                         SubStructure              {
+        TZ                         beg_zcoords;
+        TZ                         end_zcoords;
+        TI                         nb_diracs;
+
+    };
+
+    struct                         TmpLevelInfo              {
+        void                       clr                       () { num_sub_cell = 0; nb_sub_cells = 0; ls.clr(); }
+
+        BaseCell                  *sub_cells[ 1 << dim ];    ///<
+        TI                         num_sub_cell;             ///<
+        TI                         nb_sub_cells;             ///<
+        LocalSolver                ls;
+    };
+
     struct                         CpAndNum                  { const SuperCell *cell; TI num; };
     struct                         Msi                       { bool operator<( const Msi &that ) const { return dist > that.dist; } Pt center; const BaseCell *cell; TF dist; };
 
@@ -90,7 +107,8 @@ private:
     void                           write_to_stream           ( std::ostream &os, BaseCell *cell, std::string sp ) const;
     template<int flags> bool       can_be_evicted            ( const CP &lc, Pt &c0, TF w0, const CellBoundsP0<Pc> &bounds, N<flags> ) const;
     template<int flags> bool       can_be_evicted            ( const CP &lc, Pt &c0, TF w0, const CellBoundsPpos<Pc> &bounds, N<flags> ) const;
-    void                           fill_the_grid             ( const Pt *positions, const TF *weights, TI nb_diracs );
+    void                           fill_the_grid             ( const std::function<void(const Cb &cb)> &f, TmpLevelInfo *level_info, const SubStructure &sst );
+    void                           fill_the_grid             ( const std::function<void(const Cb &cb)> &f );
     template<int flags> void       make_lcs_from             ( const std::function<void( CP &, TI num, int num_thread )> &cb, std::priority_queue<Msi> &base_queue, std::priority_queue<Msi> &queue, CP &lc, const FinalCell *cell, const CpAndNum *path, TI path_len, int num_thread, N<flags>, const CP &starting_lc ) const;
     void                           make_znodes               ( TZ *zcoords, TI *indices, const std::function<void(const Cb &cb)> &f );
     void                           display                   ( VtkOutput &vtk_output, BaseCell *cell, int disp_weights ) const;
@@ -102,6 +120,9 @@ private:
     std::vector<TI>                znodes_inds;              ///< tmp znodes
     BumpPointerPool                mem_pool;                 ///< store the cells
     std::vector<std::size_t>       rs_tmps;                  ///< for the radix sort
+
+    // sub structures
+    std::vector<SubStructure>      sub_structures;           ///<
 
     // grid
     TF                             inv_step_length;
