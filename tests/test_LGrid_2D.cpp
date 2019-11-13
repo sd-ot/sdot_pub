@@ -11,7 +11,7 @@ template<int _dim>
 struct Pc {
     enum { store_the_normals = false };
     enum { allow_ball_cut    = false };
-    enum { w_bounds_order    = 1     };
+    enum { w_bounds_order    = 0     };
     enum { dim               = _dim  };
     using  TI                = std::uint64_t;
     using  SI                = std::int64_t;
@@ -41,7 +41,7 @@ void test_with_Pc() {
 
     // get timings
     Grid grid( 20 );
-    grid.update( positions.data(), weights.data(), nb_diracs, N<flags>() );
+    grid.update_positions_and_weights( positions.data(), weights.data(), nb_diracs, N<flags>() );
     // PN( grid );
 
     VtkOutput vog;

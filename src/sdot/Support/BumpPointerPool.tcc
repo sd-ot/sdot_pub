@@ -13,15 +13,7 @@ BumpPointerPool::BumpPointerPool() {
 
 inline
 BumpPointerPool::~BumpPointerPool() {
-    for( Item *f = last_item, *o; ( o = f ) ; ) {
-        f = f->prev;
-        o->~Item();
-    }
-
-    for( Frame *f = last_frame, *o; ( o = f ) ; ) {
-        f = f->prev_frame;
-        std::free( o );
-    }
+    clear();
 }
 
 inline
@@ -89,4 +81,23 @@ T* BumpPointerPool::create( Args &&...args ) {
     item->prev = last_item;
     last_item = item;
     return &item->object;
+}
+
+void BumpPointerPool::clear() {
+    // free
+    for( Item *f = last_item, *o; ( o = f ) ; ) {
+        f = f->prev;
+        o->~Item();
+    }
+
+    for( Frame *f = last_frame, *o; ( o = f ) ; ) {
+        f = f->prev_frame;
+        std::free( o );
+    }
+
+    // reset
+    current_ptr.cp = nullptr;
+    ending_ptr     = nullptr;
+    last_frame     = nullptr;
+    last_item      = nullptr;
 }

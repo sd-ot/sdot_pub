@@ -2,5 +2,5 @@
     "files.associations": {
         "*.tcc": "cpp"
     },
-    "python.pythonPath": "/usr/bin/python3"
+    "python.pythonPath": "/data/miniconda3/bin/python"
 }

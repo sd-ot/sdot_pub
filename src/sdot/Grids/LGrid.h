@@ -19,29 +19,32 @@ namespace sdot {
 template<class Pc>
 class LGrid {
 public:
-    static constexpr std::size_t   dim                       = Pc::dim;         ///<
-    using                          CP                        = typename ConvexPolyhedronTraits<Pc>::type;
-    using                          SI                        = typename Pc::SI; ///< signed index type
+    static constexpr std::size_t   dim                         = Pc::dim;         ///<
+    using                          CP                          = typename ConvexPolyhedronTraits<Pc>::type;
+    using                          SI                          = typename Pc::SI; ///< signed index type
 
-    using                          TF                        = typename CP::TF; ///< floating point type
-    using                          TI                        = typename CP::TI; ///< index type
-    using                          CI                        = typename CP::CI; ///< cut info
-    using                          Pt                        = typename CP::Pt; ///< point type
+    using                          TF                          = typename CP::TF; ///< floating point type
+    using                          TI                          = typename CP::TI; ///< index type
+    using                          CI                          = typename CP::CI; ///< cut info
+    using                          Pt                          = typename CP::Pt; ///< point type
 
-    using                          Cb                        = std::function<void( const Pt *positions, const TF *weights, TI nb_diracs, bool ptrs_survive_the_call )>; ///<
+    using                          Cbpw                        = std::function<void( const Pt *positions, const TF *weights, TI nb_diracs, bool ptrs_survive_the_call )>; ///<
+    using                          Cbw                         = std::function<void( const TF *weights, TI nb_diracs )>; ///<
 
-    enum {                         homogeneous_weights       = 1 };
-    enum {                         ball_cut                  = 2 };
+    enum {                         homogeneous_weights         = 1 };
+    enum {                         ball_cut                    = 2 };
 
-    /* ctor */                     LGrid                     ( std::size_t max_diracs_per_cell = 11 );
+    /* ctor */                     LGrid                       ( std::size_t max_diracs_per_cell = 11 );
 
-    template<int flags> void       update                    ( const Pt *positions, const TF *weights, TI nb_diracs, N<flags>, bool positions_have_changed = true, bool weights_have_changed = true );
-    template<int flags> void       update                    ( const std::function<void(const Cb &cb)> &f, N<flags>, bool positions_have_changed = true, bool weights_have_changed = true );
-    template<int flags> int        for_each_laguerre_cell    ( const std::function<void( CP &lc, TI num, int num_thread )> &f, const CP &starting_lc, N<flags>, bool stop_if_void_lc = false ); ///< version with num_thread
+    template<int flags> void       update_positions_and_weights( const Pt *positions, const TF *weights, TI nb_diracs, N<flags> );
+    template<int flags> void       update_positions_and_weights( const std::function<void(const Cbpw &cb)> &f, N<flags> );
+    template<int flags> void       update_weights              ( const std::function<void(const Cbw &cb)> &f, N<flags> );
 
-    void                           write_to_stream           ( std::ostream &os ) const;
-    void                           display_tikz              ( std::ostream &os, TF scale = 1.0 ) const;
-    void                           display                   ( VtkOutput &vtk_output, int disp_weights = 0 ) const; ///< for debug purpose
+    template<int flags> int        for_each_laguerre_cell      ( const std::function<void( CP &lc, TI num, int num_thread )> &f, const CP &starting_lc, N<flags>, bool stop_if_void_lc = false ); ///< version with num_thread
+
+    void                           write_to_stream             ( std::ostream &os ) const;
+    void                           display_tikz                ( std::ostream &os, TF scale = 1.0 ) const;
+    void                           display                     ( VtkOutput &vtk_output, int disp_weights = 0 ) const; ///< for debug purpose
 
     // values used by update
     TI                             max_diracs_per_cell;
@@ -49,32 +52,32 @@ public:
     std::vector<Pt>                translations;
 
 private:
-    static constexpr int           nb_bits_per_axis          = 20;
-    static constexpr int           sizeof_zcoords            = ( dim * nb_bits_per_axis + 7 ) / 8; ///< nb meaningful bytes in z-coordinates
-    using                          CellBounds                = typename CellBoundsTraits<Pc>::type;
-    using                          LocalSolver               = typename CellBounds::LocalSolver;
-    using                          TZ                        = std::uint64_t; ///< zcoords
+    static constexpr int           nb_bits_per_axis            = 20;
+    static constexpr int           sizeof_zcoords              = ( dim * nb_bits_per_axis + 7 ) / 8; ///< nb meaningful bytes in z-coordinates
+    using                          CellBounds                  = typename CellBoundsTraits<Pc>::type;
+    using                          LocalSolver                 = typename CellBounds::LocalSolver;
+    using                          TZ                          = std::uint64_t; ///< zcoords
 
     struct                         BaseCell {
-        bool                       super_cell                () const { return nb_sub_items < 0; }
-        bool                       final_cell                () const { return nb_sub_items > 0; }
+        bool                       super_cell                  () const { return nb_sub_items < 0; }
+        bool                       final_cell                  () const { return nb_sub_items > 0; }
 
-        TI                         end_ind_in_fcells;        ///< end index in final cells
-        SI                         nb_sub_items;             ///< > 0 => final cell (nb diracs). < 0 => super cell (nb sub cells).
-        CellBounds                 bounds;                   ///< pos and weight bounds
+        TI                         end_ind_in_fcells;          ///< end index in final cells
+        SI                         nb_sub_items;               ///< > 0 => final cell (nb diracs). < 0 => super cell (nb sub cells).
+        CellBounds                 bounds;                     ///< pos and weight bounds
     };
 
     struct                         SuperCell : BaseCell {
-        TI                         nb_sub_cells              () const { return - this->nb_sub_items; }
+        TI                         nb_sub_cells                () const { return - this->nb_sub_items; }
 
-        BaseCell                  *sub_cells[ 1 ];           ///<
+        BaseCell                  *sub_cells[ 1 ];             ///<
     };
 
     struct                         FinalCell : BaseCell {
-        TI                         nb_diracs                 () const { return this->nb_sub_items; }
-        TI                         dirac_indice              ( TI index ) const { return dirac_indices[ index ]; }
-        TF                         weight                    ( TI index ) const { return weights[ index ]; }
-        Pt                         pos                       ( TI index ) const { Pt res; for( std::size_t i = 0; i < dim; ++i ) res[ i ] = positions[ i ][ index ]; return res; }
+        TI                         nb_diracs                   () const { return this->nb_sub_items; }
+        TI                         dirac_indice                ( TI index ) const { return dirac_indices[ index ]; }
+        TF                         weight                      ( TI index ) const { return weights[ index ]; }
+        Pt                         pos                         ( TI index ) const { Pt res; for( std::size_t i = 0; i < dim; ++i ) res[ i ] = positions[ i ][ index ]; return res; }
 
 
         TF                        *positions[ dim ];
@@ -82,52 +85,59 @@ private:
         TF                        *weights;
     };
 
-    struct                         SubStructure              {
-        TZ                         beg_zcoords;
-        TZ                         end_zcoords;
-        TI                         nb_diracs;
-    };
+    struct                         TmpLevelInfo                {
+        void                       clr                         () { num_sub_cell = 0; nb_sub_cells = 0; ls.clr(); }
 
-    struct                         TmpLevelInfo              {
-        void                       clr                       () { num_sub_cell = 0; nb_sub_cells = 0; ls.clr(); }
-
-        BaseCell                  *sub_cells[ 1 << dim ];    ///<
-        TI                         num_sub_cell;             ///<
-        TI                         nb_sub_cells;             ///<
+        BaseCell                  *sub_cells[ 1 << dim ];      ///<
+        TI                         num_sub_cell;               ///<
+        TI                         nb_sub_cells;               ///<
         LocalSolver                ls;
     };
 
 
-    struct                         CpAndNum                  { const SuperCell *cell; TI num; };
-    struct                         Ppwn                      { const Pt *positions; const TF *weights; TI nb_diracs; };
-    struct                         Msi                       { bool operator<( const Msi &that ) const { return dist > that.dist; } Pt center; const BaseCell *cell; TF dist; };
+    struct                         SstLimits                   { TZ beg_zcoords, end_zcoords; TI nb_diracs; int level; };
+    struct                         CpAndNum                    { const SuperCell *cell; TI num; };
+    struct                         Ppwn                        { const Pt *positions; const TF *weights; TI off_diracs, nb_diracs; };
+    struct                         Msi                         { bool operator<( const Msi &that ) const { return dist > that.dist; } Pt center; const BaseCell *cell; TF dist; };
+    struct                         Pwi                          { Pt positions; TF weight; TI indice; };
 
-    void                           update_cell_bounds_phase_1( BaseCell *cell, BaseCell **path, int level );
-    void                           fill_grid_using_zcoords   ( const Pt *positions, const TF *weights, TI nb_diracs );
-    void                           update_the_limits         ( const std::function<void(const Cb &cb)> &f );
-    void                           write_to_stream           ( std::ostream &os, BaseCell *cell, std::string sp ) const;
-    template<int flags> bool       can_be_evicted            ( const CP &lc, Pt &c0, TF w0, const CellBoundsP0<Pc> &bounds, N<flags> ) const;
-    template<int flags> bool       can_be_evicted            ( const CP &lc, Pt &c0, TF w0, const CellBoundsPpos<Pc> &bounds, N<flags> ) const;
-    void                           fill_the_grid             ( const std::function<void(const Cb &cb)> &f, TmpLevelInfo *level_info, const SubStructure &sst );
-    void                           fill_the_grid             ( const std::function<void(const Cb &cb)> &f );
-    template<int flags> void       make_lcs_from             ( const std::function<void( CP &, TI num, int num_thread )> &cb, std::priority_queue<Msi> &base_queue, std::priority_queue<Msi> &queue, CP &lc, const FinalCell *cell, const CpAndNum *path, TI path_len, int num_thread, N<flags>, const CP &starting_lc ) const;
-    void                           make_znodes               ( TZ *zcoords, TI *indices, const std::function<void(const Cb &cb)> &f, const SubStructure &sst );
-    void                           display                   ( VtkOutput &vtk_output, BaseCell *cell, int disp_weights ) const;
-    template<int a_n0,int f> void  cut_lc                    ( CP &lc, Pt c0, TF w0, const FinalCell *dell, N<a_n0>, TI n0, N<f> ) const;
+    template<int flags> void       compute_grid_dims_and_ppwns ( const std::function<void(const Cbpw &cb)> &f, N<flags> );
+    void                           update_cell_bounds_phase_1  ( BaseCell *cell, BaseCell **path, int level );
+    void                           fill_grid_using_zcoords     ( const Pt *positions, const TF *weights, TI nb_diracs );
+    void                           make_znodes_with_1ppwn_ssst ( const SstLimits &sst, const Pt *positions, TI nb_diracs ); ///< several sst case
+    void                           make_znodes_with_1ppwn_1sst ( const Pt *positions, TI nb_diracs );                       ///< only one sst case (=> no need to make a test)
+    template<int flags> void       compute_sst_limits          ( const std::function<void(const Cbpw &cb)> &f, N<flags> );
+    template<class Ps> void        make_the_cells_for          ( const SstLimits &sst, TmpLevelInfo *level_info, Ps ps );
+    void                           write_to_stream             ( std::ostream &os, BaseCell *cell, std::string sp ) const;
+    TI                            *znodes_seconds              ( const Ppwn & ) { return znodes_inds.data(); }
+    std::pair<TI,TI>              *znodes_seconds              ( const std::vector<Ppwn> & ) { return znodes_pnds.data(); }
+    Pwi                           *znodes_seconds              ( int ) { return znodes_vals.data(); }
+    template<int flags> bool       can_be_evicted              ( const CP &lc, Pt &c0, TF w0, const CellBoundsP0<Pc> &bounds, N<flags> ) const;
+    template<int flags> bool       can_be_evicted              ( const CP &lc, Pt &c0, TF w0, const CellBoundsPpos<Pc> &bounds, N<flags> ) const;
+    void                           make_the_cells              ( const std::function<void(const Cbpw &cb)> &f );
+    template<int flags> void       make_lcs_from               ( const std::function<void( CP &, TI num, int num_thread )> &cb, std::priority_queue<Msi> &base_queue, std::priority_queue<Msi> &queue, CP &lc, const FinalCell *cell, const CpAndNum *path, TI path_len, int num_thread, N<flags>, const CP &starting_lc ) const;
+    void                           make_znodes                 ( TZ *zcoords, TI *indices, const std::function<void(const Cbpw &cb)> &f, const SstLimits &sst );
+    Pwi                            get_pwi                     ( const Ppwn &p, TI ind ) const { return { p.positions[ ind ], p.weights[ ind ], ind }; }
+    Pwi                            get_pwi                     ( const std::vector<Ppwn> &ppwns, std::pair<TI,TI> inds ) const { const Ppwn &p = ppwns[ inds.first ]; return { p.positions[ inds.second ], p.weights[ inds.second ], p.off_diracs + inds.second }; }
+    Pwi                            get_pwi                     ( int, const Pwi &pwi ) const { return pwi; }
+    void                           display                     ( VtkOutput &vtk_output, BaseCell *cell, int disp_weights ) const;
+
+    template<int a_n0,int f> void  cut_lc                      ( CP &lc, Pt c0, TF w0, const FinalCell *dell, N<a_n0>, TI n0, N<f> ) const;
 
 
     // buffers
-    std::vector<TZ>                znodes_keys;              ///< tmp znodes
-    std::vector<TI>                znodes_inds;              ///< tmp znodes
-    BumpPointerPool                mem_pool;                 ///< store the cells
-    std::vector<std::size_t>       rs_tmps;                  ///< for the radix sort
+    std::vector<TZ>                znodes_keys;                ///< tmp znodes
+    std::vector<TI>                znodes_inds;                ///< tmp indices for each znode ( ex: ppwns[ 0 ].positions[ ind.second ] to get positions )
+    std::vector<std::pair<TI,TI>>  znodes_pnds;                ///< tmp indice pairs for each znode ( ex: ppwns[ ind.first ].positions[ ind.second ] to get positions )
+    std::vector<Pwi>               znodes_vals;                ///< tmp positions and weights for each znode (for the case where we don't have all the positions)
+    BumpPointerPool                mem_pool;                   ///< store the cells
+    std::vector<std::size_t>       rs_tmps;                    ///< for the radix sort
 
     // result of cb calls
-    bool                           use_ppwns;                ///<
-    std::vector<Ppwn>              ppwns;                    ///< nb_diracs + pointers to positions and weights
+    bool                           use_ppwns;                  ///<
+    std::vector<Ppwn>              ppwns;                      ///< nb_diracs + pointers to positions and weights
 
     // sub structures
-    std::vector<SubStructure>      sub_structures;           ///<
 
     // grid
     TF                             inv_step_length;
@@ -136,6 +146,7 @@ private:
     TI                             nb_cb_calls;
     TF                             step_length;
     TF                             grid_length;
+    std::vector<SstLimits>         sst_limits;                 ///<
     Pt                             min_point;
     Pt                             max_point;
     BaseCell                      *root_cell;

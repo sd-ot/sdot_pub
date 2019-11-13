@@ -18,6 +18,8 @@ public:
     template                <class T,class... Args>
     T*       create         ( Args &&...args );
 
+    void     clear          ();
+
 private:
     struct   Frame          { Frame *prev_frame; char content[ 8 ]; };
     struct   Item           { virtual ~Item() {} Item *prev; };
@@ -35,3 +37,4 @@ private:
 #include "BumpPointerPool.tcc"
 
 #endif // SDOT_BumpPointerPool_H
+
