@@ -1,5 +1,7 @@
 #include "ThreadPool.h"
 
+namespace sdot {
+
 template<class TF>
 void ThreadPool::execute( std::size_t nb_jobs, const TF &f ) {
     struct DataPerThread {
@@ -44,4 +46,6 @@ void ThreadPool::execute( std::size_t nb_jobs, const TF &f ) {
     exec( 0 );
     for( std::thread &th : threads )
         th.join();
+}
+
 }

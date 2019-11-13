@@ -2,5 +2,9 @@
     "files.associations": {
         "*.tcc": "cpp"
     },
-    "python.pythonPath": "/data/miniconda3/bin/python"
+    "python.pythonPath": "/data/miniconda3/bin/python",
+    "files.watcherExclude": {
+        "ext/**": true,
+        "vtk/**": true
+    }
 }

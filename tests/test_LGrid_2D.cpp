@@ -3,20 +3,23 @@
 using namespace sdot;
 
 // // nsmake cxx_name clang++
-// // nsmake cpp_flag -ffast-math
-// // nsmake cpp_flag -march=native
-// // nsmake cpp_flag -O2
+
+//// nsmake cpp_flag -march=native
+//// nsmake cpp_flag -ffast-math
+//// nsmake cpp_flag -O3
 
 template<int _dim>
 struct Pc {
     enum { store_the_normals = false };
     enum { allow_ball_cut    = false };
-    enum { w_bounds_order    = 0     };
+    enum { w_bounds_order    = 1     };
     enum { dim               = _dim  };
     using  TI                = std::uint64_t;
     using  SI                = std::int64_t;
     using  CI                = std::size_t;
     using  TF                = double;
+
+    struct Af                { TF new_weight; };
 };
 
 template<class Pc>
@@ -39,28 +42,42 @@ void test_with_Pc() {
         weights[ n ] = 1e-1 * sin( positions[ n ].x ) * sin( positions[ n ].y );
     }
 
-    // get timings
+    // grid
     Grid grid( 20 );
     grid.update_positions_and_weights( positions.data(), weights.data(), nb_diracs, N<flags>() );
-    // PN( grid );
 
     VtkOutput vog;
     grid.display( vog, 1 );
     vog.save( "vtk/grid.vtk" );
 
-    TF area = 0;
-    std::mutex m;
-    VtkOutput voc;
+    // solve
+    TF target_mass = TF( 1 )/ nb_diracs;
     CP ic( typename CP::Box{ { 0, 0 }, { 1, 1 } } );
-    grid.for_each_laguerre_cell( [&]( CP &cp, std::size_t /*num*/, int /*num_thread*/ ) {
-        m.lock();
-        cp.display( voc );
-        area += cp.integral();
-        m.unlock();
-    }, ic, N<flags>() );
-    voc.save( "vtk/pd.vtk" );
+    for( std::size_t num_iter = 0; num_iter < 100; ++num_iter ) {
+        std::vector<TF> err( sdot::thread_pool.nb_threads(), 0 );
 
-    P( area );
+        grid.for_each_laguerre_cell( [&]( CP &cp, int num_thread ) {
+            TF e = cp.integral() - target_mass;
+            err[ num_thread ] += e * e;
+
+            cp.af->new_weight = *cp->dirac_weight - 1e-1 * e;
+        }, ic, N<flags>() );
+
+        for( std::size_t i = 1; i < err.size(); ++i )
+            err[ 0 ] += err[ i ];
+        P( err[ 0 ] );
+
+        grid.assign_new_weights( N<flags>() );
+    }
+
+    // display
+    std::vector<VtkOutput> voc( sdot::thread_pool.nb_threads(), { { "weight", "dw" } } );
+    grid.for_each_laguerre_cell( [&]( CP &cp, int num_thread ) {
+        cp.display( voc[ num_thread ], { *cp.dirac_weight, 17 } );
+    }, ic, N<flags>() );
+    for( std::size_t i = 1; i < voc.size(); ++i )
+        voc[ 0 ].append( voc[ i ] );
+    voc[ 0 ].save( "vtk/pd.vtk" );
 }
 
 int main() {

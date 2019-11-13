@@ -23,6 +23,7 @@ public:
     using                          CP                          = typename ConvexPolyhedronTraits<Pc>::type;
     using                          SI                          = typename Pc::SI; ///< signed index type
 
+    using                          Af                          = typename Pc::Af; ///< additionnal fields
     using                          TF                          = typename CP::TF; ///< floating point type
     using                          TI                          = typename CP::TI; ///< index type
     using                          CI                          = typename CP::CI; ///< cut info
@@ -38,9 +39,9 @@ public:
 
     template<int flags> void       update_positions_and_weights( const Pt *positions, const TF *weights, TI nb_diracs, N<flags> );
     template<int flags> void       update_positions_and_weights( const std::function<void(const Cbpw &cb)> &f, N<flags> );
-    template<int flags> void       update_weights              ( const std::function<void(const Cbw &cb)> &f, N<flags> );
+    template<int flags> void       assign_new_weights          ( N<flags>() );
 
-    template<int flags> int        for_each_laguerre_cell      ( const std::function<void( CP &lc, TI num, int num_thread )> &f, const CP &starting_lc, N<flags>, bool stop_if_void_lc = false ); ///< version with num_thread
+    template<int flags> int        for_each_laguerre_cell      ( const std::function<void( CP &lc, int num_thread )> &f, const CP &starting_lc, N<flags>, bool stop_if_void_lc = false ); ///< version with num_thread
 
     void                           write_to_stream             ( std::ostream &os ) const;
     void                           display_tikz                ( std::ostream &os, TF scale = 1.0 ) const;
@@ -75,14 +76,14 @@ private:
 
     struct                         FinalCell : BaseCell {
         TI                         nb_diracs                   () const { return this->nb_sub_items; }
-        TI                         dirac_indice                ( TI index ) const { return dirac_indices[ index ]; }
         TF                         weight                      ( TI index ) const { return weights[ index ]; }
         Pt                         pos                         ( TI index ) const { Pt res; for( std::size_t i = 0; i < dim; ++i ) res[ i ] = positions[ i ][ index ]; return res; }
 
 
         TF                        *positions[ dim ];
-        TI                        *dirac_indices;
+        TI                        *indices;
         TF                        *weights;
+        Af                        *afs;
     };
 
     struct                         TmpLevelInfo                {
@@ -115,7 +116,7 @@ private:
     template<int flags> bool       can_be_evicted              ( const CP &lc, Pt &c0, TF w0, const CellBoundsP0<Pc> &bounds, N<flags> ) const;
     template<int flags> bool       can_be_evicted              ( const CP &lc, Pt &c0, TF w0, const CellBoundsPpos<Pc> &bounds, N<flags> ) const;
     void                           make_the_cells              ( const std::function<void(const Cbpw &cb)> &f );
-    template<int flags> void       make_lcs_from               ( const std::function<void( CP &, TI num, int num_thread )> &cb, std::priority_queue<Msi> &base_queue, std::priority_queue<Msi> &queue, CP &lc, const FinalCell *cell, const CpAndNum *path, TI path_len, int num_thread, N<flags>, const CP &starting_lc ) const;
+    template<int flags> void       make_lcs_from               ( const std::function<void( CP &, int num_thread )> &cb, std::priority_queue<Msi> &base_queue, std::priority_queue<Msi> &queue, CP &lc, const FinalCell *cell, const CpAndNum *path, TI path_len, int num_thread, N<flags>, const CP &starting_lc ) const;
     void                           make_znodes                 ( TZ *zcoords, TI *indices, const std::function<void(const Cbpw &cb)> &f, const SstLimits &sst );
     Pwi                            get_pwi                     ( const Ppwn &p, TI ind ) const { return { p.positions[ ind ], p.weights[ ind ], ind }; }
     Pwi                            get_pwi                     ( const std::vector<Ppwn> &ppwns, std::pair<TI,TI> inds ) const { const Ppwn &p = ppwns[ inds.first ]; return { p.positions[ inds.second ], p.weights[ inds.second ], p.off_diracs + inds.second }; }

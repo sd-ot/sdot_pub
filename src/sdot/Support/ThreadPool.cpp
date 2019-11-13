@@ -1,5 +1,7 @@
 #include "ThreadPool.h"
 
+namespace sdot {
+
 //// nsmake lib_name pthread
 ThreadPool thread_pool;
 
@@ -23,3 +25,4 @@ void ThreadPool::_init_if_not_done( int nb_threads ) {
         nb_threads;
 }
 
+}

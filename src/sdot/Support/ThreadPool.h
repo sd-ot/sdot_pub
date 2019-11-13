@@ -8,6 +8,9 @@
 #include <deque>
 #include <mutex>
 
+namespace sdot {
+
+
 /**
   TODO: use atomics
 */
@@ -22,6 +25,9 @@ private:
     int                     _nb_threads      = 0;
 };
 
+extern ThreadPool thread_pool;
+
+}
+
 #include "ThreadPool.tcc"
 
-extern ThreadPool thread_pool;

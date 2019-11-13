@@ -84,6 +84,18 @@ void VtkOutput::add_point( Pt p, const std::vector<TF> &cell_values ) {
         cell_fields[ i ].v_points.push_back( i < cell_values.size() ? cell_values[ i ] : TF( 0 ) );
 }
 
+void VtkOutput::append( const VtkOutput &vo ) {
+    auto append = []( auto &a, const auto &b ) { a.insert( a.end(), b.begin(), b.end() ); };
+    for( std::size_t i = 0; i < cell_fields.size(); ++i ) {
+        append( cell_fields[ i ].v_lines , vo.cell_fields[ i ].v_lines    );
+        append( cell_fields[ i ].v_points, vo.cell_fields[ i ].v_points   );
+        append( cell_fields[ i ].v_points, vo.cell_fields[ i ].v_polygons );
+    }
+    append( lines   , vo.lines    );
+    append( points  , vo.points   );
+    append( polygons, vo.polygons );
+}
+
 
 //void VtkOutput::add_point( P2 p, const std::vector<TF> &cell_value ) {
 //    add_point( { p.x, p.y, 0.0 }, cell_value );

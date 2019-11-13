@@ -32,6 +32,7 @@ namespace sdot {
 template<class Pc>
 class ConvexPolyhedron2 : public ConvexPolyhedron {
 public:
+    using                                Af                        = typename Pc::Af; ///< additionnal fields
     using                                TF                        = typename Pc::TF; ///< floating point type
     using                                TI                        = typename Pc::TI; ///< index type
     using                                CI                        = typename Pc::CI; ///< cut info
@@ -41,6 +42,7 @@ public:
     static constexpr bool                allow_ball_cut            = Pc::allow_ball_cut;
     static constexpr TI                  block_size                = 64;
     static constexpr TI                  dim                       = 2;
+
     struct                               BoundaryItem              { std::array<Pt,2> points; TF measure, a0, a1; CI id; template<class TL> void add_to_simplex_list( TL &lst ) const; };
     using                                Node                      = ConvexPolyhedron2NodeBlock<TF,TI,CI,block_size,store_the_normals,allow_ball_cut>;
     struct                               Edge                      { Node *nodes[ 2 ]; }; ///< tmp structure
@@ -77,8 +79,12 @@ public:
     //
     TF                                   integral                  () const;
 
+    TF                                  *dirac_weight;             ///<
+    TI                                  *dirac_index;              ///<
+    std::array<TF *,dim>                 dirac_pos;                ///<
+    Af                                  *dirac_af;                 ///< additionnal fields
+
     TF                                   sphere_radius;
-    Pt                                   sphere_center;
     CI                                   sphere_cut_id;
 
 private:

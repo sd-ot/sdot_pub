@@ -105,7 +105,7 @@ ConvexPolyhedron2<Pc> &ConvexPolyhedron2<Pc>::operator=( const ConvexPolyhedron2
     }
 
     sphere_radius = that.sphere_radius;
-    sphere_center = that.sphere_center;
+    dirac_pos = that.dirac_pos;
     sphere_cut_id     = that.sphere_cut_id;
 
     return *this;
@@ -200,8 +200,8 @@ void ConvexPolyhedron2<Pc>::for_each_boundary_item( const std::function<void( co
 
         if ( allow_ball_cut && node( i0 ).arc_radius > 0 ) {
             using std::atan2;
-            item.a0 = atan2( node( i0 ).y - sphere_center.y, node( i0 ).x - sphere_center.x );
-            item.a1 = atan2( node( i1 ).y - sphere_center.y, node( i1 ).x - sphere_center.x );
+            item.a0 = atan2( node( i0 ).y - dirac_pos.y, node( i0 ).x - dirac_pos.x );
+            item.a1 = atan2( node( i1 ).y - dirac_pos.y, node( i1 ).x - dirac_pos.x );
             if ( item.a1 < item.a0 )
                 item.a1 += 2 * pi( S<TF>() );
             item.measure = ( item.a1 - item.a0 ) * sphere_radius;
