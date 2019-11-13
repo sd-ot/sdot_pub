@@ -417,18 +417,43 @@ void LGrid<Pc>::update_the_limits( const std::function<void(const Cb &cb)> &f ) 
 
 
 template<class Pc>
-void LGrid<Pc>::make_znodes( TZ *zcoords, TI *indices, const std::function<void(const Cb &cb)> &f ) {
-    TI nb_jobs = thread_pool.nb_threads(), off = 0;
+void LGrid<Pc>::make_znodes( TZ *zcoords, TI *indices, const std::function<void(const Cb &cb)> &f, const SubStructure &sst ) {
+    TI nb_threads = thread_pool.nb_threads(), nb_jobs = nb_threads, off = 0;
+    std::vector<TI> offsets( nb_jobs, 0 );
+    TI offset = 0;
+    // TODO: optimization if only 1 sst
     f( [&]( const Pt *positions, const TF */*weights*/, TI nb_diracs ) {
-        thread_pool.execute( nb_jobs, [&]( TI num_job, int ) {
+        // nb diracs per thread
+        thread_pool.execute( nb_jobs, [&]( TI num_job, int num_thread ) {
             TI beg = ( num_job + 0 ) * nb_diracs / nb_jobs;
             TI end = ( num_job + 1 ) * nb_diracs / nb_jobs;
             for( TI index = beg; index < end; ++index ) {
-                zcoords[ off + index ] = zcoords_for<TZ,nb_bits_per_axis>( positions[ index ], min_point, inv_step_length );
-                indices[ off + index ] = index;
+                TZ zcoords = zcoords_for<TZ,nb_bits_per_axis>( positions[ index ], min_point, inv_step_length );
+                if ( zcoords >= sst.beg_zcoords && zcoords < sst.end_zcoords )
+                    ++offsets[ num_thread ];
             }
         } );
-        off += nb_diracs;
+
+        // offset per thread
+        for( TI i = 0; i < nb_threads; ++i ) {
+            TI size = offsets[ i ];
+            offsets[ i ] = offset;
+            offset += size;
+        }
+
+        //
+        thread_pool.execute( nb_jobs, [&]( TI num_job, int num_thread ) {
+            TI beg = ( num_job + 0 ) * nb_diracs / nb_jobs;
+            TI end = ( num_job + 1 ) * nb_diracs / nb_jobs;
+            for( TI index = beg; index < end; ++index ) {
+                TZ zcoords = zcoords_for<TZ,nb_bits_per_axis>( positions[ index ], min_point, inv_step_length );
+                if ( zcoords >= sst.beg_zcoords && zcoords < sst.end_zcoords ) {
+                    TI off = offsets[ num_thread ]++;
+                    zcoords[ off ] = zcoords;
+                    indices[ off ] = index;
+                }
+            }
+        } );
     } );
 }
 
@@ -441,9 +466,9 @@ void LGrid<Pc>::fill_the_grid( const std::function<void(const Cb &cb)> &f, TmpLe
     using std::max;
 
     // get zcoords for each dirac
-    znodes_keys.reserve( 2 * nb_diracs );
-    znodes_inds.reserve( 2 * nb_diracs );
-    make_znodes<nb_bits_per_axis>( znodes_keys.data(), znodes_inds.data(), f );
+    znodes_keys.reserve( 2 * sst.nb_diracs );
+    znodes_inds.reserve( 2 * sst.nb_diracs );
+    make_znodes<nb_bits_per_axis>( znodes_keys.data(), znodes_inds.data(), f, sst );
 
     // sorting w.r.t. zcoords
     std::pair<TZ *,TI *> sorted_znodes = radix_sort(

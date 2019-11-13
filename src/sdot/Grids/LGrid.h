@@ -110,7 +110,7 @@ private:
     void                           fill_the_grid             ( const std::function<void(const Cb &cb)> &f, TmpLevelInfo *level_info, const SubStructure &sst );
     void                           fill_the_grid             ( const std::function<void(const Cb &cb)> &f );
     template<int flags> void       make_lcs_from             ( const std::function<void( CP &, TI num, int num_thread )> &cb, std::priority_queue<Msi> &base_queue, std::priority_queue<Msi> &queue, CP &lc, const FinalCell *cell, const CpAndNum *path, TI path_len, int num_thread, N<flags>, const CP &starting_lc ) const;
-    void                           make_znodes               ( TZ *zcoords, TI *indices, const std::function<void(const Cb &cb)> &f );
+    void                           make_znodes               ( TZ *zcoords, TI *indices, const std::function<void(const Cb &cb)> &f, const SubStructure &sst );
     void                           display                   ( VtkOutput &vtk_output, BaseCell *cell, int disp_weights ) const;
     template<int a_n0,int f> void  cut_lc                    ( CP &lc, Pt c0, TF w0, const FinalCell *dell, N<a_n0>, TI n0, N<f> ) const;
 
