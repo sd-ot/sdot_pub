@@ -11,24 +11,81 @@ namespace sdot {
 
 template<class Pc>
 LGrid<Pc>::LGrid( std::size_t max_diracs_per_cell ) : max_diracs_per_cell( max_diracs_per_cell ) {
-    nb_final_cells = 0;
-    root_cell = nullptr;
+    max_diracs_per_cell = std::numeric_limits<TI>::max();
+    nb_final_cells      = 0;
+    nb_cb_calls         = 0;
+    root_cell           = nullptr;
 }
 
 template<class Pc> template<int flags>
 void LGrid<Pc>::update( const Pt *positions, const TF *weights, TI nb_diracs, N<flags>, bool positions_have_changed, bool weights_have_changed ) {
     update( [&]( const Cb &cb ) {
-        cb( positions, weights, nb_diracs );
+        cb( positions, weights, nb_diracs, true );
     }, N<flags>, bool positions_have_changed, bool weights_have_changed ) {
 }
 
 template<class Pc> template<int flags>
 void LGrid<Pc>::update( const std::function<void(const Cb &cb)> &f, N<flags>, bool positions_have_changed, bool weights_have_changed ) {
+    // get bounds + sub structures
     if ( positions_have_changed )
         update_the_limits( f );
 
+    // make the grid (with internal storage of positions and weights)
     if ( positions_have_changed || weights_have_changed )
         fill_the_grid( f );
+}
+
+template<class Pc>
+void LGrid<Pc>::update_the_limits( const std::function<void(const Cb &cb)> &f ) {
+    using std::min;
+    using std::max;
+
+    // traversal #1 to get min/max
+    for( std::size_t d = 0; d < dim; ++d ) {
+        min_point[ d ] = + std::numeric_limits<TF>::max();
+        max_point[ d ] = - std::numeric_limits<TF>::max();
+    }
+
+    ppwns.clear();
+    use_ppwns = true;
+    nb_cb_calls = 0;
+    nb_diracs_tot = 0;
+    f( [&]( const Pt *positions, const TF *weights, TI nb_diracs, bool ptrs_survive_the_call ) {
+        for( std::size_t num_dirac = 0; num_dirac < nb_diracs; ++num_dirac ) {
+            for( std::size_t d = 0; d < dim; ++d ) {
+                min_point[ d ] = min( min_point[ d ], positions[ d ][ num_dirac ] );
+                max_point[ d ] = max( max_point[ d ], positions[ d ][ num_dirac ] );
+            }
+        }
+
+        if ( ptrs_survive_the_call )
+            ppwns.push_back( { positions, weights, nb_diracs } );
+        else
+            use_ppwns = false;
+
+        nb_diracs_tot += nb_diracs;
+        ++nb_cb_calls;
+    } );
+
+    // grid size
+    grid_length = 0;
+    for( std::size_t d = 0; d < dim; ++d )
+        grid_length = max( grid_length, max_point[ d ] - min_point[ d ] );
+    grid_length *= 1 + std::numeric_limits<TF>::epsilon();
+
+    step_length = grid_length / ( TZ( 1 ) << nb_bits_per_axis );
+    inv_step_length = TF( 1 ) / step_length;
+
+    // make zcoords bounds for each out-of-memory phase
+    if ( nb_diracs_tot <= max_diracs_per_sst ) {
+        sub_structures = { SubStructure{
+            TZ( 0 ),
+            TZ( 1 ) << dim * nb_bits_per_axis,
+            nb_diracs_tot
+        } };
+    } else {
+        TODO;
+    }
 }
 
 template<class Pc> template<int avoid_n0,int flags>
@@ -375,46 +432,6 @@ void LGrid<Pc>::write_to_stream( std::ostream &os, BaseCell *cell, std::string s
     }
 }
 
-template<class Pc>
-void LGrid<Pc>::update_the_limits( const std::function<void(const Cb &cb)> &f ) {
-    using std::min;
-    using std::max;
-
-    // min/max
-    for( std::size_t d = 0; d < dim; ++d ) {
-        min_point[ d ] = + std::numeric_limits<TF>::max();
-        max_point[ d ] = - std::numeric_limits<TF>::max();
-    }
-
-    nb_diracs_tot = 0;
-    f( [&]( const Pt *positions, const TF *weights, TI nb_diracs ) {
-        for( std::size_t num_dirac = 0; num_dirac < nb_diracs; ++num_dirac ) {
-            for( std::size_t d = 0; d < dim; ++d ) {
-                min_point[ d ] = min( min_point[ d ], positions[ d ][ num_dirac ] );
-                max_point[ d ] = max( max_point[ d ], positions[ d ][ num_dirac ] );
-            }
-        }
-
-        nb_diracs_tot += nb_diracs;
-    } );
-
-    // grid size
-    grid_length = 0;
-    for( std::size_t d = 0; d < dim; ++d )
-        grid_length = max( grid_length, max_point[ d ] - min_point[ d ] );
-    grid_length *= 1 + std::numeric_limits<TF>::epsilon();
-
-    step_length = grid_length / ( TZ( 1 ) << nb_bits_per_axis );
-    inv_step_length = TF( 1 ) / step_length;
-
-    // make zcoords bounds for each out-of-memory phase
-    sub_structures.push_back( SubStructure{
-        TZ( 0 ),
-        TZ( 1 ) << dim * nb_bits_per_axis,
-        nb_diracs_tot
-    } );
-}
-
 
 template<class Pc>
 void LGrid<Pc>::make_znodes( TZ *zcoords, TI *indices, const std::function<void(const Cb &cb)> &f, const SubStructure &sst ) {
@@ -459,13 +476,8 @@ void LGrid<Pc>::make_znodes( TZ *zcoords, TI *indices, const std::function<void(
 
 template<class Pc>
 void LGrid<Pc>::fill_the_grid( const std::function<void(const Cb &cb)> &f, TmpLevelInfo *level_info, const SubStructure &sst ) {
-    using std::round;
-    using std::ceil;
-    using std::pow;
-    using std::min;
-    using std::max;
-
     // get zcoords for each dirac
+    // if ( sst.ppwns )
     znodes_keys.reserve( 2 * sst.nb_diracs );
     znodes_inds.reserve( 2 * sst.nb_diracs );
     make_znodes<nb_bits_per_axis>( znodes_keys.data(), znodes_inds.data(), f, sst );

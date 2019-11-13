@@ -28,7 +28,7 @@ public:
     using                          CI                        = typename CP::CI; ///< cut info
     using                          Pt                        = typename CP::Pt; ///< point type
 
-    using                          Cb                        = std::function<void(const Pt *positions, const TF *weights, TI nb_diracs)>; ///<
+    using                          Cb                        = std::function<void( const Pt *positions, const TF *weights, TI nb_diracs, bool ptrs_survive_the_call )>; ///<
 
     enum {                         homogeneous_weights       = 1 };
     enum {                         ball_cut                  = 2 };
@@ -44,7 +44,8 @@ public:
     void                           display                   ( VtkOutput &vtk_output, int disp_weights = 0 ) const; ///< for debug purpose
 
     // values used by update
-    int                            max_diracs_per_cell;
+    TI                             max_diracs_per_cell;
+    TI                             max_diracs_per_sst;
     std::vector<Pt>                translations;
 
 private:
@@ -53,7 +54,6 @@ private:
     using                          CellBounds                = typename CellBoundsTraits<Pc>::type;
     using                          LocalSolver               = typename CellBounds::LocalSolver;
     using                          TZ                        = std::uint64_t; ///< zcoords
-
 
     struct                         BaseCell {
         bool                       super_cell                () const { return nb_sub_items < 0; }
@@ -86,7 +86,6 @@ private:
         TZ                         beg_zcoords;
         TZ                         end_zcoords;
         TI                         nb_diracs;
-
     };
 
     struct                         TmpLevelInfo              {
@@ -98,7 +97,9 @@ private:
         LocalSolver                ls;
     };
 
+
     struct                         CpAndNum                  { const SuperCell *cell; TI num; };
+    struct                         Ppwn                      { const Pt *positions; const TF *weights; TI nb_diracs; };
     struct                         Msi                       { bool operator<( const Msi &that ) const { return dist > that.dist; } Pt center; const BaseCell *cell; TF dist; };
 
     void                           update_cell_bounds_phase_1( BaseCell *cell, BaseCell **path, int level );
@@ -121,6 +122,10 @@ private:
     BumpPointerPool                mem_pool;                 ///< store the cells
     std::vector<std::size_t>       rs_tmps;                  ///< for the radix sort
 
+    // result of cb calls
+    bool                           use_ppwns;                ///<
+    std::vector<Ppwn>              ppwns;                    ///< nb_diracs + pointers to positions and weights
+
     // sub structures
     std::vector<SubStructure>      sub_structures;           ///<
 
@@ -128,6 +133,7 @@ private:
     TF                             inv_step_length;
     TI                             nb_final_cells;
     TI                             nb_diracs_tot;
+    TI                             nb_cb_calls;
     TF                             step_length;
     TF                             grid_length;
     Pt                             min_point;
