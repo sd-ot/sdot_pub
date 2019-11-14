@@ -38,8 +38,8 @@ public:
     /* ctor */                     LGrid                       ( std::size_t max_diracs_per_cell = 11 );
 
     template<int flags> void       update_positions_and_weights( const Pt *positions, const TF *weights, TI nb_diracs, N<flags> );
-    template<int flags> void       update_positions_and_weights( const std::function<void(const Cbpw &cb)> &f, N<flags> );
-    template<int flags> void       assign_new_weights          ( N<flags>() );
+    template<int flags> void       update_positions_and_weights( const std::function<void( const Cbpw &cb )> &f, N<flags> );
+    void                           mod_weights                 ( const std::function<void( const Pt &position, TF &weight, Af &af )> &f );
 
     template<int flags> int        for_each_laguerre_cell      ( const std::function<void( CP &lc, int num_thread )> &f, const CP &starting_lc, N<flags>, bool stop_if_void_lc = false ); ///< version with num_thread
 
@@ -59,9 +59,14 @@ private:
     using                          LocalSolver                 = typename CellBounds::LocalSolver;
     using                          TZ                          = std::uint64_t; ///< zcoords
 
+    struct                         SuperCell;
+    struct                         FinalCell;
+
     struct                         BaseCell {
-        bool                       super_cell                  () const { return nb_sub_items < 0; }
-        bool                       final_cell                  () const { return nb_sub_items > 0; }
+        const SuperCell           *super_cell                  () const { return nb_sub_items < 0 ? static_cast<const SuperCell *>( this ) : nullptr; }
+        SuperCell                 *super_cell                  () { return nb_sub_items < 0 ? static_cast<SuperCell *>( this ) : nullptr; }
+        const FinalCell           *final_cell                  () const { return nb_sub_items > 0 ? static_cast<const FinalCell *>( this ) : nullptr; }
+        FinalCell                 *final_cell                  () { return nb_sub_items > 0 ? static_cast<FinalCell *>( this ) : nullptr; }
 
         TI                         end_ind_in_fcells;          ///< end index in final cells
         SI                         nb_sub_items;               ///< > 0 => final cell (nb diracs). < 0 => super cell (nb sub cells).
@@ -110,6 +115,7 @@ private:
     template<int flags> void       compute_sst_limits          ( const std::function<void(const Cbpw &cb)> &f, N<flags> );
     template<class Ps> void        make_the_cells_for          ( const SstLimits &sst, TmpLevelInfo *level_info, Ps ps );
     void                           write_to_stream             ( std::ostream &os, BaseCell *cell, std::string sp ) const;
+    void                           mod_weights_rec             ( const std::function<void( const Pt &position, TF &weight, Af &af )> &f, BaseCell *cell, LocalSolver *local_solvers, int level );
     TI                            *znodes_seconds              ( const Ppwn & ) { return znodes_inds.data(); }
     std::pair<TI,TI>              *znodes_seconds              ( const std::vector<Ppwn> & ) { return znodes_pnds.data(); }
     Pwi                           *znodes_seconds              ( int ) { return znodes_vals.data(); }

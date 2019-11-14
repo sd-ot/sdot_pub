@@ -42,98 +42,41 @@ void LGrid<Pc>::update_positions_and_weights( const std::function<void(const Cbp
     }
 }
 
-template<class Pc> template<int flags>
-void LGrid<Pc>::assign_new_weights( N<flags> ) {
-    // first phase of bounds update: use local solvers
-    TmpLevelInfo level_info[ nb_bits_per_axis + 1 ];
-    for( TmpLevelInfo &l : level_info )
-        l.clr();
-
-    //    TmpLevelInfo *li = level_info + level;
-    //    BaseCell *cell = nullptr;
-    //    if ( len_ind_nz ) {
-    //        FinalCell *fcell = reinterpret_cast<FinalCell *>( mem_pool.allocate( sizeof( FinalCell ) ) );
-    //        fcell->end_ind_in_fcells = ++nb_final_cells;
-    //        fcell->nb_sub_items = len_ind_nz;
-
-    //        for( std::size_t d = 0; d < dim; ++d )
-    //            fcell->positions[ d ] = reinterpret_cast<TF *>( mem_pool.allocate( sizeof( TF ) * len_ind_nz, 64 ) );
-    //        fcell->indices = reinterpret_cast<TI *>( mem_pool.allocate( sizeof( TI ) * len_ind_nz ) );
-    //        fcell->weights = reinterpret_cast<TF *>( mem_pool.allocate( sizeof( TF ) * len_ind_nz, 64 ) );
-    //        fcell->afs = reinterpret_cast<Af *>( mem_pool.allocate( sizeof( Af ) * len_ind_nz ) );
-
-    //        // store diracs indices, get bounds
-    //        LocalSolver ls;
-    //        ls.clr();
-    //        for( TI i = 0; i < len_ind_nz; ++i ) {
-    //            Pwi pwi = get_pwi( ps, sorted_znodes.second[ beg_ind_zn + i ] );
-    //            for( std::size_t d = 0; d < dim; ++d )
-    //                fcell->positions[ d ][ i ] = pwi.positions[ d ];
-    //            fcell->indices[ i ] = pwi.indice;
-    //            fcell->weights[ i ] = pwi.weight;
-
-    //            ls.push( pwi.positions, pwi.weight );
-    //        }
-
-    //        ls.store_to( fcell->bounds );
-
-    //        //
-    //        li->sub_cells[ li->nb_sub_cells++ ] = fcell;
-    //        li->ls.push( ls );
-
-    //        cell = fcell;
-    //    }
-
-    //    // multilevel
-    //    for( std::size_t sl = level; ; ++sl ) {
-    //        // coarser level ?
-    //        if ( sl == nb_bits_per_axis ) {
-    //            root_cell = cell;
-    //            break;
-    //        }
-
-    //        // if the sub cells are not finished, stay in this level
-    //        if ( li->num_sub_cell < ( 1 << dim ) - 1 ) {
-    //            ++li->num_sub_cell;
-    //            break;
-    //        }
-
-    //        // else, make a new super cell
-    //        cell = nullptr;
-    //        TmpLevelInfo *oli = li++;
-    //        if ( oli->nb_sub_cells ) {
-    //            if ( oli->nb_sub_cells > 1 ) {
-    //                SuperCell *scell = reinterpret_cast<SuperCell *>( mem_pool.allocate( sizeof( BaseCell ) + oli->nb_sub_cells * sizeof( BaseCell * ) ) );
-    //                scell->end_ind_in_fcells = nb_final_cells;
-    //                scell->nb_sub_items = - oli->nb_sub_cells;
-
-    //                for( std::size_t i = 0; i < oli->nb_sub_cells; ++i )
-    //                    scell->sub_cells[ i ] = oli->sub_cells[ i ];
-
-    //                //
-    //                oli->ls.store_to( scell->bounds );
-
-    //                cell = scell;
-    //            } else {
-    //                cell = oli->sub_cells[ 0 ];
-    //            }
-
-    //            //
-    //            li->sub_cells[ li->nb_sub_cells++ ] = cell;
-    //            li->ls.push( oli->ls );
-    //        }
-
-    //        // and reset the previous level
-    //        oli->clr();
-    //    }
-
+template<class Pc>
+void LGrid<Pc>::mod_weights( const std::function<void( const Pt &position, TF &weight, Af &af )> &f ) {
+    if ( root_cell ) {
+        // tmp storage for multi-level information
+        LocalSolver local_solvers[ nb_bits_per_axis ];
+        mod_weights_rec( f, root_cell, local_solvers, 0 );
+    }
 
     // second phase of bounds update (if necessary)
     if ( CellBounds::need_phase_1 && root_cell ) {
         BaseCell *path[ nb_bits_per_axis ];
         update_cell_bounds_phase_1( root_cell, path, 0 );
     }
-    TODO;
+}
+
+template<class Pc>
+void LGrid<Pc>::mod_weights_rec( const std::function<void( const Pt &position, TF &weight, Af &af )> &f, BaseCell *cell, LocalSolver *local_solvers, int level ) {
+    local_solvers[ level ].clr();
+
+    if ( SuperCell *sc = cell->super_cell() ) {
+        for( std::size_t i = 0; i < sc->nb_sub_cells(); ++i ) {
+            mod_weights_rec( f, sc->sub_cells[ i ], local_solvers, level + 1 );
+            local_solvers[ level ].push( local_solvers[ level + 1 ] );
+        }
+    } else if ( FinalCell *fc = cell->final_cell() ) {
+        for( std::size_t i = 0; i < fc->nb_diracs(); ++i ) {
+            Pt pos = fc->pos( i );
+            f( pos, fc->weights[ i ], fc->afs[ i ] );
+            local_solvers[ level ].push( pos, fc->weights[ i ] );
+        }
+    } else {
+        TODO;
+    }
+
+    local_solvers[ level ].store_to( cell->bounds );
 }
 
 template<class Pc> template<int flags>

@@ -2,7 +2,6 @@
 
 #include "Geometry/Point2.h"
 #include <vector>
-#include <mutex>
 #include <deque>
 
 namespace sdot {
