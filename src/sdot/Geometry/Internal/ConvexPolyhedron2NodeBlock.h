@@ -1,7 +1,7 @@
 #pragma once
 
+#include "../../Support/Point2.h"
 #include "PaddedType.h"
-#include "../Point2.h"
 
 namespace sdot {
 

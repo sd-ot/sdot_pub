@@ -1,6 +1,6 @@
 // #include "Support/Math.h"
-#include "Support/ASSERT.h"
 #include "VtkOutput.h"
+#include "ASSERT.h"
 #include <fstream>
 
 namespace sdot {

@@ -306,6 +306,25 @@ int ZGrid<Pc>::for_each_laguerre_cell( const std::function<void( CP &, TI num, i
 }
 
 template<class Pc>
+void ZGrid<Pc>::make_znodes( std::array<const TF *,dim> positions, TI nb_diracs ) {
+    znodes_keys.reserve( 2 * nb_diracs );
+    znodes_inds.reserve( 2 * nb_diracs );
+
+    // 1 ppwm => 1 index is enough to find the corresponding dirac
+    // 1 sst => no need to test if the dirac is inside => num in znode_xxx is = to num to positions
+    TI nb_threads = thread_pool.nb_threads(), nb_jobs = nb_threads, offset = 0;
+    thread_pool.execute( nb_jobs, [&]( TI num_job, int /*num_thread*/ ) {
+        TI beg = ( num_job + 0 ) * nb_diracs / nb_jobs;
+        TI end = ( num_job + 1 ) * nb_diracs / nb_jobs;
+        for( TI index = beg; index < end; ++index ) {
+            TZ zcoords = zcoords_for<TZ,nb_bits_per_axis>( pt( positions, index ), min_point, inv_step_length );
+            znodes_keys[ index ] = zcoords;
+            znodes_inds[ index ] = index;
+        }
+    } );
+}
+
+template<class Pc>
 void ZGrid<Pc>::update_the_limits( std::array<const TF *,dim> positions, const TF *weights, TI nb_diracs ) {
     using std::min;
     using std::max;
@@ -444,7 +463,7 @@ void ZGrid<Pc>::fill_grid_using_zcoords( std::array<const TF *,dim> positions, c
     znodes_inds.reserve( 2 * nb_diracs );
     znodes_keys.resize( nb_diracs );
     znodes_inds.resize( nb_diracs );
-    make_znodes<nb_bits_per_axis>( znodes_keys.data(), znodes_inds.data(), positions, nb_diracs, min_point, inv_step_length );
+    make_znodes( positions, nb_diracs );
 
     // sorting w.r.t. zcoords
     znodes_keys.reserve( 2 * znodes_keys.size() );

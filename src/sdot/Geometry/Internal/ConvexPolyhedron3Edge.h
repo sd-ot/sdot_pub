@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../../Support/PointerWithSmallOffset.h"
-#include "../Point3.h"
+#include "../../Support/Point3.h"
 
 namespace sdot {
 

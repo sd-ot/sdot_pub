@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Geometry/Point2.h"
+#include "Point2.h"
 #include <vector>
 #include <deque>
 

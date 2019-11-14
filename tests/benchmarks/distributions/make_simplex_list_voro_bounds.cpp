@@ -2,7 +2,7 @@
 #include "../../../src/sdot/Support/ASSERT.h"
 #include "../../../src/sdot/Support/Time.h"
 #include "../../../src/sdot/Support/P.h"
-#include "../../../src/sdot/ZGrid.h"
+#include "../../../src/sdot/Grids/ZGrid.h"
 #include <fstream>
 #include <cnpy.h>
 #include <map>
@@ -20,6 +20,7 @@ struct Pc {
     using  TF                = double;
     using  TI                = std::size_t;
     using  CI                = std::size_t;
+    struct Af                {};
 };
 
 //template<class Pc>
@@ -111,7 +112,7 @@ void make_simplex_list( const char *output, std::size_t nb_diracs ) {
     grid.for_each_laguerre_cell( [&]( CP &cp, std::size_t num, int /*num_thread*/ ) {
         m.lock();
         cp.for_each_boundary_item( [&]( const typename CP::BoundaryItem &boundary_item ) {
-            if ( boundary_item.id != -1ul && boundary_item.id > num )
+            if ( boundary_item.id > num ) // boundary_item.id != -1ul &&
                 boundary_item.add_to_simplex_list( simplex_list );
         } );
         m.unlock();

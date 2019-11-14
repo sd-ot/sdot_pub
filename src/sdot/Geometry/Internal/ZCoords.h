@@ -1,8 +1,8 @@
 #pragma once
 
 #include "../../Support/StaticRange.h"
+#include "../../Support/PointTraits.h"
 #include "../../Support/ThreadPool.h"
-#include "../PointTraits.h"
 #include <immintrin.h>
 #include <array>
 

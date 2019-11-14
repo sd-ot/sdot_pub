@@ -1,7 +1,7 @@
 #ifndef SDOT_CellBoundsP0_H
 #define SDOT_CellBoundsP0_H
 
-#include "../../Geometry/PointTraits.h"
+#include "../../Support/PointTraits.h"
 
 namespace sdot {
 

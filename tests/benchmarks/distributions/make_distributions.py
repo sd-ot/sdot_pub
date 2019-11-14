@@ -43,11 +43,13 @@ def random_point_on_simplex( simplex, dr = 1e-3 ):
 def make_positions( dist_name, nb_diracs, dim ):
     if dist_name == "uniform":
         return np.random.rand( nb_diracs, dim )
+
     if dist_name.startswith( "voro_" ):
         # gen simplex list
         gen = os.path.join( os.path.dirname( sys.argv[ 0 ] ), "make_simplex_list_voro_bounds.cpp" )
         out = "/data/sdot/{}_{}D".format( dist_name, dim )
-        os.system( "nsmake run '{}' {} {} {}".format( gen, out, dist_name.split( "_" )[ 1 ], dim ) )
+        if os.system( "nsmake run '{}' {} {} {}".format( gen, out, dist_name.split( "_" )[ 1 ], dim ) ):
+            sys.exit( 1 )
 
         simplex_list = []
         for l in open( out ).readlines():
@@ -62,31 +64,34 @@ def make_positions( dist_name, nb_diracs, dim ):
         for i in range( len( acc_masses ) ):
             acc_masses[ i ] /= acc
 
-        #
+        # nb_points_per_simplex
         num_simplex = 0
-        res = np.zeros( [ nb_diracs, dim ] )
+        nb_points_per_simplex = np.zeros( len( simplex_list ) )
         for n in range( nb_diracs ):
-            # selection of the simplex
             a = ( n + 0.5 ) / nb_diracs
             while acc_masses[ num_simplex ] < a:
                 num_simplex += 1
+            nb_points_per_simplex[ num_simplex ] += 1
 
-            # res[ n, : ] = random_point_on_simplex( simplex_list[ num_simplex ] )
+        # points
+        num_dirac = 0
+        res = np.zeros( [ nb_diracs, dim ] )
+        for num_simplex in range( len( simplex_list ) ):
+            nb_points = int( nb_points_per_simplex[ num_simplex ] )
+            for n in range( nb_points ):
+                # res[ n, : ] = random_point_on_simplex( simplex_list[ num_simplex ] )
+                res[ num_dirac, : ] = point_on_simplex( simplex_list[ num_simplex ], ( n + 0.5 ) / nb_points )
+                res[ num_dirac, : ] += 1 / nb_diracs * np.array( [ np.random.normal(), np.random.normal() ] )
+                num_dirac += 1
 
-            if num_simplex:
-                p = acc_masses[ num_simplex - 1 ]
-            else:
-                p = 0
-            res[ n, : ] = point_on_simplex( simplex_list[ num_simplex ], ( a - p ) / ( acc_masses[ num_simplex ] - p ) )
-
-        plt.plot( res[ :, 0 ], res[ :, 1 ], "x" )
-        plt.show()
+        # plt.plot( res[ :, 0 ], res[ :, 1 ], "x" )
+        # plt.show()
         return res
 
 
-for dist_name in [ "voro_50" ]: # "uniform"
+for dist_name in [ "voro_50", "uniform" ]: # , "voro_50"
     for dim in [ 2 ]:
-        for nb_diracs in map( int, [ 1e4 / 2 ] ): # 1e5, 1e6, 1e7, 1e8
+        for nb_diracs in map( int, [ 1e4, 1e5, 1e6, 1e7, 1e8 ] ): # 
             positions = make_positions( dist_name, nb_diracs, dim )
 
             # diracs
@@ -95,11 +100,11 @@ for dist_name in [ "voro_50" ]: # "uniform"
 
             # solve
             print( dim, nb_diracs )
-            # ot.adjust_weights()
+            ot.adjust_weights( relax = 1e-1 )
 
             # display, save
             if nb_diracs <= 1e6:
-                ot.display_vtk( "vtk/pd.vtk" )
+                ot.display_vtk( "vtk/pd.vtk", points = True )
 
             pw = np.zeros( [ dim + 1, nb_diracs ] )
             for d in range( dim ):

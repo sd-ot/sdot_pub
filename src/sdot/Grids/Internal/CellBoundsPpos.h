@@ -1,7 +1,7 @@
 #ifndef SDOT_CellBoundsPpos_H
 #define SDOT_CellBoundsPpos_H
 
-#include "../../Geometry/PointTraits.h"
+#include "../../Support/PointTraits.h"
 #include <eigen3/Eigen/Cholesky>
 
 namespace sdot {

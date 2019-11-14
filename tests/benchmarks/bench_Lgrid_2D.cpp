@@ -2,7 +2,7 @@
 #include "../../src/sdot/Support/ASSERT.h"
 #include "../../src/sdot/Support/Time.h"
 #include "../../src/sdot/Support/P.h"
-#include "../../src/sdot/Grids/ZGrid.h"
+#include "../../src/sdot/ZGrid.h"
 #include <cnpy.h>
 #include <map>
 using namespace sdot;

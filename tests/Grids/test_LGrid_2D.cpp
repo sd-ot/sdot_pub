@@ -1,11 +1,11 @@
-#include "../src/sdot/Grids/LGrid.h"
-#include "../src/sdot/Support/P.h"
+#include "../../src/sdot/Grids/LGrid.h"
+#include "../../src/sdot/Support/P.h"
 using namespace sdot;
 
 // // nsmake cxx_name clang++
 
-//// nsmake cpp_flag -march=native
-//// nsmake cpp_flag -ffast-math
+// // nsmake cpp_flag -march=native
+// // nsmake cpp_flag -ffast-math
 //// nsmake cpp_flag -O3
 
 template<int _dim>

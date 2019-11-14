@@ -200,8 +200,8 @@ void ConvexPolyhedron2<Pc>::for_each_boundary_item( const std::function<void( co
 
         if ( allow_ball_cut && node( i0 ).arc_radius > 0 ) {
             using std::atan2;
-            item.a0 = atan2( node( i0 ).y - dirac_pos.y, node( i0 ).x - dirac_pos.x );
-            item.a1 = atan2( node( i1 ).y - dirac_pos.y, node( i1 ).x - dirac_pos.x );
+            item.a0 = atan2( node( i0 ).y - *dirac_pos[ 1 ], node( i0 ).x - *dirac_pos[ 0 ] );
+            item.a1 = atan2( node( i1 ).y - *dirac_pos[ 1 ], node( i1 ).x - *dirac_pos[ 0 ] );
             if ( item.a1 < item.a0 )
                 item.a1 += 2 * pi( S<TF>() );
             item.measure = ( item.a1 - item.a0 ) * sphere_radius;

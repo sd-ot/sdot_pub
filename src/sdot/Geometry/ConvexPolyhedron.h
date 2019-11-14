@@ -1,7 +1,7 @@
 #pragma once
 
+#include "../Support/VtkOutput.h"
 #include "../Support/N.h"
-#include "../VtkOutput.h"
 
 namespace sdot {
 

@@ -69,9 +69,11 @@ private:
     void                           update_neighbors       ();
     void                           fill_the_grid          ( std::array<const TF *,dim> positions, const TF *weights, TI nb_diracs );
     template<int flags> TF         min_w_to_cut           ( const CP &lc, const Pt &c0, TF w0, const Cell &cr_cell, N<flags> );
+    void                           make_znodes            ( std::array<const TF *,dim> positions, TI nb_diracs );
     template<int d>   TZ           ng_zcoord              ( TZ zcoords, TZ off, N<d> ) const;
     template<int flags> bool       may_cut                ( const CP &lc, const Pt &c0, TF w0, const Cell &cr_cell, N<flags> );
     Pt                             pt                     ( std::array<const TF *,dim> positions, TI index ) const { Pt res; for( std::size_t i = 0; i < dim; ++i ) res[ i ] = positions[ i ][ index ]; return res; }
+
 
     // tmp
     std::vector<TZ>                znodes_keys;           ///< tmp znodes
