@@ -10,28 +10,26 @@ namespace sdot {
 /**
    We assume that grid has already been initialized by diracs
 */
-template<class Grid,class Domain,class Func>
-void display_vtk( VtkOutput &res, Grid &grid, Domain &domain, const Func &/*radial_func*/ ) {
+template<class Domain,class Grid,class Func>
+void display_vtk( Domain &domain, Grid &grid, VtkOutput &res, const Func &/*radial_func*/ ) {
     std::mutex m;
-    grid.for_each_laguerre_cell( [&]( auto &lc, int /*num_thread*/ ) {
-        domain.for_each_intersection( lc, [&]( auto &cp, SpaceFunctions::Constant<TF> /*space_func*/ ) {
-            m.lock();
-            cp.display( res, { TF( *cp.dirac_index ) } );
-            m.unlock();
-        } );
-    }, domain.englobing_convex_polyhedron(), N<0>(), false ); // , radial_func.need_ball_cut()
+    domain.for_each_laguerre_cell( grid, [&]( auto &lc, int /*num_thread*/, auto /*space_func*/ ) {
+        m.lock();
+        lc.display( res, { VtkOutput::TF( *lc.dirac_index ) } );
+        m.unlock();
+    } ); // , radial_func.need_ball_cut()
 }
 
-template<class Grid,class Domain>
-void display_vtk( VtkOutput &res, Grid &grid, Domain &domain ) {
-    display_vtk( res, grid, domain, FunctionEnum::Unit() );
+template<class Domain,class Grid>
+void display_vtk( Domain &domain, Grid &grid, VtkOutput &vo ) {
+    display_vtk( domain, grid, vo, FunctionEnum::Unit() );
 }
 
 
 template<class Grid,class Domain>
-void display_vtk( std::string res, Grid &grid, Domain &domain ) {
+void display_vtk( Domain &domain, Grid &grid, std::string res ) {
     VtkOutput vo;
-    display_vtk( vo, grid, domain );
+    display_vtk( domain, grid, vo );
     vo.save( res );
 }
 

@@ -46,6 +46,29 @@ void ConvexPolyhedronAssembly<Pc>::normalize() {
             item.coeff /= mea;
 }
 
+template<class Pc> template<class Grid,class F>
+void ConvexPolyhedronAssembly<Pc>::for_each_laguerre_cell( Grid &grid, const F &func, bool stop_if_void ) {
+    if ( items.size() == 0 )
+        return;
+
+    if ( items.size() == 1 ) {
+        SpaceFunctions::Constant<TF> cst{ items[ 0 ].coeff };
+        grid.for_each_laguerre_cell( [&]( auto &lc, int num_thread ) {
+            func( lc, num_thread, cst );
+        }, items[ 0 ].polyhedron, N<0>(), stop_if_void );
+    } else {
+        TODO;
+        //        grid.for_each_laguerre_cell( [&]( auto &lc, int /*num_thread*/ ) {
+        //            domain.for_each_intersection( lc, [&]( auto &cp, auto /*SpaceFunctions::Constant<TF> space_func*/ ) {
+        //                m.lock();
+        //                cp.display( res, { TF( *cp.dirac_index ) } );
+        //                m.unlock();
+        //            } );
+        //        }, domain.englobing_convex_polyhedron(), N<0>(), false ); // , radial_func.need_ball_cut()
+    }
+
+}
+
 template<class Pc>
 const typename ConvexPolyhedronAssembly<Pc>::CP& ConvexPolyhedronAssembly<Pc>::englobing_convex_polyhedron() const {
     using std::min;

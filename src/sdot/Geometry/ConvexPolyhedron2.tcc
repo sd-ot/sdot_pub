@@ -49,6 +49,26 @@ ConvexPolyhedron2<Pc>::ConvexPolyhedron2( const Box &box, CI cut_id ) : ConvexPo
 }
 
 template<class Pc>
+ConvexPolyhedron2<Pc>::ConvexPolyhedron2( ConvexPolyhedron2 &&that ) {
+    nodes         = that.nodes        ;
+    size          = that.size         ;
+    rese          = that.rese         ;
+
+    dirac_weight  = that.dirac_weight ;
+    dirac_index   = that.dirac_index  ;
+    dirac_pos     = that.dirac_pos    ;
+    dirac_af      = that.dirac_af     ;
+
+    sphere_radius = that.sphere_radius;
+    sphere_center = that.sphere_center;
+    sphere_cut_id = that.sphere_cut_id;
+
+    that.nodes    = nullptr;
+    that.size     = 0;
+    that.rese     = 0;
+}
+
+template<class Pc>
 ConvexPolyhedron2<Pc>::ConvexPolyhedron2() {
     size  = 0;
     rese  = block_size;
@@ -105,8 +125,8 @@ ConvexPolyhedron2<Pc> &ConvexPolyhedron2<Pc>::operator=( const ConvexPolyhedron2
     }
 
     sphere_radius = that.sphere_radius;
-    dirac_pos = that.dirac_pos;
-    sphere_cut_id     = that.sphere_cut_id;
+    sphere_center = that.sphere_center;
+    sphere_cut_id = that.sphere_cut_id;
 
     return *this;
 }

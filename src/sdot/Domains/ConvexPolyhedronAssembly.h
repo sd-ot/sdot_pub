@@ -26,6 +26,9 @@ public:
 
     void                   normalize                  ();
 
+    template               <class Grid,class F>
+    void                   for_each_laguerre_cell    ( Grid &grid, const F &func, bool stop_if_void = false ); ///< func( cell, num_thread, space_func )
+
     // info
     const CP&              englobing_convex_polyhedron() const;
     template<class F> void for_each_intersection      ( CP &cp, const F &f ) const; ///< f( ConvexPolyhedron, SpaceFunction )

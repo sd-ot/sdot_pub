@@ -51,6 +51,7 @@ public:
     struct                               Box                       { Pt p0, p1; };
 
     /**/                                 ConvexPolyhedron2         ( const Box &box, CI cut_id = {} );
+    /**/                                 ConvexPolyhedron2         ( ConvexPolyhedron2 &&that );
     /**/                                 ConvexPolyhedron2         ();
     /**/                                ~ConvexPolyhedron2         ();
 
@@ -60,6 +61,7 @@ public:
     void                                 write_to_stream           ( std::ostream &os ) const;
     template<class F> void               for_each_edge             ( const F &f ) const;
     template<class F> void               for_each_node             ( const F &f ) const;
+    Pt                                   dirac_center              () const { Pt res; for( std::size_t d = 0; d < dim; ++d ) res[ d ] = *dirac_pos[ d ]; return res; }
     TI                                   nb_nodes                  () const;
     void                                 display                   ( VtkOutput &vo, const std::vector<TF> &cell_values = {}, Pt offset = TF( 0 ) ) const;
     bool                                 empty                     () const;
@@ -85,6 +87,7 @@ public:
     Af                                  *dirac_af;                 ///< additionnal fields
 
     TF                                   sphere_radius;
+    Pt                                   sphere_center;
     CI                                   sphere_cut_id;
 
 private:

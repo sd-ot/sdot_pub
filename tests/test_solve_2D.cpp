@@ -44,8 +44,8 @@ void test_with_Pc() {
 
     // load
     std::size_t nb_diracs = 10000;
-    std::vector<Pt> positions( nb_diracs );
     std::vector<TF> weights( nb_diracs );
+    std::vector<Pt> positions( nb_diracs );
     for( std::size_t n = 0; n < nb_diracs; ++n ) {
         for( std::size_t d = 0; d < dim; ++d )
             positions[ n ][ d ] = 0.2 + 0.6 * rand() / RAND_MAX;
@@ -61,7 +61,7 @@ void test_with_Pc() {
     domain.add_box( { 0, 0 }, { 1, 1 } );
 
     //
-    display_vtk( "vtk/pd.vtk", grid, domain );
+    display_vtk( domain, grid, "vtk/pd.vtk" );
 
     //    // solve
     //    TF target_mass = TF( 1 )/ nb_diracs;

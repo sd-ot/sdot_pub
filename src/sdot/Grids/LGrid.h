@@ -42,6 +42,7 @@ public:
     void                           mod_weights                 ( const std::function<void( const Pt &position, TF &weight, Af &af )> &f );
 
     template<int flags> int        for_each_laguerre_cell      ( const std::function<void( CP &lc, int num_thread )> &f, const CP &starting_lc, N<flags>, bool stop_if_void_lc = false ); ///< version with num_thread
+    TI                             nb_diracs                   () const { return nb_diracs_tot; }
 
     void                           write_to_stream             ( std::ostream &os ) const;
     void                           display_tikz                ( std::ostream &os, TF scale = 1.0 ) const;
