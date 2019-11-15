@@ -70,19 +70,15 @@ private:
 
     struct                         TmpLevelInfo                {
         void                       clr                         () { num_sub_cell = 0; nb_sub_cells = 0; ls.clr(); }
-
         BaseCell                  *sub_cells[ 1 << dim ];      ///<
         TI                         num_sub_cell;               ///<
         TI                         nb_sub_cells;               ///<
         LocalSolver                ls;
     };
 
-
     struct                         SstLimits                   { TZ beg_zcoords, end_zcoords; TI nb_diracs; int level; };
     struct                         CpAndNum                    { const SuperCell *cell; TI num; };
-    struct                         Ppwn                        { const Pt *positions; const TF *weights; TI off_diracs, nb_diracs; };
     struct                         Msi                         { bool operator<( const Msi &that ) const { return dist > that.dist; } Pt center; const BaseCell *cell; TF dist; };
-    struct                         Pwi                          { Pt positions; TF weight; TI indice; };
 
     template<int flags> void       compute_grid_dims_and_ppwns ( const std::function<void(const Cbd &cb)> &f, N<flags> );
     void                           update_cell_bounds_phase_1  ( BaseCell *cell, BaseCell **path, int level );
