@@ -18,14 +18,14 @@ LGrid<Pc>::LGrid( std::size_t max_diracs_per_cell ) : max_diracs_per_cell( max_d
 }
 
 template<class Pc> template<int flags>
-void LGrid<Pc>::update_positions_and_weights( const Pt *positions, const TF *weights, TI nb_diracs, N<flags> ) {
-    update_positions_and_weights( [&]( const Cbpw &cb ) {
+void LGrid<Pc>::update( const Pt *positions, const TF *weights, TI nb_diracs, N<flags> ) {
+    update( [&]( const Cbd &cb ) {
         cb( positions, weights, nb_diracs, true );
     }, N<flags>() );
 }
 
 template<class Pc> template<int flags>
-void LGrid<Pc>::update_positions_and_weights( const std::function<void(const Cbpw &cb)> &f, N<flags> ) {
+void LGrid<Pc>::update( const std::function<void(const Cbd &cb)> &f, N<flags> ) {
     // get min/max of positions + positions and weight pointers (if possible to use them)
     compute_grid_dims_and_ppwns( f, N<flags>() );
 
@@ -80,7 +80,7 @@ void LGrid<Pc>::mod_weights_rec( const std::function<void( const Pt &position, T
 }
 
 template<class Pc> template<int flags>
-void LGrid<Pc>::compute_grid_dims_and_ppwns( const std::function<void(const Cbpw &cb)> &f, N<flags> ) {
+void LGrid<Pc>::compute_grid_dims_and_ppwns( const std::function<void(const Cbd &cb)> &f, N<flags> ) {
     using std::min;
     using std::max;
 
@@ -125,7 +125,7 @@ void LGrid<Pc>::compute_grid_dims_and_ppwns( const std::function<void(const Cbpw
 }
 
 template<class Pc> template<int flags>
-void LGrid<Pc>::compute_sst_limits( const std::function<void(const Cbpw &cb)> &/*f*/, N<flags> ) {
+void LGrid<Pc>::compute_sst_limits( const std::function<void(const Cbd &cb)> &/*f*/, N<flags> ) {
     if ( nb_diracs_tot <= max_diracs_per_sst ) {
         sst_limits = { SstLimits{ TZ( 0 ), TZ( 1 ) << dim * nb_bits_per_axis, nb_diracs_tot } };
         return;
@@ -138,7 +138,7 @@ void LGrid<Pc>::compute_sst_limits( const std::function<void(const Cbpw &cb)> &/
 
 
 template<class Pc>
-void LGrid<Pc>::make_the_cells( const std::function<void(const Cbpw &cb)> &f ) {
+void LGrid<Pc>::make_the_cells( const std::function<void(const Cbd &cb)> &f ) {
     static_assert( sizeof( TZ ) >= sizeof_zcoords, "TZ (zcoords type) is not large enough" );
 
     // tmp storage for multi-level information
@@ -793,13 +793,13 @@ void LGrid<Pc>::display_tikz( std::ostream &os, TF scale ) const {
 }
 
 template<class Pc>
-void LGrid<Pc>::display( VtkOutput &vtk_output, int disp_weights ) const {
+void LGrid<Pc>::display_vtk( VtkOutput &vtk_output, int disp_weights ) const {
     if ( root_cell )
-        display( vtk_output, root_cell, disp_weights );
+        display_vtk( vtk_output, root_cell, disp_weights );
 }
 
 template<class Pc>
-void LGrid<Pc>::display( VtkOutput &vtk_output, BaseCell *cell, int disp_weights ) const {
+void LGrid<Pc>::display_vtk( VtkOutput &vtk_output, BaseCell *cell, int disp_weights ) const {
     Pt a = cell->bounds.min_pos, b = cell->bounds.max_pos;
     std::vector<Point3<TF>> pts = {
         Point3<TF>{ a[ 0 ], a[ 1 ], 0 },
@@ -815,7 +815,7 @@ void LGrid<Pc>::display( VtkOutput &vtk_output, BaseCell *cell, int disp_weights
     if ( cell->super_cell() ) {
         const SuperCell *sc = static_cast<const SuperCell *>( cell );
         for( std::size_t i = 0; i < sc->nb_sub_cells(); ++i )
-            display( vtk_output, sc->sub_cells[ i ], disp_weights );
+            display_vtk( vtk_output, sc->sub_cells[ i ], disp_weights );
     }
 
     if ( cell->final_cell() ) {
