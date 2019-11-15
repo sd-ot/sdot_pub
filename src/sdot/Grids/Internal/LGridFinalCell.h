@@ -14,7 +14,7 @@ struct LGridFinalCell : LGridBaseCell<Pc> {
     using             Dirac        = typename Pc::Dirac;
 
     static FinalCell *allocate     ( BumpPointerPool &mem_pool, int nb_diracs ) {
-        FinalCell *res = reinterpret_cast<FinalCell *>( mem_pool.allocate( sizeof( BaseCell ) + nb_diracs * sizeof( Dirac ) ) );
+        FinalCell *res = new ( mem_pool.allocate( sizeof( BaseCell ) + nb_diracs * sizeof( Dirac ) ) ) FinalCell;
         res->nb_sub_items = nb_diracs;
         return res;
     }

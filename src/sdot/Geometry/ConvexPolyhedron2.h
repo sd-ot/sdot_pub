@@ -32,11 +32,11 @@ namespace sdot {
 template<class Pc>
 class ConvexPolyhedron2 : public ConvexPolyhedron {
 public:
-    using                                Af                        = typename Pc::Af; ///< additionnal fields
-    using                                TF                        = typename Pc::TF; ///< floating point type
-    using                                TI                        = typename Pc::TI; ///< index type
-    using                                CI                        = typename Pc::CI; ///< cut info
-    using                                Pt                        = Point2<TF>;      ///< point type
+    using                                Dirac                     = typename Pc::Dirac; ///<
+    using                                TF                        = typename Pc::TF;    ///< floating point type
+    using                                TI                        = typename Pc::TI;    ///< index type
+    using                                Pt                        = Point2<TF>;         ///< point type
+    using                                CI                        = Dirac *;         ///< point type
 
     static constexpr bool                store_the_normals         = Pc::store_the_normals; ///< used to test if a point is inside
     static constexpr bool                allow_ball_cut            = Pc::allow_ball_cut;
@@ -61,9 +61,8 @@ public:
     void                                 write_to_stream           ( std::ostream &os ) const;
     template<class F> void               for_each_edge             ( const F &f ) const;
     template<class F> void               for_each_node             ( const F &f ) const;
-    Pt                                   dirac_center              () const { Pt res; for( std::size_t d = 0; d < dim; ++d ) res[ d ] = *dirac_pos[ d ]; return res; }
+    void                                 display_vtk               ( VtkOutput &vo, const std::vector<TF> &cell_values = {}, Pt offset = TF( 0 ) ) const;
     TI                                   nb_nodes                  () const;
-    void                                 display                   ( VtkOutput &vo, const std::vector<TF> &cell_values = {}, Pt offset = TF( 0 ) ) const;
     bool                                 empty                     () const;
     const Node&                          node                      ( TI index ) const;
     Node&                                node                      ( TI index );
@@ -81,11 +80,6 @@ public:
     //
     TF                                   integral                  () const;
 
-    TF                                  *dirac_weight;             ///<
-    TI                                  *dirac_index;              ///<
-    std::array<TF *,dim>                 dirac_pos;                ///<
-    Af                                  *dirac_af;                 ///< additionnal fields
-
     TF                                   sphere_radius;
     Pt                                   sphere_center;
     CI                                   sphere_cut_id;
@@ -98,7 +92,7 @@ private:
     template<int f> void                 plane_cut_gen             ( TF cut_dx, TF cut_dy, TF cut_ps, CI cut_id, N<f> );
     template<int f,class B,class D> void plane_cut_gen             ( TF cut_dx, TF cut_dy, TF cut_ps, CI cut_id, N<f>, B &outside, D &distances );
 
-    Node*                                nodes;                    ///< aligned data. @see ConvexPolyhedron2
+    Node                                *nodes;                    ///< aligned data. @see ConvexPolyhedron2
     TI                                   size;                     ///< nb nodes
     TI                                   rese;                     ///< nb nodes that can be stored without reallocation
 };

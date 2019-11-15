@@ -29,6 +29,7 @@ public:
 
     // constructed or deduced types
     struct                         TraversalFlags              { bool stop_if_void_lc = false; };
+    struct                         DisplayFlags                { TF weight_elevation = 0; };
     using                          CP                          = typename ConvexPolyhedronTraits<Pc>::type;
     using                          Cb                          = std::function<void( const Dirac *diracs, TI nb_diracs, bool ptrs_survive_the_call )>; ///<
 
@@ -46,8 +47,8 @@ public:
 
     // display
     void                           write_to_stream             ( std::ostream &os ) const;
-    void                           display_tikz                ( std::ostream &os, TF scale = 1.0 ) const;
-    void                           display_vtk                 ( VtkOutput &vtk_output, int disp_weights = 0 ) const; ///< for debug purpose
+    void                           display_tikz                ( std::ostream &os, DisplayFlags display_flags = {} ) const;
+    void                           display_vtk                 ( VtkOutput &vtk_output, DisplayFlags display_flags = {} ) const; ///< for debug purpose
 
     // values used by update
     TI                             max_diracs_per_cell;
@@ -69,8 +70,8 @@ private:
     enum {                         ball_cut                    = 2 };
 
     struct                         SstLimits                   { TZ beg_zcoords, end_zcoords; TI nb_diracs; int level; };
-    struct                         CpAndNum                    { const SuperCell *cell; TI num; };
-    struct                         Msi                         { bool operator<( const Msi &that ) const { return dist > that.dist; } Pt center; const BaseCell *cell; TF dist; };
+    struct                         CpAndNum                    { SuperCell *cell; TI num; };
+    struct                         Msi                         { bool operator<( const Msi &that ) const { return dist > that.dist; } Pt center; BaseCell *cell; TF dist; };
 
     void                           get_grid_dims_and_dirac_ptrs( const std::function<void(const Cb &cb)> &f );
     void                           make_znodes_with_1ppwn_ssst ( const SstLimits &sst, const Dirac *diracs, TI nb_diracs ); ///< several sst case
@@ -87,14 +88,14 @@ private:
     template<int flags> bool       can_be_evicted              ( const CP &lc, Pt &c0, TF w0, const CellBoundsP0<Pc> &bounds, N<flags> ) const;
     template<int flags> bool       can_be_evicted              ( const CP &lc, Pt &c0, TF w0, const CellBoundsPpos<Pc> &bounds, N<flags> ) const;
     void                           make_the_cells              ( const std::function<void(const Cb &cb)> &f );
-    template<int flags> void       make_lcs_from               ( const std::function<void( CP &, int num_thread )> &cb, std::priority_queue<Msi> &base_queue, std::priority_queue<Msi> &queue, CP &lc, const FinalCell *cell, const CpAndNum *path, TI path_len, int num_thread, N<flags>, const CP &starting_lc ) const;
+    template<int flags> void       make_lcs_from               ( const std::function<void( CP &, int num_thread )> &cb, std::priority_queue<Msi> &base_queue, std::priority_queue<Msi> &queue, CP &lc, FinalCell *cell, const CpAndNum *path, TI path_len, int num_thread, N<flags>, const CP &starting_lc ) const;
     void                           make_znodes                 ( TZ *zcoords, TI *indices, const std::function<void(const Cb &cb)> &f, const SstLimits &sst );
-    void                           display_vtk                 ( VtkOutput &vtk_output, BaseCell *cell, int disp_weights ) const;
+    void                           display_vtk                 ( VtkOutput &vtk_output, BaseCell *cell, DisplayFlags display_flags ) const;
     const Dirac                   &get_dirac                   ( const DiracPn              &p , TI               ind  ) const { return p.diracs[ ind ]; }
     const Dirac                   &get_dirac                   ( const std::vector<DiracPn> &vp, std::pair<TI,TI> inds ) const { const DiracPn &p = vp[ inds.first ]; return p.diracs[ inds.second ]; }
     const Dirac                   &get_dirac                   ( int                           , const Dirac     &d    ) const { return d; }
 
-    template<int a_n0,int f> void  cut_lc                      ( CP &lc, Pt c0, TF w0, const FinalCell *dell, N<a_n0>, TI n0, N<f> ) const;
+    template<int a_n0,int f> void  cut_lc                      ( CP &lc, Pt c0, TF w0, FinalCell *dell, N<a_n0>, TI n0, N<f> ) const;
 
 
     // buffers

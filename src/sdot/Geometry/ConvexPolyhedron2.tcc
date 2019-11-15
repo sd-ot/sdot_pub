@@ -54,11 +54,6 @@ ConvexPolyhedron2<Pc>::ConvexPolyhedron2( ConvexPolyhedron2 &&that ) {
     size          = that.size         ;
     rese          = that.rese         ;
 
-    dirac_weight  = that.dirac_weight ;
-    dirac_index   = that.dirac_index  ;
-    dirac_pos     = that.dirac_pos    ;
-    dirac_af      = that.dirac_af     ;
-
     sphere_radius = that.sphere_radius;
     sphere_center = that.sphere_center;
     sphere_cut_id = that.sphere_cut_id;
@@ -145,7 +140,7 @@ void ConvexPolyhedron2<Pc>::write_to_stream( std::ostream &os ) const {
 }
 
 template<class Pc>
-void ConvexPolyhedron2<Pc>::display( VtkOutput &vo, const std::vector<TF> &cell_values, Pt offset ) const {
+void ConvexPolyhedron2<Pc>::display_vtk( VtkOutput &vo, const std::vector<TF> &cell_values, Pt offset ) const {
     std::vector<VtkOutput::Pt> pts;
     pts.reserve( nb_nodes() );
     for_each_node( [&]( const Node &node ) {
@@ -220,8 +215,8 @@ void ConvexPolyhedron2<Pc>::for_each_boundary_item( const std::function<void( co
 
         if ( allow_ball_cut && node( i0 ).arc_radius > 0 ) {
             using std::atan2;
-            item.a0 = atan2( node( i0 ).y - *dirac_pos[ 1 ], node( i0 ).x - *dirac_pos[ 0 ] );
-            item.a1 = atan2( node( i1 ).y - *dirac_pos[ 1 ], node( i1 ).x - *dirac_pos[ 0 ] );
+            item.a0 = atan2( node( i0 ).y - sphere_center[ 1 ], node( i0 ).x - sphere_center[ 0 ] );
+            item.a1 = atan2( node( i1 ).y - sphere_center[ 1 ], node( i1 ).x - sphere_center[ 0 ] );
             if ( item.a1 < item.a0 )
                 item.a1 += 2 * pi( S<TF>() );
             item.measure = ( item.a1 - item.a0 ) * sphere_radius;

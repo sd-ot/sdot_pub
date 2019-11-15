@@ -45,12 +45,26 @@ void test_with_Pc() {
     for( std::size_t n = 0; n < nb_diracs; ++n ) {
         for( std::size_t d = 0; d < dim; ++d )
             diracs[ n ].pos[ d ] = 0.2 + 0.6 * rand() / RAND_MAX;
-        diracs[ n ].weight = 0 * sin( diracs[ n ].pos.x ) * sin( diracs[ n ].pos.y );
+        diracs[ n ].weight = 1 * sin( diracs[ n ].pos.x ) * sin( diracs[ n ].pos.y );
     }
 
     // grid
     Grid grid( 20 );
     grid.construct( diracs.data(), diracs.size() );
+
+    VtkOutput vog;
+    grid.display_vtk( vog, { .weight_elevation = 1 } );
+    vog.save( "vtk/grid.vtk" );
+
+    std::mutex m;
+    VtkOutput voc;
+    CP ic( typename CP::Box{ { 0, 0 }, { 1, 1 } } );
+    grid.for_each_laguerre_cell( [&]( CP &cp, int /*num_thread*/ ) {
+        m.lock();
+        cp.display_vtk( voc );
+        m.unlock();
+    }, ic );
+    voc.save( "vtk/pd.vtk" );
 
     //    // solve
     //    TF target_mass = TF( 1 )/ nb_diracs;
@@ -72,13 +86,6 @@ void test_with_Pc() {
     //            weight -= 1e-2 * af.err;
     //        } );
     //    }
-
-    //    // display
-    //    display( grid, "vtk/pd.vtk", N<flags>() );
-
-    //    VtkOutput vog;
-    //    grid.display( vog, 1 );
-    //    vog.save( "vtk/grid.vtk" );
 }
 
 
@@ -88,7 +95,7 @@ int main() {
         enum { store_the_normals = false };
         enum { allow_ball_cut    = false };
         enum { w_bounds_order    = 1     };
-        enum { dim               = 3     };
+        enum { dim               = 2     };
         using  TI                = std::uint64_t;
         using  TF                = double;
         using  Pt                = Point2<TF>;

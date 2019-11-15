@@ -47,7 +47,9 @@ template<class Pc>
 void CellBoundsPpos<Pc>::LocalSolver::store_to( CellBoundsPpos &bounds ) {
     Eigen::LLT<TMat> llt;
     llt.compute( mat_weight );
-    bounds.poly_weight = llt.solve( vec_weight );
+    TVec res = llt.solve( vec_weight );
+    for( std::size_t i = 0; i < res.size(); ++i )
+        bounds.poly_weight[ i ] = res[ i ];
 
     bounds.min_pos = min_pos;
     bounds.max_pos = max_pos;

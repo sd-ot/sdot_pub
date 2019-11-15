@@ -20,6 +20,7 @@ public:
     static constexpr int         nb_coeffs_w_bound = 1 + dim * ( w_bounds_order >= 1 ) + dim * ( dim + 1 ) / 2 * ( w_bounds_order >= 2 );
     using                        TMat              = Eigen::Matrix<TF,nb_coeffs_w_bound,nb_coeffs_w_bound>;
     using                        TVec              = Eigen::Matrix<TF,nb_coeffs_w_bound,1>;
+    using                        TPol              = std::array<TF,nb_coeffs_w_bound>;
 
     struct                       LocalSolver       {
         void                     clr               ();
@@ -36,7 +37,7 @@ public:
     void                         push                   ( Pt pos, TF weight );
     TF                           get_w                  ( Pt pos ) const;
 
-    TVec                         poly_weight;
+    TPol                         poly_weight;
     Pt                           min_pos;
     Pt                           max_pos;
 };
