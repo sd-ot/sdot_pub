@@ -30,6 +30,9 @@ public:
     // constructed or deduced types
     struct                         TraversalFlags              { bool stop_if_void_lc = false; };
     struct                         DisplayFlags                { TF weight_elevation = 0; };
+    using                          FinalCell                   = LGridFinalCell<Pc>;
+    using                          SuperCell                   = LGridSuperCell<Pc>;
+    using                          BaseCell                    = LGridBaseCell<Pc>;
     using                          CP                          = typename ConvexPolyhedronTraits<Pc>::type;
     using                          Cb                          = std::function<void( const Dirac *diracs, TI nb_diracs, bool ptrs_survive_the_call )>; ///<
 
@@ -42,7 +45,9 @@ public:
     void                           update_weights              ( const std::function<void( Dirac &dirac )> &f = {} ); ///< update grid info after modification of diracs->weights
 
     // traversal/information
-    int                            for_each_laguerre_cell      ( const std::function<void( CP &lc, int num_thread )> &f, const CP &starting_lc, TraversalFlags traversal_flags = {} ); ///< version with num_thread
+    int                            for_each_laguerre_cell      ( const std::function<void( CP &lc, Dirac &dirac, int num_thread )> &f, const CP &starting_lc, TraversalFlags traversal_flags = {} ); ///< version with num_thread
+    void                           for_each_final_cell         ( const std::function<void( FinalCell &cell, int num_thread )> &f );
+    void                           for_each_dirac              ( const std::function<void( Dirac &d, int num_thread)> &f );
     TI                             nb_diracs                   () const { return nb_diracs_tot; }
 
     // display
@@ -60,9 +65,6 @@ private:
     static constexpr int           sizeof_zcoords              = ( dim * nb_bits_per_axis + 7 ) / 8; ///< nb meaningful bytes in z-coordinates
     using                          CellBounds                  = typename CellBoundsTraits<Pc>::type;
     using                          LocalSolver                 = typename CellBounds::LocalSolver;
-    using                          FinalCell                   = LGridFinalCell<Pc>;
-    using                          SuperCell                   = LGridSuperCell<Pc>;
-    using                          BaseCell                    = LGridBaseCell<Pc>;
     struct                         DiracPn                     { const Dirac *diracs; TI nb_diracs; };
     using                          TZ                          = std::uint64_t; ///< zcoords
 
@@ -74,10 +76,11 @@ private:
     struct                         Msi                         { bool operator<( const Msi &that ) const { return dist > that.dist; } Pt center; BaseCell *cell; TF dist; };
 
     void                           get_grid_dims_and_dirac_ptrs( const std::function<void(const Cb &cb)> &f );
+    void                           for_each_final_cell_mono_thr( const std::function<void( FinalCell &cell, CpAndNum *path, TI path_len )> &f, TI beg_num_cell, TI end_num_cell );
     void                           make_znodes_with_1ppwn_ssst ( const SstLimits &sst, const Dirac *diracs, TI nb_diracs ); ///< several sst case
     void                           make_znodes_with_1ppwn_1sst ( const Dirac *diracs, TI nb_diracs );                          ///< only one sst case (=> no need to make a test)
-    void                           fill_grid_using_zcoords     ( const Dirac *diracs, TI nb_diracs );
     void                           update_cell_bounds_phase_1  ( BaseCell *cell, BaseCell **path, int level );
+    void                           fill_grid_using_zcoords     ( const Dirac *diracs, TI nb_diracs );
     void                           compute_sst_limits          ( const std::function<void(const Cb &cb)> &f );
     template<class Ps> void        make_the_cells_for          ( const SstLimits &sst, Ps ps );
     void                           update_weights_rec          ( const std::function<void( Dirac &dirac )> &f, BaseCell *cell, LocalSolver *local_solvers, int level );
@@ -88,7 +91,7 @@ private:
     template<int flags> bool       can_be_evicted              ( const CP &lc, Pt &c0, TF w0, const CellBoundsP0<Pc> &bounds, N<flags> ) const;
     template<int flags> bool       can_be_evicted              ( const CP &lc, Pt &c0, TF w0, const CellBoundsPpos<Pc> &bounds, N<flags> ) const;
     void                           make_the_cells              ( const std::function<void(const Cb &cb)> &f );
-    template<int flags> void       make_lcs_from               ( const std::function<void( CP &, int num_thread )> &cb, std::priority_queue<Msi> &base_queue, std::priority_queue<Msi> &queue, CP &lc, FinalCell *cell, const CpAndNum *path, TI path_len, int num_thread, N<flags>, const CP &starting_lc ) const;
+    template<int flags> void       make_lcs_from               ( const std::function<void( CP &, Dirac &dirac, int num_thread )> &cb, std::priority_queue<Msi> &base_queue, std::priority_queue<Msi> &queue, CP &lc, FinalCell *cell, const CpAndNum *path, TI path_len, int num_thread, N<flags>, const CP &starting_lc ) const;
     void                           make_znodes                 ( TZ *zcoords, TI *indices, const std::function<void(const Cb &cb)> &f, const SstLimits &sst );
     void                           display_vtk                 ( VtkOutput &vtk_output, BaseCell *cell, DisplayFlags display_flags ) const;
     const Dirac                   &get_dirac                   ( const DiracPn              &p , TI               ind  ) const { return p.diracs[ ind ]; }

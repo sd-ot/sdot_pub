@@ -198,7 +198,7 @@ void ConvexPolyhedron2<Pc>::for_each_boundary_item( const std::function<void( co
     if ( nb_nodes() == 0 ) {
         if ( sphere_radius >= 0 ) {
             BoundaryItem item;
-            item.id = sphere_cut_id;
+            item.dirac = sphere_cut_id;
             item.measure = 2 * pi( S<TF>() ) * sphere_radius;
             item.a0 = 1;
             item.a1 = 0;
@@ -209,7 +209,7 @@ void ConvexPolyhedron2<Pc>::for_each_boundary_item( const std::function<void( co
 
     for( size_t i1 = 0, i0 = nb_nodes() - 1; i1 < nb_nodes(); i0 = i1++ ) {
         BoundaryItem item;
-        item.id = node( i0 ).cut_id.get();
+        item.dirac = node( i0 ).cut_id.get();
         item.points[ 0 ] = node( i0 ).pos();
         item.points[ 1 ] = node( i1 ).pos();
 

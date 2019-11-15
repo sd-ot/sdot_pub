@@ -459,7 +459,7 @@ void LGrid<Pc>::cut_lc( CP &lc, Pt c0, TF w0, FinalCell *dell, N<avoid_n0>, TI n
 
 
 template<class Pc> template<int flags>
-void LGrid<Pc>::make_lcs_from( const std::function<void( CP &, int num_thread )> &cb, std::priority_queue<LGrid::Msi> &base_queue, std::priority_queue<LGrid::Msi> &queue, LGrid::CP &lc, FinalCell *cell, const LGrid::CpAndNum *path, LGrid::TI path_len, int num_thread, N<flags>, const CP &starting_lc ) const {
+void LGrid<Pc>::make_lcs_from( const std::function<void( CP &, Dirac &dirac, int num_thread )> &cb, std::priority_queue<LGrid::Msi> &base_queue, std::priority_queue<LGrid::Msi> &queue, LGrid::CP &lc, FinalCell *cell, const LGrid::CpAndNum *path, LGrid::TI path_len, int num_thread, N<flags>, const CP &starting_lc ) const {
     // helper to add a cell in the queue
     auto append_msi = [&]( std::priority_queue<Msi> &queue, BaseCell *dell, Pt cell_center ) {
         Pt dell_center = 0.5 * ( dell->bounds.min_pos + dell->bounds.max_pos );
@@ -507,78 +507,107 @@ void LGrid<Pc>::make_lcs_from( const std::function<void( CP &, int num_thread )>
         }
 
         //
-        cb( lc, num_thread );
+        cb( lc, d0, num_thread );
     }
 }
 
 template<class Pc>
-int LGrid<Pc>::for_each_laguerre_cell( const std::function<void( CP &, int num_thread )> &cb, const CP &starting_lc, TraversalFlags /*traversal_flags*/ ) {
+int LGrid<Pc>::for_each_laguerre_cell( const std::function<void( CP &, Dirac &dirac, int num_thread )> &cb, const CP &starting_lc, TraversalFlags /*traversal_flags*/ ) {
     constexpr int flags = 0;
     int err;
-
-    if ( ! root_cell )
-        return err;
-    if ( FinalCell *cell = root_cell->final_cell() ) {
-        std::priority_queue<Msi> base_queue, queue;
-        CP lc;
-
-        make_lcs_from( cb, base_queue, queue, lc, cell, nullptr, 0, 0, N<flags>(), starting_lc );
-        return err;
-    }
 
     // parallel traversal of the cells
     int nb_threads = thread_pool.nb_threads(), nb_jobs = nb_threads;
     thread_pool.execute( nb_jobs, [&]( std::size_t num_job, int num_thread ) {
         TI beg_cell = ( num_job + 0 ) * nb_final_cells / nb_jobs;
         TI end_cell = ( num_job + 1 ) * nb_final_cells / nb_jobs;
-        TI end_indc = end_cell + 1;
-
-        // path to `beg_cell`
-        TI path_len = 0;
-        CpAndNum path[ nb_bits_per_axis ];
-        for( BaseCell *cell = root_cell; ; ++path_len ) {
-            if ( cell->final_cell() )
-                break;
-            SuperCell *spc = static_cast<SuperCell *>( cell );
-            for( std::size_t i = 0; ; ++i ) {
-                BaseCell *suc = spc->sub_cells[ i ];
-                if ( suc->end_ind_in_fcells > beg_cell ) {
-                    path[ path_len ].cell = spc;
-                    path[ path_len ].num = i;
-                    cell = suc;
-                    break;
-                }
-            }
-        }
-
-        // up to end_cell
         std::priority_queue<Msi> base_queue, queue;
         CP lc;
-        while ( true ) {
-            BaseCell  *lbce = path[ path_len - 1 ].cell->sub_cells[ path[ path_len - 1 ].num ];
-            FinalCell *cell = static_cast<FinalCell *>( lbce );
-            if ( cell->end_ind_in_fcells == end_indc )
-                return;
 
-            // current cell
-            make_lcs_from( cb, base_queue, queue, lc, cell, path, path_len, num_thread, N<flags>(), starting_lc );
-
-            // next one
-            while ( ++path[ path_len - 1 ].num == path[ path_len - 1 ].cell->nb_sub_cells() )
-                if ( --path_len == 0 )
-                    return;
-            while ( true ) {
-                BaseCell *tspc = path[ path_len - 1 ].cell->sub_cells[ path[ path_len - 1 ].num ];
-                if ( tspc->final_cell() )
-                    break;
-                path[ path_len ].cell = static_cast<SuperCell *>( tspc );
-                path[ path_len ].num = 0;
-                ++path_len;
-            }
-        }
+        for_each_final_cell_mono_thr( [&]( FinalCell &cell, CpAndNum *path, TI path_len ) {
+            make_lcs_from( cb, base_queue, queue, lc, &cell, path, path_len, num_thread, N<flags>(), starting_lc );
+        }, beg_cell, end_cell );
     } );
 
     return err;
+}
+
+
+template<class Pc>
+void LGrid<Pc>::for_each_final_cell_mono_thr( const std::function<void( FinalCell &cell, CpAndNum *path, TI path_len )> &f, TI beg_cell, TI end_cell ) {
+    if ( ! root_cell )
+        return;
+
+    if ( FinalCell *cell = root_cell->final_cell() ) {
+        if ( beg_cell < end_cell )
+            f( *cell, nullptr, 0 );
+        return;
+    }
+
+    // path to `beg_cell`
+    TI path_len = 0;
+    CpAndNum path[ nb_bits_per_axis ];
+    for( BaseCell *cell = root_cell; ; ++path_len ) {
+        if ( cell->final_cell() )
+            break;
+        SuperCell *spc = static_cast<SuperCell *>( cell );
+        for( std::size_t i = 0; ; ++i ) {
+            BaseCell *suc = spc->sub_cells[ i ];
+            if ( suc->end_ind_in_fcells > beg_cell ) {
+                path[ path_len ].cell = spc;
+                path[ path_len ].num = i;
+                cell = suc;
+                break;
+            }
+        }
+    }
+
+    // up to end_cell
+    TI end_indc = end_cell + 1;
+    while ( true ) {
+        BaseCell  *lbce = path[ path_len - 1 ].cell->sub_cells[ path[ path_len - 1 ].num ];
+        FinalCell *cell = static_cast<FinalCell *>( lbce );
+        if ( cell->end_ind_in_fcells == end_indc )
+            return;
+
+        // call
+        f( *cell, path, path_len );
+
+        // next one
+        while ( ++path[ path_len - 1 ].num == path[ path_len - 1 ].cell->nb_sub_cells() )
+            if ( --path_len == 0 )
+                return;
+        while ( true ) {
+            BaseCell *tspc = path[ path_len - 1 ].cell->sub_cells[ path[ path_len - 1 ].num ];
+            if ( tspc->final_cell() )
+                break;
+            path[ path_len ].cell = static_cast<SuperCell *>( tspc );
+            path[ path_len ].num = 0;
+            ++path_len;
+        }
+    }
+}
+
+
+template<class Pc>
+void LGrid<Pc>::for_each_final_cell( const std::function<void( FinalCell &cell, int num_thread )> &f ) {
+    // parallel traversal of the cells
+    int nb_threads = thread_pool.nb_threads(), nb_jobs = nb_threads;
+    thread_pool.execute( nb_jobs, [&]( std::size_t num_job, int num_thread ) {
+        TI beg_cell = ( num_job + 0 ) * nb_final_cells / nb_jobs;
+        TI end_cell = ( num_job + 1 ) * nb_final_cells / nb_jobs;
+        for_each_final_cell_mono_thr( [&]( FinalCell &cell, CpAndNum */*path*/, TI /*path_len*/ ) {
+            f( cell, num_thread );
+        }, beg_cell, end_cell );
+    } );
+}
+
+template<class Pc>
+void LGrid<Pc>::for_each_dirac( const std::function<void( Dirac &, int)> &f ) {
+    for_each_final_cell( [&]( FinalCell &cell, int num_thread ) {
+        for( std::size_t i = 0; i < cell.nb_diracs(); ++i )
+            f( cell.diracs[ i ], num_thread );
+    } );
 }
 
 template<class Pc> template<int flags>

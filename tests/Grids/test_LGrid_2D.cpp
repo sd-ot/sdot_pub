@@ -8,25 +8,45 @@ using namespace sdot;
 // // nsmake cpp_flag -ffast-math
 // // nsmake cpp_flag -O3
 
-template<class Grid,int flags>
-void display( Grid &grid, std::string filename, N<flags> ) {
+template<class Grid>
+void display( Grid &grid, std::string filename, std::string grid_filemane = {} ) {
     using CP = typename Grid::CP;
     using TF = typename Grid::TF;
     std::mutex m;
 
-    TF area = 0;
-    VtkOutput voc( { "weight", "err" } );
-    CP ic( typename CP::Box{ { 0, 0 }, { 1, 1 } } );
-    grid.for_each_laguerre_cell( [&]( auto &cp, int ) {
-        m.lock();
-        cp.display( voc, { *cp.dirac_weight, cp.dirac_af->err } );
-        area += cp.integral();
-        m.unlock();
-    }, ic, N<flags>() );
+    if ( grid_filemane.size() ) {
+        VtkOutput vog;
+        grid.display_vtk( vog, { .weight_elevation = 1 } );
+        vog.save( grid_filemane );
+    }
 
-    P( area );
-    voc.save( filename );
+    if ( filename.size() ) {
+        TF area = 0;
+        VtkOutput voc( { "weight", "err" } );
+        CP ic( typename CP::Box{ { 0, 0 }, { 1, 1 } }, nullptr );
+        grid.for_each_laguerre_cell( [&]( auto &cp, auto &d, int ) {
+            m.lock();
+
+            cp.display_vtk( voc, { d.weight, d.r } );
+            area += cp.integral();
+
+            m.unlock();
+        }, ic );
+
+        voc.save( filename );
+        P( area );
+    }
 }
+
+template<class TF>
+struct MtVal {
+    MtVal( TF val = 0 ) : values( thread_pool.nb_threads(), val ) {}
+
+    TF &operator[]( int num_thread ) { return values[ num_thread ]; }
+    TF sum        () const { TF res = 0; for( TF v : values ) res += v; return res; }
+
+    std::vector<TF> values;
+};
 
 template<class Pc>
 void test_with_Pc() {
@@ -46,32 +66,42 @@ void test_with_Pc() {
         for( std::size_t d = 0; d < dim; ++d )
             diracs[ n ].pos[ d ] = 0.2 + 0.6 * rand() / RAND_MAX;
         diracs[ n ].weight = 1 * sin( diracs[ n ].pos.x ) * sin( diracs[ n ].pos.y );
+        diracs[ n ].index = n;
     }
 
     // grid
     Grid grid( 20 );
     grid.construct( diracs.data(), diracs.size() );
 
-    VtkOutput vog;
-    grid.display_vtk( vog, { .weight_elevation = 1 } );
-    vog.save( "vtk/grid.vtk" );
+    //
+    display( grid, "vtk/pd.vtk", "vtk/grid.vtk" );
 
-    std::mutex m;
-    VtkOutput voc;
-    CP ic( typename CP::Box{ { 0, 0 }, { 1, 1 } } );
-    grid.for_each_laguerre_cell( [&]( CP &cp, int /*num_thread*/ ) {
-        m.lock();
-        cp.display_vtk( voc );
-        m.unlock();
+    // solve init => first residual,
+    MtVal<TF> h;
+    TF target_mass = TF( 1 )/ nb_diracs;
+    CP ic( typename CP::Box{ { 0, 0 }, { 1, 1 } }, nullptr );
+    grid.for_each_laguerre_cell( [&]( CP &cp, Dirac &d, int num_thread ) {
+        d.r = target_mass;
+        d.p = 0;
+        d.m = 0;
+        // d.z = M @ r;
+
+        h[ num_thread ] += d.r * d.z;
     }, ic );
-    voc.save( "vtk/pd.vtk" );
 
-    //    // solve
-    //    TF target_mass = TF( 1 )/ nb_diracs;
-    //    CP ic( typename CP::Box{ { 0, 0 }, { 1, 1 } } );
+    //
+
+    std::vector<TF> err( sdot::thread_pool.nb_threads(), 0 );
+
+    // init
+    //    std::mutex m;
+    //    std::vector<int> ns( nb_diracs, 0 );
+    //    std::sort( ns.begin(), ns.end() );
+    //    P( ns );
+
+
     //    for( std::size_t num_iter = 0; num_iter < 100; ++num_iter ) {
-    //        std::vector<TF> err( sdot::thread_pool.nb_threads(), 0 );
-
+    //        //
     //        grid.for_each_laguerre_cell( [&]( CP &cp, int num_thread ) {
     //            TF e = cp.integral() - target_mass;
     //            err[ num_thread ] += e * e;
@@ -102,9 +132,16 @@ int main() {
 
         struct Dirac {
             TF weight;
+            TI index;
             Pt pos;
 
-            TF r = 0;
+            // conjugate gradient
+            TF r = 0; ///<
+            TF p = 0; ///<
+            TF z = 0; ///<
+            TF m = 0; ///< inv diag
+            TF q = 0; ///<
+
         };
     };
 
