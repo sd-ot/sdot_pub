@@ -17,20 +17,20 @@ LGrid<Pc>::LGrid( std::size_t max_diracs_per_cell ) : max_diracs_per_cell( max_d
     root_cell          = nullptr;
 }
 
-template<class Pc> template<int flags>
-void LGrid<Pc>::update( const Pt *positions, const TF *weights, TI nb_diracs, N<flags> ) {
-    update( [&]( const Cbd &cb ) {
-        cb( positions, weights, nb_diracs, true );
-    }, N<flags>() );
+template<class Pc>
+void LGrid<Pc>::construct( const Dirac *diracs, TI nb_diracs ) {
+    construct( [&]( const Cb &cb ) {
+        cb( diracs, nb_diracs, true );
+    } );
 }
 
-template<class Pc> template<int flags>
-void LGrid<Pc>::update( const std::function<void(const Cbd &cb)> &f, N<flags> ) {
+template<class Pc>
+void LGrid<Pc>::construct( const std::function<void(const Cb &cb)> &f ) {
     // get min/max of positions + positions and weight pointers (if possible to use them)
-    compute_grid_dims_and_ppwns( f, N<flags>() );
+    get_grid_dims_and_dirac_ptrs( f );
 
     // get limits of sub-structures (parts that can be saved/loaded)
-    compute_sst_limits( f, N<flags>() );
+    compute_sst_limits( f );
 
     // create the cells + first phase of bounds update
     make_the_cells( f );
@@ -43,11 +43,11 @@ void LGrid<Pc>::update( const std::function<void(const Cbd &cb)> &f, N<flags> ) 
 }
 
 template<class Pc>
-void LGrid<Pc>::mod_weights( const std::function<void( const Pt &position, TF &weight, Af &af )> &f ) {
+void LGrid<Pc>::update_weights( const std::function<void( Dirac &dirac )> &f ) {
     if ( root_cell ) {
         // tmp storage for multi-level information
         LocalSolver local_solvers[ nb_bits_per_axis ];
-        mod_weights_rec( f, root_cell, local_solvers, 0 );
+        update_weights_rec( f, root_cell, local_solvers, 0 );
     }
 
     // second phase of bounds update (if necessary)
@@ -58,7 +58,7 @@ void LGrid<Pc>::mod_weights( const std::function<void( const Pt &position, TF &w
 }
 
 template<class Pc>
-void LGrid<Pc>::mod_weights_rec( const std::function<void( const Pt &position, TF &weight, Af &af )> &f, BaseCell *cell, LocalSolver *local_solvers, int level ) {
+void LGrid<Pc>::update_weights_rec( const std::function<void( Dirac &dirac )> &f, BaseCell *cell, LocalSolver *local_solvers, int level ) {
     local_solvers[ level ].clr();
 
     if ( SuperCell *sc = cell->super_cell() ) {
@@ -67,10 +67,18 @@ void LGrid<Pc>::mod_weights_rec( const std::function<void( const Pt &position, T
             local_solvers[ level ].push( local_solvers[ level + 1 ] );
         }
     } else if ( FinalCell *fc = cell->final_cell() ) {
-        for( std::size_t i = 0; i < fc->nb_diracs(); ++i ) {
-            Pt pos = fc->pos( i );
-            f( pos, fc->weights[ i ], fc->afs[ i ] );
-            local_solvers[ level ].push( pos, fc->weights[ i ] );
+        if ( f ) {
+            for( std::size_t i = 0; i < fc->nb_diracs(); ++i ) {
+                Dirac &dirac = fc->diracs[ i ];
+                f( dirac );
+
+                local_solvers[ level ].push( dirac->pos, dirac->weights );
+            }
+        } else {
+            for( std::size_t i = 0; i < fc->nb_diracs(); ++i ) {
+                Dirac &dirac = fc->diracs[ i ];
+                local_solvers[ level ].push( dirac->pos, dirac->weights );
+            }
         }
     } else {
         TODO;
@@ -79,36 +87,31 @@ void LGrid<Pc>::mod_weights_rec( const std::function<void( const Pt &position, T
     local_solvers[ level ].store_to( cell->bounds );
 }
 
-template<class Pc> template<int flags>
-void LGrid<Pc>::compute_grid_dims_and_ppwns( const std::function<void(const Cbd &cb)> &f, N<flags> ) {
+template<class Pc>
+void LGrid<Pc>::get_grid_dims_and_dirac_ptrs( const std::function<void(const Cb &cb)> &f ) {
     using std::min;
     using std::max;
 
     // reset
-    for( std::size_t d = 0; d < dim; ++d ) {
-        min_point[ d ] = + std::numeric_limits<TF>::max();
-        max_point[ d ] = - std::numeric_limits<TF>::max();
-    }
-
     nb_diracs_tot = 0;
     nb_cb_calls = 0;
 
-    use_ppwns = true;
-    ppwns.clear();
-
     // traversal
-    f( [&]( const Pt *positions, const TF *weights, TI nb_diracs, bool ptrs_survive_the_call ) {
+    min_point = + std::numeric_limits<TF>::max();
+    max_point = - std::numeric_limits<TF>::max();
+    use_dirac_pns = true;
+    dirac_pns.clear();
+    f( [&]( const Dirac *diracs, TI nb_diracs, bool ptrs_survive_the_call ) {
         for( std::size_t num_dirac = 0; num_dirac < nb_diracs; ++num_dirac ) {
-            for( std::size_t d = 0; d < dim; ++d ) {
-                min_point[ d ] = min( min_point[ d ], positions[ d ][ num_dirac ] );
-                max_point[ d ] = max( max_point[ d ], positions[ d ][ num_dirac ] );
-            }
+            const Dirac &dirac = diracs[ num_dirac ];
+            min_point = min( min_point, dirac.pos );
+            max_point = max( max_point, dirac.pos );
         }
 
         if ( ptrs_survive_the_call )
-            ppwns.push_back( { positions, weights, nb_diracs_tot, nb_diracs } );
+            dirac_pns.push_back( { diracs, nb_diracs } );
         else
-            use_ppwns = false;
+            use_dirac_pns = false;
 
         nb_diracs_tot += nb_diracs;
         ++nb_cb_calls;
@@ -124,8 +127,8 @@ void LGrid<Pc>::compute_grid_dims_and_ppwns( const std::function<void(const Cbd 
     inv_step_length = TF( 1 ) / step_length;
 }
 
-template<class Pc> template<int flags>
-void LGrid<Pc>::compute_sst_limits( const std::function<void(const Cbd &cb)> &/*f*/, N<flags> ) {
+template<class Pc>
+void LGrid<Pc>::compute_sst_limits( const std::function<void(const Cb &cb)> &/*f*/ ) {
     if ( nb_diracs_tot <= max_diracs_per_sst ) {
         sst_limits = { SstLimits{ TZ( 0 ), TZ( 1 ) << dim * nb_bits_per_axis, nb_diracs_tot } };
         return;
@@ -138,13 +141,8 @@ void LGrid<Pc>::compute_sst_limits( const std::function<void(const Cbd &cb)> &/*
 
 
 template<class Pc>
-void LGrid<Pc>::make_the_cells( const std::function<void(const Cbd &cb)> &f ) {
+void LGrid<Pc>::make_the_cells( const std::function<void(const Cb &cb)> &f ) {
     static_assert( sizeof( TZ ) >= sizeof_zcoords, "TZ (zcoords type) is not large enough" );
-
-    // tmp storage for multi-level information
-    TmpLevelInfo level_info[ nb_bits_per_axis + 1 ];
-    for( TmpLevelInfo &l : level_info )
-        l.clr();
 
     // for each sub-structure
     mem_pool.clear();
@@ -152,16 +150,16 @@ void LGrid<Pc>::make_the_cells( const std::function<void(const Cbd &cb)> &f ) {
     root_cell = nullptr;
     for( const SstLimits &sst : sst_limits ) {
         // get zcoords for diracs inside the limits (znodes_keys and znodes_inds in this case)
-        if ( use_ppwns ) {
-            if ( ppwns.size() == 1 ) {
+        if ( use_dirac_pns ) {
+            if ( dirac_pns.size() == 1 ) {
                 // update znodes_xxx buffers
                 if ( sst_limits.size() > 1 )
-                    make_znodes_with_1ppwn_ssst( sst, ppwns[ 0 ].positions, ppwns[ 0 ].nb_diracs );
+                    make_znodes_with_1ppwn_ssst( sst, dirac_pns[ 0 ].diracs, dirac_pns[ 0 ].nb_diracs );
                 else
-                    make_znodes_with_1ppwn_1sst( ppwns[ 0 ].positions, ppwns[ 0 ].nb_diracs );
+                    make_znodes_with_1ppwn_1sst( dirac_pns[ 0 ].diracs, dirac_pns[ 0 ].nb_diracs );
 
                 // use znodes_xxx buffers to make the cells for this sst (maybe with unfinished bounds at this stage)
-                make_the_cells_for( sst, level_info, ppwns[ 0 ] );
+                make_the_cells_for( sst, dirac_pns[ 0 ] );
             } else {
                 TODO;
             }
@@ -173,26 +171,26 @@ void LGrid<Pc>::make_the_cells( const std::function<void(const Cbd &cb)> &f ) {
 }
 
 template<class Pc>
-void LGrid<Pc>::make_znodes_with_1ppwn_1sst( const Pt *positions, TI nb_diracs ) {
+void LGrid<Pc>::make_znodes_with_1ppwn_1sst( const Dirac *diracs, TI nb_diracs ) {
     znodes_keys.reserve( 2 * nb_diracs );
     znodes_inds.reserve( 2 * nb_diracs );
 
     // 1 ppwm => 1 index is enough to find the corresponding dirac
     // 1 sst => no need to test if the dirac is inside => num in znode_xxx is = to num to positions
     TI nb_threads = thread_pool.nb_threads(), nb_jobs = nb_threads, offset = 0;
-    thread_pool.execute( nb_jobs, [&]( TI num_job, int num_thread ) {
+    thread_pool.execute( nb_jobs, [&]( TI num_job, int /*num_thread*/ ) {
         TI beg = ( num_job + 0 ) * nb_diracs / nb_jobs;
         TI end = ( num_job + 1 ) * nb_diracs / nb_jobs;
-        for( TI index = beg; index < end; ++index ) {
-            TZ zcoords = zcoords_for<TZ,nb_bits_per_axis>( positions[ index ], min_point, inv_step_length );
-            znodes_keys[ index ] = zcoords;
-            znodes_inds[ index ] = index;
+        for( TI num_dirac = beg; num_dirac < end; ++num_dirac ) {
+            TZ zcoords = zcoords_for<TZ,nb_bits_per_axis>( diracs[ num_dirac ].pos, min_point, inv_step_length );
+            znodes_keys[ num_dirac ] = zcoords;
+            znodes_inds[ num_dirac ] = num_dirac;
         }
     } );
 }
 
 template<class Pc>
-void LGrid<Pc>::make_znodes_with_1ppwn_ssst( const SstLimits &sst, const Pt *positions, TI nb_diracs ) {
+void LGrid<Pc>::make_znodes_with_1ppwn_ssst( const SstLimits &/*sst*/, const Dirac */*diracs*/, TI /*nb_diracs*/ ) {
     //    znodes_keys.reserve( 2 * sst.nb_diracs );
     //    znodes_inds.reserve( 2 * sst.nb_diracs );
 
@@ -238,7 +236,20 @@ void LGrid<Pc>::make_znodes_with_1ppwn_ssst( const SstLimits &sst, const Pt *pos
 
 
 template<class Pc> template<class Ps>
-void LGrid<Pc>::make_the_cells_for( const SstLimits &sst, TmpLevelInfo *level_info, Ps ps ) {
+void LGrid<Pc>::make_the_cells_for( const SstLimits &sst, Ps ps ) {
+    struct          TmpLevelInfo                {
+        void        clr                         () { num_sub_cell = 0; nb_sub_cells = 0; ls.clr(); }
+        BaseCell   *sub_cells[ 1 << dim ];      ///<
+        TI          num_sub_cell;               ///<
+        TI          nb_sub_cells;               ///<
+        LocalSolver ls;
+    };
+
+    // tmp storage for multi-level information
+    TmpLevelInfo level_info[ nb_bits_per_axis + 1 ];
+    for( TmpLevelInfo &l : level_info )
+        l.clr();
+
     auto *pinds = znodes_seconds( ps );
 
     // sorting w.r.t. zcoords
@@ -280,27 +291,17 @@ void LGrid<Pc>::make_the_cells_for( const SstLimits &sst, TmpLevelInfo *level_in
             TmpLevelInfo *li = level_info + level;
             BaseCell *cell = nullptr;
             if ( len_ind_nz ) {
-                FinalCell *fcell = reinterpret_cast<FinalCell *>( mem_pool.allocate( sizeof( FinalCell ) ) );
+                FinalCell *fcell = FinalCell::allocate( mem_pool, len_ind_nz );
                 fcell->end_ind_in_fcells = ++nb_final_cells;
-                fcell->nb_sub_items = len_ind_nz;
-
-                for( std::size_t d = 0; d < dim; ++d )
-                    fcell->positions[ d ] = reinterpret_cast<TF *>( mem_pool.allocate( sizeof( TF ) * len_ind_nz, 64 ) );
-                fcell->indices = reinterpret_cast<TI *>( mem_pool.allocate( sizeof( TI ) * len_ind_nz ) );
-                fcell->weights = reinterpret_cast<TF *>( mem_pool.allocate( sizeof( TF ) * len_ind_nz, 64 ) );
-                fcell->afs = reinterpret_cast<Af *>( mem_pool.allocate( sizeof( Af ) * len_ind_nz ) );
 
                 // store diracs indices, get bounds
                 LocalSolver ls;
                 ls.clr();
                 for( TI i = 0; i < len_ind_nz; ++i ) {
-                    Pwi pwi = get_pwi( ps, sorted_znodes.second[ beg_ind_zn + i ] );
-                    for( std::size_t d = 0; d < dim; ++d )
-                        fcell->positions[ d ][ i ] = pwi.positions[ d ];
-                    fcell->indices[ i ] = pwi.indice;
-                    fcell->weights[ i ] = pwi.weight;
+                    const Dirac &dirac = get_dirac( ps, sorted_znodes.second[ beg_ind_zn + i ] );
+                    fcell->diracs[ i ] = dirac;
 
-                    ls.push( pwi.positions, pwi.weight );
+                    ls.push( dirac.pos, dirac.weight );
                 }
 
                 ls.store_to( fcell->bounds );
@@ -331,9 +332,8 @@ void LGrid<Pc>::make_the_cells_for( const SstLimits &sst, TmpLevelInfo *level_in
                 TmpLevelInfo *oli = li++;
                 if ( oli->nb_sub_cells ) {
                     if ( oli->nb_sub_cells > 1 ) {
-                        SuperCell *scell = reinterpret_cast<SuperCell *>( mem_pool.allocate( sizeof( BaseCell ) + oli->nb_sub_cells * sizeof( BaseCell * ) ) );
+                        SuperCell *scell = SuperCell::allocate( mem_pool, oli->nb_sub_cells );
                         scell->end_ind_in_fcells = nb_final_cells;
-                        scell->nb_sub_items = - oli->nb_sub_cells;
 
                         for( std::size_t i = 0; i < oli->nb_sub_cells; ++i )
                             scell->sub_cells[ i ] = oli->sub_cells[ i ];
@@ -396,10 +396,10 @@ void LGrid<Pc>::cut_lc( CP &lc, Pt c0, TF w0, const FinalCell *dell, N<avoid_n0>
     if ( dim == 3 )
         TODO;
     struct alignas(64) Cut {
-        TF dx[ 128 ];
-        TF dy[ 128 ];
-        TF ps[ 128 ];
-        CI id[ 128 ];
+        TF     dx[ 128 ];
+        TF     dy[ 128 ];
+        TF     ps[ 128 ];
+        Dirac *id[ 128 ];
     };
     Cut cut;
 
@@ -516,15 +516,14 @@ void LGrid<Pc>::make_lcs_from( const std::function<void( CP &, int num_thread )>
     }
 }
 
-template<class Pc> template<int flags>
-int LGrid<Pc>::for_each_laguerre_cell( const std::function<void( CP &, int num_thread )> &cb, const CP &starting_lc, N<flags>, bool stop_if_void_lc ) {
-    //
+template<class Pc>
+int LGrid<Pc>::for_each_laguerre_cell( const std::function<void( CP &, int num_thread )> &cb, const CP &starting_lc, TraversalFlags traversal_flags ) {
+    constexpr int flags = 0;
     int err;
 
     if ( ! root_cell )
         return err;
-    if ( root_cell->final_cell() ) {
-        const FinalCell *cell =static_cast<const FinalCell *>( root_cell );
+    if ( const FinalCell *cell = root_cell->final_cell() ) {
         std::priority_queue<Msi> base_queue, queue;
         CP lc;
 
@@ -744,20 +743,17 @@ template<class Pc>
 void LGrid<Pc>::update_cell_bounds_phase_1( BaseCell *cell, BaseCell **path, int level ) {
     path[ level ] = cell;
 
-    if ( cell->final_cell() ) {
-        FinalCell *fc = static_cast<FinalCell *>( cell );
+    if ( FinalCell *fc = cell->final_cell() ) {
         for( size_t n = 0; n < fc->nb_diracs(); ++n ) {
-            Pt pos = fc->pos( n );
-            TF weight = fc->weights[ n ];
-            for( size_t l = 0; l <= level; ++l )
-                path[ l ]->bounds.push( pos, weight );
+            const Dirac &dirac = fc->diracs[ n ];
+            for( int l = 0; l <= level; ++l )
+                path[ l ]->bounds.push( dirac.pos, dirac.weight );
         }
         return;
     }
 
-    if ( cell->super_cell() ) {
-        SuperCell *sc = static_cast<SuperCell *>( cell );
-        for( size_t i = 0; i < sc->nb_sub_cells(); ++i )
+    if ( SuperCell *sc =cell->super_cell() ) {
+        for( int i = 0; i < sc->nb_sub_cells(); ++i )
             update_cell_bounds_phase_1( sc->sub_cells[ i ], path, level + 1 );
         return;
     }

@@ -1,5 +1,6 @@
-#pragma  once
+#pragma once
 
+#include "../../Support/BumpPointerPool.h"
 #include "LGridBaseCell.h"
 
 namespace sdot {
@@ -8,12 +9,19 @@ namespace sdot {
 */
 template<class Pc>
 struct LGridFinalCell : LGridBaseCell<Pc> {
-    using  BaseCell     = LGridBaseCell<Pc>;
-    using  Dirac        = typename Pc::Dirac;
+    using             FinalCell    = LGridFinalCell<Pc>;
+    using             BaseCell     = LGridBaseCell<Pc>;
+    using             Dirac        = typename Pc::Dirac;
 
-    int    nb_diracs    () const { return this->nb_sub_items; }
+    static FinalCell *allocate     ( BumpPointerPool &mem_pool, int nb_diracs ) {
+        FinalCell *res = reinterpret_cast<FinalCell *>( mem_pool.allocate( sizeof( BaseCell ) + nb_diracs * sizeof( Dirac ) ) );
+        res->nb_sub_items = nb_diracs;
+        return res;
+    }
 
-    Dirac *diracs[ 1 ]; ///<
+    int               nb_diracs    () const { return this->nb_sub_items; }
+
+    Dirac             diracs[ 1 ]; ///<
 };
 
 } // namespace sdot

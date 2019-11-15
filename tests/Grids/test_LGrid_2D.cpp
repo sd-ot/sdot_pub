@@ -6,7 +6,7 @@ using namespace sdot;
 
 // // nsmake cpp_flag -march=native
 // // nsmake cpp_flag -ffast-math
-//// nsmake cpp_flag -O3
+// // nsmake cpp_flag -O3
 
 template<class Grid,int flags>
 void display( Grid &grid, std::string filename, N<flags> ) {
@@ -30,7 +30,8 @@ void display( Grid &grid, std::string filename, N<flags> ) {
 
 template<class Pc>
 void test_with_Pc() {
-    constexpr int flags = 0;
+    //    constexpr int flags = 0;
+    using         Dirac = typename Pc::Dirac;
     using         Grid  = LGrid<Pc>;
     constexpr int dim   = Pc::dim;
     using         CP    = typename Grid::CP;
@@ -38,19 +39,18 @@ void test_with_Pc() {
     using         TF    = typename Grid::TF;
     using         TI    = typename Grid::TI;
 
-    //    // load
-    //    std::size_t nb_diracs = 10000;
-    //    std::vector<Pt> positions( nb_diracs );
-    //    std::vector<TF> weights( nb_diracs );
-    //    for( std::size_t n = 0; n < nb_diracs; ++n ) {
-    //        for( std::size_t d = 0; d < dim; ++d )
-    //            positions[ n ][ d ] = 0.2 + 0.6 * rand() / RAND_MAX;
-    //        weights[ n ] = 0 * sin( positions[ n ].x ) * sin( positions[ n ].y );
-    //    }
+    // load
+    std::size_t nb_diracs = 10000;
+    std::vector<Dirac> diracs( nb_diracs );
+    for( std::size_t n = 0; n < nb_diracs; ++n ) {
+        for( std::size_t d = 0; d < dim; ++d )
+            diracs[ n ].pos[ d ] = 0.2 + 0.6 * rand() / RAND_MAX;
+        diracs[ n ].weight = 0 * sin( diracs[ n ].pos.x ) * sin( diracs[ n ].pos.y );
+    }
 
-    //    // grid
-    //    Grid grid( 20 );
-    //    grid.update_positions_and_weights( positions.data(), weights.data(), nb_diracs, N<flags>() );
+    // grid
+    Grid grid( 20 );
+    grid.construct( diracs.data(), diracs.size() );
 
     //    // solve
     //    TF target_mass = TF( 1 )/ nb_diracs;
@@ -97,7 +97,7 @@ int main() {
             TF weight;
             Pt pos;
 
-            TF r;
+            TF r = 0;
         };
     };
 

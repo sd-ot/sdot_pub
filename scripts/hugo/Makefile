@@ -10,7 +10,7 @@ all:
 	# nsmake run -g3 tests/test_IntrusivePool.cpp
 	# nsmake run -g3 tests/test_PointerWithOffset.cpp
 	# nsmake run -g3 tests/test_ConvexPolyhedron3.cpp
-	nsmake run tests/Grids/test_LGrid_2D.cpp
+	nsmake run -g3 --exec-with "valgrind --num-callers=32" tests/Grids/test_LGrid_2D.cpp
 	# nsmake run -g3 --exec-with valgrind tests/test_solve_2D.cpp
 	# nsmake run -g3 tests/benchmarks/bench_Lgrid_2D.cpp
 	# python tests/benchmarks/distributions/make_distributions.py

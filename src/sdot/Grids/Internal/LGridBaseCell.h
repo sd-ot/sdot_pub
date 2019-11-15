@@ -1,9 +1,8 @@
-#pragma  once
+#pragma once
 
 #include "CellBoundsTraits.h"
 
 namespace sdot {
-
 template<class Pc> struct LGridSuperCell;
 template<class Pc> struct LGridFinalCell;
 
