@@ -603,7 +603,7 @@ void LGrid<Pc>::for_each_final_cell( const std::function<void( FinalCell &cell, 
 }
 
 template<class Pc>
-void LGrid<Pc>::for_each_dirac( const std::function<void( Dirac &, int)> &f ) {
+void LGrid<Pc>::for_each_dirac( const std::function<void( Dirac &, int )> &f ) {
     for_each_final_cell( [&]( FinalCell &cell, int num_thread ) {
         for( std::size_t i = 0; i < cell.nb_diracs(); ++i )
             f( cell.diracs[ i ], num_thread );

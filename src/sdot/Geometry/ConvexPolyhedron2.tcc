@@ -194,6 +194,28 @@ typename ConvexPolyhedron2<Pc>::Node &ConvexPolyhedron2<Pc>::node( TI index ) {
 }
 
 template<class Pc>
+void ConvexPolyhedron2<Pc>::for_each_boundary_measure( const std::function<void( const TF &boundary_measure, Dirac *dirac )> &f, TF /*weight*/ ) const {
+    if ( nb_nodes() == 0 ) {
+        if ( sphere_radius >= 0 )
+            f( 2 * pi( S<TF>() ) * sphere_radius, sphere_cut_id );
+        return;
+    }
+
+    for( size_t i1 = 0, i0 = nb_nodes() - 1; i1 < nb_nodes(); i0 = i1++ ) {
+        if ( allow_ball_cut && node( i0 ).arc_radius > 0 ) {
+            using std::atan2;
+            TF a0 = atan2( node( i0 ).y - sphere_center[ 1 ], node( i0 ).x - sphere_center[ 0 ] );
+            TF a1 = atan2( node( i1 ).y - sphere_center[ 1 ], node( i1 ).x - sphere_center[ 0 ] );
+            if ( a1 < a0 )
+                a1 += 2 * pi( S<TF>() );
+            f( ( a1 - a0 ) * sphere_radius, node( i0 ).cut_id.get() );
+        } else {
+            f( norm_2( node( i1 ).pos() - node( i0 ).pos() ), node( i0 ).cut_id.get() );
+        }
+    }
+}
+
+template<class Pc>
 void ConvexPolyhedron2<Pc>::for_each_boundary_item( const std::function<void( const BoundaryItem &boundary_item )> &f, TF /*weight*/ ) const {
     if ( nb_nodes() == 0 ) {
         if ( sphere_radius >= 0 ) {

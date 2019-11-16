@@ -67,6 +67,7 @@ public:
     const Node&                          node                      ( TI index ) const;
     Node&                                node                      ( TI index );
 
+    void                                 for_each_boundary_measure ( const std::function<void( const TF &boundary_measure, Dirac *dirac )> &f, TF weight = 0 ) const;
     void                                 for_each_boundary_item    ( const std::function<void( const BoundaryItem &boundary_item )> &f, TF weight = 0 ) const;
 
     //
