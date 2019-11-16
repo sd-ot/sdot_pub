@@ -43,11 +43,11 @@ void LGrid<Pc>::construct( const std::function<void(const Cb &cb)> &f ) {
 }
 
 template<class Pc>
-void LGrid<Pc>::update_weights( const std::function<void( Dirac &dirac )> &f ) {
+void LGrid<Pc>::update_grid_wrt_weights() {
     if ( root_cell ) {
         // tmp storage for multi-level information
         LocalSolver local_solvers[ nb_bits_per_axis ];
-        update_weights_rec( f, root_cell, local_solvers, 0 );
+        update_grid_wrt_weights_rec( root_cell, local_solvers, 0 );
     }
 
     // second phase of bounds update (if necessary)
@@ -58,28 +58,17 @@ void LGrid<Pc>::update_weights( const std::function<void( Dirac &dirac )> &f ) {
 }
 
 template<class Pc>
-void LGrid<Pc>::update_weights_rec( const std::function<void( Dirac &dirac )> &f, BaseCell *cell, LocalSolver *local_solvers, int level ) {
+void LGrid<Pc>::update_grid_wrt_weights_rec( BaseCell *cell, LocalSolver *local_solvers, int level ) {
     local_solvers[ level ].clr();
 
     if ( SuperCell *sc = cell->super_cell() ) {
         for( std::size_t i = 0; i < sc->nb_sub_cells(); ++i ) {
-            mod_weights_rec( f, sc->sub_cells[ i ], local_solvers, level + 1 );
+            update_grid_wrt_weights_rec( sc->sub_cells[ i ], local_solvers, level + 1 );
             local_solvers[ level ].push( local_solvers[ level + 1 ] );
         }
     } else if ( FinalCell *fc = cell->final_cell() ) {
-        if ( f ) {
-            for( std::size_t i = 0; i < fc->nb_diracs(); ++i ) {
-                Dirac &dirac = fc->diracs[ i ];
-                f( dirac );
-
-                local_solvers[ level ].push( dirac->pos, dirac->weights );
-            }
-        } else {
-            for( std::size_t i = 0; i < fc->nb_diracs(); ++i ) {
-                Dirac &dirac = fc->diracs[ i ];
-                local_solvers[ level ].push( dirac->pos, dirac->weights );
-            }
-        }
+        for( std::size_t i = 0; i < fc->nb_diracs(); ++i )
+            local_solvers[ level ].push( fc->diracs[ i ].pos, fc->diracs[ i ].weight );
     } else {
         TODO;
     }
@@ -512,7 +501,7 @@ void LGrid<Pc>::make_lcs_from( const std::function<void( CP &, Dirac &dirac, int
 }
 
 template<class Pc>
-int LGrid<Pc>::for_each_laguerre_cell( const std::function<void( CP &, Dirac &dirac, int num_thread )> &cb, const CP &starting_lc, TraversalFlags /*traversal_flags*/ ) {
+int LGrid<Pc>::for_each_laguerre_cell( const std::function<void( CP &, Dirac &dirac, int num_thread )> &cb, const CP &starting_lc, TraversalFlags traversal_flags ) {
     constexpr int flags = 0;
     int err;
 
@@ -529,6 +518,10 @@ int LGrid<Pc>::for_each_laguerre_cell( const std::function<void( CP &, Dirac &di
         }, beg_cell, end_cell );
     } );
 
+    //
+    if ( traversal_flags.mod_weights )
+        update_grid_wrt_weights();
+
     return err;
 }
 
@@ -539,8 +532,9 @@ void LGrid<Pc>::for_each_final_cell_mono_thr( const std::function<void( FinalCel
         return;
 
     if ( FinalCell *cell = root_cell->final_cell() ) {
-        if ( beg_cell < end_cell )
+        if ( beg_cell < end_cell ) {
             f( *cell, nullptr, 0 );
+        }
         return;
     }
 
@@ -590,7 +584,7 @@ void LGrid<Pc>::for_each_final_cell_mono_thr( const std::function<void( FinalCel
 
 
 template<class Pc>
-void LGrid<Pc>::for_each_final_cell( const std::function<void( FinalCell &cell, int num_thread )> &f ) {
+void LGrid<Pc>::for_each_final_cell( const std::function<void( FinalCell &cell, int num_thread )> &f, TraversalFlags traversal_flags ) {
     // parallel traversal of the cells
     int nb_threads = thread_pool.nb_threads(), nb_jobs = nb_threads;
     thread_pool.execute( nb_jobs, [&]( std::size_t num_job, int num_thread ) {
@@ -600,14 +594,18 @@ void LGrid<Pc>::for_each_final_cell( const std::function<void( FinalCell &cell, 
             f( cell, num_thread );
         }, beg_cell, end_cell );
     } );
+
+    //
+    if ( traversal_flags.mod_weights )
+        update_grid_wrt_weights();
 }
 
 template<class Pc>
-void LGrid<Pc>::for_each_dirac( const std::function<void( Dirac &, int )> &f ) {
+void LGrid<Pc>::for_each_dirac( const std::function<void( Dirac &, int )> &f, TraversalFlags traversal_flags ) {
     for_each_final_cell( [&]( FinalCell &cell, int num_thread ) {
         for( std::size_t i = 0; i < cell.nb_diracs(); ++i )
             f( cell.diracs[ i ], num_thread );
-    } );
+    }, traversal_flags );
 }
 
 template<class Pc> template<int flags>

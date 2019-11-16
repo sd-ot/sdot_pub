@@ -28,7 +28,7 @@ public:
     using                          Pt                          = typename Pc::Pt;    ///< point type
 
     // constructed or deduced types
-    struct                         TraversalFlags              { bool stop_if_void_lc = false; };
+    struct                         TraversalFlags              { bool stop_if_void_lc = false, mod_weights = false; };
     struct                         DisplayFlags                { TF weight_elevation = 0; };
     using                          FinalCell                   = LGridFinalCell<Pc>;
     using                          SuperCell                   = LGridSuperCell<Pc>;
@@ -42,12 +42,12 @@ public:
     void                           construct                   ( const std::function<void( const Cb &cb )> &f ); ///< generic case: diracs come by chunk (that fit in memory or not)
     void                           construct                   ( const Dirac *diracs, TI nb_diracs ); ///< simple case: one gives all the diracs at once
 
-    void                           update_weights              ( const std::function<void( Dirac &dirac )> &f = {} ); ///< update grid info after modification of diracs->weights
+    void                           update_grid_wrt_weights     (); ///< update grid info after modification of diracs->weights (not necessary if mod_weight is specified in traversal_flags)
 
     // traversal/information
     int                            for_each_laguerre_cell      ( const std::function<void( CP &lc, Dirac &dirac, int num_thread )> &f, const CP &starting_lc, TraversalFlags traversal_flags = {} ); ///< version with num_thread
-    void                           for_each_final_cell         ( const std::function<void( FinalCell &cell, int num_thread )> &f );
-    void                           for_each_dirac              ( const std::function<void( Dirac &d, int num_thread)> &f );
+    void                           for_each_final_cell         ( const std::function<void( FinalCell &cell, int num_thread )> &f, TraversalFlags traversal_flags = {} );
+    void                           for_each_dirac              ( const std::function<void( Dirac &d, int num_thread)> &f, TraversalFlags traversal_flags = {} );
     TI                             nb_diracs                   () const { return nb_diracs_tot; }
 
     // display
@@ -77,13 +77,13 @@ private:
 
     void                           get_grid_dims_and_dirac_ptrs( const std::function<void(const Cb &cb)> &f );
     void                           for_each_final_cell_mono_thr( const std::function<void( FinalCell &cell, CpAndNum *path, TI path_len )> &f, TI beg_num_cell, TI end_num_cell );
+    void                           update_grid_wrt_weights_rec ( BaseCell *cell, LocalSolver *local_solvers, int level );
     void                           make_znodes_with_1ppwn_ssst ( const SstLimits &sst, const Dirac *diracs, TI nb_diracs ); ///< several sst case
     void                           make_znodes_with_1ppwn_1sst ( const Dirac *diracs, TI nb_diracs );                          ///< only one sst case (=> no need to make a test)
     void                           update_cell_bounds_phase_1  ( BaseCell *cell, BaseCell **path, int level );
     void                           fill_grid_using_zcoords     ( const Dirac *diracs, TI nb_diracs );
     void                           compute_sst_limits          ( const std::function<void(const Cb &cb)> &f );
     template<class Ps> void        make_the_cells_for          ( const SstLimits &sst, Ps ps );
-    void                           update_weights_rec          ( const std::function<void( Dirac &dirac )> &f, BaseCell *cell, LocalSolver *local_solvers, int level );
     void                           write_to_stream             ( std::ostream &os, BaseCell *cell, std::string sp ) const;
     TI                            *znodes_seconds              ( const DiracPn &              ) { return znodes_inds.data(); }
     std::pair<TI,TI>              *znodes_seconds              ( const std::vector<DiracPn> & ) { return znodes_pnds.data(); }

@@ -35,7 +35,7 @@ void display( Grid &grid, std::string filename, std::string grid_filemane = {} )
         }, ic );
 
         voc.save( filename );
-        // P( area );
+        //        P( area );
     }
 }
 
@@ -74,34 +74,6 @@ struct MtVal {
     std::vector<TF> values;
 };
 
-template<class TF>
-TF min_interp( const std::vector<TF> &xs, const std::vector<TF> &ys ) {
-    // P( x ) = y0 * ( x - x1 ) * ( x - x2 ) / ( ( x0 - x2 ) * ( x0 - x1 )  ) +
-    //          y1 * ( x - x0 ) * ( x - x2 ) / ( ( x1 - x0 ) * ( x1 - x2 )  ) +
-    //          y2 * ( x - x0 ) * ( x - x1 ) / ( ( x2 - x0 ) * ( x2 - x1 )  )
-    // Q = P * ( x0 - x2 ) * ( x0 - x1 ) * ( x1 - x2 )
-
-    // Q( x ) = y0 * ( x - x1 ) * ( x - x2 ) * ( x1 - x2 ) +
-    //          y1 * ( x - x0 ) * ( x - x2 ) * ( x2 - x0 ) +
-    //          y2 * ( x - x0 ) * ( x - x1 ) * ( x0 - x1 )
-
-    // x² => y0 * ( x1 - x2 ) +
-    //       y1 * ( x2 - x0 ) +
-    //       y2 * ( x0 - x1 )
-    // x  => y0 * ( x1 + x2 ) * ( x1 - x2 ) +
-    //       y1 * ( x2 + x0 ) * ( x2 - x0 ) +
-    //       y2 * ( x0 + x1 ) * ( x0 - x1 )
-
-    // mul by the prods
-    TF num = ys[ 0 ] * ( xs[ 1 ] - xs[ 2 ] ) * ( xs[ 1 ] + xs[ 2 ] ) +
-             ys[ 1 ] * ( xs[ 2 ] - xs[ 0 ] ) * ( xs[ 2 ] + xs[ 0 ] ) +
-             ys[ 2 ] * ( xs[ 0 ] - xs[ 1 ] ) * ( xs[ 0 ] + xs[ 1 ] ) ;
-    TF den = ys[ 0 ] * ( xs[ 1 ] - xs[ 2 ] ) +
-             ys[ 1 ] * ( xs[ 2 ] - xs[ 0 ] ) +
-             ys[ 2 ] * ( xs[ 0 ] - xs[ 1 ] ) ;
-    return 0.5 * num / den;
-}
-
 template<class Pc>
 void test_with_Pc() {
     //    constexpr int flags = 0;
@@ -114,11 +86,9 @@ void test_with_Pc() {
     using         TI    = typename Grid::TI;
 
     using std::sqrt;
-    using std::pow;
-    using std::max;
 
     // load
-    std::size_t nb_diracs = 200;
+    std::size_t nb_diracs = 19;
     std::vector<Dirac> diracs( nb_diracs );
     for( std::size_t n = 0; n < nb_diracs; ++n ) {
         for( std::size_t d = 0; d < dim; ++d )
@@ -132,69 +102,74 @@ void test_with_Pc() {
     grid.construct( diracs.data(), diracs.size() );
 
     // solve init => first residual,
-    const CP ic( typename CP::Box{ { 0, 0 }, { 1, 1 } }, nullptr );
-    const TF target_mass = TF( 1 ) / nb_diracs;
+    //   # un premier parcourt pour trouver le M, le z, mettre 0 dans p, et faire le produit scalaire h
+    //   r = B # résidu =
+    //   z = M @ r
+    //   p = z
+    TF target_mass = TF( 1 ) / nb_diracs;
+    CP ic( typename CP::Box{ { 0, 0 }, { 1, 1 } }, nullptr );
+    grid.for_each_laguerre_cell( [&]( CP &cp, Dirac &d0, int /*num_thread*/ ) {
+        TF der_0 = for_each_cp_der( cp, d0, [&]( Dirac &/*d1*/, TF /*der_1*/ ) {} );
+        d0.r = target_mass - cp.integral();
+        d0.z = d0.r / der_0;
+        d0.p = d0.z;
+    }, ic );
 
     //
     for( std::size_t num_iter = 0; num_iter < 100; ++num_iter ) {
-        // dxn => search dir
-        MtVal<TF> err;
-        grid.for_each_laguerre_cell( [&]( CP &cp, Dirac &d0, int num_thread ) {
-            TF dm = target_mass - cp.integral();
-            err[ num_thread ] += pow( dm, 2 );
-            d0.old_weight = d0.weight;
-            d0.dxo = d0.dxn;
-            d0.dxn = dm;
+        display( grid, va_string( "vtk/pd_{}.vtk", num_iter ), "vtk/grid.vtk" );
 
-            if ( num_iter == 0 )
-                d0.sn = dm;
+        // # calcul de q + np.dot( p, q )
+        // h = np.dot( r, z )
+        // q = A @ p
+        MtVal<TF> dqp, ha;
+        grid.for_each_laguerre_cell( [&]( CP &cp, Dirac &d0, int num_thread ) {
+            // A @ p
+            d0.q = 0;
+            TF der_0 = for_each_cp_der( cp, d0, [&]( Dirac &d1, TF der_1 ) { d0.q += der_1 * d1.p; } );
+            d0.q += der_0 * d0.p;
+
+            dqp[ num_thread ] += d0.q * d0.p;
+            ha[ num_thread ] += d0.r * d0.z;
         }, ic );
 
+        // maj du poids
+        TF alpha = ha.sum() / dqp.sum();
+        grid.for_each_dirac( [&]( Dirac &d0, int /*num_thread*/ ) {
+            d0.weight += alpha * d0.p;
+        } );
+        while ( true ) {
+            bool ok = true;
+            MtVal<TF> error, hb;
+            grid.for_each_laguerre_cell( [&]( CP &cp, Dirac &d0, int num_thread ) {
+                TF der_0 = for_each_cp_der( cp, d0, [&]( Dirac &d1, TF der_1 ) { d0.q += der_1 * d1.p; } );
+                d0.r = target_mass - cp.integral();
+                if ( der_0 )
+                    d0.z = d0.r / der_0;
+                else
+                    ok = false;
 
-        display( grid, va_string( "vtk/pd_{}.vtk", num_iter ), "vtk/grid.vtk" );
-        P( err.sum() );
-
-        // sn, from a correction of dxn
-        if ( num_iter ) {
-            MtVal<TF> dpr_num, dpr_den;
-            grid.for_each_dirac( [&]( Dirac &d0, int num_thread ) {
-                dpr_num[ num_thread ] += d0.dxn * ( d0.dxn - d0.dxo );
-                dpr_den[ num_thread ] += d0.dxo * d0.dxo;
-            } );
-
-            TF beta = max( TF( 0 ), dpr_num.sum() / dpr_den.sum() );
-            grid.for_each_dirac( [&]( Dirac &d0, int /*num_thread*/ ) {
-                d0.so = d0.sn;
-                d0.sn = d0.dxn + beta * d0.so;
-            } );
-        }
-
-        // try several alphas
-        std::vector<TF> alphas = { 0 };
-        std::vector<TF> errors = { err.sum() };
-        for( TF alpha = 1; alphas.size() < 3; alpha /= 2 ) {
-            grid.for_each_dirac( [&]( Dirac &d0, int /*num_thread*/ ) {
-                d0.weight = d0.old_weight + alpha * d0.sn;
-            }, { .mod_weights = true } );
-
-            MtVal<TF> err, nb_bad_cells;
-            grid.for_each_laguerre_cell( [&]( CP &cp, Dirac &/*d0*/, int num_thread ) {
-                TF mass = cp.integral();
-                TF dm = target_mass - mass;
-                err[ num_thread ] += pow( dm, 2 );
-                nb_bad_cells[ num_thread ] += mass == 0;
+                error[ num_thread ] += d0.r * d0.r;
+                hb[ num_thread ] += d0.r * d0.z;
             }, ic );
 
-            if ( nb_bad_cells.sum() == 0 ) {
-                alphas.push_back( alpha );
-                errors.push_back( err.sum() );
-            }
-        }
+            if ( ok ) {
+                P( sqrt( error.sum() ) );
 
-        TF best_alpha = min_interp( alphas, errors );
-        grid.for_each_dirac( [&]( Dirac &d0, int /*num_thread*/ ) {
-            d0.weight = d0.old_weight + best_alpha * d0.sn;
-        }, { .mod_weights = true } );
+                // p = z + beta * p
+                TF beta = hb.sum() / ha.sum();
+                grid.for_each_dirac( [&]( Dirac &d0, int ) {
+                    d0.p = d0.z + beta * d0.p;
+                } );
+                break;
+            }
+
+            P( "bim" );
+            alpha *= TF( 0.5 );
+            grid.for_each_dirac( [&]( Dirac &d0, int /*num_thread*/ ) {
+                d0.weight -= alpha * d0.p;
+            } );
+        }
     }
 }
 
@@ -211,21 +186,22 @@ int main() {
         using  Pt                = Point2<TF>;
 
         struct Dirac {
-            static std::vector<std::string> names() { return { "weight", "index", "dxn" }; }
-            std::vector<TF> values() const { return { weight, TF( index ), dxn }; }
+            static std::vector<std::string> names() { return { "weight", "index", "r", "p", "z", "q" }; }
+            std::vector<TF> values() const { return { weight, TF( index ), r, p, z, q }; }
 
             //
-            TF old_weight;
             TF weight;
             TI index;
             Pt pos;
 
-            TF dxn;
-            TF dxo;
-            TF sn;
-            TF so;
+            // conjugate gradient
+            TF r = 0; ///<
+            TF p = 0; ///<
+            TF z = 0; ///<
+            TF q = 0; ///<
         };
     };
+
 
     test_with_Pc<Pc>();
 }
