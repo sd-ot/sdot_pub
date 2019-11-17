@@ -5,3 +5,12 @@ callgrind.out*
 *.mesh
 pd.vtk
 err
+*.nav
+*.aux
+*HL.pdf
+*.aux
+*.toc
+*.snm
+*.out
+*.log
+*_syntex.gz

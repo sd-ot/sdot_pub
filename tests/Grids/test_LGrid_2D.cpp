@@ -141,6 +141,68 @@ TF min_interp( const std::vector<TF> &xs, const std::vector<TF> &ys ) {
     return 0.5 * num / den;
 }
 
+template<class Grid>
+typename Grid::TF get_error( Grid &grid ) {
+    using Dirac = typename Grid::Dirac;
+    using TF = typename Grid::TF;
+    using CP = typename Grid::CP;
+
+    MtVal<typename Grid::TF> res;
+    const TF target_mass = TF( 1 ) / grid.nb_diracs();
+    const CP ic( typename CP::Box{ { 0, 0 }, { 1, 1 } }, nullptr );
+    grid.for_each_laguerre_cell( [&]( CP &cp, Dirac &/*d0*/, int num_thread ) {
+        TF dm = target_mass - cp.integral();
+        res[ num_thread ] += pow( dm, 2 );
+    }, ic );
+
+    return res.sum();
+}
+
+template<class Grid>
+std::vector<double> get_der1( Grid &grid, double dw = 1e-3 ) {
+    double base = get_error( grid );
+
+    std::vector<double> res;
+    for( std::size_t r = 0; r < grid.nb_diracs(); ++r ) {
+        grid.for_each_dirac( [&]( auto &d0, int /*num_thread*/ ) {
+            if ( d0.index == r )
+                d0.weight += dw;
+        }, { .mod_weights = true } );
+
+        res.push_back( ( get_error( grid ) - base ) / dw );
+
+        grid.for_each_dirac( [&]( auto &d0, int /*num_thread*/ ) {
+            if ( d0.index == r )
+                d0.weight -= dw;
+        }, { .mod_weights = true } );
+    }
+
+    return res;
+}
+
+template<class Grid>
+void print_matrix( Grid &grid, double dw = 1e-3 ) {
+    std::vector<double> base = get_der1( grid );
+    for( std::size_t r = 0; r < grid.nb_diracs(); ++r ) {
+        grid.for_each_dirac( [&]( auto &d0, int /*num_thread*/ ) {
+            if ( d0.index == r )
+                d0.weight += dw;
+        }, { .mod_weights = true } );
+
+        std::vector<double> res = get_der1( grid, dw );
+        for( std::size_t c = 0; c < grid.nb_diracs(); ++c ) {
+            double d = ( res[ c ] - base[ c ] ) / dw;
+            std::cout << std::setw( 5 ) << int( 10000 * d ) << " ";
+        }
+        std::cout << "\n";
+
+        grid.for_each_dirac( [&]( auto &d0, int /*num_thread*/ ) {
+            if ( d0.index == r )
+                d0.weight -= dw;
+        }, { .mod_weights = true } );
+    }
+}
+
 template<class Pc>
 void test_with_Pc() {
     //    constexpr int flags = 0;
@@ -158,17 +220,17 @@ void test_with_Pc() {
     using std::min;
 
     // load
-    std::size_t nb_diracs = 20;
+    std::size_t nb_diracs = 100;
     std::vector<Dirac> diracs( nb_diracs );
     std::vector<TF> positions( nb_diracs + 1, 0 );
     for( std::size_t n = 0; n < nb_diracs; ++n ) {
         //        for( std::size_t d = 0; d < dim; ++d )
         //            diracs[ n ].pos[ d ] = ( 0.2 + 0.6 * rand() / RAND_MAX ) * ( d == 0 );
-        //        diracs[ n ].pos[ 0 ] = 0.2 + 0.6 * n / nb_diracs + 0.1 * rand() / RAND_MAX;
-        //        diracs[ n ].pos[ 0 ] = 0.2 + 0.6 * rand() / RAND_MAX;
-        diracs[ n ].pos[ 0 ] = n / ( nb_diracs - 1.0 );
-        diracs[ n ].pos[ 1 ] = 0;
-        diracs[ n ].weight = 1e-3 * rand() / RAND_MAX; // 0 * sin( diracs[ n ].pos.x ) * sin( diracs[ n ].pos.y );
+        diracs[ n ].pos[ 0 ] = 0.0 + 0.99999 * rand() / RAND_MAX;
+        diracs[ n ].pos[ 1 ] = 0.0 + 0.99999 * rand() / RAND_MAX;
+        //        diracs[ n ].pos[ 0 ] = n / ( nb_diracs - 1.0 );
+        //        diracs[ n ].pos[ 1 ] = 0;
+        diracs[ n ].weight = 0; // 1e-3 * rand() / RAND_MAX; // 0 * sin( diracs[ n ].pos.x ) * sin( diracs[ n ].pos.y );
         diracs[ n ].index = n;
 
         positions[ n + 1 ] = diracs[ n ].pos[ 0 ];
@@ -183,7 +245,7 @@ void test_with_Pc() {
     const TF target_mass = TF( 1 ) / nb_diracs;
 
     //
-    for( std::size_t num_iter = 0; num_iter < 15; ++num_iter ) {
+    for( std::size_t num_iter = 0; num_iter < 500; ++num_iter ) {
         // dxn => search dir
         MtVal<TF> err;
         grid.for_each_laguerre_cell( [&]( CP &cp, Dirac &d0, int num_thread ) {
@@ -199,6 +261,11 @@ void test_with_Pc() {
             }
         }, ic );
 
+        //        print_matrix( grid, 1e-6 );
+        //        print_matrix( grid, 1e-5 );
+        //        print_matrix( grid, 1e-4 );
+        //        print_matrix( grid, 1e-3 );
+        //        break;
 
         display( grid, va_string( "vtk/pd_{}.vtk", num_iter ), "vtk/grid.vtk" );
 

@@ -1,0 +1,168 @@
+\documentclass[aspectratio=169]{beamer}
+\setbeamertemplate{navigation symbols}{} % don't use navigation tools on slides
+% \usetheme{LMT}
+
+\usepackage[utf8]{inputenc}
+\usepackage{pdfpc-commands}
+\usepackage{multimedia}
+\usepackage{listings}
+\usepackage{default}
+
+\setbeamersize{text margin left=0.6cm,text margin right=0.6cm}
+\setbeamercolor{frametitle}{fg=black}
+\setbeamercolor{section in toc}{fg=black}
+\setbeamertemplate{frametitle}{\color{black}\bfseries\insertframetitle\par\vskip-6pt{\color{gray}\hrulefill}}
+
+\lstset{language=C++,
+  basicstyle=\ttfamily,
+  keywordstyle=\color{blue}\ttfamily,
+  stringstyle=\color{red}\ttfamily,
+  commentstyle=\color{green}\ttfamily,
+  morecomment=[l][\color{magenta}]{\#}
+}
+
+\AtBeginSection[]{
+  \begin{frame}{Sommaire}
+    \tableofcontents[currentsection]
+  \end{frame} 
+}
+
+\begin{document}
+
+\begin{frame}
+    \begin{center}
+        {\huge High Performance Computing of Power Diagrams}
+
+        \bigskip
+        {\large Applications to Semi-Discrete Optimal Transport}
+      
+        \vfill
+        {(MAGA days, November 21, 2019, Hugo Leclerc)}
+    \end{center}
+\end{frame}
+
+% ---------------------------------------------------------------------------------------
+\section{}
+
+\begin{frame}
+    \frametitle{The world needs power diagrams !}
+
+    \begin{minipage}{0.5\textwidth}
+        Problem to solve: what is the optimal way to transport a density to a set of diracs with equal mass ? 
+        
+        \bigskip
+        Quadratic cost (euclidian distance) $\Rightarrow$ \textit{attributions} are defined by power diagrams.
+    \end{minipage}
+    \kern 0.5cm
+    \begin{minipage}{0.45\textwidth}
+        \begin{center}
+        \end{center}
+    \end{minipage}
+
+    
+\end{frame}
+
+\begin{frame}
+    \frametitle{$\Rightarrow$ The world needs libraries to compute power diagrams !}
+
+    Libraries for power diagrams are not common, and most of them are focused on obtaining the exact connectivity.
+    
+    \vfill
+    Could be parallelized but not in a natural way.
+    
+    \vfill
+    Exact connectivity is not a necessity for optimal transportation (one compute integrals where connectivity issues vanish).
+\end{frame}
+
+% \begin{frame}
+%     \frametitle{Parcours en bref}
+%  
+%     \begin{minipage}{0.5\textwidth}
+%         \begin{itemize}
+%             \item Ingénieur de recherche, LMT/CMAP \\ 
+%                 {\color{gray}
+%                     Stratégies de calculs / traitement de données expérimentales... \\[0.15cm]
+%                     Applications~: identification de lois de comportement, réduction de dimensionnalité, décomposition de domaine, contrôle d'erreur, corrélation, reconstruction, etc...
+%                 }
+%                 
+%             \item Thèse en mécanique \\ 
+%                 {\color{gray} Modél., simu. et expé. frittage par laser}
+%                 
+%             \item Demomaker \\
+%                 {\color{gray} Assembleur, connaissance des machines}
+%       \end{itemize}
+%     \end{minipage}
+%     \kern 0.5cm
+%     \begin{minipage}{0.45\textwidth}
+%         \begin{center}
+%         \only<1>{
+%             \includegraphics[height=0.22\textwidth]{img/serpent_cache.png} \kern 0.1cm
+%             \includegraphics[height=0.22\textwidth]{img/bz_2d.png}
+% 
+%             \kern 0.2cm
+%             \includegraphics[width=0.4\textwidth]{img/few_projections.png} \kern 0.1cm
+%             \includegraphics[width=1.0\textwidth]{img/tomo_du.png} % \kern 0.1cm
+%             
+%             \kern 0.1cm
+%             \includegraphics[width=1.0\textwidth]{img/binary_reco.png}
+%         }
+%         \only<2>{
+%             \includegraphics[width=0.35\textwidth]{img/frittage_photo_four.png} \kern 0.1cm
+%             \includegraphics[width=0.55\textwidth]{img/frittage_principe.png}
+%             
+%             \kern 0.5cm
+%             \includegraphics[width=0.98\textwidth]{img/frittage_sep.png}
+%             
+%             \kern 0.25cm
+%             \includegraphics[width=0.75\textwidth]{img/frittage_simu_une_particle.png} \kern 0.1cm
+%             \includegraphics[width=0.2\textwidth]{img/frittage_simu_3d.png}
+%         }
+%         \only<3>{
+%             \includegraphics[width=\textwidth]{img/atari_st_forever.png} \\
+%             (1991, Checkpoint)
+%         }
+%         \end{center}
+%     \end{minipage}
+% \end{frame}
+
+ 
+% ---------------------------------------------------------------------------------------
+\section{Conclusions et perspectives}
+
+\begin{frame}
+    \frametitle{Conclusions}
+
+    Il est possible de rapprocher \textit{encore} la programmation des maths appliquées
+    \begin{itemize}
+        \item pour perdre moins de temps
+        \item pour mieux séparer les difficultés
+        \item et moins se déformer l'esprit
+    \end{itemize}
+    
+    \vfill
+    Illustration avec l'évaluation paresseuse~: 
+    \begin{itemize}
+        \item simplification extrême des écritures 
+        \item avec sémantique significativement plus précise
+        \item adaptations automatiques et évolutives en fonction du hardware
+        \item programmation symbolique
+    \end{itemize}
+\end{frame}
+
+
+\begin{frame}
+    \frametitle{Perspectives}
+
+    \begin{itemize}
+        \item Différentiations (positions initiales, bords, ...) et adaptations pour le transport optimal (semi-discret)
+        \vfill
+        \item Simplification des représentations pour les reconstructions tomographiques
+        \vfill
+        \item Plus grande palette de schémas d'intégration (collant aux équations)
+        \vfill
+        \item Extraction de propriétés mathématiques
+    \end{itemize}
+\end{frame}
+
+
+\end{document}
