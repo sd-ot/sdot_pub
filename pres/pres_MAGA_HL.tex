@@ -51,79 +51,50 @@
         Problem to solve: what is the optimal way to transport a density to a set of diracs with equal mass ? 
         
         \bigskip
-        Quadratic cost (euclidian distance) $\Rightarrow$ \textit{attributions} are defined by power diagrams.
+        Quadratic cost (euclidian distance) $\Rightarrow$ \textit{attributions} are defined by power diagrams !
+        
+        \hfill
     \end{minipage}
     \kern 0.5cm
     \begin{minipage}{0.45\textwidth}
         \begin{center}
+            \includegraphics[height=0.8\textheight]{img/pd.png}
         \end{center}
     \end{minipage}
-
-    
 \end{frame}
 
 \begin{frame}
-    \frametitle{$\Rightarrow$ The world needs libraries to compute power diagrams !}
+    \frametitle{The world needs efficient power diagram computations !}
 
-    Libraries for power diagrams are not common, and most of them are focused on obtaining the exact connectivity.
+    Lot of work done before. Extra-fast computation for the generic case...
+
+    ... which cover cases (e.g. exact connectivity) that are not useful for SDOT (we need integrals).
+    
+    Most of the libraries are designed to give an exact connectivity...
+        \\{\hfill extra cost on CPU}
+        \\{\hfill ... using (mostly) sequential algorithms}
     
     \vfill
-    Could be parallelized but not in a natural way.
+    But it's not mandatory for SDOT !
+    
     
     \vfill
-    Exact connectivity is not a necessity for optimal transportation (one compute integrals where connectivity issues vanish).
+    $\Rightarrow$ Prop
 \end{frame}
 
-% \begin{frame}
-%     \frametitle{Parcours en bref}
-%  
-%     \begin{minipage}{0.5\textwidth}
-%         \begin{itemize}
-%             \item Ingénieur de recherche, LMT/CMAP \\ 
-%                 {\color{gray}
-%                     Stratégies de calculs / traitement de données expérimentales... \\[0.15cm]
-%                     Applications~: identification de lois de comportement, réduction de dimensionnalité, décomposition de domaine, contrôle d'erreur, corrélation, reconstruction, etc...
-%                 }
-%                 
-%             \item Thèse en mécanique \\ 
-%                 {\color{gray} Modél., simu. et expé. frittage par laser}
-%                 
-%             \item Demomaker \\
-%                 {\color{gray} Assembleur, connaissance des machines}
-%       \end{itemize}
-%     \end{minipage}
-%     \kern 0.5cm
-%     \begin{minipage}{0.45\textwidth}
-%         \begin{center}
-%         \only<1>{
-%             \includegraphics[height=0.22\textwidth]{img/serpent_cache.png} \kern 0.1cm
-%             \includegraphics[height=0.22\textwidth]{img/bz_2d.png}
-% 
-%             \kern 0.2cm
-%             \includegraphics[width=0.4\textwidth]{img/few_projections.png} \kern 0.1cm
-%             \includegraphics[width=1.0\textwidth]{img/tomo_du.png} % \kern 0.1cm
-%             
-%             \kern 0.1cm
-%             \includegraphics[width=1.0\textwidth]{img/binary_reco.png}
-%         }
-%         \only<2>{
-%             \includegraphics[width=0.35\textwidth]{img/frittage_photo_four.png} \kern 0.1cm
-%             \includegraphics[width=0.55\textwidth]{img/frittage_principe.png}
-%             
-%             \kern 0.5cm
-%             \includegraphics[width=0.98\textwidth]{img/frittage_sep.png}
-%             
-%             \kern 0.25cm
-%             \includegraphics[width=0.75\textwidth]{img/frittage_simu_une_particle.png} \kern 0.1cm
-%             \includegraphics[width=0.2\textwidth]{img/frittage_simu_3d.png}
-%         }
-%         \only<3>{
-%             \includegraphics[width=\textwidth]{img/atari_st_forever.png} \\
-%             (1991, Checkpoint)
-%         }
-%         \end{center}
-%     \end{minipage}
-% \end{frame}
+
+
+\begin{frame}
+    \frametitle{Principle}
+
+\end{frame}
+
+
+\begin{frame}
+    \frametitle{}
+
+\end{frame}
+
 
  
 % ---------------------------------------------------------------------------------------
