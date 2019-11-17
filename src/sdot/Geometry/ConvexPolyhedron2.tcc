@@ -46,6 +46,9 @@ ConvexPolyhedron2<Pc>::ConvexPolyhedron2( const Box &box, CI cut_id ) : ConvexPo
     n1.cut_id.set( cut_id );
     n2.cut_id.set( cut_id );
     n3.cut_id.set( cut_id );
+
+    sphere_cut_id = nullptr;
+    sphere_radius = -1;
 }
 
 template<class Pc>
@@ -65,11 +68,12 @@ ConvexPolyhedron2<Pc>::ConvexPolyhedron2( ConvexPolyhedron2 &&that ) {
 
 template<class Pc>
 ConvexPolyhedron2<Pc>::ConvexPolyhedron2() {
-    size  = 0;
-    rese  = block_size;
-    nodes = new ( aligned_malloc( rese / block_size * sizeof( Node ), 64 ) ) Node;
+    size          = 0;
+    rese          = block_size;
+    nodes         = new ( aligned_malloc( rese / block_size * sizeof( Node ), 64 ) ) Node;
 
-    sphere_radius = 0;
+    sphere_cut_id = nullptr;
+    sphere_radius = -1;
 }
 
 template<class Pc>
@@ -738,7 +742,7 @@ typename ConvexPolyhedron2<Pc>::TF ConvexPolyhedron2<Pc>::integral() const {
 
     // hand coded version:
     if ( nb_nodes() == 0 )
-        return allow_ball_cut ? pi( S<TF>() ) * pow( sphere_radius, 2 ) : TF( 0 );
+        return allow_ball_cut && sphere_radius > 0 ? pi( S<TF>() ) * pow( sphere_radius, 2 ) : TF( 0 );
 
     // triangles
     TF res = 0;

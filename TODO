@@ -6,10 +6,5 @@ Prop: on fait un solveur style jacobi. Ça sera utile pour résolution + pour be
 
 Pour commencer, on pourrait au moins faire un gradient conjugué.
 
-=> affichage 
+Pb: on oscille autour de certaines cellules, ce qui empêche de prendre de bons alpha 
 
-Prop: on calcule d_aire / d_weight. Il faudrait aussi stocker la masse requise
-  => on ajoute une liste de champs
-
-  Pb: comment transmettre les références sur les champs ?
-  Prop 1: on fait
