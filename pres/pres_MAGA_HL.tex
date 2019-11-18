@@ -7,6 +7,7 @@
 \usepackage{multimedia}
 \usepackage{listings}
 \usepackage{default}
+\usepackage{xcolor}
 
 \setbeamersize{text margin left=0.6cm,text margin right=0.6cm}
 \setbeamercolor{frametitle}{fg=black}
@@ -22,7 +23,7 @@
 }
 
 \AtBeginSection[]{
-  \begin{frame}{Sommaire}
+  \begin{frame}{Summary}
     \tableofcontents[currentsection]
   \end{frame} 
 }
@@ -42,18 +43,20 @@
 \end{frame}
 
 % ---------------------------------------------------------------------------------------
-\section{}
+\section*{Introduction}
 
 \begin{frame}
     \frametitle{The world needs power diagrams !}
 
-    \begin{minipage}{0.5\textwidth}
-        Problem to solve: what is the optimal way to transport a density to a set of diracs with equal mass ? 
+    \begin{minipage}[c][0.6\textheight][c]{0.5\textwidth}
+        Optimal way to transport a density to a set of diracs (equal mass) ? 
         
-        \bigskip
-        Quadratic cost (euclidian distance) $\Rightarrow$ \textit{attributions} are defined by power diagrams !
+        \vfill
+        Quadratic cost (euclidian distance) $\Rightarrow$ \textit{attributions} are defined by power diagrams.
         
-        \hfill
+        \vfill
+        $x$ is in cell $i$ if $\forall j \neq i$,
+         $$|| x - \rho_i ||^2 - \omega_i < || x - \rho_j ||^2 - \omega_j $$
     \end{minipage}
     \kern 0.5cm
     \begin{minipage}{0.45\textwidth}
@@ -66,39 +69,67 @@
 \begin{frame}
     \frametitle{The world needs efficient power diagram computations !}
 
-    Lot of work done before. Extra-fast computation for the generic case...
-
-    ... which cover cases (e.g. exact connectivity) that are not useful for SDOT (we need integrals).
-    
-    Most of the libraries are designed to give an exact connectivity...
-        \\{\hfill extra cost on CPU}
-        \\{\hfill ... using (mostly) sequential algorithms}
+    Lot of work done before (Geogram, CGAL, ...), with a focus on the generic case.
     
     \vfill
-    But it's not mandatory for SDOT !
-    
+    Most of the libraries are designed to give an \textit{exact connectivity}
+    \begin{itemize}
+        \item extra CPU and memory cost (bookkeeping)
+        \item essentially sequential
+    \end{itemize}
+
+    \vfill
+    SDOT application being more relaxed (need for simple integrals)
+    \begin{itemize}
+        \item development and test opportunities 
+        \item scalability
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Individual cell computation}
+
+    For each dirac $i$:
+    \begin{itemize}
+        \item starting from a non void finite cell (typically the domain boundaries),
+        \item try some cuts with some \textit{close} diracs $j$
+            \hfill{\textcolor{gray}{$\rightarrow$ Cell cuts}}
+
+        \item until not possible to modify the cell
+            \hfill{\textcolor{gray}{$\rightarrow$ Acceleration structures}}
+    \end{itemize}
     
     \vfill
-    $\Rightarrow$ Prop
+    Choices:
+    \begin{itemize}
+        \item infinite cells are handled by exceptions,
+        \item tolerance on connectivity discrepancies (if zero mass),
+        \item the sets of $j$ to test are dynamic (dep. on updated cell geometry)
+    \end{itemize}
+    
 \end{frame}
 
-
-
-\begin{frame}
-    \frametitle{Principle}
-
-\end{frame}
-
-
-\begin{frame}
-    \frametitle{}
-
-\end{frame}
-
-
- 
 % ---------------------------------------------------------------------------------------
-\section{Conclusions et perspectives}
+\section{Cell cuts}
+
+% ---------------------------------------------------------------------------------------
+\section{Acceleration structures}
+
+\begin{frame}
+    \frametitle{Focus on parallel cell computations}
+
+    Basically a $\mathcal{O}( n^2 )$ algorithm ($\forall\ i, j \neq i$)
+    
+    
+\end{frame}
+
+
+% ---------------------------------------------------------------------------------------
+\section{Product placement}
+
+
+% ---------------------------------------------------------------------------------------
+\section{Conclusions}
 
 \begin{frame}
     \frametitle{Conclusions}

@@ -13,4 +13,6 @@ err
 *.snm
 *.out
 *.log
-*_syntex.gz
+*synctex.gz
+*.fls
+*.fdb_latexmk
