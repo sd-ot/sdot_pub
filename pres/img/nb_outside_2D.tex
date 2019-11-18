@@ -1,0 +1,34 @@
+\begin{tikzpicture}[scale=0.75]
+    \begin{axis}[
+        legend style={at={(0.5,-0.15)},anchor=north,legend columns=-1},
+        ybar interval=0.8,
+        ylabel=Count,
+        enlargelimits=0.05,
+    ]
+    \addplot coordinates {
+       ( 0, 0.646137    )           
+       ( 1, 0.145905    )
+       ( 2, 0.139458    )
+       ( 3, 0.054996    )         
+       ( 4, 0.0113526   )        
+       ( 5, 0.00182122  )        
+       ( 6, 0.000274437 )        
+       ( 7, 3.82628e-05 )        
+       ( 8, 1.71523e-05 )         
+       ( 9, 8.79605e-07 )
+    };
+    \addplot coordinates {
+       ( 0, 0.754382    )           
+       ( 1, 0.080362    )
+       ( 2, 0.124597    )
+       ( 3, 0.0302812   )         
+       ( 4, 0.00826525  )        
+       ( 5, 0.00181659  )        
+       ( 6, 0.000260039 )        
+       ( 7, 3.39893e-05 )        
+       ( 8, 1.43329e-06 )         
+       ( 9, 2.04755e-07 )
+    };
+    \legend{Uniform distribution,Points on Voronoï edges}
+    \end{axis}
+\end{tikzpicture}

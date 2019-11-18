@@ -134,31 +134,103 @@
 \end{frame}
 
 \begin{frame}
-    \frametitle{Distribution $\#$ nodes / cell before each cut, 2D case}
+    \frametitle{Distribution of $\#$ nodes per cell before each cut, 2D case}
 
     \begin{minipage}[c][0.6\textheight][c]{0.4\textwidth}
-            \input{img/nb_nodes_before_cut_2D.tex}
+        \input{img/nb_nodes_before_cut_2D.tex}
     \end{minipage}
     \kern 0.04\textwidth
     \begin{minipage}{0.55\textwidth}
         \begin{itemize}
-            \item Before the cuts, most of the cells have $\#$ nodes $<=$ 8
-            \item SIMD instructions
+            \item Before the cuts, most of the cells have less than 8 nodes
+            
+            \bigskip
+            \item If possible to use SIMD instructions, testing all the nodes at once will
+                  always be faster than selective testing. 
+        \end{itemize}
+    \end{minipage}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Distribution of $\#$ outside nodes during each cut, 2D case}
+
+    \begin{minipage}[c][0.6\textheight][c]{0.4\textwidth}
+        \input{img/nb_outside_2D.tex}
+    \end{minipage}
+    \kern 0.04\textwidth
+    \begin{minipage}{0.55\textwidth}
+        \begin{itemize}
+            \item Need for quick eviction of the no-cut case.
+            \\ \hfill {\textcolor{gray}{$\Rightarrow$ struct of aligned blocks}}
+            \\ \hfill {\textcolor{gray}{+ \texttt{\_mm512\_cmp\_pd\_mask} or similar}}
+            
+            \bigskip
+            \item The number of node in / node out combinations will be reasonably limited. 
+            \\ \hfill {\textcolor{gray}{$\Rightarrow$ code generation}}
         \end{itemize}
     \end{minipage}
 \end{frame}
 
 
+\begin{frame}[fragile]
+    \frametitle{Code generation for the 2D case}
+
+    Offline optimization (for the vector of booleans, true if outside):
+    \begin{itemize}
+        \item all the relevant information stay in registers 
+              (minimization of load and stores)
+        \item minimization of moves (cyclicity) and scalar operations
+    \end{itemize}
+
+\begin{footnotesize}
+\begin{lstlisting} 
+case 1017: { // size=3 outside=...00000000000001 mod=[ 0, 1 ],1,2,[ 0, 2 ]
+    size = 4; // we're adding a new node (staying with the same registers)
+    ... // a constant to select between original node vs interpolated ones
+    __m512i id_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x9020108ul ) );
+    ... // interpolations
+    __m128d x_i0 = _mm_set1_pd( x_0 );     // SSE2 is enough to compute 
+    __m128d x_i1 = _mm_set_pd( x_2, x_1 ); // them
+    __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
+    __m512d inter_x = _mm512_castpd128_pd512( 
+        _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) )
+    );
+    ... // store within the same registers
+    px_0 = _mm512_permutex2var_pd( px_0, id_0, inter_x );
+    break;
+}
+\end{lstlisting}
+\end{footnotesize}
+\end{frame}
 
 \begin{frame}
-    \frametitle{Distribution $\#$ nodes / cell before each cut, 3D case}
-    \begin{center}
-        \input{img/nb_nodes_before_cut_3D.tex}
-    \end{center}
+    \frametitle{Speedup due to code generation}
 
-    \vfill
-    Pouet
+    Time per effective cut:
+
+    \medskip
+    \begin{center}    
+    \begin{tabular}{|l|c|c|}
+        \hline
+        Method                 & CPU cycles & Speedup    \\
+        \hline
+        Optimized generic code & 1 s        & 1 $\times$ \\
+        Generated AVX512 code  & 1 s        & 1 $\times$ \\
+        \hline
+    \end{tabular}
+    \end{center}
 \end{frame}
+
+
+% \begin{frame}
+%     \frametitle{Distribution of nb. outside nodes during each cut, 3D case}
+%     \begin{center}
+%         \input{img/nb_nodes_before_cut_3D.tex}
+%     \end{center}
+
+%     \vfill
+%     Pouet
+% \end{frame}
 
 
 % ---------------------------------------------------------------------------------------
