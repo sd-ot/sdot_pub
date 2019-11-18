@@ -62,12 +62,11 @@ void test_with_Pc() {
     using TI    = typename Grid::TI;
 
     // load
-    std::size_t nb_diracs = 20;
-    std::vector<Dirac> diracs( nb_diracs );
-    for( std::size_t n = 0; n < nb_diracs; ++n ) {
-        diracs[ n ].pos[ 0 ] = 1.0 * rand() / RAND_MAX;
-        diracs[ n ].pos[ 1 ] = 1.0 * rand() / RAND_MAX;
-        diracs[ n ].pos[ 2 ] = 1.0 * rand() / RAND_MAX;
+    std::size_t nb_voro_points = 20;
+    std::vector<Dirac> diracs( nb_voro_points );
+    for( std::size_t n = 0; n < nb_voro_points; ++n ) {
+        for( std::size_t d = 0; d < Grid::dim; ++d )
+            diracs[ n ].pos[ d ] = 1.0 * rand() / RAND_MAX;
         diracs[ n ].index = n;
     }
 
@@ -76,7 +75,37 @@ void test_with_Pc() {
     grid.construct( diracs.data(), diracs.size() );
 
     // solve init => first residual,
-    display( grid, "vtk/pd.vtk", "vtk/grid.vtk" );
+    // display( grid, "vtk/pd.vtk", "vtk/grid.vtk" );
+
+    // sum of areas
+    struct SA { Simplex<TF,Grid::dim,Grid::dim-1> simplex; TF acc; };
+    typename CP::Box box{ { TF( 0 ) }, { TF( 1 ) } };
+    std::vector<SA> sas;
+    TF total_area = 0;
+    std::mutex m;
+    grid.for_each_laguerre_cell( [&]( const CP &cp, const Dirac &dirac, int /*num_thread*/ ) {
+        m.lock();
+        cp.for_each_boundary_item( [&]( const typename CP::BoundaryItem &face ) {
+            if ( face.cut_id > &dirac ) {
+                face.foreach_simplex( [&]( const auto &simplex ) {
+                    total_area += simplex.mass();
+                    sas.push_back( { simplex, total_area } );
+                } );
+            }
+        } );
+        m.unlock();
+    }, box );
+
+    //
+    TI nb_diracs = 50000, ind_simplex = 0;
+    VtkOutput voc;
+    for( TF s = total_area / nb_diracs, a = 0.5 * s; a < total_area; a += s ) {
+        while ( sas[ ind_simplex ].acc < a )
+            ++ind_simplex;
+        voc.add_point( sas[ ind_simplex ].simplex.random_point( []() { return TF( 1 ) * rand() / RAND_MAX; } ) );
+    }
+    voc.save( "vtk/points.vtk" );
+    P( total_area );
 }
 
 

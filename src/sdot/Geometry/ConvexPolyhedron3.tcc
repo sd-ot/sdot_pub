@@ -313,39 +313,8 @@ typename ConvexPolyhedron3<Pc>::Node &ConvexPolyhedron3<Pc>::node( TI index ) {
 }
 
 template<class Pc>
-void ConvexPolyhedron3<Pc>::for_each_boundary_item( const std::function<void( const BoundaryItem &boundary_item )> &/*f*/, TF /*weight*/ ) const {
-    TODO;
-    //    if ( nb_nodes() == 0 ) {
-    //        if ( sphere_radius >= 0 ) {
-    //            BoundaryItem item;
-    //            item.id = sphere_cut_id;
-    //            item.measure = 2 * pi( S<TF>() ) * sphere_radius;
-    //            item.a0 = 1;
-    //            item.a1 = 0;
-    //            f( item );
-    //        }
-    //        return;
-    //    }
-
-    //    for( size_t i1 = 0, i0 = nb_nodes() - 1; i1 < nb_nodes(); i0 = i1++ ) {
-    //        BoundaryItem item;
-    //        //item.id = node( i0 ).cut_id.get();
-    //        item.points[ 0 ] = node( i0 ).pos();
-    //        item.points[ 1 ] = node( i1 ).pos();
-
-    //        if ( allow_ball_cut && node( i0 ).arc_radius > 0 ) {
-    //            using std::atan2;
-    //            item.a0 = atan2( node( i0 ).y - sphere_center.y, node( i0 ).x - sphere_center.x );
-    //            item.a1 = atan2( node( i1 ).y - sphere_center.y, node( i1 ).x - sphere_center.x );
-    //            if ( item.a1 < item.a0 )
-    //                item.a1 += 2 * pi( S<TF>() );
-    //            item.measure = ( item.a1 - item.a0 ) * sphere_radius;
-    //        } else {
-    //            item.measure = norm_2( node( i1 ).pos() - node( i0 ).pos() );
-    //        }
-
-    //        f( item );
-    //    }
+void ConvexPolyhedron3<Pc>::for_each_boundary_item( const std::function<void( const BoundaryItem &boundary_item )> &f ) const {
+    for_each_face( f );
 }
 
 template<class Pc>
@@ -770,11 +739,6 @@ typename ConvexPolyhedron3<Pc>::TF ConvexPolyhedron3<Pc>::integral() const {
     //    }
 
     return res;
-}
-
-template<class Pc> template<class TL>
-void ConvexPolyhedron3<Pc>::BoundaryItem::add_simplex_list( TL &/*lst*/ ) const {
-    // lst.push_back( { points[ 0 ], points[ 1 ] } );
 }
 
 } // namespace sdot
