@@ -16,6 +16,7 @@ public:
     // common types
     using       TF                       = typename Carac::TF;
     using       TI                       = typename Carac::TI;
+    enum {      bs                       = 64 }; ///< block size
     using       Pt                       = Point3<TF>;
 
     // content used if edge is round
@@ -29,12 +30,11 @@ public:
     };
 
     // shortcuts
-    using       PRoundStuff              = PaddedType<RoundStuff *,Carac::block_size,sizeof(typename Carac::TF),(sizeof(void *)>sizeof(typename Carac::TF))>;
-    using       PFace                    = PaddedType<ConvexPolyhedron3Face<Carac> *,Carac::block_size,sizeof(typename Carac::TF),(sizeof(void *)>sizeof(typename Carac::TF))>;
-    using       PNode                    = PaddedType<ConvexPolyhedron3NodeBlock *,Carac::block_size,sizeof(typename Carac::TF),(sizeof(void *)>sizeof(typename Carac::TF))>;
-    using       PNoI                     = PaddedType<ConvexPolyhedron3Edge<Carac>,Carac::block_size,sizeof(typename Carac::TF),(sizeof(void *)>sizeof(typename Carac::TF))>;
+    using       PRoundStuff              = PaddedType<RoundStuff *,bs,sizeof(typename Carac::TF),(sizeof(void *)>sizeof(typename Carac::TF))>;
+    using       PFace                    = PaddedType<ConvexPolyhedron3Face<Carac> *,bs,sizeof(typename Carac::TF),(sizeof(void *)>sizeof(typename Carac::TF))>;
+    using       PNode                    = PaddedType<ConvexPolyhedron3NodeBlock *,bs,sizeof(typename Carac::TF),(sizeof(void *)>sizeof(typename Carac::TF))>;
+    using       PNoI                     = PaddedType<ConvexPolyhedron3Edge<Carac>,bs,sizeof(typename Carac::TF),(sizeof(void *)>sizeof(typename Carac::TF))>;
     using       Node                     = ConvexPolyhedron3NodeBlock;
-    enum {      bs                       = Carac::block_size };
 
     // methods
     void        set_pos                  ( Pt p ) { x = p.x; y = p.y; z = p.z; }

@@ -12,7 +12,7 @@
     ],
     "spellright.documentTypes": [
         "markdown",
-        "latex",
-        "plaintext"
+        "plaintext",
+        "latex"
     ]
 }

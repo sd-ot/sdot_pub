@@ -21,7 +21,13 @@
 namespace sdot {
 
 template<class Pc>
-ConvexPolyhedron3<Pc>::ConvexPolyhedron3( const Box &box, CI cut_id ) : ConvexPolyhedron3() {
+ConvexPolyhedron3<Pc>::ConvexPolyhedron3( const Box &box ) : ConvexPolyhedron3() {
+    set_box( box );
+}
+
+
+template<class Pc>
+void ConvexPolyhedron3<Pc>::set_box( const Box &box ) {
     // nodes
     set_nb_nodes( 8 );
 
@@ -55,7 +61,7 @@ ConvexPolyhedron3<Pc>::ConvexPolyhedron3( const Box &box, CI cut_id ) : ConvexPo
             face->round = false;
         face->num_cut_proc = 0;
         face->normal = normal;
-        face->cut_id = cut_id;
+        face->cut_id = box.cut_id;
 
         n[ n0 ]->next_in_faces[ off ].set( { n[ n1 ], off } );
         n[ n1 ]->next_in_faces[ off ].set( { n[ n2 ], off } );
@@ -101,10 +107,14 @@ ConvexPolyhedron3<Pc>::~ConvexPolyhedron3() {
 
 template<class Pc>
 ConvexPolyhedron3<Pc> &ConvexPolyhedron3<Pc>::operator=( const ConvexPolyhedron3 &/*that*/ ) {
-    TODO;
-    //    //    this->nb_changes = that.nb_changes;
+    //    sphere_radius = that.sphere_radius;
+    //    sphere_center = that.sphere_center;
+    //    sphere_cut_id = that.sphere_cut_id;
+    //    num_cut_proc  = that.num_cut_proc;
+
     //    set_nb_nodes( that.nb_nodes() );
 
+    //    // make the new nodes
     //    for( std::size_t i = 0; ; i += block_size ) {
     //        Node &n = nodes[ i / block_size ];
     //        const Node &t = that.nodes[ i / block_size ];
@@ -112,38 +122,66 @@ ConvexPolyhedron3<Pc> &ConvexPolyhedron3<Pc>::operator=( const ConvexPolyhedron3
     //            std::size_t r = nodes_size - i;
     //            std::memcpy( &n.x, &t.x, r * sizeof( TF ) );
     //            std::memcpy( &n.y, &t.y, r * sizeof( TF ) );
+    //            std::memcpy( &n.z, &t.z, r * sizeof( TF ) );
     //            if ( store_the_normals ) {
     //                std::memcpy( &n.dir_x, &t.dir_x, r * sizeof( TF ) );
     //                std::memcpy( &n.dir_y, &t.dir_y, r * sizeof( TF ) );
+    //                std::memcpy( &n.dir_z, &t.dir_z, r * sizeof( TF ) );
     //            }
     //            if ( allow_ball_cut ) {
-    //                std::memcpy( &n.arc_radius  , &t.arc_radius  , r * sizeof( TF ) );
-    //                std::memcpy( &n.arc_center_x, &t.arc_center_x, r * sizeof( TF ) );
-    //                std::memcpy( &n.arc_center_y, &t.arc_center_y, r * sizeof( TF ) );
+    //                TODO;
     //            }
-    //            for( std::size_t j = 0; j < r; ++j )
-    //                n.local_at( j ).cut_id.set( t.local_at( j ).cut_id.get() );
+    //            for( std::size_t j = 0; j < r; ++j ) {
+    //                const Node &nt = t.local_at( j );
+    //                Node &nn = n.local_at( j );
+
+    //                nn.cut_id.set( nt.cut_id.get() );
+
+    //                for( std::size_t k = 0; k < 3; ++k ) {
+    //                    nn.next_in_faces[ k ].set( t.next_in_faces[ k ].get().displaced( nodes, that.nodes ) );
+    //                    nn.sibling_edges[ k ].set( t.next_in_faces[ k ].get().displaced( nodes, that.nodes ) );
+    //                    nn.faces[ k ].set( t.faces[ k ].get().displaced( nodes, that.nodes ) );
+    //                }
+    //            }
     //            break;
     //        }
 
-    //        std::memcpy( &n.x, &t.x, block_size * sizeof( TF ) );
-    //        std::memcpy( &n.y, &t.y, block_size * sizeof( TF ) );
-    //        if ( store_the_normals ) {
-    //            std::memcpy( &n.dir_x, &t.dir_x, block_size * sizeof( TF ) );
-    //            std::memcpy( &n.dir_y, &t.dir_y, block_size * sizeof( TF ) );
-    //        }
-    //        if ( allow_ball_cut ) {
-    //            std::memcpy( &n.arc_radius  , &t.arc_radius  , block_size * sizeof( TF ) );
-    //            std::memcpy( &n.arc_center_x, &t.arc_center_x, block_size * sizeof( TF ) );
-    //            std::memcpy( &n.arc_center_y, &t.arc_center_y, block_size * sizeof( TF ) );
-    //        }
-    //        for( std::size_t j = 0; j < block_size; ++j )
-    //            n.local_at( j ).cut_id.set( t.local_at( j ).cut_id.get() );
+    //        TODO;
+    //        //        std::memcpy( &n.x, &t.x, block_size * sizeof( TF ) );
+    //        //        std::memcpy( &n.y, &t.y, block_size * sizeof( TF ) );
+    //        //        std::memcpy( &n.z, &t.z, block_size * sizeof( TF ) );
+    //        //        if ( store_the_normals ) {
+    //        //            std::memcpy( &n.dir_x, &t.dir_x, block_size * sizeof( TF ) );
+    //        //            std::memcpy( &n.dir_y, &t.dir_y, block_size * sizeof( TF ) );
+    //        //            std::memcpy( &n.dir_z, &t.dir_z, block_size * sizeof( TF ) );
+    //        //        }
+    //        //        if ( allow_ball_cut ) {
+    //        //            TODO;
+    //        //        }
+    //        //        for( std::size_t j = 0; j < block_size; ++j )
+    //        //            n.local_at( j ).cut_id.set( t.local_at( j ).cut_id.get() );
+
+    //        //        PNoI        next_in_faces[ 3 ];      ///< for each edge, address + offset (between 0 and 3) in the `_in_faces` lists
+    //        //        PNoI        sibling_edges[ 3 ];      ///< for each edge, address + offset for sibling edges
+    //        //        PFace       faces[ 3 ];              ///< for each edge
     //    }
 
-    //    sphere_radius = that.sphere_radius;
-    //    sphere_center = that.sphere_center;
-    //    sphere_cut_id     = that.sphere_cut_id;
+    //    // make the new faces
+    //    //    faces.clear();
+    //    //    that.for_each_face( [&]( const Face &f ) {
+    //    //        Face *nf = faces.create();
+    //    //    } );
+    TODO;
+
+    return *this;
+}
+
+template<class Pc>
+ConvexPolyhedron3<Pc> &ConvexPolyhedron3<Pc>::operator=( const Box &box ) {
+    sphere_radius = -1;
+    faces.clear();
+
+    set_box( box );
 
     return *this;
 }
@@ -164,7 +202,7 @@ void ConvexPolyhedron3<Pc>::write_to_stream( std::ostream &os, bool /*debug*/ ) 
     } );
 
     os << "Faces:\n";
-    faces.foreach( [&]( const Face &face ) {
+    for_each_face( [&]( const Face &face ) {
         os << "  " << face_map[ &face ] << " => d=";
         face.normal.write_to_stream( os );
 
@@ -195,12 +233,12 @@ void ConvexPolyhedron3<Pc>::write_to_stream( std::ostream &os, bool /*debug*/ ) 
 }
 
 template<class Pc>
-void ConvexPolyhedron3<Pc>::display( VtkOutput &vo, const std::vector<TF> &cell_values, Pt offset, bool display_both_sides ) const {
+void ConvexPolyhedron3<Pc>::display_vtk( VtkOutput &vo, const std::vector<TF> &cell_values, Pt offset, bool /*display_both_sides*/ ) const {
     std::vector<VtkOutput::Pt> pts;
-    faces.foreach( [&]( Face &face ) {
+    for_each_face( [&]( const Face &face ) {
         if ( allow_ball_cut && face.round ) {
             TODO;
-        } else if ( display_both_sides || face.cut_id > sphere_cut_id ) {
+        } else /*if ( display_both_sides || face.cut_id > sphere_cut_id )*/ {
             pts.clear();
             face.foreach_node( [&]( const Node &node ) {
                 pts.push_back( node.pos() + offset );
@@ -367,7 +405,7 @@ void ConvexPolyhedron3<Pc>::plane_cut_mt_64( std::array<const TF *,dim> cut_dir,
         if ( nb_outside_nodes == 0 )
             continue;
         if ( nb_outside_nodes == nb_nodes() ) {
-            faces.foreach( [&]( Face &face ) { faces.free( &face ); } );
+            for_each_face( [&]( Face &face ) { faces.free( &face ); } );
             nodes_size = 0;
             return;
         }
@@ -664,7 +702,7 @@ void ConvexPolyhedron3<Pc>::plane_cut( std::array<const TF *,dim> cut_dir, const
 template<class Pc>
 void ConvexPolyhedron3<Pc>::check() const {
     std::set<const Node *> used_nodes;
-    faces.foreach( [&]( const Face &face ) {
+    for_each_face( [&]( const Face &face ) {
         face.foreach_node( [&]( const Node &node ) {
             used_nodes.insert( &node );
         } );
@@ -699,8 +737,39 @@ void ConvexPolyhedron3<Pc>::plane_cut( std::array<const TF *,dim> cut_dir, const
 
 template<class Pc>
 typename ConvexPolyhedron3<Pc>::TF ConvexPolyhedron3<Pc>::integral() const {
-    TODO;
-    return 0;
+    TF res;
+    if ( faces.empty() ) {
+        res = sphere_radius > 0 ? 4 * M_PI / 3 * std::pow( sphere_radius, 3 ) : 0;
+    } else {
+        res = 0;
+        faces.foreach( [&]( const Face &fp ) {
+            if ( allow_ball_cut && fp.round )
+                TODO;
+            res += dot( fp.first_node()->pos(), fp.normal ) * fp.flat_area() / 3;
+        } );
+
+        //        if ( round_surfaces.size() == 1 ) {
+        //            res = sphere_radius * area( round_surfaces[ 0 ] ) / 3;
+        //        } else {
+        //            // we substract area of the hole from area of the full sphere
+        //            TF sa = 4 * M_PI * std::pow( sphere_radius, 2 );
+        //            TF pa = sa * ( TF( 1 ) - nb_connections );
+        //            for( const RoundSurface &rp : round_surfaces )
+        //                pa += area( rp );
+        //            res = sphere_radius * pa / 3;
+        //        }
+
+        //        const Pt &sc = sphere_center;
+        //        for( const FlatSurface &fp : flat_surfaces )
+        //            res += dot( cut_info[ fp.cut_index ].cut_O - sc, cut_info[ fp.cut_index ].cut_N ) * area( fp ) / 3;
+    }
+
+    //    for( const Hole &hole : holes ) {
+    //        TF h = sphere_radius - dot( hole.cut_O - sphere_center, hole.cut_N );
+    //        res -= M_PI / 3 * h * h * ( 3 * sphere_radius - h );
+    //    }
+
+    return res;
 }
 
 template<class Pc> template<class TL>

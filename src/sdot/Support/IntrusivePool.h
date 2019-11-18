@@ -21,9 +21,11 @@ public:
     /**/   ~IntrusivePool      ();
 
     T      *create             ();
+    void    clear              ();
     void    free               ( T *item );
 
     void    foreach            ( const std::function<void(T &)> &f ) const;
+    bool    empty              () const { return last_active == nullptr; }
 
 private:
     enum {  nb_item_per_bucket = ( bs - sizeof( void * ) ) / sizeof( T ) };

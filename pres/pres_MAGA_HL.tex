@@ -6,6 +6,7 @@
 \usepackage{pdfpc-commands}
 \usepackage{multimedia}
 \usepackage{listings}
+\usepackage{pgfplots}
 \usepackage{default}
 \usepackage{xcolor}
 
@@ -52,10 +53,10 @@
         Optimal way to transport a density to a set of diracs (equal mass) ? 
         
         \vfill
-        Quadratic cost (euclidian distance) $\Rightarrow$ \textit{attributions} are defined by power diagrams.
+        Quadratic cost (euclidian distance) $\Rightarrow$ \textit{attributions} are defined by power diagrams !
         
         \vfill
-        $x$ is in cell $i$ if $\forall j \neq i$,
+        $x \in$ cell $i$ if $\forall j \neq i$,
          $$|| x - \rho_i ||^2 - \omega_i < || x - \rho_j ||^2 - \omega_j $$
     \end{minipage}
     \kern 0.5cm
@@ -104,13 +105,33 @@
     \begin{itemize}
         \item infinite cells are handled by exceptions,
         \item tolerance on connectivity discrepancies (if zero mass),
-        \item the sets of $j$ to test are dynamic (dep. on updated cell geometry)
+        \item the sets of $j$ to test for a given $i$ are dynamic (dep. on updated cell geometry)
     \end{itemize}
     
 \end{frame}
 
 % ---------------------------------------------------------------------------------------
 \section{Cell cuts}
+
+\begin{frame}
+    \frametitle{A word on test cases}
+
+    Distributions
+    \begin{itemize}
+        \item uniform in $[0,1]^{dim}$,
+        \item uniform in the faces of a Voronoï diagram with a fixed number of points (20),
+    \end{itemize}
+
+    \begin{center}
+        % \includegraphics[]{}
+        \input{img/voro_distrib.tex}
+    \end{center}
+
+
+    \vfill
+    
+\end{frame}
+
 
 % ---------------------------------------------------------------------------------------
 \section{Acceleration structures}
@@ -134,36 +155,18 @@
 \begin{frame}
     \frametitle{Conclusions}
 
-    Il est possible de rapprocher \textit{encore} la programmation des maths appliquées
+    Smurf
     \begin{itemize}
-        \item pour perdre moins de temps
-        \item pour mieux séparer les difficultés
-        \item et moins se déformer l'esprit
+        \item ...
     \end{itemize}
     
     \vfill
-    Illustration avec l'évaluation paresseuse~: 
-    \begin{itemize}
-        \item simplification extrême des écritures 
-        \item avec sémantique significativement plus précise
-        \item adaptations automatiques et évolutives en fonction du hardware
-        \item programmation symbolique
-    \end{itemize}
 \end{frame}
 
 
 \begin{frame}
     \frametitle{Perspectives}
 
-    \begin{itemize}
-        \item Différentiations (positions initiales, bords, ...) et adaptations pour le transport optimal (semi-discret)
-        \vfill
-        \item Simplification des représentations pour les reconstructions tomographiques
-        \vfill
-        \item Plus grande palette de schémas d'intégration (collant aux équations)
-        \vfill
-        \item Extraction de propriétés mathématiques
-    \end{itemize}
 \end{frame}
 
 

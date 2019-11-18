@@ -45,6 +45,25 @@ T *IntrusivePool<T,bs>::create() {
     return res;
 }
 
+
+template<class T, int bs>
+void IntrusivePool<T,bs>::clear() {
+    if ( last_bucket ) {
+        while( Bucket *p = last_bucket->prev ) {
+            delete last_bucket;
+            last_bucket = p;
+        }
+
+        last_active = nullptr;
+        last_free   = nullptr;
+
+        for( int i = 0; i < nb_item_per_bucket; ++i ) {
+            last_bucket->items[ i ].next_in_pool = last_free;
+            last_free = last_bucket->items + i;
+        }
+    }
+}
+
 template<class T,int bs>
 void IntrusivePool<T,bs>::free( T *item ) {
     // remove from the active list

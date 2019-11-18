@@ -17,13 +17,15 @@ public:
     using       Node          = ConvexPolyhedron3NodeBlock<Carac>;
     using       Edge          = ConvexPolyhedron3Edge<Carac>;
     using       Face          = ConvexPolyhedron3Face<Carac>;
+    using       CI            = typename Carac::Dirac *;
     using       TF            = typename Carac::TF;
     using       TI            = typename Carac::TI;
-    using       CI            = typename Carac::CI;
     using       Pt            = Point3<TF>;
 
     void        foreach_edge  ( const std::function<void(const Edge &edge)> &f ) const;
     void        foreach_node  ( const std::function<void(const Node &node)> &f ) const;
+    const Node *first_node    () const;
+    TF          flat_area     () const;
 
     Face       *prev_in_pool; ///<
     Face       *next_in_pool; ///<
@@ -38,7 +40,7 @@ public:
 
 // -------------------------------------------------------------------------------------------------------------------------
 template<class Carac>
-void ConvexPolyhedron3Face<Carac>::foreach_edge(const std::function<void (const ConvexPolyhedron3Face::Edge &)> &f) const {
+void ConvexPolyhedron3Face<Carac>::foreach_edge( const std::function<void (const ConvexPolyhedron3Face::Edge &)> &f ) const {
     if ( Edge e = first_edge ) {
         for( Node *n0 = e.n0(); ; ) {
             Edge n = e.next();
@@ -52,8 +54,28 @@ void ConvexPolyhedron3Face<Carac>::foreach_edge(const std::function<void (const 
 }
 
 template<class Carac>
-void ConvexPolyhedron3Face<Carac>::foreach_node(const std::function<void (const ConvexPolyhedron3Face::Node &)> &f) const {
+void ConvexPolyhedron3Face<Carac>::foreach_node( const std::function<void (const ConvexPolyhedron3Face::Node &)> &f ) const {
     foreach_edge( [&]( const Edge &edge ) { f( *edge.n0() ); } );
+}
+
+template<class Carac>
+const typename ConvexPolyhedron3Face<Carac>::Node *ConvexPolyhedron3Face<Carac>::first_node() const {
+    return first_edge.n0();
+}
+
+template<class Carac>
+typename ConvexPolyhedron3Face<Carac>::TF ConvexPolyhedron3Face<Carac>::flat_area() const {
+    TF res = 0;
+    if ( Edge e = first_edge ) {
+        Node *n0 = e.n0();
+        while ( true ) {
+            e = e.next();
+            if ( e.n0() == n0 )
+                break;
+            res += dot( cross_prod( e.n0()->pos() - n0->pos(), e.n1()->pos() - n0->pos() ), normal );
+        }
+    }
+    return res / 2;
 }
 
 } // namespace sdot

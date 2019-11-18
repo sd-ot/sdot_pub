@@ -19,9 +19,10 @@ public:
     T*       create         ( Args &&...args );
 
     void     clear          ();
+    void     free           ();
 
 private:
-    struct   Frame          { Frame *prev_frame; char content[ 8 ]; };
+    struct   Frame          { Frame *prev_frame; char *ending_ptr; char content[ 8 ]; };
     struct   Item           { virtual ~Item() {} Item *prev; };
     union    Ptr            { char *cp; std::size_t vp; };
 

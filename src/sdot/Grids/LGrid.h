@@ -45,7 +45,7 @@ public:
     void                           update_grid_wrt_weights     (); ///< update grid info after modification of diracs->weights (not necessary if mod_weight is specified in traversal_flags)
 
     // traversal/information
-    int                            for_each_laguerre_cell      ( const std::function<void( CP &lc, Dirac &dirac, int num_thread )> &f, const CP &starting_lc, TraversalFlags traversal_flags = {} ); ///< version with num_thread
+    template<class SLC> int        for_each_laguerre_cell      ( const std::function<void( CP &lc, Dirac &dirac, int num_thread )> &f, const SLC &starting_lc, TraversalFlags traversal_flags = {} ); ///< version with num_thread
     void                           for_each_final_cell         ( const std::function<void( FinalCell &cell, int num_thread )> &f, TraversalFlags traversal_flags = {} );
     void                           for_each_dirac              ( const std::function<void( Dirac &d, int num_thread)> &f, TraversalFlags traversal_flags = {} );
     TI                             nb_diracs                   () const { return nb_diracs_tot; }
@@ -91,14 +91,15 @@ private:
     template<int flags> bool       can_be_evicted              ( const CP &lc, Pt &c0, TF w0, const CellBoundsP0<Pc> &bounds, N<flags> ) const;
     template<int flags> bool       can_be_evicted              ( const CP &lc, Pt &c0, TF w0, const CellBoundsPpos<Pc> &bounds, N<flags> ) const;
     void                           make_the_cells              ( const std::function<void(const Cb &cb)> &f );
-    template<int flags> void       make_lcs_from               ( const std::function<void( CP &, Dirac &dirac, int num_thread )> &cb, std::priority_queue<Msi> &base_queue, std::priority_queue<Msi> &queue, CP &lc, FinalCell *cell, const CpAndNum *path, TI path_len, int num_thread, N<flags>, const CP &starting_lc ) const;
+    template<int f,class SLC> void make_lcs_from               ( const std::function<void( CP &, Dirac &dirac, int num_thread )> &cb, std::priority_queue<Msi> &base_queue, std::priority_queue<Msi> &queue, CP &lc, FinalCell *cell, const CpAndNum *path, TI path_len, int num_thread, N<f>, const SLC &starting_lc ) const;
     void                           make_znodes                 ( TZ *zcoords, TI *indices, const std::function<void(const Cb &cb)> &f, const SstLimits &sst );
     void                           display_vtk                 ( VtkOutput &vtk_output, BaseCell *cell, DisplayFlags display_flags ) const;
     const Dirac                   &get_dirac                   ( const DiracPn              &p , TI               ind  ) const { return p.diracs[ ind ]; }
     const Dirac                   &get_dirac                   ( const std::vector<DiracPn> &vp, std::pair<TI,TI> inds ) const { const DiracPn &p = vp[ inds.first ]; return p.diracs[ inds.second ]; }
     const Dirac                   &get_dirac                   ( int                           , const Dirac     &d    ) const { return d; }
 
-    template<int a_n0,int f> void  cut_lc                      ( CP &lc, Pt c0, TF w0, FinalCell *dell, N<a_n0>, TI n0, N<f> ) const;
+    template<int a_n0,int f> void  cut_lc                      ( CP &lc, Point2<TF> c0, TF w0, FinalCell *dell, N<a_n0>, TI n0, N<f> ) const;
+    template<int a_n0,int f> void  cut_lc                      ( CP &lc, Point3<TF> c0, TF w0, FinalCell *dell, N<a_n0>, TI n0, N<f> ) const;
 
 
     // buffers

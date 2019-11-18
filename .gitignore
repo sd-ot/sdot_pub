@@ -13,6 +13,6 @@ err
 *.snm
 *.out
 *.log
-*synctex.gz
 *.fls
 *.fdb_latexmk
+pres/pres_MAGA_HL.synctex.gz
