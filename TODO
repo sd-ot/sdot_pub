@@ -8,3 +8,7 @@ Pour commencer, on pourrait au moins faire un gradient conjugué.
 
 Pb: on oscille autour de certaines cellules, ce qui empêche de prendre de bons alpha 
 
+
+Rq: on pourrait faire des faces avec 8 offsets de 8 bits dans les noeuds
+  => 6 bits pour dire quel noeud parmi 64, 2 bits pour donner le numéro de edge
+  Rq:  

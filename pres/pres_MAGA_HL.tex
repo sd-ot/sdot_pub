@@ -145,9 +145,11 @@
             \item Before the cuts, most of the cells have less than 8 nodes
             
             \bigskip
-            \item If possible to use SIMD instructions, testing all the nodes at once will
+            \item With SIMD instructions, testing all the nodes at once will
                   always be faster than selective testing. 
-        \end{itemize}
+                  \\ \hfill {\textcolor{gray}{$\Rightarrow$ \texttt{\_mm512\_cmp\_pd\_mask} or similar}}
+                  \\ \hfill {\textcolor{gray}{with a struct of aligned blocks}}
+              \end{itemize}
     \end{minipage}
 \end{frame}
 
@@ -161,12 +163,10 @@
     \begin{minipage}{0.55\textwidth}
         \begin{itemize}
             \item Need for quick eviction of the no-cut case.
-            \\ \hfill {\textcolor{gray}{$\Rightarrow$ struct of aligned blocks}}
-            \\ \hfill {\textcolor{gray}{+ \texttt{\_mm512\_cmp\_pd\_mask} or similar}}
             
             \bigskip
             \item The number of node in / node out combinations will be reasonably limited. 
-            \\ \hfill {\textcolor{gray}{$\Rightarrow$ code generation}}
+            \\ \hfill {\textcolor{gray}{$\Rightarrow$ code generation !}}
         \end{itemize}
     \end{minipage}
 \end{frame}
@@ -222,26 +222,120 @@ case 1017: { // size=3 outside=...00000000000001 mod=[ 0, 1 ],1,2,[ 0, 2 ]
 \end{frame}
 
 
-% \begin{frame}
-%     \frametitle{Distribution of nb. outside nodes during each cut, 3D case}
-%     \begin{center}
-%         \input{img/nb_nodes_before_cut_3D.tex}
-%     \end{center}
+\begin{frame}
+    \frametitle{Distribution of $\#$ nodes per cell before each cut, 3D case}
 
-%     \vfill
-%     Pouet
-% \end{frame}
+    \begin{minipage}[c][0.6\textheight][c]{0.4\textwidth}
+        \input{img/nb_nodes_before_cut_3D.tex}
+    \end{minipage}
+    \kern 0.04\textwidth
+    \begin{minipage}{0.55\textwidth}
+        \begin{itemize}
+            \item Most of the cells have less than 32 nodes.
+            \\ \hfill {\textcolor{gray}{$\Rightarrow$ struct of aligned blocks}}
 
+            \bigskip
+            \item SIMD still competitive (better to evaluate all at once than test which one
+                  to evaluate)
+        \end{itemize}
+    \end{minipage}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Distribution of $\#$ outside nodes during each cut, 3D case}
+
+    \begin{minipage}[c][0.6\textheight][c]{0.4\textwidth}
+        \input{img/nb_outside_3D.tex}
+    \end{minipage}
+    \kern 0.04\textwidth
+    \begin{minipage}{0.55\textwidth}
+        \begin{itemize}
+            \item Majority of small cuts
+
+            \bigskip
+            \item OK to test all the nodes (in/out), but not each face (rem/cut/in).
+
+            \bigskip
+            \item OK for a switch/case for each face with a cut but not for the whole cell.
+        \end{itemize}
+    \end{minipage}
+\end{frame}
+
+
+\begin{frame}[fragile]
+    \frametitle{Structures for 3D cells (simplified)}
+
+    \begin{footnotesize}
+    \begin{lstlisting} 
+struct NodeBlock {
+    Scalar x            [ 64 ]; // struct of block (SIMD)
+    Scalar y            [ 64 ]; // sizeof( Scalar ) == sizeof( Edge )
+    Scalar z            [ 64 ]; // sizeof( Scalar ) == sizeof( Face * )
+    Edge   next_in_faces[ 64 ][ 3 ]; // exactly 3 edges per node 
+    Edge   sibling_edges[ 64 ][ 3 ]; // sames edges, in reverse order
+    Face  *faces        [ 64 ][ 3 ]; // sizeof( double )
+};
+struct Edge {
+    NodeBlock *nptr_with_offset; // pointer + int in { 0, 1, 2 }
+};
+struct Face {
+    Edge   first_edge; // linked list
+    uint64 num_cut;    // to known if already visited
+};
+struct Cell {
+    Pool<Face> faces;  // to have pointer stability
+    NodeBlock *nodes;  // aligned
+    uint64     nb_cut; // compared to face->num_cut
+};
+    \end{lstlisting}
+    \end{footnotesize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Cut procedure}
+
+    \begin{itemize}
+        \item Batch eval of the distances node / plane
+        \item For each outside node, for each not yet traversed connected face
+        \item \ \kern 2mm Add/retrieve node for each in/out edge, assign to edge number 0/1
+        \item \ \kern 2mm Remove outside faces
+        \item Create a new face, edge number 2
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Speedup / vector version (Face, Edge, Node)}
+
+    Time per effective cut:
+
+    \medskip
+    \begin{center}    
+    \begin{tabular}{|l|c|c|}
+        \hline
+        Method                   & CPU cycles & Speedup    \\
+        \hline
+        vec of structs           & 1 s        & 1 $\times$ \\
+        Struct of compact blocks & 1 s        & 1 $\times$ \\
+        \hline
+    \end{tabular}
+    \end{center}
+\end{frame}
 
 % ---------------------------------------------------------------------------------------
 \section{Acceleration structures}
 
 \begin{frame}
-    \frametitle{Focus on parallel cell computations}
+    \frametitle{Algorithmic complexity}
 
-    Basically a $\mathcal{O}( n^2 )$ algorithm ($\forall\ i, j \neq i$)
+    $\forall\ i, j \neq i $ basically gives $ \mathcal{O}( n^2 )$... would be far behind the 
+      expected $\mathcal{O}( n \log{}n )$
     
-    
+    But only a small neighborhood is actually needed !
+
+    \begin{itemize}
+        \item A given radius around each dirac works very well for isotropic cells
+        \item For highly anisotropic or not regular cases, new algorithms remained to be tested.
+    \end{itemize}
 \end{frame}
 
 
