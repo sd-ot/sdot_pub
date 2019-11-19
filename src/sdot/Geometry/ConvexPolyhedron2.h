@@ -86,10 +86,10 @@ public:
     CI                                   sphere_cut_id;
 
 private:
-    template<int f> void                 plane_cut_simd_switch     ( std::array<const TF *,dim> cut_dir, const TF *cut_ps, const CI *cut_id, std::size_t nb_cuts, N<f>, S<double>, S<std::uint64_t> );
-    template<int f,class T,class U> void plane_cut_simd_switch     ( std::array<const TF *,dim> cut_dir, const TF *cut_ps, const CI *cut_id, std::size_t nb_cuts, N<f>, S<T>, S<U> );
-    template<int f> void                 plane_cut_simd_tzcnt      ( TF cut_dx, TF cut_dy, TF cut_ps, CI cut_id, N<f>, S<double>, S<std::uint64_t> );
-    template<int f,class T,class U> void plane_cut_simd_tzcnt      ( TF cut_dx, TF cut_dy, TF cut_ps, CI cut_id, N<f>, S<T>, S<U> );
+    template<int f> void                 plane_cut_simd_switch     ( std::array<const TF *,dim> cut_dir, const TF *cut_ps, const CI *cut_id, std::size_t nb_cuts, N<f>, S<double>, N<8> );
+    template<int f,class T,int s> void   plane_cut_simd_switch     ( std::array<const TF *,dim> cut_dir, const TF *cut_ps, const CI *cut_id, std::size_t nb_cuts, N<f>, S<T>, N<s> );
+    template<int f> void                 plane_cut_simd_tzcnt      ( TF cut_dx, TF cut_dy, TF cut_ps, CI cut_id, N<f>, S<double> );
+    template<int f,class T> void         plane_cut_simd_tzcnt      ( TF cut_dx, TF cut_dy, TF cut_ps, CI cut_id, N<f>, S<T> );
     template<int f> void                 plane_cut_gen             ( TF cut_dx, TF cut_dy, TF cut_ps, CI cut_id, N<f> );
     template<int f,class B,class D> void plane_cut_gen             ( TF cut_dx, TF cut_dy, TF cut_ps, CI cut_id, N<f>, B &outside, D &distances );
 

@@ -9,6 +9,8 @@ void CellBoundsPpos<Pc>::LocalSolver::clr() {
 
     min_pos = + std::numeric_limits<TF>::max();
     max_pos = - std::numeric_limits<TF>::max();
+
+    n = 0;
 }
 
 template<class Pc>
@@ -29,6 +31,8 @@ void CellBoundsPpos<Pc>::LocalSolver::push( Pt pos, TF weight ) {
 
     max_pos = max( max_pos, pos );
     min_pos = min( min_pos, pos );
+
+    ++n;
 }
 
 template<class Pc>
@@ -41,10 +45,22 @@ void CellBoundsPpos<Pc>::LocalSolver::push( const LocalSolver &ls ) {
 
     max_pos = max( max_pos, ls.max_pos );
     min_pos = min( min_pos, ls.min_pos );
+
+    n += ls.n;
 }
 
 template<class Pc>
 void CellBoundsPpos<Pc>::LocalSolver::store_to( CellBoundsPpos &bounds ) {
+    using std::max;
+    using std::abs;
+
+    TF m = 0;
+    for( std::size_t i = 0; i < nb_coeffs_w_bound; ++i )
+        m = max( m, abs( mat_weight.coeff( i, i ) ) );
+    m *= 1e-10;
+    for( std::size_t i = 0; i < nb_coeffs_w_bound; ++i )
+        mat_weight.coeffRef( i, i ) += m;
+
     Eigen::LLT<TMat> llt;
     llt.compute( mat_weight );
     TVec res = llt.solve( vec_weight );

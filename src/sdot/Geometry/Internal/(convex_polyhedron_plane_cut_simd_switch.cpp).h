@@ -2,8 +2,14 @@
 
 namespace sdot {
 
+template<class Pc> template<int flags,class T,int s>
+void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cut_dir, const TF *cut_ps, const CI *cut_id, std::size_t nb_cuts, N<flags>, S<T>, N<s> ) {
+    for( std::size_t i = 0; i < nb_cuts; ++i )
+        plane_cut_gen( cut_dir[ 0 ][ i ], cut_dir[ 1 ][ i ], cut_ps[ i ], cut_id[ i ], N<flags>() );
+}
+
 template<class Pc> template<int flags>
-void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cut_dir, const TF *cut_ps, const CI *cut_id, std::size_t nb_cuts, N<flags>, S<double>, S<std::uint64_t> ) {
+void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cut_dir, const TF *cut_ps, const CI *cut_id, std::size_t nb_cuts, N<flags>, S<double>, N<8> ) {
     #ifdef __AVX512F__
     // outsize list
     TF *x = &nodes->x;
@@ -74,7 +80,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( cut_id[ num_cut ], reinterpret_cast<const CI *>( &pc_0 )[ 0 ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)cut_id[ num_cut ], (long long)reinterpret_cast<const CI *>( &pc_0 )[ 0 ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -133,7 +139,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( reinterpret_cast<const CI *>( &pc_0 )[ 1 ], cut_id[ num_cut ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)reinterpret_cast<const CI *>( &pc_0 )[ 1 ], (long long)cut_id[ num_cut ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -191,7 +197,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( reinterpret_cast<const CI *>( &pc_0 )[ 1 ], cut_id[ num_cut ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)reinterpret_cast<const CI *>( &pc_0 )[ 1 ], (long long)cut_id[ num_cut ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -250,7 +256,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( reinterpret_cast<const CI *>( &pc_0 )[ 2 ], cut_id[ num_cut ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)reinterpret_cast<const CI *>( &pc_0 )[ 2 ], (long long)cut_id[ num_cut ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -308,7 +314,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( cut_id[ num_cut ], reinterpret_cast<const CI *>( &pc_0 )[ 0 ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)cut_id[ num_cut ], (long long)reinterpret_cast<const CI *>( &pc_0 )[ 0 ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -366,7 +372,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( reinterpret_cast<const CI *>( &pc_0 )[ 2 ], cut_id[ num_cut ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)reinterpret_cast<const CI *>( &pc_0 )[ 2 ], (long long)cut_id[ num_cut ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -409,7 +415,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( cut_id[ num_cut ], reinterpret_cast<const CI *>( &pc_0 )[ 0 ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)cut_id[ num_cut ], (long long)reinterpret_cast<const CI *>( &pc_0 )[ 0 ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -452,7 +458,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( reinterpret_cast<const CI *>( &pc_0 )[ 1 ], cut_id[ num_cut ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)reinterpret_cast<const CI *>( &pc_0 )[ 1 ], (long long)cut_id[ num_cut ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -497,7 +503,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( reinterpret_cast<const CI *>( &pc_0 )[ 1 ], cut_id[ num_cut ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)reinterpret_cast<const CI *>( &pc_0 )[ 1 ], (long long)cut_id[ num_cut ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -540,7 +546,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( reinterpret_cast<const CI *>( &pc_0 )[ 2 ], cut_id[ num_cut ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)reinterpret_cast<const CI *>( &pc_0 )[ 2 ], (long long)cut_id[ num_cut ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -585,7 +591,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( reinterpret_cast<const CI *>( &pc_0 )[ 2 ], cut_id[ num_cut ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)reinterpret_cast<const CI *>( &pc_0 )[ 2 ], (long long)cut_id[ num_cut ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -628,7 +634,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( reinterpret_cast<const CI *>( &pc_0 )[ 2 ], cut_id[ num_cut ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)reinterpret_cast<const CI *>( &pc_0 )[ 2 ], (long long)cut_id[ num_cut ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -671,7 +677,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( reinterpret_cast<const CI *>( &pc_0 )[ 3 ], cut_id[ num_cut ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)reinterpret_cast<const CI *>( &pc_0 )[ 3 ], (long long)cut_id[ num_cut ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -716,7 +722,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( cut_id[ num_cut ], reinterpret_cast<const CI *>( &pc_0 )[ 0 ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)cut_id[ num_cut ], (long long)reinterpret_cast<const CI *>( &pc_0 )[ 0 ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -759,7 +765,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( reinterpret_cast<const CI *>( &pc_0 )[ 1 ], cut_id[ num_cut ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)reinterpret_cast<const CI *>( &pc_0 )[ 1 ], (long long)cut_id[ num_cut ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -804,7 +810,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( reinterpret_cast<const CI *>( &pc_0 )[ 3 ], cut_id[ num_cut ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)reinterpret_cast<const CI *>( &pc_0 )[ 3 ], (long long)cut_id[ num_cut ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -847,7 +853,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( cut_id[ num_cut ], reinterpret_cast<const CI *>( &pc_0 )[ 0 ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)cut_id[ num_cut ], (long long)reinterpret_cast<const CI *>( &pc_0 )[ 0 ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -890,7 +896,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( reinterpret_cast<const CI *>( &pc_0 )[ 3 ], cut_id[ num_cut ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)reinterpret_cast<const CI *>( &pc_0 )[ 3 ], (long long)cut_id[ num_cut ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -925,7 +931,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( cut_id[ num_cut ], reinterpret_cast<const CI *>( &pc_0 )[ 0 ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)cut_id[ num_cut ], (long long)reinterpret_cast<const CI *>( &pc_0 )[ 0 ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -960,7 +966,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( reinterpret_cast<const CI *>( &pc_0 )[ 1 ], cut_id[ num_cut ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)reinterpret_cast<const CI *>( &pc_0 )[ 1 ], (long long)cut_id[ num_cut ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -997,7 +1003,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( reinterpret_cast<const CI *>( &pc_0 )[ 1 ], cut_id[ num_cut ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)reinterpret_cast<const CI *>( &pc_0 )[ 1 ], (long long)cut_id[ num_cut ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -1032,7 +1038,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( reinterpret_cast<const CI *>( &pc_0 )[ 2 ], cut_id[ num_cut ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)reinterpret_cast<const CI *>( &pc_0 )[ 2 ], (long long)cut_id[ num_cut ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -1069,7 +1075,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( reinterpret_cast<const CI *>( &pc_0 )[ 2 ], cut_id[ num_cut ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)reinterpret_cast<const CI *>( &pc_0 )[ 2 ], (long long)cut_id[ num_cut ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -1107,7 +1113,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( reinterpret_cast<const CI *>( &pc_0 )[ 2 ], cut_id[ num_cut ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)reinterpret_cast<const CI *>( &pc_0 )[ 2 ], (long long)cut_id[ num_cut ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -1142,7 +1148,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( reinterpret_cast<const CI *>( &pc_0 )[ 3 ], cut_id[ num_cut ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)reinterpret_cast<const CI *>( &pc_0 )[ 3 ], (long long)cut_id[ num_cut ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -1179,7 +1185,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( reinterpret_cast<const CI *>( &pc_0 )[ 3 ], cut_id[ num_cut ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)reinterpret_cast<const CI *>( &pc_0 )[ 3 ], (long long)cut_id[ num_cut ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -1217,7 +1223,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( reinterpret_cast<const CI *>( &pc_0 )[ 3 ], cut_id[ num_cut ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)reinterpret_cast<const CI *>( &pc_0 )[ 3 ], (long long)cut_id[ num_cut ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -1252,7 +1258,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( reinterpret_cast<const CI *>( &pc_0 )[ 3 ], cut_id[ num_cut ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)reinterpret_cast<const CI *>( &pc_0 )[ 3 ], (long long)cut_id[ num_cut ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -1287,7 +1293,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( reinterpret_cast<const CI *>( &pc_0 )[ 4 ], cut_id[ num_cut ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)reinterpret_cast<const CI *>( &pc_0 )[ 4 ], (long long)cut_id[ num_cut ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -1324,7 +1330,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( cut_id[ num_cut ], reinterpret_cast<const CI *>( &pc_0 )[ 0 ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)cut_id[ num_cut ], (long long)reinterpret_cast<const CI *>( &pc_0 )[ 0 ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -1362,7 +1368,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( reinterpret_cast<const CI *>( &pc_0 )[ 1 ], cut_id[ num_cut ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)reinterpret_cast<const CI *>( &pc_0 )[ 1 ], (long long)cut_id[ num_cut ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -1397,7 +1403,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( reinterpret_cast<const CI *>( &pc_0 )[ 2 ], cut_id[ num_cut ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)reinterpret_cast<const CI *>( &pc_0 )[ 2 ], (long long)cut_id[ num_cut ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -1434,7 +1440,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( reinterpret_cast<const CI *>( &pc_0 )[ 4 ], cut_id[ num_cut ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)reinterpret_cast<const CI *>( &pc_0 )[ 4 ], (long long)cut_id[ num_cut ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -1472,7 +1478,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( cut_id[ num_cut ], reinterpret_cast<const CI *>( &pc_0 )[ 0 ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)cut_id[ num_cut ], (long long)reinterpret_cast<const CI *>( &pc_0 )[ 0 ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -1507,7 +1513,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( reinterpret_cast<const CI *>( &pc_0 )[ 1 ], cut_id[ num_cut ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)reinterpret_cast<const CI *>( &pc_0 )[ 1 ], (long long)cut_id[ num_cut ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -1545,7 +1551,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( reinterpret_cast<const CI *>( &pc_0 )[ 4 ], cut_id[ num_cut ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)reinterpret_cast<const CI *>( &pc_0 )[ 4 ], (long long)cut_id[ num_cut ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -1580,7 +1586,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( cut_id[ num_cut ], reinterpret_cast<const CI *>( &pc_0 )[ 0 ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)cut_id[ num_cut ], (long long)reinterpret_cast<const CI *>( &pc_0 )[ 0 ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -1615,7 +1621,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( reinterpret_cast<const CI *>( &pc_0 )[ 4 ], cut_id[ num_cut ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)reinterpret_cast<const CI *>( &pc_0 )[ 4 ], (long long)cut_id[ num_cut ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -1646,7 +1652,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( cut_id[ num_cut ], reinterpret_cast<const CI *>( &pc_0 )[ 0 ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)cut_id[ num_cut ], (long long)reinterpret_cast<const CI *>( &pc_0 )[ 0 ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -1677,7 +1683,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( reinterpret_cast<const CI *>( &pc_0 )[ 1 ], cut_id[ num_cut ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)reinterpret_cast<const CI *>( &pc_0 )[ 1 ], (long long)cut_id[ num_cut ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -1710,7 +1716,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( reinterpret_cast<const CI *>( &pc_0 )[ 1 ], cut_id[ num_cut ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)reinterpret_cast<const CI *>( &pc_0 )[ 1 ], (long long)cut_id[ num_cut ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -1741,7 +1747,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( reinterpret_cast<const CI *>( &pc_0 )[ 2 ], cut_id[ num_cut ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)reinterpret_cast<const CI *>( &pc_0 )[ 2 ], (long long)cut_id[ num_cut ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -1774,7 +1780,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( reinterpret_cast<const CI *>( &pc_0 )[ 2 ], cut_id[ num_cut ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)reinterpret_cast<const CI *>( &pc_0 )[ 2 ], (long long)cut_id[ num_cut ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -1808,7 +1814,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( reinterpret_cast<const CI *>( &pc_0 )[ 2 ], cut_id[ num_cut ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)reinterpret_cast<const CI *>( &pc_0 )[ 2 ], (long long)cut_id[ num_cut ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -1839,7 +1845,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( reinterpret_cast<const CI *>( &pc_0 )[ 3 ], cut_id[ num_cut ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)reinterpret_cast<const CI *>( &pc_0 )[ 3 ], (long long)cut_id[ num_cut ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -1872,7 +1878,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( reinterpret_cast<const CI *>( &pc_0 )[ 3 ], cut_id[ num_cut ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)reinterpret_cast<const CI *>( &pc_0 )[ 3 ], (long long)cut_id[ num_cut ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -1906,7 +1912,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( reinterpret_cast<const CI *>( &pc_0 )[ 3 ], cut_id[ num_cut ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)reinterpret_cast<const CI *>( &pc_0 )[ 3 ], (long long)cut_id[ num_cut ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -1940,7 +1946,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( reinterpret_cast<const CI *>( &pc_0 )[ 3 ], cut_id[ num_cut ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)reinterpret_cast<const CI *>( &pc_0 )[ 3 ], (long long)cut_id[ num_cut ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -1971,7 +1977,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( reinterpret_cast<const CI *>( &pc_0 )[ 4 ], cut_id[ num_cut ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)reinterpret_cast<const CI *>( &pc_0 )[ 4 ], (long long)cut_id[ num_cut ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -2004,7 +2010,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( reinterpret_cast<const CI *>( &pc_0 )[ 4 ], cut_id[ num_cut ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)reinterpret_cast<const CI *>( &pc_0 )[ 4 ], (long long)cut_id[ num_cut ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -2038,7 +2044,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( reinterpret_cast<const CI *>( &pc_0 )[ 4 ], cut_id[ num_cut ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)reinterpret_cast<const CI *>( &pc_0 )[ 4 ], (long long)cut_id[ num_cut ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -2072,7 +2078,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( reinterpret_cast<const CI *>( &pc_0 )[ 4 ], cut_id[ num_cut ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)reinterpret_cast<const CI *>( &pc_0 )[ 4 ], (long long)cut_id[ num_cut ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -2103,7 +2109,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( reinterpret_cast<const CI *>( &pc_0 )[ 4 ], cut_id[ num_cut ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)reinterpret_cast<const CI *>( &pc_0 )[ 4 ], (long long)cut_id[ num_cut ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -2134,7 +2140,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( reinterpret_cast<const CI *>( &pc_0 )[ 5 ], cut_id[ num_cut ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)reinterpret_cast<const CI *>( &pc_0 )[ 5 ], (long long)cut_id[ num_cut ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -2167,7 +2173,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( cut_id[ num_cut ], reinterpret_cast<const CI *>( &pc_0 )[ 0 ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)cut_id[ num_cut ], (long long)reinterpret_cast<const CI *>( &pc_0 )[ 0 ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -2201,7 +2207,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( reinterpret_cast<const CI *>( &pc_0 )[ 1 ], cut_id[ num_cut ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)reinterpret_cast<const CI *>( &pc_0 )[ 1 ], (long long)cut_id[ num_cut ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -2235,7 +2241,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( reinterpret_cast<const CI *>( &pc_0 )[ 2 ], cut_id[ num_cut ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)reinterpret_cast<const CI *>( &pc_0 )[ 2 ], (long long)cut_id[ num_cut ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -2266,7 +2272,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( cut_id[ num_cut ], reinterpret_cast<const CI *>( &pc_0 )[ 3 ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)cut_id[ num_cut ], (long long)reinterpret_cast<const CI *>( &pc_0 )[ 3 ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -2299,7 +2305,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( reinterpret_cast<const CI *>( &pc_0 )[ 5 ], cut_id[ num_cut ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)reinterpret_cast<const CI *>( &pc_0 )[ 5 ], (long long)cut_id[ num_cut ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -2333,7 +2339,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( cut_id[ num_cut ], reinterpret_cast<const CI *>( &pc_0 )[ 0 ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)cut_id[ num_cut ], (long long)reinterpret_cast<const CI *>( &pc_0 )[ 0 ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -2367,7 +2373,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( reinterpret_cast<const CI *>( &pc_0 )[ 1 ], cut_id[ num_cut ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)reinterpret_cast<const CI *>( &pc_0 )[ 1 ], (long long)cut_id[ num_cut ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -2398,7 +2404,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( reinterpret_cast<const CI *>( &pc_0 )[ 2 ], cut_id[ num_cut ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)reinterpret_cast<const CI *>( &pc_0 )[ 2 ], (long long)cut_id[ num_cut ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -2432,7 +2438,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( reinterpret_cast<const CI *>( &pc_0 )[ 5 ], cut_id[ num_cut ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)reinterpret_cast<const CI *>( &pc_0 )[ 5 ], (long long)cut_id[ num_cut ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -2466,7 +2472,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( cut_id[ num_cut ], reinterpret_cast<const CI *>( &pc_0 )[ 0 ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)cut_id[ num_cut ], (long long)reinterpret_cast<const CI *>( &pc_0 )[ 0 ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -2497,7 +2503,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( reinterpret_cast<const CI *>( &pc_0 )[ 1 ], cut_id[ num_cut ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)reinterpret_cast<const CI *>( &pc_0 )[ 1 ], (long long)cut_id[ num_cut ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -2531,7 +2537,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( reinterpret_cast<const CI *>( &pc_0 )[ 5 ], cut_id[ num_cut ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)reinterpret_cast<const CI *>( &pc_0 )[ 5 ], (long long)cut_id[ num_cut ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -2562,7 +2568,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( cut_id[ num_cut ], reinterpret_cast<const CI *>( &pc_0 )[ 0 ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)cut_id[ num_cut ], (long long)reinterpret_cast<const CI *>( &pc_0 )[ 0 ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -2593,7 +2599,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( reinterpret_cast<const CI *>( &pc_0 )[ 5 ], cut_id[ num_cut ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)reinterpret_cast<const CI *>( &pc_0 )[ 5 ], (long long)cut_id[ num_cut ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -2622,7 +2628,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( cut_id[ num_cut ], reinterpret_cast<const CI *>( &pc_0 )[ 0 ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)cut_id[ num_cut ], (long long)reinterpret_cast<const CI *>( &pc_0 )[ 0 ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -2651,7 +2657,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( reinterpret_cast<const CI *>( &pc_0 )[ 1 ], cut_id[ num_cut ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)reinterpret_cast<const CI *>( &pc_0 )[ 1 ], (long long)cut_id[ num_cut ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -2682,7 +2688,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( reinterpret_cast<const CI *>( &pc_0 )[ 1 ], cut_id[ num_cut ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)reinterpret_cast<const CI *>( &pc_0 )[ 1 ], (long long)cut_id[ num_cut ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -2711,7 +2717,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( reinterpret_cast<const CI *>( &pc_0 )[ 2 ], cut_id[ num_cut ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)reinterpret_cast<const CI *>( &pc_0 )[ 2 ], (long long)cut_id[ num_cut ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -2742,7 +2748,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( reinterpret_cast<const CI *>( &pc_0 )[ 2 ], cut_id[ num_cut ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)reinterpret_cast<const CI *>( &pc_0 )[ 2 ], (long long)cut_id[ num_cut ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -2774,7 +2780,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( reinterpret_cast<const CI *>( &pc_0 )[ 2 ], cut_id[ num_cut ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)reinterpret_cast<const CI *>( &pc_0 )[ 2 ], (long long)cut_id[ num_cut ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -2803,7 +2809,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( reinterpret_cast<const CI *>( &pc_0 )[ 3 ], cut_id[ num_cut ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)reinterpret_cast<const CI *>( &pc_0 )[ 3 ], (long long)cut_id[ num_cut ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -2834,7 +2840,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( reinterpret_cast<const CI *>( &pc_0 )[ 3 ], cut_id[ num_cut ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)reinterpret_cast<const CI *>( &pc_0 )[ 3 ], (long long)cut_id[ num_cut ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -2866,7 +2872,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( reinterpret_cast<const CI *>( &pc_0 )[ 3 ], cut_id[ num_cut ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)reinterpret_cast<const CI *>( &pc_0 )[ 3 ], (long long)cut_id[ num_cut ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -2898,7 +2904,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( reinterpret_cast<const CI *>( &pc_0 )[ 3 ], cut_id[ num_cut ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)reinterpret_cast<const CI *>( &pc_0 )[ 3 ], (long long)cut_id[ num_cut ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -2927,7 +2933,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( reinterpret_cast<const CI *>( &pc_0 )[ 4 ], cut_id[ num_cut ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)reinterpret_cast<const CI *>( &pc_0 )[ 4 ], (long long)cut_id[ num_cut ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -2958,7 +2964,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( reinterpret_cast<const CI *>( &pc_0 )[ 4 ], cut_id[ num_cut ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)reinterpret_cast<const CI *>( &pc_0 )[ 4 ], (long long)cut_id[ num_cut ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -2990,7 +2996,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( reinterpret_cast<const CI *>( &pc_0 )[ 4 ], cut_id[ num_cut ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)reinterpret_cast<const CI *>( &pc_0 )[ 4 ], (long long)cut_id[ num_cut ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -3022,7 +3028,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( reinterpret_cast<const CI *>( &pc_0 )[ 4 ], cut_id[ num_cut ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)reinterpret_cast<const CI *>( &pc_0 )[ 4 ], (long long)cut_id[ num_cut ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -3054,7 +3060,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( reinterpret_cast<const CI *>( &pc_0 )[ 4 ], cut_id[ num_cut ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)reinterpret_cast<const CI *>( &pc_0 )[ 4 ], (long long)cut_id[ num_cut ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -3083,7 +3089,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( reinterpret_cast<const CI *>( &pc_0 )[ 5 ], cut_id[ num_cut ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)reinterpret_cast<const CI *>( &pc_0 )[ 5 ], (long long)cut_id[ num_cut ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -3114,7 +3120,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( reinterpret_cast<const CI *>( &pc_0 )[ 5 ], cut_id[ num_cut ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)reinterpret_cast<const CI *>( &pc_0 )[ 5 ], (long long)cut_id[ num_cut ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -3146,7 +3152,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( reinterpret_cast<const CI *>( &pc_0 )[ 5 ], cut_id[ num_cut ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)reinterpret_cast<const CI *>( &pc_0 )[ 5 ], (long long)cut_id[ num_cut ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -3178,7 +3184,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( reinterpret_cast<const CI *>( &pc_0 )[ 5 ], cut_id[ num_cut ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)reinterpret_cast<const CI *>( &pc_0 )[ 5 ], (long long)cut_id[ num_cut ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -3210,7 +3216,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( reinterpret_cast<const CI *>( &pc_0 )[ 5 ], cut_id[ num_cut ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)reinterpret_cast<const CI *>( &pc_0 )[ 5 ], (long long)cut_id[ num_cut ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -3239,7 +3245,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( reinterpret_cast<const CI *>( &pc_0 )[ 5 ], cut_id[ num_cut ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)reinterpret_cast<const CI *>( &pc_0 )[ 5 ], (long long)cut_id[ num_cut ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -3268,7 +3274,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( reinterpret_cast<const CI *>( &pc_0 )[ 6 ], cut_id[ num_cut ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)reinterpret_cast<const CI *>( &pc_0 )[ 6 ], (long long)cut_id[ num_cut ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -3299,7 +3305,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( cut_id[ num_cut ], reinterpret_cast<const CI *>( &pc_0 )[ 0 ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)cut_id[ num_cut ], (long long)reinterpret_cast<const CI *>( &pc_0 )[ 0 ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -3331,7 +3337,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( reinterpret_cast<const CI *>( &pc_0 )[ 1 ], cut_id[ num_cut ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)reinterpret_cast<const CI *>( &pc_0 )[ 1 ], (long long)cut_id[ num_cut ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -3363,7 +3369,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( reinterpret_cast<const CI *>( &pc_0 )[ 2 ], cut_id[ num_cut ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)reinterpret_cast<const CI *>( &pc_0 )[ 2 ], (long long)cut_id[ num_cut ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -3395,7 +3401,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( reinterpret_cast<const CI *>( &pc_0 )[ 3 ], cut_id[ num_cut ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)reinterpret_cast<const CI *>( &pc_0 )[ 3 ], (long long)cut_id[ num_cut ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -3424,7 +3430,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( cut_id[ num_cut ], reinterpret_cast<const CI *>( &pc_0 )[ 4 ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)cut_id[ num_cut ], (long long)reinterpret_cast<const CI *>( &pc_0 )[ 4 ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -3455,7 +3461,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( reinterpret_cast<const CI *>( &pc_0 )[ 6 ], cut_id[ num_cut ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)reinterpret_cast<const CI *>( &pc_0 )[ 6 ], (long long)cut_id[ num_cut ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -3487,7 +3493,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( cut_id[ num_cut ], reinterpret_cast<const CI *>( &pc_0 )[ 0 ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)cut_id[ num_cut ], (long long)reinterpret_cast<const CI *>( &pc_0 )[ 0 ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -3519,7 +3525,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( reinterpret_cast<const CI *>( &pc_0 )[ 1 ], cut_id[ num_cut ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)reinterpret_cast<const CI *>( &pc_0 )[ 1 ], (long long)cut_id[ num_cut ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -3551,7 +3557,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( reinterpret_cast<const CI *>( &pc_0 )[ 2 ], cut_id[ num_cut ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)reinterpret_cast<const CI *>( &pc_0 )[ 2 ], (long long)cut_id[ num_cut ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -3580,7 +3586,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( cut_id[ num_cut ], reinterpret_cast<const CI *>( &pc_0 )[ 3 ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)cut_id[ num_cut ], (long long)reinterpret_cast<const CI *>( &pc_0 )[ 3 ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -3612,7 +3618,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( reinterpret_cast<const CI *>( &pc_0 )[ 6 ], cut_id[ num_cut ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)reinterpret_cast<const CI *>( &pc_0 )[ 6 ], (long long)cut_id[ num_cut ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -3644,7 +3650,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( cut_id[ num_cut ], reinterpret_cast<const CI *>( &pc_0 )[ 0 ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)cut_id[ num_cut ], (long long)reinterpret_cast<const CI *>( &pc_0 )[ 0 ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -3676,7 +3682,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( reinterpret_cast<const CI *>( &pc_0 )[ 1 ], cut_id[ num_cut ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)reinterpret_cast<const CI *>( &pc_0 )[ 1 ], (long long)cut_id[ num_cut ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -3705,7 +3711,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( reinterpret_cast<const CI *>( &pc_0 )[ 2 ], cut_id[ num_cut ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)reinterpret_cast<const CI *>( &pc_0 )[ 2 ], (long long)cut_id[ num_cut ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -3737,7 +3743,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( reinterpret_cast<const CI *>( &pc_0 )[ 6 ], cut_id[ num_cut ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)reinterpret_cast<const CI *>( &pc_0 )[ 6 ], (long long)cut_id[ num_cut ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -3769,7 +3775,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( cut_id[ num_cut ], reinterpret_cast<const CI *>( &pc_0 )[ 0 ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)cut_id[ num_cut ], (long long)reinterpret_cast<const CI *>( &pc_0 )[ 0 ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -3798,7 +3804,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( reinterpret_cast<const CI *>( &pc_0 )[ 1 ], cut_id[ num_cut ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)reinterpret_cast<const CI *>( &pc_0 )[ 1 ], (long long)cut_id[ num_cut ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -3830,7 +3836,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( reinterpret_cast<const CI *>( &pc_0 )[ 6 ], cut_id[ num_cut ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)reinterpret_cast<const CI *>( &pc_0 )[ 6 ], (long long)cut_id[ num_cut ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -3859,7 +3865,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( cut_id[ num_cut ], reinterpret_cast<const CI *>( &pc_0 )[ 0 ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)cut_id[ num_cut ], (long long)reinterpret_cast<const CI *>( &pc_0 )[ 0 ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -3888,7 +3894,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( reinterpret_cast<const CI *>( &pc_0 )[ 6 ], cut_id[ num_cut ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)reinterpret_cast<const CI *>( &pc_0 )[ 6 ], (long long)cut_id[ num_cut ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -3914,7 +3920,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             TF m = d_0 / ( d_1 - d_0 ); // 1
             __m512d inter_x = _mm512_set1_pd( x_0 - m * ( x_1 - x_0 ) );
             __m512d inter_y = _mm512_set1_pd( y_0 - m * ( y_1 - y_0 ) );
-            __m512i inter_c = _mm512_set1_epi64( reinterpret_cast<const CI *>( &pc_0 )[ 0 ] );
+            __m512i inter_c = _mm512_set1_epi64( (long long)reinterpret_cast<const CI *>( &pc_0 )[ 0 ] );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -3945,7 +3951,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( reinterpret_cast<const CI *>( &pc_0 )[ 1 ], cut_id[ num_cut ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)reinterpret_cast<const CI *>( &pc_0 )[ 1 ], (long long)cut_id[ num_cut ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -3975,7 +3981,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( reinterpret_cast<const CI *>( &pc_0 )[ 1 ], cut_id[ num_cut ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)reinterpret_cast<const CI *>( &pc_0 )[ 1 ], (long long)cut_id[ num_cut ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -4008,7 +4014,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( reinterpret_cast<const CI *>( &pc_0 )[ 2 ], cut_id[ num_cut ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)reinterpret_cast<const CI *>( &pc_0 )[ 2 ], (long long)cut_id[ num_cut ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -4038,7 +4044,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( reinterpret_cast<const CI *>( &pc_0 )[ 2 ], cut_id[ num_cut ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)reinterpret_cast<const CI *>( &pc_0 )[ 2 ], (long long)cut_id[ num_cut ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -4069,7 +4075,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( reinterpret_cast<const CI *>( &pc_0 )[ 2 ], cut_id[ num_cut ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)reinterpret_cast<const CI *>( &pc_0 )[ 2 ], (long long)cut_id[ num_cut ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -4102,7 +4108,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( reinterpret_cast<const CI *>( &pc_0 )[ 3 ], cut_id[ num_cut ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)reinterpret_cast<const CI *>( &pc_0 )[ 3 ], (long long)cut_id[ num_cut ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -4132,7 +4138,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( reinterpret_cast<const CI *>( &pc_0 )[ 3 ], cut_id[ num_cut ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)reinterpret_cast<const CI *>( &pc_0 )[ 3 ], (long long)cut_id[ num_cut ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -4163,7 +4169,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( reinterpret_cast<const CI *>( &pc_0 )[ 3 ], cut_id[ num_cut ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)reinterpret_cast<const CI *>( &pc_0 )[ 3 ], (long long)cut_id[ num_cut ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -4194,7 +4200,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( reinterpret_cast<const CI *>( &pc_0 )[ 3 ], cut_id[ num_cut ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)reinterpret_cast<const CI *>( &pc_0 )[ 3 ], (long long)cut_id[ num_cut ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -4227,7 +4233,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( reinterpret_cast<const CI *>( &pc_0 )[ 4 ], cut_id[ num_cut ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)reinterpret_cast<const CI *>( &pc_0 )[ 4 ], (long long)cut_id[ num_cut ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -4257,7 +4263,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( reinterpret_cast<const CI *>( &pc_0 )[ 4 ], cut_id[ num_cut ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)reinterpret_cast<const CI *>( &pc_0 )[ 4 ], (long long)cut_id[ num_cut ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -4288,7 +4294,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( reinterpret_cast<const CI *>( &pc_0 )[ 4 ], cut_id[ num_cut ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)reinterpret_cast<const CI *>( &pc_0 )[ 4 ], (long long)cut_id[ num_cut ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -4319,7 +4325,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( reinterpret_cast<const CI *>( &pc_0 )[ 4 ], cut_id[ num_cut ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)reinterpret_cast<const CI *>( &pc_0 )[ 4 ], (long long)cut_id[ num_cut ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -4350,7 +4356,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( reinterpret_cast<const CI *>( &pc_0 )[ 4 ], cut_id[ num_cut ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)reinterpret_cast<const CI *>( &pc_0 )[ 4 ], (long long)cut_id[ num_cut ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -4383,7 +4389,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( reinterpret_cast<const CI *>( &pc_0 )[ 5 ], cut_id[ num_cut ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)reinterpret_cast<const CI *>( &pc_0 )[ 5 ], (long long)cut_id[ num_cut ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -4413,7 +4419,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( reinterpret_cast<const CI *>( &pc_0 )[ 5 ], cut_id[ num_cut ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)reinterpret_cast<const CI *>( &pc_0 )[ 5 ], (long long)cut_id[ num_cut ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -4444,7 +4450,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( reinterpret_cast<const CI *>( &pc_0 )[ 5 ], cut_id[ num_cut ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)reinterpret_cast<const CI *>( &pc_0 )[ 5 ], (long long)cut_id[ num_cut ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -4475,7 +4481,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( reinterpret_cast<const CI *>( &pc_0 )[ 5 ], cut_id[ num_cut ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)reinterpret_cast<const CI *>( &pc_0 )[ 5 ], (long long)cut_id[ num_cut ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -4506,7 +4512,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( reinterpret_cast<const CI *>( &pc_0 )[ 5 ], cut_id[ num_cut ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)reinterpret_cast<const CI *>( &pc_0 )[ 5 ], (long long)cut_id[ num_cut ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -4537,7 +4543,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( reinterpret_cast<const CI *>( &pc_0 )[ 5 ], cut_id[ num_cut ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)reinterpret_cast<const CI *>( &pc_0 )[ 5 ], (long long)cut_id[ num_cut ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -4568,7 +4574,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( reinterpret_cast<const CI *>( &pc_0 )[ 6 ], cut_id[ num_cut ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)reinterpret_cast<const CI *>( &pc_0 )[ 6 ], (long long)cut_id[ num_cut ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -4598,7 +4604,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( reinterpret_cast<const CI *>( &pc_0 )[ 6 ], cut_id[ num_cut ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)reinterpret_cast<const CI *>( &pc_0 )[ 6 ], (long long)cut_id[ num_cut ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -4629,7 +4635,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( reinterpret_cast<const CI *>( &pc_0 )[ 6 ], cut_id[ num_cut ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)reinterpret_cast<const CI *>( &pc_0 )[ 6 ], (long long)cut_id[ num_cut ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -4660,7 +4666,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( reinterpret_cast<const CI *>( &pc_0 )[ 6 ], cut_id[ num_cut ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)reinterpret_cast<const CI *>( &pc_0 )[ 6 ], (long long)cut_id[ num_cut ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -4691,7 +4697,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( reinterpret_cast<const CI *>( &pc_0 )[ 6 ], cut_id[ num_cut ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)reinterpret_cast<const CI *>( &pc_0 )[ 6 ], (long long)cut_id[ num_cut ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -4722,7 +4728,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( reinterpret_cast<const CI *>( &pc_0 )[ 6 ], cut_id[ num_cut ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)reinterpret_cast<const CI *>( &pc_0 )[ 6 ], (long long)cut_id[ num_cut ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -4750,7 +4756,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( reinterpret_cast<const CI *>( &pc_0 )[ 6 ], cut_id[ num_cut ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)reinterpret_cast<const CI *>( &pc_0 )[ 6 ], (long long)cut_id[ num_cut ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -4776,7 +4782,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             TF m = d_7 / ( d_6 - d_7 ); // 1
             __m512d inter_x = _mm512_set1_pd( x_7 - m * ( x_6 - x_7 ) );
             __m512d inter_y = _mm512_set1_pd( y_7 - m * ( y_6 - y_7 ) );
-            __m512i inter_c = _mm512_set1_epi64( cut_id[ num_cut ] );
+            __m512i inter_c = _mm512_set1_epi64( (long long)cut_id[ num_cut ] );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -4806,7 +4812,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( cut_id[ num_cut ], reinterpret_cast<const CI *>( &pc_0 )[ 0 ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)cut_id[ num_cut ], (long long)reinterpret_cast<const CI *>( &pc_0 )[ 0 ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -4837,7 +4843,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( reinterpret_cast<const CI *>( &pc_0 )[ 1 ], cut_id[ num_cut ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)reinterpret_cast<const CI *>( &pc_0 )[ 1 ], (long long)cut_id[ num_cut ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -4868,7 +4874,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( reinterpret_cast<const CI *>( &pc_0 )[ 2 ], cut_id[ num_cut ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)reinterpret_cast<const CI *>( &pc_0 )[ 2 ], (long long)cut_id[ num_cut ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -4899,7 +4905,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( reinterpret_cast<const CI *>( &pc_0 )[ 3 ], cut_id[ num_cut ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)reinterpret_cast<const CI *>( &pc_0 )[ 3 ], (long long)cut_id[ num_cut ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -4930,7 +4936,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( cut_id[ num_cut ], reinterpret_cast<const CI *>( &pc_0 )[ 4 ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)cut_id[ num_cut ], (long long)reinterpret_cast<const CI *>( &pc_0 )[ 4 ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -4958,7 +4964,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( cut_id[ num_cut ], reinterpret_cast<const CI *>( &pc_0 )[ 5 ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)cut_id[ num_cut ], (long long)reinterpret_cast<const CI *>( &pc_0 )[ 5 ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -4988,7 +4994,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( reinterpret_cast<const CI *>( &pc_0 )[ 7 ], cut_id[ num_cut ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)reinterpret_cast<const CI *>( &pc_0 )[ 7 ], (long long)cut_id[ num_cut ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -5019,7 +5025,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( cut_id[ num_cut ], reinterpret_cast<const CI *>( &pc_0 )[ 0 ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)cut_id[ num_cut ], (long long)reinterpret_cast<const CI *>( &pc_0 )[ 0 ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -5050,7 +5056,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( reinterpret_cast<const CI *>( &pc_0 )[ 1 ], cut_id[ num_cut ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)reinterpret_cast<const CI *>( &pc_0 )[ 1 ], (long long)cut_id[ num_cut ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -5081,7 +5087,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( reinterpret_cast<const CI *>( &pc_0 )[ 2 ], cut_id[ num_cut ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)reinterpret_cast<const CI *>( &pc_0 )[ 2 ], (long long)cut_id[ num_cut ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -5112,7 +5118,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( reinterpret_cast<const CI *>( &pc_0 )[ 3 ], cut_id[ num_cut ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)reinterpret_cast<const CI *>( &pc_0 )[ 3 ], (long long)cut_id[ num_cut ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -5140,7 +5146,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( cut_id[ num_cut ], reinterpret_cast<const CI *>( &pc_0 )[ 4 ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)cut_id[ num_cut ], (long long)reinterpret_cast<const CI *>( &pc_0 )[ 4 ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -5171,7 +5177,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( reinterpret_cast<const CI *>( &pc_0 )[ 7 ], cut_id[ num_cut ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)reinterpret_cast<const CI *>( &pc_0 )[ 7 ], (long long)cut_id[ num_cut ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -5202,7 +5208,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( cut_id[ num_cut ], reinterpret_cast<const CI *>( &pc_0 )[ 0 ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)cut_id[ num_cut ], (long long)reinterpret_cast<const CI *>( &pc_0 )[ 0 ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -5233,7 +5239,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( reinterpret_cast<const CI *>( &pc_0 )[ 1 ], cut_id[ num_cut ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)reinterpret_cast<const CI *>( &pc_0 )[ 1 ], (long long)cut_id[ num_cut ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -5264,7 +5270,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( reinterpret_cast<const CI *>( &pc_0 )[ 2 ], cut_id[ num_cut ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)reinterpret_cast<const CI *>( &pc_0 )[ 2 ], (long long)cut_id[ num_cut ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -5292,7 +5298,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( cut_id[ num_cut ], reinterpret_cast<const CI *>( &pc_0 )[ 3 ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)cut_id[ num_cut ], (long long)reinterpret_cast<const CI *>( &pc_0 )[ 3 ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -5323,7 +5329,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( reinterpret_cast<const CI *>( &pc_0 )[ 7 ], cut_id[ num_cut ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)reinterpret_cast<const CI *>( &pc_0 )[ 7 ], (long long)cut_id[ num_cut ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -5354,7 +5360,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( cut_id[ num_cut ], reinterpret_cast<const CI *>( &pc_0 )[ 0 ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)cut_id[ num_cut ], (long long)reinterpret_cast<const CI *>( &pc_0 )[ 0 ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -5385,7 +5391,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( reinterpret_cast<const CI *>( &pc_0 )[ 1 ], cut_id[ num_cut ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)reinterpret_cast<const CI *>( &pc_0 )[ 1 ], (long long)cut_id[ num_cut ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -5413,7 +5419,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( reinterpret_cast<const CI *>( &pc_0 )[ 2 ], cut_id[ num_cut ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)reinterpret_cast<const CI *>( &pc_0 )[ 2 ], (long long)cut_id[ num_cut ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -5444,7 +5450,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( reinterpret_cast<const CI *>( &pc_0 )[ 7 ], cut_id[ num_cut ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)reinterpret_cast<const CI *>( &pc_0 )[ 7 ], (long long)cut_id[ num_cut ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -5475,7 +5481,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( cut_id[ num_cut ], reinterpret_cast<const CI *>( &pc_0 )[ 0 ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)cut_id[ num_cut ], (long long)reinterpret_cast<const CI *>( &pc_0 )[ 0 ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -5503,7 +5509,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( reinterpret_cast<const CI *>( &pc_0 )[ 1 ], cut_id[ num_cut ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)reinterpret_cast<const CI *>( &pc_0 )[ 1 ], (long long)cut_id[ num_cut ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -5534,7 +5540,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( reinterpret_cast<const CI *>( &pc_0 )[ 7 ], cut_id[ num_cut ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)reinterpret_cast<const CI *>( &pc_0 )[ 7 ], (long long)cut_id[ num_cut ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -5562,7 +5568,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( cut_id[ num_cut ], reinterpret_cast<const CI *>( &pc_0 )[ 0 ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)cut_id[ num_cut ], (long long)reinterpret_cast<const CI *>( &pc_0 )[ 0 ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -5590,7 +5596,7 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
             __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );
             __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );
             __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );
-            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( reinterpret_cast<const CI *>( &pc_0 )[ 7 ], cut_id[ num_cut ] ) );
+            __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( (long long)reinterpret_cast<const CI *>( &pc_0 )[ 7 ], (long long)cut_id[ num_cut ] ) );
             px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_x );
             py_0 = _mm512_permutex2var_pd( py_0, idx_0, inter_y );
             pc_0 = _mm512_permutex2var_epi64( pc_0, idx_0, inter_c );
@@ -6516,12 +6522,6 @@ void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cu
     for( std::size_t i = 0; i < nb_cuts; ++i )
         plane_cut_gen( cut_dir[ 0 ][ i ], cut_dir[ 1 ][ i ], cut_ps[ i ], cut_id[ i ], N<flags>() );
     #endif // __AVX512F__
-}
-
-template<class Pc> template<int flags,class T,class U>
-void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cut_dir, const TF *cut_ps, const CI *cut_id, std::size_t nb_cuts, N<flags>, S<T>, S<U> ) {
-    for( std::size_t i = 0; i < nb_cuts; ++i )
-        plane_cut_gen( cut_dir[ 0 ][ i ], cut_dir[ 1 ][ i ], cut_ps[ i ], cut_id[ i ], N<flags>() );
 }
 
 } // namespace sdot

@@ -7,11 +7,12 @@
 #include <map>
 using namespace sdot;
 
-// // nsmake cpp_flag -march=skylake
 // // nsmake cxx_name clang++
+// // nsmake cpp_flag -march=skylake
 
 //// nsmake cpp_flag -march=native
-//// nsmake cpp_flag -O2
+//// nsmake cpp_flag -ffast-math
+//// nsmake cpp_flag -O3
 
 struct Pc {
     enum { store_the_normals = false };
@@ -19,96 +20,71 @@ struct Pc {
     using  TF                = double;
     using  TI                = std::size_t;
     using  CI                = std::size_t;
+    using  Pt                = Point2<TF>;
 
-};
-
-using Cp  = ConvexPolyhedron2<Pc>;
-using Pt  = Cp::Pt;
-using Cut = Cp::Cut;
-
-struct Dirac {
-    bool operator<( const Dirac &that ) const {
-        return std::tie( phase, pos.x, pos.y ) < std::tie( that.phase, that.pos.x, that.pos.y );
+    struct Dirac {
+        TF weight;
+        Pt pos;
     };
-    std::size_t phase;
-    Pt          pos;
 };
 
+using Cp = ConvexPolyhedron2<Pc>;
+using TF = Cp::TF;
+using Pt = Cp::Pt;
 
-
-
-static __attribute__ ((noinline))
-double fake_cp_plane_cut( const Cut *cuts, std::size_t nb_cuts ) {
-    double res = 0;
-    for( std::size_t i = 0; i < nb_cuts; ++i )
-        res += cuts[ i ].dir.x + cuts[ i ].dir.y + cuts[ i ].dist;
-    return res;
-}
+//static __attribute__ ((noinline))
+//double fake_cp_plane_cut( const Cut *cuts, std::size_t nb_cuts ) {
+//    double res = 0;
+//    for( std::size_t i = 0; i < nb_cuts; ++i )
+//        res += cuts[ i ].dir.x + cuts[ i ].dir.y + cuts[ i ].dist;
+//    return res;
+//}
 
 template<int Simd,int Switch>
-void bench( const std::vector<std::size_t> &offsets, const std::vector<Cut> &cuts, N<Simd>, N<Switch> ) {
-    constexpr int flags = ConvexPolyhedron::do_not_use_simd     * ( Simd   == 0 ) +
+void bench( std::vector<TF> xs, std::vector<TF> ys, std::vector<TF> ps, std::vector<Pc::Dirac *> ds, N<Simd>, N<Switch> ) {
+    constexpr int flags = ConvexPolyhedron::do_not_use_simd   * ( Simd   == 0 ) +
                           ConvexPolyhedron::do_not_use_switch * ( Switch == 0 );
 
-    // cells
-    Cp lc( typename Cp::Box{ { 0, 0 }, { 1, 1 } } ), cp;
-
     // overhead
-    double sum = 0;
-    std::uint64_t t0 = 0, t1 = 0, nb_reps = 1280;
+    Cp cp;
+    TF sum = 0;
+    Cp::Box box{ { -1, -1 }, { 1, 1 } };
+    std::uint64_t t0 = 0, t1 = 0, nb_reps = 1280000;
     RDTSC_START( t0 );
     for( std::size_t rep = 0; rep < nb_reps; ++rep ) {
-        for( std::size_t num_point = 1; num_point < offsets.size(); ++num_point ) {
-            cp = lc;
-            sum += fake_cp_plane_cut( cuts.data() + offsets[ num_point - 1 ], offsets[ num_point ] - offsets[ num_point - 1 ] );
-        }
+        cp = box;
     }
     RDTSC_FINAL( t1 );
-    std::uint64_t overhead = ( t1 - t0 ) / nb_reps;
+    std::uint64_t overhead = t1 - t0;
 
     // cuts
     RDTSC_START( t0 );
     for( std::size_t rep = 0; rep < nb_reps; ++rep ) {
-        for( std::size_t num_point = 1; num_point < offsets.size(); ++num_point ) {
-            cp = lc;
-            cp.plane_cut( cuts.data() + offsets[ num_point - 1 ], offsets[ num_point ] - offsets[ num_point - 1 ], N<flags>() );
-            sum += cp.nb_nodes();
-        }
+        cp = box;
+        cp.plane_cut( { xs.data(), ys.data() }, ps.data(), ds.data(), xs.size(), N<flags>() );
+        sum += cp.nb_nodes();
     }
     RDTSC_FINAL( t1 );
-    std::uint64_t dt = ( t1 - t0 ) / nb_reps - overhead;
+    std::uint64_t dt = ( t1 - t0 - overhead ) / ( nb_reps * xs.size() );
 
-    P( sum, dt, overhead, dt / double( cuts.size() ) );
-    // P( bc );
+    P( sum, overhead, t1 - t0, dt );
+    P( cp );
 }
 
 
 int main() {
-    // read file
-    std::ifstream fin( "tests/benchmarks/cuts.txt" );
-    std::map<Dirac,std::vector<Cut>> pt_map;
-    while ( true ) {
-        Pt pos, o, n;
-        std::size_t phase;
-        fin >> phase >> pos.x >> pos.y
-            >> o.x >> o.y
-            >> n.x >> n.y;
-        if ( ! fin )
-            break;
-        pt_map[ { phase, pos } ].push_back( { n, dot( o, n ), 17 } );
+    std::size_t nb_cuts = 120;
+    std::vector<TF> xs, ys, ps;
+    std::vector<Pc::Dirac *> ds;
+    for( std::size_t n = 0; n < nb_cuts; ++n ) {
+        TF th = ( random() % 8 ) * M_PI / 5;
+        xs.push_back( cos( th ) );
+        ys.push_back( sin( th ) );
+        ps.push_back( 10.0 / ( 11 + n ) );
+        ds.push_back( nullptr );
     }
 
-    //
-    std::vector<Cut> cuts;
-    std::vector<std::size_t> offsets;
-    for( const auto &p : pt_map ) {
-        offsets.push_back( cuts.size() );
-        for( auto v : p.second )
-            cuts.push_back( v );
-    }
-    offsets.push_back( cuts.size() );
-
-    //    bench( offsets, cuts, /*simd*/ N<0>(), /*switch*/ N<0>() );
-    //    bench( offsets, cuts, /*simd*/ N<1>(), /*switch*/ N<0>() );
-    bench( offsets, cuts, /*simd*/ N<1>(), /*switch*/ N<1>() );
+    bench( xs, ys, ps, ds, /*simd*/ N<0>(), /*switch*/ N<0>() );
+//    bench( xs, ys, ps, ds, /*simd*/ N<1>(), /*switch*/ N<0>() );
+    bench( xs, ys, ps, ds, /*simd*/ N<1>(), /*switch*/ N<1>() );
 }

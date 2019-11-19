@@ -10,6 +10,8 @@
 \usepackage{default}
 \usepackage{xcolor}
 
+\newcommand{\parallelsum}{\mathbin{\!/\mkern-5mu/\!}}
+
 \setbeamersize{text margin left=0.6cm,text margin right=0.6cm}
 \setbeamercolor{frametitle}{fg=black}
 \setbeamercolor{section in toc}{fg=black}
@@ -214,8 +216,9 @@ case 1017: { // size=3 outside=...00000000000001 mod=[ 0, 1 ],1,2,[ 0, 2 ]
         \hline
         Method                 & CPU cycles & Speedup    \\
         \hline
-        Optimized generic code & 1 s        & 1 $\times$ \\
-        Generated AVX512 code  & 1 s        & 1 $\times$ \\
+        Optimized generic code & 120        & 1.0 $\times$ \\
+        Optimized AVX512 code  & 103        & 1.2 $\times$ \\
+        Generated AVX512 code  & 45         & 2.7 $\times$ \\
         \hline
     \end{tabular}
     \end{center}
@@ -232,11 +235,11 @@ case 1017: { // size=3 outside=...00000000000001 mod=[ 0, 1 ],1,2,[ 0, 2 ]
     \begin{minipage}{0.55\textwidth}
         \begin{itemize}
             \item Most of the cells have less than 32 nodes.
-            \\ \hfill {\textcolor{gray}{$\Rightarrow$ struct of aligned blocks}}
-
+            
             \bigskip
-            \item SIMD still competitive (better to evaluate all at once than test which one
-                  to evaluate)
+            \item SIMD might be still competitive (maybe better to evaluate all at once than test which one
+            to evaluate)
+                \\ \hfill {\textcolor{gray}{$\Rightarrow$ struct of aligned blocks}}
         \end{itemize}
     \end{minipage}
 \end{frame}
@@ -261,9 +264,8 @@ case 1017: { // size=3 outside=...00000000000001 mod=[ 0, 1 ],1,2,[ 0, 2 ]
     \end{minipage}
 \end{frame}
 
-
 \begin{frame}[fragile]
-    \frametitle{Structures for 3D cells (simplified)}
+    \frametitle{Structures for 3D cells, SIMD case (simplified)}
 
     \begin{footnotesize}
     \begin{lstlisting} 
@@ -292,7 +294,7 @@ struct Cell {
 \end{frame}
 
 \begin{frame}
-    \frametitle{Cut procedure}
+    \frametitle{Cut procedure, SIMD case}
 
     \begin{itemize}
         \item Batch eval of the distances node / plane
@@ -303,8 +305,36 @@ struct Cell {
     \end{itemize}
 \end{frame}
 
+\begin{frame}[fragile]
+    \frametitle{Structures for 3D cells, scalar case (simplified)}
+
+\begin{footnotesize}
+\begin{lstlisting} 
+struct Face {
+    Point  cut_O, cut_N;
+    Dirac *cut_id;
+    Edge  *edges;    
+};
+struct Node {
+    Edge *edge;
+    Point pos;
+};
+struct Edge {
+    Edge *next_from_same_node, *next_from_same_face, *sibling;
+    Node *n0, *n1;  
+    Face *face;
+};
+
+PoolAc<Face> faces;
+PoolAc<Hole> holes;
+PoolAc<Node> nodes;
+Pool  <Edge> edges;
+\end{lstlisting}
+\end{footnotesize}
+\end{frame}
+
 \begin{frame}
-    \frametitle{Speedup / vector version (Face, Edge, Node)}
+    \frametitle{Speedups}
 
     Time per effective cut:
 
@@ -314,8 +344,8 @@ struct Cell {
         \hline
         Method                   & CPU cycles & Speedup    \\
         \hline
-        vec of structs           & 1 s        & 1 $\times$ \\
-        Struct of compact blocks & 1 s        & 1 $\times$ \\
+        Struct of compact blocks & 1807        & 1.0 $\times$ \\
+        Pools and linked lists   & 1118        & 1.6 $\times$ \\
         \hline
     \end{tabular}
     \end{center}
@@ -330,38 +360,292 @@ struct Cell {
     $\forall\ i, j \neq i $ basically gives $ \mathcal{O}( n^2 )$... would be far behind the 
       expected $\mathcal{O}( n \log{}n )$
     
+    \vfill
     But only a small neighborhood is actually needed !
 
+    \vfill
+    Given radius around each dirac works very well for isotropic cells.
+    
+    \vfill
+    New algorithms remained to be tested for the \textbf{anisotropic or not regular} cases.
+\end{frame}
+
+\begin{frame}
+    \frametitle{If homogeneous Kantorovich potentials}
+
+    \begin{minipage}[c][0.6\textheight][c]{0.6\textwidth}
+        Algorithm:
+        \begin{itemize}
+            \item From a large enough cell ($\supset$ domain if finite),
+            \item cut with the \textit{closest} diracs,
+            \item until no longer possible to shrink the cell \\ \hfill \textcolor{gray}{($\Rightarrow$ dynamic criterion)}
+        \end{itemize}
+
+        \vfill
+        Use of Lebesgue space filling curve (zgrids):
+        \begin{itemize}
+            \item $\mathcal{O}( n )$ pass to sort the nodes ($\parallelsum$ radix sort)
+            \item $\mathcal{O}( n )$ pass to construct the grid
+            \item $\mathcal{O}( n )$ pass to get the neighbors ($\parallelsum$ radix sort)
+        \end{itemize}
+    \end{minipage}
+    \kern 0.04\textwidth
+    \begin{minipage}{0.35\textwidth}
+        \begin{center}
+            \input{img/zgrid.tex}
+        \end{center}
+    \end{minipage}
+\end{frame}
+
+\begin{frame}
+    \frametitle{A word on "no longer possible to shrink the cell"}
+
+    \begin{minipage}[c][0.7\textheight][c]{0.6\textwidth}
+        \begin{center}
+            \includegraphics[width=\textwidth]{img/front.pdf}
+        \end{center}
+    \end{minipage}
+    \kern 0.01\textwidth
+    \begin{minipage}[c][0.6\textheight][c]{0.35\textwidth}
+        \begin{itemize}
+            \item Front of boxes are stored in a heap (by distance to the dirac)
+            \item Neighbors of a boxes are added to the heap only if possible to find a cutting dirac in the "protected zone"
+        \end{itemize}
+
+        \vfill
+        \begin{itemize}
+            \item Best $\#$ cell / box $\approx$ 20
+        \end{itemize}
+    \end{minipage}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Performance, uniform distribution 2D (Voronoï)}
+
+    \begin{minipage}[c][0.6\textheight][c]{0.55\textwidth}
+        \input{img/speed_uniform_voro_2D.tex}
+    \end{minipage}
+    \begin{minipage}[c][0.6\textheight][c]{0.4\textwidth}
+        \begin{itemize}
+            \item Between $7\times$ and $12\times$ speedup
+
+            \bigskip
+            \item Almost linear
+
+            \bigskip
+            \item Uses a fraction of the memory
+
+            \bigskip
+            \item (maybe not a fair test)
+        \end{itemize}
+    \end{minipage}
+\end{frame}
+
+
+\begin{frame}
+    \frametitle{Performance, Voronoï faces distribution 2D (Voronoï)    TODO}
+
+    \begin{minipage}[c][0.6\textheight][c]{0.55\textwidth}
+        \input{img/speed_voroface_voro_2D.tex}
+    \end{minipage}
+    \begin{minipage}[c][0.6\textheight][c]{0.4\textwidth}
+        \begin{itemize}
+            \item ...
+        \end{itemize}
+    \end{minipage}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Performance, uniform distribution 3D (Voronoï)    TODO}
+
+    \begin{minipage}[c][0.6\textheight][c]{0.55\textwidth}
+        \input{img/speed_uniform_voro_3D.tex}
+    \end{minipage}
+    \begin{minipage}[c][0.6\textheight][c]{0.4\textwidth}
+        \begin{itemize}
+            \item ...
+        \end{itemize}
+    \end{minipage}
+\end{frame}
+
+
+\begin{frame}
+    \frametitle{Performance, Voronoï distribution 3D (Voronoï)    TODO}
+    
+    \begin{minipage}[c][0.6\textheight][c]{0.55\textwidth}
+        \input{img/speed_voroface_voro_3D.tex}
+    \end{minipage}
+    \begin{minipage}[c][0.6\textheight][c]{0.4\textwidth}
+        \begin{itemize}
+            \item ...
+        \end{itemize}
+    \end{minipage}
+\end{frame}
+
+\begin{frame}
+    \frametitle{For heterogeneous Kantorovich potentials}
+
+    \begin{minipage}[c][0.7\textheight][c]{0.45\textwidth}
+        Quadtree / octree, upper bounds:
+        \begin{itemize}
+            \item for each dirac,
+            \item starting with a paving heap,
+            \item while the heap is not empty,
+            \item \ \kern 2mm take the top,
+            \item \ \kern 2mm if potential cut, go inside,
+            \item \ \kern 2mm and place sub-cells in the heap.
+        \end{itemize}
+
+        \vfill
+        ($\mathcal{O}( n \log{} n )$ ops but $\mathcal{O}( n )$ RAM reads)
+    \end{minipage}
+    \kern 0.04\textwidth
+    \begin{minipage}[c][0.7\textheight][c]{0.5\textwidth}
+        \begin{center}
+            \includegraphics[width=\textwidth]{img/bound_p1.png}
+
+            With upper bounds of degree 1
+        \end{center}
+    \end{minipage}
+\end{frame}
+
+\begin{frame}
+    \frametitle{For heterogeneous Kantorovich potentials}
+
+    Remarks:
     \begin{itemize}
-        \item A given radius around each dirac works very well for isotropic cells
-        \item For highly anisotropic or not regular cases, new algorithms remained to be tested.
+        \item closed forms for degree 2 are easy to obtain but come with a high computation cost.
+        \item optimal $\#$ dirac per box $\approx$ 30.
     \end{itemize}
 \end{frame}
 
+
+\begin{frame}
+    \frametitle{Performance, uniform distribution 2D (optimal weights)}
+
+    \begin{minipage}[c][0.6\textheight][c]{0.55\textwidth}
+        \input{img/speed_uniform_opti_2D.tex}
+    \end{minipage}
+    \begin{minipage}[c][0.6\textheight][c]{0.4\textwidth}
+        \begin{itemize}
+            \item Between $..\times$ and $..\times$ speedup
+
+            \bigskip
+            \item Almost linear
+
+            \bigskip
+            \item Uses a fraction of the memory
+
+            \bigskip
+            \item (maybe not a fair test)
+        \end{itemize}
+    \end{minipage}
+\end{frame}
+
+
+\begin{frame}
+    \frametitle{Performance, uniform distribution 3D (optimal weights)    TODO}
+
+    \begin{minipage}[c][0.6\textheight][c]{0.55\textwidth}
+        \input{img/speed_uniform_opti_3D.tex}
+    \end{minipage}
+    \begin{minipage}[c][0.6\textheight][c]{0.4\textwidth}
+        \begin{itemize}
+            \item ...
+        \end{itemize}
+    \end{minipage}
+\end{frame}
 
 % ---------------------------------------------------------------------------------------
 \section{Product placement}
 
+\begin{frame}
+    \frametitle{SDOT, PySDOT}
+
+    Packaged in a library, with examples
+    \begin{itemize}
+        \item github, pip, conda (precompiled)
+        \item pythonic bindings
+    \end{itemize}
+
+    \vfill
+    Radial functions:
+    \begin{itemize}
+        \item $1$,
+        \item $|x|^2$,
+        \item $|x| < r$,
+        \item $e^{-x^2 / \tau}$, ...
+    \end{itemize}
+
+    \vfill
+    Space functions:
+    \begin{itemize}
+        \item on polyhedra,
+        \item from an image (correct algorithmic complexity), ...
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Some applications}
+
+    \begin{minipage}[c][0.8\textheight][c]{0.4\textwidth}
+        \begin{center}
+            \includegraphics[width=\textwidth]{img/pd_002.pdf}
+
+            2D congestion flow
+
+            \vfill
+            \includegraphics[width=\textwidth]{img/pd_003.pdf}
+
+            Diffusion
+        \end{center}
+    \end{minipage}
+    \begin{minipage}[c][0.8\textheight][c]{0.55\textwidth}
+        \begin{center}
+            \includegraphics[width=0.7\textwidth]{img/pd_004.png}
+
+            3D congestion flow
+        \end{center}
+    \end{minipage}
+\end{frame}
 
 % ---------------------------------------------------------------------------------------
-\section{Conclusions}
+\section{Wrap up}
 
 \begin{frame}
     \frametitle{Conclusions}
 
-    Smurf
+    Cell centered algorithms:
     \begin{itemize}
-        \item ...
+        \item good performance
+        \item with a fraction of the memory
+        \item parallel by default, with strong scaling
     \end{itemize}
     
     \vfill
+    Acceleration structures:
+    \begin{itemize}
+        \item mostly $\mathcal{O}( n )$ for construction and traversal
+        \item fits well the tested cases
+    \end{itemize}
 \end{frame}
-
 
 \begin{frame}
     \frametitle{Perspectives}
 
-\end{frame}
+    Optimizations
+    \begin{itemize}
+        \item More SIMD optimizations for the 3D case !
+        \item Better bounds for the Kantorovich potentials
+        \item GPU
+    \end{itemize}
 
+    \vfill
+    Solvers
+    \begin{itemize}
+        \item preconditioners
+        \item multi-grid
+    \end{itemize}
+\end{frame}
 
 \end{document}

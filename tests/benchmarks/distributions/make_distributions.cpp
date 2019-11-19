@@ -1,5 +1,6 @@
 #include "../../../src/sdot/Grids/LGrid.h"
 #include "../../../src/sdot/Support/P.h"
+#include <fstream>
 using namespace sdot;
 
 // // nsmake cxx_name clang++
@@ -53,7 +54,7 @@ struct MtVal {
 };
 
 template<class Pc>
-void test_with_Pc() {
+void generate( std::size_t nb_diracs ) {
     using Dirac = typename Pc::Dirac;
     using Grid  = LGrid<Pc>;
     using CP    = typename Grid::CP;
@@ -97,38 +98,43 @@ void test_with_Pc() {
     }, box );
 
     //
-    TI nb_diracs = 50000, ind_simplex = 0;
-    VtkOutput voc;
+    TI ind_simplex = 0;
+    // VtkOutput voc;
+    std::string name = va_string( "/data/sdot/faces_20p_{}D_{}.txt", int( Grid::dim ), nb_diracs );
+    std::ofstream fout( name.c_str() );
     for( TF s = total_area / nb_diracs, a = 0.5 * s; a < total_area; a += s ) {
         while ( sas[ ind_simplex ].acc < a )
             ++ind_simplex;
-        voc.add_point( sas[ ind_simplex ].simplex.random_point( []() { return TF( 1 ) * rand() / RAND_MAX; } ) );
+        Pt p = sas[ ind_simplex ].simplex.random_point( []() { return TF( 1 ) * rand() / RAND_MAX; } );
+        for( std::size_t d = 0; d < Grid::dim; ++d )
+            p[ d ] += 1e-5 * rand() / RAND_MAX;
+        fout << p << " 0\n";
+        // voc.add_point(  );
     }
-    voc.save( "vtk/points.vtk" );
-    P( total_area );
+    // voc.save( "vtk/points.vtk" );
 }
 
+template<int d>
+struct Pc {
+    enum { store_the_normals = false };
+    enum { allow_ball_cut    = false };
+    enum { w_bounds_order    = 0     };
+    enum { dim               = d     };
+    using  TI                = std::uint64_t;
+    using  TF                = double;
+    using  Pt                = typename PointTraits<TF,d>::type;
 
+    struct Dirac {
+        static std::vector<std::string> names() { return { "weight", "index" }; }
+        std::vector<TF> values() const { return { weight, TF( index ) }; }
+
+        TF weight;
+        TI index;
+        Pt pos;
+    };
+};
 
 int main() {
-    struct Pc {
-        enum { store_the_normals = false };
-        enum { allow_ball_cut    = false };
-        enum { w_bounds_order    = 0     };
-        enum { dim               = 3     };
-        using  TI                = std::uint64_t;
-        using  TF                = double;
-        using  Pt                = Point3<TF>;
-
-        struct Dirac {
-            static std::vector<std::string> names() { return { "weight", "index" }; }
-            std::vector<TF> values() const { return { weight, TF( index ) }; }
-
-            TF weight;
-            TI index;
-            Pt pos;
-        };
-    };
-
-    test_with_Pc<Pc>();
+    for( std::size_t nb_diracs = 1e6; nb_diracs < 1e9; nb_diracs = nb_diracs * 16 / 10 )
+        generate<Pc<3>>( nb_diracs );
 }

@@ -89,9 +89,9 @@ def make_positions( dist_name, nb_diracs, dim ):
         return res
 
 
-for dist_name in [ "voro_50", "uniform" ]: # , "voro_50"
-    for dim in [ 2 ]:
-        for nb_diracs in map( int, [ 1e4, 1e5, 1e6, 1e7, 1e8 ] ): # 
+for dist_name in [ "uniform" ]: # , "voro_50"
+    for dim in [ 2, 3 ]:
+        for nb_diracs in map( int, [ 1e5, 2e5, 4e5, 8e5, 16e5 ] ): # 
             positions = make_positions( dist_name, nb_diracs, dim )
 
             # diracs
@@ -100,7 +100,7 @@ for dist_name in [ "voro_50", "uniform" ]: # , "voro_50"
 
             # solve
             print( dim, nb_diracs )
-            ot.adjust_weights( relax = 1e-1 )
+            ot.adjust_weights()
 
             # display, save
             if nb_diracs <= 1e6:

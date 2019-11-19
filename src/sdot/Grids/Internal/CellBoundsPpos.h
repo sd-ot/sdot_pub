@@ -32,6 +32,7 @@ public:
         TVec                     vec_weight;
         Pt                       min_pos;
         Pt                       max_pos;
+        int                      n;
     };
 
     void                         push                   ( Pt pos, TF weight );

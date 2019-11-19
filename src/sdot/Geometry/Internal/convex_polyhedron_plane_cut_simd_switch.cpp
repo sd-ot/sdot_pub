@@ -128,9 +128,9 @@ struct Mod {
         // helper
         auto disp_c = [&]( const Op &op ) {
             if ( op.dir > 0 )
-                code << "cut_id[ num_cut ]";
+                code << "(long long)cut_id[ num_cut ]";
             else
-                code << "reinterpret_cast<const CI *>( &pc_" << op.i0 / simd_size << " )[ " << op.i0 % simd_size << " ]";
+                code << "(long long)reinterpret_cast<const CI *>( &pc_" << op.i0 / simd_size << " )[ " << op.i0 % simd_size << " ]";
         };
 
         // get op indices for each type of operation
@@ -482,24 +482,24 @@ int main() {
     std::cout << "\n";
     std::cout << "namespace sdot {\n";
 
+    // generic version
+    std::cout << "\n";
+    std::cout << "template<class Pc> template<int flags,class T,int s>\n";
+    std::cout << "void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cut_dir, const TF *cut_ps, const CI *cut_id, std::size_t nb_cuts, N<flags>, S<T>, N<s> ) {\n";
+    std::cout << "    for( std::size_t i = 0; i < nb_cuts; ++i )\n";
+    std::cout << "        plane_cut_gen( cut_dir[ 0 ][ i ], cut_dir[ 1 ][ i ], cut_ps[ i ], cut_id[ i ], N<flags>() );\n";
+    std::cout << "}\n";
+
     // double + uint64 version
     std::cout << "\n";
     std::cout << "template<class Pc> template<int flags>\n";
-    std::cout << "void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cut_dir, const TF *cut_ps, const CI *cut_id, std::size_t nb_cuts, N<flags>, S<double>, S<std::uint64_t> ) {\n";
+    std::cout << "void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cut_dir, const TF *cut_ps, const CI *cut_id, std::size_t nb_cuts, N<flags>, S<double>, N<8> ) {\n";
     std::cout << "    #ifdef __AVX512F__\n";
     generate( 8, "AVX512", 8 );
     std::cout << "    #else // __AVX512F__\n";
     std::cout << "    for( std::size_t i = 0; i < nb_cuts; ++i )\n";
     std::cout << "        plane_cut_gen( cut_dir[ 0 ][ i ], cut_dir[ 1 ][ i ], cut_ps[ i ], cut_id[ i ], N<flags>() );\n";
     std::cout << "    #endif // __AVX512F__\n";
-    std::cout << "}\n";
-
-    // generic version
-    std::cout << "\n";
-    std::cout << "template<class Pc> template<int flags,class T,class U>\n";
-    std::cout << "void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cut_dir, const TF *cut_ps, const CI *cut_id, std::size_t nb_cuts, N<flags>, S<T>, S<U> ) {\n";
-    std::cout << "    for( std::size_t i = 0; i < nb_cuts; ++i )\n";
-    std::cout << "        plane_cut_gen( cut_dir[ 0 ][ i ], cut_dir[ 1 ][ i ], cut_ps[ i ], cut_id[ i ], N<flags>() );\n";
     std::cout << "}\n";
 
     std::cout << "\n";

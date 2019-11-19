@@ -273,13 +273,13 @@ void ConvexPolyhedron2<Pc>::resize( TI new_size ) {
     size = new_size;
 }
 
-template<class Pc> template<int flags,class T,class U>
-void ConvexPolyhedron2<Pc>::plane_cut_simd_tzcnt( TF cut_dx, TF cut_dy, TF cut_ps, CI cut_id, N<flags>, S<T>, S<U> ) {
+template<class Pc> template<int flags,class T>
+void ConvexPolyhedron2<Pc>::plane_cut_simd_tzcnt( TF cut_dx, TF cut_dy, TF cut_ps, CI cut_id, N<flags>, S<T> ) {
     plane_cut_gen( cut_dx, cut_dy, cut_ps, cut_id, N<flags>() );
 }
 
 template<class Pc> template<int flags>
-void ConvexPolyhedron2<Pc>::plane_cut_simd_tzcnt( TF cut_dx, TF cut_dy, TF cut_ps, CI cut_id, N<flags>, S<double>, S<std::uint64_t> ) {
+void ConvexPolyhedron2<Pc>::plane_cut_simd_tzcnt( TF cut_dx, TF cut_dy, TF cut_ps, CI cut_id, N<flags>, S<double> ) {
     #ifdef __AVX512F__
     constexpr int simd_size = 8;
 
@@ -698,12 +698,12 @@ void ConvexPolyhedron2<Pc>::plane_cut( std::array<const TF *,dim> cut_dir, const
     // no switch version ?
     if ( flags & ConvexPolyhedron::do_not_use_switch ) {
         for( std::size_t i = 0; i < nb_cuts; ++i )
-            plane_cut_simd_tzcnt( cut_dir[ 0 ][ i ], cut_dir[ 1 ][ i ], cut_ps[ i ], cut_id[ i ], N<flags>(), S<TF>(), S<CI>() );
+            plane_cut_simd_tzcnt( cut_dir[ 0 ][ i ], cut_dir[ 1 ][ i ], cut_ps[ i ], cut_id[ i ], N<flags>(), S<TF>() );
         return;
     }
 
     // => default version
-    plane_cut_simd_switch( cut_dir, cut_ps, cut_id, nb_cuts, N<flags>(), S<TF>(), S<CI>() );
+    plane_cut_simd_switch( cut_dir, cut_ps, cut_id, nb_cuts, N<flags>(), S<TF>(), N<sizeof(CI)>() );
 }
 
 template<class Pc>
