@@ -9,10 +9,11 @@
 using namespace sdot;
 
 // // nsmake cxx_name clang++
+// // nsmake cpp_flag -march=skylake
 
-// // nsmake cpp_flag -march=native
-// // nsmake cpp_flag -ffast-math
-// // nsmake cpp_flag -O3
+//// nsmake cpp_flag -march=native
+//// nsmake cpp_flag -ffast-math
+//// nsmake cpp_flag -O3
 //// nsmake lib_name z
 
 template<int _dim>
@@ -25,28 +26,8 @@ struct Pc {
     struct Dirac {};
 };
 
-//template<class TF>
-//void test_vol( const std::vector<TF> &positions_x, const std::vector<TF> &positions_y, const std::vector<TF> &weights ) {
-//    using Grid = ZGrid<Pc>;
-//    using CP = Grid::CP;
-
-//    Grid grid( 10 );
-//    grid.update( { positions_x.data(), positions_y.data() }, weights.data(), weights.size(), N<Grid::homogeneous_weights>() );
-
-//    CP b( CP::Box{ { 0, 0 }, { 1, 1 } } );
-//    std::vector<TF> vols( thread_pool.nb_threads(), 0 );
-//    grid.for_each_laguerre_cell( [&]( CP &cp, std::size_t /*num*/, int num_thread ) {
-//        vols[ num_thread ] += cp.integral();
-//    }, b, { positions_x.data(), positions_y.data() }, weights.data(), weights.size(), N<Grid::homogeneous_weights>() );
-
-//    TF vol = 0;
-//    for( TF v : vols )
-//        vol += v;
-//    P( vol );
-//}
-
 template<class Pc,int voronoi>
-void test( std::map<std::size_t,double> &nb_cycle_per_cell, std::string filename, N<voronoi>, bool dot_npy = false, std::size_t nb_rands = 0 ) {
+void test( std::map<std::size_t,double> &nb_cycle_per_cell, std::string filename, N<voronoi>, bool dot_npy = false ) {
     constexpr int dim = Pc::dim;
     using Grid = ZGrid<Pc>;
 
@@ -60,18 +41,7 @@ void test( std::map<std::size_t,double> &nb_cycle_per_cell, std::string filename
     std::vector<TF> tmp[ dim + 1 ];
     std::size_t nb_diracs;
     double *weights;
-    if ( nb_rands ) {
-        for( std::size_t n = 0; n < nb_rands; ++n ) {
-            for( std::size_t d = 0; d < dim; ++d )
-                tmp[ d ].push_back( 1.0 * rand() / RAND_MAX );
-            tmp[ dim ].push_back( 0.0 );
-        }
-
-        for( std::size_t d = 0; d < dim; ++d )
-            positions[ d ] = tmp[ d ].data();
-        weights = tmp[ dim ].data();
-        nb_diracs = nb_rands;
-    } else if ( dot_npy ) {
+    if ( dot_npy ) {
         cnpy::NpyArray arr = cnpy::npy_load( filename );
         nb_diracs = arr.shape[ 1 ];
         TF *data = arr.data<TF>();
@@ -98,6 +68,7 @@ void test( std::map<std::size_t,double> &nb_cycle_per_cell, std::string filename
         nb_diracs = tmp[ 0 ].size();
     }
 
+
     // get timings
     double best_dt_sum = 1e6, smurf = 0;
     for( std::size_t nb_diracs_per_cell = 53; nb_diracs_per_cell <= 53; nb_diracs_per_cell += 2 ) {
@@ -110,7 +81,7 @@ void test( std::map<std::size_t,double> &nb_cycle_per_cell, std::string filename
         grid.update( positions, weights, nb_diracs, N<flags>() );
         RDTSC_FINAL( t1_grid );
 
-        typename CP::Box b{ TF( 0 ), TF( 1 ) };
+        CP b( typename CP::Box{ { 0, 0 }, { 1, 1 } } );
         std::vector<std::size_t> nb_cuts( 16 * thread_pool.nb_threads(), 0 );
         std::uint64_t t0_each = 0, t1_each = 0;
         RDTSC_START( t0_each );
@@ -140,54 +111,26 @@ void test( std::map<std::size_t,double> &nb_cycle_per_cell, std::string filename
 
 }
 
-//void t2( std::map<std::size_t,double> &nb_cycle_per_cell ) {
-//    const char *filenames[] = {
-//        "/data/sdot/faces_20p_2D_1000000.txt",
-//        "/data/sdot/faces_20p_2D_1600000.txt",
-//        "/data/sdot/faces_20p_2D_2560000.txt",
-//        "/data/sdot/faces_20p_2D_4096000.txt",
-//        "/data/sdot/faces_20p_2D_6553600.txt",
-//        "/data/sdot/faces_20p_2D_10485760.txt",
-//        "/data/sdot/faces_20p_2D_16777216.txt",
-//        "/data/sdot/faces_20p_2D_26843545.txt",
-//        //        "/data/sdot/faces_20p_2D_42949672.txt",
-//        //        "/data/sdot/faces_20p_2D_68719475.txt",
-//        //        "/data/sdot/faces_20p_2D_109951160.txt",
-//        //        "/data/sdot/faces_20p_2D_175921856.txt",
-//        //        "/data/sdot/faces_20p_2D_281474969.txt",
-//    };
-
-//    for( const char *filename : filenames )
-//        test<Pc<2>>( nb_cycle_per_cell, filename, N<true>() );
-//}
-
-void t3( std::map<std::size_t,double> &nb_cycle_per_cell ) {
-    for( std::size_t n = 1e6; n < 2e8; n = n * 15 / 10 )
-        test<Pc<3>>( nb_cycle_per_cell, "", N<true>(), true, n );
-
-    //    const char *filenames[] = {
-    //        "/data/sdot/faces_20p_2D_1000000.txt",
-    //        "/data/sdot/faces_20p_2D_1600000.txt",
-    //        "/data/sdot/faces_20p_2D_2560000.txt",
-    //        "/data/sdot/faces_20p_2D_4096000.txt",
-    //        "/data/sdot/faces_20p_2D_6553600.txt",
-    //        "/data/sdot/faces_20p_2D_10485760.txt",
-    //        "/data/sdot/faces_20p_2D_16777216.txt",
-    //        "/data/sdot/faces_20p_2D_26843545.txt",
-    //        //        "/data/sdot/faces_20p_2D_42949672.txt",
-    //        //        "/data/sdot/faces_20p_2D_68719475.txt",
-    //        //        "/data/sdot/faces_20p_2D_109951160.txt",
-    //        //        "/data/sdot/faces_20p_2D_175921856.txt",
-    //        //        "/data/sdot/faces_20p_2D_281474969.txt",
-    //    };
-
-    //    for( const char *filename : filenames )
-    //        test<Pc<2>>( nb_cycle_per_cell, filename, N<true>() );
-}
-
 int main() {
+    const char *filenames[] = {
+        "/data/sdot/faces_20p_2D_1000000.txt",
+        "/data/sdot/faces_20p_2D_1600000.txt",
+        "/data/sdot/faces_20p_2D_2560000.txt",
+        "/data/sdot/faces_20p_2D_4096000.txt",
+        "/data/sdot/faces_20p_2D_6553600.txt",
+        "/data/sdot/faces_20p_2D_10485760.txt",
+        "/data/sdot/faces_20p_2D_16777216.txt",
+        "/data/sdot/faces_20p_2D_26843545.txt",
+        //        "/data/sdot/faces_20p_2D_42949672.txt",
+        //        "/data/sdot/faces_20p_2D_68719475.txt",
+        //        "/data/sdot/faces_20p_2D_109951160.txt",
+        //        "/data/sdot/faces_20p_2D_175921856.txt",
+        //        "/data/sdot/faces_20p_2D_281474969.txt",
+    };
+
     std::map<std::size_t,double> nb_cycle_per_cell;
-    t3( nb_cycle_per_cell );
+    for( const char *filename : filenames )
+        test<Pc<2>>( nb_cycle_per_cell, filename, N<true>() );
 
     std::cout << "    \\addplot coordinates {\n";
     for( auto p : nb_cycle_per_cell )

@@ -128,13 +128,13 @@ bool ZGrid<Pc>::may_cut( const CP &lc, const Pt &c0, TF w0, const Cell &cr_cell,
     return false;
 }
 
-template<class Pc> template<int flags>
-int ZGrid<Pc>::for_each_laguerre_cell( const std::function<void( CP &, TI num, int num_thread )> &cb, const CP &starting_lc, std::array<const TF *,dim> positions, const TF *weights, TI /*nb_diracs*/, N<flags>, bool stop_if_void_lc ) {
+template<class Pc> template<int flags,class B>
+int ZGrid<Pc>::for_each_laguerre_cell( const std::function<void( CP &, TI num, int num_thread )> &cb, const B &starting_lc, std::array<const TF *,dim> positions, const TF *weights, TI /*nb_diracs*/, N<flags>, bool stop_if_void_lc ) {
     using Front = FrontZgrid<ZGrid>;
     using std::sqrt;
 
     // vectors for stuff that will be reused inside the execution threads
-    int nb_threads = thread_pool.nb_threads(), nb_jobs = 4 * nb_threads;
+    int nb_threads = thread_pool.nb_threads(), nb_jobs = 32 * nb_threads;
     std::vector<std::vector<TI>> visited( nb_threads );
     std::vector<TI> op_counts( nb_threads, 0 );
 
@@ -163,6 +163,7 @@ int ZGrid<Pc>::for_each_laguerre_cell( const std::function<void( CP &, TI num, i
                 struct alignas(64) Cut {
                     TF dx[ 128 ];
                     TF dy[ 128 ];
+                    TF dz[ 128 ];
                     TF ps[ 128 ];
                     CI id[ 128 ];
                 };
@@ -190,7 +191,8 @@ int ZGrid<Pc>::for_each_laguerre_cell( const std::function<void( CP &, TI num, i
                     Pt V = pt( positions, i1 ) - c0;
                     cut.dx[ n ] = V.x;
                     cut.dy[ n ] = V.y;
-                    cut.id[ n ] = i1;
+                    #warning
+                    // cut.id[ n ] = i1;
                     cut.ps[ n ] = dot( c0, V ) + TF( 0.5 ) * ( flags & homogeneous_weights ? norm_2_p2( V ) : norm_2_p2( V ) + w0 - weights[ i1 ] );
                 }
 
@@ -212,15 +214,23 @@ int ZGrid<Pc>::for_each_laguerre_cell( const std::function<void( CP &, TI num, i
                         Pt V = pt( positions, i1 ) - c0;
                         cut.dx[ nb_cuts ] = V.x;
                         cut.dy[ nb_cuts ] = V.y;
-                        cut.id[ nb_cuts ] = i1;
+                        if ( dim >= 3 )
+                            cut.dz[ nb_cuts ] = V[ 2 ];
+                        // cut.id[ nb_cuts ] = i1;
                         cut.ps[ nb_cuts ] = dot( c0, V ) + TF( 0.5 ) * ( flags & homogeneous_weights ? norm_2_p2( V ) : norm_2_p2( V ) + w0 - weights[ i1 ] );
                         ++nb_cuts;
                     }
                 }
                 #endif
 
+                std::array<const TF *,dim> cut_dir;
+                cut_dir[ 0 ] = cut.dx;
+                cut_dir[ 1 ] = cut.dy;
+                if ( dim >= 3 )
+                    cut_dir[ 2 ] = cut.dz;
+
                 // do the cuts
-                lc.plane_cut( { cut.dx, cut.dy }, cut.ps, cut.id, nb_cuts );
+                lc.plane_cut( cut_dir, cut.ps, cut.id, nb_cuts );
 
                 // front
                 front.init( num_cell, c0, w0 );
@@ -262,7 +272,8 @@ int ZGrid<Pc>::for_each_laguerre_cell( const std::function<void( CP &, TI num, i
                         Pt V = pt( positions, i1 ) - c0;
                         cut.dx[ n ] = V.x;
                         cut.dy[ n ] = V.y;
-                        cut.id[ n ] = i1;
+                        #warning
+                        // cut.id[ n ] = i1;
                         cut.ps[ n ] = dot( c0, V ) + TF( 0.5 ) * ( flags & homogeneous_weights ? norm_2_p2( V ) : norm_2_p2( V ) + w0 - weights[ i1 ] );
                     }
                     #else
@@ -271,7 +282,7 @@ int ZGrid<Pc>::for_each_laguerre_cell( const std::function<void( CP &, TI num, i
                         Pt V = pt( positions, i1 ) - c0;
                         cut.dx[ nb_cuts ] = V.x;
                         cut.dy[ nb_cuts ] = V.y;
-                        cut.id[ nb_cuts ] = i1;
+                        // cut.id[ nb_cuts ] = i1;
                         cut.ps[ nb_cuts ] = dot( c0, V ) + TF( 0.5 ) * ( flags & homogeneous_weights ? norm_2_p2( V ) : norm_2_p2( V ) + w0 - weights[ i1 ] );
                         ++nb_cuts;
                     }

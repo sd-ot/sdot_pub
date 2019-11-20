@@ -80,11 +80,11 @@ int main() {
         TF th = ( random() % 8 ) * M_PI / 5;
         xs.push_back( cos( th ) );
         ys.push_back( sin( th ) );
-        ps.push_back( 10.0 / ( 11 + n ) );
+        ps.push_back( 10.0 / ( 11 + n ) + ( n % 2 ) );
         ds.push_back( nullptr );
     }
 
     bench( xs, ys, ps, ds, /*simd*/ N<0>(), /*switch*/ N<0>() );
-//    bench( xs, ys, ps, ds, /*simd*/ N<1>(), /*switch*/ N<0>() );
+    bench( xs, ys, ps, ds, /*simd*/ N<1>(), /*switch*/ N<0>() );
     bench( xs, ys, ps, ds, /*simd*/ N<1>(), /*switch*/ N<1>() );
 }

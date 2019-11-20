@@ -90,8 +90,8 @@ def make_positions( dist_name, nb_diracs, dim ):
 
 
 for dist_name in [ "uniform" ]: # , "voro_50"
-    for dim in [ 2, 3 ]:
-        for nb_diracs in map( int, [ 1e5, 2e5, 4e5, 8e5, 16e5 ] ): # 
+    for dim in [ 3 ]:
+        for nb_diracs in map( int, [ 1e5 / 8, 1e5 / 4, 1e5 / 2 ] ): # 1e5, 2e5, 4e5, 8e5, 16e5
             positions = make_positions( dist_name, nb_diracs, dim )
 
             # diracs

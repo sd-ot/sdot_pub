@@ -43,7 +43,7 @@ public:
     static constexpr TI                  block_size                = 64;
     static constexpr TI                  dim                       = 2;
 
-    struct                               BoundaryItem              { std::array<Pt,2> points; TF measure, a0, a1; CI dirac; template<class TL> void add_to_simplex_list( TL &lst ) const; };
+    struct                               BoundaryItem              { std::array<Pt,2> points; TF measure, a0, a1; CI cut_id; template<class TL> void foreach_simplex( const TL &f ) const; };
     using                                Node                      = ConvexPolyhedron2NodeBlock<TF,TI,CI,block_size,store_the_normals,allow_ball_cut>;
     struct                               Edge                      { Node *nodes[ 2 ]; }; ///< tmp structure
 

@@ -217,9 +217,9 @@ case 1017: { // size=3 outside=...00000000000001 mod=[ 0, 1 ],1,2,[ 0, 2 ]
         \hline
         Method                 & CPU cycles & Speedup    \\
         \hline
-        Optimized generic code & 120        & 1.0 $\times$ \\
-        Optimized AVX512 code  & 103        & 1.2 $\times$ \\
-        Generated AVX512 code  & 45         & 2.7 $\times$ \\
+        Optimized generic code & 80         & 1.0 $\times$ \\
+        Optimized AVX512 code  & 50         & 1.6 $\times$ \\
+        Generated AVX512 code  & 23         & 3.5 $\times$ \\
         \hline
     \end{tabular}
     \end{center}
@@ -345,8 +345,8 @@ Pool  <Edge> edges; // no need for an "active" list
         \hline
         Method                   & CPU cycles & Speedup    \\
         \hline
-        Struct of compact blocks & 1807        & 1.0 $\times$ \\
-        Pools and linked lists   & 1118        & 1.6 $\times$ \\
+        Struct of compact blocks & 782        & 1.0 $\times$ \\
+        Pools and linked lists   & 392        & 2.0 $\times$ \\
         \hline
     \end{tabular}
     \end{center}
@@ -444,44 +444,47 @@ Pool  <Edge> edges; // no need for an "active" list
 
 
 \begin{frame}
-    \frametitle{Performance, Voronoï faces distribution 2D (Voronoï)    TODO}
+    \frametitle{Performance, Voronoï faces distribution 2D (Voronoï)}
 
     \begin{minipage}[c][0.6\textheight][c]{0.55\textwidth}
         \input{img/speed_voroface_voro_2D.tex}
     \end{minipage}
     \begin{minipage}[c][0.6\textheight][c]{0.4\textwidth}
         \begin{itemize}
-            \item ...
+            \item A very naughty case
+
+            \bigskip
+            \item Good scalability (CPU and memory)
         \end{itemize}
     \end{minipage}
 \end{frame}
 
-\begin{frame}
-    \frametitle{Performance, uniform distribution 3D (Voronoï)    TODO}
+% \begin{frame}
+%     \frametitle{Performance, uniform distribution 3D (Voronoï)    TODO}
 
-    \begin{minipage}[c][0.6\textheight][c]{0.55\textwidth}
-        \input{img/speed_uniform_voro_3D.tex}
-    \end{minipage}
-    \begin{minipage}[c][0.6\textheight][c]{0.4\textwidth}
-        \begin{itemize}
-            \item ...
-        \end{itemize}
-    \end{minipage}
-\end{frame}
+%     \begin{minipage}[c][0.6\textheight][c]{0.55\textwidth}
+%         \input{img/speed_uniform_voro_3D.tex}
+%     \end{minipage}
+%     \begin{minipage}[c][0.6\textheight][c]{0.4\textwidth}
+%         \begin{itemize}
+%             \item ...
+%         \end{itemize}
+%     \end{minipage}
+% \end{frame}
 
 
-\begin{frame}
-    \frametitle{Performance, Voronoï distribution 3D (Voronoï)    TODO}
+% \begin{frame}
+%     \frametitle{Performance, Voronoï distribution 3D (Voronoï)    TODO}
     
-    \begin{minipage}[c][0.6\textheight][c]{0.55\textwidth}
-        \input{img/speed_voroface_voro_3D.tex}
-    \end{minipage}
-    \begin{minipage}[c][0.6\textheight][c]{0.4\textwidth}
-        \begin{itemize}
-            \item ...
-        \end{itemize}
-    \end{minipage}
-\end{frame}
+%     \begin{minipage}[c][0.6\textheight][c]{0.55\textwidth}
+%         \input{img/speed_voroface_voro_3D.tex}
+%     \end{minipage}
+%     \begin{minipage}[c][0.6\textheight][c]{0.4\textwidth}
+%         \begin{itemize}
+%             \item ...
+%         \end{itemize}
+%     \end{minipage}
+% \end{frame}
 
 \begin{frame}
     \frametitle{For heterogeneous Kantorovich potentials}
@@ -527,33 +530,55 @@ Pool  <Edge> edges; // no need for an "active" list
     \end{minipage}
     \begin{minipage}[c][0.6\textheight][c]{0.4\textwidth}
         \begin{itemize}
-            \item Between $..\times$ and $..\times$ speedup
+            \item $\approx 3 \times$ speedup
 
             \bigskip
             \item Almost linear
 
             \bigskip
             \item Uses a fraction of the memory
-
-            \bigskip
-            \item (maybe not a fair test)
         \end{itemize}
     \end{minipage}
 \end{frame}
 
-
 \begin{frame}
-    \frametitle{Performance, uniform distribution 3D (optimal weights)    TODO}
+    \frametitle{Performance, uniform distribution 3D (optimal weights)}
 
     \begin{minipage}[c][0.6\textheight][c]{0.55\textwidth}
         \input{img/speed_uniform_opti_3D.tex}
     \end{minipage}
     \begin{minipage}[c][0.6\textheight][c]{0.4\textwidth}
         \begin{itemize}
-            \item ...
+            \item $\approx 1.5 \times$ speedup
+            
+            \bigskip{}
+            \item (more optimizations to come)
         \end{itemize}
     \end{minipage}
 \end{frame}
+
+\begin{frame}
+    \frametitle{Distributed memory, out-of-core}
+
+    \begin{minipage}[c][0.6\textheight][c]{0.5\textwidth}
+        Replicated storage of a portion of the acceleration structure.
+
+        \bigskip
+        Handling of lists of unfinished cells + prefetching (immediate neighbors).
+
+        \vfill
+        Done in 1 step for most cases.
+    \end{minipage}
+    \kern 0.04\textwidth 
+    \begin{minipage}[c][0.6\textheight][c]{0.4\textwidth}
+        \begin{center}
+            \includegraphics[width=\textwidth]{img/mpi.png}
+            
+            MPI/out-of core Phase number \\ (without prefetching)
+        \end{center}
+    \end{minipage}
+\end{frame}
+
 
 % ---------------------------------------------------------------------------------------
 \section{Product placement}
@@ -568,22 +593,20 @@ Pool  <Edge> edges; // no need for an "active" list
             \item pythonic bindings
         \end{itemize}
     
-        \vfill
-        Radial functions:
+        \vfill        
+        Integration
         \begin{itemize}
-            \item $1$,
-            \item $|x|^2$,
-            \item $|x| < r$,
-            \item $e^{-x^2 / \tau}$, ...
+            \item Radial functions: \\ $1$, $|x|^2$, $|x| < r$, $e^{-x^2 / \tau}$, ...
+            \item Space functions: \\ on polyhedra, from an image ($\mathcal{O}( max( m, n ) )$)...
+            \item Der. wrt KP \& positions
         \end{itemize}
     
         \vfill
-        Space functions:
+        Geometry
         \begin{itemize}
-            \item on polyhedra,
-            \item from an image $\mathcal{O}( max( m, n ) )$...
+            \item Periodicity (affine trans.), etc...
         \end{itemize}
-        \end{minipage}
+    \end{minipage}
     \begin{minipage}[c][0.8\textheight][c]{0.55\textwidth}
         \begin{scriptsize}
             \begin{lstlisting}[language=Python]
@@ -659,8 +682,8 @@ print( ot.der_centroids_and_integrals_wrt_
 
     Optimizations
     \begin{itemize}
-        \item More SIMD optimizations for the 3D case !
         \item Better bounds for the Kantorovich potentials
+        \item More SIMD optimizations for the 3D case
         \item GPU
     \end{itemize}
 

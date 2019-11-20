@@ -39,9 +39,8 @@ void bench( std::vector<TF> xs, std::vector<TF> ys, std::vector<TF> zs, std::vec
     Cp::Box box{ { -1, -1, -1 }, { 1, 1, 1 } };
     std::uint64_t t0 = 0, t1 = 0, nb_reps = 128000;
     RDTSC_START( t0 );
-    for( std::size_t rep = 0; rep < nb_reps; ++rep ) {
+    for( std::size_t rep = 0; rep < nb_reps; ++rep )
         cp = box;
-    }
     RDTSC_FINAL( t1 );
     std::uint64_t overhead = t1 - t0;
 
@@ -85,7 +84,7 @@ int main() {
         xs.push_back( directions[ th ].x );
         ys.push_back( directions[ th ].y );
         zs.push_back( directions[ th ].z );
-        ps.push_back( 10.0 / ( 11 + n ) );
+        ps.push_back( 10.0 / ( 11 + n ) + ( n % 2 ) );
         ds.push_back( nullptr );
     }
 

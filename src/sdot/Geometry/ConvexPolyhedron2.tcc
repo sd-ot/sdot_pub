@@ -17,6 +17,7 @@
 //#include <math.h>
 
 #include "Internal/(convex_polyhedron_plane_cut_simd_switch.cpp).h"
+#include "Internal/Simplex.h"
 
 namespace sdot {
 
@@ -224,7 +225,7 @@ void ConvexPolyhedron2<Pc>::for_each_boundary_item( const std::function<void( co
     if ( nb_nodes() == 0 ) {
         if ( sphere_radius >= 0 ) {
             BoundaryItem item;
-            item.dirac = sphere_cut_id;
+            item.cut_id = sphere_cut_id;
             item.measure = 2 * pi( S<TF>() ) * sphere_radius;
             item.a0 = 1;
             item.a1 = 0;
@@ -235,7 +236,7 @@ void ConvexPolyhedron2<Pc>::for_each_boundary_item( const std::function<void( co
 
     for( size_t i1 = 0, i0 = nb_nodes() - 1; i1 < nb_nodes(); i0 = i1++ ) {
         BoundaryItem item;
-        item.dirac = node( i0 ).cut_id.get();
+        item.cut_id = node( i0 ).cut_id.get();
         item.points[ 0 ] = node( i0 ).pos();
         item.points[ 1 ] = node( i1 ).pos();
 
@@ -766,8 +767,8 @@ typename ConvexPolyhedron2<Pc>::TF ConvexPolyhedron2<Pc>::integral() const {
 }
 
 template<class Pc> template<class TL>
-void ConvexPolyhedron2<Pc>::BoundaryItem::add_to_simplex_list( TL &lst ) const {
-    lst.push_back( { points[ 0 ], points[ 1 ] } );
+void ConvexPolyhedron2<Pc>::BoundaryItem::foreach_simplex( const TL &f ) const {
+    f( Simplex<TF,2,1>{ points[ 0 ], points[ 1 ] } );
 }
 
 } // namespace sdot

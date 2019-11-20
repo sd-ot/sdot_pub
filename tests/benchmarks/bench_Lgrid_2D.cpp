@@ -11,8 +11,8 @@ using namespace sdot;
 // // nsmake cpp_flag -ffast-math
 // // nsmake cpp_flag -march=skylake
 
-// // nsmake cpp_flag -march=native
-//// nsmake cpp_flag -O2
+//// nsmake cpp_flag -march=native
+//// nsmake cpp_flag -O3
 //// nsmake lib_name z
 
 template<int _dim>
@@ -38,8 +38,8 @@ struct Pc {
     };
 };
 
-template<class Pc,int voronoi>
-void test( std::map<std::size_t,double> &nb_cycle_per_cell, std::string filename, N<voronoi> ) {
+template<class Pc>
+void test( std::map<std::size_t,double> &nb_cycle_per_cell, std::string filename ) {
     constexpr int dim = Pc::dim;
     using Grid = LGrid<Pc>;
 
@@ -63,18 +63,18 @@ void test( std::map<std::size_t,double> &nb_cycle_per_cell, std::string filename
 
     // get timings
     double best_dt_sum = 1e6, smurf = 0;
-    for( std::size_t nb_diracs_per_cell = 23; nb_diracs_per_cell <= 43; nb_diracs_per_cell += 1 ) {
+    for( std::size_t nb_diracs_per_cell = 25; nb_diracs_per_cell <= 25; nb_diracs_per_cell += 1 ) {
         // constexpr int flags = Grid::homogeneous_weights * voronoi;
         // RaiiTime re("total");
 
-        std::uint64_t t0 = 0, t1 = 0, nb_reps = 1;
+        std::uint64_t t0 = 0, t1 = 0, nb_reps = 10;
         RDTSC_START( t0 );
         for( std::size_t rep = 0; rep < nb_reps; ++rep ) {
             Grid grid( nb_diracs_per_cell );
             grid.construct( diracs.data(), nb_diracs );
 
             std::vector<std::size_t> nb_cuts( 16 * thread_pool.nb_threads(), 0 );
-            typename CP::Box box{ { 0, 0 }, { 1, 1 } };
+            typename CP::Box box{ TF( 0 ), TF( 1 ) };
             grid.for_each_laguerre_cell( [&]( auto &cp, auto &/*dirac*/, int num_thread ) {
                 nb_cuts[ 16 * num_thread ] += cp.nb_nodes();
             }, box );
@@ -109,15 +109,26 @@ int main() {
     std::map<std::size_t,double> nb_cycle_per_cell;
 
     const char *filenames[] = {
-        "/data/sdot/uniform_100000_2D_solved.npy",
-        "/data/sdot/uniform_200000_2D_solved.npy",
-        "/data/sdot/uniform_400000_2D_solved.npy",
-        "/data/sdot/uniform_800000_2D_solved.npy",
-        "/data/sdot/uniform_1600000_2D_solved.npy",
+        "/data/sdot/uniform_12500_3D_solved.npy",
+        "/data/sdot/uniform_25000_3D_solved.npy",
+        "/data/sdot/uniform_50000_3D_solved.npy",
+        "/data/sdot/uniform_100000_3D_solved.npy",
+        "/data/sdot/uniform_200000_3D_solved.npy",
     };
 
     for( const char *filename : filenames )
-        test<Pc<2>>( nb_cycle_per_cell, filename, N<true>() );
+        test<Pc<3>>( nb_cycle_per_cell, filename );
+
+    //    const char *filenames[] = {
+    //        "/data/sdot/uniform_100000_2D_solved.npy",
+    //        "/data/sdot/uniform_200000_2D_solved.npy",
+    //        "/data/sdot/uniform_400000_2D_solved.npy",
+    //        "/data/sdot/uniform_800000_2D_solved.npy",
+    //        "/data/sdot/uniform_1600000_2D_solved.npy",
+    //    };
+
+    //    for( const char *filename : filenames )
+    //        test<Pc<2>>( nb_cycle_per_cell, filename, N<true>() );
 
     std::cout << "    \\addplot coordinates {\n";
     for( auto p : nb_cycle_per_cell )

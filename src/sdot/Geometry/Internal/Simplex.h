@@ -13,6 +13,16 @@ struct Simplex;
 
 
 template<class TF>
+struct Simplex<TF,2,1> {
+    using Pt = Point2<TF>;
+
+    TF    mass        () const { return norm_2( pts[ 1 ] - pts[ 0 ] ); }
+    Pt    random_point( const std::function<TF()> &rand_func ) const { TF u = rand_func(); return ( TF( 1 ) - u ) * pts[ 0 ] + u * pts[ 1 ]; }
+
+    Pt    pts[ 2 ];
+};
+
+template<class TF>
 struct Simplex<TF,3,2> {
     using Pt = Point3<TF>;
 

@@ -136,5 +136,5 @@ struct Pc {
 
 int main() {
     for( std::size_t nb_diracs = 1e6; nb_diracs < 1e9; nb_diracs = nb_diracs * 16 / 10 )
-        generate<Pc<3>>( nb_diracs );
+        generate<Pc<2>>( nb_diracs );
 }
