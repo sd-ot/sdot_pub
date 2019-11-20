@@ -31,6 +31,9 @@
   \end{frame} 
 }
 
+% refaire les speedup avec du non vide (pour le SIMD)
+
+
 \begin{document}
 
 \begin{frame}
@@ -55,7 +58,8 @@
         Optimal way to transport a density to a set of diracs (equal mass) ? 
         
         \vfill
-        Quadratic cost (euclidian distance) $\Rightarrow$ \textit{attributions} are defined by power diagrams !
+        Quadratic cost (euclidian distance) $\Rightarrow$ \textit{attributions} are 
+            defined by power diagrams.
         
         \vfill
         $x \in$ cell $i$ if $\forall j \neq i$,
@@ -116,23 +120,20 @@
 \section{Cell cuts}
 
 \begin{frame}
-    \frametitle{A word on test cases}
+    \frametitle{Test cases}
 
-    Distributions
+    Random distributions
     \begin{itemize}
         \item uniform in $[0,1]^{dim}$,
-        \item uniform in the faces of a Voronoï diagram with a fixed number of points (20),
+        \item uniform in the faces of a 20 points Voronoï diagram.
     \end{itemize}
 
+    \vfill
     \begin{center}
         \input{img/voro_distrib.tex}
         \kern 1cm
         \includegraphics[width=0.26\textwidth]{img/voro_distrib_3d.png}
     \end{center}
-
-
-    \vfill
-    Focus on the time to construct the cells.
 \end{frame}
 
 \begin{frame}
@@ -265,7 +266,7 @@ case 1017: { // size=3 outside=...00000000000001 mod=[ 0, 1 ],1,2,[ 0, 2 ]
 \end{frame}
 
 \begin{frame}[fragile]
-    \frametitle{Structures for 3D cells, SIMD case (simplified)}
+    \frametitle{Structures for 3D cells, compact blocks (simplified)}
 
     \begin{footnotesize}
     \begin{lstlisting} 
@@ -293,20 +294,20 @@ struct Cell {
     \end{footnotesize}
 \end{frame}
 
-\begin{frame}
-    \frametitle{Cut procedure, SIMD case}
+% \begin{frame}
+%     \frametitle{Cut procedure, SIMD case}
 
-    \begin{itemize}
-        \item Batch eval of the distances node / plane
-        \item For each outside node, for each not yet traversed connected face
-        \item \ \kern 2mm Add/retrieve node for each in/out edge, assign to edge number 0/1
-        \item \ \kern 2mm Remove outside faces
-        \item Create a new face, edge number 2
-    \end{itemize}
-\end{frame}
+%     \begin{itemize}
+%         \item Batch eval of the distances node / plane
+%         \item For each outside node, for each not yet traversed connected face
+%         \item \ \kern 2mm Add/retrieve node for each in/out edge, assign to edge number 0/1
+%         \item \ \kern 2mm Remove outside faces
+%         \item Create a new face, edge number 2
+%     \end{itemize}
+% \end{frame}
 
 \begin{frame}[fragile]
-    \frametitle{Structures for 3D cells, scalar case (simplified)}
+    \frametitle{Structures for 3D cells, pools and linked lists (simplified)}
 
 \begin{footnotesize}
 \begin{lstlisting} 
@@ -316,7 +317,7 @@ struct Face {
     Edge  *edges;    
 };
 struct Node {
-    Edge *edge;
+    Edge *edge; // first edge of the linked list
     Point pos;
 };
 struct Edge {
@@ -325,10 +326,10 @@ struct Edge {
     Face *face;
 };
 
-PoolAc<Face> faces;
-PoolAc<Hole> holes;
-PoolAc<Node> nodes;
-Pool  <Edge> edges;
+PoolAc<Face> faces; // Pool with a foreach
+PoolAc<Hole> holes; // for sphere cuts
+PoolAc<Node> nodes; // => outside node found using max(dot(.,N))
+Pool  <Edge> edges; // no need for an "active" list 
 \end{lstlisting}
 \end{footnotesize}
 \end{frame}
@@ -435,8 +436,8 @@ Pool  <Edge> edges;
             \bigskip
             \item Uses a fraction of the memory
 
-            \bigskip
-            \item (maybe not a fair test)
+            \vfill
+            \item Surely not a fair test
         \end{itemize}
     \end{minipage}
 \end{frame}
@@ -495,9 +496,6 @@ Pool  <Edge> edges;
             \item \ \kern 2mm if potential cut, go inside,
             \item \ \kern 2mm and place sub-cells in the heap.
         \end{itemize}
-
-        \vfill
-        ($\mathcal{O}( n \log{} n )$ ops but $\mathcal{O}( n )$ RAM reads)
     \end{minipage}
     \kern 0.04\textwidth
     \begin{minipage}[c][0.7\textheight][c]{0.5\textwidth}
@@ -515,6 +513,7 @@ Pool  <Edge> edges;
     Remarks:
     \begin{itemize}
         \item closed forms for degree 2 are easy to obtain but come with a high computation cost.
+        \item $\mathcal{O}( n \log{} n )$ ops but $\mathcal{O}( n )$ RAM reads
         \item optimal $\#$ dirac per box $\approx$ 30.
     \end{itemize}
 \end{frame}
@@ -559,30 +558,55 @@ Pool  <Edge> edges;
 % ---------------------------------------------------------------------------------------
 \section{Product placement}
 
-\begin{frame}
+\begin{frame}[fragile]
     \frametitle{SDOT, PySDOT}
 
-    Packaged in a library, with examples
-    \begin{itemize}
-        \item github, pip, conda (precompiled)
-        \item pythonic bindings
-    \end{itemize}
+    \begin{minipage}[c][0.8\textheight][c]{0.44\textwidth}
+        Packaged in a library, with examples
+        \begin{itemize}
+            \item github, pip, conda (precompiled)
+            \item pythonic bindings
+        \end{itemize}
+    
+        \vfill
+        Radial functions:
+        \begin{itemize}
+            \item $1$,
+            \item $|x|^2$,
+            \item $|x| < r$,
+            \item $e^{-x^2 / \tau}$, ...
+        \end{itemize}
+    
+        \vfill
+        Space functions:
+        \begin{itemize}
+            \item on polyhedra,
+            \item from an image $\mathcal{O}( max( m, n ) )$...
+        \end{itemize}
+        \end{minipage}
+    \begin{minipage}[c][0.8\textheight][c]{0.55\textwidth}
+        \begin{scriptsize}
+            \begin{lstlisting}[language=Python]
+from pysdot.domain_types import ScaledImage
+from pysdot import OptimalTransport
 
-    \vfill
-    Radial functions:
-    \begin{itemize}
-        \item $1$,
-        \item $|x|^2$,
-        \item $|x| < r$,
-        \item $e^{-x^2 / \tau}$, ...
-    \end{itemize}
+ot = OptimalTransport(
+    positions = np.rand.random( 100, 2 ),
+    domain = ScaledImage( [0, 0], [1, 1], ... )
+    radial_function = ...
+)
 
-    \vfill
-    Space functions:
-    \begin{itemize}
-        \item on polyhedra,
-        \item from an image (correct algorithmic complexity), ...
-    \end{itemize}
+ot.adjust_weights()
+
+print( ot.get_centroids() )
+print( ot.second_order_moments() )
+print( ot.img_integrals( [ 100, 100 ] ) )
+print( ot.der_centroids_and_integrals_wrt_
+          weight_and_positions() )
+...
+            \end{lstlisting}
+        \end{scriptsize}
+    \end{minipage}
 \end{frame}
 
 \begin{frame}

@@ -117,17 +117,30 @@ void LGrid<Pc>::get_grid_dims_and_dirac_ptrs( const std::function<void(const Cb 
 }
 
 template<class Pc>
-void LGrid<Pc>::compute_sst_limits( const std::function<void(const Cb &cb)> &/*f*/ ) {
+void LGrid<Pc>::compute_sst_limits( const std::function<void(const Cb &cb)> &f ) {
+    using std::pow;
+
     if ( nb_diracs_tot <= max_diracs_per_sst ) {
         sst_limits = { SstLimits{ TZ( 0 ), TZ( 1 ) << dim * nb_bits_per_axis, nb_diracs_tot } };
         return;
     }
 
     // => get the subdivisions
-    P( nb_diracs_tot, max_diracs_per_sst );
+    std::vector<TI> nb_items( 1e2 );
+    f( [&]( const Dirac *diracs, TI nb_diracs, bool /*ptrs_survive_the_call*/ ) {
+        for( std::size_t num_dirac = 0; num_dirac < nb_diracs; ++num_dirac ) {
+            TZ zcoords = zcoords_for<TZ,nb_bits_per_axis>( diracs[ num_dirac ].pos, min_point, inv_step_length );
+            TZ ind = double( zcoords ) * nb_items.size() / ( TZ( 1 ) << dim * nb_bits_per_axis );
+            if ( ind >= nb_items.size() ) ind = nb_items.size() - 1;
+            ++nb_items[ ind ];
+        }
+    } );
+
+    //
+
+    P( nb_items );
     TODO;
 }
-
 
 template<class Pc>
 void LGrid<Pc>::make_the_cells( const std::function<void(const Cb &cb)> &/*f*/ ) {
