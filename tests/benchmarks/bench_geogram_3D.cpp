@@ -193,6 +193,8 @@ int main( int /*argc*/, char** /*argv*/ ) {
         std::uint64_t t0_grid = 0, t1_grid = 0, nb_reps = 50;
         SaveRVDCells callback;
 
+
+        auto t0 = sdot::time();
         RDTSC_START( t0_grid );
         for( std::size_t rep = 0; rep < nb_reps; ++rep ) {
             Mesh surface;
@@ -223,6 +225,8 @@ int main( int /*argc*/, char** /*argv*/ ) {
         }
 
         RDTSC_FINAL( t1_grid );
+        auto t1 = sdot::time();
+        P( t1 - t0, t1_grid - t0_grid );
 
         std::cout << "       ( " << nb_diracs << ", " << ( t1_grid - t0_grid ) / ( nb_diracs * nb_reps ) << " ) % " << callback.s << "\n";
     }

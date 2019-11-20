@@ -42,7 +42,7 @@ public:
     void                           construct                   ( const std::function<void( const Cb &cb )> &f ); ///< generic case: diracs come by chunk (that fit in memory or not)
     void                           construct                   ( const Dirac *diracs, TI nb_diracs ); ///< simple case: one gives all the diracs at once
 
-    void                           update_grid_wrt_weights     (); ///< update grid info after modification of diracs->weights (not necessary if mod_weight is specified in traversal_flags)
+    void                           update_after_mod_weights     (); ///< update grid info after modification of diracs->weights (not necessary if done in a traversal where mod_weight was specified in the flags)
 
     // traversal/information
     template<class SLC> int        for_each_laguerre_cell      ( const std::function<void( CP &lc, Dirac &dirac, int num_thread )> &f, const SLC &starting_lc, TraversalFlags traversal_flags = {} ); ///< version with num_thread
@@ -65,65 +65,49 @@ private:
     static constexpr int           sizeof_zcoords              = ( dim * nb_bits_per_axis + 7 ) / 8; ///< nb meaningful bytes in z-coordinates
     using                          CellBounds                  = typename CellBoundsTraits<Pc>::type;
     using                          LocalSolver                 = typename CellBounds::LocalSolver;
-    struct                         DiracPn                     { const Dirac *diracs; TI nb_diracs; };
     using                          TZ                          = std::uint64_t; ///< zcoords
 
     enum {                         homogeneous_weights         = 1 };
     enum {                         ball_cut                    = 2 };
 
-    struct                         SstLimits                   { TZ beg_zcoords, end_zcoords; TI nb_diracs; int level; };
+    struct                         TmpLevelInfo                { void clr() { num_sub_cell = 0; nb_sub_cells = 0; ls.clr(); } BaseCell *sub_cells[ 1 << dim ]; TI  num_sub_cell, nb_sub_cells; LocalSolver ls; };
     struct                         CpAndNum                    { SuperCell *cell; TI num; };
     struct                         Msi                         { bool operator<( const Msi &that ) const { return dist > that.dist; } Pt center; BaseCell *cell; TF dist; };
 
     void                           get_grid_dims_and_dirac_ptrs( const std::function<void(const Cb &cb)> &f );
     void                           for_each_final_cell_mono_thr( const std::function<void( FinalCell &cell, CpAndNum *path, TI path_len )> &f, TI beg_num_cell, TI end_num_cell );
-    void                           update_grid_wrt_weights_rec ( BaseCell *cell, LocalSolver *local_solvers, int level );
-    void                           make_znodes_with_1ppwn_ssst ( const SstLimits &sst, const Dirac *diracs, TI nb_diracs ); ///< several sst case
-    void                           make_znodes_with_1ppwn_1sst ( const Dirac *diracs, TI nb_diracs );                          ///< only one sst case (=> no need to make a test)
+    void                           update_after_mod_weights_rec( BaseCell *cell, LocalSolver *local_solvers, int level );
     void                           update_cell_bounds_phase_1  ( BaseCell *cell, BaseCell **path, int level );
     void                           fill_grid_using_zcoords     ( const Dirac *diracs, TI nb_diracs );
     void                           compute_sst_limits          ( const std::function<void(const Cb &cb)> &f );
-    template<class Ps> void        make_the_cells_for          ( const SstLimits &sst, Ps ps );
+    void                           make_zind_limits            ( std::vector<TZ> &zind_limits, const std::function<void(const LGrid::Cb &)> &f );
     void                           write_to_stream             ( std::ostream &os, BaseCell *cell, std::string sp ) const;
-    TI                            *znodes_seconds              ( const DiracPn &              ) { return znodes_inds.data(); }
-    std::pair<TI,TI>              *znodes_seconds              ( const std::vector<DiracPn> & ) { return znodes_pnds.data(); }
-    Dirac                         *znodes_seconds              ( int                          ) { return znodes_vals.data(); }
     template<int flags> bool       can_be_evicted              ( const CP &lc, Pt &c0, TF w0, const CellBoundsP0<Pc> &bounds, N<flags> ) const;
     template<int flags> bool       can_be_evicted              ( const CP &lc, Pt &c0, TF w0, const CellBoundsPpos<Pc> &bounds, N<flags> ) const;
     void                           make_the_cells              ( const std::function<void(const Cb &cb)> &f );
     template<int f,class SLC> void make_lcs_from               ( const std::function<void( CP &, Dirac &dirac, int num_thread )> &cb, std::priority_queue<Msi> &base_queue, std::priority_queue<Msi> &queue, CP &lc, FinalCell *cell, const CpAndNum *path, TI path_len, int num_thread, N<f>, const SLC &starting_lc ) const;
-    void                           make_znodes                 ( TZ *zcoords, TI *indices, const std::function<void(const Cb &cb)> &f, const SstLimits &sst );
     void                           display_vtk                 ( VtkOutput &vtk_output, BaseCell *cell, DisplayFlags display_flags ) const;
-    const Dirac                   &get_dirac                   ( const DiracPn              &p , TI               ind  ) const { return p.diracs[ ind ]; }
-    const Dirac                   &get_dirac                   ( const std::vector<DiracPn> &vp, std::pair<TI,TI> inds ) const { const DiracPn &p = vp[ inds.first ]; return p.diracs[ inds.second ]; }
-    const Dirac                   &get_dirac                   ( int                           , const Dirac     &d    ) const { return d; }
+    void                           push_cell                   ( TI l, TZ &prev_z, TI level, TmpLevelInfo *level_info, TI &index );
 
     template<int a_n0,int f> void  cut_lc                      ( CP &lc, Point2<TF> c0, TF w0, FinalCell *dell, N<a_n0>, TI n0, N<f> ) const;
     template<int a_n0,int f> void  cut_lc                      ( CP &lc, Point3<TF> c0, TF w0, FinalCell *dell, N<a_n0>, TI n0, N<f> ) const;
 
-
     // buffers
     std::vector<TZ>                znodes_keys;                ///< tmp znodes
-    std::vector<TI>                znodes_inds;                ///< tmp indices for each znode ( ex: ppwns[ 0 ].positions[ ind.second ] to get positions )
-    std::vector<std::pair<TI,TI>>  znodes_pnds;                ///< tmp indice pairs for each znode ( ex: ppwns[ ind.first ].positions[ ind.second ] to get positions )
-    std::vector<Dirac>             znodes_vals;                ///< tmp positions and weights for each znode (for the case where we don't have all the positions)
-    BumpPointerPool                mem_pool;                   ///< store the cells
+    std::vector<const Dirac *>     znodes_ptrs;                ///< tmp indices for each znode ( ex: ppwns[ 0 ].positions[ ind.second ] to get positions )
+    BumpPointerPool                mem_pool;                   ///< to store the cells
     std::vector<std::size_t>       rs_tmps;                    ///< for the radix sort
 
-    // result of cb calls
-    bool                           use_dirac_pns;              ///<
-    std::vector<DiracPn>           dirac_pns;                  ///< pointers to the dirac lists given by construct (if ptrs_survive_the_call)
-
-    // sub structures
+    //
+    bool                           use_diracs_from_cb;
+    const Dirac                   *diracs_from_cb;
+    TI                             nb_diracs_tot;
 
     // grid
     TF                             inv_step_length;
     TI                             nb_final_cells;
-    TI                             nb_diracs_tot;
-    TI                             nb_cb_calls;
     TF                             step_length;
     TF                             grid_length;
-    std::vector<SstLimits>         sst_limits;                 ///<
     Pt                             min_point;
     Pt                             max_point;
     BaseCell                      *root_cell;
