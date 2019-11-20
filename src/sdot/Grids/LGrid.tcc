@@ -168,25 +168,30 @@ void LGrid<Pc>::make_the_cells( const std::function<void(const Cb &cb)> &f ) {
     mem_pool.clear();
 
     //
+    std::vector<TI> zind_indices;
     std::vector<TZ> zind_limits;
-    std::pair<TZ *,Dirac **> sorted_znodes;
+    Dirac **zn_ptrs;
+    TZ *zn_keys;
     if ( use_diracs_from_cb ) {
         // we don't need to look further
         zind_limits = { TZ( 1 ) << dim * nb_bits_per_axis };
+        zind_indices = { nb_diracs_tot };
 
         // sorting w.r.t. zcoords
         znodes_keys.reserve( 2 * nb_diracs_tot );
         znodes_ptrs.reserve( 2 * nb_diracs_tot );
 
-        sorted_znodes = radix_sort(
+        std::pair<TZ *,Dirac **> sorted_znodes = radix_sort(
             std::make_pair( znodes_keys.data() + nb_diracs_tot, znodes_ptrs.data() + nb_diracs_tot ),
             std::make_pair( znodes_keys.data(), znodes_ptrs.data() ),
             nb_diracs_tot,
             N<dim*nb_bits_per_axis>(),
             rs_tmps
         );
+        zn_ptrs = sorted_znodes.first;
+        zn_keys = sorted_znodes.second;
     } else {
-        make_zind_limits( zind_limits, f );
+        make_zind_limits( zind_indices, zind_limits, f );
     }
 
 
@@ -194,6 +199,9 @@ void LGrid<Pc>::make_the_cells( const std::function<void(const Cb &cb)> &f ) {
     int level = 0;
     TZ prev_z = 0, num_in_zind_limits = 0;
     for( TI index = max_diracs_per_cell; ; ) {
+        // check if we're able to read the diracs
+
+
         // last cell(s)
         if ( index >= nb_diracs_tot ) {
             while ( prev_z < ( TZ( 1 ) << dim * nb_bits_per_axis ) ) {
@@ -211,7 +219,7 @@ void LGrid<Pc>::make_the_cells( const std::function<void(const Cb &cb)> &f ) {
         // level too high ?
         for( ; ; --level ) {
             TZ m = TZ( 1 ) << dim * ( level + 1 );
-            if ( sorted_znodes.first[ index ] >= prev_z + m )
+            if ( zn_keys[ index ] >= prev_z + m )
                 break;
             if ( level == 0 )
                 break;
@@ -220,7 +228,7 @@ void LGrid<Pc>::make_the_cells( const std::function<void(const Cb &cb)> &f ) {
         // look for a level before the one that will take the $max_diracs_per_cell next points or that will lead to an illegal cell
         for( ; ; ++level ) {
             TZ m = TZ( 1 ) << dim * ( level + 1 );
-            if ( sorted_znodes.first[ index ] < prev_z + m || ( prev_z & ( m - 1 ) ) ) {
+            if ( zn_keys[ index ] < prev_z + m || ( prev_z & ( m - 1 ) ) ) {
                 push_cell( index, prev_z, level, level_info, index );
                 break;
             }
@@ -229,17 +237,17 @@ void LGrid<Pc>::make_the_cells( const std::function<void(const Cb &cb)> &f ) {
 }
 
 template<class Pc>
-void LGrid<Pc>::push_cell( TI l, TZ &prev_z, TI level, TmpLevelInfo *level_info, TI &index ) {
+void LGrid<Pc>::push_cell( TI l, TZ &prev_z, TI level, TmpLevelInfo *level_info, TI &index, Dirac **zn_ptrs, TZ *zn_keys ) {
     TZ old_prev_z = prev_z;
     prev_z += TZ( 1 ) << dim * level;
 
     // beg/end of cells to push (indices in sorted_znodes)
     TI beg_ind_zn = l, len_ind_nz = 0;
     for( TI n = index - max_diracs_per_cell; n < l; ++n ) {
-        if ( sorted_znodes.first[ n ] >= old_prev_z ) {
+        if ( zn_keys[ n ] >= old_prev_z ) {
             beg_ind_zn = n;
             for( ; ; ++n  ) {
-                if ( n == l || sorted_znodes.first[ n ] >= prev_z ) {
+                if ( n == l || zn_keys[ n ] >= prev_z ) {
                     len_ind_nz = n - beg_ind_zn;
                     break;
                 }
@@ -262,7 +270,7 @@ void LGrid<Pc>::push_cell( TI l, TZ &prev_z, TI level, TmpLevelInfo *level_info,
         LocalSolver ls;
         ls.clr();
         for( TI i = 0; i < len_ind_nz; ++i ) {
-            const Dirac &dirac = get_dirac( ps, sorted_znodes.second[ beg_ind_zn + i ] );
+            const Dirac &dirac = *zn_ptrs[ beg_ind_zn + i ];
             fcell->diracs[ i ] = dirac;
 
             ls.push( dirac.pos, dirac.weight );
@@ -321,7 +329,8 @@ void LGrid<Pc>::push_cell( TI l, TZ &prev_z, TI level, TmpLevelInfo *level_info,
 }
 
 template<class Pc>
-void LGrid<Pc>::make_zind_limits( std::vector<TZ> &zind_limits, const std::function<void(const Cb &)> &f ) {
+void LGrid<Pc>::make_zind_limits( std::vector<TI> &zind_indices, std::vector<TZ> &zind_limits, const std::function<void(const Cb &)> &/*f*/ ) {
+    zind_indices = { 0 };
     zind_limits = { 0 };
     TODO;
 }
