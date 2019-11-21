@@ -87,7 +87,7 @@ private:
     void                           make_the_cells              ( const std::function<void(const Cb &cb)> &f );
     template<int f,class SLC> void make_lcs_from               ( const std::function<void( CP &, Dirac &dirac, int num_thread )> &cb, std::priority_queue<Msi> &base_queue, std::priority_queue<Msi> &queue, CP &lc, FinalCell *cell, const CpAndNum *path, TI path_len, int num_thread, N<f>, const SLC &starting_lc ) const;
     void                           display_vtk                 ( VtkOutput &vtk_output, BaseCell *cell, DisplayFlags display_flags ) const;
-    void                           push_cell                   ( TI l, TZ &prev_z, TI level, TmpLevelInfo *level_info, TI &index, Dirac **zn_ptrs, TZ *zn_keys );
+    void                           push_cell                   ( TI l, TZ &prev_z, TI level, TmpLevelInfo *level_info, TI &index, const Dirac **zn_ptrs, TZ *zn_keys );
 
     template<int a_n0,int f> void  cut_lc                      ( CP &lc, Point2<TF> c0, TF w0, FinalCell *dell, N<a_n0>, TI n0, N<f> ) const;
     template<int a_n0,int f> void  cut_lc                      ( CP &lc, Point3<TF> c0, TF w0, FinalCell *dell, N<a_n0>, TI n0, N<f> ) const;
@@ -95,6 +95,7 @@ private:
     // buffers
     std::vector<TZ>                znodes_keys;                ///< tmp znodes
     std::vector<const Dirac *>     znodes_ptrs;                ///< tmp indices for each znode ( ex: ppwns[ 0 ].positions[ ind.second ] to get positions )
+    std::vector<Dirac>             tmp_diracs;                 ///<
     BumpPointerPool                mem_pool;                   ///< to store the cells
     std::vector<std::size_t>       rs_tmps;                    ///< for the radix sort
 

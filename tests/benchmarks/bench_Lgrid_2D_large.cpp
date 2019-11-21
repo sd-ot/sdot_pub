@@ -27,6 +27,7 @@ struct Pc {
     struct Dirac {
         static std::vector<std::string> names() { return { "weight", "index", "dxn" }; }
         std::vector<TF> values() const { return { weight, TF( index ), dxn }; }
+        void write_to_stream( std::ostream &os ) const { os << index; }
 
         //
         TF weight;
@@ -50,24 +51,31 @@ void test() {
     using std::min;
 
     // load
-    Grid grid( 25 );
+    Grid grid( 5 );
     TI nb_diracs = 1e2;
-    grid.max_diracs_per_sst = 1e1;
+    grid.max_diracs_per_sst = 10;
     grid.construct( [&]( const std::function<void( const Dirac *diracs, TI nb_diracs, bool ptrs_survive_the_call )> &cb ) {
-        srand( 0 );
-        std::vector<Dirac> loc_diracs( 1e3 );
-        for( TI n = 0; n < nb_diracs; ) {
-            TI r = min( nb_diracs, n + loc_diracs.size() ) - n;
-            for( TI o = 0; o < r; ++o, ++n ) {
-                Pt p;
-                for( std::size_t d = 0; d < dim; ++d )
-                    p[ d ] = 1.0 * rand() / RAND_MAX;
-                loc_diracs[ o ] = { 0.0, n, p, 0.0 };
-            }
+        //        srand( 0 );
+        //        std::vector<Dirac> loc_diracs( 1e3 );
+        //        for( TI n = 0; n < nb_diracs; ) {
+        //            TI r = min( nb_diracs, n + loc_diracs.size() ) - n;
+        //            for( TI o = 0; o < r; ++o, ++n ) {
+        //                Pt p;
+        //                for( std::size_t d = 0; d < dim; ++d )
+        //                    p[ d ] = 1.0 * rand() / RAND_MAX;
+        //                loc_diracs[ o ] = { 0.0, n, p, 0.0 };
+        //            }
 
-            cb( loc_diracs.data(), r, false );
-        }
+        //            cb( loc_diracs.data(), r, false );
+        //        }
+        std::vector<Dirac> loc_diracs( 100 );
+        for( std::size_t r = 0, o = 0; r < 10; ++r )
+            for( std::size_t c = 0; c < 10; ++c, ++o )
+                loc_diracs[ o ] = { 0.0, o, { TF( r ), TF( c ) }, 0.0 };
+        cb( loc_diracs.data(), 100, false );
     } );
+
+    P( grid );
 
 //    // get timings
 //    double best_dt_sum = 1e6, smurf = 0;

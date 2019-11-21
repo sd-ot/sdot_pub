@@ -13,7 +13,6 @@ template<class Pc>
 LGrid<Pc>::LGrid( std::size_t max_diracs_per_cell ) : max_diracs_per_cell( max_diracs_per_cell ) {
     max_diracs_per_sst = std::numeric_limits<TI>::max();
     nb_final_cells     = 0;
-    nb_cb_calls        = 0;
     root_cell          = nullptr;
 }
 
@@ -170,7 +169,7 @@ void LGrid<Pc>::make_the_cells( const std::function<void(const Cb &cb)> &f ) {
     //
     std::vector<TI> zind_indices;
     std::vector<TZ> zind_limits;
-    Dirac **zn_ptrs;
+    const Dirac **zn_ptrs;
     TZ *zn_keys;
     if ( use_diracs_from_cb ) {
         // we don't need to look further
@@ -181,26 +180,85 @@ void LGrid<Pc>::make_the_cells( const std::function<void(const Cb &cb)> &f ) {
         znodes_keys.reserve( 2 * nb_diracs_tot );
         znodes_ptrs.reserve( 2 * nb_diracs_tot );
 
-        std::pair<TZ *,Dirac **> sorted_znodes = radix_sort(
+        //    TI nb_threads = thread_pool.nb_threads(), nb_jobs = nb_threads, offset = 0;
+        //    thread_pool.execute( nb_jobs, [&]( TI num_job, int /*num_thread*/ ) {
+        //        TI beg = ( num_job + 0 ) * nb_diracs / nb_jobs;
+        //        TI end = ( num_job + 1 ) * nb_diracs / nb_jobs;
+        //        for( TI num_dirac = beg; num_dirac < end; ++num_dirac ) {
+        //            TZ zcoords = zcoords_for<TZ,nb_bits_per_axis>( diracs[ num_dirac ].pos, min_point, inv_step_length );
+        //            znodes_keys[ num_dirac ] = zcoords;
+        //            znodes_inds[ num_dirac ] = num_dirac;
+        //        }
+        //    } );
+        std::pair<TZ *,const Dirac **> sorted_znodes = radix_sort(
             std::make_pair( znodes_keys.data() + nb_diracs_tot, znodes_ptrs.data() + nb_diracs_tot ),
             std::make_pair( znodes_keys.data(), znodes_ptrs.data() ),
             nb_diracs_tot,
             N<dim*nb_bits_per_axis>(),
             rs_tmps
         );
-        zn_ptrs = sorted_znodes.first;
-        zn_keys = sorted_znodes.second;
+        zn_keys = sorted_znodes.first;
+        zn_ptrs = sorted_znodes.second;
     } else {
         make_zind_limits( zind_indices, zind_limits, f );
+        P( zind_indices, nb_diracs_tot );
     }
 
+    TZ num_in_zind_limits = 0;
+    auto check_possible_read = [&]( TI index ) -> void {
+        if ( index < zind_indices[ num_in_zind_limits ] )
+            return;
+
+        // else, get the data
+        TI beg_i = index - max_diracs_per_cell; /// TODO: take care of cases where several dirac have the same zinds
+
+        TZ beg_z = beg_i ? znodes_keys[ beg_i ] : 0;
+        TZ end_z = zind_limits[ ++num_in_zind_limits ];
+        TZ bo_ld = max_diracs_per_cell +
+                   zind_indices[ num_in_zind_limits ] -
+                   zind_indices[ num_in_zind_limits - 1 ];
+
+        znodes_keys.reserve( 2 * bo_ld );
+        znodes_ptrs.reserve( 2 * bo_ld );
+        tmp_diracs.reserve( bo_ld );
+        tmp_diracs.clear();
+
+        P( "read", index, beg_i );
+
+        TZ nb_ld = 0;
+        f( [&]( const Dirac *diracs, TI nb_diracs, bool /*ptrs_survive_the_call*/ ) {
+            for( std::size_t num_dirac = 0; num_dirac < nb_diracs; ++num_dirac ) {
+                TZ zcoords = zcoords_for<TZ,nb_bits_per_axis>( diracs[ num_dirac ].pos, min_point, inv_step_length );
+                if ( zcoords >= beg_z && zcoords < end_z ) {
+                    tmp_diracs.push_back( diracs[ num_dirac ] );
+                    znodes_keys[ nb_ld ] = zcoords;
+                    znodes_ptrs[ nb_ld ] = tmp_diracs.data() + nb_ld;
+                    ++nb_ld;
+                }
+            }
+        } );
+
+        std::pair<TZ *,const Dirac **> sorted_znodes = radix_sort(
+            std::make_pair( znodes_keys.data() + nb_ld, znodes_ptrs.data() + nb_ld ),
+            std::make_pair( znodes_keys.data(), znodes_ptrs.data() ),
+            nb_ld,
+            N<dim*nb_bits_per_axis>(),
+            rs_tmps
+        );
+        zn_keys = sorted_znodes.first - beg_i;
+        zn_ptrs = sorted_znodes.second - beg_i;
+
+        for( std::size_t i = 0; i < nb_ld; ++i )
+            std::cout << " " << sorted_znodes.second[ i ]->index;
+        std::cout << "\n";
+    };
 
     // get the cells zcoords and indices (offsets in dpc_indices) + dpc_indices
     int level = 0;
-    TZ prev_z = 0, num_in_zind_limits = 0;
+    TZ prev_z = 0;
     for( TI index = max_diracs_per_cell; ; ) {
         // check if we're able to read the diracs
-
+        check_possible_read( index );
 
         // last cell(s)
         if ( index >= nb_diracs_tot ) {
@@ -208,7 +266,7 @@ void LGrid<Pc>::make_the_cells( const std::function<void(const Cb &cb)> &f ) {
                 for( ; ; ++level ) {
                     TZ m = TZ( 1 ) << dim * ( level + 1 );
                     if ( level == nb_bits_per_axis || prev_z & ( m - 1 ) ) {
-                        push_cell( nb_diracs_tot, prev_z, level, level_info, index );
+                        push_cell( nb_diracs_tot, prev_z, level, level_info, index, zn_ptrs, zn_keys );
                         break;
                     }
                 }
@@ -229,7 +287,7 @@ void LGrid<Pc>::make_the_cells( const std::function<void(const Cb &cb)> &f ) {
         for( ; ; ++level ) {
             TZ m = TZ( 1 ) << dim * ( level + 1 );
             if ( zn_keys[ index ] < prev_z + m || ( prev_z & ( m - 1 ) ) ) {
-                push_cell( index, prev_z, level, level_info, index );
+                push_cell( index, prev_z, level, level_info, index, zn_ptrs, zn_keys );
                 break;
             }
         }
@@ -237,7 +295,7 @@ void LGrid<Pc>::make_the_cells( const std::function<void(const Cb &cb)> &f ) {
 }
 
 template<class Pc>
-void LGrid<Pc>::push_cell( TI l, TZ &prev_z, TI level, TmpLevelInfo *level_info, TI &index, Dirac **zn_ptrs, TZ *zn_keys ) {
+void LGrid<Pc>::push_cell( TI l, TZ &prev_z, TI level, TmpLevelInfo *level_info, TI &index, const Dirac **zn_ptrs, TZ *zn_keys ) {
     TZ old_prev_z = prev_z;
     prev_z += TZ( 1 ) << dim * level;
 
@@ -329,10 +387,33 @@ void LGrid<Pc>::push_cell( TI l, TZ &prev_z, TI level, TmpLevelInfo *level_info,
 }
 
 template<class Pc>
-void LGrid<Pc>::make_zind_limits( std::vector<TI> &zind_indices, std::vector<TZ> &zind_limits, const std::function<void(const Cb &)> &/*f*/ ) {
+void LGrid<Pc>::make_zind_limits( std::vector<TI> &zind_indices, std::vector<TZ> &zind_limits, const std::function<void(const Cb &)> &f ) {
+    // => get the subdivisions
+    constexpr int nb_bits_items = 26, shift = dim * nb_bits_per_axis - nb_bits_items;
+    std::vector<TI> nb_items( TZ( 1 ) << nb_bits_items );
+    f( [&]( const Dirac *diracs, TI nb_diracs, bool /*ptrs_survive_the_call*/ ) {
+        for( std::size_t num_dirac = 0; num_dirac < nb_diracs; ++num_dirac ) {
+            TZ zcoords = zcoords_for<TZ,nb_bits_per_axis>( diracs[ num_dirac ].pos, min_point, inv_step_length );
+            TZ ind = zcoords >> shift;
+            ++nb_items[ ind ];
+        }
+    } );
+
+    //
     zind_indices = { 0 };
     zind_limits = { 0 };
-    TODO;
+    for( TZ n = 0, t = 0; n < nb_items.size(); ++n ) {
+        TI acc = 0;
+        for( ; n < nb_items.size(); ++n ) {
+            acc += nb_items[ n ];
+            if ( acc > max_diracs_per_sst )
+                break;
+        }
+
+        t += acc;
+        zind_indices.push_back( t );
+        zind_limits.push_back( TZ( n ) << shift );
+    }
 }
 
 
@@ -411,41 +492,41 @@ void LGrid<Pc>::cut_lc( CP &lc, Point2<TF> c0, TF w0, FinalCell *dell, N<avoid_n
     };
     Cut cut;
 
-//    #ifdef __AVX512F__
-//    TI n1 = 0, nb_cuts = dell->nb_diracs();
-//    for( ; n1 + 8 <= nb_cuts; n1 += 8 ) {
-//        __m512d cx = _mm512_set1_pd( c0.x );
-//        __m512d cy = _mm512_set1_pd( c0.y );
-//        __m512i i1 = _mm512_loadu_si512( dell->dirac_indices + n1 );
-//        __m512d vx = _mm512_sub_pd( _mm512_i64gather_pd( i1, positions[ 0 ], 8 ), cx );
-//        __m512d vy = _mm512_sub_pd( _mm512_i64gather_pd( i1, positions[ 1 ], 8 ), cy );
-//        __m512d v2 = _mm512_add_pd( _mm512_mul_pd( vx, vx ), _mm512_mul_pd( vy, vy ) );
-//        __m512d ps = _mm512_add_pd( _mm512_add_pd( _mm512_mul_pd( cx, vx ), _mm512_mul_pd( cy, vy ) ),
-//                                    _mm512_set1_pd( 0.5 ) * ( flags & homogeneous_weights ? v2 : _mm512_add_pd( v2, _mm512_set1_pd( w0 ) ) - _mm512_i64gather_pd( i1, weights, 8 ) ) );
-//        _mm512_store_pd( cut.dx + n1, vx );
-//        _mm512_store_pd( cut.dy + n1, vy );
-//        _mm512_store_pd( cut.ps + n1, ps );
-//        _mm512_store_epi64( cut.id + n1, i1 );
-//    }
-//    for( ; n1 < nb_cuts; ++n1 ) {
-//        TI i1 = dell->dirac_indices[ n1 ];
-//        Pt dc = pt( positions, i1 ) - c0;
-//        TF w1 = weights[ i1 ];
-//        cut.dx[ n1 ] = dc.x;
-//        cut.dy[ n1 ] = dc.y;
-//        cut.id[ n1 ] = i1;
-//        cut.ps[ n1 ] = dot( c0, dc ) + TF( 0.5 ) * ( flags & homogeneous_weights ? norm_2_p2( dc ) : norm_2_p2( dc ) + w0 - w1 );
-//    }
+    //    #ifdef __AVX512F__
+    //    TI n1 = 0, nb_cuts = dell->nb_diracs();
+    //    for( ; n1 + 8 <= nb_cuts; n1 += 8 ) {
+    //        __m512d cx = _mm512_set1_pd( c0.x );
+    //        __m512d cy = _mm512_set1_pd( c0.y );
+    //        __m512i i1 = _mm512_loadu_si512( dell->dirac_indices + n1 );
+    //        __m512d vx = _mm512_sub_pd( _mm512_i64gather_pd( i1, positions[ 0 ], 8 ), cx );
+    //        __m512d vy = _mm512_sub_pd( _mm512_i64gather_pd( i1, positions[ 1 ], 8 ), cy );
+    //        __m512d v2 = _mm512_add_pd( _mm512_mul_pd( vx, vx ), _mm512_mul_pd( vy, vy ) );
+    //        __m512d ps = _mm512_add_pd( _mm512_add_pd( _mm512_mul_pd( cx, vx ), _mm512_mul_pd( cy, vy ) ),
+    //                                    _mm512_set1_pd( 0.5 ) * ( flags & homogeneous_weights ? v2 : _mm512_add_pd( v2, _mm512_set1_pd( w0 ) ) - _mm512_i64gather_pd( i1, weights, 8 ) ) );
+    //        _mm512_store_pd( cut.dx + n1, vx );
+    //        _mm512_store_pd( cut.dy + n1, vy );
+    //        _mm512_store_pd( cut.ps + n1, ps );
+    //        _mm512_store_epi64( cut.id + n1, i1 );
+    //    }
+    //    for( ; n1 < nb_cuts; ++n1 ) {
+    //        TI i1 = dell->dirac_indices[ n1 ];
+    //        Pt dc = pt( positions, i1 ) - c0;
+    //        TF w1 = weights[ i1 ];
+    //        cut.dx[ n1 ] = dc.x;
+    //        cut.dy[ n1 ] = dc.y;
+    //        cut.id[ n1 ] = i1;
+    //        cut.ps[ n1 ] = dot( c0, dc ) + TF( 0.5 ) * ( flags & homogeneous_weights ? norm_2_p2( dc ) : norm_2_p2( dc ) + w0 - w1 );
+    //    }
 
-//    if ( avoid_n0 ) {
-//        --nb_cuts;
-//        cut.dx[ n0 ] = cut.dx[ nb_cuts ];
-//        cut.dy[ n0 ] = cut.dy[ nb_cuts ];
-//        cut.id[ n0 ] = cut.id[ nb_cuts ];
-//        cut.ps[ n0 ] = cut.ps[ nb_cuts ];
-//    }
+    //    if ( avoid_n0 ) {
+    //        --nb_cuts;
+    //        cut.dx[ n0 ] = cut.dx[ nb_cuts ];
+    //        cut.dy[ n0 ] = cut.dy[ nb_cuts ];
+    //        cut.id[ n0 ] = cut.id[ nb_cuts ];
+    //        cut.ps[ n0 ] = cut.ps[ nb_cuts ];
+    //    }
 
-//    #else
+    //    #else
     TI nb_cuts = 0;
     for( std::size_t n1 = 0; n1 < dell->nb_diracs(); ++n1 ) {
         if ( avoid_n0 && n1 == n0 )
@@ -459,7 +540,7 @@ void LGrid<Pc>::cut_lc( CP &lc, Point2<TF> c0, TF w0, FinalCell *dell, N<avoid_n
         cut.ps[ nb_cuts ] = TF( 0.5 ) * ( norm_2_p2( c1 ) - norm_2_p2( c0 ) - dw );
         ++nb_cuts;
     }
-//    #endif
+    //    #endif
 
     // do the cuts
     lc.plane_cut( { cut.dx, cut.dy }, cut.ps, cut.id, nb_cuts );
@@ -831,8 +912,8 @@ void LGrid<Pc>::write_to_stream( std::ostream &os, BaseCell *cell, std::string s
         return;
     }
 
-    cell->min_pos.write_to_stream( os << sp << "mip=" );
-    cell->max_pos.write_to_stream( os << " map=" );
+    // cell->min_pos.write_to_stream( os << sp << "mip=" );
+    // cell->max_pos.write_to_stream( os << " map=" );
     os << " e=" << cell->end_ind_in_fcells;
     if ( cell->super_cell() ) {
         const SuperCell *sc = static_cast<const SuperCell *>( cell );
@@ -843,6 +924,8 @@ void LGrid<Pc>::write_to_stream( std::ostream &os, BaseCell *cell, std::string s
     if ( cell->final_cell() ) {
         const FinalCell *sc = static_cast<const FinalCell *>( cell );
         os << " nb_diracs=" << sc->nb_diracs();
+        for( std::size_t i = 0; i < sc->nb_diracs(); ++i )
+            sc->diracs[ i ].write_to_stream( os << "\n    " );
     }
 }
 
