@@ -30,6 +30,7 @@ public:
     const Node *first_node     () const;
     TF          flat_area      () const;
     TF          mass           () const;
+    TI          nb_nodes           () const;
 
     Face       *prev_in_pool;  ///<
     Face       *next_in_pool;  ///<
@@ -100,6 +101,13 @@ typename ConvexPolyhedron3Face<Carac>::TF ConvexPolyhedron3Face<Carac>::mass() c
     if ( Carac::allow_ball_cut )
         TODO;
     return flat_area();
+}
+
+template<class Carac>
+typename ConvexPolyhedron3Face<Carac>::TI ConvexPolyhedron3Face<Carac>::nb_nodes() const {
+    TI res = 0;
+    foreach_node( [&]( auto & ) { ++res; } );
+    return res;
 }
 
 } // namespace sdot

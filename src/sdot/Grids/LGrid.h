@@ -29,7 +29,7 @@ public:
 
     // constructed or deduced types
     struct                         TraversalFlags              { bool stop_if_void_lc = false, mod_weights = false; };
-    struct                         DisplayFlags                { TF weight_elevation = 0; };
+    struct                         DisplayFlags                { TF weight_elevation = 0; bool display_cells = false, display_boxes = true; };
     using                          FinalCell                   = LGridFinalCell<Pc>;
     using                          SuperCell                   = LGridSuperCell<Pc>;
     using                          BaseCell                    = LGridBaseCell<Pc>;
@@ -45,9 +45,9 @@ public:
     void                           update_after_mod_weights     (); ///< update grid info after modification of diracs->weights (not necessary if done in a traversal where mod_weight was specified in the flags)
 
     // traversal/information
-    template<class SLC> int        for_each_laguerre_cell      ( const std::function<void( CP &lc, Dirac &dirac, int num_thread )> &f, const SLC &starting_lc, TraversalFlags traversal_flags = {} ); ///< version with num_thread
-    void                           for_each_final_cell         ( const std::function<void( FinalCell &cell, int num_thread )> &f, TraversalFlags traversal_flags = {} );
-    void                           for_each_dirac              ( const std::function<void( Dirac &d, int num_thread)> &f, TraversalFlags traversal_flags = {} );
+    template<class SLC> int        for_each_laguerre_cell      ( const std::function<void( CP &lc, Dirac &dirac, int num_thread )> &f, const SLC &starting_lc, TraversalFlags traversal_flags = {} ) const; ///< version with num_thread
+    void                           for_each_final_cell         ( const std::function<void( FinalCell &cell, int num_thread )> &f, TraversalFlags traversal_flags = {} ) const;
+    void                           for_each_dirac              ( const std::function<void( Dirac &d, int num_thread)> &f, TraversalFlags traversal_flags = {} ) const;
     TI                             nb_diracs                   () const { return nb_diracs_tot; }
 
     // display
@@ -75,7 +75,7 @@ private:
     struct                         Msi                         { bool operator<( const Msi &that ) const { return dist > that.dist; } Pt center; BaseCell *cell; TF dist; };
 
     void                           get_grid_dims_and_dirac_ptrs( const std::function<void(const Cb &cb)> &f );
-    void                           for_each_final_cell_mono_thr( const std::function<void( FinalCell &cell, CpAndNum *path, TI path_len )> &f, TI beg_num_cell, TI end_num_cell );
+    void                           for_each_final_cell_mono_thr( const std::function<void( FinalCell &cell, CpAndNum *path, TI path_len )> &f, TI beg_num_cell, TI end_num_cell ) const;
     void                           update_after_mod_weights_rec( BaseCell *cell, LocalSolver *local_solvers, int level );
     void                           update_cell_bounds_phase_1  ( BaseCell *cell, BaseCell **path, int level );
     void                           fill_grid_using_zcoords     ( const Dirac *diracs, TI nb_diracs );
