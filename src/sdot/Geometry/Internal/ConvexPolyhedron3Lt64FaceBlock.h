@@ -1,7 +1,6 @@
 #pragma once
 
 #include <cstdint>
-#include <bitset>
 #include <array>
 
 namespace sdot {
@@ -16,7 +15,7 @@ public:
     static constexpr int max_nb_nodes_per_face = 16;
     static constexpr int max_nb_nodes_per_cell = 64;
     using                NodeList              = std::array<std::int8_t,max_nb_nodes_per_face>;
-    using                NodeMask              = std::bitset<max_nb_nodes_per_cell>;
+    using                NodeMask              = std::uint64_t;
     using                CI                    = typename Carac::Dirac *;
     static constexpr int bs                    = max_nb_faces_per_cell;
     using                TF                    = typename Carac::TF;

@@ -42,7 +42,7 @@ void __attribute__ ((noinline)) cut_proc( Cp &cp, const Box &box, std::vector<TF
 }
 
 void bench( std::vector<TF> xs, std::vector<TF> ys, std::vector<TF> zs, std::vector<TF> ps, std::vector<Pc::Dirac *> ds ) {
-    std::uint64_t t0 = 0, t1 = 0, nb_reps = 28000000;
+    std::uint64_t t0 = 0, t1 = 0, nb_reps = 1; // 28000000;
     //    Cp::Box box{ TF( -1 ), TF( 1 ) };
     Cp::Box box{ TF( -1 ), TF( 1 ) };
 
@@ -59,7 +59,7 @@ void bench( std::vector<TF> xs, std::vector<TF> ys, std::vector<TF> zs, std::vec
     for( std::size_t rep = 0; rep < nb_reps; ++rep )
         cut_proc( cp, box, xs, ys, zs, ps, ds );
     RDTSC_FINAL( t1 );
-    std::uint64_t dt_cut_proc = ( t1 - t0 ) / nb_reps;
+    std::uint64_t dt_cut_proc = 1.0 * ( t1 - t0 ) / nb_reps;
 
     //    P( cp );
     P( dt_set_box );

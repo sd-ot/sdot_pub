@@ -218,16 +218,50 @@ void ConvexPolyhedron3<Pc>::plane_cut( std::array<const TF *,dim> cut_dir, const
         __m512d nz = _mm512_set1_pd( cut_dir[ 2 ][ num_cut ] );
         __m512d rd = _mm512_set1_pd( cut_ps[ num_cut ] );
         std::uint64_t ou = 0;
-        for( std::size_t n = 0; n < nb_nodes(); n += 8 ) {
-            __m512d px = _mm512_load_pd( nodes.x + n );
-            __m512d py = _mm512_load_pd( nodes.y + n );
-            __m512d pz = _mm512_load_pd( nodes.z + n );
+        unsigned n = 0;
+        for( ; n + 8 <= nodes_size; n += 8 ) {
+            __m512d px = _mm512_load_pd( &nodes.x + n );
+            __m512d py = _mm512_load_pd( &nodes.y + n );
+            __m512d pz = _mm512_load_pd( &nodes.z + n );
             __m512d bi = _mm512_add_pd( _mm512_mul_pd( px, nx ), _mm512_add_pd( _mm512_mul_pd( py, ny ), _mm512_mul_pd( pz, nz ) ) );
             std::uint64_t lo = _mm512_cmp_pd_mask( bi, rd, _CMP_GT_OQ );
-            _mm512_store_pd( nodes.d, _mm512_sub_pd( bi, rd ) );
+            _mm512_store_pd( &nodes.d, _mm512_sub_pd( bi, rd ) );
             ou |= lo << n;
         }
-        P( binary_repr( ou ) );
+        for( ; n < nodes_size; ++n ) {
+            TF px = (&nodes.x)[ n ];
+            TF py = (&nodes.y)[ n ];
+            TF pz = (&nodes.z)[ n ];
+            TF bi = px * cut_dir[ 0 ][ num_cut ] + py * cut_dir[ 1 ][ num_cut ] + pz * cut_dir[ 2 ][ num_cut ];
+            TF di = bi - cut_ps[ num_cut ];
+            std::uint64_t lo = di > 0;
+            (&nodes.d)[ n ] = di;
+            ou |= lo << n;
+        }
+
+        
+        // if nothing has changed
+        if ( ou == 0 )
+            return;
+        
+        // else, find the intersected faces
+        auto &handle_intersected_face = [&]( unsigned num_face ) {
+            // for each node 
+        };
+        
+        n = 0;
+        __m512i mn = _mm512_set1_epi64( ou );
+        for( ; n + 8 <= faces_size; n += 8 ) {
+            //             __m512i ms = _mm512_load_epi64( faces.node_masks + n );
+            //             __m512i am = _mm512_and_epi64( mn, ms );
+            //             std::uint8_t lo = _mm512_cmp_pd_mask( bi, rd, _CMP_GT_OQ );
+            TODO;
+        }
+        for( ; n < faces_size; ++n )
+            if ( ou & faces.node_masks[ n ] )
+                handle_intersected_face( n );
+        
+        
     }
     #else
     TODO;
