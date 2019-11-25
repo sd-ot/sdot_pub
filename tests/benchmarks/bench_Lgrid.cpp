@@ -87,9 +87,11 @@ void test( std::map<std::size_t,double> &nb_cycle_per_cell, std::string filename
                 cp.display_vtk( vo );
                 m.unlock();
 
+                int mf = 0;
                 cp.for_each_boundary_item( [&]( const auto &bi ) {
-                    stat.add_for_dist( "face size", bi.nb_nodes() );
+                    mf = std::max( mf, (int)bi.nb_nodes() );
                 } );
+                stat.add_for_dist( "face size", mf );
             }, box );
 
             smurf += nb_cuts[ 0 ];

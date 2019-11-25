@@ -1,3 +1,7 @@
+Rq: 97% des faces ont nb_nodes <= 8 (en 3D)
+Rq: % des celluless ont nb_nodes <= 8 dans toutes les faces (en 3D)
+
+
 Ajout dans grille d'un mode out of memory.
   => plutôt que des vecteurs de position, on fourni une fonction qui prend un callback pour traiter n points+poids (pour update)
   =>
