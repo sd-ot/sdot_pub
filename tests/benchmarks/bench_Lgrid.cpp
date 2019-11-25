@@ -86,8 +86,9 @@ void test( std::map<std::size_t,double> &nb_cycle_per_cell, std::string filename
                 m.lock();
                 cp.display_vtk( vo );
                 m.unlock();
+
                 cp.for_each_boundary_item( [&]( const auto &bi ) {
-                    stat.add( "face size", bi.nb_nodes() );
+                    stat.add_for_dist( "face size", bi.nb_nodes() );
                 } );
             }, box );
 

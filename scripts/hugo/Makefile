@@ -2,7 +2,7 @@ RUN = nsmake run -g3 # --exec-with "valgrind --num-callers=64"
 
 all:
 	# nsmake run -g3 tests/benchmarks/bench_ConvexPolyhedron2.cpp
-	nsmake run -g3 tests/benchmarks/bench_ConvexPolyhedron3.cpp
+	# nsmake run -g3 tests/benchmarks/bench_ConvexPolyhedron3.cpp
 	# nsmake run -g3 tests/benchmarks/bench_ConvexPolyhedron3b.cpp
 	# nsmake run -g3 tests/test_ConvexPolyhedron2.cpp
 	# ${RUN} tests/benchmarks/bench_Zgrid_2D.cpp
