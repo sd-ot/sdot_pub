@@ -77,9 +77,9 @@ private:
     Lt64FaceBlock                        lt64_face_block;          ///< which nodes are present in each face
 
     TI                                   nodes_size;               ///< nb nodes
-    TI                                   nodes_rese;               ///< reservation in the heap (used if nb_nodes > 64)
-
     TI                                   faces_size;               ///<
+
+    TI                                   nodes_rese;               ///< reservation in the heap (used if nb_nodes > 64)
     TI                                   faces_rese;               ///<
 
     TF                                   sphere_radius;

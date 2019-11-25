@@ -1,5 +1,11 @@
 Rq: 97% des faces ont nb_nodes <= 8 (en 3D)
-Rq: % des celluless ont nb_nodes <= 8 dans toutes les faces (en 3D)
+Rq: 66% des cellules ont nb_nodes <= 8 dans toutes les faces (en 3D)
+
+  => il faudrait traiter les faces jusqu'à ~ 12 noeuds pour avoir quasiment tout les monde
+  => des faces à max 16 noeuds permettrait d'avoir tous les cas...
+
+
+
 
 
 Ajout dans grille d'un mode out of memory.

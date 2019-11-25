@@ -1,9 +1,11 @@
 RUN = nsmake run -g3 # --exec-with "valgrind --num-callers=64"
 
 all:
+	nsmake run -g3 tests/benchmarks/bench_ConvexPolyhedron3b.cpp
+
+smurf:
 	# nsmake run -g3 tests/benchmarks/bench_ConvexPolyhedron2.cpp
 	# nsmake run -g3 tests/benchmarks/bench_ConvexPolyhedron3.cpp
-	# nsmake run -g3 tests/benchmarks/bench_ConvexPolyhedron3b.cpp
 	# nsmake run -g3 tests/test_ConvexPolyhedron2.cpp
 	# ${RUN} tests/benchmarks/bench_Zgrid_2D.cpp
 	# ${RUN} tests/benchmarks/bench_Zgrid_2D.cpp
@@ -18,7 +20,7 @@ all:
 	# nsmake run -g3 tests/test_ConvexPolyhedron3.cpp
 	# ${RUN} tests/Grids/test_LGrid_2D.cpp
 	# nsmake run -g3 --exec-with valgrind tests/test_solve_2D.cpp
-	nsmake run -g3 tests/benchmarks/bench_Lgrid.cpp
+	# nsmake run -g3 tests/benchmarks/bench_Lgrid.cpp
 	# ${RUN} tests/benchmarks/bench_Lgrid_2D_large.cpp
 	# ${RUN} tests/benchmarks/distributions/make_distributions.cpp
 	# python tests/benchmarks/distributions/make_distributions.py

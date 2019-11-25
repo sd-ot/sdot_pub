@@ -5,7 +5,7 @@
 #include <map>
 using namespace sdot;
 
-//// nsmake cxx_name clang++
+// // nsmake cxx_name clang++
 // // nsmake cpp_flag -march=skylake
 
 //// nsmake cpp_flag -march=native
@@ -29,32 +29,36 @@ using Cp = ConvexPolyhedron3<Pc>;
 using TF = Cp::TF;
 using Pt = Cp::Pt;
 
+void __attribute__ ((noinline)) set_box( Cp &cp ) {
+    Cp::Box box{ TF( -1 ), TF( 1 ) };
+    cp = box;
+}
+
 void bench( std::vector<TF> xs, std::vector<TF> ys, std::vector<TF> zs, std::vector<TF> ps, std::vector<Pc::Dirac *> ds ) {
     constexpr int flags = 0;
 
     // overhead
     Cp cp;
     TF sum = 0;
-    Cp::Box box{ TF( -1 ), TF( 1 ) };
-    std::uint64_t t0 = 0, t1 = 0, nb_reps = 1; // 28000;
+    std::uint64_t t0 = 0, t1 = 0, nb_reps = 280000000;
     RDTSC_START( t0 );
     for( std::size_t rep = 0; rep < nb_reps; ++rep )
-        cp = box;
+        set_box( cp );
     RDTSC_FINAL( t1 );
     std::uint64_t overhead = t1 - t0;
 
     // cuts
     RDTSC_START( t0 );
     for( std::size_t rep = 0; rep < nb_reps; ++rep ) {
-        cp = box;
+        set_box( cp );
         cp.plane_cut( { xs.data(), ys.data(), zs.data() }, ps.data(), ds.data(), xs.size(), N<flags>() );
         sum += cp.nb_nodes();
     }
     RDTSC_FINAL( t1 );
     std::uint64_t dt = ( t1 - t0 - overhead ) / ( nb_reps * xs.size() );
 
-    // P( cp );
-    P( sum, overhead, t1 - t0, dt );
+    //    P( cp );
+    P( sum, 1.0 * overhead / nb_reps, ( t1 - t0 ) / nb_reps, dt );
 
     VtkOutput vo;
     cp.display_vtk( vo );

@@ -37,58 +37,73 @@ ConvexPolyhedron3<Pc>::ConvexPolyhedron3() {
 
 template<class Pc>
 void ConvexPolyhedron3<Pc>::set_box( const Box &box ) {
-    // nodes
-    nodes_size = 8;
-    faces_size = 8;
+    static double junx[] = { 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4 };
+    static double juny[] = { 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4 };
+    static double junz[] = { 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4 };
+    static double juna[] = { 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4 };
+    static double junb[] = { 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4 };
 
-    auto set_node = [&]( TI index, TF x, TF y, TF z ) -> Lt64NodeBlock * {
-        Lt64NodeBlock &res = lt64_node_block.local_at( index );
-        res.x = x;
-        res.y = y;
-        res.z = z;
+    memcpy( __builtin_assume_aligned( &lt64_node_block.x, 64 ), __builtin_assume_aligned( junx, 64 ), 8 * sizeof( double ) );
+    memcpy( __builtin_assume_aligned( &lt64_node_block.y, 64 ), __builtin_assume_aligned( juny, 64 ), 8 * sizeof( double ) );
+    memcpy( __builtin_assume_aligned( &lt64_node_block.z, 64 ), __builtin_assume_aligned( junz, 64 ), 8 * sizeof( double ) );
 
-        return &res;
-    };
+    memcpy( __builtin_assume_aligned( &lt64_face_block.node_mask, 64 ), __builtin_assume_aligned( juna, 64 ), 6 * sizeof( double ) );
+    memcpy( __builtin_assume_aligned( &lt64_face_block.node_lst0, 64 ), __builtin_assume_aligned( junb, 64 ), 6 * sizeof( double ) );
 
-    Lt64NodeBlock *n[ 8 ] = {
-        set_node( 0, box.p0.x, box.p0.y, box.p0.z ),
-        set_node( 1, box.p1.x, box.p0.y, box.p0.z ),
-        set_node( 2, box.p0.x, box.p1.y, box.p0.z ),
-        set_node( 3, box.p1.x, box.p1.y, box.p0.z ),
-        set_node( 4, box.p0.x, box.p0.y, box.p1.z ),
-        set_node( 5, box.p1.x, box.p0.y, box.p1.z ),
-        set_node( 6, box.p0.x, box.p1.y, box.p1.z ),
-        set_node( 7, box.p1.x, box.p1.y, box.p1.z )
-    };
+    memcpy( __builtin_assume_aligned( &nodes_size, 64 ), __builtin_assume_aligned( junb, 64 ), 2 * sizeof( double ) );
 
-    // faces
-    auto add_face = [&]( TI index, int n0, int n1, int n2, int n3, Pt normal ) {
-        constexpr std::uint64_t m = 1;
+    //    // nodes
+    //    nodes_size = 8;
+    //    faces_size = 6;
 
-        Lt64FaceBlock &res = lt64_face_block.local_at( index );
-        res.normal_x = normal.x;
-        res.normal_y = normal.y;
-        res.normal_z = normal.z;
+    //    auto set_node = [&]( TI index, TF x, TF y, TF z ) -> Lt64NodeBlock * {
+    //        Lt64NodeBlock &res = lt64_node_block.local_at( index );
+    //        res.x = x;
+    //        res.y = y;
+    //        res.z = z;
 
-        res.node_list[ 0 ] = n0;
-        res.node_list[ 1 ] = n1;
-        res.node_list[ 2 ] = n2;
-        res.node_list[ 3 ] = n3;
-        res.node_list[ 4 ] = 255u;
+    //        return &res;
+    //    };
 
-        res.node_mask =
-                ( m << n0 ) |
-                ( m << n1 ) |
-                ( m << n2 ) |
-                ( m << n3 ) ;
-    };
+    //    Lt64NodeBlock *n[ 8 ] = {
+    //        set_node( 0, box.p0.x, box.p0.y, box.p0.z ),
+    //        set_node( 1, box.p1.x, box.p0.y, box.p0.z ),
+    //        set_node( 2, box.p0.x, box.p1.y, box.p0.z ),
+    //        set_node( 3, box.p1.x, box.p1.y, box.p0.z ),
+    //        set_node( 4, box.p0.x, box.p0.y, box.p1.z ),
+    //        set_node( 5, box.p1.x, box.p0.y, box.p1.z ),
+    //        set_node( 6, box.p0.x, box.p1.y, box.p1.z ),
+    //        set_node( 7, box.p1.x, box.p1.y, box.p1.z )
+    //    };
 
-    add_face( 0,  0, 2, 3, 1,  { 0, 0, -1 } );
-    add_face( 1,  4, 5, 7, 6,  { 0, 0, +1 } );
-    add_face( 2,  0, 1, 5, 4,  { 0, -1, 0 } );
-    add_face( 3,  2, 6, 7, 3,  { 0, +1, 0 } );
-    add_face( 4,  0, 4, 6, 2,  { -1, 0, 0 } );
-    add_face( 5,  1, 3, 7, 5,  { +1, 0, 0 } );
+    //    // faces
+    //    auto add_face = [&]( TI index, int n0, int n1, int n2, int n3, Pt normal ) {
+    //        constexpr std::uint64_t m = 1;
+
+    //        Lt64FaceBlock &res = lt64_face_block.local_at( index );
+    ////        res.normal_x = normal.x;
+    ////        res.normal_y = normal.y;
+    ////        res.normal_z = normal.z;
+
+    //        res.node_lst0[ 0 ] = n0;
+    //        res.node_lst0[ 1 ] = n1;
+    //        res.node_lst0[ 2 ] = n2;
+    //        res.node_lst0[ 3 ] = n3;
+    //        res.node_lst0[ 4 ] = 255u;
+
+    //        res.node_mask =
+    //                ( m << n0 ) |
+    //                ( m << n1 ) |
+    //                ( m << n2 ) |
+    //                ( m << n3 ) ;
+    //    };
+
+    //    add_face( 0,  0, 2, 3, 1,  { 0, 0, -1 } );
+    //    add_face( 1,  4, 5, 7, 6,  { 0, 0, +1 } );
+    //    add_face( 2,  0, 1, 5, 4,  { 0, -1, 0 } );
+    //    add_face( 3,  2, 6, 7, 3,  { 0, +1, 0 } );
+    //    add_face( 4,  0, 4, 6, 2,  { -1, 0, 0 } );
+    //    add_face( 5,  1, 3, 7, 5,  { +1, 0, 0 } );
 }
 
 template<class Pc>
@@ -177,7 +192,18 @@ ConvexPolyhedron3<Pc> &ConvexPolyhedron3<Pc>::operator=( const Box &box ) {
 
 template<class Pc>
 void ConvexPolyhedron3<Pc>::write_to_stream( std::ostream &os, bool /*debug*/ ) const {
-    TODO;
+    os << "Nodes:";
+    for_each_node( [&]( const auto &node ) {
+        os << "\n  " << node.x << " " << node.y << " " << node.z;
+    } );
+
+    os << "\nFaces:";
+    for_each_face( [&]( const auto &face ) {
+        os << "\n ";
+        face.foreach_node_index( [&]( TI index ) {
+            os << " " << index;
+        } );
+    } );
 }
 
 template<class Pc>
@@ -199,26 +225,19 @@ void ConvexPolyhedron3<Pc>::display_vtk( VtkOutput &vo, const std::vector<TF> &c
 
 template<class Pc> template<class F>
 void ConvexPolyhedron3<Pc>::for_each_face( const F &f ) const {
-    //    faces.foreach( f );
+    for( TI i = 0; i < faces_size; ++i )
+        f( lt64_face_block.local_at( i ) );
 }
 
 template<class Pc> template<class F>
 void ConvexPolyhedron3<Pc>::for_each_node( const F &f ) const {
-    //    static_assert ( sizeof( Node ) % sizeof( TF ) == 0, "" );
-
-    //    Node *ptr = nodes;
-    //    for( TI i = 0, s = nodes_size; ; ) {
-    //        if ( i + block_size >= s ) {
-    //            for( TI j = 0; j < s - i; ++j )
-    //                f( ptr->local_at( j ) );
-    //            break;
-    //        }
-
-    //        for( TI j = 0; j < block_size; ++j )
-    //            f( ptr->local_at( j ) );
-    //        i += block_size;
-    //        ++ptr;
-    //    }
+    TI s = nodes_size;
+    if ( s <= 64 ) {
+        for( TI i = 0; i < s; ++i )
+            f( lt64_node_block.local_at( i ) );
+    } else {
+        TODO;
+    }
 }
 
 template<class Pc>
@@ -286,7 +305,6 @@ bool ConvexPolyhedron3<Pc>::empty() const {
 
 template<class Pc> template<int flags>
 void ConvexPolyhedron3<Pc>::plane_cut_mt_64( std::array<const TF *,dim> cut_dir, const TF *cut_ps, const CI *cut_id, std::size_t nb_cuts, N<flags> ) {
-    TODO;
 }
 
 template<class Pc> template<int flags>
