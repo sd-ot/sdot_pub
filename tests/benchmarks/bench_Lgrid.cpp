@@ -3,6 +3,7 @@
 #include "../../src/sdot/Support/Time.h"
 #include "../../src/sdot/Support/P.h"
 #include "../../src/sdot/Grids/LGrid.h"
+#include "../../src/sdot/Support/Stat.h"
 #include <cnpy.h>
 #include <map>
 using namespace sdot;
@@ -11,8 +12,8 @@ using namespace sdot;
 // // nsmake cpp_flag -ffast-math
 // // nsmake cpp_flag -march=skylake
 
-//// nsmake cpp_flag -march=native
-//// nsmake cpp_flag -O3
+// // nsmake cpp_flag -march=native
+// // nsmake cpp_flag -O3
 //// nsmake lib_name z
 
 template<int _dim>
@@ -61,13 +62,17 @@ void test( std::map<std::size_t,double> &nb_cycle_per_cell, std::string filename
         diracs[ n ].weight = data[ n + dim * nb_diracs ];
     }
 
+
     // get timings
+    VtkOutput vo;
+    std::mutex m;
+
     double best_dt_sum = 1e6, smurf = 0;
     for( std::size_t nb_diracs_per_cell = 25; nb_diracs_per_cell <= 25; nb_diracs_per_cell += 1 ) {
         // constexpr int flags = Grid::homogeneous_weights * voronoi;
         // RaiiTime re("total");
 
-        std::uint64_t t0 = 0, t1 = 0, nb_reps = 10;
+        std::uint64_t t0 = 0, t1 = 0, nb_reps = 1;
         RDTSC_START( t0 );
         for( std::size_t rep = 0; rep < nb_reps; ++rep ) {
             Grid grid( nb_diracs_per_cell );
@@ -77,6 +82,13 @@ void test( std::map<std::size_t,double> &nb_cycle_per_cell, std::string filename
             typename CP::Box box{ TF( 0 ), TF( 1 ) };
             grid.for_each_laguerre_cell( [&]( auto &cp, auto &/*dirac*/, int num_thread ) {
                 nb_cuts[ 16 * num_thread ] += cp.nb_nodes();
+
+                m.lock();
+                cp.display_vtk( vo );
+                m.unlock();
+                cp.for_each_boundary_item( [&]( const auto &bi ) {
+                    stat.add( "face size", bi.nb_nodes() );
+                } );
             }, box );
 
             smurf += nb_cuts[ 0 ];
@@ -99,10 +111,7 @@ void test( std::map<std::size_t,double> &nb_cycle_per_cell, std::string filename
     //    for( std::size_t i = 0; i < positions.size(); ++i )
     //        std::cout << "\\draw[blue] (" << 10 * positions[ i ].x << "," << 10 * positions[ i ].y << ") node {$\\times$};\n";
 
-    //    VtkOutput vo;
-    //    grid.display( vo );
-    //    vo.save( "vtk/grid.vtk" );
-
+    vo.save( "vtk/pd.vtk" );
 }
 
 int main() {
@@ -110,10 +119,10 @@ int main() {
 
     const char *filenames[] = {
         "/data/sdot/uniform_12500_3D_solved.npy",
-        "/data/sdot/uniform_25000_3D_solved.npy",
-        "/data/sdot/uniform_50000_3D_solved.npy",
-        "/data/sdot/uniform_100000_3D_solved.npy",
-        "/data/sdot/uniform_200000_3D_solved.npy",
+        //        "/data/sdot/uniform_25000_3D_solved.npy",
+        //        "/data/sdot/uniform_50000_3D_solved.npy",
+        //        "/data/sdot/uniform_100000_3D_solved.npy",
+        //        "/data/sdot/uniform_200000_3D_solved.npy",
     };
 
     for( const char *filename : filenames )

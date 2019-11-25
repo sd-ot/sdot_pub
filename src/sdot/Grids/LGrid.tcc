@@ -89,6 +89,7 @@ void LGrid<Pc>::get_grid_dims_and_dirac_ptrs( const std::function<void(const Cb 
         if ( nb_diracs == 0 )
             return;
 
+        // TODO: in parallel
         for( std::size_t num_dirac = 0; num_dirac < nb_diracs; ++num_dirac ) {
             const Dirac &dirac = diracs[ num_dirac ];
             min_point = min( min_point, dirac.pos );
@@ -116,42 +117,6 @@ void LGrid<Pc>::get_grid_dims_and_dirac_ptrs( const std::function<void(const Cb 
     inv_step_length = TF( 1 ) / step_length;
 }
 
-//template<class Pc>
-//void LGrid<Pc>::compute_sst_limits( const std::function<void(const Cb &cb)> &f ) {
-//    using std::pow;
-
-//    if ( nb_diracs_tot <= max_diracs_per_sst ) {
-//        sst_limits = { SstLimits{ TZ( 0 ), TZ( 1 ) << dim * nb_bits_per_axis, nb_diracs_tot } };
-//        return;
-//    }
-
-//    // => get the subdivisions
-//    constexpr int nb_bits_items = 26, shift = dim * nb_bits_per_axis - nb_bits_items;
-//    std::vector<TI> nb_items( TZ( 1 ) << nb_bits_items );
-//    f( [&]( const Dirac *diracs, TI nb_diracs, bool /*ptrs_survive_the_call*/ ) {
-//        for( std::size_t num_dirac = 0; num_dirac < nb_diracs; ++num_dirac ) {
-//            TZ zcoords = zcoords_for<TZ,nb_bits_per_axis>( diracs[ num_dirac ].pos, min_point, inv_step_length );
-//            TZ ind = zcoords >> shift;
-//            ++nb_items[ ind ];
-//        }
-//    } );
-
-//    //
-//    sst_limits.clear();
-//    for( TZ n = 0; n < nb_items.size(); ++n ) {
-//        TZ b = n;
-//        TI acc = 0;
-//        for( ; n < nb_items.size(); ++n ) {
-//            acc += nb_items[ n ];
-//            if ( acc > max_diracs_per_sst )
-//                break;
-//        }
-
-//        sst_limits.push_back( SstLimits{ TZ( b ) << shift, TZ( n ) << shift, acc } );
-//        P( acc );
-//    }
-//}
-
 template<class Pc>
 void LGrid<Pc>::make_the_cells( const std::function<void(const Cb &cb)> &f ) {
     static_assert( sizeof( TZ ) >= sizeof_zcoords, "TZ (zcoords type) is not large enough" );
@@ -176,20 +141,22 @@ void LGrid<Pc>::make_the_cells( const std::function<void(const Cb &cb)> &f ) {
         zind_limits = { TZ( 1 ) << dim * nb_bits_per_axis };
         zind_indices = { nb_diracs_tot };
 
-        // sorting w.r.t. zcoords
+        // make znode_xxx lists
         znodes_keys.reserve( 2 * nb_diracs_tot );
         znodes_ptrs.reserve( 2 * nb_diracs_tot );
 
-        //    TI nb_threads = thread_pool.nb_threads(), nb_jobs = nb_threads, offset = 0;
-        //    thread_pool.execute( nb_jobs, [&]( TI num_job, int /*num_thread*/ ) {
-        //        TI beg = ( num_job + 0 ) * nb_diracs / nb_jobs;
-        //        TI end = ( num_job + 1 ) * nb_diracs / nb_jobs;
-        //        for( TI num_dirac = beg; num_dirac < end; ++num_dirac ) {
-        //            TZ zcoords = zcoords_for<TZ,nb_bits_per_axis>( diracs[ num_dirac ].pos, min_point, inv_step_length );
-        //            znodes_keys[ num_dirac ] = zcoords;
-        //            znodes_inds[ num_dirac ] = num_dirac;
-        //        }
-        //    } );
+        TI nb_threads = thread_pool.nb_threads(), nb_jobs = nb_threads, offset = 0;
+        thread_pool.execute( nb_jobs, [&]( TI num_job, int /*num_thread*/ ) {
+            TI beg = ( num_job + 0 ) * nb_diracs_tot / nb_jobs;
+            TI end = ( num_job + 1 ) * nb_diracs_tot / nb_jobs;
+            for( TI num_dirac = beg; num_dirac < end; ++num_dirac ) {
+                TZ zcoords = zcoords_for<TZ,nb_bits_per_axis>( diracs_from_cb[ num_dirac ].pos, min_point, inv_step_length );
+                znodes_ptrs[ num_dirac ] = diracs_from_cb + num_dirac;
+                znodes_keys[ num_dirac ] = zcoords;
+            }
+        } );
+
+        // sort w.r.t. zcoords
         std::pair<TZ *,const Dirac **> sorted_znodes = radix_sort(
             std::make_pair( znodes_keys.data() + nb_diracs_tot, znodes_ptrs.data() + nb_diracs_tot ),
             std::make_pair( znodes_keys.data(), znodes_ptrs.data() ),
@@ -201,35 +168,44 @@ void LGrid<Pc>::make_the_cells( const std::function<void(const Cb &cb)> &f ) {
         zn_ptrs = sorted_znodes.second;
     } else {
         make_zind_limits( zind_indices, zind_limits, f );
-        P( zind_indices, nb_diracs_tot );
     }
 
     TZ num_in_zind_limits = 0;
     auto check_possible_read = [&]( TI index ) -> void {
+        if ( nb_diracs_tot == 0 )
+            return;
+        if ( index >= nb_diracs_tot )
+            index = nb_diracs_tot - 1;
+
         if ( index < zind_indices[ num_in_zind_limits ] )
             return;
 
-        // else, get the data
-        TI beg_i = index - max_diracs_per_cell; /// TODO: take care of cases where several dirac have the same zinds
+        // else, go to next zone
+        ++num_in_zind_limits;
 
-        TZ beg_z = beg_i ? znodes_keys[ beg_i ] : 0;
-        TZ end_z = zind_limits[ ++num_in_zind_limits ];
-        TZ bo_ld = max_diracs_per_cell +
-                   zind_indices[ num_in_zind_limits ] -
-                   zind_indices[ num_in_zind_limits - 1 ];
+        // and get the data
+        TZ beg_z = index > max_diracs_per_cell ? znodes_keys[ index - max_diracs_per_cell ] : 0;
+        TZ end_z = zind_limits[ num_in_zind_limits ];
+        TZ bo_ld = max_diracs_per_cell + zind_indices[ num_in_zind_limits ] - zind_indices[ num_in_zind_limits - 1 ];
 
+        tmp_diracs.clear();
+        tmp_diracs.reserve( bo_ld );
         znodes_keys.reserve( 2 * bo_ld );
         znodes_ptrs.reserve( 2 * bo_ld );
-        tmp_diracs.reserve( bo_ld );
-        tmp_diracs.clear();
 
-        P( "read", index, beg_i );
+        // P( "read", index, beg_z );
+
+        //        for( std::size_t i = 0; i < 5; ++i )
+        //            std::cout << std::setw( 3 ) << i << " => " << std::setw( 16 ) << zn_keys[ i ] << "\n";
 
         TZ nb_ld = 0;
+        TI beg_i = 0;
         f( [&]( const Dirac *diracs, TI nb_diracs, bool /*ptrs_survive_the_call*/ ) {
             for( std::size_t num_dirac = 0; num_dirac < nb_diracs; ++num_dirac ) {
                 TZ zcoords = zcoords_for<TZ,nb_bits_per_axis>( diracs[ num_dirac ].pos, min_point, inv_step_length );
-                if ( zcoords >= beg_z && zcoords < end_z ) {
+                if ( zcoords < beg_z ) {
+                    ++beg_i;
+                } else if ( zcoords < end_z ) {
                     tmp_diracs.push_back( diracs[ num_dirac ] );
                     znodes_keys[ nb_ld ] = zcoords;
                     znodes_ptrs[ nb_ld ] = tmp_diracs.data() + nb_ld;
@@ -248,16 +224,15 @@ void LGrid<Pc>::make_the_cells( const std::function<void(const Cb &cb)> &f ) {
         zn_keys = sorted_znodes.first - beg_i;
         zn_ptrs = sorted_znodes.second - beg_i;
 
-        for( std::size_t i = 0; i < nb_ld; ++i )
-            std::cout << " " << sorted_znodes.second[ i ]->index;
-        std::cout << "\n";
+        for( std::size_t i = beg_i; i < beg_i + nb_ld; ++i )
+            std::cout << std::setw( 3 ) << i << " -> " << std::setw( 16 ) << zn_keys[ i ] << "\n";
     };
 
     // get the cells zcoords and indices (offsets in dpc_indices) + dpc_indices
     int level = 0;
     TZ prev_z = 0;
     for( TI index = max_diracs_per_cell; ; ) {
-        // check if we're able to read the diracs
+        // check availability of the dirac info
         check_possible_read( index );
 
         // last cell(s)
@@ -669,7 +644,7 @@ void LGrid<Pc>::make_lcs_from( const std::function<void( CP &, Dirac &dirac, int
 }
 
 template<class Pc> template<class SLC>
-int LGrid<Pc>::for_each_laguerre_cell( const std::function<void( CP &, Dirac &dirac, int num_thread )> &cb, const SLC &starting_lc, TraversalFlags traversal_flags ) {
+int LGrid<Pc>::for_each_laguerre_cell( const std::function<void( CP &, Dirac &dirac, int num_thread )> &cb, const SLC &starting_lc, TraversalFlags traversal_flags ) const {
     constexpr int flags = 0;
     int err;
 
@@ -688,14 +663,14 @@ int LGrid<Pc>::for_each_laguerre_cell( const std::function<void( CP &, Dirac &di
 
     //
     if ( traversal_flags.mod_weights )
-        update_after_mod_weights();
+        const_cast<LGrid *>( this )->update_after_mod_weights();
 
     return err;
 }
 
 
 template<class Pc>
-void LGrid<Pc>::for_each_final_cell_mono_thr( const std::function<void( FinalCell &cell, CpAndNum *path, TI path_len )> &f, TI beg_cell, TI end_cell ) {
+void LGrid<Pc>::for_each_final_cell_mono_thr( const std::function<void( FinalCell &cell, CpAndNum *path, TI path_len )> &f, TI beg_cell, TI end_cell ) const {
     if ( ! root_cell )
         return;
 
@@ -752,7 +727,7 @@ void LGrid<Pc>::for_each_final_cell_mono_thr( const std::function<void( FinalCel
 
 
 template<class Pc>
-void LGrid<Pc>::for_each_final_cell( const std::function<void( FinalCell &cell, int num_thread )> &f, TraversalFlags traversal_flags ) {
+void LGrid<Pc>::for_each_final_cell( const std::function<void( FinalCell &cell, int num_thread )> &f, TraversalFlags traversal_flags ) const {
     // parallel traversal of the cells
     int nb_threads = thread_pool.nb_threads(), nb_jobs = nb_threads;
     thread_pool.execute( nb_jobs, [&]( std::size_t num_job, int num_thread ) {
@@ -769,7 +744,7 @@ void LGrid<Pc>::for_each_final_cell( const std::function<void( FinalCell &cell, 
 }
 
 template<class Pc>
-void LGrid<Pc>::for_each_dirac( const std::function<void( Dirac &, int )> &f, TraversalFlags traversal_flags ) {
+void LGrid<Pc>::for_each_dirac( const std::function<void( Dirac &, int )> &f, TraversalFlags traversal_flags ) const {
     for_each_final_cell( [&]( FinalCell &cell, int num_thread ) {
         for( std::size_t i = 0; i < cell.nb_diracs(); ++i )
             f( cell.diracs[ i ], num_thread );
@@ -982,8 +957,18 @@ void LGrid<Pc>::display_tikz( std::ostream &/*os*/, DisplayFlags /*display_flags
 
 template<class Pc>
 void LGrid<Pc>::display_vtk( VtkOutput &vtk_output, DisplayFlags display_flags ) const {
-    if ( root_cell )
+    if ( display_flags.display_boxes && root_cell )
         display_vtk( vtk_output, root_cell, display_flags );
+
+    if ( display_flags.display_cells ) {
+        std::mutex m;
+        typename CP::Box ic( { TF( 0 ), TF( 1 ) } );
+        for_each_laguerre_cell( [&]( auto &cp, auto &d, int ) {
+            m.lock();
+            cp.display_vtk( vtk_output, d.values() );
+            m.unlock();
+        }, ic );
+    }
 }
 
 template<class Pc>

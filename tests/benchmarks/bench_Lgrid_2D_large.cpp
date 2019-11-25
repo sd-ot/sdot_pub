@@ -52,7 +52,7 @@ void test() {
 
     // load
     Grid grid( 5 );
-    TI nb_diracs = 1e2;
+    // TI nb_diracs = 1e2;
     grid.max_diracs_per_sst = 10;
     grid.construct( [&]( const std::function<void( const Dirac *diracs, TI nb_diracs, bool ptrs_survive_the_call )> &cb ) {
         //        srand( 0 );
@@ -71,43 +71,45 @@ void test() {
         std::vector<Dirac> loc_diracs( 100 );
         for( std::size_t r = 0, o = 0; r < 10; ++r )
             for( std::size_t c = 0; c < 10; ++c, ++o )
-                loc_diracs[ o ] = { 0.0, o, { TF( r ), TF( c ) }, 0.0 };
+                loc_diracs[ o ] = { 0.0, o, { TF( 0.1 * ( r + 0.5 ) ), TF( 0.1 * ( c + 0.5 ) ) }, 0.0 };
         cb( loc_diracs.data(), 100, false );
     } );
 
-    P( grid );
+    VtkOutput vo;
+    grid.display_vtk( vo, { .weight_elevation = 1.0, .display_cells = true, .display_boxes = false } );
+    vo.save( "vtk/grid.vtk" );
 
-//    // get timings
-//    double best_dt_sum = 1e6, smurf = 0;
-//    for( std::size_t nb_diracs_per_cell = 23; nb_diracs_per_cell <= 43; nb_diracs_per_cell += 1 ) {
-//        // constexpr int flags = Grid::homogeneous_weights * voronoi;
-//        // RaiiTime re("total");
+    //    // get timings
+    //    double best_dt_sum = 1e6, smurf = 0;
+    //    for( std::size_t nb_diracs_per_cell = 23; nb_diracs_per_cell <= 43; nb_diracs_per_cell += 1 ) {
+    //        // constexpr int flags = Grid::homogeneous_weights * voronoi;
+    //        // RaiiTime re("total");
 
-//        std::uint64_t t0 = 0, t1 = 0, nb_reps = 1;
-//        RDTSC_START( t0 );
-//        for( std::size_t rep = 0; rep < nb_reps; ++rep ) {
-//            Grid grid( nb_diracs_per_cell );
-//            grid.construct( diracs.data(), nb_diracs );
+    //        std::uint64_t t0 = 0, t1 = 0, nb_reps = 1;
+    //        RDTSC_START( t0 );
+    //        for( std::size_t rep = 0; rep < nb_reps; ++rep ) {
+    //            Grid grid( nb_diracs_per_cell );
+    //            grid.construct( diracs.data(), nb_diracs );
 
-//            std::vector<std::size_t> nb_cuts( 16 * thread_pool.nb_threads(), 0 );
-//            typename CP::Box box{ { 0, 0 }, { 1, 1 } };
-//            grid.for_each_laguerre_cell( [&]( auto &cp, auto &/*dirac*/, int num_thread ) {
-//                nb_cuts[ 16 * num_thread ] += cp.nb_nodes();
-//            }, box );
+    //            std::vector<std::size_t> nb_cuts( 16 * thread_pool.nb_threads(), 0 );
+    //            typename CP::Box box{ { 0, 0 }, { 1, 1 } };
+    //            grid.for_each_laguerre_cell( [&]( auto &cp, auto &/*dirac*/, int num_thread ) {
+    //                nb_cuts[ 16 * num_thread ] += cp.nb_nodes();
+    //            }, box );
 
-//            smurf += nb_cuts[ 0 ];
-//        }
-//        RDTSC_FINAL( t1 );
+    //            smurf += nb_cuts[ 0 ];
+    //        }
+    //        RDTSC_FINAL( t1 );
 
-//        double dt = double( t1 - t0 ) / nb_diracs / nb_reps;
-//        best_dt_sum = std::min( best_dt_sum, dt );
-//        P( nb_diracs_per_cell, dt );
+    //        double dt = double( t1 - t0 ) / nb_diracs / nb_reps;
+    //        best_dt_sum = std::min( best_dt_sum, dt );
+    //        P( nb_diracs_per_cell, dt );
 
-//        //        VtkOutput vo;
-//        //        grid.display_vtk( vo, { .weight_elevation = 1.0 } );
-//        //        vo.save( "vtk/grid.vtk" );
-//    }
-//    P( nb_diracs, smurf, best_dt_sum );
+    //        //        VtkOutput vo;
+    //        //        grid.display_vtk( vo, { .weight_elevation = 1.0 } );
+    //        //        vo.save( "vtk/grid.vtk" );
+    //    }
+    //    P( nb_diracs, smurf, best_dt_sum );
 }
 
 int main() {

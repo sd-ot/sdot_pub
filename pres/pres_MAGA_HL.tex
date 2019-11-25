@@ -555,7 +555,7 @@ Pool  <Edge> edges; // no need for an "active" list
             \item $\approx 1.5 \times$ speedup
             
             \bigskip{}
-            \item (more optimizations to come)
+            \item (more optimizations are possible)
         \end{itemize}
     \end{minipage}
 \end{frame}
@@ -678,23 +678,13 @@ print( ot.der_centroids_and_integrals_wrt_
         \item mostly $\mathcal{O}( n )$ for construction and traversal
         \item fits well the tested cases
     \end{itemize}
-\end{frame}
-
-\begin{frame}
-    \frametitle{Perspectives}
-
-    Optimizations
-    \begin{itemize}
-        \item Better bounds for the Kantorovich potentials
-        \item More SIMD optimizations for the 3D case
-        \item GPU
-    \end{itemize}
 
     \vfill
-    Solvers
+    Perspectives
     \begin{itemize}
+        \item Better bounds for the Kantorovich potentials
+        \item More SIMD optimizations, GPU
         \item preconditioners
-        \item multi-grid
     \end{itemize}
 \end{frame}
 
