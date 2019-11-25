@@ -12,3 +12,37 @@ Pb: on oscille autour de certaines cellules, ce qui empêche de prendre de bons 
 Rq: on pourrait faire des faces avec 8 offsets de 8 bits dans les noeuds
   => 6 bits pour dire quel noeud parmi 64, 2 bits pour donner le numéro de edge
   Rq:  
+
+
+
+  Pb: on a besoin d'un résumé des noeuds présent dans chaque face pour savoir vite s'il y a possible intersection
+
+  Mais on a aussi besoin de connaitre l'ordre dans la face, parmi les permutation.
+
+  L'information de la taille, c'est le nombre de bits. On peut aussi utiliser le premier bit pour désigner le premier noeud.
+
+  Autre possibilité: on fait des listes chainées depuis les noeuds...
+
+  Rq: dans le fond, ce qu'on veut, c'est une liste de masques d'edges. 
+
+  Rq: on pourrait aussi faire une liste d'edges, stockée sous forme de masques.
+
+
+  Autre prop: un entier pour donner la permutation de noeuds à partir des noeuds présents
+    => pour 8 noeuds dans une face, ça fait 5040 possibilités
+
+Pour 8 noeuds au max, ça fait 1379138 possibilités. Pour 7 noeuds, ça fait 98978 possibilités.
+
+Rq: pour les cas les moins fréquents, on peut ne pas utilise la permutation pour changer de code.
+
+On peut aussi envisager de faire un tableau de permutation pour tous les cas... ou alors stocker les numéros de noeud dans chaque face 
+
+=> pour chaque face, on stocke un masque de noeud. On repère si une face est changée en regardant s'il y a au moins 1 noeud dehors. Ça peut se faire en 
+   batch et se traduire par un masque qui dit quelles faces il faut changer. 
+
+  * Si on stocke l'ordre des noeuds comme une suite de masques de 64 bits (8 masques/face), il suffit de faire un and puis un masque pour trouver la
+     configuration des in/out. Après ça, par contre, pour trouver les coordonnées de noeuds des edges à couper, il faudra retrouver des index à partir de clz...
+
+  * Si on stocke l'ordre des noeuds avec 8 uint8, ça prendra moins de place (64 bits en tout). Il faudra faire un _mm512_srlv_epi64 pour faire des masques
+    pour comparer, mais ça paraît mieux qu'un gather.
+
