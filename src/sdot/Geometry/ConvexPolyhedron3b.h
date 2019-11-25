@@ -33,14 +33,14 @@ public:
     using                                Lt64FaceBlock             = ConvexPolyhedron3Lt64FaceBlock<Pc>;
 
     // types for the ctor
-    struct                               Box                       { Pt p0, p1; CI cut_id = nullptr; };
+    struct                               Box                       { Box( Pt p0, Pt p1, CI cut_id = nullptr ); ConvexPolyhedron3 cp; };
 
-    /**/                                 ConvexPolyhedron3         ( const Box &box );
+    /**/                                 ConvexPolyhedron3         ( Pt p0, Pt p1, CI cut_id );
     /**/                                 ConvexPolyhedron3         ();
     /**/                                ~ConvexPolyhedron3         ();
 
     ConvexPolyhedron3&                   operator=                 ( const ConvexPolyhedron3 &that );
-    ConvexPolyhedron3&                   operator=                 ( const Box &box );
+    ConvexPolyhedron3&                   operator=                 ( const Box &that );
 
     // information
     void                                 write_to_stream           ( std::ostream &os, bool debug = false ) const;
@@ -68,19 +68,12 @@ public:
     TF                                   integral                  () const;
 
 private:
-    template<int flags>  void            plane_cut_lt_64           ( std::array<const TF *,dim> cut_dir, const TF *cut_ps, const CI */*cut_id*/, std::size_t nb_cuts, N<flags> );
-    template<int flags>  void            plane_cut_mt_64           ( std::array<const TF *,dim> cut_dir, const TF *cut_ps, const CI */*cut_id*/, std::size_t nb_cuts, N<flags> );
-    void                                 set_box                   ( const Box &box );
-
     // aligned structures
-    Lt64NodeBlock                        lt64_node_block;          ///< node info when nb_nodes <= 64 (and nb_faces < 256)
-    Lt64FaceBlock                        lt64_face_block;          ///< which nodes are present in each face
+    ConvexPolyhedron3Lt64NodeBlock<Pc>   nodes;                    ///<
+    ConvexPolyhedron3Lt64FaceBlock<Pc>   faces;                    ///<
 
-    TI                                   nodes_size;               ///< nb nodes
-    TI                                   faces_size;               ///<
-
-    TI                                   nodes_rese;               ///< reservation in the heap (used if nb_nodes > 64)
-    TI                                   faces_rese;               ///<
+    unsigned                             nodes_size;
+    unsigned                             faces_size;
 
     TF                                   sphere_radius;
     Pt                                   sphere_center;

@@ -56,3 +56,14 @@ On peut aussi envisager de faire un tableau de permutation pour tous les cas... 
   * Si on stocke l'ordre des noeuds avec 8 uint8, ça prendra moins de place (64 bits en tout). Il faudra faire un _mm512_srlv_epi64 pour faire des masques
     pour comparer, mais ça paraît mieux qu'un gather.
 
+
+Rq: plutôt que faire des tests pour déterminer si on est Lt64 à chaque opération, on peut commencer avec un Lt64... et si ça ne marche pas, stocker 
+   dans un liste les points à refaire avec une version plus générique
+
+Rq: dans une approche où on a une taille max de noeuds et de faces, est-il nécessaire de garder le truc des node = block ?
+  => pour les noeuds, il n'y a que des TF... on peut rester sur ce principe
+  => pour les faces, on a des listes de pointeurs 
+
+
+
+

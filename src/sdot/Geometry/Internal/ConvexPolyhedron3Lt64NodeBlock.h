@@ -1,7 +1,6 @@
 #pragma once
 
 #include "../../Support/Point3.h"
-#include "PaddedType.h"
 
 namespace sdot {
 
@@ -9,23 +8,12 @@ namespace sdot {
   Data layout:
 */
 template<class Carac>
-class alignas(32) ConvexPolyhedron3Lt64NodeBlock {
+class alignas( 64 ) ConvexPolyhedron3Lt64NodeBlock {
 public:
     // common types
     using       TF                       = typename Carac::TF;
-    using       TI                       = typename Carac::TI;
     using       Pt                       = Point3<TF>;
     enum {      bs                       = 64 }; ///< block size
-
-    // content used if edge is round
-    struct      RoundStuff               {
-        Pt      tangent_0;               ///< tangent in n0
-        Pt      tangent_1;               ///< tangent in n1
-        TF      angle_1;                 ///< angle of n1 (angle of n0 = 0)
-        TF      radius;                  ///<
-        Pt      center;                  ///<
-        Pt      ndir;                    ///< normalized( node[ n0 ].pos - center )
-    };
 
     // shortcuts
     using       Node                     = ConvexPolyhedron3Lt64NodeBlock;
@@ -34,11 +22,11 @@ public:
     void        set_pos                  ( Pt p ) { x = p.x; y = p.y; z = p.z; }
     Pt          pos                      () const { return { x, y, z }; }
 
-    const Node& local_at                 ( TI index ) const { return *reinterpret_cast<const Node *>( &x + index ); }
-    Node&       local_at                 ( TI index ) { return *reinterpret_cast<Node *>( &x + index ); }
+    const Node& local_at                 ( unsigned index ) const { return *reinterpret_cast<const Node *>( &x + index ); }
+    Node&       local_at                 ( unsigned index ) { return *reinterpret_cast<Node *>( &x + index ); }
 
-    const Node& global_at                ( TI index ) const { return *reinterpret_cast<const Node *>( &this[ index / bs ].x + index % bs ); }
-    Node&       global_at                ( TI index ) { return *reinterpret_cast<Node *>( &this[ index / bs ].x + index % bs ); }
+    const Node& global_at                ( unsigned index ) const { return *reinterpret_cast<const Node *>( &this[ index / bs ].x + index % bs ); }
+    Node&       global_at                ( unsigned index ) { return *reinterpret_cast<Node *>( &this[ index / bs ].x + index % bs ); }
 
     bool        outside                  () const { return d > 0; }
     bool        inside                   () const { return ! outside(); }

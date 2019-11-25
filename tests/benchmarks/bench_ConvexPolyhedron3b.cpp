@@ -11,6 +11,7 @@ using namespace sdot;
 //// nsmake cpp_flag -march=native
 //// nsmake cpp_flag -ffast-math
 //// nsmake cpp_flag -O3
+//// nsmake lib_flag -O3
 
 struct Pc {
     enum { store_the_normals = false };
@@ -29,40 +30,44 @@ using Cp = ConvexPolyhedron3<Pc>;
 using TF = Cp::TF;
 using Pt = Cp::Pt;
 
-void __attribute__ ((noinline)) set_box( Cp &cp ) {
-    Cp::Box box{ TF( -1 ), TF( 1 ) };
+template<class Box>
+void __attribute__ ((noinline)) set_box( Cp &cp, const Box &box, std::vector<TF> &/*xs*/, std::vector<TF> &/*ys*/, std::vector<TF> &/*zs*/, std::vector<TF> &/*ps*/, std::vector<Pc::Dirac *> &/*ds*/ ) {
     cp = box;
 }
 
+template<class Box>
+void __attribute__ ((noinline)) cut_proc( Cp &cp, const Box &box, std::vector<TF> &xs, std::vector<TF> &ys, std::vector<TF> &zs, std::vector<TF> &ps, std::vector<Pc::Dirac *> &ds ) {
+    cp = box;
+    cp.plane_cut( { xs.data(), ys.data(), zs.data() }, ps.data(), ds.data(), xs.size(), N<0>() );
+}
+
 void bench( std::vector<TF> xs, std::vector<TF> ys, std::vector<TF> zs, std::vector<TF> ps, std::vector<Pc::Dirac *> ds ) {
-    constexpr int flags = 0;
+    std::uint64_t t0 = 0, t1 = 0, nb_reps = 28000000;
+    //    Cp::Box box{ TF( -1 ), TF( 1 ) };
+    Cp::Box box{ TF( -1 ), TF( 1 ) };
 
     // overhead
     Cp cp;
-    TF sum = 0;
-    std::uint64_t t0 = 0, t1 = 0, nb_reps = 280000000;
     RDTSC_START( t0 );
     for( std::size_t rep = 0; rep < nb_reps; ++rep )
-        set_box( cp );
+        set_box( cp, box, xs, ys, zs, ps, ds );
     RDTSC_FINAL( t1 );
-    std::uint64_t overhead = t1 - t0;
+    double dt_set_box = 1.0 * ( t1 - t0 ) / nb_reps;
 
     // cuts
     RDTSC_START( t0 );
-    for( std::size_t rep = 0; rep < nb_reps; ++rep ) {
-        set_box( cp );
-        cp.plane_cut( { xs.data(), ys.data(), zs.data() }, ps.data(), ds.data(), xs.size(), N<flags>() );
-        sum += cp.nb_nodes();
-    }
+    for( std::size_t rep = 0; rep < nb_reps; ++rep )
+        cut_proc( cp, box, xs, ys, zs, ps, ds );
     RDTSC_FINAL( t1 );
-    std::uint64_t dt = ( t1 - t0 - overhead ) / ( nb_reps * xs.size() );
+    std::uint64_t dt_cut_proc = ( t1 - t0 ) / nb_reps;
 
     //    P( cp );
-    P( sum, 1.0 * overhead / nb_reps, ( t1 - t0 ) / nb_reps, dt );
+    P( dt_set_box );
+    P( dt_cut_proc );
 
-    VtkOutput vo;
-    cp.display_vtk( vo );
-    vo.save( "vtk/pd.vtk" );
+    //    VtkOutput vo;
+    //    cp.display_vtk( vo );
+    //    vo.save( "vtk/pd.vtk" );
 }
 
 
