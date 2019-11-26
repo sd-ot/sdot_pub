@@ -27,7 +27,7 @@ struct Pc {
     struct Dirac {
         static std::vector<std::string> names() { return { "weight", "index", "dxn" }; }
         std::vector<TF> values() const { return { weight, TF( index ), dxn }; }
-        void write_to_stream( std::ostream &os ) const { os << index; }
+        void write_to_stream( std::ostream &os ) const { os << pos; } //index; }
 
         //
         TF weight;
@@ -38,8 +38,16 @@ struct Pc {
 };
 
 template<class Dirac>
-void make_divs( std::vector<Dirac> &diracs, int n ) {
-
+void make_divs( std::vector<Dirac> &diracs, int n, Point2<double> mi, Point2<double> dl ) {
+    if ( n ) {
+        #define PD( U, V ) make_divs( diracs, n - 1, { mi[ 0 ] + U * dl[ 0 ], mi[ 1 ] + V * dl[ 1 ] }, 0.5 * dl )
+        PD( 0.0, 0.0 );
+        PD( 0.5, 0.0 );
+        PD( 0.0, 0.5 );
+        PD( 0.5, 0.5 );
+        return;
+    }
+    diracs.push_back( { 0.0, diracs.size(), mi, 0.0 } );
 }
 
 template<class Pc>
@@ -57,30 +65,26 @@ void test() {
 
     // load
     Grid grid( 5 );
-    // TI nb_diracs = 1e2;
+    TI nb_diracs = 25;
     grid.max_diracs_per_sst = 10;
     grid.construct( [&]( const std::function<void( const Dirac *diracs, TI nb_diracs, bool ptrs_survive_the_call )> &cb ) {
-        //        srand( 0 );
-        //        std::vector<Dirac> loc_diracs( 1e3 );
-        //        for( TI n = 0; n < nb_diracs; ) {
-        //            TI r = min( nb_diracs, n + loc_diracs.size() ) - n;
-        //            for( TI o = 0; o < r; ++o, ++n ) {
-        //                Pt p;
-        //                for( std::size_t d = 0; d < dim; ++d )
-        //                    p[ d ] = 1.0 * rand() / RAND_MAX;
-        //                loc_diracs[ o ] = { 0.0, n, p, 0.0 };
-        //            }
+        srand( 0 );
+        std::vector<Dirac> loc_diracs( 1e3 );
+        for( TI n = 0; n < nb_diracs; ) {
+            TI r = min( nb_diracs, n + loc_diracs.size() ) - n;
+            for( TI o = 0; o < r; ++o, ++n ) {
+                Pt p;
+                for( std::size_t d = 0; d < dim; ++d )
+                    p[ d ] = 1.0 * rand() / RAND_MAX;
+                loc_diracs[ o ] = { 0.0, n, p, 0.0 };
+            }
 
-        //            cb( loc_diracs.data(), r, false );
-        //        }
-        //        std::vector<Dirac> loc_diracs( 100 );
-        //        for( std::size_t r = 0, o = 0; r < 10; ++r )
-        //            for( std::size_t c = 0; c < 10; ++c, ++o )
-        //                loc_diracs[ o ] = { 0.0, o, { TF( 0.1 * ( r + 0.5 ) ), TF( 0.1 * ( c + 0.5 ) ) }, 0.0 };
-        std::vector<Dirac> loc_diracs;
-        make_divs( loc_diracs, 3 );
+            cb( loc_diracs.data(), r, false );
+        }
 
-        cb( loc_diracs.data(), loc_diracs.size(), false );
+        // std::vector<Dirac> loc_diracs;
+        // make_divs( loc_diracs, 3, { 0.0, 0.0 }, { 1.0, 1.0 } );
+        // cb( loc_diracs.data(), loc_diracs.size(), false );
     } );
 
     VtkOutput vo;
