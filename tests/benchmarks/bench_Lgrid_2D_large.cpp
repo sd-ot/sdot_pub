@@ -37,6 +37,11 @@ struct Pc {
     };
 };
 
+template<class Dirac>
+void make_divs( std::vector<Dirac> &diracs, int n ) {
+
+}
+
 template<class Pc>
 void test() {
     constexpr int dim = Pc::dim;
@@ -68,11 +73,14 @@ void test() {
 
         //            cb( loc_diracs.data(), r, false );
         //        }
-        std::vector<Dirac> loc_diracs( 100 );
-        for( std::size_t r = 0, o = 0; r < 10; ++r )
-            for( std::size_t c = 0; c < 10; ++c, ++o )
-                loc_diracs[ o ] = { 0.0, o, { TF( 0.1 * ( r + 0.5 ) ), TF( 0.1 * ( c + 0.5 ) ) }, 0.0 };
-        cb( loc_diracs.data(), 100, false );
+        //        std::vector<Dirac> loc_diracs( 100 );
+        //        for( std::size_t r = 0, o = 0; r < 10; ++r )
+        //            for( std::size_t c = 0; c < 10; ++c, ++o )
+        //                loc_diracs[ o ] = { 0.0, o, { TF( 0.1 * ( r + 0.5 ) ), TF( 0.1 * ( c + 0.5 ) ) }, 0.0 };
+        std::vector<Dirac> loc_diracs;
+        make_divs( loc_diracs, 3 );
+
+        cb( loc_diracs.data(), loc_diracs.size(), false );
     } );
 
     VtkOutput vo;
