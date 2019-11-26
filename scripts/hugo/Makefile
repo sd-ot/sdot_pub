@@ -1,4 +1,4 @@
-RUN = nsmake run -g3 # --exec-with "valgrind --num-callers=64"
+RUN = nsmake run -g3 -D__AVX512F__ # --exec-with "valgrind --num-callers=64"
 
 all:
 	${RUN} tests/benchmarks/bench_ConvexPolyhedron3b.cpp

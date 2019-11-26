@@ -6,8 +6,6 @@
 using namespace sdot;
 
 // // nsmake cxx_name clang++
-// // nsmake cpp_flag -march=skylake
-
 //// nsmake cpp_flag -march=native
 //// nsmake cpp_flag -ffast-math
 //// nsmake cpp_flag -O3
@@ -41,10 +39,10 @@ void __attribute__ ((noinline)) cut_proc( Cp &cp, const Box &box, std::vector<TF
     cp.plane_cut( { xs.data(), ys.data(), zs.data() }, ps.data(), ds.data(), xs.size(), N<0>() );
 }
 
-void bench( std::vector<TF> xs, std::vector<TF> ys, std::vector<TF> zs, std::vector<TF> ps, std::vector<Pc::Dirac *> ds ) {
-    std::uint64_t t0 = 0, t1 = 0, nb_reps = 1; // 28000000;
+void bench( std::vector<TF> xs, std::vector<TF> ys, std::vector<TF> zs, std::vector<TF> ps, std::vector<Pc::Dirac *> ds, std::uint64_t nb_reps ) {
     //    Cp::Box box{ TF( -1 ), TF( 1 ) };
     Cp::Box box{ TF( -1 ), TF( 1 ) };
+    std::uint64_t t0 = 0, t1 = 0;
 
     // overhead
     Cp cp;
@@ -62,29 +60,37 @@ void bench( std::vector<TF> xs, std::vector<TF> ys, std::vector<TF> zs, std::vec
     std::uint64_t dt_cut_proc = 1.0 * ( t1 - t0 ) / nb_reps;
 
     //    P( cp );
-    P( dt_set_box );
-    P( dt_cut_proc );
+    if ( nb_reps > 1 ) {
+        P( dt_set_box );
+        P( dt_cut_proc );
+    }
 
-    //    VtkOutput vo;
-    //    cp.display_vtk( vo );
-    //    vo.save( "vtk/pd.vtk" );
+    VtkOutput vo;
+    cp.display_vtk( vo );
+    vo.save( "vtk/pd.vtk" );
 }
 
 
 int main() {
+    bool single_test = 0;
+
     std::vector<Pt> directions;
-    for( TF z = -1; z <= 1; ++z ) {
-        for( TF y = -1; y <= 1; ++y ) {
-            for( TF x = -1; x <= 1; ++x ) {
-                if ( x || y || z ) {
-                    Pt p( x, y, z );
-                    directions.push_back( p / norm_2( p ) );
+    if ( single_test ) {
+        directions.push_back( { 1, 0, 0 } );
+    } else {
+        for( TF z = -1; z <= 1; ++z ) {
+            for( TF y = -1; y <= 1; ++y ) {
+                for( TF x = -1; x <= 1; ++x ) {
+                    if ( x || y || z ) {
+                        Pt p( x, y, z );
+                        directions.push_back( p / norm_2( p ) );
+                    }
                 }
             }
         }
     }
 
-    std::size_t nb_cuts = 120;
+    std::size_t nb_cuts = single_test ? 1 : 64;
     std::vector<TF> xs, ys, zs, ps;
     std::vector<Pc::Dirac *> ds;
     for( std::size_t n = 0; n < nb_cuts; ++n ) {
@@ -96,5 +102,5 @@ int main() {
         ds.push_back( nullptr );
     }
 
-    bench( xs, ys, zs, ps, ds );
+    bench( xs, ys, zs, ps, ds, single_test ? 1 : 28000000 );
 }

@@ -151,36 +151,18 @@ void ConvexPolyhedron3<Pc>::write_to_stream( std::ostream &os, bool /*debug*/ ) 
 
 template<class Pc>
 void ConvexPolyhedron3<Pc>::display_vtk( VtkOutput &vo, const std::vector<TF> &cell_values, Pt offset, bool /*display_both_sides*/ ) const {
-//    std::vector<VtkOutput::Pt> pts;
-//    for_each_face( [&]( const Face &face ) {
-//        if ( allow_ball_cut && face.round ) {
-//            TODO;
-//        } else /*if ( display_both_sides || face.cut_id > sphere_cut_id )*/ {
-//            pts.clear();
-//            face.foreach_node( [&]( const Node &node ) {
-//                pts.push_back( node.pos() + offset );
-//            } );
-//            vo.add_polygon( pts, cell_values );
-//        }
-//    } );
-}
-
-
-template<class Pc> template<class F>
-void ConvexPolyhedron3<Pc>::for_each_face( const F &f ) const {
-    for( TI i = 0; i < faces_size; ++i )
-        f( faces.local_at( i ) );
-}
-
-template<class Pc> template<class F>
-void ConvexPolyhedron3<Pc>::for_each_node( const F &f ) const {
-    TI s = nodes_size;
-    if ( s <= 64 ) {
-        for( TI i = 0; i < s; ++i )
-            f( nodes.local_at( i ) );
-    } else {
-        TODO;
-    }
+    std::vector<VtkOutput::Pt> pts;
+    for_each_face( [&]( const Face &face ) {
+        if ( allow_ball_cut ) { //  && face.round
+            TODO;
+        } else /*if ( display_both_sides || face.cut_id > sphere_cut_id )*/ {
+            pts.clear();
+            face.for_each_node( [&]( const Node &node ) {
+                pts.push_back( node.pos() + offset );
+            } );
+            vo.add_polygon( pts, cell_values );
+        }
+    } );
 }
 
 template<class Pc>
@@ -193,25 +175,31 @@ bool ConvexPolyhedron3<Pc>::empty() const {
     return nodes_size == 0;
 }
 
-//template<class Pc>
-//const typename ConvexPolyhedron3<Pc>::Node &ConvexPolyhedron3<Pc>::node( TI index ) const {
-//    return nodes->global_at( index );
-//}
+template<class Pc>
+const typename ConvexPolyhedron3<Pc>::Node &ConvexPolyhedron3<Pc>::node( TI index ) const {
+    return nodes.local_at( index );
+}
 
-//template<class Pc>
-//typename ConvexPolyhedron3<Pc>::Node &ConvexPolyhedron3<Pc>::node( TI index ) {
-//    return nodes->global_at( index );
-//}
+template<class Pc>
+typename ConvexPolyhedron3<Pc>::Node &ConvexPolyhedron3<Pc>::node( TI index ) {
+    return nodes.local_at( index );
+}
 
-//template<class Pc>
-//void ConvexPolyhedron3<Pc>::for_each_boundary_item( const std::function<void( const BoundaryItem &boundary_item )> &f ) const {
-//    for_each_face( f );
-//}
+template<class Pc>
+void ConvexPolyhedron3<Pc>::for_each_boundary_item( const std::function<void( const BoundaryItem &boundary_item )> &f ) const {
+    for_each_face( f );
+}
+
+template<class Pc>
+void ConvexPolyhedron3<Pc>::for_each_face( const std::function<void( const Face &)> &f ) const {
+    for( unsigned num_face = 0; num_face < faces_size; ++num_face )
+        f( { num_face, this } );
+}
 
 
 template<class Pc> template<int flags>
 void ConvexPolyhedron3<Pc>::plane_cut( std::array<const TF *,dim> cut_dir, const TF *cut_ps, const CI *cut_id, std::size_t nb_cuts, N<flags> ) {
-    #ifdef __AVX512F__
+    //    #ifdef __AVX512F__
     for( std::size_t num_cut = 0; num_cut < nb_cuts; ++num_cut ) {
         __m512d nx = _mm512_set1_pd( cut_dir[ 0 ][ num_cut ] );
         __m512d ny = _mm512_set1_pd( cut_dir[ 1 ][ num_cut ] );
@@ -243,14 +231,37 @@ void ConvexPolyhedron3<Pc>::plane_cut( std::array<const TF *,dim> cut_dir, const
         // if nothing has changed
         if ( ou == 0 )
             return;
-        
+
         // else, find the intersected faces
-        auto &handle_intersected_face = [&]( unsigned num_face ) {
-            // for each node 
+        unsigned faces_to_rem[ Lt64FaceBlock::max_nb_faces_per_cell ];
+        unsigned nb_faces_to_rem = 0;
+
+        auto handle_intersected_face = [&]( unsigned num_face ) {
+            // make a cut id: 4 bits for the initial number of nodes, 16 bits for outsideness of each node
+            const auto &node_list = faces.node_lists[ n ];
+            unsigned nb_nodes = faces.nb_nodes[ num_face ];
+            if ( nb_nodes > 8 )
+                TODO;
+
+            // unsigned ouf = 0;
+            // for( std::size_t num_node = 0; num_node < nb_nodes; ++num_node ) {
+            //     bool out = ( 1 << node_list[ num_node ] ) & ou;
+            //     ouf |= unsigned( out ) << num_node;
+            // }
+            __m128i blo = _mm_load_si128( reinterpret_cast<const __m128i *>( node_list.data() ) ); // load the 16 indices (in 8 bit)
+            __m512i bou = _mm512_set1_epi64( ou );
+            __m512i bex = _mm512_cvtepi8_epi64( blo ); // 8 bits to 64 bits indices (first part)
+            __m512i bsh = _mm512_sllv_epi64( _mm512_set1_epi64( 1 ), bex ); // load the first 8 indices to 64 bits
+            __m512i ban = _mm512_and_epi64( bsh, bou );
+            std::uint16_t ouf = ( _mm512_cmpneq_epi64_mask( ban, _mm512_setzero_si512() ) << 3 ) + ( nb_nodes - 3 );
+            do {
+                #include "Internal/(ConvexPolyhedron3Lt64_plane_cut_switch.cpp).h"
+            } while ( 0 );
         };
         
+        // find the intersected faces
         n = 0;
-        __m512i mn = _mm512_set1_epi64( ou );
+        // __m512i mn = _mm512_set1_epi64( ou );
         for( ; n + 8 <= faces_size; n += 8 ) {
             //             __m512i ms = _mm512_load_epi64( faces.node_masks + n );
             //             __m512i am = _mm512_and_epi64( mn, ms );
@@ -261,11 +272,31 @@ void ConvexPolyhedron3<Pc>::plane_cut( std::array<const TF *,dim> cut_dir, const
             if ( ou & faces.node_masks[ n ] )
                 handle_intersected_face( n );
         
-        
+        // remove void faces
+        auto remove_void_faces = [&]() {
+            for( unsigned num_in_faces_to_rem = 0; num_in_faces_to_rem < nb_faces_to_rem; ++num_in_faces_to_rem ) {
+                unsigned num_face_to_rem = faces_to_rem[ num_in_faces_to_rem ];
+                while ( true ) {
+                    if ( --faces_size <= num_face_to_rem )
+                        return;
+                    if ( faces.node_masks[ faces_size ] )
+                        break;
+                }
+
+                faces.node_masks[ num_face_to_rem ] = faces.node_masks[ faces_size ];
+                faces.node_lists[ num_face_to_rem ] = faces.node_lists[ faces_size ];
+                faces.normal_xs [ num_face_to_rem ] = faces.normal_xs [ faces_size ];
+                faces.normal_ys [ num_face_to_rem ] = faces.normal_ys [ faces_size ];
+                faces.normal_zs [ num_face_to_rem ] = faces.normal_zs [ faces_size ];
+                faces.nb_nodes  [ num_face_to_rem ] = faces.nb_nodes  [ faces_size ];
+                faces.cut_ids   [ num_face_to_rem ] = faces.cut_ids   [ faces_size ];
+            }
+        };
+        remove_void_faces();
     }
-    #else
-    TODO;
-    #endif
+    //    #else
+    //    // TODO;
+    //    #endif
 }
 
 template<class Pc>

@@ -1,8 +1,7 @@
 #ifndef SDOT_CONVEX_POLYHEDRON_3_H
 #define SDOT_CONVEX_POLYHEDRON_3_H
 
-#include "Internal/ConvexPolyhedron3Lt64NodeBlock.h"
-#include "Internal/ConvexPolyhedron3Lt64FaceBlock.h"
+#include "Internal/ConvexPolyhedron3Lt64Face.h"
 #include "ConvexPolyhedron.h"
 #include <functional>
 
@@ -31,6 +30,9 @@ public:
 
     using                                Lt64NodeBlock             = ConvexPolyhedron3Lt64NodeBlock<Pc>;
     using                                Lt64FaceBlock             = ConvexPolyhedron3Lt64FaceBlock<Pc>;
+    using                                BoundaryItem              = ConvexPolyhedron3Lt64Face<Pc>;
+    using                                Face                      = ConvexPolyhedron3Lt64Face<Pc>;
+    using                                Node                      = Lt64NodeBlock;
 
     // types for the ctor
     struct                               Box                       { Box( Pt p0, Pt p1, CI cut_id = nullptr ); ConvexPolyhedron3 cp; };
@@ -44,9 +46,6 @@ public:
 
     // information
     void                                 write_to_stream           ( std::ostream &os, bool debug = false ) const;
-    template<class F> void               for_each_face             ( const F &f ) const;
-    template<class F> void               for_each_edge             ( const F &f ) const;
-    template<class F> void               for_each_node             ( const F &f ) const;
     void                                 display_vtk               ( VtkOutput &vo, const std::vector<TF> &cell_values = {}, Pt offset = TF( 0 ), bool display_both_sides = true ) const;
     TI                                   nb_nodes                  () const;
     TI                                   nb_edges                  () const;
@@ -54,10 +53,11 @@ public:
 
     bool                                 empty                     () const;
 
-    //    const Node&                    node                      ( TI index ) const;
-    //    Node&                          node                      ( TI index );
+    const Node&                          node                      ( TI index ) const;
+    Node&                                node                      ( TI index );
 
-    //    void                           for_each_boundary_item    ( const std::function<void( const BoundaryItem &boundary_item )> &f ) const;
+    void                                 for_each_boundary_item    ( const std::function<void( const BoundaryItem &boundary_item )> &f ) const;
+    void                                 for_each_face             ( const std::function<void( const Face &face )> &f ) const;
 
     // geometric modifications
     template<int flags>  void            plane_cut                 ( std::array<const TF *,dim> cut_dir, const TF *cut_ps, const CI *cut_id, std::size_t nb_cuts, N<flags> ); ///< return true if effective cut. @see ConvexPolyhedron for the flags
@@ -68,6 +68,8 @@ public:
     TF                                   integral                  () const;
 
 private:
+    friend class                         ConvexPolyhedron3Lt64Face<Pc>;
+
     // aligned structures
     ConvexPolyhedron3Lt64NodeBlock<Pc>   nodes;                    ///<
     ConvexPolyhedron3Lt64FaceBlock<Pc>   faces;                    ///<
