@@ -11,9 +11,9 @@ namespace sdot {
 
 template<class Pc>
 LGrid<Pc>::LGrid( std::size_t max_diracs_per_cell ) : max_diracs_per_cell( max_diracs_per_cell ) {
-    max_diracs_per_sst = std::numeric_limits<TI>::max();
-    nb_final_cells     = 0;
-    root_cell          = nullptr;
+    max_ram_per_sst = std::numeric_limits<std::size_t>::max();
+    nb_final_cells  = 0;
+    root_cell       = nullptr;
 }
 
 
@@ -344,21 +344,23 @@ void LGrid<Pc>::push_cell( TI l, TZ &prev_z, TI level, TmpLevelInfo *level_info,
                 oli->ls.store_to( scell->bounds );
                 cell = scell;
 
-                //                // out of core
-                //                auto need_out_of_core = [&]() {
-                //                    if ( oli->nb_sub_cells < max_diracs_per_sst )
-                //                        return false;
-                //                    for( std::size_t i = 0; i < oli->nb_sub_cells; ++i )
-                //                        if ( oli->sub_cells[ i ] >= max_diracs_per_sst )
-                //                            return false;
-                //                    return true;
-                //                };
-                //                if ( need_out_of_core() ) {
-                //                    out_of_core_cells.push_back();
-                //                    OutOfCoreCell *ocell = &out_of_core_cells.back();
-                //                    ocell->sub_cell = scell;
-                //                    cell = scell;
-                //                }
+                // with an out of core layer if necessary
+                auto need_out_of_core = [&]() {
+                    if ( scell->ram < max_ram_per_sst )
+                        return false;
+                    for( std::size_t i = 0; i < scell->nb_sub_cells(); ++i )
+                        if ( scell->sub_cells[ i ]->ram >= max_ram_per_sst )
+                            return false;
+                    return true;
+                };
+                if ( need_out_of_core() ) {
+                    out_of_core_cells.emplace_back();
+                    OutOfCoreCell *ocell = &out_of_core_cells.back();
+                    ocell->bounds = scell->bounds;
+                    ocell->sub_cell = scell;
+                    ocell->ram = scell->ram;
+                    cell = ocell;
+                }
             } else {
                 cell = oli->sub_cells[ 0 ];
             }
@@ -393,7 +395,7 @@ void LGrid<Pc>::make_zind_limits( std::vector<TI> &zind_indices, std::vector<TZ>
         TI acc = 0;
         for( ; n < nb_items.size(); ++n ) {
             TI tmp = acc + nb_items[ n ];
-            if ( tmp > max_diracs_per_sst )
+            if ( tmp * sizeof( Dirac ) > max_ram_per_sst )
                 break;
             acc = tmp;
         }
@@ -580,6 +582,12 @@ void LGrid<Pc>::make_lcs_from( const std::function<void( CP &, Dirac &dirac, int
                 continue;
             }
 
+            //
+            if ( OutOfCoreCell *dell = msi.cell->out_of_core_cell() ) {
+                TODO;
+                continue;
+            }
+
             // else, add sub_cells in the queue
             const SuperCell *spc = static_cast<const SuperCell *>( msi.cell );
             for( std::size_t i = 0; i < spc->nb_sub_cells(); ++i )
@@ -635,6 +643,12 @@ void LGrid<Pc>::for_each_final_cell_mono_thr( const std::function<void( FinalCel
     for( BaseCell *cell = root_cell; ; ++path_len ) {
         if ( cell->final_cell() )
             break;
+
+        if ( OutOfCoreCell *ooc = cell->out_of_core_cell() ) {
+            TODO;
+            continue;
+        }
+
         SuperCell *spc = static_cast<SuperCell *>( cell );
         for( std::size_t i = 0; ; ++i ) {
             BaseCell *suc = spc->sub_cells[ i ];
@@ -666,6 +680,12 @@ void LGrid<Pc>::for_each_final_cell_mono_thr( const std::function<void( FinalCel
             BaseCell *tspc = path[ path_len - 1 ].cell->sub_cells[ path[ path_len - 1 ].num ];
             if ( tspc->final_cell() )
                 break;
+
+            if ( OutOfCoreCell *ooc = tspc->out_of_core_cell() ) {
+                TODO;
+                continue;
+            }
+
             path[ path_len ].cell = static_cast<SuperCell *>( tspc );
             path[ path_len ].num = 0;
             ++path_len;
@@ -869,9 +889,14 @@ void LGrid<Pc>::update_cell_bounds_phase_1( BaseCell *cell, BaseCell **path, int
         return;
     }
 
-    if ( SuperCell *sc =cell->super_cell() ) {
+    if ( SuperCell *sc = cell->super_cell() ) {
         for( int i = 0; i < sc->nb_sub_cells(); ++i )
             update_cell_bounds_phase_1( sc->sub_cells[ i ], path, level + 1 );
+        return;
+    }
+
+    if ( OutOfCoreCell *sc = cell->out_of_core_cell() ) {
+        update_cell_bounds_phase_1( sc->sub_cell, path, level + 1 );
         return;
     }
 

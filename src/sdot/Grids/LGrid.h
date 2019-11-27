@@ -60,7 +60,7 @@ public:
 
     // values used by update
     TI                             max_diracs_per_cell;
-    TI                             max_diracs_per_sst;
+    std::size_t                    max_ram_per_sst;
     std::vector<Pt>                translations;
 
 private:

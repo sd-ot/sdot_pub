@@ -66,7 +66,7 @@ void test() {
     // load
     Grid grid( 5 );
     TI nb_diracs = 25;
-    grid.max_diracs_per_sst = 10;
+    grid.max_ram_per_sst = 1000;
     grid.construct( [&]( const std::function<void( const Dirac *diracs, TI nb_diracs, bool ptrs_survive_the_call )> &cb ) {
         srand( 0 );
         std::vector<Dirac> loc_diracs( 1e3 );
