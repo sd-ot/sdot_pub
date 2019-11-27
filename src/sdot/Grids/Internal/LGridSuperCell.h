@@ -13,8 +13,10 @@ struct LGridSuperCell : LGridBaseCell<Pc> {
     using             BaseCell    = LGridBaseCell<Pc>;
     
     static SuperCell *allocate    ( BumpPointerPool &mem_pool, int nb_sub_cells ) {
-        SuperCell *res = reinterpret_cast<SuperCell *>( mem_pool.allocate( sizeof( BaseCell ) + nb_sub_cells * sizeof( BaseCell * ) ) );
+        std::size_t ram = sizeof( BaseCell ) + nb_sub_cells * sizeof( BaseCell * );
+        SuperCell *res = new ( mem_pool.allocate( ram ) ) SuperCell;
         res->nb_sub_items = - nb_sub_cells;
+        res->ram = ram;
         return res;
     }
 

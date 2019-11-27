@@ -4,7 +4,11 @@ Rq: 66% des cellules ont nb_nodes <= 8 dans toutes les faces (en 3D)
   => il faudrait traiter les faces jusqu'à ~ 12 noeuds pour avoir quasiment tout les monde
   => des faces à max 16 noeuds permettrait d'avoir tous les cas...
 
-
+Pb: si on veut pouvoir vider des parties de la mémoire, plusieurs possibilités:
+  - on fait des pools pour chaque OutOfCoreCell (on peut en faire une nouvelle qu'on déplace). Ça veut dire qu'on sérialize/désérialize
+  - on fait des vecteurs contigus, avec des offsets pour trouver les sous cellules. Le déplacement sera plus rapide, mais la parcourt plus lent...
+      Ce n'est pas ce qu'on cherche !
+  - Rq: si on fait des pools dans les cellules, il faudra qu'on les libère. On peut faire un deque de OutOfCoreCell 
 
 
 

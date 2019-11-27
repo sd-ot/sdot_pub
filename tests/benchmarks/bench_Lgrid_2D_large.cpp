@@ -91,6 +91,8 @@ void test() {
     grid.display_vtk( vo, { .weight_elevation = 1.0, .display_cells = true, .display_boxes = false } );
     vo.save( "vtk/grid.vtk" );
 
+    PN( grid );
+
     //    // get timings
     //    double best_dt_sum = 1e6, smurf = 0;
     //    for( std::size_t nb_diracs_per_cell = 23; nb_diracs_per_cell <= 43; nb_diracs_per_cell += 1 ) {

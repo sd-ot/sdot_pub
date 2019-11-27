@@ -2,6 +2,7 @@
 #define SDOT_LGrid_H
 
 #include "../Geometry/ConvexPolyhedronTraits.h"
+#include "Internal/LGridOutOfCoreCell.h"
 #include "Internal/CellBoundsTraits.h"
 #include "Internal/LGridFinalCell.h"
 #include "Internal/LGridSuperCell.h"
@@ -29,6 +30,7 @@ public:
 
     // constructed or deduced types
     struct                         TraversalFlags              { bool stop_if_void_lc = false, mod_weights = false; };
+    using                          OutOfCoreCell               = LGridOutOfCoreCell<Pc>;
     struct                         DisplayFlags                { TF weight_elevation = 0; bool display_cells = false, display_boxes = true; };
     using                          FinalCell                   = LGridFinalCell<Pc>;
     using                          SuperCell                   = LGridSuperCell<Pc>;
@@ -38,6 +40,7 @@ public:
 
     // contruction methods
     /* ctor */                     LGrid                       ( std::size_t max_diracs_per_cell = 11 );
+    /* dtor */                    ~LGrid                       ();
 
     void                           construct                   ( const std::function<void( const Cb &cb )> &f ); ///< generic case: diracs come by chunk (that fit in memory or not)
     void                           construct                   ( const Dirac *diracs, TI nb_diracs ); ///< simple case: one gives all the diracs at once
@@ -93,20 +96,21 @@ private:
     template<int a_n0,int f> void  cut_lc                      ( CP &lc, Point3<TF> c0, TF w0, FinalCell *dell, N<a_n0>, TI n0, N<f> ) const;
 
     // buffers
-    std::vector<TZ>                znodes_keys;                ///< tmp znodes
-    std::vector<const Dirac *>     znodes_ptrs;                ///< tmp indices for each znode ( ex: ppwns[ 0 ].positions[ ind.second ] to get positions )
-    std::vector<Dirac>             tmp_diracs;                 ///<
-    BumpPointerPool                mem_pool;                   ///< to store the cells
+    std::vector<TZ>                znodes_keys;                ///< buffer for some zcoords
+    std::vector<const Dirac *>     znodes_ptrs;                ///< buffer for some dirac pointers
+    std::vector<Dirac>             tmp_diracs;                 ///< buffer to store the dirac for a sub-part of the grid
     std::vector<std::size_t>       rs_tmps;                    ///< for the radix sort
 
     //
-    bool                           use_diracs_from_cb;
-    const Dirac                   *diracs_from_cb;
+    bool                           use_diracs_from_cb;         ///< true if possible to use a simple (stable) dirac pointer to construct the grid
+    const Dirac                   *diracs_from_cb;             ///< the simple (stable) dirac pointer to construct the grid (if possible)
     TI                             nb_diracs_tot;
 
     // grid
+    std::deque<OutOfCoreCell>      out_of_core_cells;          ///<
     TF                             inv_step_length;
     TI                             nb_final_cells;
+    BumpPointerPool                mem_pool_cells;             ///< to store the cells
     TF                             step_length;
     TF                             grid_length;
     Pt                             min_point;

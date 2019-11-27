@@ -16,6 +16,11 @@ LGrid<Pc>::LGrid( std::size_t max_diracs_per_cell ) : max_diracs_per_cell( max_d
     root_cell          = nullptr;
 }
 
+
+template<class Pc>
+LGrid<Pc>::~LGrid() {
+}
+
 template<class Pc>
 void LGrid<Pc>::construct( const Dirac *diracs, TI nb_diracs ) {
     construct( [&]( const Cb &cb ) {
@@ -129,7 +134,7 @@ void LGrid<Pc>::make_the_cells( const std::function<void(const Cb &cb)> &f ) {
     // reset
     root_cell = nullptr;
     nb_final_cells = 0;
-    mem_pool.clear();
+    mem_pool_cells.clear();
 
     //
     std::vector<TI> zind_indices;
@@ -288,7 +293,7 @@ void LGrid<Pc>::push_cell( TI l, TZ &prev_z, TI level, TmpLevelInfo *level_info,
     TmpLevelInfo *li = level_info + level;
     BaseCell *cell = nullptr;
     if ( len_ind_nz ) {
-        FinalCell *fcell = FinalCell::allocate( mem_pool, len_ind_nz );
+        FinalCell *fcell = FinalCell::allocate( mem_pool_cells, len_ind_nz );
         fcell->end_ind_in_fcells = ++nb_final_cells;
 
         // store diracs indices, get bounds
@@ -329,16 +334,31 @@ void LGrid<Pc>::push_cell( TI l, TZ &prev_z, TI level, TmpLevelInfo *level_info,
         TmpLevelInfo *oli = li++;
         if ( oli->nb_sub_cells ) {
             if ( oli->nb_sub_cells > 1 ) {
-                SuperCell *scell = SuperCell::allocate( mem_pool, oli->nb_sub_cells );
+                SuperCell *scell = SuperCell::allocate( mem_pool_cells, oli->nb_sub_cells );
                 scell->end_ind_in_fcells = nb_final_cells;
-
-                for( std::size_t i = 0; i < oli->nb_sub_cells; ++i )
+                for( std::size_t i = 0; i < oli->nb_sub_cells; ++i ) {
                     scell->sub_cells[ i ] = oli->sub_cells[ i ];
+                    scell->ram += oli->sub_cells[ i ]->ram;
+                }
 
-                //
                 oli->ls.store_to( scell->bounds );
-
                 cell = scell;
+
+                //                // out of core
+                //                auto need_out_of_core = [&]() {
+                //                    if ( oli->nb_sub_cells < max_diracs_per_sst )
+                //                        return false;
+                //                    for( std::size_t i = 0; i < oli->nb_sub_cells; ++i )
+                //                        if ( oli->sub_cells[ i ] >= max_diracs_per_sst )
+                //                            return false;
+                //                    return true;
+                //                };
+                //                if ( need_out_of_core() ) {
+                //                    out_of_core_cells.push_back();
+                //                    OutOfCoreCell *ocell = &out_of_core_cells.back();
+                //                    ocell->sub_cell = scell;
+                //                    cell = scell;
+                //                }
             } else {
                 cell = oli->sub_cells[ 0 ];
             }
@@ -817,18 +837,20 @@ void LGrid<Pc>::write_to_stream( std::ostream &os, BaseCell *cell, std::string s
 
     // cell->min_pos.write_to_stream( os << sp << "mip=" );
     // cell->max_pos.write_to_stream( os << " map=" );
-    os << " e=" << cell->end_ind_in_fcells;
-    if ( cell->super_cell() ) {
-        const SuperCell *sc = static_cast<const SuperCell *>( cell );
-        os << " nb_sub=" << sc->nb_sub_cells();
+    // os << " end=" << cell->end_ind_in_fcells;
+    if ( const SuperCell *sc = cell->super_cell() ) {
+        os << sp << "nb_sub=" << sc->nb_sub_cells() << " ram=" << sc->ram;
         for( std::size_t i = 0; i < sc->nb_sub_cells(); ++i )
             write_to_stream( os << "\n", sc->sub_cells[ i ], sp + "  " );
     }
-    if ( cell->final_cell() ) {
-        const FinalCell *sc = static_cast<const FinalCell *>( cell );
-        os << " nb_diracs=" << sc->nb_diracs();
+    if ( const FinalCell *sc = cell->final_cell() ) {
+        os << sp << "nb_diracs=" << sc->nb_diracs() << " ram=" << sc->ram;
         for( std::size_t i = 0; i < sc->nb_diracs(); ++i )
-            sc->diracs[ i ].write_to_stream( os << "\n    " );
+            sc->diracs[ i ].write_to_stream( os << "\n  " << sp );
+    }
+    if ( const OutOfCoreCell *sc = cell->out_of_core_cell() ) {
+        os << sp << " out of core";
+        write_to_stream( os << "\n", sc->sub_cell, sp + "  " );
     }
 }
 
