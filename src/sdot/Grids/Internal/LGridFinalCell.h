@@ -9,21 +9,39 @@ namespace sdot {
 */
 template<class Pc>
 struct LGridFinalCell : LGridBaseCell<Pc> {
-    using             FinalCell    = LGridFinalCell<Pc>;
-    using             BaseCell     = LGridBaseCell<Pc>;
-    using             Dirac        = typename Pc::Dirac;
+    using                FinalCell     = LGridFinalCell<Pc>;
+    using                BaseCell      = LGridBaseCell<Pc>;
+    using                Dirac         = typename Pc::Dirac;
 
-    static FinalCell *allocate     ( BumpPointerPool &mem_pool, int nb_diracs ) {
-        std::size_t ram = sizeof( BaseCell ) + nb_diracs * sizeof( Dirac );
-        FinalCell *res = new ( mem_pool.allocate( ram ) ) FinalCell;
-        res->nb_sub_items = nb_diracs;
-        res->ram = ram;
-        return res;
-    }
+    /**/                ~LGridFinalCell();
 
-    int               nb_diracs    () const { return this->nb_sub_items; }
+    std::size_t          size_in_bytes () const;
+    int                  nb_diracs     () const { return this->nb_sub_items; }
+    static FinalCell    *allocate      ( BumpPointerPool &pool, std::size_t &ram_acc, int nb_diracs );
 
-    Dirac             diracs[ 1 ]; ///<
+    Dirac                diracs[ 1 ];  ///<
 };
+
+template<class Pc>
+LGridFinalCell<Pc>::~LGridFinalCell() {
+    for( int i = 1; i < nb_diracs(); ++i )
+        diracs[ i ].~Dirac();
+}
+
+template<class Pc>
+LGridFinalCell<Pc> *LGridFinalCell<Pc>::allocate( BumpPointerPool &pool, std::size_t &ram_acc, int nb_diracs ) {
+    std::size_t ram = sizeof( BaseCell ) + nb_diracs * sizeof( Dirac );
+    FinalCell *res = new ( pool.allocate( ram ) ) FinalCell;
+    for( int i = 1; i < nb_diracs; ++i )
+        new ( res->diracs + i ) Dirac;
+    res->nb_sub_items = nb_diracs;
+    ram_acc += ram;
+    return res;
+}
+
+template<class Pc>
+std::size_t LGridFinalCell<Pc>::size_in_bytes() const {
+    return sizeof( BaseCell ) + nb_diracs() * sizeof( Dirac );
+}
 
 } // namespace sdot

@@ -11,7 +11,7 @@ using namespace sdot;
 // // nsmake cpp_flag -march=skylake
 
 // // nsmake cpp_flag -march=native
-//// nsmake cpp_flag -O2
+// // nsmake cpp_flag -O2
 
 template<int _dim>
 struct Pc {
@@ -65,8 +65,9 @@ void test() {
 
     // load
     Grid grid( 5 );
-    TI nb_diracs = 25;
-    grid.max_ram_per_sst = 1000;
+    TI nb_diracs = 100;
+    grid.max_usable_ram = 2000;
+    grid.max_ram_per_sst = 500;
     grid.construct( [&]( const std::function<void( const Dirac *diracs, TI nb_diracs, bool ptrs_survive_the_call )> &cb ) {
         srand( 0 );
         std::vector<Dirac> loc_diracs( 1e3 );
@@ -87,11 +88,12 @@ void test() {
         // cb( loc_diracs.data(), loc_diracs.size(), false );
     } );
 
+    // PN( grid );
+
     VtkOutput vo;
     grid.display_vtk( vo, { .weight_elevation = 1.0, .display_cells = true, .display_boxes = false } );
     vo.save( "vtk/grid.vtk" );
 
-    PN( grid );
 
     //    // get timings
     //    double best_dt_sum = 1e6, smurf = 0;

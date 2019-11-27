@@ -9,6 +9,7 @@
 */
 class BumpPointerPool {
 public:
+    /* */    BumpPointerPool( BumpPointerPool &&that );
     /* */    BumpPointerPool();
     /* */   ~BumpPointerPool();
 

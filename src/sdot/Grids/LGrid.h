@@ -32,6 +32,7 @@ public:
     struct                         TraversalFlags              { bool stop_if_void_lc = false, mod_weights = false; };
     using                          OutOfCoreCell               = LGridOutOfCoreCell<Pc>;
     struct                         DisplayFlags                { TF weight_elevation = 0; bool display_cells = false, display_boxes = true; };
+    using                          ParentCell                  = LGridParentCell<Pc>;
     using                          FinalCell                   = LGridFinalCell<Pc>;
     using                          SuperCell                   = LGridSuperCell<Pc>;
     using                          BaseCell                    = LGridBaseCell<Pc>;
@@ -61,6 +62,7 @@ public:
     // values used by update
     TI                             max_diracs_per_cell;
     std::size_t                    max_ram_per_sst;
+    std::size_t                    max_usable_ram;
     std::vector<Pt>                translations;
 
 private:
@@ -74,7 +76,7 @@ private:
     enum {                         ball_cut                    = 2 };
 
     struct                         TmpLevelInfo                { void clr() { num_sub_cell = 0; nb_sub_cells = 0; ls.clr(); } BaseCell *sub_cells[ 1 << dim ]; TI  num_sub_cell, nb_sub_cells; LocalSolver ls; };
-    struct                         CpAndNum                    { SuperCell *cell; TI num; };
+    struct                         CpAndNum                    { ParentCell *cell; TI num; };
     struct                         Msi                         { bool operator<( const Msi &that ) const { return dist > that.dist; } Pt center; BaseCell *cell; TF dist; };
 
     void                           get_grid_dims_and_dirac_ptrs( const std::function<void(const Cb &cb)> &f );
@@ -83,14 +85,20 @@ private:
     void                           update_cell_bounds_phase_1  ( BaseCell *cell, BaseCell **path, int level );
     void                           fill_grid_using_zcoords     ( const Dirac *diracs, TI nb_diracs );
     void                           compute_sst_limits          ( const std::function<void(const Cb &cb)> &f );
+    void                           free_an_out_of_core_cell    ();
     void                           make_zind_limits            ( std::vector<TI> &zind_indices, std::vector<TZ> &zind_limits, const std::function<void(const LGrid::Cb &)> &f );
     void                           write_to_stream             ( std::ostream &os, BaseCell *cell, std::string sp ) const;
+    LGridBaseCell<Pc>             *deserialize_rec             ( char *base, std::size_t off ) const;
     template<int flags> bool       can_be_evicted              ( const CP &lc, Pt &c0, TF w0, const CellBoundsP0<Pc> &bounds, N<flags> ) const;
     template<int flags> bool       can_be_evicted              ( const CP &lc, Pt &c0, TF w0, const CellBoundsPpos<Pc> &bounds, N<flags> ) const;
     void                           make_the_cells              ( const std::function<void(const Cb &cb)> &f );
     template<int f,class SLC> void make_lcs_from               ( const std::function<void( CP &, Dirac &dirac, int num_thread )> &cb, std::priority_queue<Msi> &base_queue, std::priority_queue<Msi> &queue, CP &lc, FinalCell *cell, const CpAndNum *path, TI path_len, int num_thread, N<f>, const SLC &starting_lc ) const;
+    std::size_t                    serialize_rec               ( std::ostream &os, std::size_t &len, BaseCell *cell );
     void                           display_vtk                 ( VtkOutput &vtk_output, BaseCell *cell, DisplayFlags display_flags ) const;
-    void                           push_cell                   ( TI l, TZ &prev_z, TI level, TmpLevelInfo *level_info, TI &index, const Dirac **zn_ptrs, TZ *zn_keys );
+    void                           deserialize                 ( OutOfCoreCell *cell ) const;
+    void                           push_cell                   ( TI l, TZ &prev_z, TI level, TmpLevelInfo *level_info, TI &index, const Dirac **zn_ptrs, TZ *zn_keys, std::size_t &used_ram );
+    void                           serialize                   ( OutOfCoreCell *cell );
+    void                           reset                       ();
 
     template<int a_n0,int f> void  cut_lc                      ( CP &lc, Point2<TF> c0, TF w0, FinalCell *dell, N<a_n0>, TI n0, N<f> ) const;
     template<int a_n0,int f> void  cut_lc                      ( CP &lc, Point3<TF> c0, TF w0, FinalCell *dell, N<a_n0>, TI n0, N<f> ) const;
@@ -106,11 +114,15 @@ private:
     const Dirac                   *diracs_from_cb;             ///< the simple (stable) dirac pointer to construct the grid (if possible)
     TI                             nb_diracs_tot;
 
+    // cache
+    std::vector<OutOfCoreCell *>   out_of_core_cell_list;      ///<
+    std::size_t                    out_of_core_ram;            ///<
+    std::size_t                    nb_filenames;               ///<
+    BumpPointerPool                cell_pool;                  ///<
+
     // grid
-    std::deque<OutOfCoreCell>      out_of_core_cells;          ///<
     TF                             inv_step_length;
     TI                             nb_final_cells;
-    BumpPointerPool                mem_pool_cells;             ///< to store the cells
     TF                             step_length;
     TF                             grid_length;
     Pt                             min_point;

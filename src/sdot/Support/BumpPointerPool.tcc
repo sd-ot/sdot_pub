@@ -5,6 +5,19 @@
 #include "TODO.h"
 
 inline
+BumpPointerPool::BumpPointerPool( BumpPointerPool &&that ) {
+    current_ptr.cp = that.current_ptr.cp;
+    ending_ptr     = that.ending_ptr;
+    last_frame     = that.last_frame;
+    last_item      = that.last_item;
+
+    that.current_ptr.cp = nullptr;
+    that.ending_ptr     = nullptr;
+    that.last_frame     = nullptr;
+    that.last_item      = nullptr;
+}
+
+inline
 BumpPointerPool::BumpPointerPool() {
     current_ptr.cp = nullptr;
     ending_ptr     = nullptr;

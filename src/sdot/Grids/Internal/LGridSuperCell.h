@@ -1,28 +1,25 @@
 #pragma once
 
 #include "../../Support/BumpPointerPool.h"
-#include "LGridBaseCell.h"
+#include "LGridParentCell.h"
 
 namespace sdot {
 
 /**
 */
 template<class Pc>
-struct LGridSuperCell : LGridBaseCell<Pc> {
-    using             SuperCell   = LGridSuperCell<Pc>;
-    using             BaseCell    = LGridBaseCell<Pc>;
-    
-    static SuperCell *allocate    ( BumpPointerPool &mem_pool, int nb_sub_cells ) {
-        std::size_t ram = sizeof( BaseCell ) + nb_sub_cells * sizeof( BaseCell * );
-        SuperCell *res = new ( mem_pool.allocate( ram ) ) SuperCell;
-        res->nb_sub_items = - nb_sub_cells;
-        res->ram = ram;
-        return res;
-    }
-
-    int               nb_sub_cells() const { return - this->nb_sub_items; }
-                     
-    BaseCell         *sub_cells[ 1 ]; ///<
+struct LGridSuperCell : LGridParentCell<Pc> {
+    static LGridSuperCell *allocate( BumpPointerPool &pool, std::size_t &ram, int nb_sub_cells ); ///< nb_sub_cells must be > 1 (because 1 corresponds to a OutOfCoreCell)
 };
+
+// impl ------------------------------------------------------------------------------------
+template<class Pc>
+LGridSuperCell<Pc> *LGridSuperCell<Pc>::allocate( BumpPointerPool &pool, std::size_t &ram_acc, int nb_sub_cells ) {
+    std::size_t ram = sizeof( LGridBaseCell<Pc> ) + nb_sub_cells * sizeof( LGridBaseCell<Pc> * );
+    LGridSuperCell *res = new ( pool.allocate( ram ) ) LGridSuperCell;
+    res->nb_sub_items = 1 - nb_sub_cells;
+    ram_acc += ram;
+    return res;
+}
 
 } // namespace sdot

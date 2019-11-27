@@ -29,7 +29,6 @@ struct LGridBaseCell {
     TI               end_ind_in_fcells; ///< end index in final cells
     int              nb_sub_items;      ///< > 0 => final cell (nb diracs). < 0 => super cell (nb sub cells).
     CellBounds       bounds;            ///< pos and weight bounds
-    std::size_t      ram;               ///< room in ram
 };
 
 } // namespace sdot
