@@ -68,6 +68,6 @@ Rq: dans une approche où on a une taille max de noeuds et de faces, est-il néc
   => pour les noeuds, il n'y a que des TF... on peut rester sur ce principe
   => pour les faces, on a des listes de pointeurs 
 
-
+L'avantage 
 
 
