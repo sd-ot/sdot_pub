@@ -66,6 +66,7 @@ void test() {
     // load
     Grid grid( 5 );
     TI nb_diracs = 100;
+    grid.ooc_dir = "ooc/";
     grid.max_usable_ram = 2000;
     grid.max_ram_per_sst = 500;
     grid.nb_final_cells_per_ooc_file = 2;

@@ -1,73 +1,23 @@
 Rq: 97% des faces ont nb_nodes <= 8 (en 3D)
 Rq: 66% des cellules ont nb_nodes <= 8 dans toutes les faces (en 3D)
 
-  => il faudrait traiter les faces jusqu'à ~ 12 noeuds pour avoir quasiment tout les monde
-  => des faces à max 16 noeuds permettrait d'avoir tous les cas...
+Stockage des fcell quand elles sont ooc:
+  => on a besoin d'un offset.
+  => Prop 1: on fait des pointeurs vers des cellules d'un autre type contenant des offsets.
+  => Prop 2: ça se passe au niveau des scells. Par exemple, on a un nombre de sous-cellules définies par pointeur, et un nombre de sous-cellules définies
+    par offset.
 
-Pb: si on veut pouvoir vider des parties de la mémoire, plusieurs possibilités:
-  - on fait des pools pour chaque OutOfCoreCell (on peut en faire une nouvelle qu'on déplace). Ça veut dire qu'on sérialize/désérialize
-  - on fait des vecteurs contigus, avec des offsets pour trouver les sous cellules. Le déplacement sera plus rapide, mais la parcourt plus lent...
-      Ce n'est pas ce qu'on cherche !
-  - Rq: si on fait des pools dans les cellules, il faudra qu'on les libère. On peut faire un deque de OutOfCoreCell 
+  Du coup, on pourrait faire des scell avec:
+    uint8 => nb enfants type scell (en mémoire)
+    uint8 => nb enfants type fcell (en mémoire)
+    uint8 => nb enfants type sur le disque.
 
+  Chaque enfant est ou bien un ptr sur fcell, un ptr sur scell ou un offset dans les fichiers de sauvegarde
 
+  Si on a un soucis sur la taille mémoire, on peut parcourir toutes les scells enregistrées comme contenant au moins une fcell.
+    on stocke les fcells et on met les offsets 
 
-Ajout dans grille d'un mode out of memory.
-  => plutôt que des vecteurs de position, on fourni une fonction qui prend un callback pour traiter n points+poids (pour update)
-  =>
+  Quand on tombe sur des cellules sur le disque, on peut garder la scell en ptr de ce qu'il faut lire.
 
-Prop: on fait un solveur style jacobi. Ça sera utile pour résolution + pour benchmarks.
-
-Pour commencer, on pourrait au moins faire un gradient conjugué.
-
-Pb: on oscille autour de certaines cellules, ce qui empêche de prendre de bons alpha 
-
-
-Rq: on pourrait faire des faces avec 8 offsets de 8 bits dans les noeuds
-  => 6 bits pour dire quel noeud parmi 64, 2 bits pour donner le numéro de edge
-  Rq:  
-
-
-
-  Pb: on a besoin d'un résumé des noeuds présent dans chaque face pour savoir vite s'il y a possible intersection
-
-  Mais on a aussi besoin de connaitre l'ordre dans la face, parmi les permutation.
-
-  L'information de la taille, c'est le nombre de bits. On peut aussi utiliser le premier bit pour désigner le premier noeud.
-
-  Autre possibilité: on fait des listes chainées depuis les noeuds...
-
-  Rq: dans le fond, ce qu'on veut, c'est une liste de masques d'edges. 
-
-  Rq: on pourrait aussi faire une liste d'edges, stockée sous forme de masques.
-
-
-  Autre prop: un entier pour donner la permutation de noeuds à partir des noeuds présents
-    => pour 8 noeuds dans une face, ça fait 5040 possibilités
-
-Pour 8 noeuds au max, ça fait 1379138 possibilités. Pour 7 noeuds, ça fait 98978 possibilités.
-
-Rq: pour les cas les moins fréquents, on peut ne pas utilise la permutation pour changer de code.
-
-On peut aussi envisager de faire un tableau de permutation pour tous les cas... ou alors stocker les numéros de noeud dans chaque face 
-
-=> pour chaque face, on stocke un masque de noeud. On repère si une face est changée en regardant s'il y a au moins 1 noeud dehors. Ça peut se faire en 
-   batch et se traduire par un masque qui dit quelles faces il faut changer. 
-
-  * Si on stocke l'ordre des noeuds comme une suite de masques de 64 bits (8 masques/face), il suffit de faire un and puis un masque pour trouver la
-     configuration des in/out. Après ça, par contre, pour trouver les coordonnées de noeuds des edges à couper, il faudra retrouver des index à partir de clz...
-
-  * Si on stocke l'ordre des noeuds avec 8 uint8, ça prendra moins de place (64 bits en tout). Il faudra faire un _mm512_srlv_epi64 pour faire des masques
-    pour comparer, mais ça paraît mieux qu'un gather.
-
-
-Rq: plutôt que faire des tests pour déterminer si on est Lt64 à chaque opération, on peut commencer avec un Lt64... et si ça ne marche pas, stocker 
-   dans un liste les points à refaire avec une version plus générique
-
-Rq: dans une approche où on a une taille max de noeuds et de faces, est-il nécessaire de garder le truc des node = block ?
-  => pour les noeuds, il n'y a que des TF... on peut rester sur ce principe
-  => pour les faces, on a des listes de pointeurs 
-
-L'avantage 
 
 

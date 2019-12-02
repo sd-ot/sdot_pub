@@ -62,6 +62,7 @@ public:
     std::size_t                    max_ram_per_sst;
     std::size_t                    max_usable_ram;
     std::vector<Pt>                translations;
+    std::string                    ooc_dir;
 
 private:
     static constexpr int           nb_bits_per_axis            = 20;
@@ -79,7 +80,7 @@ private:
     struct                         Msi                         { bool operator<( const Msi &that ) const { return dist > that.dist; } Pt center; BaseCell *cell; TF dist; };
 
     void                           get_grid_dims_and_dirac_ptrs( const std::function<void(const Cb &cb)> &f );
-    void                           for_each_final_cell_mono_thr( const std::function<void( FinalCell &cell, CpAndNum *path, TI path_len )> &f, TI beg_num_cell, TI end_num_cell ) const;
+    void                           for_each_final_cell_mono_thr( const std::function<void( FinalCell &cell, CpAndNum *path, TI path_len )> &f, TI beg_num_cell, TI end_num_cell, BaseCell *root_cell = 0 ) const;
     void                           update_after_mod_weights_rec( BaseCell *cell, LocalSolver *local_solvers, int level );
     void                           update_cell_bounds_phase_1  ( BaseCell *cell, BaseCell **path, int level );
     void                           fill_grid_using_zcoords     ( const Dirac *diracs, TI nb_diracs );
@@ -115,11 +116,14 @@ private:
     TI                             nb_diracs_tot;
 
     // cache
+    FinalCell                     *first_in_mem_fcell;         ///<
+    FinalCell                     *last_in_mem_fcell;          ///<
     std::vector<OutOfCoreInfo>     out_of_core_infos;          ///<
     BumpPointerPool                pool_super_cells;           ///<
     BumpPointerPool                pool_final_cells;           ///<
+    TI                             used_fcell_ram;             ///<
+    TI                             used_scell_ram;             ///<
     std::size_t                    nb_filenames;               ///<
-    TI                             used_ram;                   ///<
 
     // grid
     TF                             inv_step_length;
