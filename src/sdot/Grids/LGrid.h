@@ -2,7 +2,6 @@
 #define SDOT_LGrid_H
 
 #include "../Geometry/ConvexPolyhedronTraits.h"
-#include "Internal/CellBoundsTraits.h"
 #include "Internal/LGridFinalCell.h"
 #include "Internal/LGridSuperCell.h"
 #include <queue>
@@ -32,7 +31,6 @@ public:
     struct                         DisplayFlags                { TF weight_elevation = 0; bool display_cells = false, display_boxes = true; };
     using                          FinalCell                   = LGridFinalCell<Pc>;
     using                          SuperCell                   = LGridSuperCell<Pc>;
-    using                          BaseCell                    = LGridBaseCell<Pc>;
     using                          CP                          = typename ConvexPolyhedronTraits<Pc>::type;
     using                          Cb                          = std::function<void( const Dirac *diracs, TI nb_diracs, bool ptrs_survive_the_call )>; ///<
 
@@ -75,26 +73,26 @@ private:
     enum {                         ball_cut                    = 2 };
 
     struct                         OutOfCoreInfo               { std::string filename; bool in_memory = true, saved = false; };
-    struct                         TmpLevelInfo                { void clr() { num_sub_cell = 0; nb_sub_cells = 0; ls.clr(); } BaseCell *sub_cells[ 1 << dim ]; TI num_sub_cell, nb_sub_cells; LocalSolver ls; };
+    struct                         TmpLevelInfo                { void clr() { num_sub_cell = 0; nb_scells = 0; nb_fcells = 0; ls.clr(); } SuperCell *scells[ 1 << dim ]; FinalCell *fcells[ 1 << dim ]; TI num_sub_cell, nb_scells, nb_fcells; LocalSolver ls; };
     struct                         CpAndNum                    { SuperCell *cell; TI num; };
     struct                         Msi                         { bool operator<( const Msi &that ) const { return dist > that.dist; } Pt center; BaseCell *cell; TF dist; };
 
     void                           get_grid_dims_and_dirac_ptrs( const std::function<void(const Cb &cb)> &f );
-    void                           for_each_final_cell_mono_thr( const std::function<void( FinalCell &cell, CpAndNum *path, TI path_len )> &f, TI beg_num_cell, TI end_num_cell, BaseCell *root_cell = 0 ) const;
-    void                           update_after_mod_weights_rec( BaseCell *cell, LocalSolver *local_solvers, int level );
-    void                           update_cell_bounds_phase_1  ( BaseCell *cell, BaseCell **path, int level );
+    void                           for_each_final_cell_mono_thr( const std::function<void( FinalCell &cell, CpAndNum *path, TI path_len )> &f, TI beg_num_cell, TI end_num_cell, SuperCell *root_cell = 0 ) const;
+    void                           update_after_mod_weights_rec( SuperCell *cell, LocalSolver *local_solvers, int level );
+    void                           update_cell_bounds_phase_1  ( SuperCell *cell, SuperCell **path, int level );
     void                           fill_grid_using_zcoords     ( const Dirac *diracs, TI nb_diracs );
     void                           compute_sst_limits          ( const std::function<void(const Cb &cb)> &f );
     void                           free_an_out_of_core_cell    ();
     void                           make_zind_limits            ( std::vector<TI> &zind_indices, std::vector<TZ> &zind_limits, const std::function<void(const LGrid::Cb &)> &f );
-    void                           write_to_stream             ( std::ostream &os, BaseCell *cell, std::string sp ) const;
-    LGridBaseCell<Pc>             *deserialize_rec             ( char *base, std::size_t off ) const;
+    void                           write_to_stream             ( std::ostream &os, SuperCell *cell, std::string sp ) const;
+    //    LGridBaseCell<Pc>       *deserialize_rec             ( char *base, std::size_t off ) const;
     template<int flags> bool       can_be_evicted              ( const CP &lc, Pt &c0, TF w0, const CellBoundsP0<Pc> &bounds, N<flags> ) const;
     template<int flags> bool       can_be_evicted              ( const CP &lc, Pt &c0, TF w0, const CellBoundsPpos<Pc> &bounds, N<flags> ) const;
     void                           make_the_cells              ( const std::function<void(const Cb &cb)> &f );
     template<int f,class SLC> void make_lcs_from               ( const std::function<void( CP &, Dirac &dirac, int num_thread )> &cb, std::priority_queue<Msi> &base_queue, std::priority_queue<Msi> &queue, CP &lc, FinalCell *cell, const CpAndNum *path, TI path_len, int num_thread, N<f>, const SLC &starting_lc ) const;
-    std::size_t                    serialize_rec               ( std::ostream &os, std::size_t &len, BaseCell *cell );
-    void                           display_vtk                 ( VtkOutput &vtk_output, BaseCell *cell, DisplayFlags display_flags ) const;
+    //    std::size_t              serialize_rec               ( std::ostream &os, std::size_t &len, BaseCell *cell );
+    void                           display_vtk                 ( VtkOutput &vtk_output, SuperCell *cell, DisplayFlags display_flags ) const;
     // void                        deserialize                 ( OutOfCoreCell *cell ) const;
     void                           push_cell                   ( TI l, TZ &prev_z, TI level, TmpLevelInfo *level_info, TI &index, const Dirac **zn_ptrs, TZ *zn_keys );
     void                           free_ooc                    ( TI num_ooc );
@@ -116,14 +114,12 @@ private:
     TI                             nb_diracs_tot;
 
     // cache
-    FinalCell                     *first_in_mem_fcell;         ///<
-    FinalCell                     *last_in_mem_fcell;          ///<
     std::vector<OutOfCoreInfo>     out_of_core_infos;          ///<
-    BumpPointerPool                pool_super_cells;           ///<
-    BumpPointerPool                pool_final_cells;           ///<
     TI                             used_fcell_ram;             ///<
     TI                             used_scell_ram;             ///<
     std::size_t                    nb_filenames;               ///<
+    BumpPointerPool                pool_scells;                ///<
+    BumpPointerPool                pool_fcells;                ///<
 
     // grid
     TF                             inv_step_length;
@@ -132,7 +128,7 @@ private:
     TF                             grid_length;
     Pt                             min_point;
     Pt                             max_point;
-    BaseCell                      *root_cell;
+    SuperCell                     *root_cell;
 };
 
 } // namespace sdot

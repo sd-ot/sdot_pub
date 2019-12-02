@@ -48,7 +48,7 @@ void LGrid<Pc>::construct( const std::function<void(const Cb &cb)> &f ) {
 
     // second phase of bounds update (if necessary)
     if ( CellBounds::need_phase_1 && root_cell ) {
-        BaseCell *path[ nb_bits_per_axis ];
+        SuperCell *path[ nb_bits_per_axis ];
         update_cell_bounds_phase_1( root_cell, path, 0 );
     }
 }
@@ -63,24 +63,27 @@ void LGrid<Pc>::update_after_mod_weights() {
 
     // second phase of bounds update (if necessary)
     if ( CellBounds::need_phase_1 && root_cell ) {
-        BaseCell *path[ nb_bits_per_axis ];
+        SuperCell *path[ nb_bits_per_axis ];
         update_cell_bounds_phase_1( root_cell, path, 0 );
     }
 }
 
 template<class Pc>
-void LGrid<Pc>::update_after_mod_weights_rec( BaseCell *cell, LocalSolver *local_solvers, int level ) {
+void LGrid<Pc>::update_after_mod_weights_rec( SuperCell *cell, LocalSolver *local_solvers, int level ) {
     local_solvers[ level ].clr();
 
-    if ( SuperCell *sc = cell->super_cell() ) {
+    for( FinalCell *fc : cell->fcells() )
+        for( std::size_t i = 0; i < fc->nb_diracs(); ++i )
+            local_solvers[ level ].push( fc->diracs[ i ].pos, fc->diracs[ i ].weight );
+
+    for( SuperCell *sc : cell->scells() ) {
         for( std::size_t i = 0; i < sc->nb_sub_cells(); ++i ) {
             update_after_mod_weights_rec( sc->sub_cells[ i ], local_solvers, level + 1 );
             local_solvers[ level ].push( local_solvers[ level + 1 ] );
         }
-    } else if ( FinalCell *fc = cell->final_cell() ) {
-        for( std::size_t i = 0; i < fc->nb_diracs(); ++i )
-            local_solvers[ level ].push( fc->diracs[ i ].pos, fc->diracs[ i ].weight );
-    } else {
+    }
+
+    for( auto oc : cell->ocells() ) {
         TODO;
     }
 
@@ -134,11 +137,9 @@ void LGrid<Pc>::get_grid_dims_and_dirac_ptrs( const std::function<void(const Cb 
 template<class Pc>
 void LGrid<Pc>::reset() {
     out_of_core_infos.clear();
-    pool_super_cells.clear();
-    pool_final_cells.clear();
+    pool_scells.clear();
+    pool_fcells.clear();
 
-    first_in_mem_fcell = nullptr;
-    last_in_mem_fcell  = nullptr;
     nb_final_cells        = 0;
     used_fcell_ram        = 0;
     used_scell_ram        = 0;
@@ -311,17 +312,10 @@ void LGrid<Pc>::push_cell( TI l, TZ &prev_z, TI level, TmpLevelInfo *level_info,
 
     // prepare a new cell, register it in corresponding level_info
     TmpLevelInfo *li = level_info + level;
-    BaseCell *cell = nullptr;
+    FinalCell *fcell = nullptr;
     if ( len_ind_nz ) {
-        FinalCell *fcell = FinalCell::allocate( pool_final_cells, used_fcell_ram, len_ind_nz );
+        fcell = FinalCell::allocate( pool_fcells, used_fcell_ram, len_ind_nz );
         fcell->end_ind_in_fcells = ++nb_final_cells;
-
-        // store in the in_mem_cell list
-        if ( last_in_mem_fcell )
-            last_in_mem_fcell->next() = fcell;
-        else
-            first_in_mem_fcell = fcell;
-        last_in_mem_fcell = fcell;
 
         // store diracs indices, get bounds
         LocalSolver ls;
@@ -337,56 +331,21 @@ void LGrid<Pc>::push_cell( TI l, TZ &prev_z, TI level, TmpLevelInfo *level_info,
         li->sub_cells[ li->nb_sub_cells++ ] = fcell;
         ls.store_to( fcell->bounds );
         li->ls.push( ls );
-        cell = fcell;
+    }
 
-        // store
-        while ( used_fcell_ram > max_usable_ram ) {
-            // room size
-            TI base_room = sizeof( std::uint32_t ) * nb_final_cells_per_ooc_file;
-            TI needed_room = base_room;
-            FinalCell *fc = first_in_mem_fcell;
-            for( std::size_t n = 0; n < nb_final_cells_per_ooc_file; ++n ) {
-                if ( ! fc )
-                    ERROR( "Unable to store the graph in memory (only the final cell can be stored in the disk)" );
-                TI ram = fc->size_in_bytes();
-                used_fcell_ram -= ram;
-                needed_room += ram;
-                fc = fc->next();
-            }
-
-            // make serialization data
-            fc = first_in_mem_fcell;
-            std::vector<char> room( needed_room );
-            for( std::size_t n = 0, o = base_room; n < nb_final_cells_per_ooc_file; ++n ) {
-                reinterpret_cast<std::uint32_t *>( room.data() )[ n ] = o;
-                TI ram = fc->size_in_bytes();
-                std::memcpy( room.data() + o, fc, ram );
-                fc = fc->next();
-                o += ram;
-            }
-
-            // save
-            OutOfCoreInfo oi;
-            oi.in_memory = false;
-            oi.saved = true;
-            oi.filename = va_string( "{}_pid_{}_{}_{}.bin", ooc_dir, getpid(), this, nb_filenames++ );
-
-            std::ofstream fout( oi.filename.c_str() );
-            fout.write( room.data(), room.size() );
-
-            //
-            first_in_mem_fcell = fc;
+    // if everything fit in one cell
+    if ( level == nb_bits_per_axis ) {
+        SuperCell *scell = SuperCell::allocate( pool_scells, used_scell_ram, bool( fcell ), 0, 0 );
+        scell->end_ind_in_fcells = nb_final_cells;
+        if ( fcell ) {
+            scell->scell( 0 ) = fcell;
+            scell->bounds = fcell->bounds;
         }
+        return;
     }
 
     // multilevel
-    for( std::size_t sl = level; ; ++sl ) {
-        // coarser level ?
-        if ( sl == nb_bits_per_axis ) {
-            root_cell = cell;
-            break;
-        }
-
+    for( std::size_t sl = level; ; ) {
         // if the sub cells are not finished, stay in this level
         if ( li->num_sub_cell < ( 1 << dim ) - 1 ) {
             ++li->num_sub_cell;
@@ -394,28 +353,39 @@ void LGrid<Pc>::push_cell( TI l, TZ &prev_z, TI level, TmpLevelInfo *level_info,
         }
 
         // else, make a new super cell
-        cell = nullptr;
         TmpLevelInfo *oli = li++;
-        if ( oli->nb_sub_cells ) {
-            if ( oli->nb_sub_cells > 1 ) {
-                SuperCell *scell = SuperCell::allocate( pool_super_cells, used_scell_ram, oli->nb_sub_cells );
+        SuperCell *scell = nullptr;
+        if ( oli->nb_fcells + oli->nb_scells ) {
+            if ( oli->nb_fcells + oli->nb_scells > 1 ) {
+                scell = SuperCell::allocate( pool_scells, used_scell_ram, oli->nb_fcells, oli->nb_scells, 0 );
                 scell->end_ind_in_fcells = nb_final_cells;
-                for( std::size_t i = 0; i < oli->nb_sub_cells; ++i )
-                    scell->sub_cells[ i ] = oli->sub_cells[ i ];
+                for( std::size_t i = 0; i < oli->nb_fcells; ++i )
+                    scell->fcell( i ) = oli->fcells[ i ];
+                for( std::size_t i = 0; i < oli->nb_scells; ++i )
+                    scell->scell( i ) = oli->scells[ i ];
 
                 oli->ls.store_to( scell->bounds );
-                cell = scell;
+
+                li->scells[ li->nb_scells++ ] = scell;
+            } else if ( oli->nb_fcells ) {
+                li->fcells[ li->nb_fcells++ ] = oli->fcells[ 0 ];
             } else {
-                cell = oli->sub_cells[ 0 ];
+                li->scells[ li->nb_scells++ ] = oli->scells[ 0 ];
+                scell = oli->scells[ 0 ];
             }
 
             //
-            li->sub_cells[ li->nb_sub_cells++ ] = cell;
             li->ls.push( oli->ls );
         }
 
         // and reset the previous level
         oli->clr();
+
+        // coarser level ?
+        if ( ++sl == nb_bits_per_axis ) {
+            root_cell = scell;
+            break;
+        }
     }
 }
 
@@ -773,7 +743,7 @@ int LGrid<Pc>::for_each_laguerre_cell( const std::function<void( CP &, Dirac &di
 
 
 template<class Pc>
-void LGrid<Pc>::for_each_final_cell_mono_thr( const std::function<void( FinalCell &cell, CpAndNum *path, TI path_len )> &f, TI beg_cell, TI end_cell, BaseCell *root_cell ) const {
+void LGrid<Pc>::for_each_final_cell_mono_thr( const std::function<void( FinalCell &cell, CpAndNum *path, TI path_len )> &f, TI beg_cell, TI end_cell, SuperCell *root_cell ) const {
     if ( ! root_cell )
         root_cell = this->root_cell;
 
