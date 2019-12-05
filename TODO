@@ -19,5 +19,8 @@ Stockage des fcell quand elles sont ooc:
 
   Quand on tombe sur des cellules sur le disque, on peut garder la scell en ptr de ce qu'il faut lire.
 
+Prop: on fait une pausounette
 
+Le désavantage des types séparés, c'est que ça complique les tas, les chemins, etc...
 
+Prop: on fait un seul type de cellule, avec un nombre de diracs en plus des nombres d'enfants. Si on a des diracs, on n'a pas le reste.

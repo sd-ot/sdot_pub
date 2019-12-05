@@ -10,7 +10,9 @@ namespace sdot {
 template<class Pc>
 struct LGridSuperCell {
     using                     CellBounds   = typename CellBoundsTraits<Pc>::type;
-    using                     TI          = typename Pc::TI;
+    using                     TI           = typename Pc::TI;
+    union                     Child        { LGridFinalCell<Pc> *fcell; };
+    union                     Data         { Child children[ 1 ]; };
 
     std::size_t               size_in_bytes() const { return sizeof( LGridSuperCell ) + ( nb_scells + nb_fcells + nb_ocells - 1 ) * sizeof( void * ); }
     static LGridSuperCell*    allocate     ( BumpPointerPool &pool, std::size_t &ram, int nb_fcells, int nb_scells, int nb_ocells ); ///<

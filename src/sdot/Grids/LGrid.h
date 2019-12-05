@@ -75,7 +75,7 @@ private:
     struct                         OutOfCoreInfo               { std::string filename; bool in_memory = true, saved = false; };
     struct                         TmpLevelInfo                { void clr() { num_sub_cell = 0; nb_scells = 0; nb_fcells = 0; ls.clr(); } SuperCell *scells[ 1 << dim ]; FinalCell *fcells[ 1 << dim ]; TI num_sub_cell, nb_scells, nb_fcells; LocalSolver ls; };
     struct                         CpAndNum                    { SuperCell *cell; TI num; };
-    struct                         Msi                         { bool operator<( const Msi &that ) const { return dist > that.dist; } Pt center; BaseCell *cell; TF dist; };
+    struct                         Msi                         { bool operator<( const Msi &that ) const { return dist > that.dist; } Pt center; SuperCell *cell; TF dist; };
 
     void                           get_grid_dims_and_dirac_ptrs( const std::function<void(const Cb &cb)> &f );
     void                           for_each_final_cell_mono_thr( const std::function<void( FinalCell &cell, CpAndNum *path, TI path_len )> &f, TI beg_num_cell, TI end_num_cell, SuperCell *root_cell = 0 ) const;

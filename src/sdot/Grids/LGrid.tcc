@@ -333,7 +333,7 @@ void LGrid<Pc>::push_cell( TI l, TZ &prev_z, TI level, TmpLevelInfo *level_info,
         li->ls.push( ls );
     }
 
-    // if everything fit in one cell
+    // if everything fit in one cell, we register a new super cell pointing to this one
     if ( level == nb_bits_per_axis ) {
         SuperCell *scell = SuperCell::allocate( pool_scells, used_scell_ram, bool( fcell ), 0, 0 );
         scell->end_ind_in_fcells = nb_final_cells;
@@ -602,42 +602,42 @@ void LGrid<Pc>::cut_lc( CP &lc, Point3<TF> c0, TF w0, FinalCell *dell, N<avoid_n
     };
     Cut cut;
 
-//    #ifdef __AVX512F__
-//    TI n1 = 0, nb_cuts = dell->nb_diracs();
-//    for( ; n1 + 8 <= nb_cuts; n1 += 8 ) {
-//        __m512d cx = _mm512_set1_pd( c0.x );
-//        __m512d cy = _mm512_set1_pd( c0.y );
-//        __m512i i1 = _mm512_loadu_si512( dell->dirac_indices + n1 );
-//        __m512d vx = _mm512_sub_pd( _mm512_i64gather_pd( i1, positions[ 0 ], 8 ), cx );
-//        __m512d vy = _mm512_sub_pd( _mm512_i64gather_pd( i1, positions[ 1 ], 8 ), cy );
-//        TODO;
-//        __m512d v2 = _mm512_add_pd( _mm512_mul_pd( vx, vx ), _mm512_mul_pd( vy, vy ) );
-//        __m512d ps = _mm512_add_pd( _mm512_add_pd( _mm512_mul_pd( cx, vx ), _mm512_mul_pd( cy, vy ) ),
-//                                    _mm512_set1_pd( 0.5 ) * ( flags & homogeneous_weights ? v2 : _mm512_add_pd( v2, _mm512_set1_pd( w0 ) ) - _mm512_i64gather_pd( i1, weights, 8 ) ) );
-//        _mm512_store_pd( cut.dx + n1, vx );
-//        _mm512_store_pd( cut.dy + n1, vy );
-//        _mm512_store_pd( cut.ps + n1, ps );
-//        _mm512_store_epi64( cut.id + n1, i1 );
-//    }
-//    for( ; n1 < nb_cuts; ++n1 ) {
-//        TI i1 = dell->dirac_indices[ n1 ];
-//        Pt dc = pt( positions, i1 ) - c0;
-//        TF w1 = weights[ i1 ];
-//        cut.dx[ n1 ] = dc.x;
-//        cut.dy[ n1 ] = dc.y;
-//        cut.id[ n1 ] = i1;
-//        cut.ps[ n1 ] = dot( c0, dc ) + TF( 0.5 ) * ( flags & homogeneous_weights ? norm_2_p2( dc ) : norm_2_p2( dc ) + w0 - w1 );
-//    }
+    //    #ifdef __AVX512F__
+    //    TI n1 = 0, nb_cuts = dell->nb_diracs();
+    //    for( ; n1 + 8 <= nb_cuts; n1 += 8 ) {
+    //        __m512d cx = _mm512_set1_pd( c0.x );
+    //        __m512d cy = _mm512_set1_pd( c0.y );
+    //        __m512i i1 = _mm512_loadu_si512( dell->dirac_indices + n1 );
+    //        __m512d vx = _mm512_sub_pd( _mm512_i64gather_pd( i1, positions[ 0 ], 8 ), cx );
+    //        __m512d vy = _mm512_sub_pd( _mm512_i64gather_pd( i1, positions[ 1 ], 8 ), cy );
+    //        TODO;
+    //        __m512d v2 = _mm512_add_pd( _mm512_mul_pd( vx, vx ), _mm512_mul_pd( vy, vy ) );
+    //        __m512d ps = _mm512_add_pd( _mm512_add_pd( _mm512_mul_pd( cx, vx ), _mm512_mul_pd( cy, vy ) ),
+    //                                    _mm512_set1_pd( 0.5 ) * ( flags & homogeneous_weights ? v2 : _mm512_add_pd( v2, _mm512_set1_pd( w0 ) ) - _mm512_i64gather_pd( i1, weights, 8 ) ) );
+    //        _mm512_store_pd( cut.dx + n1, vx );
+    //        _mm512_store_pd( cut.dy + n1, vy );
+    //        _mm512_store_pd( cut.ps + n1, ps );
+    //        _mm512_store_epi64( cut.id + n1, i1 );
+    //    }
+    //    for( ; n1 < nb_cuts; ++n1 ) {
+    //        TI i1 = dell->dirac_indices[ n1 ];
+    //        Pt dc = pt( positions, i1 ) - c0;
+    //        TF w1 = weights[ i1 ];
+    //        cut.dx[ n1 ] = dc.x;
+    //        cut.dy[ n1 ] = dc.y;
+    //        cut.id[ n1 ] = i1;
+    //        cut.ps[ n1 ] = dot( c0, dc ) + TF( 0.5 ) * ( flags & homogeneous_weights ? norm_2_p2( dc ) : norm_2_p2( dc ) + w0 - w1 );
+    //    }
 
-//    if ( avoid_n0 ) {
-//        --nb_cuts;
-//        cut.dx[ n0 ] = cut.dx[ nb_cuts ];
-//        cut.dy[ n0 ] = cut.dy[ nb_cuts ];
-//        cut.id[ n0 ] = cut.id[ nb_cuts ];
-//        cut.ps[ n0 ] = cut.ps[ nb_cuts ];
-//    }
+    //    if ( avoid_n0 ) {
+    //        --nb_cuts;
+    //        cut.dx[ n0 ] = cut.dx[ nb_cuts ];
+    //        cut.dy[ n0 ] = cut.dy[ nb_cuts ];
+    //        cut.id[ n0 ] = cut.id[ nb_cuts ];
+    //        cut.ps[ n0 ] = cut.ps[ nb_cuts ];
+    //    }
 
-//    #else
+    //    #else
     TI nb_cuts = 0;
     for( std::size_t n1 = 0; n1 < dell->nb_diracs(); ++n1 ) {
         if ( avoid_n0 && n1 == n0 )
@@ -652,7 +652,7 @@ void LGrid<Pc>::cut_lc( CP &lc, Point3<TF> c0, TF w0, FinalCell *dell, N<avoid_n
         cut.ps[ nb_cuts ] = TF( 0.5 ) * ( norm_2_p2( c1 ) - norm_2_p2( c0 ) - dw );
         ++nb_cuts;
     }
-//    #endif
+    //    #endif
 
     // do the cuts
     // TODO: integration of diracs in lc.plane_cut
@@ -662,7 +662,7 @@ void LGrid<Pc>::cut_lc( CP &lc, Point3<TF> c0, TF w0, FinalCell *dell, N<avoid_n
 template<class Pc> template<int flags,class SLC>
 void LGrid<Pc>::make_lcs_from( const std::function<void( CP &, Dirac &dirac, int num_thread )> &cb, std::priority_queue<LGrid::Msi> &base_queue, std::priority_queue<LGrid::Msi> &queue, LGrid::CP &lc, FinalCell *cell, const LGrid::CpAndNum *path, LGrid::TI path_len, int num_thread, N<flags>, const SLC &starting_lc ) const {
     // helper to add a cell in the queue
-    auto append_msi = [&]( std::priority_queue<Msi> &queue, BaseCell *dell, Pt cell_center ) {
+    auto append_msi = [&]( std::priority_queue<Msi> &queue, SuperCell *dell, Pt cell_center ) {
         Pt dell_center = 0.5 * ( dell->bounds.min_pos + dell->bounds.max_pos );
         queue.push( Msi{ dell_center, dell, norm_2( dell_center - cell_center ) } );
     };
