@@ -64,12 +64,11 @@ void test() {
     using std::min;
 
     // load
-    Grid grid( 50 );
-    TI nb_diracs = 5;
+    Grid grid( 5 );
+    TI nb_diracs = 50;
     grid.ooc_dir = "ooc/";
-    //grid.max_usable_ram = 2000;
-    //grid.max_ram_per_sst = 500;
-    //grid.nb_final_cells_per_ooc_file = 2;
+    grid.max_usable_ram = 2000;
+    grid.nb_fcells_per_ooc_file = 2;
     grid.construct( [&]( const std::function<void( const Dirac *diracs, TI nb_diracs, bool ptrs_survive_the_call )> &cb ) {
         srand( 0 );
         std::vector<Dirac> loc_diracs( 1e3 );

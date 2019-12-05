@@ -14,10 +14,9 @@ namespace sdot {
 template<class Pc>
 LGrid<Pc>::LGrid( std::size_t max_diracs_per_cell ) : max_diracs_per_cell( max_diracs_per_cell ) {
     // parameters
-    nb_final_cells_per_ooc_file = 100;
-    max_ram_per_sst             = std::numeric_limits<std::size_t>::max();
-    max_usable_ram              = std::numeric_limits<std::size_t>::max();
-    ooc_dir                     = "ooc";
+    nb_fcells_per_ooc_file = 100;
+    max_usable_ram         = std::numeric_limits<std::size_t>::max();
+    ooc_dir                = "ooc";
 
     // content
     reset();
@@ -137,14 +136,17 @@ template<class Pc>
 void LGrid<Pc>::reset() {
     out_of_core_infos.clear();
     pool_scells.clear();
-    pool_fcells.clear();
 
-    nb_final_cells        = 0;
-    used_fcell_ram        = 0;
-    used_scell_ram        = 0;
-    nb_diracs_tot         = 0;
-    nb_filenames          = 0;
-    root_cell             = nullptr;
+    first_in_mem_cell = nullptr;
+    last_in_mem_cell  = nullptr;
+    nooc_mem_cell     = 0;
+
+    nb_final_cells    = 0;
+    used_fcell_ram    = 0;
+    used_scell_ram    = 0;
+    nb_diracs_tot     = 0;
+    nb_filenames      = 0;
+    root_cell         = nullptr;
 }
 
 template<class Pc>
@@ -313,8 +315,21 @@ void LGrid<Pc>::push_cell( TI l, TZ &prev_z, TI level, TmpLevelInfo *level_info,
     TmpLevelInfo *li = level_info + level;
     Cell *cell = nullptr;
     if ( len_ind_nz ) {
-        cell = Cell::allocate( pool_fcells, used_fcell_ram, len_ind_nz, 0, 0 );
+        // get the pool
+        TI nooc = nb_final_cells / nb_fcells_per_ooc_file;
+        if ( out_of_core_infos.size() <= nooc )
+            out_of_core_infos.resize( nooc + 1 );
+
+        // create a new fcell
+        cell = Cell::allocate( out_of_core_infos[ nooc ].pool, used_fcell_ram, len_ind_nz, 0, 0 );
         cell->end_ind_in_fcells = ++nb_final_cells;
+
+        // register it in the linked list of the in_mem fcells
+        if ( last_in_mem_cell )
+            last_in_mem_cell->data.dirac_data.next_fcell = cell;
+        else
+            first_in_mem_cell = cell;
+        last_in_mem_cell = cell;
 
         // store diracs indices, get bounds
         LocalSolver ls;
@@ -330,6 +345,10 @@ void LGrid<Pc>::push_cell( TI l, TZ &prev_z, TI level, TmpLevelInfo *level_info,
         li->scells[ li->nb_scells++ ] = cell;
         ls.store_to( cell->bounds );
         li->ls.push( ls );
+
+        //
+        while( used_fcell_ram > max_usable_ram )
+            free_ooc( nooc_mem_cell++ );
     }
 
     // multilevel
@@ -370,15 +389,39 @@ void LGrid<Pc>::push_cell( TI l, TZ &prev_z, TI level, TmpLevelInfo *level_info,
     }
 }
 
+
 template<class Pc>
-void LGrid<Pc>::free_ooc( TI num_ooc ) {
-    OutOfCoreInfo &oi = out_of_core_infos[ num_ooc ];
+LGrid<Pc>::OutOfCoreInfo::OutOfCoreInfo( OutOfCoreInfo &&that ) : filename( std::move( that.filename ) ), in_memory( that.in_memory ), saved( that.saved ), pool( std::move( that.pool ) ) {
+    that.filename.clear();
+}
+
+template<class Pc>
+LGrid<Pc>::OutOfCoreInfo::~OutOfCoreInfo() {
+    if ( ! filename.empty() )
+        unlink( filename.c_str() );
+}
+
+
+template<class Pc>
+void LGrid<Pc>::free_ooc( TI nooc ) {
+    OutOfCoreInfo &oi = out_of_core_infos[ nooc ];
+    if ( oi.filename.empty() )
+        oi.filename = va_string( "{}{}_{}_{}.bin", ooc_dir, getpid(), this, nb_filenames++ );
     oi.in_memory = false;
     oi.saved = true;
 
-    if ( oi.filename.empty() )
-        oi.filename = va_string( "ooc_pid_{}_{}_{}.bin", getpid(), this, nb_filenames++ );
+    std::ofstream fout( oi.filename.c_str() );
+    fout.write( (char *)&nb_fcells_per_ooc_file, sizeof( TI ) );
+    for( std::size_t n = 0; n < nb_fcells_per_ooc_file; ++n ) {
+        ASSERT( first_in_mem_cell, "" );
+        used_fcell_ram -= first_in_mem_cell->size_in_bytes();
+        fout.write( (char *)first_in_mem_cell, first_in_mem_cell->size_in_bytes() );
 
+        first_in_mem_cell = first_in_mem_cell->data.dirac_data.next_fcell;
+    }
+
+    // mettre offset dans scell
+    //oi.pool.free();
 }
 
 template<class Pc>
@@ -496,7 +539,7 @@ void LGrid<Pc>::make_zind_limits( std::vector<TI> &zind_indices, std::vector<TZ>
         TI acc = 0;
         for( ; n < nb_items.size(); ++n ) {
             TI tmp = acc + nb_items[ n ];
-            if ( tmp * sizeof( Dirac ) > max_ram_per_sst )
+            if ( tmp * sizeof( Dirac ) > max_usable_ram )
                 break;
             acc = tmp;
         }

@@ -23,4 +23,6 @@ Prop: on fait une pausounette
 
 Le désavantage des types séparés, c'est que ça complique les tas, les chemins, etc...
 
-Prop: on fait un seul type de cellule, avec un nombre de diracs en plus des nombres d'enfants. Si on a des diracs, on n'a pas le reste.
+Si on a trop de cellules finale... Prop: on parcourt toutes les cellules qui contiennent des fcells pour les mettre en mémoire.
+
+Pour faire simple, on peut faire un parcourt systématique. En deuxième approche, on pourrait stocker le chemin d'accès du dernier. Rq: on peut atteindre les cellules par numéro

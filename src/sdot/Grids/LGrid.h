@@ -53,9 +53,8 @@ public:
     void                           display_vtk                 ( VtkOutput &vtk_output, DisplayFlags display_flags = {} ) const; ///< for debug purpose
 
     // values used by update
-    TI                             nb_final_cells_per_ooc_file;
+    TI                             nb_fcells_per_ooc_file;
     TI                             max_diracs_per_cell;
-    std::size_t                    max_ram_per_sst;
     std::size_t                    max_usable_ram;
     std::vector<Pt>                translations;
     std::string                    ooc_dir;
@@ -70,7 +69,7 @@ private:
     enum {                         homogeneous_weights         = 1 };
     enum {                         ball_cut                    = 2 };
 
-    struct                         OutOfCoreInfo               { std::string filename; bool in_memory = true, saved = false; };
+    struct                         OutOfCoreInfo               { OutOfCoreInfo( OutOfCoreInfo&& ); OutOfCoreInfo() {} ~OutOfCoreInfo(); std::string filename; bool in_memory = true, saved = false; BumpPointerPool pool; };
     struct                         TmpLevelInfo                { void clr() { num_scell = 0; nb_scells = 0; ls.clr(); } Cell *scells[ 1 << dim ]; TI num_scell, nb_scells; LocalSolver ls; };
     struct                         CpAndNum                    { Cell *cell; TI num; };
     struct                         Msi                         { bool operator<( const Msi &that ) const { return dist > that.dist; } Pt center; Cell *cell; TF dist; };
@@ -93,7 +92,7 @@ private:
     void                           display_vtk                 ( VtkOutput &vtk_output, Cell *cell, DisplayFlags display_flags ) const;
     // void                        deserialize                 ( OutOfCoreCell *cell ) const;
     void                           push_cell                   ( TI l, TZ &prev_z, TI level, TmpLevelInfo *level_info, TI &index, const Dirac **zn_ptrs, TZ *zn_keys );
-    void                           free_ooc                    ( TI num_ooc );
+    void                           free_ooc                    ( TI nooc );
     // void                        serialize                   ( OutOfCoreCell *cell );
     void                           reset                       ();
 
@@ -117,7 +116,10 @@ private:
     TI                             used_scell_ram;             ///<
     std::size_t                    nb_filenames;               ///<
     BumpPointerPool                pool_scells;                ///<
-    BumpPointerPool                pool_fcells;                ///<
+
+    Cell                          *first_in_mem_cell;          ///<
+    Cell                          *last_in_mem_cell;           ///<
+    TI                             nooc_mem_cell;              ///<
 
     // grid
     TF                             inv_step_length;
