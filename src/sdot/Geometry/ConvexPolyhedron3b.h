@@ -69,6 +69,7 @@ public:
 
 private:
     friend class                         ConvexPolyhedron3Lt64Face<Pc>;
+    enum {                               max_nb_edges = Lt64NodeBlock::nb * ( Lt64NodeBlock::nb + 1 ) / 2 };
 
     // aligned structures
     ConvexPolyhedron3Lt64NodeBlock<Pc>   nodes;                    ///<
@@ -80,6 +81,11 @@ private:
     TF                                   sphere_radius;
     Pt                                   sphere_center;
     CI                                   sphere_cut_id;
+
+    std::uint64_t                        edge_num_cuts[ max_nb_edges ];
+    Node                                *edge_cuts    [ max_nb_edges ];
+
+    std::uint64_t                        num_cut;
 };
 
 } // namespace sdot

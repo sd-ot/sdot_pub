@@ -13,7 +13,8 @@ public:
     // common types
     using       TF                       = typename Carac::TF;
     using       Pt                       = Point3<TF>;
-    enum {      bs                       = 64 }; ///< block size
+    enum {      nb                       = 64 }; ///< nb items
+    enum {      bs                       = nb }; ///< block size
 
     // shortcuts
     using       Node                     = ConvexPolyhedron3Lt64NodeBlock;
