@@ -17,6 +17,7 @@ LGrid<Pc>::LGrid( std::size_t max_diracs_per_cell ) : max_diracs_per_cell( max_d
     nb_final_cells_per_ooc_file = 100;
     max_ram_per_sst             = std::numeric_limits<std::size_t>::max();
     max_usable_ram              = std::numeric_limits<std::size_t>::max();
+    ooc_dir                     = "ooc";
 
     // content
     reset();
@@ -136,11 +137,14 @@ void LGrid<Pc>::reset() {
     pool_super_cells.clear();
     pool_final_cells.clear();
 
+    first_in_mem_fcell = nullptr;
+    last_in_mem_fcell  = nullptr;
     nb_final_cells        = 0;
+    used_fcell_ram        = 0;
+    used_scell_ram        = 0;
     nb_diracs_tot         = 0;
     nb_filenames          = 0;
     root_cell             = nullptr;
-    used_ram              = 0;
 }
 
 template<class Pc>
@@ -309,8 +313,15 @@ void LGrid<Pc>::push_cell( TI l, TZ &prev_z, TI level, TmpLevelInfo *level_info,
     TmpLevelInfo *li = level_info + level;
     BaseCell *cell = nullptr;
     if ( len_ind_nz ) {
-        FinalCell *fcell = FinalCell::allocate( pool_final_cells, used_ram, len_ind_nz );
+        FinalCell *fcell = FinalCell::allocate( pool_final_cells, used_fcell_ram, len_ind_nz );
         fcell->end_ind_in_fcells = ++nb_final_cells;
+
+        // store in the in_mem_cell list
+        if ( last_in_mem_fcell )
+            last_in_mem_fcell->next() = fcell;
+        else
+            first_in_mem_fcell = fcell;
+        last_in_mem_fcell = fcell;
 
         // store diracs indices, get bounds
         LocalSolver ls;
@@ -328,16 +339,43 @@ void LGrid<Pc>::push_cell( TI l, TZ &prev_z, TI level, TmpLevelInfo *level_info,
         li->ls.push( ls );
         cell = fcell;
 
-        //
-        if ( used_ram > max_usable_ram ) {
-            out_of_core_infos.resize( nb_final_cells / nb_final_cells_per_ooc_file );
-            for( std::size_t nooc = 0; nooc < out_of_core_infos.size(); ++nooc ) {
-                if ( used_ram <= max_usable_ram )
-                    break;
-                OutOfCoreInfo &oi = out_of_core_infos[ nooc ];
-                if ( oi.in_memory )
-                    free_ooc( nooc );
+        // store
+        while ( used_fcell_ram > max_usable_ram ) {
+            // room size
+            TI base_room = sizeof( std::uint32_t ) * nb_final_cells_per_ooc_file;
+            TI needed_room = base_room;
+            FinalCell *fc = first_in_mem_fcell;
+            for( std::size_t n = 0; n < nb_final_cells_per_ooc_file; ++n ) {
+                if ( ! fc )
+                    ERROR( "Unable to store the graph in memory (only the final cell can be stored in the disk)" );
+                TI ram = fc->size_in_bytes();
+                used_fcell_ram -= ram;
+                needed_room += ram;
+                fc = fc->next();
             }
+
+            // make serialization data
+            fc = first_in_mem_fcell;
+            std::vector<char> room( needed_room );
+            for( std::size_t n = 0, o = base_room; n < nb_final_cells_per_ooc_file; ++n ) {
+                reinterpret_cast<std::uint32_t *>( room.data() )[ n ] = o;
+                TI ram = fc->size_in_bytes();
+                std::memcpy( room.data() + o, fc, ram );
+                fc = fc->next();
+                o += ram;
+            }
+
+            // save
+            OutOfCoreInfo oi;
+            oi.in_memory = false;
+            oi.saved = true;
+            oi.filename = va_string( "{}_pid_{}_{}_{}.bin", ooc_dir, getpid(), this, nb_filenames++ );
+
+            std::ofstream fout( oi.filename.c_str() );
+            fout.write( room.data(), room.size() );
+
+            //
+            first_in_mem_fcell = fc;
         }
     }
 
@@ -360,7 +398,7 @@ void LGrid<Pc>::push_cell( TI l, TZ &prev_z, TI level, TmpLevelInfo *level_info,
         TmpLevelInfo *oli = li++;
         if ( oli->nb_sub_cells ) {
             if ( oli->nb_sub_cells > 1 ) {
-                SuperCell *scell = SuperCell::allocate( pool_super_cells, used_ram, oli->nb_sub_cells );
+                SuperCell *scell = SuperCell::allocate( pool_super_cells, used_scell_ram, oli->nb_sub_cells );
                 scell->end_ind_in_fcells = nb_final_cells;
                 for( std::size_t i = 0; i < oli->nb_sub_cells; ++i )
                     scell->sub_cells[ i ] = oli->sub_cells[ i ];
@@ -390,7 +428,6 @@ void LGrid<Pc>::free_ooc( TI num_ooc ) {
     if ( oi.filename.empty() )
         oi.filename = va_string( "ooc_pid_{}_{}_{}.bin", getpid(), this, nb_filenames++ );
 
-    // ...
 }
 
 template<class Pc>
@@ -678,7 +715,6 @@ void LGrid<Pc>::make_lcs_from( const std::function<void( CP &, Dirac &dirac, int
         // cut with diracs from the same cell
         cut_lc( lc, c0, w0, cell, N<1>(), n0, N<flags>() );
 
-
         // neighbors
         queue = base_queue;
         while ( ! queue.empty() ) {
@@ -737,7 +773,10 @@ int LGrid<Pc>::for_each_laguerre_cell( const std::function<void( CP &, Dirac &di
 
 
 template<class Pc>
-void LGrid<Pc>::for_each_final_cell_mono_thr( const std::function<void( FinalCell &cell, CpAndNum *path, TI path_len )> &f, TI beg_cell, TI end_cell ) const {
+void LGrid<Pc>::for_each_final_cell_mono_thr( const std::function<void( FinalCell &cell, CpAndNum *path, TI path_len )> &f, TI beg_cell, TI end_cell, BaseCell *root_cell ) const {
+    if ( ! root_cell )
+        root_cell = this->root_cell;
+
     if ( ! root_cell )
         return;
 
