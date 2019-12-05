@@ -65,7 +65,7 @@ void test() {
 
     // load
     Grid grid( 5 );
-    TI nb_diracs = 100;
+    TI nb_diracs = 20;
     grid.ooc_dir = "ooc/";
     //grid.max_usable_ram = 2000;
     //grid.max_ram_per_sst = 500;
@@ -90,7 +90,7 @@ void test() {
         // cb( loc_diracs.data(), loc_diracs.size(), false );
     } );
 
-    // PN( grid );
+    PN( grid );
 
     VtkOutput vo;
     grid.display_vtk( vo, { .weight_elevation = 1.0, .display_cells = true, .display_boxes = true } );
