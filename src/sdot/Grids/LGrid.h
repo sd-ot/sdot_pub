@@ -88,7 +88,7 @@ private:
     template<int flags> bool       can_be_evicted              ( const CP &lc, Pt &c0, TF w0, const CellBoundsP0<Pc> &bounds, N<flags> ) const;
     template<int flags> bool       can_be_evicted              ( const CP &lc, Pt &c0, TF w0, const CellBoundsPpos<Pc> &bounds, N<flags> ) const;
     void                           make_the_cells              ( const std::function<void(const Cb &cb)> &f );
-    template<int f,class SLC> void make_lcs_from               ( const std::function<void( CP &, Dirac &dirac, int num_thread )> &cb, std::priority_queue<Msi> &base_queue, std::priority_queue<Msi> &queue, CP &lc, Cell *cell, const CpAndNum *path, TI path_len, int num_thread, N<f>, const SLC &starting_lc ) const;
+    template<int f,class SLC> void make_lcs_from               ( const std::function<void( CP &, Dirac &dirac, int num_thread )> &cb, std::priority_queue<Msi> &base_queue, std::priority_queue<Msi> &queue, CP &lc, Cell *cell, const CpAndNum *path, int path_len, int num_thread, N<f>, const SLC &starting_lc ) const;
     //    std::size_t              serialize_rec               ( std::ostream &os, std::size_t &len, BaseCell *cell );
     void                           display_vtk                 ( VtkOutput &vtk_output, Cell *cell, DisplayFlags display_flags ) const;
     // void                        deserialize                 ( OutOfCoreCell *cell ) const;

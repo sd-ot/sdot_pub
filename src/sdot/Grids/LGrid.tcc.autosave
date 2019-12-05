@@ -330,6 +330,8 @@ void LGrid<Pc>::push_cell( TI l, TZ &prev_z, TI level, TmpLevelInfo *level_info,
         li->scells[ li->nb_scells++ ] = cell;
         ls.store_to( cell->bounds );
         li->ls.push( ls );
+        
+        //
     }
 
     // multilevel

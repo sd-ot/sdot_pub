@@ -64,8 +64,8 @@ void test() {
     using std::min;
 
     // load
-    Grid grid( 5 );
-    TI nb_diracs = 20;
+    Grid grid( 50 );
+    TI nb_diracs = 5;
     grid.ooc_dir = "ooc/";
     //grid.max_usable_ram = 2000;
     //grid.max_ram_per_sst = 500;
@@ -79,7 +79,7 @@ void test() {
                 Pt p;
                 for( std::size_t d = 0; d < dim; ++d )
                     p[ d ] = 1.0 * rand() / RAND_MAX;
-                loc_diracs[ o ] = Dirac{ sin( 3 * p[ 0 ] ), n, p, 0.0 };
+                loc_diracs[ o ] = Dirac{ 0, n, p, 0.0 };
             }
 
             cb( loc_diracs.data(), r, false );
@@ -90,10 +90,10 @@ void test() {
         // cb( loc_diracs.data(), loc_diracs.size(), false );
     } );
 
-    PN( grid );
+    //PN( grid );
 
     VtkOutput vo;
-    grid.display_vtk( vo, { .weight_elevation = 1.0, .display_cells = true, .display_boxes = true } );
+    grid.display_vtk( vo, { .weight_elevation = 1.0, .display_cells = true, .display_boxes = false } );
     vo.save( "vtk/grid.vtk" );
 
 
