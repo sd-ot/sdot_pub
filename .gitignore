@@ -15,7 +15,7 @@ err
 *.log
 *.fls
 *.fdb_latexmk
-pres/pres_MAGA_HL.synctex.gz
-pres/pres_MAGA_HL.vrb
+*.gz
+*.vrb
 *.bin
-*.oocc
+ooc/

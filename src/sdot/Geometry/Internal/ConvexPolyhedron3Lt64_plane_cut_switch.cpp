@@ -84,10 +84,10 @@ void make_case( std::ostream &os, unsigned nb_nodes, std::bitset<8> outside_node
     }
 
     // vec of num nodes
-    for( std::size_t i = 0; i < nb_nodes; ++i ) {
-        std::size_t n0 = ( i + off_in_outs[ 0 ] + 0 ) % nb_nodes;
-        std::size_t n1 = ( i + off_in_outs[ 0 ] + 0 ) % nb_nodes;
-    }
+    //    for( std::size_t i = 0; i < nb_nodes; ++i ) {
+    //        std::size_t n0 = ( i + off_in_outs[ 0 ] + 0 ) % nb_nodes;
+    //        std::size_t n1 = ( i + off_in_outs[ 0 ] + 0 ) % nb_nodes;
+    //    }
 
 }
 
