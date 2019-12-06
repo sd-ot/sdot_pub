@@ -367,14 +367,18 @@ void LGrid<Pc>::push_cell( TI l, TZ &prev_z, TI level, TmpLevelInfo *level_info,
 
         // else, make a new super cell
         TmpLevelInfo *oli = li++;
-        if ( oli->nb_scells ) {
-            if ( oli->nb_scells > 1 ) {
-                cell = Cell::allocate( pool_scells, used_scell_ram, 0, oli->nb_scells, 0 );
+        if ( oli->nb_scells + oli->nb_ocells ) {
+            if ( oli->nb_scells + oli->nb_ocells > 1 ) {
+                cell = Cell::allocate( pool_scells, used_scell_ram, 0, oli->nb_scells, oli->nb_ocells );
                 cell->end_ind_in_fcells = nb_final_cells;
                 for( std::size_t i = 0; i < oli->nb_scells; ++i ) {
                     cell->scell( i ) = oli->scells[ i ];
 
-                    oli->scells[ i ]->;
+                    oli->scells[ i ]->first_alloc_data().num_in_parent = i;
+                    oli->scells[ i ]->first_alloc_data().parent = cell;
+                }
+                for( std::size_t i = 0; i < oli->nb_ocells; ++i ) {
+                    cell->ocell( i ) = oli->ocells[ i ];
                 }
 
                 oli->ls.store_to( cell->bounds );
@@ -416,9 +420,16 @@ void LGrid<Pc>::free_ooc( TI nooc ) {
     std::ofstream fout( oi.filename.c_str() );
     fout.write( (char *)&nb_fcells_per_ooc_file, sizeof( TI ) );
     for( std::size_t n = 0; n < nb_fcells_per_ooc_file; ++n ) {
-        ASSERT( first_in_mem_cell, "" );
-        used_fcell_ram -= first_in_mem_cell->size_in_bytes( /*first_alloc*/ true );
-        fout.write( (char *)first_in_mem_cell, first_in_mem_cell->size_in_bytes( /*first_alloc*/ false ) );
+        Cell *cell = first_in_mem_cell;
+        ASSERT( cell, "" );
+        used_fcell_ram -= cell->size_in_bytes( /*first_alloc*/ true );
+        fout.write( (char *)cell, cell->size_in_bytes( /*first_alloc*/ false ) );
+
+        if ( cell->first_alloc_data().parent ) {
+
+        } else {
+
+        }
 
         first_in_mem_cell = first_in_mem_cell->first_alloc_data().next;
     }
