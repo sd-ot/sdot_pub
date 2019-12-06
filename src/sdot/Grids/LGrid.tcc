@@ -429,8 +429,11 @@ void LGrid<Pc>::free_ooc( TI nooc, TmpLevelInfo *level_info, TI level ) {
         fout.write( (char *)cell, wr_size );
         off += wr_size;
 
-        if ( cell->first_alloc_data().parent ) {
-            ...
+        if ( Cell *p = cell->first_alloc_data().parent ) {
+            int np = cell->first_alloc_data().num_in_parent;
+            p->scell( np ) = p->scell( --p->nb_scells );
+            p->ocell( p->nb_scells ) = off;
+            ++p->nb_ocells;
         } else {
             // find it in level_info
             auto find_cell = [&]() {
@@ -453,7 +456,7 @@ void LGrid<Pc>::free_ooc( TI nooc, TmpLevelInfo *level_info, TI level ) {
     }
 
     // mettre offset dans scell
-    //oi.pool.free();
+    oi.pool.free();
 }
 
 template<class Pc>

@@ -70,7 +70,7 @@ private:
     enum {                         ball_cut                    = 2 };
 
     struct                         OutOfCoreInfo               { OutOfCoreInfo( OutOfCoreInfo&& ); OutOfCoreInfo() {} ~OutOfCoreInfo(); std::string filename; bool in_memory = true, saved = false; BumpPointerPool pool; };
-    struct                         TmpLevelInfo                { void clr() { num_scell = 0; nb_scells = 0; ls.clr(); } Cell *scells[ 1 << dim ]; std::size_t ocells[ 1 << dim ]; TI num_scell, nb_scells, nb_ocells; LocalSolver ls; };
+    struct                         TmpLevelInfo                { void clr() { num_scell = 0; nb_scells = 0; nb_ocells = 0; ls.clr(); } Cell *scells[ 1 << dim ]; std::size_t ocells[ 1 << dim ]; TI num_scell, nb_scells, nb_ocells; LocalSolver ls; };
     struct                         CpAndNum                    { Cell *cell; TI num; };
     struct                         Msi                         { bool operator<( const Msi &that ) const { return dist > that.dist; } Pt center; Cell *cell; TF dist; };
 

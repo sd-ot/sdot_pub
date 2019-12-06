@@ -282,19 +282,22 @@
 #     print( c, datetime.timedelta( seconds=v ) )
 #     c += 1
 class A:
-    def smurf( self ):
-        return 30
-    def __repr__( self ):
-        return "ou"
-    def __str__( self ):
-        return "odu"
+    a = 3
+#     def smurf( self ):
+#         return 30
+#     def __repr__( self ):
+#         return "ou"
+#     def __str__( self ):
+#         return "odu"
+    def __hash__(self):
+        return 10
+# a = A()
 
-a = A()
+# print( a )
+z = A()
+a = {
+    z: 4
+}
 
-print( a )
-
-
-
-
-
+print( a[ z ] )
 

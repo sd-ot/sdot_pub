@@ -44,12 +44,14 @@ template<class Pc>
 LGridCell<Pc> *LGridCell<Pc>::allocate( BumpPointerPool &pool, std::size_t &ram_acc, int nb_diracs, int nb_scells, int nb_ocells ) {
     std::size_t ram = sizeof( LGridCell ) - sizeof( Data ) + nb_scells * sizeof( LGridCell * ) + nb_ocells * sizeof( std::size_t ) + nb_diracs * sizeof( Dirac ) + sizeof( FirstAllocData );
     LGridCell *res = new ( pool.allocate( ram ) ) LGridCell;
-    res->first_alloc_data().parent = nullptr;
-    res->first_alloc_data().next = nullptr;
     res->nb_diracs = nb_diracs;
     res->nb_scells = nb_scells;
     res->nb_ocells = nb_ocells;
     ram_acc += ram;
+
+    res->first_alloc_data().parent = nullptr;
+    res->first_alloc_data().next = nullptr;
+
     return res;
 }
 
