@@ -348,7 +348,7 @@ void LGrid<Pc>::push_cell( TI l, TZ &prev_z, TI level, TmpLevelInfo *level_info,
 
         //
         while( used_fcell_ram > max_usable_ram )
-            free_ooc( nooc_mem_cell++, level_info );
+            free_ooc( nooc_mem_cell++, level_info, level );
     }
 
     // multilevel
@@ -410,25 +410,43 @@ LGrid<Pc>::OutOfCoreInfo::~OutOfCoreInfo() {
 
 
 template<class Pc>
-void LGrid<Pc>::free_ooc( TI nooc, TmpLevelInfo *level_info ) {
+void LGrid<Pc>::free_ooc( TI nooc, TmpLevelInfo *level_info, TI level ) {
     OutOfCoreInfo &oi = out_of_core_infos[ nooc ];
     if ( oi.filename.empty() )
         oi.filename = va_string( "{}{}_{}_{}.bin", ooc_dir, getpid(), this, nb_filenames++ );
     oi.in_memory = false;
     oi.saved = true;
 
+    std::size_t off = 0;
     std::ofstream fout( oi.filename.c_str() );
     fout.write( (char *)&nb_fcells_per_ooc_file, sizeof( TI ) );
     for( std::size_t n = 0; n < nb_fcells_per_ooc_file; ++n ) {
         Cell *cell = first_in_mem_cell;
         ASSERT( cell, "" );
+
+        std::size_t wr_size = cell->size_in_bytes( /*first_alloc*/ false );
         used_fcell_ram -= cell->size_in_bytes( /*first_alloc*/ true );
-        fout.write( (char *)cell, cell->size_in_bytes( /*first_alloc*/ false ) );
+        fout.write( (char *)cell, wr_size );
+        off += wr_size;
 
         if ( cell->first_alloc_data().parent ) {
-
+            ...
         } else {
             // find it in level_info
+            auto find_cell = [&]() {
+                for( TI l = 0; l <= level; ++l ) {
+                    for( int i = 0; i < level_info[ l ].nb_scells; ++i ) {
+                        if ( level_info[ l ].scells[ i ] == cell ) {
+                            level_info[ l ].scells[ i ] = level_info[ l ].scells[ --level_info[ l ].nb_scells ];
+                            level_info[ l ].ocells[ level_info[ l ].nb_ocells++ ] = off;
+                            return true;
+                        }
+                    }
+                }
+                return false;
+            };
+            if ( ! find_cell() )
+                ERROR( "cell is registerd nowhere" );
         }
 
         first_in_mem_cell = first_in_mem_cell->first_alloc_data().next;

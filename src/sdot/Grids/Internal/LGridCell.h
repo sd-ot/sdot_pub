@@ -25,7 +25,7 @@ struct LGridCell {
     FirstAllocData&           first_alloc_data() { return *reinterpret_cast<FirstAllocData *>( reinterpret_cast<char *>( this ) + size_in_bytes( false ) ); }
     Dirac&                    dirac           ( int index ) { return data.diracs[ index ]; }
     LGridCell*&               scell           ( int index ) { return data.children[ index ].ptr; }
-    std::size_t&              ocell           ( int index ) { return data.children[ nb_scells + index ].ptr; }
+    std::size_t&              ocell           ( int index ) { return data.children[ nb_scells + index ].off; }
 
     Span<Dirac>               diracs          () { return { data.diracs, std::size_t( nb_diracs ) }; }
     Span<LGridCell*>          scells          () { return { &data.children[ 0 ].ptr, std::size_t( nb_scells ) }; }
