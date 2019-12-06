@@ -50,6 +50,50 @@ void make_divs( std::vector<Dirac> &diracs, int n, Point2<double> mi, Point2<dou
     diracs.push_back( { 0.0, diracs.size(), mi, 0.0 } );
 }
 
+/*
+nb_sub=4
+  nb_sub=4
+    nb_diracs=3
+      0.0641713 0.020023
+      0.12979 0.108809
+      0.0163006 0.242887
+    nb_diracs=1
+      0.457702 0.0630958
+    nb_diracs=1
+      0.156679 0.400944
+    nb_diracs=1
+      0.283315 0.352458
+  nb_sub=4
+    nb_diracs=3
+      0.531606 0.0392803
+      0.525995 0.0860558
+      0.687861 0.165974
+    nb_diracs=2
+      0.911647 0.197551
+      0.998925 0.218257
+    nb_diracs=2
+      0.61264 0.296032
+      0.639979 0.354049
+    nb_diracs=3
+      0.829201 0.330337
+      0.890233 0.348893
+      0.840188 0.394383
+  nb_sub=4
+    nb_diracs=2
+      0.141603 0.606969
+      0.192214 0.663227
+    nb_sub=3
+      nb_diracs=3
+        0.266666 0.53976
+        0.277775 0.55397
+        0.364784 0.513401
+      nb_diracs=1
+        0.477397 0.628871
+      nb_diracs=2
+        0.35036 0.68667
+        0.284293 0.738534
+
+*/
 template<class Pc>
 void test() {
     constexpr int dim = Pc::dim;

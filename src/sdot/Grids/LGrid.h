@@ -77,12 +77,11 @@ private:
     void                           get_grid_dims_and_dirac_ptrs( const std::function<void(const Cb &cb)> &f );
     void                           for_each_final_cell_mono_thr( const std::function<void( Cell &cell, CpAndNum *path, TI path_len )> &f, TI beg_num_cell, TI end_num_cell, Cell *root_cell = 0 ) const;
     void                           update_after_mod_weights_rec( Cell *cell, LocalSolver *local_solvers, int level );
+    void                           replace_ooc_offsets_py_ptrs ( TI beg, const std::vector<Cell *> &cells, Cell *cell );
     void                           update_cell_bounds_phase_1  ( Cell *cell, Cell **path, int level );
     void                           fill_grid_using_zcoords     ( const Dirac *diracs, TI nb_diracs );
     void                           compute_sst_limits          ( const std::function<void(const Cb &cb)> &f );
-    void                           free_an_out_of_core_cell    ();
     void                           make_zind_limits            ( std::vector<TI> &zind_indices, std::vector<TZ> &zind_limits, const std::function<void(const LGrid::Cb &)> &f );
-    void                           write_to_stream             ( std::ostream &os, Cell *cell, std::string sp ) const;
     //    LGridBaseCell<Pc>       *deserialize_rec             ( char *base, std::size_t off ) const;
     template<int flags> bool       can_be_evicted              ( const CP &lc, Pt &c0, TF w0, const CellBoundsP0<Pc> &bounds, N<flags> ) const;
     template<int flags> bool       can_be_evicted              ( const CP &lc, Pt &c0, TF w0, const CellBoundsPpos<Pc> &bounds, N<flags> ) const;
@@ -95,6 +94,8 @@ private:
     void                           free_ooc                    ( TI nooc, TmpLevelInfo *level_info = nullptr, TI level = 0 );
     // void                        serialize                   ( OutOfCoreCell *cell );
     void                           reset                       ();
+
+    void                           read_ooc_for                ( TI off );
 
     template<int a_n0,int f> void  cut_lc                      ( CP &lc, Point2<TF> c0, TF w0, Cell *dell, N<a_n0>, TI n0, N<f> ) const;
     template<int a_n0,int f> void  cut_lc                      ( CP &lc, Point3<TF> c0, TF w0, Cell *dell, N<a_n0>, TI n0, N<f> ) const;

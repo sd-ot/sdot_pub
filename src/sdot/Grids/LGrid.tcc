@@ -50,6 +50,8 @@ void LGrid<Pc>::construct( const std::function<void(const Cb &cb)> &f ) {
         Cell *path[ nb_bits_per_axis ];
         update_cell_bounds_phase_1( root_cell, path, 0 );
     }
+
+    PN( *this );
 }
 
 template<class Pc>
@@ -417,7 +419,6 @@ void LGrid<Pc>::free_ooc( TI nooc, TmpLevelInfo *level_info, TI level ) {
     oi.in_memory = false;
     oi.saved = true;
 
-    std::size_t off = 0;
     std::ofstream fout( oi.filename.c_str() );
     fout.write( (char *)&nb_fcells_per_ooc_file, sizeof( TI ) );
     for( std::size_t n = 0; n < nb_fcells_per_ooc_file; ++n ) {
@@ -427,12 +428,16 @@ void LGrid<Pc>::free_ooc( TI nooc, TmpLevelInfo *level_info, TI level ) {
         std::size_t wr_size = cell->size_in_bytes( /*first_alloc*/ false );
         used_fcell_ram -= cell->size_in_bytes( /*first_alloc*/ true );
         fout.write( (char *)cell, wr_size );
-        off += wr_size;
 
         if ( Cell *p = cell->first_alloc_data().parent ) {
             int np = cell->first_alloc_data().num_in_parent;
-            p->scell( np ) = p->scell( --p->nb_scells );
-            p->ocell( p->nb_scells ) = off;
+            for( int n = np + 1; n < p->nb_scells; ++n ) {
+                p->scell( n )->first_alloc_data().num_in_parent = n - 1;
+                p->scell( n - 1 ) = p->scell( n );
+            }
+            --p->nb_scells;
+
+            p->ocell( 0 ) = cell->end_ind_in_fcells - 1;
             ++p->nb_ocells;
         } else {
             // find it in level_info
@@ -440,8 +445,10 @@ void LGrid<Pc>::free_ooc( TI nooc, TmpLevelInfo *level_info, TI level ) {
                 for( TI l = 0; l <= level; ++l ) {
                     for( int i = 0; i < level_info[ l ].nb_scells; ++i ) {
                         if ( level_info[ l ].scells[ i ] == cell ) {
-                            level_info[ l ].scells[ i ] = level_info[ l ].scells[ --level_info[ l ].nb_scells ];
-                            level_info[ l ].ocells[ level_info[ l ].nb_ocells++ ] = off;
+                            for( int n = i + 1; n < level_info[ l ].nb_scells; ++n )
+                                level_info[ l ].scells[ i - 1 ] = level_info[ l ].scells[ i ];
+                            level_info[ l ].ocells[ level_info[ l ].nb_ocells++ ] = cell->end_ind_in_fcells - 1;
+                            --level_info[ l ].nb_scells;
                             return true;
                         }
                     }
@@ -460,99 +467,71 @@ void LGrid<Pc>::free_ooc( TI nooc, TmpLevelInfo *level_info, TI level ) {
 }
 
 template<class Pc>
-void LGrid<Pc>::free_an_out_of_core_cell() {
-    //    // find a candidate. TODO: make a O(1) algorithm
-    //    OutOfCoreCell *rc = nullptr;
-    //    for( OutOfCoreCell *c = out_of_core_cell_list; c; c = c->prev ) {
-    //        if ( c->sub_cells[ 0 ] ) {
-    //            rc = c;
-    //            break;
-    //        }
-    //    }
-    //    if ( ! rc )
-    //        TODO;
+void LGrid<Pc>::read_ooc_for( TI off ) {
+    TI noi = off / nb_fcells_per_ooc_file;
+    OutOfCoreInfo &oi = out_of_core_infos[ noi ];
+    if ( oi.in_memory )
+        return;
+    ASSERT( oi.saved, "" );
 
-    //
-    TODO;
-    // out_of_core_ram -= rc->ram;
-    //    serialize( rc );
-    //    rc->clear();
+    // read the raw data
+    std::ifstream fin( oi.filename.c_str(), std::ios::binary | std::ios::ate );
+    std::size_t tot_size = fin.tellg();
+    char *alloc = oi.pool.allocate( tot_size );
+    fin.seekg( 0 );
+    fin.read( alloc, tot_size );
+
+    // nb cells in the file
+    TI nb_cells = *reinterpret_cast<const TI *>( alloc );
+    alloc += sizeof( TI );
+
+    // offsets
+    std::vector<Cell *> cells( nb_cells );
+    for( TI i = 0; i < nb_cells; ++i ) {
+        Cell *cell = reinterpret_cast<Cell *>( alloc );
+        std::size_t s = cell->size_in_bytes( false );
+        cells[ i ] = cell;
+        alloc += s;
+    }
+
+    // replace offsets
+    replace_ooc_offsets_py_ptrs( noi * nb_fcells_per_ooc_file, cells, root_cell );
 }
 
-//template<class Pc>
-//void LGrid<Pc>::deserialize( OutOfCoreCell *cell ) const {
-//    if ( cell->sub_cells[ 0 ] )
-//        return;
+template<class Pc>
+void LGrid<Pc>::replace_ooc_offsets_py_ptrs( TI beg_cell, const std::vector<Cell *> &cells, Cell *cell ) {
+    if ( cell->nb_diracs )
+        return;
 
-//    TODO;
-//    //    // read the raw data
-//    //    std::ifstream fin( cell->filename.c_str(), std::ios::binary | std::ios::ate );
-//    //    std::size_t tot_size = fin.tellg();
-//    //    cell->alloc = (char *)malloc( tot_size );
-//    //    fin.read( cell->alloc, tot_size );
+    TI end_cell = beg_cell + cells.size();
+    if ( int n = cell->nb_ocells ) {
+        while( n-- ) {
+            std::size_t off = cell->ocell( n );
+            if ( off >= beg_cell && off < end_cell ) {
+                if ( n )
+                    cell->ocell( n - 1 ) = cell->ocell( 0 );
+                cell->scell( cell->nb_scells++ ) = cells[ off - beg_cell ];
+                --cell->nb_ocells;
+            }
+        }
 
-//    //    // repl offset by pointers
-//    //    cell->sub_cells[ 0 ] = deserialize_rec( cell->alloc, *reinterpret_cast<const std::size_t *>( cell->alloc + tot_size - sizeof( std::size_t ) ) );
-//}
+        Span<Cell *> sp = cell->scells();
+        std::sort( const_cast<Cell **>( sp.begin() ), const_cast<Cell **>( sp.end() ), []( Cell *a, Cell *b ) {
+            return a->end_ind_in_fcells < b->end_ind_in_fcells;
+        } );
+    }
 
-//template<class Pc>
-//LGridBaseCell<Pc> *LGrid<Pc>::deserialize_rec( char *base, std::size_t off ) const {
-//    BaseCell *cell = reinterpret_cast<BaseCell *>( base + off );
+    for( int i = 0; i < cell->nb_scells; ++i ) {
+        Cell *sc = cell->scell( i );
+        if ( sc->end_ind_in_fcells <= beg_cell )
+            continue;
 
-//    if ( SuperCell *sc = cell->super_cell() ) {
-//        for( std::size_t i = 0; i < sc->nb_sub_cells(); ++i )
-//            sc->sub_cells[ i ] = deserialize_rec( base, reinterpret_cast<std::size_t *>( sc->sub_cells )[ i ] );
-//        return cell;
-//    }
+        replace_ooc_offsets_py_ptrs( beg_cell, cells, sc );
 
-//    if ( FinalCell *sc = cell->final_cell() ) {
-//        return cell;
-//    }
-
-//    TODO;
-//}
-
-//template<class Pc>
-//void LGrid<Pc>::serialize( OutOfCoreCell *cell ) {
-//    // get a filename
-//    if ( cell->filename.empty() ) {
-//        cell->modified = true;
-//        cell->filename = va_string( "ooc_lgrid_sv_{}_{}.bin", getpid(), cell );
-//    }
-
-//    // store
-//    if ( cell->modified ) {
-//        std::size_t len = 0;
-//        P( cell->filename );
-//        std::ofstream fout( cell->filename.c_str() );
-//        std::size_t off = serialize_rec( fout, len, cell->sub_cells[ 0 ] );
-//        fout.write( (char *)&off, sizeof( std::size_t ) );
-//    }
-//}
-
-//template<class Pc>
-//std::size_t LGrid<Pc>::serialize_rec( std::ostream &os, std::size_t &len, BaseCell *cell ) {
-//    std::size_t res = len;
-
-//    if ( SuperCell *sc = cell->super_cell() ) {
-//        SuperCell cp = *sc;
-//        for( std::size_t i = 0; i < sc->nb_sub_cells(); ++i )
-//            reinterpret_cast<std::size_t *>( cp.sub_cells )[ i ] = serialize_rec( os, len, sc->sub_cells[ i ] );
-//        std::size_t siib = sc->size_in_bytes();
-//        os.write( (const char *)&cp, siib );
-//        len += siib;
-//        return res;
-//    }
-
-//    if ( FinalCell *sc = cell->final_cell() ) {
-//        std::size_t siib = sc->size_in_bytes();
-//        os.write( (const char *)sc, siib );
-//        len += siib;
-//        return res;
-//    }
-
-//    TODO;
-//}
+        if ( sc->end_ind_in_fcells <= beg_cell )
+            break;
+    }
+}
 
 template<class Pc>
 void LGrid<Pc>::make_zind_limits( std::vector<TI> &zind_indices, std::vector<TZ> &zind_limits, const std::function<void(const Cb &)> &f ) {
@@ -1011,34 +990,10 @@ bool LGrid<Pc>::can_be_evicted( const CP &lc, Pt &c0, TF w0, const CellBoundsP0<
 
 template<class Pc>
 void LGrid<Pc>::write_to_stream( std::ostream &os ) const {
-    write_to_stream( os, root_cell, {} );
-}
-
-template<class Pc>
-void LGrid<Pc>::write_to_stream( std::ostream &os, Cell *cell, std::string sp ) const {
-    if ( ! cell ) {
-        os << sp << "null";
-        return;
-    }
-
-    // cell->min_pos.write_to_stream( os << sp << "mip=" );
-    // cell->max_pos.write_to_stream( os << " map=" );
-    // os << " end=" << cell->end_ind_in_fcells;
-
-    os << sp;
-
-    if ( int n = cell->nb_diracs ) {
-        os << "nb_diracs=" << cell->nb_diracs;
-        for( int i = 0; i < n; ++i )
-            cell->dirac( i ).write_to_stream( os << "\n  " << sp );
-    }
-
-    if ( int n = cell->nb_scells ) {
-        os << "nb_sub=" << n;
-        for( int i = 0; i < n; ++i )
-            write_to_stream( os << "\n", cell->scell( i ), sp + "  " );
-    }
-
+    if ( root_cell )
+        root_cell->write_to_stream( os, {} );
+    else
+        os << "null";
 }
 
 
@@ -1051,13 +1006,12 @@ void LGrid<Pc>::update_cell_bounds_phase_1( Cell *cell, Cell **path, int level )
         for( int l = 0; l <= level; ++l )
             path[ l ]->bounds.push( dirac.pos, dirac.weight );
 
+    while( cell->nb_ocells )
+        read_ooc_for( cell->ocell( 0 ) );
+
     for( Cell *sc : cell->scells() )
         update_cell_bounds_phase_1( sc, path, level + 1 );
 
-    for( std::size_t off : cell->ocells() ) {
-        off += 1;
-        TODO;
-    }
 }
 
 template<class Pc>
