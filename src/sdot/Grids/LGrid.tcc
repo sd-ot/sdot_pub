@@ -326,7 +326,7 @@ void LGrid<Pc>::push_cell( TI l, TZ &prev_z, TI level, TmpLevelInfo *level_info,
 
         // register it in the linked list of the in_mem fcells
         if ( last_in_mem_cell )
-            last_in_mem_cell->data.dirac_data.next_fcell = cell;
+            last_in_mem_cell->first_alloc_data().next = cell;
         else
             first_in_mem_cell = cell;
         last_in_mem_cell = cell;
@@ -371,8 +371,11 @@ void LGrid<Pc>::push_cell( TI l, TZ &prev_z, TI level, TmpLevelInfo *level_info,
             if ( oli->nb_scells > 1 ) {
                 cell = Cell::allocate( pool_scells, used_scell_ram, 0, oli->nb_scells, 0 );
                 cell->end_ind_in_fcells = nb_final_cells;
-                for( std::size_t i = 0; i < oli->nb_scells; ++i )
+                for( std::size_t i = 0; i < oli->nb_scells; ++i ) {
                     cell->scell( i ) = oli->scells[ i ];
+
+                    oli->scells[ i ]->;
+                }
 
                 oli->ls.store_to( cell->bounds );
 
@@ -414,10 +417,10 @@ void LGrid<Pc>::free_ooc( TI nooc ) {
     fout.write( (char *)&nb_fcells_per_ooc_file, sizeof( TI ) );
     for( std::size_t n = 0; n < nb_fcells_per_ooc_file; ++n ) {
         ASSERT( first_in_mem_cell, "" );
-        used_fcell_ram -= first_in_mem_cell->size_in_bytes();
-        fout.write( (char *)first_in_mem_cell, first_in_mem_cell->size_in_bytes() );
+        used_fcell_ram -= first_in_mem_cell->size_in_bytes( /*first_alloc*/ true );
+        fout.write( (char *)first_in_mem_cell, first_in_mem_cell->size_in_bytes( /*first_alloc*/ false ) );
 
-        first_in_mem_cell = first_in_mem_cell->data.dirac_data.next_fcell;
+        first_in_mem_cell = first_in_mem_cell->first_alloc_data().next;
     }
 
     // mettre offset dans scell

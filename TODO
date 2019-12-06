@@ -25,4 +25,6 @@ Le désavantage des types séparés, c'est que ça complique les tas, les chemin
 
 Si on a trop de cellules finale... Prop: on parcourt toutes les cellules qui contiennent des fcells pour les mettre en mémoire.
 
-Pour faire simple, on peut faire un parcourt systématique. En deuxième approche, on pourrait stocker le chemin d'accès du dernier. Rq: on peut atteindre les cellules par numéro
+Pour faire simple, on peut faire un parcourt systématique. En deuxième approche, on pourrait stocker le chemin d'accès du dernier. Rq: on peut atteindre les cellules par numéro... mais c'est quand le graphe est construit.
+
+Prop: on fait une liste chainée de cellules finales pour la première allocation. Pour le remplacement dans les scells... on peut de la même façon faire un pointeur vers les parents.
