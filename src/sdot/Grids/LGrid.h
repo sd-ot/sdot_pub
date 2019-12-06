@@ -92,7 +92,7 @@ private:
     void                           display_vtk                 ( VtkOutput &vtk_output, Cell *cell, DisplayFlags display_flags ) const;
     // void                        deserialize                 ( OutOfCoreCell *cell ) const;
     void                           push_cell                   ( TI l, TZ &prev_z, TI level, TmpLevelInfo *level_info, TI &index, const Dirac **zn_ptrs, TZ *zn_keys );
-    void                           free_ooc                    ( TI nooc );
+    void                           free_ooc                    ( TI nooc, TmpLevelInfo *level_info = nullptr );
     // void                        serialize                   ( OutOfCoreCell *cell );
     void                           reset                       ();
 

@@ -348,7 +348,7 @@ void LGrid<Pc>::push_cell( TI l, TZ &prev_z, TI level, TmpLevelInfo *level_info,
 
         //
         while( used_fcell_ram > max_usable_ram )
-            free_ooc( nooc_mem_cell++ );
+            free_ooc( nooc_mem_cell++, level_info );
     }
 
     // multilevel
@@ -410,7 +410,7 @@ LGrid<Pc>::OutOfCoreInfo::~OutOfCoreInfo() {
 
 
 template<class Pc>
-void LGrid<Pc>::free_ooc( TI nooc ) {
+void LGrid<Pc>::free_ooc( TI nooc, TmpLevelInfo *level_info ) {
     OutOfCoreInfo &oi = out_of_core_infos[ nooc ];
     if ( oi.filename.empty() )
         oi.filename = va_string( "{}{}_{}_{}.bin", ooc_dir, getpid(), this, nb_filenames++ );
@@ -428,7 +428,7 @@ void LGrid<Pc>::free_ooc( TI nooc ) {
         if ( cell->first_alloc_data().parent ) {
 
         } else {
-
+            // find it in level_info
         }
 
         first_in_mem_cell = first_in_mem_cell->first_alloc_data().next;
