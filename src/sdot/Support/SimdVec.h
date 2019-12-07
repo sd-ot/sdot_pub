@@ -16,7 +16,8 @@ template<class TF,int size=SimdSize<TF>::value> struct SimdVec {
     /**/           SimdVec      () {}
 
     static void    store_aligned( TF *data, const SimdVec &vec ) { for( int i = 0; i < size; ++i ) data[ i ] = vec.values[ i ]; }
-    static SimdVec load_aligned ( const TF *data ) { SimdVec res; for( int i = 0; i < size; ++i ) res.values[ i ] = data[ i ]; return res; }
+    template       <class GF>
+    static SimdVec load_aligned ( const GF *data ) { SimdVec res; for( int i = 0; i < size; ++i ) res.values[ i ] = data[ i ]; return res; }
 
     SimdVec        operator+    ( const SimdVec &that ) const { SimdVec res; for( int i = 0; i < size; ++i ) res.values[ i ] = values[ i ] + that.values[ i ]; return res; }
     SimdVec        operator-    ( const SimdVec &that ) const { SimdVec res; for( int i = 0; i < size; ++i ) res.values[ i ] = values[ i ] - that.values[ i ]; return res; }
@@ -24,6 +25,15 @@ template<class TF,int size=SimdSize<TF>::value> struct SimdVec {
     SimdVec        operator/    ( const SimdVec &that ) const { SimdVec res; for( int i = 0; i < size; ++i ) res.values[ i ] = values[ i ] / that.values[ i ]; return res; }
 
     std::uint64_t  operator>    ( const SimdVec &that ) const { std::uint64_t res = 0; for( int i = 0; i < size; ++i ) res |= std::uint64_t( values[ i ] > that.values[ i ] ) << i; return res;  }
+
+    SimdVec        operator<<   ( const SimdVec &that ) const { SimdVec res; for( int i = 0; i < size; ++i ) res.values[ i ] = values[ i ] << that.values[ i ]; return res; }
+
+    SimdVec        operator&    ( const SimdVec &that ) const { SimdVec res; for( int i = 0; i < size; ++i ) res.values[ i ] = values[ i ] & that.values[ i ]; return res; }
+
+    std::uint64_t  nz           () const { std::uint64_t res = 0; for( int i = 0; i < size; ++i ) res |= std::uint64_t( values[ i ] != 0 ) << i; return res; }
+
+    const TF      *begin        () const { return values; }
+    const TF      *end          () const { return values + size; }
 
     TF             values       [ size ];
 };
@@ -46,6 +56,14 @@ template<class TF,int size=SimdSize<TF>::value> struct SimdVec {
 
         __m512d        values;
     };
+
+    //            __m128i blo = _mm_load_si128( reinterpret_cast<const __m128i *>( fnodes.data() ) ); // load the 16 indices (in 8 bit)
+    //            __m512i bou = _mm512_set1_epi64( ou );
+    //            __m512i bex = _mm512_cvtepi8_epi64( blo ); // 8 bits to 64 bits indices (first part)
+    //            __m512i bsh = _mm512_sllv_epi64( _mm512_set1_epi64( 1 ), bex ); // load the first 8 indices to 64 bits
+    //            __m512i ban = _mm512_and_epi64( bsh, bou );
+    //            std::uint16_t ouf = ( _mm512_cmpneq_epi64_mask( ban, _mm512_setzero_si512() ) << 3 ) + ( nb_fnodes - 3 );
+
 #endif
 
 #ifdef __AVX2__

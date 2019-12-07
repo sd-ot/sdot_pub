@@ -58,6 +58,7 @@ public:
 
     void                                 for_each_boundary_item    ( const std::function<void( const BoundaryItem &boundary_item )> &f ) const;
     void                                 for_each_face             ( const std::function<void( const Face &face )> &f ) const;
+    void                                 for_each_node             ( const std::function<void( const Node &node )> &f ) const;
 
     // geometric modifications
     template<int flags>  void            plane_cut                 ( std::array<const TF *,dim> cut_dir, const TF *cut_ps, const CI *cut_id, std::size_t nb_cuts, N<flags> ); ///< return true if effective cut. @see ConvexPolyhedron for the flags
@@ -75,15 +76,15 @@ private:
     ConvexPolyhedron3Lt64NodeBlock<Pc>   nodes;                    ///<
     ConvexPolyhedron3Lt64FaceBlock<Pc>   faces;                    ///<
 
-    unsigned                             nodes_size;
-    unsigned                             faces_size;
+    int                                  nodes_size;
+    int                                  faces_size;
 
     TF                                   sphere_radius;
     Pt                                   sphere_center;
     CI                                   sphere_cut_id;
 
-    std::uint64_t                        edge_num_cuts[ max_nb_edges ];
-    Node                                *edge_cuts    [ max_nb_edges ];
+    std::uint64_t                        edge_num_cuts[ max_nb_edges ]; ///< to be compared to this->num_cut
+    std::uint8_t                         edge_cuts    [ max_nb_edges ]; ///< num node for each possible edge
 
     std::uint64_t                        num_cut;
 };

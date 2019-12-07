@@ -28,3 +28,29 @@ Si on a trop de cellules finale... Prop: on parcourt toutes les cellules qui con
 Pour faire simple, on peut faire un parcourt systématique. En deuxième approche, on pourrait stocker le chemin d'accès du dernier. Rq: on peut atteindre les cellules par numéro... mais c'est quand le graphe est construit.
 
 Prop: on fait une liste chainée de cellules finales pour la première allocation. Pour le remplacement dans les scells... on peut de la même façon faire un pointeur vers les parents..
+
+Pb: ça serait cool de rassembler les cas où les noeuds dehors sont les mêmes
+  L'idée de base pourrait être d'avoir des 1 pour les noeuds dedans. Ça dit les noeuds qui garde... ce qui suffit, sauf pour quand ça tourne
+    11011000000 => on a plein de zéro... on a besoin de savoir si le dernier bit est un zéro ou un un. 
+    Prop 1: shift du mask + 1 pour le dernier bit. Si c'est un 1, on connait la taille. Si c'est un 0, on saura faire le edge qui sort... Pour le edge qui rerentre (en retournant au zéro), c'est plus compliqué.
+
+    On peut dans tous les cas faire un test en cas de doute.
+      => mais si on spécifie rien, on a systématiquement un test
+      => su on ajoute une copie du dernier bit, si on a un 1, c'est reglé. Si on a 
+
+    Prop: on ajoute TOUJOURS un 1 à la fin. Ça donne de fait la taille.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

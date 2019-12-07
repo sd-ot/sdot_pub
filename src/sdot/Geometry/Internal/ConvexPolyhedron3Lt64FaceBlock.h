@@ -25,10 +25,10 @@ public:
     TF                   normal_xs [ bs ];     ///< per face
     TF                   normal_ys [ bs ];     ///< per face
     TF                   normal_zs [ bs ];     ///< per face
-    unsigned             nb_nodes  [ bs ];     ///< per face
+    int                  nb_nodes  [ bs ];     ///< per face
     CI                   cut_ids   [ bs ];     ///< per face
 
-    unsigned             tmp      [ bs ];     ///< per face
+    int                  tmp       [ bs ];     ///< per face
 };
 
 } // namespace sdot

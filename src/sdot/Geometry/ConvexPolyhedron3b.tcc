@@ -2,6 +2,7 @@
 #include "../Support/Display/binary_repr.h"
 #include "../Support/aligned_memory.h"
 #include "../Support/bit_handling.h"
+#include "../Support/SimdRange.h"
 #include "../Support/SimdVec.h"
 #include "../Support/ASSERT.h"
 #include "../Support/TODO.h"
@@ -148,7 +149,7 @@ void ConvexPolyhedron3<Pc>::write_to_stream( std::ostream &os, bool /*debug*/ ) 
     os << "\nFaces:";
     for_each_face( [&]( const auto &face ) {
         os << "\n ";
-        face.foreach_node_index( [&]( TI index ) {
+        face.for_each_node_index( [&]( int index ) {
             os << " " << index;
         } );
     } );
@@ -196,82 +197,73 @@ void ConvexPolyhedron3<Pc>::for_each_boundary_item( const std::function<void( co
 }
 
 template<class Pc>
-void ConvexPolyhedron3<Pc>::for_each_face( const std::function<void( const Face &)> &f ) const {
-    for( unsigned num_face = 0; num_face < faces_size; ++num_face )
+void ConvexPolyhedron3<Pc>::for_each_face( const std::function<void( const Face & )> &f ) const {
+    for( int num_face = 0; num_face < faces_size; ++num_face )
         f( { num_face, this } );
+}
+
+template<class Pc>
+void ConvexPolyhedron3<Pc>::for_each_node( const std::function<void( const Node & )> &f ) const {
+    for( int num_node = 0; num_node < nodes_size; ++num_node )
+        f( nodes.local_at( num_node ) );
 }
 
 
 template<class Pc> template<int flags>
-void ConvexPolyhedron3<Pc>::plane_cut( std::array<const TF *,dim> cut_dir, const TF *cut_ps, const CI *cut_id, std::size_t nb_cuts, N<flags> ) {
-    constexpr int s = SimdSize<TF>::value;
-    using SF = SimdVec<TF,s>;
+void ConvexPolyhedron3<Pc>::plane_cut( std::array<const TF *,dim> cut_dir, const TF *cut_ps, const CI */*cut_id*/, std::size_t nb_cuts, N<flags> ) {
+    constexpr int ss = SimdSize<TF>::value;
 
     for( std::size_t num_cut = 0; num_cut < nb_cuts; ++num_cut ) {
-        // get distances and bits for outside nodes
+        // get distance and outside bit for each node
         TF cx = cut_dir[ 0 ][ num_cut ];
         TF cy = cut_dir[ 1 ][ num_cut ];
         TF cz = cut_dir[ 2 ][ num_cut ];
         TF cs = cut_ps[ num_cut ];
-        SF nx = cx;
-        SF ny = cy;
-        SF nz = cz;
-        SF ns = cs;
         std::uint64_t ou = 0;
-        unsigned n = 0;
-        for( ; n + 8 <= nodes_size; n += 8 ) {
-            SF px = SF::load_aligned( &nodes.x + n );
-            SF py = SF::load_aligned( &nodes.y + n );
-            SF pz = SF::load_aligned( &nodes.z + n );
-            SF bi = px * nx + py * ny + pz * nz;
-            std::uint64_t lo = bi > ns;
-            SF::store_aligend( &nodes.d, bi - ns );
+        SimdRange<ss>::for_each( nodes_size, [&]( int n, auto s ) {
+            using LF = SimdVec<TF,s.val>;
+            LF px = LF::load_aligned( &nodes.x + n );
+            LF py = LF::load_aligned( &nodes.y + n );
+            LF pz = LF::load_aligned( &nodes.z + n );
+
+            LF bi = px * LF( cx ) + py * LF( cy ) + pz * LF( cz );
+            LF::store_aligned( &nodes.d + n, bi - LF( cs ) );
+            std::uint64_t lo = bi > LF( cs );
             ou |= lo << n;
-        }
-        for( ; n < nodes_size; ++n ) {
-            TF px = (&nodes.x)[ n ];
-            TF py = (&nodes.y)[ n ];
-            TF pz = (&nodes.z)[ n ];
-            TF bi = px * cx + py * cy + pz * cz;
-            std::uint64_t lo = bi > cs;
-            (&nodes.d)[ n ] = bi - cs;
-            ou |= lo << n;
-        }
+        } );
         
         // if nothing has changed, we can go to the next cut
         if ( ou == 0 )
             continue;
 
         // else, find the intersected faces
-        unsigned faces_to_rem[ Lt64FaceBlock::max_nb_faces_per_cell ];
-        unsigned nb_faces_to_rem = 0;
+        int faces_to_rem[ Lt64FaceBlock::max_nb_faces_per_cell ];
+        int nb_faces_to_rem = 0;
         ++num_cut;
 
         // handke intersected faces
+        int new_nodes_size = nodes_size;
         auto handle_intersected_face = [&]( unsigned num_face ) {
-            // make a cut id: 4 bits for the initial number of nodes, 16 bits for outsideness of each node
-            const auto &node_list = faces.node_lists[ n ];
-            unsigned nb_nodes = faces.nb_nodes[ num_face ];
-            if ( nb_nodes > 8 )
+            // 16 bits for outsideness of each node
+            const auto &fnodes = faces.node_lists[ num_face ];
+            int nb_fnodes = faces.nb_nodes[ num_face ];
+            if ( nb_fnodes > 8 )
                 TODO;
 
-            // unsigned ouf = 0;
-            // for( std::size_t num_node = 0; num_node < nb_nodes; ++num_node ) {
-            //     bool out = ( 1 << node_list[ num_node ] ) & ou;
-            //     ouf |= unsigned( out ) << num_node;
-            // }
-            __m128i blo = _mm_load_si128( reinterpret_cast<const __m128i *>( node_list.data() ) ); // load the 16 indices (in 8 bit)
-            __m512i bou = _mm512_set1_epi64( ou );
-            __m512i bex = _mm512_cvtepi8_epi64( blo ); // 8 bits to 64 bits indices (first part)
-            __m512i bsh = _mm512_sllv_epi64( _mm512_set1_epi64( 1 ), bex ); // load the first 8 indices to 64 bits
-            __m512i ban = _mm512_and_epi64( bsh, bou );
-            std::uint16_t ouf = ( _mm512_cmpneq_epi64_mask( ban, _mm512_setzero_si512() ) << 3 ) + ( nb_nodes - 3 );
+            SimdVec<std::int64_t,8> blo = SimdVec<std::int64_t,8>::load_aligned( fnodes.data() );
+            SimdVec<std::int64_t,8> bsh = SimdVec<std::int64_t,8>( 1 ) << blo;
+            SimdVec<std::int64_t,8> ban = SimdVec<std::int64_t,8>( ou ) & bsh;
+            int ouf = ban.nz() | ( 1 << nb_fnodes );
+            P( ouf );
             do {
                 #include "Internal/(ConvexPolyhedron3Lt64_plane_cut_switch.cpp).h"
             } while ( 0 );
         };
+        for( int n = 0; n < faces_size; ++n )
+            if ( ou & faces.node_masks[ n ] )
+                handle_intersected_face( n );
 
-        n = 0;
+        //        n = 0;
         // __m512i mn = _mm512_set1_epi64( ou );
         //        for( ; n + 8 <= faces_size; n += 8 ) {
         //            //             __m512i ms = _mm512_load_epi64( faces.node_masks + n );
@@ -279,14 +271,11 @@ void ConvexPolyhedron3<Pc>::plane_cut( std::array<const TF *,dim> cut_dir, const
         //            //             std::uint8_t lo = _mm512_cmp_pd_mask( bi, rd, _CMP_GT_OQ );
         //            TODO;
         //        }
-        for( ; n < faces_size; ++n )
-            if ( ou & faces.node_masks[ n ] )
-                handle_intersected_face( n );
         
         // remove void faces
         auto remove_void_faces = [&]() {
-            for( unsigned num_in_faces_to_rem = 0; num_in_faces_to_rem < nb_faces_to_rem; ++num_in_faces_to_rem ) {
-                unsigned num_face_to_rem = faces_to_rem[ num_in_faces_to_rem ];
+            for( int num_in_faces_to_rem = 0; num_in_faces_to_rem < nb_faces_to_rem; ++num_in_faces_to_rem ) {
+                int num_face_to_rem = faces_to_rem[ num_in_faces_to_rem ];
                 while ( true ) {
                     if ( --faces_size <= num_face_to_rem )
                         return;
@@ -304,6 +293,9 @@ void ConvexPolyhedron3<Pc>::plane_cut( std::array<const TF *,dim> cut_dir, const
             }
         };
         remove_void_faces();
+
+        //
+        nodes_size = new_nodes_size;
     }
 }
 

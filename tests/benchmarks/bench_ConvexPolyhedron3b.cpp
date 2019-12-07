@@ -63,6 +63,8 @@ void bench( std::vector<TF> xs, std::vector<TF> ys, std::vector<TF> zs, std::vec
     if ( nb_reps > 1 ) {
         P( dt_set_box );
         P( ( dt_cut_proc - dt_set_box ) / xs.size() );
+    } else {
+        P( cp );
     }
 
     VtkOutput vo;
