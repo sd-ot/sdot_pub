@@ -2,6 +2,7 @@
 #include "../Support/Display/binary_repr.h"
 #include "../Support/aligned_memory.h"
 #include "../Support/bit_handling.h"
+#include "../Support/SimdVec.h"
 #include "../Support/ASSERT.h"
 #include "../Support/TODO.h"
 #include "../Support/pi.h"
@@ -203,26 +204,28 @@ void ConvexPolyhedron3<Pc>::for_each_face( const std::function<void( const Face 
 
 template<class Pc> template<int flags>
 void ConvexPolyhedron3<Pc>::plane_cut( std::array<const TF *,dim> cut_dir, const TF *cut_ps, const CI *cut_id, std::size_t nb_cuts, N<flags> ) {
-    //    #ifdef __AVX512F__
+    constexpr int s = SimdSize<TF>::value;
+    using SF = SimdVec<TF,s>;
+
     for( std::size_t num_cut = 0; num_cut < nb_cuts; ++num_cut ) {
         // get distances and bits for outside nodes
         TF cx = cut_dir[ 0 ][ num_cut ];
         TF cy = cut_dir[ 1 ][ num_cut ];
         TF cz = cut_dir[ 2 ][ num_cut ];
         TF cs = cut_ps[ num_cut ];
-        __m512d nx = _mm512_set1_pd( cx );
-        __m512d ny = _mm512_set1_pd( cy );
-        __m512d nz = _mm512_set1_pd( cz );
-        __m512d ns = _mm512_set1_pd( cs );
+        SF nx = cx;
+        SF ny = cy;
+        SF nz = cz;
+        SF ns = cs;
         std::uint64_t ou = 0;
         unsigned n = 0;
         for( ; n + 8 <= nodes_size; n += 8 ) {
-            __m512d px = _mm512_load_pd( &nodes.x + n );
-            __m512d py = _mm512_load_pd( &nodes.y + n );
-            __m512d pz = _mm512_load_pd( &nodes.z + n );
-            __m512d bi = px * nx + py * ny + pz * nz;
-            std::uint64_t lo = _mm512_cmp_pd_mask( bi, ns, _CMP_GT_OQ );
-            _mm512_store_pd( &nodes.d, bi - ns );
+            SF px = SF::load_aligned( &nodes.x + n );
+            SF py = SF::load_aligned( &nodes.y + n );
+            SF pz = SF::load_aligned( &nodes.z + n );
+            SF bi = px * nx + py * ny + pz * nz;
+            std::uint64_t lo = bi > ns;
+            SF::store_aligend( &nodes.d, bi - ns );
             ou |= lo << n;
         }
         for( ; n < nodes_size; ++n ) {
@@ -302,9 +305,6 @@ void ConvexPolyhedron3<Pc>::plane_cut( std::array<const TF *,dim> cut_dir, const
         };
         remove_void_faces();
     }
-    //    #else
-    //    // TODO;
-    //    #endif
 }
 
 template<class Pc>
