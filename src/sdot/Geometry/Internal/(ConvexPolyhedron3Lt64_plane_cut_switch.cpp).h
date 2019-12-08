@@ -587,6 +587,11 @@ case_2: {
     faces.nb_nodes[ num_face ] = 4;
     faces.node_lists[ num_face ][ 0 ] = num_node_257;
     faces.node_lists[ num_face ][ 3 ] = num_node_259;
+    faces.node_masks[ num_face ] = 
+        ( 1 << num_node_257 ) |
+        ( 1 << num_node_1 ) |
+        ( 1 << num_node_2 ) |
+        ( 1 << num_node_259 ) ;
     break;
 }
 case_7: {
@@ -650,6 +655,10 @@ case_7: {
     // 259,0,257
     faces.node_lists[ num_face ][ 1 ] = num_node_257;
     faces.node_lists[ num_face ][ 2 ] = num_node_259;
+    faces.node_masks[ num_face ] = 
+        ( 1 << num_node_0 ) |
+        ( 1 << num_node_257 ) |
+        ( 1 << num_node_259 ) ;
     break;
 }
 case_3: {
@@ -715,6 +724,11 @@ case_3: {
     faces.node_lists[ num_face ][ 1 ] = num_node_257;
     faces.node_lists[ num_face ][ 2 ] = num_node_260;
     faces.node_lists[ num_face ][ 3 ] = num_node_2;
+    faces.node_masks[ num_face ] = 
+        ( 1 << num_node_0 ) |
+        ( 1 << num_node_257 ) |
+        ( 1 << num_node_260 ) |
+        ( 1 << num_node_2 ) ;
     break;
 }
 case_10: {
@@ -777,9 +791,16 @@ case_10: {
         num_node_260 = edge_cuts[ num_edge_260 ];
     // 0,257,260,2,3
     faces.nb_nodes[ num_face ] = 5;
+    int num_node_3 = faces.node_lists[ num_face ][ 3 ];
     faces.node_lists[ num_face ][ 0 ] = num_node_257;
     faces.node_lists[ num_face ][ 1 ] = num_node_260;
     faces.node_lists[ num_face ][ 4 ] = num_node_0;
+    faces.node_masks[ num_face ] = 
+        ( 1 << num_node_257 ) |
+        ( 1 << num_node_260 ) |
+        ( 1 << num_node_2 ) |
+        ( 1 << num_node_3 ) |
+        ( 1 << num_node_0 ) ;
     break;
 }
 case_23: {
@@ -842,9 +863,18 @@ case_23: {
         num_node_260 = edge_cuts[ num_edge_260 ];
     // 0,257,260,2,3,4
     faces.nb_nodes[ num_face ] = 6;
+    int num_node_3 = faces.node_lists[ num_face ][ 3 ];
+    int num_node_4 = faces.node_lists[ num_face ][ 4 ];
     faces.node_lists[ num_face ][ 0 ] = num_node_257;
     faces.node_lists[ num_face ][ 1 ] = num_node_260;
     faces.node_lists[ num_face ][ 5 ] = num_node_0;
+    faces.node_masks[ num_face ] = 
+        ( 1 << num_node_257 ) |
+        ( 1 << num_node_260 ) |
+        ( 1 << num_node_2 ) |
+        ( 1 << num_node_3 ) |
+        ( 1 << num_node_4 ) |
+        ( 1 << num_node_0 ) ;
     break;
 }
 case_46: {
@@ -907,9 +937,20 @@ case_46: {
         num_node_260 = edge_cuts[ num_edge_260 ];
     // 0,257,260,2,3,4,5
     faces.nb_nodes[ num_face ] = 7;
+    int num_node_3 = faces.node_lists[ num_face ][ 3 ];
+    int num_node_4 = faces.node_lists[ num_face ][ 4 ];
+    int num_node_5 = faces.node_lists[ num_face ][ 5 ];
     faces.node_lists[ num_face ][ 0 ] = num_node_257;
     faces.node_lists[ num_face ][ 1 ] = num_node_260;
     faces.node_lists[ num_face ][ 6 ] = num_node_0;
+    faces.node_masks[ num_face ] = 
+        ( 1 << num_node_257 ) |
+        ( 1 << num_node_260 ) |
+        ( 1 << num_node_2 ) |
+        ( 1 << num_node_3 ) |
+        ( 1 << num_node_4 ) |
+        ( 1 << num_node_5 ) |
+        ( 1 << num_node_0 ) ;
     break;
 }
 case_86: {
@@ -972,9 +1013,22 @@ case_86: {
         num_node_260 = edge_cuts[ num_edge_260 ];
     // 0,257,260,2,3,4,5,6
     faces.nb_nodes[ num_face ] = 8;
+    int num_node_3 = faces.node_lists[ num_face ][ 3 ];
+    int num_node_4 = faces.node_lists[ num_face ][ 4 ];
+    int num_node_5 = faces.node_lists[ num_face ][ 5 ];
+    int num_node_6 = faces.node_lists[ num_face ][ 6 ];
     faces.node_lists[ num_face ][ 0 ] = num_node_257;
     faces.node_lists[ num_face ][ 1 ] = num_node_260;
     faces.node_lists[ num_face ][ 7 ] = num_node_0;
+    faces.node_masks[ num_face ] = 
+        ( 1 << num_node_257 ) |
+        ( 1 << num_node_260 ) |
+        ( 1 << num_node_2 ) |
+        ( 1 << num_node_3 ) |
+        ( 1 << num_node_4 ) |
+        ( 1 << num_node_5 ) |
+        ( 1 << num_node_6 ) |
+        ( 1 << num_node_0 ) ;
     break;
 }
 case_156: {
@@ -1037,9 +1091,24 @@ case_156: {
         num_node_260 = edge_cuts[ num_edge_260 ];
     // 0,257,260,2,3,4,5,6,7
     faces.nb_nodes[ num_face ] = 9;
+    int num_node_3 = faces.node_lists[ num_face ][ 3 ];
+    int num_node_4 = faces.node_lists[ num_face ][ 4 ];
+    int num_node_5 = faces.node_lists[ num_face ][ 5 ];
+    int num_node_6 = faces.node_lists[ num_face ][ 6 ];
+    int num_node_7 = faces.node_lists[ num_face ][ 7 ];
     faces.node_lists[ num_face ][ 0 ] = num_node_257;
     faces.node_lists[ num_face ][ 1 ] = num_node_260;
     faces.node_lists[ num_face ][ 8 ] = num_node_0;
+    faces.node_masks[ num_face ] = 
+        ( 1 << num_node_257 ) |
+        ( 1 << num_node_260 ) |
+        ( 1 << num_node_2 ) |
+        ( 1 << num_node_3 ) |
+        ( 1 << num_node_4 ) |
+        ( 1 << num_node_5 ) |
+        ( 1 << num_node_6 ) |
+        ( 1 << num_node_7 ) |
+        ( 1 << num_node_0 ) ;
     break;
 }
 case_20: {
@@ -1104,6 +1173,10 @@ case_20: {
     faces.nb_nodes[ num_face ] = 3;
     faces.node_lists[ num_face ][ 0 ] = num_node_257;
     faces.node_lists[ num_face ][ 2 ] = num_node_260;
+    faces.node_masks[ num_face ] = 
+        ( 1 << num_node_257 ) |
+        ( 1 << num_node_1 ) |
+        ( 1 << num_node_260 ) ;
     break;
 }
 case_6: {
@@ -1167,6 +1240,10 @@ case_6: {
     // 257,1,260
     faces.node_lists[ num_face ][ 0 ] = num_node_257;
     faces.node_lists[ num_face ][ 2 ] = num_node_260;
+    faces.node_masks[ num_face ] = 
+        ( 1 << num_node_257 ) |
+        ( 1 << num_node_1 ) |
+        ( 1 << num_node_260 ) ;
     break;
 }
 case_13: {
@@ -7824,6 +7901,11 @@ case_14: {
     // 0,257,264,3
     faces.node_lists[ num_face ][ 1 ] = num_node_257;
     faces.node_lists[ num_face ][ 2 ] = num_node_264;
+    faces.node_masks[ num_face ] = 
+        ( 1 << num_node_0 ) |
+        ( 1 << num_node_257 ) |
+        ( 1 << num_node_264 ) |
+        ( 1 << num_node_3 ) ;
     break;
 }
 case_27: {
@@ -7886,8 +7968,15 @@ case_27: {
     } else
         num_node_264 = edge_cuts[ num_edge_264 ];
     // 0,257,264,3,4
+    int num_node_4 = faces.node_lists[ num_face ][ 4 ];
     faces.node_lists[ num_face ][ 1 ] = num_node_257;
     faces.node_lists[ num_face ][ 2 ] = num_node_264;
+    faces.node_masks[ num_face ] = 
+        ( 1 << num_node_0 ) |
+        ( 1 << num_node_257 ) |
+        ( 1 << num_node_264 ) |
+        ( 1 << num_node_3 ) |
+        ( 1 << num_node_4 ) ;
     break;
 }
 case_50: {
@@ -7950,8 +8039,17 @@ case_50: {
     } else
         num_node_264 = edge_cuts[ num_edge_264 ];
     // 0,257,264,3,4,5
+    int num_node_4 = faces.node_lists[ num_face ][ 4 ];
+    int num_node_5 = faces.node_lists[ num_face ][ 5 ];
     faces.node_lists[ num_face ][ 1 ] = num_node_257;
     faces.node_lists[ num_face ][ 2 ] = num_node_264;
+    faces.node_masks[ num_face ] = 
+        ( 1 << num_node_0 ) |
+        ( 1 << num_node_257 ) |
+        ( 1 << num_node_264 ) |
+        ( 1 << num_node_3 ) |
+        ( 1 << num_node_4 ) |
+        ( 1 << num_node_5 ) ;
     break;
 }
 case_90: {
@@ -8014,8 +8112,19 @@ case_90: {
     } else
         num_node_264 = edge_cuts[ num_edge_264 ];
     // 0,257,264,3,4,5,6
+    int num_node_4 = faces.node_lists[ num_face ][ 4 ];
+    int num_node_5 = faces.node_lists[ num_face ][ 5 ];
+    int num_node_6 = faces.node_lists[ num_face ][ 6 ];
     faces.node_lists[ num_face ][ 1 ] = num_node_257;
     faces.node_lists[ num_face ][ 2 ] = num_node_264;
+    faces.node_masks[ num_face ] = 
+        ( 1 << num_node_0 ) |
+        ( 1 << num_node_257 ) |
+        ( 1 << num_node_264 ) |
+        ( 1 << num_node_3 ) |
+        ( 1 << num_node_4 ) |
+        ( 1 << num_node_5 ) |
+        ( 1 << num_node_6 ) ;
     break;
 }
 case_160: {
@@ -8078,8 +8187,21 @@ case_160: {
     } else
         num_node_264 = edge_cuts[ num_edge_264 ];
     // 0,257,264,3,4,5,6,7
+    int num_node_4 = faces.node_lists[ num_face ][ 4 ];
+    int num_node_5 = faces.node_lists[ num_face ][ 5 ];
+    int num_node_6 = faces.node_lists[ num_face ][ 6 ];
+    int num_node_7 = faces.node_lists[ num_face ][ 7 ];
     faces.node_lists[ num_face ][ 1 ] = num_node_257;
     faces.node_lists[ num_face ][ 2 ] = num_node_264;
+    faces.node_masks[ num_face ] = 
+        ( 1 << num_node_0 ) |
+        ( 1 << num_node_257 ) |
+        ( 1 << num_node_264 ) |
+        ( 1 << num_node_3 ) |
+        ( 1 << num_node_4 ) |
+        ( 1 << num_node_5 ) |
+        ( 1 << num_node_6 ) |
+        ( 1 << num_node_7 ) ;
     break;
 }
 case_42: {
@@ -8145,6 +8267,11 @@ case_42: {
     faces.nb_nodes[ num_face ] = 4;
     faces.node_lists[ num_face ][ 0 ] = num_node_257;
     faces.node_lists[ num_face ][ 3 ] = num_node_264;
+    faces.node_masks[ num_face ] = 
+        ( 1 << num_node_257 ) |
+        ( 1 << num_node_1 ) |
+        ( 1 << num_node_2 ) |
+        ( 1 << num_node_264 ) ;
     break;
 }
 case_17: {
@@ -8209,6 +8336,11 @@ case_17: {
     // 257,1,2,264
     faces.node_lists[ num_face ][ 0 ] = num_node_257;
     faces.node_lists[ num_face ][ 3 ] = num_node_264;
+    faces.node_masks[ num_face ] = 
+        ( 1 << num_node_257 ) |
+        ( 1 << num_node_1 ) |
+        ( 1 << num_node_2 ) |
+        ( 1 << num_node_264 ) ;
     break;
 }
 case_30: {
@@ -11188,8 +11320,15 @@ case_9: {
         num_node_262 = edge_cuts[ num_edge_262 ];
     // 257,1,2,3,262
     faces.nb_nodes[ num_face ] = 5;
+    int num_node_2 = faces.node_lists[ num_face ][ 2 ];
     faces.node_lists[ num_face ][ 0 ] = num_node_257;
     faces.node_lists[ num_face ][ 4 ] = num_node_262;
+    faces.node_masks[ num_face ] = 
+        ( 1 << num_node_257 ) |
+        ( 1 << num_node_1 ) |
+        ( 1 << num_node_2 ) |
+        ( 1 << num_node_3 ) |
+        ( 1 << num_node_262 ) ;
     break;
 }
 case_21: {
@@ -11254,6 +11393,10 @@ case_21: {
     faces.nb_nodes[ num_face ] = 3;
     faces.node_lists[ num_face ][ 1 ] = num_node_257;
     faces.node_lists[ num_face ][ 2 ] = num_node_262;
+    faces.node_masks[ num_face ] = 
+        ( 1 << num_node_0 ) |
+        ( 1 << num_node_257 ) |
+        ( 1 << num_node_262 ) ;
     break;
 }
 case_35: {
@@ -11320,6 +11463,11 @@ case_35: {
     faces.node_lists[ num_face ][ 1 ] = num_node_257;
     faces.node_lists[ num_face ][ 2 ] = num_node_269;
     faces.node_lists[ num_face ][ 3 ] = num_node_4;
+    faces.node_masks[ num_face ] = 
+        ( 1 << num_node_0 ) |
+        ( 1 << num_node_257 ) |
+        ( 1 << num_node_269 ) |
+        ( 1 << num_node_4 ) ;
     break;
 }
 case_57: {
@@ -11388,6 +11536,12 @@ case_57: {
     faces.node_lists[ num_face ][ 2 ] = num_node_269;
     faces.node_lists[ num_face ][ 3 ] = num_node_4;
     faces.node_lists[ num_face ][ 4 ] = num_node_5;
+    faces.node_masks[ num_face ] = 
+        ( 1 << num_node_0 ) |
+        ( 1 << num_node_257 ) |
+        ( 1 << num_node_269 ) |
+        ( 1 << num_node_4 ) |
+        ( 1 << num_node_5 ) ;
     break;
 }
 case_97: {
@@ -11452,10 +11606,18 @@ case_97: {
     // 0,257,269,4,5,6
     faces.nb_nodes[ num_face ] = 6;
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
+    int num_node_5 = faces.node_lists[ num_face ][ 5 ];
     faces.node_lists[ num_face ][ 0 ] = num_node_6;
     faces.node_lists[ num_face ][ 1 ] = num_node_0;
     faces.node_lists[ num_face ][ 2 ] = num_node_257;
     faces.node_lists[ num_face ][ 3 ] = num_node_269;
+    faces.node_masks[ num_face ] = 
+        ( 1 << num_node_6 ) |
+        ( 1 << num_node_0 ) |
+        ( 1 << num_node_257 ) |
+        ( 1 << num_node_269 ) |
+        ( 1 << num_node_4 ) |
+        ( 1 << num_node_5 ) ;
     break;
 }
 case_167: {
@@ -11520,10 +11682,20 @@ case_167: {
     // 0,257,269,4,5,6,7
     faces.nb_nodes[ num_face ] = 7;
     int num_node_7 = faces.node_lists[ num_face ][ 7 ];
+    int num_node_5 = faces.node_lists[ num_face ][ 5 ];
+    int num_node_6 = faces.node_lists[ num_face ][ 6 ];
     faces.node_lists[ num_face ][ 0 ] = num_node_7;
     faces.node_lists[ num_face ][ 1 ] = num_node_0;
     faces.node_lists[ num_face ][ 2 ] = num_node_257;
     faces.node_lists[ num_face ][ 3 ] = num_node_269;
+    faces.node_masks[ num_face ] = 
+        ( 1 << num_node_7 ) |
+        ( 1 << num_node_0 ) |
+        ( 1 << num_node_257 ) |
+        ( 1 << num_node_269 ) |
+        ( 1 << num_node_4 ) |
+        ( 1 << num_node_5 ) |
+        ( 1 << num_node_6 ) ;
     break;
 }
 case_81: {
@@ -11587,8 +11759,15 @@ case_81: {
         num_node_269 = edge_cuts[ num_edge_269 ];
     // 257,1,2,3,269
     faces.nb_nodes[ num_face ] = 5;
+    int num_node_2 = faces.node_lists[ num_face ][ 2 ];
     faces.node_lists[ num_face ][ 0 ] = num_node_257;
     faces.node_lists[ num_face ][ 4 ] = num_node_269;
+    faces.node_masks[ num_face ] = 
+        ( 1 << num_node_257 ) |
+        ( 1 << num_node_1 ) |
+        ( 1 << num_node_2 ) |
+        ( 1 << num_node_3 ) |
+        ( 1 << num_node_269 ) ;
     break;
 }
 case_38: {
@@ -11651,8 +11830,15 @@ case_38: {
     } else
         num_node_269 = edge_cuts[ num_edge_269 ];
     // 257,1,2,3,269
+    int num_node_2 = faces.node_lists[ num_face ][ 2 ];
     faces.node_lists[ num_face ][ 0 ] = num_node_257;
     faces.node_lists[ num_face ][ 4 ] = num_node_269;
+    faces.node_masks[ num_face ] = 
+        ( 1 << num_node_257 ) |
+        ( 1 << num_node_1 ) |
+        ( 1 << num_node_2 ) |
+        ( 1 << num_node_3 ) |
+        ( 1 << num_node_269 ) ;
     break;
 }
 case_60: {
@@ -12942,8 +13128,17 @@ case_22: {
         num_node_266 = edge_cuts[ num_edge_266 ];
     // 257,1,2,3,4,266
     faces.nb_nodes[ num_face ] = 6;
+    int num_node_2 = faces.node_lists[ num_face ][ 2 ];
+    int num_node_3 = faces.node_lists[ num_face ][ 3 ];
     faces.node_lists[ num_face ][ 0 ] = num_node_257;
     faces.node_lists[ num_face ][ 5 ] = num_node_266;
+    faces.node_masks[ num_face ] = 
+        ( 1 << num_node_257 ) |
+        ( 1 << num_node_1 ) |
+        ( 1 << num_node_2 ) |
+        ( 1 << num_node_3 ) |
+        ( 1 << num_node_4 ) |
+        ( 1 << num_node_266 ) ;
     break;
 }
 case_44: {
@@ -13008,6 +13203,10 @@ case_44: {
     faces.nb_nodes[ num_face ] = 3;
     faces.node_lists[ num_face ][ 1 ] = num_node_257;
     faces.node_lists[ num_face ][ 2 ] = num_node_266;
+    faces.node_masks[ num_face ] = 
+        ( 1 << num_node_0 ) |
+        ( 1 << num_node_257 ) |
+        ( 1 << num_node_266 ) ;
     break;
 }
 case_73: {
@@ -13074,6 +13273,11 @@ case_73: {
     faces.node_lists[ num_face ][ 1 ] = num_node_257;
     faces.node_lists[ num_face ][ 2 ] = num_node_275;
     faces.node_lists[ num_face ][ 3 ] = num_node_5;
+    faces.node_masks[ num_face ] = 
+        ( 1 << num_node_0 ) |
+        ( 1 << num_node_257 ) |
+        ( 1 << num_node_275 ) |
+        ( 1 << num_node_5 ) ;
     break;
 }
 case_109: {
@@ -13142,6 +13346,12 @@ case_109: {
     faces.node_lists[ num_face ][ 2 ] = num_node_275;
     faces.node_lists[ num_face ][ 3 ] = num_node_5;
     faces.node_lists[ num_face ][ 4 ] = num_node_6;
+    faces.node_masks[ num_face ] = 
+        ( 1 << num_node_0 ) |
+        ( 1 << num_node_257 ) |
+        ( 1 << num_node_275 ) |
+        ( 1 << num_node_5 ) |
+        ( 1 << num_node_6 ) ;
     break;
 }
 case_179: {
@@ -13212,6 +13422,13 @@ case_179: {
     faces.node_lists[ num_face ][ 3 ] = num_node_5;
     faces.node_lists[ num_face ][ 4 ] = num_node_6;
     faces.node_lists[ num_face ][ 5 ] = num_node_7;
+    faces.node_masks[ num_face ] = 
+        ( 1 << num_node_0 ) |
+        ( 1 << num_node_257 ) |
+        ( 1 << num_node_275 ) |
+        ( 1 << num_node_5 ) |
+        ( 1 << num_node_6 ) |
+        ( 1 << num_node_7 ) ;
     break;
 }
 case_150: {
@@ -13275,8 +13492,17 @@ case_150: {
         num_node_275 = edge_cuts[ num_edge_275 ];
     // 257,1,2,3,4,275
     faces.nb_nodes[ num_face ] = 6;
+    int num_node_2 = faces.node_lists[ num_face ][ 2 ];
+    int num_node_3 = faces.node_lists[ num_face ][ 3 ];
     faces.node_lists[ num_face ][ 0 ] = num_node_257;
     faces.node_lists[ num_face ][ 5 ] = num_node_275;
+    faces.node_masks[ num_face ] = 
+        ( 1 << num_node_257 ) |
+        ( 1 << num_node_1 ) |
+        ( 1 << num_node_2 ) |
+        ( 1 << num_node_3 ) |
+        ( 1 << num_node_4 ) |
+        ( 1 << num_node_275 ) ;
     break;
 }
 case_76: {
@@ -13339,8 +13565,17 @@ case_76: {
     } else
         num_node_275 = edge_cuts[ num_edge_275 ];
     // 257,1,2,3,4,275
+    int num_node_2 = faces.node_lists[ num_face ][ 2 ];
+    int num_node_3 = faces.node_lists[ num_face ][ 3 ];
     faces.node_lists[ num_face ][ 0 ] = num_node_257;
     faces.node_lists[ num_face ][ 5 ] = num_node_275;
+    faces.node_masks[ num_face ] = 
+        ( 1 << num_node_257 ) |
+        ( 1 << num_node_1 ) |
+        ( 1 << num_node_2 ) |
+        ( 1 << num_node_3 ) |
+        ( 1 << num_node_4 ) |
+        ( 1 << num_node_275 ) ;
     break;
 }
 case_112: {
@@ -13870,8 +14105,19 @@ case_45: {
         num_node_271 = edge_cuts[ num_edge_271 ];
     // 257,1,2,3,4,5,271
     faces.nb_nodes[ num_face ] = 7;
+    int num_node_2 = faces.node_lists[ num_face ][ 2 ];
+    int num_node_3 = faces.node_lists[ num_face ][ 3 ];
+    int num_node_4 = faces.node_lists[ num_face ][ 4 ];
     faces.node_lists[ num_face ][ 0 ] = num_node_257;
     faces.node_lists[ num_face ][ 6 ] = num_node_271;
+    faces.node_masks[ num_face ] = 
+        ( 1 << num_node_257 ) |
+        ( 1 << num_node_1 ) |
+        ( 1 << num_node_2 ) |
+        ( 1 << num_node_3 ) |
+        ( 1 << num_node_4 ) |
+        ( 1 << num_node_5 ) |
+        ( 1 << num_node_271 ) ;
     break;
 }
 case_84: {
@@ -13936,6 +14182,10 @@ case_84: {
     faces.nb_nodes[ num_face ] = 3;
     faces.node_lists[ num_face ][ 1 ] = num_node_257;
     faces.node_lists[ num_face ][ 2 ] = num_node_271;
+    faces.node_masks[ num_face ] = 
+        ( 1 << num_node_0 ) |
+        ( 1 << num_node_257 ) |
+        ( 1 << num_node_271 ) ;
     break;
 }
 case_141: {
@@ -14002,6 +14252,11 @@ case_141: {
     faces.node_lists[ num_face ][ 1 ] = num_node_257;
     faces.node_lists[ num_face ][ 2 ] = num_node_282;
     faces.node_lists[ num_face ][ 3 ] = num_node_6;
+    faces.node_masks[ num_face ] = 
+        ( 1 << num_node_0 ) |
+        ( 1 << num_node_257 ) |
+        ( 1 << num_node_282 ) |
+        ( 1 << num_node_6 ) ;
     break;
 }
 case_200: {
@@ -14070,6 +14325,12 @@ case_200: {
     faces.node_lists[ num_face ][ 2 ] = num_node_282;
     faces.node_lists[ num_face ][ 3 ] = num_node_6;
     faces.node_lists[ num_face ][ 4 ] = num_node_7;
+    faces.node_masks[ num_face ] = 
+        ( 1 << num_node_0 ) |
+        ( 1 << num_node_257 ) |
+        ( 1 << num_node_282 ) |
+        ( 1 << num_node_6 ) |
+        ( 1 << num_node_7 ) ;
     break;
 }
 case_274: {
@@ -14133,8 +14394,19 @@ case_274: {
         num_node_282 = edge_cuts[ num_edge_282 ];
     // 257,1,2,3,4,5,282
     faces.nb_nodes[ num_face ] = 7;
+    int num_node_2 = faces.node_lists[ num_face ][ 2 ];
+    int num_node_3 = faces.node_lists[ num_face ][ 3 ];
+    int num_node_4 = faces.node_lists[ num_face ][ 4 ];
     faces.node_lists[ num_face ][ 0 ] = num_node_257;
     faces.node_lists[ num_face ][ 6 ] = num_node_282;
+    faces.node_masks[ num_face ] = 
+        ( 1 << num_node_257 ) |
+        ( 1 << num_node_1 ) |
+        ( 1 << num_node_2 ) |
+        ( 1 << num_node_3 ) |
+        ( 1 << num_node_4 ) |
+        ( 1 << num_node_5 ) |
+        ( 1 << num_node_282 ) ;
     break;
 }
 case_144: {
@@ -14197,8 +14469,19 @@ case_144: {
     } else
         num_node_282 = edge_cuts[ num_edge_282 ];
     // 257,1,2,3,4,5,282
+    int num_node_2 = faces.node_lists[ num_face ][ 2 ];
+    int num_node_3 = faces.node_lists[ num_face ][ 3 ];
+    int num_node_4 = faces.node_lists[ num_face ][ 4 ];
     faces.node_lists[ num_face ][ 0 ] = num_node_257;
     faces.node_lists[ num_face ][ 6 ] = num_node_282;
+    faces.node_masks[ num_face ] = 
+        ( 1 << num_node_257 ) |
+        ( 1 << num_node_1 ) |
+        ( 1 << num_node_2 ) |
+        ( 1 << num_node_3 ) |
+        ( 1 << num_node_4 ) |
+        ( 1 << num_node_5 ) |
+        ( 1 << num_node_282 ) ;
     break;
 }
 case_203: {
@@ -14377,8 +14660,21 @@ case_85: {
         num_node_277 = edge_cuts[ num_edge_277 ];
     // 257,1,2,3,4,5,6,277
     faces.nb_nodes[ num_face ] = 8;
+    int num_node_2 = faces.node_lists[ num_face ][ 2 ];
+    int num_node_3 = faces.node_lists[ num_face ][ 3 ];
+    int num_node_4 = faces.node_lists[ num_face ][ 4 ];
+    int num_node_5 = faces.node_lists[ num_face ][ 5 ];
     faces.node_lists[ num_face ][ 0 ] = num_node_257;
     faces.node_lists[ num_face ][ 7 ] = num_node_277;
+    faces.node_masks[ num_face ] = 
+        ( 1 << num_node_257 ) |
+        ( 1 << num_node_1 ) |
+        ( 1 << num_node_2 ) |
+        ( 1 << num_node_3 ) |
+        ( 1 << num_node_4 ) |
+        ( 1 << num_node_5 ) |
+        ( 1 << num_node_6 ) |
+        ( 1 << num_node_277 ) ;
     break;
 }
 case_154: {
@@ -14443,6 +14739,10 @@ case_154: {
     faces.nb_nodes[ num_face ] = 3;
     faces.node_lists[ num_face ][ 1 ] = num_node_257;
     faces.node_lists[ num_face ][ 2 ] = num_node_277;
+    faces.node_masks[ num_face ] = 
+        ( 1 << num_node_0 ) |
+        ( 1 << num_node_257 ) |
+        ( 1 << num_node_277 ) ;
     break;
 }
 case_264: {
@@ -14509,6 +14809,11 @@ case_264: {
     faces.node_lists[ num_face ][ 1 ] = num_node_257;
     faces.node_lists[ num_face ][ 2 ] = num_node_290;
     faces.node_lists[ num_face ][ 3 ] = num_node_7;
+    faces.node_masks[ num_face ] = 
+        ( 1 << num_node_0 ) |
+        ( 1 << num_node_257 ) |
+        ( 1 << num_node_290 ) |
+        ( 1 << num_node_7 ) ;
     break;
 }
 case_267: {
@@ -14571,8 +14876,21 @@ case_267: {
     } else
         num_node_290 = edge_cuts[ num_edge_290 ];
     // 257,1,2,3,4,5,6,290
+    int num_node_2 = faces.node_lists[ num_face ][ 2 ];
+    int num_node_3 = faces.node_lists[ num_face ][ 3 ];
+    int num_node_4 = faces.node_lists[ num_face ][ 4 ];
+    int num_node_5 = faces.node_lists[ num_face ][ 5 ];
     faces.node_lists[ num_face ][ 0 ] = num_node_257;
     faces.node_lists[ num_face ][ 7 ] = num_node_290;
+    faces.node_masks[ num_face ] = 
+        ( 1 << num_node_257 ) |
+        ( 1 << num_node_1 ) |
+        ( 1 << num_node_2 ) |
+        ( 1 << num_node_3 ) |
+        ( 1 << num_node_4 ) |
+        ( 1 << num_node_5 ) |
+        ( 1 << num_node_6 ) |
+        ( 1 << num_node_290 ) ;
     break;
 }
 case_155: {
@@ -14635,8 +14953,23 @@ case_155: {
         num_node_284 = edge_cuts[ num_edge_284 ];
     // 257,1,2,3,4,5,6,7,284
     faces.nb_nodes[ num_face ] = 9;
+    int num_node_2 = faces.node_lists[ num_face ][ 2 ];
+    int num_node_3 = faces.node_lists[ num_face ][ 3 ];
+    int num_node_4 = faces.node_lists[ num_face ][ 4 ];
+    int num_node_5 = faces.node_lists[ num_face ][ 5 ];
+    int num_node_6 = faces.node_lists[ num_face ][ 6 ];
     faces.node_lists[ num_face ][ 0 ] = num_node_257;
     faces.node_lists[ num_face ][ 8 ] = num_node_284;
+    faces.node_masks[ num_face ] = 
+        ( 1 << num_node_257 ) |
+        ( 1 << num_node_1 ) |
+        ( 1 << num_node_2 ) |
+        ( 1 << num_node_3 ) |
+        ( 1 << num_node_4 ) |
+        ( 1 << num_node_5 ) |
+        ( 1 << num_node_6 ) |
+        ( 1 << num_node_7 ) |
+        ( 1 << num_node_284 ) ;
     break;
 }
 case_279: {
@@ -14701,6 +15034,10 @@ case_279: {
     faces.nb_nodes[ num_face ] = 3;
     faces.node_lists[ num_face ][ 1 ] = num_node_257;
     faces.node_lists[ num_face ][ 2 ] = num_node_284;
+    faces.node_masks[ num_face ] = 
+        ( 1 << num_node_0 ) |
+        ( 1 << num_node_257 ) |
+        ( 1 << num_node_284 ) ;
     break;
 }
 case_5: {
@@ -14765,6 +15102,11 @@ case_5: {
     faces.nb_nodes[ num_face ] = 4;
     faces.node_lists[ num_face ][ 2 ] = num_node_260;
     faces.node_lists[ num_face ][ 3 ] = num_node_259;
+    faces.node_masks[ num_face ] = 
+        ( 1 << num_node_0 ) |
+        ( 1 << num_node_1 ) |
+        ( 1 << num_node_260 ) |
+        ( 1 << num_node_259 ) ;
     break;
 }
 case_4: {
@@ -14828,6 +15170,10 @@ case_4: {
     // 260,2,259
     faces.node_lists[ num_face ][ 0 ] = num_node_259;
     faces.node_lists[ num_face ][ 1 ] = num_node_260;
+    faces.node_masks[ num_face ] = 
+        ( 1 << num_node_259 ) |
+        ( 1 << num_node_260 ) |
+        ( 1 << num_node_2 ) ;
     break;
 }
 case_12: {
@@ -14890,9 +15236,16 @@ case_12: {
         num_node_264 = edge_cuts[ num_edge_264 ];
     // 0,1,260,264,3
     faces.nb_nodes[ num_face ] = 5;
+    int num_node_0 = faces.node_lists[ num_face ][ 0 ];
     faces.node_lists[ num_face ][ 2 ] = num_node_260;
     faces.node_lists[ num_face ][ 3 ] = num_node_264;
     faces.node_lists[ num_face ][ 4 ] = num_node_3;
+    faces.node_masks[ num_face ] = 
+        ( 1 << num_node_0 ) |
+        ( 1 << num_node_1 ) |
+        ( 1 << num_node_260 ) |
+        ( 1 << num_node_264 ) |
+        ( 1 << num_node_3 ) ;
     break;
 }
 case_25: {
@@ -14955,11 +15308,19 @@ case_25: {
         num_node_264 = edge_cuts[ num_edge_264 ];
     // 0,1,260,264,3,4
     faces.nb_nodes[ num_face ] = 6;
+    int num_node_0 = faces.node_lists[ num_face ][ 0 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
     faces.node_lists[ num_face ][ 2 ] = num_node_260;
     faces.node_lists[ num_face ][ 3 ] = num_node_264;
     faces.node_lists[ num_face ][ 4 ] = num_node_3;
     faces.node_lists[ num_face ][ 5 ] = num_node_4;
+    faces.node_masks[ num_face ] = 
+        ( 1 << num_node_0 ) |
+        ( 1 << num_node_1 ) |
+        ( 1 << num_node_260 ) |
+        ( 1 << num_node_264 ) |
+        ( 1 << num_node_3 ) |
+        ( 1 << num_node_4 ) ;
     break;
 }
 case_48: {
@@ -15022,11 +15383,21 @@ case_48: {
         num_node_264 = edge_cuts[ num_edge_264 ];
     // 0,1,260,264,3,4,5
     faces.nb_nodes[ num_face ] = 7;
+    int num_node_4 = faces.node_lists[ num_face ][ 4 ];
+    int num_node_5 = faces.node_lists[ num_face ][ 5 ];
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
     faces.node_lists[ num_face ][ 0 ] = num_node_1;
     faces.node_lists[ num_face ][ 1 ] = num_node_260;
     faces.node_lists[ num_face ][ 2 ] = num_node_264;
     faces.node_lists[ num_face ][ 6 ] = num_node_0;
+    faces.node_masks[ num_face ] = 
+        ( 1 << num_node_1 ) |
+        ( 1 << num_node_260 ) |
+        ( 1 << num_node_264 ) |
+        ( 1 << num_node_3 ) |
+        ( 1 << num_node_4 ) |
+        ( 1 << num_node_5 ) |
+        ( 1 << num_node_0 ) ;
     break;
 }
 case_88: {
@@ -15089,11 +15460,23 @@ case_88: {
         num_node_264 = edge_cuts[ num_edge_264 ];
     // 0,1,260,264,3,4,5,6
     faces.nb_nodes[ num_face ] = 8;
+    int num_node_4 = faces.node_lists[ num_face ][ 4 ];
+    int num_node_5 = faces.node_lists[ num_face ][ 5 ];
+    int num_node_6 = faces.node_lists[ num_face ][ 6 ];
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
     faces.node_lists[ num_face ][ 0 ] = num_node_1;
     faces.node_lists[ num_face ][ 1 ] = num_node_260;
     faces.node_lists[ num_face ][ 2 ] = num_node_264;
     faces.node_lists[ num_face ][ 7 ] = num_node_0;
+    faces.node_masks[ num_face ] = 
+        ( 1 << num_node_1 ) |
+        ( 1 << num_node_260 ) |
+        ( 1 << num_node_264 ) |
+        ( 1 << num_node_3 ) |
+        ( 1 << num_node_4 ) |
+        ( 1 << num_node_5 ) |
+        ( 1 << num_node_6 ) |
+        ( 1 << num_node_0 ) ;
     break;
 }
 case_158: {
@@ -15156,11 +15539,25 @@ case_158: {
         num_node_264 = edge_cuts[ num_edge_264 ];
     // 0,1,260,264,3,4,5,6,7
     faces.nb_nodes[ num_face ] = 9;
+    int num_node_4 = faces.node_lists[ num_face ][ 4 ];
+    int num_node_5 = faces.node_lists[ num_face ][ 5 ];
+    int num_node_6 = faces.node_lists[ num_face ][ 6 ];
+    int num_node_7 = faces.node_lists[ num_face ][ 7 ];
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
     faces.node_lists[ num_face ][ 0 ] = num_node_1;
     faces.node_lists[ num_face ][ 1 ] = num_node_260;
     faces.node_lists[ num_face ][ 2 ] = num_node_264;
     faces.node_lists[ num_face ][ 8 ] = num_node_0;
+    faces.node_masks[ num_face ] = 
+        ( 1 << num_node_1 ) |
+        ( 1 << num_node_260 ) |
+        ( 1 << num_node_264 ) |
+        ( 1 << num_node_3 ) |
+        ( 1 << num_node_4 ) |
+        ( 1 << num_node_5 ) |
+        ( 1 << num_node_6 ) |
+        ( 1 << num_node_7 ) |
+        ( 1 << num_node_0 ) ;
     break;
 }
 case_18: {
@@ -15225,6 +15622,10 @@ case_18: {
     faces.nb_nodes[ num_face ] = 3;
     faces.node_lists[ num_face ][ 0 ] = num_node_264;
     faces.node_lists[ num_face ][ 1 ] = num_node_260;
+    faces.node_masks[ num_face ] = 
+        ( 1 << num_node_264 ) |
+        ( 1 << num_node_260 ) |
+        ( 1 << num_node_2 ) ;
     break;
 }
 case_32: {
@@ -18199,6 +18600,11 @@ case_11: {
     // 260,2,3,262
     faces.node_lists[ num_face ][ 0 ] = num_node_262;
     faces.node_lists[ num_face ][ 1 ] = num_node_260;
+    faces.node_masks[ num_face ] = 
+        ( 1 << num_node_262 ) |
+        ( 1 << num_node_260 ) |
+        ( 1 << num_node_2 ) |
+        ( 1 << num_node_3 ) ;
     break;
 }
 case_19: {
@@ -18263,6 +18669,11 @@ case_19: {
     // 262,0,1,260
     faces.node_lists[ num_face ][ 2 ] = num_node_260;
     faces.node_lists[ num_face ][ 3 ] = num_node_262;
+    faces.node_masks[ num_face ] = 
+        ( 1 << num_node_0 ) |
+        ( 1 << num_node_1 ) |
+        ( 1 << num_node_260 ) |
+        ( 1 << num_node_262 ) ;
     break;
 }
 case_33: {
@@ -18325,8 +18736,15 @@ case_33: {
     } else
         num_node_269 = edge_cuts[ num_edge_269 ];
     // 0,1,260,269,4
+    int num_node_0 = faces.node_lists[ num_face ][ 0 ];
     faces.node_lists[ num_face ][ 2 ] = num_node_260;
     faces.node_lists[ num_face ][ 3 ] = num_node_269;
+    faces.node_masks[ num_face ] = 
+        ( 1 << num_node_0 ) |
+        ( 1 << num_node_1 ) |
+        ( 1 << num_node_260 ) |
+        ( 1 << num_node_269 ) |
+        ( 1 << num_node_4 ) ;
     break;
 }
 case_55: {
@@ -18389,8 +18807,17 @@ case_55: {
     } else
         num_node_269 = edge_cuts[ num_edge_269 ];
     // 0,1,260,269,4,5
+    int num_node_0 = faces.node_lists[ num_face ][ 0 ];
+    int num_node_5 = faces.node_lists[ num_face ][ 5 ];
     faces.node_lists[ num_face ][ 2 ] = num_node_260;
     faces.node_lists[ num_face ][ 3 ] = num_node_269;
+    faces.node_masks[ num_face ] = 
+        ( 1 << num_node_0 ) |
+        ( 1 << num_node_1 ) |
+        ( 1 << num_node_260 ) |
+        ( 1 << num_node_269 ) |
+        ( 1 << num_node_4 ) |
+        ( 1 << num_node_5 ) ;
     break;
 }
 case_95: {
@@ -18453,8 +18880,19 @@ case_95: {
     } else
         num_node_269 = edge_cuts[ num_edge_269 ];
     // 0,1,260,269,4,5,6
+    int num_node_0 = faces.node_lists[ num_face ][ 0 ];
+    int num_node_5 = faces.node_lists[ num_face ][ 5 ];
+    int num_node_6 = faces.node_lists[ num_face ][ 6 ];
     faces.node_lists[ num_face ][ 2 ] = num_node_260;
     faces.node_lists[ num_face ][ 3 ] = num_node_269;
+    faces.node_masks[ num_face ] = 
+        ( 1 << num_node_0 ) |
+        ( 1 << num_node_1 ) |
+        ( 1 << num_node_260 ) |
+        ( 1 << num_node_269 ) |
+        ( 1 << num_node_4 ) |
+        ( 1 << num_node_5 ) |
+        ( 1 << num_node_6 ) ;
     break;
 }
 case_165: {
@@ -18517,8 +18955,21 @@ case_165: {
     } else
         num_node_269 = edge_cuts[ num_edge_269 ];
     // 0,1,260,269,4,5,6,7
+    int num_node_0 = faces.node_lists[ num_face ][ 0 ];
+    int num_node_5 = faces.node_lists[ num_face ][ 5 ];
+    int num_node_6 = faces.node_lists[ num_face ][ 6 ];
+    int num_node_7 = faces.node_lists[ num_face ][ 7 ];
     faces.node_lists[ num_face ][ 2 ] = num_node_260;
     faces.node_lists[ num_face ][ 3 ] = num_node_269;
+    faces.node_masks[ num_face ] = 
+        ( 1 << num_node_0 ) |
+        ( 1 << num_node_1 ) |
+        ( 1 << num_node_260 ) |
+        ( 1 << num_node_269 ) |
+        ( 1 << num_node_4 ) |
+        ( 1 << num_node_5 ) |
+        ( 1 << num_node_6 ) |
+        ( 1 << num_node_7 ) ;
     break;
 }
 case_39: {
@@ -18584,6 +19035,11 @@ case_39: {
     faces.nb_nodes[ num_face ] = 4;
     faces.node_lists[ num_face ][ 0 ] = num_node_269;
     faces.node_lists[ num_face ][ 1 ] = num_node_260;
+    faces.node_masks[ num_face ] = 
+        ( 1 << num_node_269 ) |
+        ( 1 << num_node_260 ) |
+        ( 1 << num_node_2 ) |
+        ( 1 << num_node_3 ) ;
     break;
 }
 case_62: {
@@ -19880,8 +20336,15 @@ case_24: {
     } else
         num_node_266 = edge_cuts[ num_edge_266 ];
     // 260,2,3,4,266
+    int num_node_3 = faces.node_lists[ num_face ][ 3 ];
     faces.node_lists[ num_face ][ 0 ] = num_node_266;
     faces.node_lists[ num_face ][ 1 ] = num_node_260;
+    faces.node_masks[ num_face ] = 
+        ( 1 << num_node_266 ) |
+        ( 1 << num_node_260 ) |
+        ( 1 << num_node_2 ) |
+        ( 1 << num_node_3 ) |
+        ( 1 << num_node_4 ) ;
     break;
 }
 case_43: {
@@ -19947,6 +20410,11 @@ case_43: {
     faces.nb_nodes[ num_face ] = 4;
     faces.node_lists[ num_face ][ 2 ] = num_node_260;
     faces.node_lists[ num_face ][ 3 ] = num_node_266;
+    faces.node_masks[ num_face ] = 
+        ( 1 << num_node_0 ) |
+        ( 1 << num_node_1 ) |
+        ( 1 << num_node_260 ) |
+        ( 1 << num_node_266 ) ;
     break;
 }
 case_71: {
@@ -20010,9 +20478,16 @@ case_71: {
         num_node_275 = edge_cuts[ num_edge_275 ];
     // 0,1,260,275,5
     faces.nb_nodes[ num_face ] = 5;
+    int num_node_0 = faces.node_lists[ num_face ][ 0 ];
     faces.node_lists[ num_face ][ 2 ] = num_node_260;
     faces.node_lists[ num_face ][ 3 ] = num_node_275;
     faces.node_lists[ num_face ][ 4 ] = num_node_5;
+    faces.node_masks[ num_face ] = 
+        ( 1 << num_node_0 ) |
+        ( 1 << num_node_1 ) |
+        ( 1 << num_node_260 ) |
+        ( 1 << num_node_275 ) |
+        ( 1 << num_node_5 ) ;
     break;
 }
 case_107: {
@@ -20076,11 +20551,19 @@ case_107: {
         num_node_275 = edge_cuts[ num_edge_275 ];
     // 0,1,260,275,5,6
     faces.nb_nodes[ num_face ] = 6;
+    int num_node_0 = faces.node_lists[ num_face ][ 0 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
     faces.node_lists[ num_face ][ 2 ] = num_node_260;
     faces.node_lists[ num_face ][ 3 ] = num_node_275;
     faces.node_lists[ num_face ][ 4 ] = num_node_5;
     faces.node_lists[ num_face ][ 5 ] = num_node_6;
+    faces.node_masks[ num_face ] = 
+        ( 1 << num_node_0 ) |
+        ( 1 << num_node_1 ) |
+        ( 1 << num_node_260 ) |
+        ( 1 << num_node_275 ) |
+        ( 1 << num_node_5 ) |
+        ( 1 << num_node_6 ) ;
     break;
 }
 case_177: {
@@ -20144,6 +20627,7 @@ case_177: {
         num_node_275 = edge_cuts[ num_edge_275 ];
     // 0,1,260,275,5,6,7
     faces.nb_nodes[ num_face ] = 7;
+    int num_node_0 = faces.node_lists[ num_face ][ 0 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
     int num_node_7 = faces.node_lists[ num_face ][ 7 ];
     faces.node_lists[ num_face ][ 2 ] = num_node_260;
@@ -20151,6 +20635,14 @@ case_177: {
     faces.node_lists[ num_face ][ 4 ] = num_node_5;
     faces.node_lists[ num_face ][ 5 ] = num_node_6;
     faces.node_lists[ num_face ][ 6 ] = num_node_7;
+    faces.node_masks[ num_face ] = 
+        ( 1 << num_node_0 ) |
+        ( 1 << num_node_1 ) |
+        ( 1 << num_node_260 ) |
+        ( 1 << num_node_275 ) |
+        ( 1 << num_node_5 ) |
+        ( 1 << num_node_6 ) |
+        ( 1 << num_node_7 ) ;
     break;
 }
 case_77: {
@@ -20214,8 +20706,15 @@ case_77: {
         num_node_275 = edge_cuts[ num_edge_275 ];
     // 260,2,3,4,275
     faces.nb_nodes[ num_face ] = 5;
+    int num_node_3 = faces.node_lists[ num_face ][ 3 ];
     faces.node_lists[ num_face ][ 0 ] = num_node_275;
     faces.node_lists[ num_face ][ 1 ] = num_node_260;
+    faces.node_masks[ num_face ] = 
+        ( 1 << num_node_275 ) |
+        ( 1 << num_node_260 ) |
+        ( 1 << num_node_2 ) |
+        ( 1 << num_node_3 ) |
+        ( 1 << num_node_4 ) ;
     break;
 }
 case_114: {
@@ -20748,8 +21247,17 @@ case_47: {
     } else
         num_node_271 = edge_cuts[ num_edge_271 ];
     // 260,2,3,4,5,271
+    int num_node_3 = faces.node_lists[ num_face ][ 3 ];
+    int num_node_4 = faces.node_lists[ num_face ][ 4 ];
     faces.node_lists[ num_face ][ 0 ] = num_node_271;
     faces.node_lists[ num_face ][ 1 ] = num_node_260;
+    faces.node_masks[ num_face ] = 
+        ( 1 << num_node_271 ) |
+        ( 1 << num_node_260 ) |
+        ( 1 << num_node_2 ) |
+        ( 1 << num_node_3 ) |
+        ( 1 << num_node_4 ) |
+        ( 1 << num_node_5 ) ;
     break;
 }
 case_83: {
@@ -20815,6 +21323,11 @@ case_83: {
     faces.nb_nodes[ num_face ] = 4;
     faces.node_lists[ num_face ][ 2 ] = num_node_260;
     faces.node_lists[ num_face ][ 3 ] = num_node_271;
+    faces.node_masks[ num_face ] = 
+        ( 1 << num_node_0 ) |
+        ( 1 << num_node_1 ) |
+        ( 1 << num_node_260 ) |
+        ( 1 << num_node_271 ) ;
     break;
 }
 case_139: {
@@ -20878,9 +21391,16 @@ case_139: {
         num_node_282 = edge_cuts[ num_edge_282 ];
     // 0,1,260,282,6
     faces.nb_nodes[ num_face ] = 5;
+    int num_node_0 = faces.node_lists[ num_face ][ 0 ];
     faces.node_lists[ num_face ][ 2 ] = num_node_260;
     faces.node_lists[ num_face ][ 3 ] = num_node_282;
     faces.node_lists[ num_face ][ 4 ] = num_node_6;
+    faces.node_masks[ num_face ] = 
+        ( 1 << num_node_0 ) |
+        ( 1 << num_node_1 ) |
+        ( 1 << num_node_260 ) |
+        ( 1 << num_node_282 ) |
+        ( 1 << num_node_6 ) ;
     break;
 }
 case_198: {
@@ -20944,11 +21464,19 @@ case_198: {
         num_node_282 = edge_cuts[ num_edge_282 ];
     // 0,1,260,282,6,7
     faces.nb_nodes[ num_face ] = 6;
+    int num_node_0 = faces.node_lists[ num_face ][ 0 ];
     int num_node_7 = faces.node_lists[ num_face ][ 7 ];
     faces.node_lists[ num_face ][ 2 ] = num_node_260;
     faces.node_lists[ num_face ][ 3 ] = num_node_282;
     faces.node_lists[ num_face ][ 4 ] = num_node_6;
     faces.node_lists[ num_face ][ 5 ] = num_node_7;
+    faces.node_masks[ num_face ] = 
+        ( 1 << num_node_0 ) |
+        ( 1 << num_node_1 ) |
+        ( 1 << num_node_260 ) |
+        ( 1 << num_node_282 ) |
+        ( 1 << num_node_6 ) |
+        ( 1 << num_node_7 ) ;
     break;
 }
 case_145: {
@@ -21012,8 +21540,17 @@ case_145: {
         num_node_282 = edge_cuts[ num_edge_282 ];
     // 260,2,3,4,5,282
     faces.nb_nodes[ num_face ] = 6;
+    int num_node_3 = faces.node_lists[ num_face ][ 3 ];
+    int num_node_4 = faces.node_lists[ num_face ][ 4 ];
     faces.node_lists[ num_face ][ 0 ] = num_node_282;
     faces.node_lists[ num_face ][ 1 ] = num_node_260;
+    faces.node_masks[ num_face ] = 
+        ( 1 << num_node_282 ) |
+        ( 1 << num_node_260 ) |
+        ( 1 << num_node_2 ) |
+        ( 1 << num_node_3 ) |
+        ( 1 << num_node_4 ) |
+        ( 1 << num_node_5 ) ;
     break;
 }
 case_205: {
@@ -21193,8 +21730,19 @@ case_87: {
     } else
         num_node_277 = edge_cuts[ num_edge_277 ];
     // 260,2,3,4,5,6,277
+    int num_node_3 = faces.node_lists[ num_face ][ 3 ];
+    int num_node_4 = faces.node_lists[ num_face ][ 4 ];
+    int num_node_5 = faces.node_lists[ num_face ][ 5 ];
     faces.node_lists[ num_face ][ 0 ] = num_node_277;
     faces.node_lists[ num_face ][ 1 ] = num_node_260;
+    faces.node_masks[ num_face ] = 
+        ( 1 << num_node_277 ) |
+        ( 1 << num_node_260 ) |
+        ( 1 << num_node_2 ) |
+        ( 1 << num_node_3 ) |
+        ( 1 << num_node_4 ) |
+        ( 1 << num_node_5 ) |
+        ( 1 << num_node_6 ) ;
     break;
 }
 case_153: {
@@ -21260,6 +21808,11 @@ case_153: {
     faces.nb_nodes[ num_face ] = 4;
     faces.node_lists[ num_face ][ 2 ] = num_node_260;
     faces.node_lists[ num_face ][ 3 ] = num_node_277;
+    faces.node_masks[ num_face ] = 
+        ( 1 << num_node_0 ) |
+        ( 1 << num_node_1 ) |
+        ( 1 << num_node_260 ) |
+        ( 1 << num_node_277 ) ;
     break;
 }
 case_262: {
@@ -21323,9 +21876,16 @@ case_262: {
         num_node_290 = edge_cuts[ num_edge_290 ];
     // 0,1,260,290,7
     faces.nb_nodes[ num_face ] = 5;
+    int num_node_0 = faces.node_lists[ num_face ][ 0 ];
     faces.node_lists[ num_face ][ 2 ] = num_node_260;
     faces.node_lists[ num_face ][ 3 ] = num_node_290;
     faces.node_lists[ num_face ][ 4 ] = num_node_7;
+    faces.node_masks[ num_face ] = 
+        ( 1 << num_node_0 ) |
+        ( 1 << num_node_1 ) |
+        ( 1 << num_node_260 ) |
+        ( 1 << num_node_290 ) |
+        ( 1 << num_node_7 ) ;
     break;
 }
 case_268: {
@@ -21389,8 +21949,19 @@ case_268: {
         num_node_290 = edge_cuts[ num_edge_290 ];
     // 260,2,3,4,5,6,290
     faces.nb_nodes[ num_face ] = 7;
+    int num_node_3 = faces.node_lists[ num_face ][ 3 ];
+    int num_node_4 = faces.node_lists[ num_face ][ 4 ];
+    int num_node_5 = faces.node_lists[ num_face ][ 5 ];
     faces.node_lists[ num_face ][ 0 ] = num_node_290;
     faces.node_lists[ num_face ][ 1 ] = num_node_260;
+    faces.node_masks[ num_face ] = 
+        ( 1 << num_node_290 ) |
+        ( 1 << num_node_260 ) |
+        ( 1 << num_node_2 ) |
+        ( 1 << num_node_3 ) |
+        ( 1 << num_node_4 ) |
+        ( 1 << num_node_5 ) |
+        ( 1 << num_node_6 ) ;
     break;
 }
 case_157: {
@@ -21453,8 +22024,21 @@ case_157: {
     } else
         num_node_284 = edge_cuts[ num_edge_284 ];
     // 260,2,3,4,5,6,7,284
+    int num_node_3 = faces.node_lists[ num_face ][ 3 ];
+    int num_node_4 = faces.node_lists[ num_face ][ 4 ];
+    int num_node_5 = faces.node_lists[ num_face ][ 5 ];
+    int num_node_6 = faces.node_lists[ num_face ][ 6 ];
     faces.node_lists[ num_face ][ 0 ] = num_node_284;
     faces.node_lists[ num_face ][ 1 ] = num_node_260;
+    faces.node_masks[ num_face ] = 
+        ( 1 << num_node_284 ) |
+        ( 1 << num_node_260 ) |
+        ( 1 << num_node_2 ) |
+        ( 1 << num_node_3 ) |
+        ( 1 << num_node_4 ) |
+        ( 1 << num_node_5 ) |
+        ( 1 << num_node_6 ) |
+        ( 1 << num_node_7 ) ;
     break;
 }
 case_278: {
@@ -21520,6 +22104,11 @@ case_278: {
     faces.nb_nodes[ num_face ] = 4;
     faces.node_lists[ num_face ][ 2 ] = num_node_260;
     faces.node_lists[ num_face ][ 3 ] = num_node_284;
+    faces.node_masks[ num_face ] = 
+        ( 1 << num_node_0 ) |
+        ( 1 << num_node_1 ) |
+        ( 1 << num_node_260 ) |
+        ( 1 << num_node_284 ) ;
     break;
 }
 case_16: {
@@ -21582,8 +22171,15 @@ case_16: {
         num_node_262 = edge_cuts[ num_edge_262 ];
     // 262,0,1,2,264
     faces.nb_nodes[ num_face ] = 5;
+    int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     faces.node_lists[ num_face ][ 3 ] = num_node_264;
     faces.node_lists[ num_face ][ 4 ] = num_node_262;
+    faces.node_masks[ num_face ] = 
+        ( 1 << num_node_0 ) |
+        ( 1 << num_node_1 ) |
+        ( 1 << num_node_2 ) |
+        ( 1 << num_node_264 ) |
+        ( 1 << num_node_262 ) ;
     break;
 }
 case_15: {
@@ -21649,6 +22245,10 @@ case_15: {
     faces.node_lists[ num_face ][ 0 ] = num_node_264;
     faces.node_lists[ num_face ][ 1 ] = num_node_3;
     faces.node_lists[ num_face ][ 2 ] = num_node_262;
+    faces.node_masks[ num_face ] = 
+        ( 1 << num_node_264 ) |
+        ( 1 << num_node_3 ) |
+        ( 1 << num_node_262 ) ;
     break;
 }
 case_29: {
@@ -21711,9 +22311,18 @@ case_29: {
         num_node_269 = edge_cuts[ num_edge_269 ];
     // 0,1,2,264,269,4
     faces.nb_nodes[ num_face ] = 6;
+    int num_node_0 = faces.node_lists[ num_face ][ 0 ];
+    int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     faces.node_lists[ num_face ][ 3 ] = num_node_264;
     faces.node_lists[ num_face ][ 4 ] = num_node_269;
     faces.node_lists[ num_face ][ 5 ] = num_node_4;
+    faces.node_masks[ num_face ] = 
+        ( 1 << num_node_0 ) |
+        ( 1 << num_node_1 ) |
+        ( 1 << num_node_2 ) |
+        ( 1 << num_node_264 ) |
+        ( 1 << num_node_269 ) |
+        ( 1 << num_node_4 ) ;
     break;
 }
 case_52: {
@@ -21776,11 +22385,21 @@ case_52: {
         num_node_269 = edge_cuts[ num_edge_269 ];
     // 0,1,2,264,269,4,5
     faces.nb_nodes[ num_face ] = 7;
+    int num_node_0 = faces.node_lists[ num_face ][ 0 ];
+    int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
     faces.node_lists[ num_face ][ 3 ] = num_node_264;
     faces.node_lists[ num_face ][ 4 ] = num_node_269;
     faces.node_lists[ num_face ][ 5 ] = num_node_4;
     faces.node_lists[ num_face ][ 6 ] = num_node_5;
+    faces.node_masks[ num_face ] = 
+        ( 1 << num_node_0 ) |
+        ( 1 << num_node_1 ) |
+        ( 1 << num_node_2 ) |
+        ( 1 << num_node_264 ) |
+        ( 1 << num_node_269 ) |
+        ( 1 << num_node_4 ) |
+        ( 1 << num_node_5 ) ;
     break;
 }
 case_92: {
@@ -21843,6 +22462,8 @@ case_92: {
         num_node_269 = edge_cuts[ num_edge_269 ];
     // 0,1,2,264,269,4,5,6
     faces.nb_nodes[ num_face ] = 8;
+    int num_node_0 = faces.node_lists[ num_face ][ 0 ];
+    int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
     faces.node_lists[ num_face ][ 3 ] = num_node_264;
@@ -21850,6 +22471,15 @@ case_92: {
     faces.node_lists[ num_face ][ 5 ] = num_node_4;
     faces.node_lists[ num_face ][ 6 ] = num_node_5;
     faces.node_lists[ num_face ][ 7 ] = num_node_6;
+    faces.node_masks[ num_face ] = 
+        ( 1 << num_node_0 ) |
+        ( 1 << num_node_1 ) |
+        ( 1 << num_node_2 ) |
+        ( 1 << num_node_264 ) |
+        ( 1 << num_node_269 ) |
+        ( 1 << num_node_4 ) |
+        ( 1 << num_node_5 ) |
+        ( 1 << num_node_6 ) ;
     break;
 }
 case_162: {
@@ -21913,12 +22543,25 @@ case_162: {
     // 0,1,2,264,269,4,5,6,7
     faces.nb_nodes[ num_face ] = 9;
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
+    int num_node_5 = faces.node_lists[ num_face ][ 5 ];
+    int num_node_6 = faces.node_lists[ num_face ][ 6 ];
+    int num_node_7 = faces.node_lists[ num_face ][ 7 ];
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
     faces.node_lists[ num_face ][ 0 ] = num_node_1;
     faces.node_lists[ num_face ][ 1 ] = num_node_2;
     faces.node_lists[ num_face ][ 2 ] = num_node_264;
     faces.node_lists[ num_face ][ 3 ] = num_node_269;
     faces.node_lists[ num_face ][ 8 ] = num_node_0;
+    faces.node_masks[ num_face ] = 
+        ( 1 << num_node_1 ) |
+        ( 1 << num_node_2 ) |
+        ( 1 << num_node_264 ) |
+        ( 1 << num_node_269 ) |
+        ( 1 << num_node_4 ) |
+        ( 1 << num_node_5 ) |
+        ( 1 << num_node_6 ) |
+        ( 1 << num_node_7 ) |
+        ( 1 << num_node_0 ) ;
     break;
 }
 case_40: {
@@ -21984,6 +22627,10 @@ case_40: {
     faces.node_lists[ num_face ][ 0 ] = num_node_264;
     faces.node_lists[ num_face ][ 1 ] = num_node_3;
     faces.node_lists[ num_face ][ 2 ] = num_node_269;
+    faces.node_masks[ num_face ] = 
+        ( 1 << num_node_264 ) |
+        ( 1 << num_node_3 ) |
+        ( 1 << num_node_269 ) ;
     break;
 }
 case_66: {
@@ -23274,6 +23921,11 @@ case_28: {
     faces.node_lists[ num_face ][ 0 ] = num_node_4;
     faces.node_lists[ num_face ][ 1 ] = num_node_266;
     faces.node_lists[ num_face ][ 2 ] = num_node_264;
+    faces.node_masks[ num_face ] = 
+        ( 1 << num_node_4 ) |
+        ( 1 << num_node_266 ) |
+        ( 1 << num_node_264 ) |
+        ( 1 << num_node_3 ) ;
     break;
 }
 case_41: {
@@ -23336,8 +23988,15 @@ case_41: {
     } else
         num_node_266 = edge_cuts[ num_edge_266 ];
     // 266,0,1,2,264
+    int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     faces.node_lists[ num_face ][ 3 ] = num_node_264;
     faces.node_lists[ num_face ][ 4 ] = num_node_266;
+    faces.node_masks[ num_face ] = 
+        ( 1 << num_node_0 ) |
+        ( 1 << num_node_1 ) |
+        ( 1 << num_node_2 ) |
+        ( 1 << num_node_264 ) |
+        ( 1 << num_node_266 ) ;
     break;
 }
 case_67: {
@@ -23400,8 +24059,17 @@ case_67: {
     } else
         num_node_275 = edge_cuts[ num_edge_275 ];
     // 0,1,2,264,275,5
+    int num_node_0 = faces.node_lists[ num_face ][ 0 ];
+    int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     faces.node_lists[ num_face ][ 3 ] = num_node_264;
     faces.node_lists[ num_face ][ 4 ] = num_node_275;
+    faces.node_masks[ num_face ] = 
+        ( 1 << num_node_0 ) |
+        ( 1 << num_node_1 ) |
+        ( 1 << num_node_2 ) |
+        ( 1 << num_node_264 ) |
+        ( 1 << num_node_275 ) |
+        ( 1 << num_node_5 ) ;
     break;
 }
 case_104: {
@@ -23464,8 +24132,19 @@ case_104: {
     } else
         num_node_275 = edge_cuts[ num_edge_275 ];
     // 0,1,2,264,275,5,6
+    int num_node_0 = faces.node_lists[ num_face ][ 0 ];
+    int num_node_1 = faces.node_lists[ num_face ][ 1 ];
+    int num_node_6 = faces.node_lists[ num_face ][ 6 ];
     faces.node_lists[ num_face ][ 3 ] = num_node_264;
     faces.node_lists[ num_face ][ 4 ] = num_node_275;
+    faces.node_masks[ num_face ] = 
+        ( 1 << num_node_0 ) |
+        ( 1 << num_node_1 ) |
+        ( 1 << num_node_2 ) |
+        ( 1 << num_node_264 ) |
+        ( 1 << num_node_275 ) |
+        ( 1 << num_node_5 ) |
+        ( 1 << num_node_6 ) ;
     break;
 }
 case_174: {
@@ -23528,8 +24207,21 @@ case_174: {
     } else
         num_node_275 = edge_cuts[ num_edge_275 ];
     // 0,1,2,264,275,5,6,7
+    int num_node_0 = faces.node_lists[ num_face ][ 0 ];
+    int num_node_1 = faces.node_lists[ num_face ][ 1 ];
+    int num_node_6 = faces.node_lists[ num_face ][ 6 ];
+    int num_node_7 = faces.node_lists[ num_face ][ 7 ];
     faces.node_lists[ num_face ][ 3 ] = num_node_264;
     faces.node_lists[ num_face ][ 4 ] = num_node_275;
+    faces.node_masks[ num_face ] = 
+        ( 1 << num_node_0 ) |
+        ( 1 << num_node_1 ) |
+        ( 1 << num_node_2 ) |
+        ( 1 << num_node_264 ) |
+        ( 1 << num_node_275 ) |
+        ( 1 << num_node_5 ) |
+        ( 1 << num_node_6 ) |
+        ( 1 << num_node_7 ) ;
     break;
 }
 case_78: {
@@ -23596,6 +24288,11 @@ case_78: {
     faces.node_lists[ num_face ][ 0 ] = num_node_4;
     faces.node_lists[ num_face ][ 1 ] = num_node_275;
     faces.node_lists[ num_face ][ 2 ] = num_node_264;
+    faces.node_masks[ num_face ] = 
+        ( 1 << num_node_4 ) |
+        ( 1 << num_node_275 ) |
+        ( 1 << num_node_264 ) |
+        ( 1 << num_node_3 ) ;
     break;
 }
 case_118: {
@@ -24129,9 +24826,16 @@ case_51: {
         num_node_271 = edge_cuts[ num_edge_271 ];
     // 264,3,4,5,271
     faces.nb_nodes[ num_face ] = 5;
+    int num_node_4 = faces.node_lists[ num_face ][ 4 ];
     faces.node_lists[ num_face ][ 0 ] = num_node_5;
     faces.node_lists[ num_face ][ 1 ] = num_node_271;
     faces.node_lists[ num_face ][ 2 ] = num_node_264;
+    faces.node_masks[ num_face ] = 
+        ( 1 << num_node_5 ) |
+        ( 1 << num_node_271 ) |
+        ( 1 << num_node_264 ) |
+        ( 1 << num_node_3 ) |
+        ( 1 << num_node_4 ) ;
     break;
 }
 case_82: {
@@ -24195,8 +24899,15 @@ case_82: {
         num_node_271 = edge_cuts[ num_edge_271 ];
     // 271,0,1,2,264
     faces.nb_nodes[ num_face ] = 5;
+    int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     faces.node_lists[ num_face ][ 3 ] = num_node_264;
     faces.node_lists[ num_face ][ 4 ] = num_node_271;
+    faces.node_masks[ num_face ] = 
+        ( 1 << num_node_0 ) |
+        ( 1 << num_node_1 ) |
+        ( 1 << num_node_2 ) |
+        ( 1 << num_node_264 ) |
+        ( 1 << num_node_271 ) ;
     break;
 }
 case_135: {
@@ -24260,9 +24971,18 @@ case_135: {
         num_node_282 = edge_cuts[ num_edge_282 ];
     // 0,1,2,264,282,6
     faces.nb_nodes[ num_face ] = 6;
+    int num_node_0 = faces.node_lists[ num_face ][ 0 ];
+    int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     faces.node_lists[ num_face ][ 3 ] = num_node_264;
     faces.node_lists[ num_face ][ 4 ] = num_node_282;
     faces.node_lists[ num_face ][ 5 ] = num_node_6;
+    faces.node_masks[ num_face ] = 
+        ( 1 << num_node_0 ) |
+        ( 1 << num_node_1 ) |
+        ( 1 << num_node_2 ) |
+        ( 1 << num_node_264 ) |
+        ( 1 << num_node_282 ) |
+        ( 1 << num_node_6 ) ;
     break;
 }
 case_195: {
@@ -24326,11 +25046,21 @@ case_195: {
         num_node_282 = edge_cuts[ num_edge_282 ];
     // 0,1,2,264,282,6,7
     faces.nb_nodes[ num_face ] = 7;
+    int num_node_0 = faces.node_lists[ num_face ][ 0 ];
+    int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     int num_node_7 = faces.node_lists[ num_face ][ 7 ];
     faces.node_lists[ num_face ][ 3 ] = num_node_264;
     faces.node_lists[ num_face ][ 4 ] = num_node_282;
     faces.node_lists[ num_face ][ 5 ] = num_node_6;
     faces.node_lists[ num_face ][ 6 ] = num_node_7;
+    faces.node_masks[ num_face ] = 
+        ( 1 << num_node_0 ) |
+        ( 1 << num_node_1 ) |
+        ( 1 << num_node_2 ) |
+        ( 1 << num_node_264 ) |
+        ( 1 << num_node_282 ) |
+        ( 1 << num_node_6 ) |
+        ( 1 << num_node_7 ) ;
     break;
 }
 case_146: {
@@ -24394,9 +25124,16 @@ case_146: {
         num_node_282 = edge_cuts[ num_edge_282 ];
     // 264,3,4,5,282
     faces.nb_nodes[ num_face ] = 5;
+    int num_node_4 = faces.node_lists[ num_face ][ 4 ];
     faces.node_lists[ num_face ][ 0 ] = num_node_5;
     faces.node_lists[ num_face ][ 1 ] = num_node_282;
     faces.node_lists[ num_face ][ 2 ] = num_node_264;
+    faces.node_masks[ num_face ] = 
+        ( 1 << num_node_5 ) |
+        ( 1 << num_node_282 ) |
+        ( 1 << num_node_264 ) |
+        ( 1 << num_node_3 ) |
+        ( 1 << num_node_4 ) ;
     break;
 }
 case_209: {
@@ -24577,9 +25314,18 @@ case_91: {
         num_node_277 = edge_cuts[ num_edge_277 ];
     // 264,3,4,5,6,277
     faces.nb_nodes[ num_face ] = 6;
+    int num_node_4 = faces.node_lists[ num_face ][ 4 ];
+    int num_node_5 = faces.node_lists[ num_face ][ 5 ];
     faces.node_lists[ num_face ][ 0 ] = num_node_6;
     faces.node_lists[ num_face ][ 1 ] = num_node_277;
     faces.node_lists[ num_face ][ 2 ] = num_node_264;
+    faces.node_masks[ num_face ] = 
+        ( 1 << num_node_6 ) |
+        ( 1 << num_node_277 ) |
+        ( 1 << num_node_264 ) |
+        ( 1 << num_node_3 ) |
+        ( 1 << num_node_4 ) |
+        ( 1 << num_node_5 ) ;
     break;
 }
 case_152: {
@@ -24643,8 +25389,15 @@ case_152: {
         num_node_277 = edge_cuts[ num_edge_277 ];
     // 277,0,1,2,264
     faces.nb_nodes[ num_face ] = 5;
+    int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     faces.node_lists[ num_face ][ 3 ] = num_node_264;
     faces.node_lists[ num_face ][ 4 ] = num_node_277;
+    faces.node_masks[ num_face ] = 
+        ( 1 << num_node_0 ) |
+        ( 1 << num_node_1 ) |
+        ( 1 << num_node_2 ) |
+        ( 1 << num_node_264 ) |
+        ( 1 << num_node_277 ) ;
     break;
 }
 case_258: {
@@ -24708,9 +25461,18 @@ case_258: {
         num_node_290 = edge_cuts[ num_edge_290 ];
     // 0,1,2,264,290,7
     faces.nb_nodes[ num_face ] = 6;
+    int num_node_0 = faces.node_lists[ num_face ][ 0 ];
+    int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     faces.node_lists[ num_face ][ 3 ] = num_node_264;
     faces.node_lists[ num_face ][ 4 ] = num_node_290;
     faces.node_lists[ num_face ][ 5 ] = num_node_7;
+    faces.node_masks[ num_face ] = 
+        ( 1 << num_node_0 ) |
+        ( 1 << num_node_1 ) |
+        ( 1 << num_node_2 ) |
+        ( 1 << num_node_264 ) |
+        ( 1 << num_node_290 ) |
+        ( 1 << num_node_7 ) ;
     break;
 }
 case_269: {
@@ -24774,9 +25536,18 @@ case_269: {
         num_node_290 = edge_cuts[ num_edge_290 ];
     // 264,3,4,5,6,290
     faces.nb_nodes[ num_face ] = 6;
+    int num_node_4 = faces.node_lists[ num_face ][ 4 ];
+    int num_node_5 = faces.node_lists[ num_face ][ 5 ];
     faces.node_lists[ num_face ][ 0 ] = num_node_6;
     faces.node_lists[ num_face ][ 1 ] = num_node_290;
     faces.node_lists[ num_face ][ 2 ] = num_node_264;
+    faces.node_masks[ num_face ] = 
+        ( 1 << num_node_6 ) |
+        ( 1 << num_node_290 ) |
+        ( 1 << num_node_264 ) |
+        ( 1 << num_node_3 ) |
+        ( 1 << num_node_4 ) |
+        ( 1 << num_node_5 ) ;
     break;
 }
 case_161: {
@@ -24840,9 +25611,20 @@ case_161: {
         num_node_284 = edge_cuts[ num_edge_284 ];
     // 264,3,4,5,6,7,284
     faces.nb_nodes[ num_face ] = 7;
+    int num_node_4 = faces.node_lists[ num_face ][ 4 ];
+    int num_node_5 = faces.node_lists[ num_face ][ 5 ];
+    int num_node_6 = faces.node_lists[ num_face ][ 6 ];
     faces.node_lists[ num_face ][ 0 ] = num_node_7;
     faces.node_lists[ num_face ][ 1 ] = num_node_284;
     faces.node_lists[ num_face ][ 2 ] = num_node_264;
+    faces.node_masks[ num_face ] = 
+        ( 1 << num_node_7 ) |
+        ( 1 << num_node_284 ) |
+        ( 1 << num_node_264 ) |
+        ( 1 << num_node_3 ) |
+        ( 1 << num_node_4 ) |
+        ( 1 << num_node_5 ) |
+        ( 1 << num_node_6 ) ;
     break;
 }
 case_277: {
@@ -24906,8 +25688,15 @@ case_277: {
         num_node_284 = edge_cuts[ num_edge_284 ];
     // 284,0,1,2,264
     faces.nb_nodes[ num_face ] = 5;
+    int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     faces.node_lists[ num_face ][ 3 ] = num_node_264;
     faces.node_lists[ num_face ][ 4 ] = num_node_284;
+    faces.node_masks[ num_face ] = 
+        ( 1 << num_node_0 ) |
+        ( 1 << num_node_1 ) |
+        ( 1 << num_node_2 ) |
+        ( 1 << num_node_264 ) |
+        ( 1 << num_node_284 ) ;
     break;
 }
 case_37: {
@@ -24970,8 +25759,17 @@ case_37: {
         num_node_266 = edge_cuts[ num_edge_266 ];
     // 266,0,1,2,3,269
     faces.nb_nodes[ num_face ] = 6;
+    int num_node_1 = faces.node_lists[ num_face ][ 1 ];
+    int num_node_2 = faces.node_lists[ num_face ][ 2 ];
     faces.node_lists[ num_face ][ 4 ] = num_node_269;
     faces.node_lists[ num_face ][ 5 ] = num_node_266;
+    faces.node_masks[ num_face ] = 
+        ( 1 << num_node_0 ) |
+        ( 1 << num_node_1 ) |
+        ( 1 << num_node_2 ) |
+        ( 1 << num_node_3 ) |
+        ( 1 << num_node_269 ) |
+        ( 1 << num_node_266 ) ;
     break;
 }
 case_36: {
@@ -25037,6 +25835,10 @@ case_36: {
     faces.node_lists[ num_face ][ 0 ] = num_node_269;
     faces.node_lists[ num_face ][ 1 ] = num_node_4;
     faces.node_lists[ num_face ][ 2 ] = num_node_266;
+    faces.node_masks[ num_face ] = 
+        ( 1 << num_node_269 ) |
+        ( 1 << num_node_4 ) |
+        ( 1 << num_node_266 ) ;
     break;
 }
 case_59: {
@@ -25099,9 +25901,20 @@ case_59: {
         num_node_275 = edge_cuts[ num_edge_275 ];
     // 0,1,2,3,269,275,5
     faces.nb_nodes[ num_face ] = 7;
+    int num_node_0 = faces.node_lists[ num_face ][ 0 ];
+    int num_node_1 = faces.node_lists[ num_face ][ 1 ];
+    int num_node_2 = faces.node_lists[ num_face ][ 2 ];
     faces.node_lists[ num_face ][ 4 ] = num_node_269;
     faces.node_lists[ num_face ][ 5 ] = num_node_275;
     faces.node_lists[ num_face ][ 6 ] = num_node_5;
+    faces.node_masks[ num_face ] = 
+        ( 1 << num_node_0 ) |
+        ( 1 << num_node_1 ) |
+        ( 1 << num_node_2 ) |
+        ( 1 << num_node_3 ) |
+        ( 1 << num_node_269 ) |
+        ( 1 << num_node_275 ) |
+        ( 1 << num_node_5 ) ;
     break;
 }
 case_99: {
@@ -25164,11 +25977,23 @@ case_99: {
         num_node_275 = edge_cuts[ num_edge_275 ];
     // 0,1,2,3,269,275,5,6
     faces.nb_nodes[ num_face ] = 8;
+    int num_node_0 = faces.node_lists[ num_face ][ 0 ];
+    int num_node_1 = faces.node_lists[ num_face ][ 1 ];
+    int num_node_2 = faces.node_lists[ num_face ][ 2 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
     faces.node_lists[ num_face ][ 4 ] = num_node_269;
     faces.node_lists[ num_face ][ 5 ] = num_node_275;
     faces.node_lists[ num_face ][ 6 ] = num_node_5;
     faces.node_lists[ num_face ][ 7 ] = num_node_6;
+    faces.node_masks[ num_face ] = 
+        ( 1 << num_node_0 ) |
+        ( 1 << num_node_1 ) |
+        ( 1 << num_node_2 ) |
+        ( 1 << num_node_3 ) |
+        ( 1 << num_node_269 ) |
+        ( 1 << num_node_275 ) |
+        ( 1 << num_node_5 ) |
+        ( 1 << num_node_6 ) ;
     break;
 }
 case_169: {
@@ -25231,6 +26056,9 @@ case_169: {
         num_node_275 = edge_cuts[ num_edge_275 ];
     // 0,1,2,3,269,275,5,6,7
     faces.nb_nodes[ num_face ] = 9;
+    int num_node_0 = faces.node_lists[ num_face ][ 0 ];
+    int num_node_1 = faces.node_lists[ num_face ][ 1 ];
+    int num_node_2 = faces.node_lists[ num_face ][ 2 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
     int num_node_7 = faces.node_lists[ num_face ][ 7 ];
     faces.node_lists[ num_face ][ 4 ] = num_node_269;
@@ -25238,6 +26066,16 @@ case_169: {
     faces.node_lists[ num_face ][ 6 ] = num_node_5;
     faces.node_lists[ num_face ][ 7 ] = num_node_6;
     faces.node_lists[ num_face ][ 8 ] = num_node_7;
+    faces.node_masks[ num_face ] = 
+        ( 1 << num_node_0 ) |
+        ( 1 << num_node_1 ) |
+        ( 1 << num_node_2 ) |
+        ( 1 << num_node_3 ) |
+        ( 1 << num_node_269 ) |
+        ( 1 << num_node_275 ) |
+        ( 1 << num_node_5 ) |
+        ( 1 << num_node_6 ) |
+        ( 1 << num_node_7 ) ;
     break;
 }
 case_79: {
@@ -25303,6 +26141,10 @@ case_79: {
     faces.node_lists[ num_face ][ 0 ] = num_node_269;
     faces.node_lists[ num_face ][ 1 ] = num_node_4;
     faces.node_lists[ num_face ][ 2 ] = num_node_275;
+    faces.node_masks[ num_face ] = 
+        ( 1 << num_node_269 ) |
+        ( 1 << num_node_4 ) |
+        ( 1 << num_node_275 ) ;
     break;
 }
 case_126: {
@@ -25836,6 +26678,11 @@ case_58: {
     faces.node_lists[ num_face ][ 1 ] = num_node_4;
     faces.node_lists[ num_face ][ 2 ] = num_node_5;
     faces.node_lists[ num_face ][ 3 ] = num_node_271;
+    faces.node_masks[ num_face ] = 
+        ( 1 << num_node_269 ) |
+        ( 1 << num_node_4 ) |
+        ( 1 << num_node_5 ) |
+        ( 1 << num_node_271 ) ;
     break;
 }
 case_80: {
@@ -25898,8 +26745,17 @@ case_80: {
     } else
         num_node_271 = edge_cuts[ num_edge_271 ];
     // 271,0,1,2,3,269
+    int num_node_1 = faces.node_lists[ num_face ][ 1 ];
+    int num_node_2 = faces.node_lists[ num_face ][ 2 ];
     faces.node_lists[ num_face ][ 4 ] = num_node_269;
     faces.node_lists[ num_face ][ 5 ] = num_node_271;
+    faces.node_masks[ num_face ] = 
+        ( 1 << num_node_0 ) |
+        ( 1 << num_node_1 ) |
+        ( 1 << num_node_2 ) |
+        ( 1 << num_node_3 ) |
+        ( 1 << num_node_269 ) |
+        ( 1 << num_node_271 ) ;
     break;
 }
 case_127: {
@@ -25962,8 +26818,19 @@ case_127: {
     } else
         num_node_282 = edge_cuts[ num_edge_282 ];
     // 0,1,2,3,269,282,6
+    int num_node_0 = faces.node_lists[ num_face ][ 0 ];
+    int num_node_1 = faces.node_lists[ num_face ][ 1 ];
+    int num_node_2 = faces.node_lists[ num_face ][ 2 ];
     faces.node_lists[ num_face ][ 4 ] = num_node_269;
     faces.node_lists[ num_face ][ 5 ] = num_node_282;
+    faces.node_masks[ num_face ] = 
+        ( 1 << num_node_0 ) |
+        ( 1 << num_node_1 ) |
+        ( 1 << num_node_2 ) |
+        ( 1 << num_node_3 ) |
+        ( 1 << num_node_269 ) |
+        ( 1 << num_node_282 ) |
+        ( 1 << num_node_6 ) ;
     break;
 }
 case_190: {
@@ -26026,8 +26893,21 @@ case_190: {
     } else
         num_node_282 = edge_cuts[ num_edge_282 ];
     // 0,1,2,3,269,282,6,7
+    int num_node_0 = faces.node_lists[ num_face ][ 0 ];
+    int num_node_1 = faces.node_lists[ num_face ][ 1 ];
+    int num_node_2 = faces.node_lists[ num_face ][ 2 ];
+    int num_node_7 = faces.node_lists[ num_face ][ 7 ];
     faces.node_lists[ num_face ][ 4 ] = num_node_269;
     faces.node_lists[ num_face ][ 5 ] = num_node_282;
+    faces.node_masks[ num_face ] = 
+        ( 1 << num_node_0 ) |
+        ( 1 << num_node_1 ) |
+        ( 1 << num_node_2 ) |
+        ( 1 << num_node_3 ) |
+        ( 1 << num_node_269 ) |
+        ( 1 << num_node_282 ) |
+        ( 1 << num_node_6 ) |
+        ( 1 << num_node_7 ) ;
     break;
 }
 case_147: {
@@ -26095,6 +26975,11 @@ case_147: {
     faces.node_lists[ num_face ][ 1 ] = num_node_4;
     faces.node_lists[ num_face ][ 2 ] = num_node_5;
     faces.node_lists[ num_face ][ 3 ] = num_node_282;
+    faces.node_masks[ num_face ] = 
+        ( 1 << num_node_269 ) |
+        ( 1 << num_node_4 ) |
+        ( 1 << num_node_5 ) |
+        ( 1 << num_node_282 ) ;
     break;
 }
 case_217: {
@@ -26280,6 +27165,12 @@ case_98: {
     faces.node_lists[ num_face ][ 1 ] = num_node_6;
     faces.node_lists[ num_face ][ 2 ] = num_node_277;
     faces.node_lists[ num_face ][ 3 ] = num_node_269;
+    faces.node_masks[ num_face ] = 
+        ( 1 << num_node_5 ) |
+        ( 1 << num_node_6 ) |
+        ( 1 << num_node_277 ) |
+        ( 1 << num_node_269 ) |
+        ( 1 << num_node_4 ) ;
     break;
 }
 case_151: {
@@ -26343,8 +27234,17 @@ case_151: {
         num_node_277 = edge_cuts[ num_edge_277 ];
     // 277,0,1,2,3,269
     faces.nb_nodes[ num_face ] = 6;
+    int num_node_1 = faces.node_lists[ num_face ][ 1 ];
+    int num_node_2 = faces.node_lists[ num_face ][ 2 ];
     faces.node_lists[ num_face ][ 4 ] = num_node_269;
     faces.node_lists[ num_face ][ 5 ] = num_node_277;
+    faces.node_masks[ num_face ] = 
+        ( 1 << num_node_0 ) |
+        ( 1 << num_node_1 ) |
+        ( 1 << num_node_2 ) |
+        ( 1 << num_node_3 ) |
+        ( 1 << num_node_269 ) |
+        ( 1 << num_node_277 ) ;
     break;
 }
 case_250: {
@@ -26408,9 +27308,20 @@ case_250: {
         num_node_290 = edge_cuts[ num_edge_290 ];
     // 0,1,2,3,269,290,7
     faces.nb_nodes[ num_face ] = 7;
+    int num_node_0 = faces.node_lists[ num_face ][ 0 ];
+    int num_node_1 = faces.node_lists[ num_face ][ 1 ];
+    int num_node_2 = faces.node_lists[ num_face ][ 2 ];
     faces.node_lists[ num_face ][ 4 ] = num_node_269;
     faces.node_lists[ num_face ][ 5 ] = num_node_290;
     faces.node_lists[ num_face ][ 6 ] = num_node_7;
+    faces.node_masks[ num_face ] = 
+        ( 1 << num_node_0 ) |
+        ( 1 << num_node_1 ) |
+        ( 1 << num_node_2 ) |
+        ( 1 << num_node_3 ) |
+        ( 1 << num_node_269 ) |
+        ( 1 << num_node_290 ) |
+        ( 1 << num_node_7 ) ;
     break;
 }
 case_270: {
@@ -26479,6 +27390,12 @@ case_270: {
     faces.node_lists[ num_face ][ 1 ] = num_node_6;
     faces.node_lists[ num_face ][ 2 ] = num_node_290;
     faces.node_lists[ num_face ][ 3 ] = num_node_269;
+    faces.node_masks[ num_face ] = 
+        ( 1 << num_node_5 ) |
+        ( 1 << num_node_6 ) |
+        ( 1 << num_node_290 ) |
+        ( 1 << num_node_269 ) |
+        ( 1 << num_node_4 ) ;
     break;
 }
 case_168: {
@@ -26543,10 +27460,18 @@ case_168: {
     // 269,4,5,6,7,284
     faces.nb_nodes[ num_face ] = 6;
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
+    int num_node_5 = faces.node_lists[ num_face ][ 5 ];
     faces.node_lists[ num_face ][ 0 ] = num_node_6;
     faces.node_lists[ num_face ][ 1 ] = num_node_7;
     faces.node_lists[ num_face ][ 2 ] = num_node_284;
     faces.node_lists[ num_face ][ 3 ] = num_node_269;
+    faces.node_masks[ num_face ] = 
+        ( 1 << num_node_6 ) |
+        ( 1 << num_node_7 ) |
+        ( 1 << num_node_284 ) |
+        ( 1 << num_node_269 ) |
+        ( 1 << num_node_4 ) |
+        ( 1 << num_node_5 ) ;
     break;
 }
 case_276: {
@@ -26610,8 +27535,17 @@ case_276: {
         num_node_284 = edge_cuts[ num_edge_284 ];
     // 284,0,1,2,3,269
     faces.nb_nodes[ num_face ] = 6;
+    int num_node_1 = faces.node_lists[ num_face ][ 1 ];
+    int num_node_2 = faces.node_lists[ num_face ][ 2 ];
     faces.node_lists[ num_face ][ 4 ] = num_node_269;
     faces.node_lists[ num_face ][ 5 ] = num_node_284;
+    faces.node_masks[ num_face ] = 
+        ( 1 << num_node_0 ) |
+        ( 1 << num_node_1 ) |
+        ( 1 << num_node_2 ) |
+        ( 1 << num_node_3 ) |
+        ( 1 << num_node_269 ) |
+        ( 1 << num_node_284 ) ;
     break;
 }
 case_75: {
@@ -26674,8 +27608,19 @@ case_75: {
         num_node_271 = edge_cuts[ num_edge_271 ];
     // 271,0,1,2,3,4,275
     faces.nb_nodes[ num_face ] = 7;
+    int num_node_1 = faces.node_lists[ num_face ][ 1 ];
+    int num_node_2 = faces.node_lists[ num_face ][ 2 ];
+    int num_node_3 = faces.node_lists[ num_face ][ 3 ];
     faces.node_lists[ num_face ][ 5 ] = num_node_275;
     faces.node_lists[ num_face ][ 6 ] = num_node_271;
+    faces.node_masks[ num_face ] = 
+        ( 1 << num_node_0 ) |
+        ( 1 << num_node_1 ) |
+        ( 1 << num_node_2 ) |
+        ( 1 << num_node_3 ) |
+        ( 1 << num_node_4 ) |
+        ( 1 << num_node_275 ) |
+        ( 1 << num_node_271 ) ;
     break;
 }
 case_74: {
@@ -26741,6 +27686,10 @@ case_74: {
     faces.node_lists[ num_face ][ 0 ] = num_node_275;
     faces.node_lists[ num_face ][ 1 ] = num_node_5;
     faces.node_lists[ num_face ][ 2 ] = num_node_271;
+    faces.node_masks[ num_face ] = 
+        ( 1 << num_node_275 ) |
+        ( 1 << num_node_5 ) |
+        ( 1 << num_node_271 ) ;
     break;
 }
 case_111: {
@@ -26803,9 +27752,22 @@ case_111: {
         num_node_282 = edge_cuts[ num_edge_282 ];
     // 0,1,2,3,4,275,282,6
     faces.nb_nodes[ num_face ] = 8;
+    int num_node_0 = faces.node_lists[ num_face ][ 0 ];
+    int num_node_1 = faces.node_lists[ num_face ][ 1 ];
+    int num_node_2 = faces.node_lists[ num_face ][ 2 ];
+    int num_node_3 = faces.node_lists[ num_face ][ 3 ];
     faces.node_lists[ num_face ][ 5 ] = num_node_275;
     faces.node_lists[ num_face ][ 6 ] = num_node_282;
     faces.node_lists[ num_face ][ 7 ] = num_node_6;
+    faces.node_masks[ num_face ] = 
+        ( 1 << num_node_0 ) |
+        ( 1 << num_node_1 ) |
+        ( 1 << num_node_2 ) |
+        ( 1 << num_node_3 ) |
+        ( 1 << num_node_4 ) |
+        ( 1 << num_node_275 ) |
+        ( 1 << num_node_282 ) |
+        ( 1 << num_node_6 ) ;
     break;
 }
 case_181: {
@@ -26868,11 +27830,25 @@ case_181: {
         num_node_282 = edge_cuts[ num_edge_282 ];
     // 0,1,2,3,4,275,282,6,7
     faces.nb_nodes[ num_face ] = 9;
+    int num_node_0 = faces.node_lists[ num_face ][ 0 ];
+    int num_node_1 = faces.node_lists[ num_face ][ 1 ];
+    int num_node_2 = faces.node_lists[ num_face ][ 2 ];
+    int num_node_3 = faces.node_lists[ num_face ][ 3 ];
     int num_node_7 = faces.node_lists[ num_face ][ 7 ];
     faces.node_lists[ num_face ][ 5 ] = num_node_275;
     faces.node_lists[ num_face ][ 6 ] = num_node_282;
     faces.node_lists[ num_face ][ 7 ] = num_node_6;
     faces.node_lists[ num_face ][ 8 ] = num_node_7;
+    faces.node_masks[ num_face ] = 
+        ( 1 << num_node_0 ) |
+        ( 1 << num_node_1 ) |
+        ( 1 << num_node_2 ) |
+        ( 1 << num_node_3 ) |
+        ( 1 << num_node_4 ) |
+        ( 1 << num_node_275 ) |
+        ( 1 << num_node_282 ) |
+        ( 1 << num_node_6 ) |
+        ( 1 << num_node_7 ) ;
     break;
 }
 case_148: {
@@ -26938,6 +27914,10 @@ case_148: {
     faces.node_lists[ num_face ][ 0 ] = num_node_275;
     faces.node_lists[ num_face ][ 1 ] = num_node_5;
     faces.node_lists[ num_face ][ 2 ] = num_node_282;
+    faces.node_masks[ num_face ] = 
+        ( 1 << num_node_275 ) |
+        ( 1 << num_node_5 ) |
+        ( 1 << num_node_282 ) ;
     break;
 }
 case_233: {
@@ -27121,6 +28101,11 @@ case_110: {
     faces.node_lists[ num_face ][ 1 ] = num_node_5;
     faces.node_lists[ num_face ][ 2 ] = num_node_6;
     faces.node_lists[ num_face ][ 3 ] = num_node_277;
+    faces.node_masks[ num_face ] = 
+        ( 1 << num_node_275 ) |
+        ( 1 << num_node_5 ) |
+        ( 1 << num_node_6 ) |
+        ( 1 << num_node_277 ) ;
     break;
 }
 case_149: {
@@ -27183,8 +28168,19 @@ case_149: {
     } else
         num_node_277 = edge_cuts[ num_edge_277 ];
     // 277,0,1,2,3,4,275
+    int num_node_1 = faces.node_lists[ num_face ][ 1 ];
+    int num_node_2 = faces.node_lists[ num_face ][ 2 ];
+    int num_node_3 = faces.node_lists[ num_face ][ 3 ];
     faces.node_lists[ num_face ][ 5 ] = num_node_275;
     faces.node_lists[ num_face ][ 6 ] = num_node_277;
+    faces.node_masks[ num_face ] = 
+        ( 1 << num_node_0 ) |
+        ( 1 << num_node_1 ) |
+        ( 1 << num_node_2 ) |
+        ( 1 << num_node_3 ) |
+        ( 1 << num_node_4 ) |
+        ( 1 << num_node_275 ) |
+        ( 1 << num_node_277 ) ;
     break;
 }
 case_234: {
@@ -27247,8 +28243,21 @@ case_234: {
     } else
         num_node_290 = edge_cuts[ num_edge_290 ];
     // 0,1,2,3,4,275,290,7
+    int num_node_0 = faces.node_lists[ num_face ][ 0 ];
+    int num_node_1 = faces.node_lists[ num_face ][ 1 ];
+    int num_node_2 = faces.node_lists[ num_face ][ 2 ];
+    int num_node_3 = faces.node_lists[ num_face ][ 3 ];
     faces.node_lists[ num_face ][ 5 ] = num_node_275;
     faces.node_lists[ num_face ][ 6 ] = num_node_290;
+    faces.node_masks[ num_face ] = 
+        ( 1 << num_node_0 ) |
+        ( 1 << num_node_1 ) |
+        ( 1 << num_node_2 ) |
+        ( 1 << num_node_3 ) |
+        ( 1 << num_node_4 ) |
+        ( 1 << num_node_275 ) |
+        ( 1 << num_node_290 ) |
+        ( 1 << num_node_7 ) ;
     break;
 }
 case_271: {
@@ -27316,6 +28325,11 @@ case_271: {
     faces.node_lists[ num_face ][ 1 ] = num_node_5;
     faces.node_lists[ num_face ][ 2 ] = num_node_6;
     faces.node_lists[ num_face ][ 3 ] = num_node_290;
+    faces.node_masks[ num_face ] = 
+        ( 1 << num_node_275 ) |
+        ( 1 << num_node_5 ) |
+        ( 1 << num_node_6 ) |
+        ( 1 << num_node_290 ) ;
     break;
 }
 case_180: {
@@ -27385,6 +28399,12 @@ case_180: {
     faces.node_lists[ num_face ][ 2 ] = num_node_6;
     faces.node_lists[ num_face ][ 3 ] = num_node_7;
     faces.node_lists[ num_face ][ 4 ] = num_node_284;
+    faces.node_masks[ num_face ] = 
+        ( 1 << num_node_275 ) |
+        ( 1 << num_node_5 ) |
+        ( 1 << num_node_6 ) |
+        ( 1 << num_node_7 ) |
+        ( 1 << num_node_284 ) ;
     break;
 }
 case_275: {
@@ -27448,8 +28468,19 @@ case_275: {
         num_node_284 = edge_cuts[ num_edge_284 ];
     // 284,0,1,2,3,4,275
     faces.nb_nodes[ num_face ] = 7;
+    int num_node_1 = faces.node_lists[ num_face ][ 1 ];
+    int num_node_2 = faces.node_lists[ num_face ][ 2 ];
+    int num_node_3 = faces.node_lists[ num_face ][ 3 ];
     faces.node_lists[ num_face ][ 5 ] = num_node_275;
     faces.node_lists[ num_face ][ 6 ] = num_node_284;
+    faces.node_masks[ num_face ] = 
+        ( 1 << num_node_0 ) |
+        ( 1 << num_node_1 ) |
+        ( 1 << num_node_2 ) |
+        ( 1 << num_node_3 ) |
+        ( 1 << num_node_4 ) |
+        ( 1 << num_node_275 ) |
+        ( 1 << num_node_284 ) ;
     break;
 }
 case_143: {
@@ -27512,8 +28543,21 @@ case_143: {
         num_node_277 = edge_cuts[ num_edge_277 ];
     // 277,0,1,2,3,4,5,282
     faces.nb_nodes[ num_face ] = 8;
+    int num_node_1 = faces.node_lists[ num_face ][ 1 ];
+    int num_node_2 = faces.node_lists[ num_face ][ 2 ];
+    int num_node_3 = faces.node_lists[ num_face ][ 3 ];
+    int num_node_4 = faces.node_lists[ num_face ][ 4 ];
     faces.node_lists[ num_face ][ 6 ] = num_node_282;
     faces.node_lists[ num_face ][ 7 ] = num_node_277;
+    faces.node_masks[ num_face ] = 
+        ( 1 << num_node_0 ) |
+        ( 1 << num_node_1 ) |
+        ( 1 << num_node_2 ) |
+        ( 1 << num_node_3 ) |
+        ( 1 << num_node_4 ) |
+        ( 1 << num_node_5 ) |
+        ( 1 << num_node_282 ) |
+        ( 1 << num_node_277 ) ;
     break;
 }
 case_142: {
@@ -27579,6 +28623,10 @@ case_142: {
     faces.node_lists[ num_face ][ 0 ] = num_node_282;
     faces.node_lists[ num_face ][ 1 ] = num_node_6;
     faces.node_lists[ num_face ][ 2 ] = num_node_277;
+    faces.node_masks[ num_face ] = 
+        ( 1 << num_node_282 ) |
+        ( 1 << num_node_6 ) |
+        ( 1 << num_node_277 ) ;
     break;
 }
 case_202: {
@@ -27641,9 +28689,24 @@ case_202: {
         num_node_290 = edge_cuts[ num_edge_290 ];
     // 0,1,2,3,4,5,282,290,7
     faces.nb_nodes[ num_face ] = 9;
+    int num_node_0 = faces.node_lists[ num_face ][ 0 ];
+    int num_node_1 = faces.node_lists[ num_face ][ 1 ];
+    int num_node_2 = faces.node_lists[ num_face ][ 2 ];
+    int num_node_3 = faces.node_lists[ num_face ][ 3 ];
+    int num_node_4 = faces.node_lists[ num_face ][ 4 ];
     faces.node_lists[ num_face ][ 6 ] = num_node_282;
     faces.node_lists[ num_face ][ 7 ] = num_node_290;
     faces.node_lists[ num_face ][ 8 ] = num_node_7;
+    faces.node_masks[ num_face ] = 
+        ( 1 << num_node_0 ) |
+        ( 1 << num_node_1 ) |
+        ( 1 << num_node_2 ) |
+        ( 1 << num_node_3 ) |
+        ( 1 << num_node_4 ) |
+        ( 1 << num_node_5 ) |
+        ( 1 << num_node_282 ) |
+        ( 1 << num_node_290 ) |
+        ( 1 << num_node_7 ) ;
     break;
 }
 case_272: {
@@ -27709,6 +28772,10 @@ case_272: {
     faces.node_lists[ num_face ][ 0 ] = num_node_282;
     faces.node_lists[ num_face ][ 1 ] = num_node_6;
     faces.node_lists[ num_face ][ 2 ] = num_node_290;
+    faces.node_masks[ num_face ] = 
+        ( 1 << num_node_282 ) |
+        ( 1 << num_node_6 ) |
+        ( 1 << num_node_290 ) ;
     break;
 }
 case_201: {
@@ -27776,6 +28843,11 @@ case_201: {
     faces.node_lists[ num_face ][ 1 ] = num_node_6;
     faces.node_lists[ num_face ][ 2 ] = num_node_7;
     faces.node_lists[ num_face ][ 3 ] = num_node_284;
+    faces.node_masks[ num_face ] = 
+        ( 1 << num_node_282 ) |
+        ( 1 << num_node_6 ) |
+        ( 1 << num_node_7 ) |
+        ( 1 << num_node_284 ) ;
     break;
 }
 case_273: {
@@ -27838,8 +28910,21 @@ case_273: {
     } else
         num_node_284 = edge_cuts[ num_edge_284 ];
     // 284,0,1,2,3,4,5,282
+    int num_node_1 = faces.node_lists[ num_face ][ 1 ];
+    int num_node_2 = faces.node_lists[ num_face ][ 2 ];
+    int num_node_3 = faces.node_lists[ num_face ][ 3 ];
+    int num_node_4 = faces.node_lists[ num_face ][ 4 ];
     faces.node_lists[ num_face ][ 6 ] = num_node_282;
     faces.node_lists[ num_face ][ 7 ] = num_node_284;
+    faces.node_masks[ num_face ] = 
+        ( 1 << num_node_0 ) |
+        ( 1 << num_node_1 ) |
+        ( 1 << num_node_2 ) |
+        ( 1 << num_node_3 ) |
+        ( 1 << num_node_4 ) |
+        ( 1 << num_node_5 ) |
+        ( 1 << num_node_282 ) |
+        ( 1 << num_node_284 ) ;
     break;
 }
 case_266: {
@@ -27902,8 +28987,23 @@ case_266: {
         num_node_284 = edge_cuts[ num_edge_284 ];
     // 284,0,1,2,3,4,5,6,290
     faces.nb_nodes[ num_face ] = 9;
+    int num_node_1 = faces.node_lists[ num_face ][ 1 ];
+    int num_node_2 = faces.node_lists[ num_face ][ 2 ];
+    int num_node_3 = faces.node_lists[ num_face ][ 3 ];
+    int num_node_4 = faces.node_lists[ num_face ][ 4 ];
+    int num_node_5 = faces.node_lists[ num_face ][ 5 ];
     faces.node_lists[ num_face ][ 7 ] = num_node_290;
     faces.node_lists[ num_face ][ 8 ] = num_node_284;
+    faces.node_masks[ num_face ] = 
+        ( 1 << num_node_0 ) |
+        ( 1 << num_node_1 ) |
+        ( 1 << num_node_2 ) |
+        ( 1 << num_node_3 ) |
+        ( 1 << num_node_4 ) |
+        ( 1 << num_node_5 ) |
+        ( 1 << num_node_6 ) |
+        ( 1 << num_node_290 ) |
+        ( 1 << num_node_284 ) ;
     break;
 }
 case_265: {
@@ -27969,6 +29069,10 @@ case_265: {
     faces.node_lists[ num_face ][ 0 ] = num_node_290;
     faces.node_lists[ num_face ][ 1 ] = num_node_7;
     faces.node_lists[ num_face ][ 2 ] = num_node_284;
+    faces.node_masks[ num_face ] = 
+        ( 1 << num_node_290 ) |
+        ( 1 << num_node_7 ) |
+        ( 1 << num_node_284 ) ;
     break;
 }
 case_0:

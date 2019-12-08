@@ -30,7 +30,7 @@ public:
     const Node *first_node     () const;
     TF          flat_area      () const;
     TF          mass           () const;
-    TI          nb_nodes           () const;
+    TI          nb_nodes       () const;
 
     Face       *prev_in_pool;  ///<
     Face       *next_in_pool;  ///<

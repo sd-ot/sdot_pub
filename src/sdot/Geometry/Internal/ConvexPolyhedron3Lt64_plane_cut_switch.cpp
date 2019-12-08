@@ -136,14 +136,24 @@ void make_case( std::ostream &os, int nb_nodes, std::bitset<8> outside_nodes ) {
 
     for( std::size_t i = 0; i < new_nodes.size(); ++i ) {
         int o = ( i + best_off ) % new_nodes.size();
-        if ( new_nodes[ o ] != int( i ) )
-            get_node( new_nodes[ o ] );
+        //if ( new_nodes[ o ] != int( i ) )
+        get_node( new_nodes[ o ] );
     }
 
     for( std::size_t i = 0; i < new_nodes.size(); ++i ) {
         int o = ( i + best_off ) % new_nodes.size();
         if ( new_nodes[ o ] != int( i ) )
             os << "    faces.node_lists[ num_face ][ " << i << " ] = num_node_" << new_nodes[ o ] << ";\n";
+    }
+
+    os << "    faces.node_masks[ num_face ] = \n";
+    for( std::size_t i = 0; i < new_nodes.size(); ++i ) {
+        int o = ( i + best_off ) % new_nodes.size();
+        os << "        ( 1 << num_node_" << new_nodes[ o ] << " )";
+        if ( i + 1 < new_nodes.size() )
+            os << " |\n";
+        else
+            os << " ;\n";
     }
 }
 
