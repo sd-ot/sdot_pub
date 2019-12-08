@@ -34,7 +34,7 @@ void make_case( std::ostream &os, int nb_nodes, std::bitset<8> outside_nodes ) {
     // if < 64 => num_node. Else, num_edge
     std::set<int> registered_num_nodes;
     auto get_node = [&]( int num_node ) {
-        if ( num_node >= 64 || registered_num_nodes.count( num_node ) )
+        if ( num_node >= 256 || registered_num_nodes.count( num_node ) )
             return;
         registered_num_nodes.insert( num_node );
         os << "    int num_node_" << num_node << " = faces.node_lists[ num_face ][ " << num_node << " ];\n";
@@ -45,7 +45,7 @@ void make_case( std::ostream &os, int nb_nodes, std::bitset<8> outside_nodes ) {
         get_node( n1 );
         int mi = min( n0, n1 );
         int ma = max( n0, n1 );
-        return 64 + ma * ( ma + 1 ) / 2 + mi;
+        return 256 + ma * ( ma + 1 ) / 2 + mi;
     };
 
     // make/find the new nodes (on in/out ot out/in edges)
@@ -54,17 +54,32 @@ void make_case( std::ostream &os, int nb_nodes, std::bitset<8> outside_nodes ) {
         int n1 = ( i + 1 ) % nb_nodes;
         if ( outside_nodes[ n0 ] != outside_nodes[ n1 ] ) {
             int edge = nedge( n0, n1 );
+            // num_node_edge => ce que va mettre dans le tableau d'indice des faces. pos_node => là où on colle les données du noeud
             os << "    int min_node_" << edge << " = min( num_node_" << n0 << ", num_node_" << n1 << " );\n";
             os << "    int max_node_" << edge << " = max( num_node_" << n0 << ", num_node_" << n1 << " );\n";
             os << "    int num_edge_" << edge << " = max_node_" << edge << " * ( max_node_" << edge << " + 1 ) / 2 + min_node_" << edge << ";\n";
             os << "    int num_node_" << edge << ";\n";
             os << "    if ( edge_num_cuts[ num_edge_" << edge << " ] != num_cut ) {\n";
+            os << "        int pos_node;\n";
+            os << "        if ( cou ) { // \n";
+            os << "            int nn = tzcnt( cou );\n";
+            os << "            cou -= 1 << nn;\n";
+            os << "            \n";
+            os << "            num_node_" << edge << " = nn;\n";
+            os << "            pos_node = --end_nodes;\n";
+            os << "            \n";
+            os << "            repl_node_dsts[ nb_repl_nodes ] = num_node_" << edge << ";\n";
+            os << "            repl_node_srcs[ nb_repl_nodes ] = pos_node;\n";
+            os << "            ++nb_repl_nodes;\n";
+            os << "        } else {\n";
+            os << "            num_node_" << edge << " = new_nodes_size;\n";
+            os << "            pos_node = new_nodes_size++;\n";
+            os << "        }\n";
             os << "        const Node &n0 = nodes.local_at( num_node_" << n0 << " );\n";
             os << "        const Node &n1 = nodes.local_at( num_node_" << n1 << " );\n";
-            os << "        edge_num_cuts[ num_edge_" << edge << " ] = num_cut;\n";
-            os << "        num_node_" << edge << " = new_nodes_size++;\n";
+            os << "        nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );\n";
             os << "        edge_cuts[ num_edge_" << edge << " ] = num_node_" << edge<< ";\n";
-            os << "        nodes.local_at( num_node_" << edge << " ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );\n";
+            os << "        edge_num_cuts[ num_edge_" << edge << " ] = num_cut;\n";
             os << "    } else\n";
             os << "        num_node_" << edge << " = edge_cuts[ num_edge_" << edge << " ];\n";
         }
@@ -99,18 +114,37 @@ void make_case( std::ostream &os, int nb_nodes, std::bitset<8> outside_nodes ) {
         return;
     }
 
-    // write node indices
+    // nb nodes
     os << "    // " << new_nodes << "\n";
     if ( int( new_nodes.size() ) != nb_nodes )
         os << "    faces.nb_nodes[ num_face ] = " << new_nodes.size() << ";\n";
 
-    for( std::size_t i = 0; i < new_nodes.size(); ++i )
-        if ( new_nodes[ i ] != int( i ) )
-            get_node( new_nodes[ i ] );
+    // node indices
+    int best_cost = nb_nodes + 1;
+    int best_off = 0;
+    for( std::size_t off = 0; off < new_nodes.size(); ++off ) {
+        int cost = 0;
+        for( std::size_t i = 0; i < new_nodes.size(); ++i ) {
+            int o = ( i + off ) % new_nodes.size();
+            cost += new_nodes[ o ] != int( i );
+        }
+        if ( best_cost > cost ) {
+            best_cost = cost;
+            best_off = off;
+        }
+    }
 
-    for( std::size_t i = 0; i < new_nodes.size(); ++i )
-        if ( new_nodes[ i ] != int( i ) )
-            os << "    faces.node_lists[ num_face ][ " << i << " ] = num_node_" << new_nodes[ i ] << ";\n";
+    for( std::size_t i = 0; i < new_nodes.size(); ++i ) {
+        int o = ( i + best_off ) % new_nodes.size();
+        if ( new_nodes[ o ] != int( i ) )
+            get_node( new_nodes[ o ] );
+    }
+
+    for( std::size_t i = 0; i < new_nodes.size(); ++i ) {
+        int o = ( i + best_off ) % new_nodes.size();
+        if ( new_nodes[ o ] != int( i ) )
+            os << "    faces.node_lists[ num_face ][ " << i << " ] = num_node_" << new_nodes[ o ] << ";\n";
+    }
 }
 
 int main() {

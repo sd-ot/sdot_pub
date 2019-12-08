@@ -19,7 +19,22 @@ inline bool none( const std::vector<bool> &bs ) {
     return true;
 }
 
+// ----------------------------------------------------------------------------
+template<std::size_t N>
+inline int nb_bits( const std::bitset<N> & ) {
+    return N;
+}
 
+inline int nb_bits( const std::vector<bool> &bs ) {
+    return bs.size();
+}
+
+template<class T>
+inline unsigned nb_bits( T ) {
+    return 8 * sizeof( T );
+}
+
+// -----------------------------------------------------------------------------
 template<std::size_t N>
 inline unsigned popcnt( const std::bitset<N> &bs ) {
     return bs.count();
@@ -65,7 +80,7 @@ inline unsigned popcnt( std::uint64_t val ) {
     #endif
 }
 
-
+// -----------------------------------------------------------------------------
 template<std::size_t N>
 inline unsigned tzcnt( const std::bitset<N> &bs ) {
     for( unsigned i = 0; i < bs.size(); ++i )
@@ -134,6 +149,7 @@ inline unsigned tzcnt( std::uint64_t val ) {
 }
 
 
+// -----------------------------------------------------------------------------
 template<std::size_t N>
 inline unsigned tocnt( const std::bitset<N> &bs ) {
     for( unsigned i = 0; i < bs.size(); ++i )
@@ -162,6 +178,7 @@ inline unsigned tocnt( std::uint64_t val ) {
 }
 
 
+// -----------------------------------------------------------------------------
 template<std::size_t N>
 inline void reset( std::bitset<N> &bs ) {
     bs.reset();
@@ -170,6 +187,20 @@ inline void reset( std::bitset<N> &bs ) {
 inline void reset( std::vector<bool> &bs ) {
     for( unsigned i = 0; i < bs.size(); ++i )
        bs[ i ] = 0;
+}
+
+// -----------------------------------------------------------------------------
+template<class O,class F>
+void for_each_nz_bit( O val, const F &func ) {
+    for( int ind = 0; ; ) {
+        int t = tzcnt( val );
+        if ( t >= nb_bits( val ) )
+            return;
+        val >>= t + 1;
+        ind += t;
+
+        func( ind++ );
+    }
 }
 
 }

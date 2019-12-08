@@ -7,9 +7,9 @@ using namespace sdot;
 
 // // nsmake cxx_name clang++
 //// nsmake cpp_flag -march=native
-// // nsmake cpp_flag -ffast-math
-// // nsmake cpp_flag -O3
-// // nsmake lib_flag -O3
+//// nsmake cpp_flag -ffast-math
+//// nsmake cpp_flag -O3
+//// nsmake lib_flag -O3
 
 struct Pc {
     enum { store_the_normals = false };
@@ -59,12 +59,11 @@ void bench( std::vector<TF> xs, std::vector<TF> ys, std::vector<TF> zs, std::vec
     RDTSC_FINAL( t1 );
     std::uint64_t dt_cut_proc = 1.0 * ( t1 - t0 ) / nb_reps;
 
-    //    P( cp );
     if ( nb_reps > 1 ) {
         P( dt_set_box );
         P( ( dt_cut_proc - dt_set_box ) / xs.size() );
     } else {
-        P( cp );
+        PN( cp );
     }
 
     VtkOutput vo;
@@ -74,10 +73,11 @@ void bench( std::vector<TF> xs, std::vector<TF> ys, std::vector<TF> zs, std::vec
 
 
 int main() {
-    bool single_test = 1;
+    bool single_test = 0;
+    bool single_dir = 1; // single_test;
 
     std::vector<Pt> directions;
-    if ( single_test ) {
+    if ( single_dir ) {
         directions.push_back( { 1, 0, 0 } );
     } else {
         for( TF z = -1; z <= 1; ++z ) {
@@ -104,5 +104,5 @@ int main() {
         ds.push_back( nullptr );
     }
 
-    bench( xs, ys, zs, ps, ds, single_test ? 1 : 8000000 );
+    bench( xs, ys, zs, ps, ds, single_test ? 1 : 80000 );
 }

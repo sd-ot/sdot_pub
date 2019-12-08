@@ -19,6 +19,8 @@ template<class TF,int size=SimdSize<TF>::value> struct SimdVec {
     template       <class GF>
     static SimdVec load_aligned ( const GF *data ) { SimdVec res; for( int i = 0; i < size; ++i ) res.values[ i ] = data[ i ]; return res; }
 
+    static SimdVec iota         () { SimdVec res; for( int i = 0; i < size; ++i ) res.values[ i ] = i; return res; }
+
     SimdVec        operator+    ( const SimdVec &that ) const { SimdVec res; for( int i = 0; i < size; ++i ) res.values[ i ] = values[ i ] + that.values[ i ]; return res; }
     SimdVec        operator-    ( const SimdVec &that ) const { SimdVec res; for( int i = 0; i < size; ++i ) res.values[ i ] = values[ i ] - that.values[ i ]; return res; }
     SimdVec        operator*    ( const SimdVec &that ) const { SimdVec res; for( int i = 0; i < size; ++i ) res.values[ i ] = values[ i ] * that.values[ i ]; return res; }
@@ -47,6 +49,8 @@ template<class TF,int size=SimdSize<TF>::value> struct SimdVec {
         static void    store_aligned( double *data, const SimdVec &vec ) { _mm512_store_pd( data, vec.values ); }
         static SimdVec load_aligned ( const double *data ) { return _mm512_load_pd( data ); }
 
+        static SimdVec iota         () { SimdVec res; for( int i = 0; i < 8; ++i ) res.values[ i ] = i; return res; }
+
         SimdVec        operator+    ( const SimdVec &that ) const { return values + that.values; }
         SimdVec        operator-    ( const SimdVec &that ) const { return values - that.values; }
         SimdVec        operator*    ( const SimdVec &that ) const { return values * that.values; }
@@ -71,6 +75,8 @@ template<class TF,int size=SimdSize<TF>::value> struct SimdVec {
         /**/           SimdVec      ( __m256d values ) : values( values ) {}
         /**/           SimdVec      ( double value ) { values = _mm256_set1_pd( value ); }
         /**/           SimdVec      () {}
+
+        static SimdVec iota         () { SimdVec res; for( int i = 0; i < 4; ++i ) res.values[ i ] = i; return res; }
 
         static void    store_aligned( double *data, const SimdVec &vec ) { _mm256_store_pd( data, vec.values ); }
         static SimdVec load_aligned ( const double *data ) { return _mm256_load_pd( data ); }

@@ -70,7 +70,8 @@ public:
 
 private:
     friend class                         ConvexPolyhedron3Lt64Face<Pc>;
-    enum {                               max_nb_edges = Lt64NodeBlock::nb * ( Lt64NodeBlock::nb + 1 ) / 2 };
+    enum {                               max_nb_nodes = Lt64NodeBlock::nb };
+    enum {                               max_nb_edges = max_nb_nodes * ( max_nb_nodes + 1 ) / 2 };
 
     // aligned structures
     ConvexPolyhedron3Lt64NodeBlock<Pc>   nodes;                    ///<

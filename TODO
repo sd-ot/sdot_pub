@@ -1,54 +1,17 @@
 Rq: 97% des faces ont nb_nodes <= 8 (en 3D)
 Rq: 66% des cellules ont nb_nodes <= 8 dans toutes les faces (en 3D)
 
-Stockage des fcell quand elles sont ooc:
-  => on a besoin d'un offset.
-  => Prop 1: on fait des pointeurs vers des cellules d'un autre type contenant des offsets.
-  => Prop 2: ça se passe au niveau des scells. Par exemple, on a un nombre de sous-cellules définies par pointeur, et un nombre de sous-cellules définies
-    par offset.
+Assignation des nouveaux noeuds.
 
-  Du coup, on pourrait faire des scell avec:
-    uint8 => nb enfants type scell (en mémoire)
-    uint8 => nb enfants type fcell (en mémoire)
-    uint8 => nb enfants type sur le disque.
+Prop 1: on fait une liste de correspondances ancien numéro => nouveau numéro.
 
-  Chaque enfant est ou bien un ptr sur fcell, un ptr sur scell ou un offset dans les fichiers de sauvegarde
-
-  Si on a un soucis sur la taille mémoire, on peut parcourir toutes les scells enregistrées comme contenant au moins une fcell.
-    on stocke les fcells et on met les offsets 
-
-  Quand on tombe sur des cellules sur le disque, on peut garder la scell en ptr de ce qu'il faut lire.
-
-Prop: on fait une pausounette
-
-Le désavantage des types séparés, c'est que ça complique les tas, les chemins, etc...
-
-Si on a trop de cellules finale... Prop: on parcourt toutes les cellules qui contiennent des fcells pour les mettre en mémoire.
-
-Pour faire simple, on peut faire un parcourt systématique. En deuxième approche, on pourrait stocker le chemin d'accès du dernier. Rq: on peut atteindre les cellules par numéro... mais c'est quand le graphe est construit.
-
-Prop: on fait une liste chainée de cellules finales pour la première allocation. Pour le remplacement dans les scells... on peut de la même façon faire un pointeur vers les parents..
-
-Pb: ça serait cool de rassembler les cas où les noeuds dehors sont les mêmes
-  L'idée de base pourrait être d'avoir des 1 pour les noeuds dedans. Ça dit les noeuds qui garde... ce qui suffit, sauf pour quand ça tourne
-    11011000000 => on a plein de zéro... on a besoin de savoir si le dernier bit est un zéro ou un un. 
-    Prop 1: shift du mask + 1 pour le dernier bit. Si c'est un 1, on connait la taille. Si c'est un 0, on saura faire le edge qui sort... Pour le edge qui rerentre (en retournant au zéro), c'est plus compliqué.
-
-    On peut dans tous les cas faire un test en cas de doute.
-      => mais si on spécifie rien, on a systématiquement un test
-      => su on ajoute une copie du dernier bit, si on a un 1, c'est reglé. Si on a 
-
-    Prop: on ajoute TOUJOURS un 1 à la fin. Ça donne de fait la taille.
+Prenant une liste de bits, on veut une liste d'offsets.
 
 
+Prop: pour savoir où seront placés les nouveaux noeuds, on se base sur ou.
 
-
-
-
-
-
-
-
+Avec `ou`, on alloue des numéros pour le remplacement des noeuds.
+  Si `ou != 0`, on met le nouveau noeud dans une zone temporaire (partant de la fin).
 
 
 

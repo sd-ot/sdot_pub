@@ -236,13 +236,30 @@ void ConvexPolyhedron3<Pc>::plane_cut( std::array<const TF *,dim> cut_dir, const
         if ( ou == 0 )
             continue;
 
-        // else, find the intersected faces
-        int faces_to_rem[ Lt64FaceBlock::max_nb_faces_per_cell ];
-        int nb_faces_to_rem = 0;
-        ++num_cut;
+        // else, prepare a node correspondance list
+        //        alignas( 64 ) std::array<std::uint8_t,max_nb_nodes> node_corr;
+        //        SimdVec<std::uint8_t> iota = SimdVec<std::uint8_t>::iota();
+        //        for( int i = 0; i < nodes_size; i += SimdSize<std::uint8_t>::value ) {
+        //            SimdVec<std::uint8_t>::store_aligned( node_corr.data() + i, iota );
+        //            iota = iota + SimdSize<std::uint8_t>::value;
+        //        }
+        //        for_each_nz_bit( ou, [&]( int ind ) {
+        //            node_corr[ ind ] = -1;
+        //        } );
 
-        // handke intersected faces
+        //        for( int i = 0; i < nodes_size; ++i )
+        //            P( int( node_corr[ i ] ) );
+        std::uint8_t repl_node_dsts[ max_nb_edges + max_nb_nodes ];
+        std::uint8_t repl_node_srcs[ max_nb_edges + max_nb_nodes ];
+        int nb_repl_nodes = 0;
+
+        // handle intersected faces
+        int faces_to_rem[ Lt64FaceBlock::max_nb_faces_per_cell ];
         int new_nodes_size = nodes_size;
+        int end_nodes = max_nb_nodes;
+        int nb_faces_to_rem = 0;
+        std::uint64_t cou = ou; // copy of ou (to get indices for the new nodes)
+        ++num_cut;
         auto handle_intersected_face = [&]( unsigned num_face ) {
             // 16 bits for outsideness of each node
             const auto &fnodes = faces.node_lists[ num_face ];
@@ -254,7 +271,6 @@ void ConvexPolyhedron3<Pc>::plane_cut( std::array<const TF *,dim> cut_dir, const
             SimdVec<std::int64_t,8> bsh = SimdVec<std::int64_t,8>( 1 ) << blo;
             SimdVec<std::int64_t,8> ban = SimdVec<std::int64_t,8>( ou ) & bsh;
             int ouf = ban.nz() | ( 1 << nb_fnodes );
-            P( ouf );
             do {
                 #include "Internal/(ConvexPolyhedron3Lt64_plane_cut_switch.cpp).h"
             } while ( 0 );
@@ -263,15 +279,6 @@ void ConvexPolyhedron3<Pc>::plane_cut( std::array<const TF *,dim> cut_dir, const
             if ( ou & faces.node_masks[ n ] )
                 handle_intersected_face( n );
 
-        //        n = 0;
-        // __m512i mn = _mm512_set1_epi64( ou );
-        //        for( ; n + 8 <= faces_size; n += 8 ) {
-        //            //             __m512i ms = _mm512_load_epi64( faces.node_masks + n );
-        //            //             __m512i am = _mm512_and_epi64( mn, ms );
-        //            //             std::uint8_t lo = _mm512_cmp_pd_mask( bi, rd, _CMP_GT_OQ );
-        //            TODO;
-        //        }
-        
         // remove void faces
         auto remove_void_faces = [&]() {
             for( int num_in_faces_to_rem = 0; num_in_faces_to_rem < nb_faces_to_rem; ++num_in_faces_to_rem ) {
@@ -294,7 +301,9 @@ void ConvexPolyhedron3<Pc>::plane_cut( std::array<const TF *,dim> cut_dir, const
         };
         remove_void_faces();
 
-        //
+        // repl node data
+        for( int i = 0; i < nb_repl_nodes; ++i )
+            nodes.local_at( repl_node_dsts[ i ] ).get_straight_content_from( nodes.local_at( repl_node_srcs[ i ] ) );
         nodes_size = new_nodes_size;
     }
 }
