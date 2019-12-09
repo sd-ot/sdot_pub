@@ -8,7 +8,7 @@ namespace sdot {
   Data layout:
 */
 template<class Carac>
-class alignas( 64 ) ConvexPolyhedron3Lt64NodeBlock {
+class ConvexPolyhedron3Lt64NodeBlock {
 public:
     // common types
     using       TF                       = typename Carac::TF;
@@ -23,11 +23,11 @@ public:
     void        set_pos                  ( Pt p ) { x = p.x; y = p.y; z = p.z; }
     Pt          pos                      () const { return { x, y, z }; }
 
-    const Node& local_at                 ( unsigned index ) const { return *reinterpret_cast<const Node *>( &x + index ); }
-    Node&       local_at                 ( unsigned index ) { return *reinterpret_cast<Node *>( &x + index ); }
+    const Node& local_at                 ( int index ) const { return *reinterpret_cast<const Node *>( &x + index ); }
+    Node&       local_at                 ( int index ) { return *reinterpret_cast<Node *>( &x + index ); }
 
-    const Node& global_at                ( unsigned index ) const { return *reinterpret_cast<const Node *>( &this[ index / bs ].x + index % bs ); }
-    Node&       global_at                ( unsigned index ) { return *reinterpret_cast<Node *>( &this[ index / bs ].x + index % bs ); }
+    const Node& global_at                ( int index ) const { return *reinterpret_cast<const Node *>( &this[ index / bs ].x + index % bs ); }
+    Node&       global_at                ( int index ) { return *reinterpret_cast<Node *>( &this[ index / bs ].x + index % bs ); }
 
     bool        outside                  () const { return d > 0; }
     bool        inside                   () const { return ! outside(); }

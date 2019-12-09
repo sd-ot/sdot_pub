@@ -5,7 +5,7 @@
 #include <map>
 using namespace sdot;
 
-// // nsmake cxx_name clang++
+//// nsmake cxx_name clang++
 //// nsmake cpp_flag -march=native
 //// nsmake cpp_flag -ffast-math
 //// nsmake cpp_flag -O3
@@ -40,7 +40,6 @@ void __attribute__ ((noinline)) cut_proc( Cp &cp, const Box &box, std::vector<TF
 }
 
 void bench( std::vector<TF> xs, std::vector<TF> ys, std::vector<TF> zs, std::vector<TF> ps, std::vector<Pc::Dirac *> ds, std::uint64_t nb_reps ) {
-    //    Cp::Box box{ TF( -1 ), TF( 1 ) };
     Cp::Box box{ TF( -1 ), TF( 1 ) };
     std::uint64_t t0 = 0, t1 = 0;
 

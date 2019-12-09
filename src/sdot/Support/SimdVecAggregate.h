@@ -25,12 +25,10 @@ template<class TS,class US,int ns> struct SimdVecAggregate {
     TS                   operator*       ( const TS &that ) const { TS res; for( int i = 0; i < ns; ++i ) res.vecs[ i ] = vecs[ i ] * that.vecs[ i ]; return res; }
     TS                   operator/       ( const TS &that ) const { TS res; for( int i = 0; i < ns; ++i ) res.vecs[ i ] = vecs[ i ] / that.vecs[ i ]; return res; }
 
-    std::uint64_t        operator>       ( const TS &that ) const { std::uint64_t res = 0; for( int i = 0, a = 0; i < ns; ++i, a += US::size ) res |= ( vecs[ i ] > that.vecs[ i ] ) << a; return res;  }
-
     TS                   operator<<      ( const TS &that ) const { TS res; for( int i = 0; i < ns; ++i ) res.vecs[ i ] = vecs[ i ] << that.vecs[ i ]; return res; }
-
     TS                   operator&       ( const TS &that ) const { TS res; for( int i = 0; i < ns; ++i ) res.vecs[ i ] = vecs[ i ] & that.vecs[ i ]; return res; }
 
+    std::uint64_t        operator>       ( const TS &that ) const { std::uint64_t res = 0; for( int i = 0, a = 0; i < ns; ++i, a += US::size ) res |= ( vecs[ i ] > that.vecs[ i ] ) << a; return res;  }
     std::uint64_t        nz              () const { std::uint64_t res = 0; for( int i = 0, a = 0; i < ns; ++i, a += US::size ) res |= vecs[ i ].nz() << a; return res; }
 
     const T             *begin           () const { return vecs[ 0 ].begin(); }

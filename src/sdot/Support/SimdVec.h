@@ -29,12 +29,10 @@ template<class _TF,int _size=SimdSize<_TF>::value> struct SimdVec {
     SimdVec        operator*    ( const SimdVec &that ) const { SimdVec res; for( int i = 0; i < size; ++i ) res.values[ i ] = values[ i ] * that.values[ i ]; return res; }
     SimdVec        operator/    ( const SimdVec &that ) const { SimdVec res; for( int i = 0; i < size; ++i ) res.values[ i ] = values[ i ] / that.values[ i ]; return res; }
 
-    std::uint64_t  operator>    ( const SimdVec &that ) const { std::uint64_t res = 0; for( int i = 0; i < size; ++i ) res |= std::uint64_t( values[ i ] > that.values[ i ] ) << i; return res;  }
-
     SimdVec        operator<<   ( const SimdVec &that ) const { SimdVec res; for( int i = 0; i < size; ++i ) res.values[ i ] = values[ i ] << that.values[ i ]; return res; }
-
     SimdVec        operator&    ( const SimdVec &that ) const { SimdVec res; for( int i = 0; i < size; ++i ) res.values[ i ] = values[ i ] & that.values[ i ]; return res; }
 
+    std::uint64_t  operator>    ( const SimdVec &that ) const { std::uint64_t res = 0; for( int i = 0; i < size; ++i ) res |= std::uint64_t( values[ i ] > that.values[ i ] ) << i; return res;  }
     std::uint64_t  nz           () const { std::uint64_t res = 0; for( int i = 0; i < size; ++i ) res |= std::uint64_t( values[ i ] != 0 ) << i; return res; }
 
     const T       *begin        () const { return values; }
@@ -43,22 +41,22 @@ template<class _TF,int _size=SimdSize<_TF>::value> struct SimdVec {
     T              values       [ size ];
 };
 
-#define SIMD_AGGREGATE( TF, TARGET_SIZE, USED_SIZE ) \
+#define SIMD_AGGREGATE( TF, USED_SIZE, TARGET_SIZE ) \
     template<> struct SimdVec<TF,TARGET_SIZE> : SimdVecAggregate<SimdVec<TF,TARGET_SIZE>,SimdVec<TF,USED_SIZE>,TARGET_SIZE/USED_SIZE> { using SimdVecAggregate<SimdVec<TF,TARGET_SIZE>,SimdVec<TF,USED_SIZE>,TARGET_SIZE/USED_SIZE>::SimdVecAggregate; }
 
 #ifdef __AVX512F__
     template<> struct SimdVec<double,8> {
         enum {         size         = 8 };
-        using          T           = double;
+        using          T            = double;
 
         /**/           SimdVec      ( __m512d values ) : values( values ) {}
-        /**/           SimdVec      ( double value ) { values = _mm512_set1_pd( value ); }
+        /**/           SimdVec      ( T value ) { values = _mm512_set1_pd( value ); }
         /**/           SimdVec      () {}
 
-        static void    store_aligned( double *data, const SimdVec &vec ) { _mm512_store_pd( data, vec.values ); }
-        static SimdVec load_aligned ( const double *data ) { return _mm512_load_pd( data ); }
+        static void    store_aligned( T *data, const SimdVec &vec ) { _mm512_store_pd( data, vec.values ); }
+        static SimdVec load_aligned ( const T *data ) { return _mm512_load_pd( data ); }
 
-        static SimdVec iota         () { SimdVec res; for( int i = 0; i < 8; ++i ) res.values[ i ] = i; return res; }
+        static SimdVec iota         () { SimdVec res; for( int i = 0; i < size; ++i ) res.values[ i ] = i; return res; }
 
         SimdVec        operator+    ( const SimdVec &that ) const { return values + that.values; }
         SimdVec        operator-    ( const SimdVec &that ) const { return values - that.values; }
@@ -73,6 +71,37 @@ template<class _TF,int _size=SimdSize<_TF>::value> struct SimdVec {
         __m512d        values;
     };
 
+    // ------------------------------------------------------------------------------------------------------------------
+    template<> struct SimdVec<std::uint64_t,8> {
+        enum {         size         = 8 };
+        using          T            = std::uint64_t;
+
+        /**/           SimdVec      ( __m512i values ) : values( values ) {}
+        /**/           SimdVec      ( T value ) { values = _mm512_set1_epi64( value ); }
+        /**/           SimdVec      () {}
+
+        static void    store_aligned( T *data, const SimdVec &vec ) { _mm512_store_epi64( data, vec.values ); }
+        static SimdVec load_aligned ( const T *data ) { return _mm512_load_epi64( data ); }
+        static SimdVec load_aligned ( const std::uint8_t *data ) { return _mm512_cvtepi8_epi64( _mm_set1_epi64x( *reinterpret_cast<const std::uint64_t *>( data ) ) ); }
+
+        static SimdVec iota         () { SimdVec res; for( int i = 0; i < size; ++i ) res.values[ i ] = i; return res; }
+
+        SimdVec        operator+    ( const SimdVec &that ) const { return values + that.values; }
+        SimdVec        operator-    ( const SimdVec &that ) const { return values - that.values; }
+        SimdVec        operator*    ( const SimdVec &that ) const { return values * that.values; }
+        SimdVec        operator/    ( const SimdVec &that ) const { return values / that.values; }
+
+        SimdVec        operator<<   ( const SimdVec &that ) const { return _mm512_sllv_epi64( values, that.values ); }
+        SimdVec        operator&    ( const SimdVec &that ) const { return _mm512_and_epi64( values, that.values ); }
+
+        std::uint64_t  nz           () const { return _mm512_cmpneq_epi64_mask( values, _mm512_setzero_si512() ); }
+
+        const T       *begin        () const { return reinterpret_cast<const T *>( this ); }
+        const T       *end          () const { return begin() + size; }
+
+        __m512i        values;
+    };
+
     //            __m128i blo = _mm_load_si128( reinterpret_cast<const __m128i *>( fnodes.data() ) ); // load the 16 indices (in 8 bit)
     //            __m512i bou = _mm512_set1_epi64( ou );
     //            __m512i bex = _mm512_cvtepi8_epi64( blo ); // 8 bits to 64 bits indices (first part)
@@ -80,19 +109,18 @@ template<class _TF,int _size=SimdSize<_TF>::value> struct SimdVec {
     //            __m512i ban = _mm512_and_epi64( bsh, bou );
     //            std::uint16_t ouf = ( _mm512_cmpneq_epi64_mask( ban, _mm512_setzero_si512() ) << 3 ) + ( nb_fnodes - 3 );
 
-    SIMD_AGGREGATE( double, 16, 8 );
 #endif
 
 #ifdef __AVX2__
     template<> struct SimdVec<double,4> {
         enum {         size         = 4 };
-        using          T           = double;
+        using          T            = double;
 
         /**/           SimdVec      ( __m256d values ) : values( values ) {}
         /**/           SimdVec      ( T value ) { values = _mm256_set1_pd( value ); }
         /**/           SimdVec      () {}
 
-        static SimdVec iota         () { SimdVec res; for( int i = 0; i < 4; ++i ) res.values[ i ] = i; return res; }
+        static SimdVec iota         () { SimdVec res; for( int i = 0; i < size; ++i ) res.values[ i ] = i; return res; }
 
         static void    store_aligned( T *data, const SimdVec &vec ) { _mm256_store_pd( data, vec.values ); }
         static SimdVec load_aligned ( const T *data ) { return _mm256_load_pd( data ); }
@@ -110,9 +138,6 @@ template<class _TF,int _size=SimdSize<_TF>::value> struct SimdVec {
         __m256d        values;
     };
 
-    SIMD_AGGREGATE( double,  8, 4 );
-    SIMD_AGGREGATE( double, 16, 4 );
-
     // ------------------------------------------------------------------------------------------------------------------
     template<> struct SimdVec<std::uint64_t,4> {
         enum {         size         = 4 };
@@ -122,19 +147,21 @@ template<class _TF,int _size=SimdSize<_TF>::value> struct SimdVec {
         /**/           SimdVec      ( T value ) { values = _mm256_set1_epi64x( value ); }
         /**/           SimdVec      () {}
 
-        static SimdVec iota         () { SimdVec res; for( int i = 0; i < 4; ++i ) res.values[ i ] = i; return res; }
+        static SimdVec iota         () { SimdVec res; for( int i = 0; i < size; ++i ) res.values[ i ] = i; return res; }
 
-        static void    store_aligned( T *data, const SimdVec &vec ) { _mm256_store_epi64( data, vec.values ); }
+        static void    store_aligned( T *data, const SimdVec &vec ) { _mm256_store_si256( reinterpret_cast<__m256i *>( data ), vec.values ); }
         static SimdVec load_aligned ( const T *data ) { return _mm256_load_si256( reinterpret_cast<const __m256i *>( data ) ); }
+        static SimdVec load_aligned ( const std::uint8_t *data ) { return _mm256_cvtepi8_epi64( _mm_set1_epi32( *reinterpret_cast<const std::uint32_t *>( data ) ) ); }
 
         SimdVec        operator+    ( const SimdVec &that ) const { return values + that.values; }
         SimdVec        operator-    ( const SimdVec &that ) const { return values - that.values; }
         SimdVec        operator*    ( const SimdVec &that ) const { return values * that.values; }
         SimdVec        operator/    ( const SimdVec &that ) const { return values / that.values; }
 
-        // std::uint64_t  operator> ( const SimdVec &that ) const { __m256d c = _mm256_cmp_epipd( values, that.values, _CMP_GT_OQ ); return _mm256_movemask_pd( c );  }
-
         SimdVec        operator<<   ( const SimdVec &that ) const { return _mm256_sllv_epi64( values, that.values ); }
+        SimdVec        operator&    ( const SimdVec &that ) const { return _mm256_and_si256( values, that.values ); }
+
+        std::uint64_t  nz           () const { return _mm256_movemask_pd( _mm256_xor_si256( _mm256_set1_epi8( -1 ), _mm256_cmpeq_epi64( values, _mm256_setzero_si256() ) ) ); }
 
         const T       *begin        () const { return reinterpret_cast<const T *>( this ); }
         const T       *end          () const { return begin() + size; }
@@ -142,9 +169,16 @@ template<class _TF,int _size=SimdSize<_TF>::value> struct SimdVec {
         __m256i        values;
     };
 
-    SIMD_AGGREGATE( std::uint64_t,  8, 4 );
-    SIMD_AGGREGATE( std::uint64_t, 16, 4 );
 #endif
 
+#if defined(__AVX512F__)
+    SIMD_AGGREGATE( double       , 8, 16 );
+    SIMD_AGGREGATE( std::uint64_t, 8, 16 );
+#elif defined(__AVX2__)
+    SIMD_AGGREGATE( double       , 4,  8 );
+    SIMD_AGGREGATE( double       , 4, 16 );
+    SIMD_AGGREGATE( std::uint64_t, 4,  8 );
+    SIMD_AGGREGATE( std::uint64_t, 4, 16 );
+#endif
 
 } // namespace sdot
