@@ -14,13 +14,21 @@ Avec `ou`, on alloue des numéros pour le remplacement des noeuds.
   Si `ou != 0`, on met le nouveau noeud dans une zone temporaire (partant de la fin).
 
 
+* bornages
+  Pb: on veut éviter de faire des undo... 
+    Dans handle_intersected_face, on peut créer de nouveaux noeuds et dépasser la limite. On peut aussi créer des faces avec trop de noeuds et dépasser la limite.
+    Lors de la création de la nouvelle face, on peut aussi dépasser la limite.
 
-* Ajout de la nouvelle face
-  Prop 1: on enregistre les numéros de edge.
-  Prop 2: on enregistre dans les noeuds le précédant dans la nouvelle face
-    => 
+  Prop: on fait des listes de noeuds supplémentaires
 * Optimisations dans le code généré.
   => création du masque avec update si c'est plus rapide comme ça.
 
 * Gestion du cas où il y a moins de noeuds à la fin (déplacement des noeuds puis réécriture dans les faces)
 
+LT64 c0;
+int s = c0.plane_cut( ..., nb_cuts );
+if ( s < nb_cuts ) {
+  MT64 c1( c0 );
+  s = c1.plane_cut( ..., nb_cuts );
+
+}

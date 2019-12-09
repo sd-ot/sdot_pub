@@ -61,8 +61,8 @@ public:
     void                                 for_each_node             ( const std::function<void( const Node &node )> &f ) const;
 
     // geometric modifications
-    template<int flags>  void            plane_cut                 ( std::array<const TF *,dim> cut_dir, const TF *cut_ps, const CI *cut_id, std::size_t nb_cuts, N<flags> ); ///< return true if effective cut. @see ConvexPolyhedron for the flags
-    void                                 plane_cut                 ( std::array<const TF *,dim> cut_dir, const TF *cut_ps, const CI *cut_id, std::size_t nb_cuts ); ///< return true if effective cut
+    template<int flags> std::size_t      plane_cut                 ( std::array<const TF *,dim> cut_dir, const TF *cut_ps, const CI *cut_id, std::size_t nb_cuts, N<flags> ); ///< return the stop cut. @see ConvexPolyhedron for the flags
+    std::size_t                          plane_cut                 ( std::array<const TF *,dim> cut_dir, const TF *cut_ps, const CI *cut_id, std::size_t nb_cuts ); ///< return the stop cut (if < nb_cuts, it means that we have to use another ConvexPolyhedron class)
     void                                 ball_cut                  ( Pt center, TF radius, CI cut_id = {} ); ///< beware: only one sphere cut is authorized, and it must be done after all the plane cuts.
 
     //
@@ -72,6 +72,7 @@ private:
     friend class                         ConvexPolyhedron3Lt64Face<Pc>;
     enum {                               max_nb_nodes = 64 };
     enum {                               max_nb_edges = max_nb_nodes * max_nb_nodes };
+    enum {                               max_nb_faces = ConvexPolyhedron3Lt64FaceBlock<Pc>::max_nb_faces_per_cell };
 
     // aligned structures
     ConvexPolyhedron3Lt64NodeBlock<Pc>   nodes;                    ///<
@@ -83,6 +84,9 @@ private:
     TF                                   sphere_radius;
     Pt                                   sphere_center;
     CI                                   sphere_cut_id;
+
+    std::vector<Pt>                      additional_nodes;         ///< used if nodes_size > 64 (meaning that we have to use another ConvexPolyhedron class)
+    std::vector<std::uint8_t>            additional_nums;          ///< used if some face have more than 16 nodes (meaning that we have to use another ConvexPolyhedron class)
 
     std::uint64_t                        edge_num_cuts [ max_nb_edges ]; ///< to be compared to this->num_cut
     std::uint8_t                         edge_cuts     [ max_nb_edges ]; ///< num node for each possible edge
