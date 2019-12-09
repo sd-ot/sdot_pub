@@ -278,7 +278,7 @@ void ConvexPolyhedron3<Pc>::plane_cut( std::array<const TF *,dim> cut_dir, const
         for( int n = 0; n < faces_size; ++n )
             if ( ou & faces.node_masks[ n ] )
                 handle_intersected_face( n );
-        //        // outside faces
+        //        // outside faces, SIMD version
         //        std::uint64_t ouf = 0;
         //        using NodeMask = typename Lt64FaceBlock::NodeMask;
         //        SimdRange<SimdSize<NodeMask>::value>::for_each( faces_size, [&]( int n, auto s ) {
@@ -301,7 +301,6 @@ void ConvexPolyhedron3<Pc>::plane_cut( std::array<const TF *,dim> cut_dir, const
                     if ( faces.node_masks[ faces_size ] )
                         break;
                 }
-
                 faces.cpy( num_face_to_rem, faces_size );
             }
         };

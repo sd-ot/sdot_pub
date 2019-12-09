@@ -52,16 +52,17 @@ void bench( std::vector<TF> xs, std::vector<TF> ys, std::vector<TF> zs, std::vec
     double dt_set_box = 1.0 * ( t1 - t0 ) / nb_reps;
 
     // cuts
+    auto ti0 = time();
     RDTSC_START( t0 );
     for( std::size_t rep = 0; rep < nb_reps; ++rep )
         cut_proc( cp, box, xs, ys, zs, ps, ds );
     RDTSC_FINAL( t1 );
+    P( t1 - t0, time() - ti0 );
     std::uint64_t dt_cut_proc = 1.0 * ( t1 - t0 ) / nb_reps;
 
     if ( nb_reps > 1 ) {
         P( dt_set_box );
         P( ( dt_cut_proc - dt_set_box ) / xs.size() );
-    } else {
     }
     PN( cp );
 
