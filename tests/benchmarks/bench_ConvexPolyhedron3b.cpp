@@ -78,7 +78,7 @@ int main() {
 
     std::vector<Pt> directions;
     if ( single_dir ) {
-        directions.push_back( { 1, 0, 0 } );
+        directions.push_back( { 1, 0, 1 } );
     } else {
         for( TF z = -1; z <= 1; ++z ) {
             for( TF y = -1; y <= 1; ++y ) {
@@ -92,7 +92,7 @@ int main() {
         }
     }
 
-    std::size_t nb_cuts = 4; //single_test ? 1 : 64;
+    std::size_t nb_cuts = 10; //single_test ? 1 : 64;
     std::vector<TF> xs, ys, zs, ps;
     std::vector<Pc::Dirac *> ds;
     for( std::size_t n = 0; n < nb_cuts; ++n ) {

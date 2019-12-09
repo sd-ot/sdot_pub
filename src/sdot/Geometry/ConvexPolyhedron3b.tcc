@@ -341,11 +341,25 @@ std::size_t ConvexPolyhedron3<Pc>::plane_cut( std::array<const TF *,dim> cut_dir
         // repl node data. TODO: use additional nodes
         for( int i = 0; i < nb_repl_nodes; ++i )
             nodes.local_at( repl_node_dsts[ i ] ).get_straight_content_from( nodes.local_at( repl_node_srcs[ i ] ) );
-        if ( new_nodes_size < nodes_size ) {
+
+        // we have nodes to free ?
+        if ( cou ) {
             // move some nodes
-            TODO;
-        }
-        nodes_size = new_nodes_size;
+            do {
+                int n = tzcnt( cou );
+                cou -= std::uint64_t( 1 ) << n;
+
+                while ( true ) {
+                    if ( --nodes_size <= n )
+                        break;
+                    if ( ou & ( std::uint64_t( 1 ) << nodes_size ) ) {
+                        nodes.local_at( n ).get_straight_content_from( nodes.local_at( nodes_size ) );
+                        break;
+                    }
+                }
+            } while ( cou );
+        } else
+            nodes_size = new_nodes_size;
 
         // if it does not fit
         if ( additional_nums.size() || additional_nodes.size() )
