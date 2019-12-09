@@ -212,7 +212,7 @@ void ConvexPolyhedron3<Pc>::for_each_node( const std::function<void( const Node 
 
 
 template<class Pc> template<int flags>
-void ConvexPolyhedron3<Pc>::plane_cut( std::array<const TF *,dim> cut_dir, const TF *cut_ps, const CI */*cut_id*/, std::size_t nb_cuts, N<flags> ) {
+void ConvexPolyhedron3<Pc>::plane_cut( std::array<const TF *,dim> cut_dir, const TF *cut_ps, const CI *cut_ids, std::size_t nb_cuts, N<flags> ) {
     constexpr int ss = SimdSize<TF>::value;
 
     for( std::size_t num_cut = 0; num_cut < nb_cuts; ++num_cut ) {
@@ -260,6 +260,8 @@ void ConvexPolyhedron3<Pc>::plane_cut( std::array<const TF *,dim> cut_dir, const
         int nb_faces_to_rem = 0;
         std::uint64_t cou = ou; // copy of `ou` (to get indices for the new nodes)
         ++num_cut_proc;
+        std::uint8_t prev_cut_nodes[ max_nb_nodes ]; // linked list for the new face (for each node)
+        std::uint8_t last_cut_node; // first item of the linked list for the new face
         auto handle_intersected_face = [&]( unsigned num_face ) {
             // 16 bits for outsideness of each node
             const auto &fnodes = faces.node_lists[ num_face ];
@@ -306,10 +308,38 @@ void ConvexPolyhedron3<Pc>::plane_cut( std::array<const TF *,dim> cut_dir, const
         };
         remove_void_faces();
 
+        // new face
+        if ( faces_size ) {
+            int nf = faces_size++;
+            int nb_nodes = 0;
+            std::uint64_t node_mask = 0;
+            for( std::uint8_t i = last_cut_node; ; ) {
+                faces.node_lists[ nf ][ nb_nodes++ ] = i;
+                node_mask |= std::uint64_t( 1 ) << i;
+
+                std::uint8_t n = prev_cut_nodes[ i ];
+                if ( n == last_cut_node )
+                    break;
+                i = n;
+            }
+
+            faces.node_masks[ nf ] = node_mask;
+            faces.normal_xs [ nf ] = cut_dir[ 0 ][ num_cut ];
+            faces.normal_ys [ nf ] = cut_dir[ 1 ][ num_cut ];
+            faces.normal_zs [ nf ] = cut_dir[ 2 ][ num_cut ];
+            faces.nb_nodes  [ nf ] = nb_nodes;
+            faces.cut_ids   [ nf ] = cut_ids[ num_cut ];
+        }
+
         // repl node data
         for( int i = 0; i < nb_repl_nodes; ++i )
             nodes.local_at( repl_node_dsts[ i ] ).get_straight_content_from( nodes.local_at( repl_node_srcs[ i ] ) );
+        if ( new_nodes_size < nodes_size ) {
+            // move some nodes
+            TODO;
+        }
         nodes_size = new_nodes_size;
+
     }
 }
 

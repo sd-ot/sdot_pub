@@ -15,5 +15,12 @@ Avec `ou`, on alloue des numéros pour le remplacement des noeuds.
 
 
 
-Vérifier 
+* Ajout de la nouvelle face
+  Prop 1: on enregistre les numéros de edge.
+  Prop 2: on enregistre dans les noeuds le précédant dans la nouvelle face
+    => 
+* Optimisations dans le code généré.
+  => création du masque avec update si c'est plus rapide comme ça.
+
+* Gestion du cas où il y a moins de noeuds à la fin (déplacement des noeuds puis réécriture dans les faces)
 

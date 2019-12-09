@@ -70,8 +70,8 @@ public:
 
 private:
     friend class                         ConvexPolyhedron3Lt64Face<Pc>;
-    enum {                               max_nb_nodes = Lt64NodeBlock::nb };
-    enum {                               max_nb_edges = max_nb_nodes * ( max_nb_nodes + 1 ) / 2 };
+    enum {                               max_nb_nodes = 64 };
+    enum {                               max_nb_edges = max_nb_nodes * max_nb_nodes };
 
     // aligned structures
     ConvexPolyhedron3Lt64NodeBlock<Pc>   nodes;                    ///<
@@ -84,8 +84,8 @@ private:
     Pt                                   sphere_center;
     CI                                   sphere_cut_id;
 
-    std::uint64_t                        edge_num_cuts[ max_nb_edges ]; ///< to be compared to this->num_cut
-    std::uint8_t                         edge_cuts    [ max_nb_edges ]; ///< num node for each possible edge
+    std::uint64_t                        edge_num_cuts [ max_nb_edges ]; ///< to be compared to this->num_cut
+    std::uint8_t                         edge_cuts     [ max_nb_edges ]; ///< num node for each possible edge
 
     std::uint64_t                        num_cut_proc;
 };

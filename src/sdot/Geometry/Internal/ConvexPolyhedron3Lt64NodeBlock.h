@@ -14,7 +14,7 @@ public:
     using       TF                       = typename Carac::TF;
     using       Pt                       = Point3<TF>;
     enum {      nb                       = 64 }; ///< nb items
-    enum {      bs                       = nb }; ///< block size
+    enum {      bs                       = 2 * nb }; ///< block size
 
     // shortcuts
     using       Node                     = ConvexPolyhedron3Lt64NodeBlock;
@@ -25,9 +25,6 @@ public:
 
     const Node& local_at                 ( int index ) const { return *reinterpret_cast<const Node *>( &x + index ); }
     Node&       local_at                 ( int index ) { return *reinterpret_cast<Node *>( &x + index ); }
-
-    const Node& global_at                ( int index ) const { return *reinterpret_cast<const Node *>( &this[ index / bs ].x + index % bs ); }
-    Node&       global_at                ( int index ) { return *reinterpret_cast<Node *>( &this[ index / bs ].x + index % bs ); }
 
     bool        outside                  () const { return d > 0; }
     bool        inside                   () const { return ! outside(); }
