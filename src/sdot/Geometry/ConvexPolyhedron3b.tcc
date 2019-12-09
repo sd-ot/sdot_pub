@@ -89,6 +89,10 @@ ConvexPolyhedron3<Pc>::ConvexPolyhedron3() {
 
     for( std::size_t i = 0; i < max_nb_edges; ++i )
         edge_num_cuts[ i ] = 0;
+
+    for( std::size_t i = 0; i < ConvexPolyhedron3Lt64FaceBlock<Pc>::max_nb_faces_per_cell; ++i )
+        for( std::size_t j = 0; j < ConvexPolyhedron3Lt64FaceBlock<Pc>::max_nb_nodes_per_face; ++j )
+            faces.node_lists[ i ][ j ] = 0;
 }
 
 
@@ -316,6 +320,7 @@ std::size_t ConvexPolyhedron3<Pc>::plane_cut( std::array<const TF *,dim> cut_dir
             int nb_nodes = 0;
             std::uint64_t node_mask = 0;
             for( std::uint8_t i = last_cut_node; ; ) {
+                P( int( last_cut_node ), int( i ) );
                 if ( nb_nodes >= 16 )
                     additional_nums.push_back( i );
                 else
