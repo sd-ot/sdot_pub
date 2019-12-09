@@ -59,7 +59,7 @@ void make_case( std::ostream &os, int nb_nodes, std::bitset<8> outside_nodes ) {
             os << "    int max_node_" << edge << " = max( num_node_" << n0 << ", num_node_" << n1 << " );\n";
             os << "    int num_edge_" << edge << " = max_node_" << edge << " * ( max_node_" << edge << " + 1 ) / 2 + min_node_" << edge << ";\n";
             os << "    int num_node_" << edge << ";\n";
-            os << "    if ( edge_num_cuts[ num_edge_" << edge << " ] != num_cut ) {\n";
+            os << "    if ( edge_num_cuts[ num_edge_" << edge << " ] != num_cut_proc ) {\n";
             os << "        int pos_node;\n";
             os << "        if ( cou ) { // \n";
             os << "            int nn = tzcnt( cou );\n";
@@ -79,7 +79,7 @@ void make_case( std::ostream &os, int nb_nodes, std::bitset<8> outside_nodes ) {
             os << "        const Node &n1 = nodes.local_at( num_node_" << n1 << " );\n";
             os << "        nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );\n";
             os << "        edge_cuts[ num_edge_" << edge << " ] = num_node_" << edge<< ";\n";
-            os << "        edge_num_cuts[ num_edge_" << edge << " ] = num_cut;\n";
+            os << "        edge_num_cuts[ num_edge_" << edge << " ] = num_cut_proc;\n";
             os << "    } else\n";
             os << "        num_node_" << edge << " = edge_cuts[ num_edge_" << edge << " ];\n";
         }

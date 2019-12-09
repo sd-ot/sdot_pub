@@ -87,7 +87,7 @@ private:
     std::uint64_t                        edge_num_cuts[ max_nb_edges ]; ///< to be compared to this->num_cut
     std::uint8_t                         edge_cuts    [ max_nb_edges ]; ///< num node for each possible edge
 
-    std::uint64_t                        num_cut;
+    std::uint64_t                        num_cut_proc;
 };
 
 } // namespace sdot

@@ -41,3 +41,28 @@ TEST_CASE( "simd cmp" ) {
     } );
 }
 
+TEST_CASE( "simd aggregate double" ) {
+    using SV = SimdVec<double,16>;
+    SV s = SV::iota();
+
+    int cpt = 0;
+    for( auto v : s )
+        CHECK( v == cpt++ );
+
+    CHECK( ( s >  7 ) == 65280 );
+    CHECK( ( s > 12 ) == 57344 );
+}
+
+
+TEST_CASE( "simd aggregate std::uint64_t 16" ) {
+    using SV = SimdVec<std::uint64_t,16>;
+    SV s = SV::iota();
+
+    int cpt = 0;
+    for( auto v : s )
+        CHECK( v == cpt++ );
+
+    cpt = 0;
+    for( auto v : ( s << SV( 1 ) ) )
+        CHECK( v == 2 * cpt++ );
+}

@@ -83,9 +83,9 @@ ConvexPolyhedron3<Pc>::ConvexPolyhedron3( Pt p0, Pt p1, CI cut_id ) : ConvexPoly
 template<class Pc>
 ConvexPolyhedron3<Pc>::ConvexPolyhedron3() {
     sphere_radius = 0;
+    num_cut_proc  = 0;
     nodes_size    = 0;
     faces_size    = 0;
-    num_cut       = 0;
 
     for( std::size_t i = 0; i < max_nb_edges; ++i )
         edge_num_cuts[ i ] = 0;
@@ -152,6 +152,7 @@ void ConvexPolyhedron3<Pc>::write_to_stream( std::ostream &os, bool /*debug*/ ) 
         face.for_each_node_index( [&]( int index ) {
             os << " " << index;
         } );
+        os << " " << binary_repr( faces.node_masks[ face.num_face ] );
     } );
 }
 
@@ -259,7 +260,7 @@ void ConvexPolyhedron3<Pc>::plane_cut( std::array<const TF *,dim> cut_dir, const
         int end_nodes = max_nb_nodes;
         int nb_faces_to_rem = 0;
         std::uint64_t cou = ou; // copy of ou (to get indices for the new nodes)
-        ++num_cut;
+        ++num_cut_proc;
         auto handle_intersected_face = [&]( unsigned num_face ) {
             // 16 bits for outsideness of each node
             const auto &fnodes = faces.node_lists[ num_face ];

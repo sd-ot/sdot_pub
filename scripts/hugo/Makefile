@@ -1,9 +1,9 @@
 RUN = nsmake run -g3 # -D__AVX512F__ # --exec-with "valgrind --num-callers=64"
 
 all:
-	# ${RUN} tests/Support/test_Simd.cpp
+	${RUN} tests/Support/test_Simd.cpp
 	# ${RUN} tests/benchmarks/bench_Lgrid_2D_large.cpp
-	${RUN} tests/benchmarks/bench_ConvexPolyhedron3b.cpp
+	# ${RUN} tests/benchmarks/bench_ConvexPolyhedron3b.cpp
 
 lg:
 

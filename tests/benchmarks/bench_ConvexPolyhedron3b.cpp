@@ -8,8 +8,8 @@ using namespace sdot;
 // // nsmake cxx_name clang++
 //// nsmake cpp_flag -march=native
 //// nsmake cpp_flag -ffast-math
-// // nsmake cpp_flag -O3
-// // nsmake lib_flag -O3
+//// nsmake cpp_flag -O3
+//// nsmake lib_flag -O3
 
 struct Pc {
     enum { store_the_normals = false };
@@ -104,5 +104,5 @@ int main() {
         ds.push_back( nullptr );
     }
 
-    bench( xs, ys, zs, ps, ds, single_test ? 1 : 2 );
+    bench( xs, ys, zs, ps, ds, single_test ? 1 : 200000 );
 }

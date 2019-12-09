@@ -532,7 +532,7 @@ case_2: {
     int max_node_257 = max( num_node_0, num_node_1 );
     int num_edge_257 = max_node_257 * ( max_node_257 + 1 ) / 2 + min_node_257;
     int num_node_257;
-    if ( edge_num_cuts[ num_edge_257 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_257 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -552,7 +552,7 @@ case_2: {
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_257 ] = num_node_257;
-        edge_num_cuts[ num_edge_257 ] = num_cut;
+        edge_num_cuts[ num_edge_257 ] = num_cut_proc;
     } else
         num_node_257 = edge_cuts[ num_edge_257 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
@@ -560,7 +560,7 @@ case_2: {
     int max_node_259 = max( num_node_2, num_node_0 );
     int num_edge_259 = max_node_259 * ( max_node_259 + 1 ) / 2 + min_node_259;
     int num_node_259;
-    if ( edge_num_cuts[ num_edge_259 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_259 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -580,7 +580,7 @@ case_2: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_259 ] = num_node_259;
-        edge_num_cuts[ num_edge_259 ] = num_cut;
+        edge_num_cuts[ num_edge_259 ] = num_cut_proc;
     } else
         num_node_259 = edge_cuts[ num_edge_259 ];
     // 257,1,2,259
@@ -601,7 +601,7 @@ case_7: {
     int max_node_257 = max( num_node_0, num_node_1 );
     int num_edge_257 = max_node_257 * ( max_node_257 + 1 ) / 2 + min_node_257;
     int num_node_257;
-    if ( edge_num_cuts[ num_edge_257 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_257 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -621,7 +621,7 @@ case_7: {
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_257 ] = num_node_257;
-        edge_num_cuts[ num_edge_257 ] = num_cut;
+        edge_num_cuts[ num_edge_257 ] = num_cut_proc;
     } else
         num_node_257 = edge_cuts[ num_edge_257 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
@@ -629,7 +629,7 @@ case_7: {
     int max_node_259 = max( num_node_2, num_node_0 );
     int num_edge_259 = max_node_259 * ( max_node_259 + 1 ) / 2 + min_node_259;
     int num_node_259;
-    if ( edge_num_cuts[ num_edge_259 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_259 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -649,7 +649,7 @@ case_7: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_259 ] = num_node_259;
-        edge_num_cuts[ num_edge_259 ] = num_cut;
+        edge_num_cuts[ num_edge_259 ] = num_cut_proc;
     } else
         num_node_259 = edge_cuts[ num_edge_259 ];
     // 259,0,257
@@ -668,7 +668,7 @@ case_3: {
     int max_node_257 = max( num_node_0, num_node_1 );
     int num_edge_257 = max_node_257 * ( max_node_257 + 1 ) / 2 + min_node_257;
     int num_node_257;
-    if ( edge_num_cuts[ num_edge_257 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_257 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -688,7 +688,7 @@ case_3: {
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_257 ] = num_node_257;
-        edge_num_cuts[ num_edge_257 ] = num_cut;
+        edge_num_cuts[ num_edge_257 ] = num_cut_proc;
     } else
         num_node_257 = edge_cuts[ num_edge_257 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
@@ -696,7 +696,7 @@ case_3: {
     int max_node_260 = max( num_node_1, num_node_2 );
     int num_edge_260 = max_node_260 * ( max_node_260 + 1 ) / 2 + min_node_260;
     int num_node_260;
-    if ( edge_num_cuts[ num_edge_260 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_260 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -716,7 +716,7 @@ case_3: {
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_260 ] = num_node_260;
-        edge_num_cuts[ num_edge_260 ] = num_cut;
+        edge_num_cuts[ num_edge_260 ] = num_cut_proc;
     } else
         num_node_260 = edge_cuts[ num_edge_260 ];
     // 0,257,260,2
@@ -738,7 +738,7 @@ case_10: {
     int max_node_257 = max( num_node_0, num_node_1 );
     int num_edge_257 = max_node_257 * ( max_node_257 + 1 ) / 2 + min_node_257;
     int num_node_257;
-    if ( edge_num_cuts[ num_edge_257 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_257 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -758,7 +758,7 @@ case_10: {
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_257 ] = num_node_257;
-        edge_num_cuts[ num_edge_257 ] = num_cut;
+        edge_num_cuts[ num_edge_257 ] = num_cut_proc;
     } else
         num_node_257 = edge_cuts[ num_edge_257 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
@@ -766,7 +766,7 @@ case_10: {
     int max_node_260 = max( num_node_1, num_node_2 );
     int num_edge_260 = max_node_260 * ( max_node_260 + 1 ) / 2 + min_node_260;
     int num_node_260;
-    if ( edge_num_cuts[ num_edge_260 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_260 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -786,7 +786,7 @@ case_10: {
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_260 ] = num_node_260;
-        edge_num_cuts[ num_edge_260 ] = num_cut;
+        edge_num_cuts[ num_edge_260 ] = num_cut_proc;
     } else
         num_node_260 = edge_cuts[ num_edge_260 ];
     // 0,257,260,2,3
@@ -810,7 +810,7 @@ case_23: {
     int max_node_257 = max( num_node_0, num_node_1 );
     int num_edge_257 = max_node_257 * ( max_node_257 + 1 ) / 2 + min_node_257;
     int num_node_257;
-    if ( edge_num_cuts[ num_edge_257 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_257 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -830,7 +830,7 @@ case_23: {
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_257 ] = num_node_257;
-        edge_num_cuts[ num_edge_257 ] = num_cut;
+        edge_num_cuts[ num_edge_257 ] = num_cut_proc;
     } else
         num_node_257 = edge_cuts[ num_edge_257 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
@@ -838,7 +838,7 @@ case_23: {
     int max_node_260 = max( num_node_1, num_node_2 );
     int num_edge_260 = max_node_260 * ( max_node_260 + 1 ) / 2 + min_node_260;
     int num_node_260;
-    if ( edge_num_cuts[ num_edge_260 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_260 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -858,7 +858,7 @@ case_23: {
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_260 ] = num_node_260;
-        edge_num_cuts[ num_edge_260 ] = num_cut;
+        edge_num_cuts[ num_edge_260 ] = num_cut_proc;
     } else
         num_node_260 = edge_cuts[ num_edge_260 ];
     // 0,257,260,2,3,4
@@ -884,7 +884,7 @@ case_46: {
     int max_node_257 = max( num_node_0, num_node_1 );
     int num_edge_257 = max_node_257 * ( max_node_257 + 1 ) / 2 + min_node_257;
     int num_node_257;
-    if ( edge_num_cuts[ num_edge_257 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_257 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -904,7 +904,7 @@ case_46: {
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_257 ] = num_node_257;
-        edge_num_cuts[ num_edge_257 ] = num_cut;
+        edge_num_cuts[ num_edge_257 ] = num_cut_proc;
     } else
         num_node_257 = edge_cuts[ num_edge_257 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
@@ -912,7 +912,7 @@ case_46: {
     int max_node_260 = max( num_node_1, num_node_2 );
     int num_edge_260 = max_node_260 * ( max_node_260 + 1 ) / 2 + min_node_260;
     int num_node_260;
-    if ( edge_num_cuts[ num_edge_260 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_260 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -932,7 +932,7 @@ case_46: {
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_260 ] = num_node_260;
-        edge_num_cuts[ num_edge_260 ] = num_cut;
+        edge_num_cuts[ num_edge_260 ] = num_cut_proc;
     } else
         num_node_260 = edge_cuts[ num_edge_260 ];
     // 0,257,260,2,3,4,5
@@ -960,7 +960,7 @@ case_86: {
     int max_node_257 = max( num_node_0, num_node_1 );
     int num_edge_257 = max_node_257 * ( max_node_257 + 1 ) / 2 + min_node_257;
     int num_node_257;
-    if ( edge_num_cuts[ num_edge_257 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_257 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -980,7 +980,7 @@ case_86: {
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_257 ] = num_node_257;
-        edge_num_cuts[ num_edge_257 ] = num_cut;
+        edge_num_cuts[ num_edge_257 ] = num_cut_proc;
     } else
         num_node_257 = edge_cuts[ num_edge_257 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
@@ -988,7 +988,7 @@ case_86: {
     int max_node_260 = max( num_node_1, num_node_2 );
     int num_edge_260 = max_node_260 * ( max_node_260 + 1 ) / 2 + min_node_260;
     int num_node_260;
-    if ( edge_num_cuts[ num_edge_260 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_260 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -1008,7 +1008,7 @@ case_86: {
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_260 ] = num_node_260;
-        edge_num_cuts[ num_edge_260 ] = num_cut;
+        edge_num_cuts[ num_edge_260 ] = num_cut_proc;
     } else
         num_node_260 = edge_cuts[ num_edge_260 ];
     // 0,257,260,2,3,4,5,6
@@ -1038,7 +1038,7 @@ case_156: {
     int max_node_257 = max( num_node_0, num_node_1 );
     int num_edge_257 = max_node_257 * ( max_node_257 + 1 ) / 2 + min_node_257;
     int num_node_257;
-    if ( edge_num_cuts[ num_edge_257 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_257 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -1058,7 +1058,7 @@ case_156: {
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_257 ] = num_node_257;
-        edge_num_cuts[ num_edge_257 ] = num_cut;
+        edge_num_cuts[ num_edge_257 ] = num_cut_proc;
     } else
         num_node_257 = edge_cuts[ num_edge_257 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
@@ -1066,7 +1066,7 @@ case_156: {
     int max_node_260 = max( num_node_1, num_node_2 );
     int num_edge_260 = max_node_260 * ( max_node_260 + 1 ) / 2 + min_node_260;
     int num_node_260;
-    if ( edge_num_cuts[ num_edge_260 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_260 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -1086,7 +1086,7 @@ case_156: {
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_260 ] = num_node_260;
-        edge_num_cuts[ num_edge_260 ] = num_cut;
+        edge_num_cuts[ num_edge_260 ] = num_cut_proc;
     } else
         num_node_260 = edge_cuts[ num_edge_260 ];
     // 0,257,260,2,3,4,5,6,7
@@ -1118,7 +1118,7 @@ case_20: {
     int max_node_257 = max( num_node_0, num_node_1 );
     int num_edge_257 = max_node_257 * ( max_node_257 + 1 ) / 2 + min_node_257;
     int num_node_257;
-    if ( edge_num_cuts[ num_edge_257 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_257 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -1138,7 +1138,7 @@ case_20: {
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_257 ] = num_node_257;
-        edge_num_cuts[ num_edge_257 ] = num_cut;
+        edge_num_cuts[ num_edge_257 ] = num_cut_proc;
     } else
         num_node_257 = edge_cuts[ num_edge_257 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
@@ -1146,7 +1146,7 @@ case_20: {
     int max_node_260 = max( num_node_1, num_node_2 );
     int num_edge_260 = max_node_260 * ( max_node_260 + 1 ) / 2 + min_node_260;
     int num_node_260;
-    if ( edge_num_cuts[ num_edge_260 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_260 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -1166,7 +1166,7 @@ case_20: {
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_260 ] = num_node_260;
-        edge_num_cuts[ num_edge_260 ] = num_cut;
+        edge_num_cuts[ num_edge_260 ] = num_cut_proc;
     } else
         num_node_260 = edge_cuts[ num_edge_260 ];
     // 257,1,260
@@ -1186,7 +1186,7 @@ case_6: {
     int max_node_257 = max( num_node_0, num_node_1 );
     int num_edge_257 = max_node_257 * ( max_node_257 + 1 ) / 2 + min_node_257;
     int num_node_257;
-    if ( edge_num_cuts[ num_edge_257 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_257 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -1206,7 +1206,7 @@ case_6: {
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_257 ] = num_node_257;
-        edge_num_cuts[ num_edge_257 ] = num_cut;
+        edge_num_cuts[ num_edge_257 ] = num_cut_proc;
     } else
         num_node_257 = edge_cuts[ num_edge_257 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
@@ -1214,7 +1214,7 @@ case_6: {
     int max_node_260 = max( num_node_1, num_node_2 );
     int num_edge_260 = max_node_260 * ( max_node_260 + 1 ) / 2 + min_node_260;
     int num_node_260;
-    if ( edge_num_cuts[ num_edge_260 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_260 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -1234,7 +1234,7 @@ case_6: {
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_260 ] = num_node_260;
-        edge_num_cuts[ num_edge_260 ] = num_cut;
+        edge_num_cuts[ num_edge_260 ] = num_cut_proc;
     } else
         num_node_260 = edge_cuts[ num_edge_260 ];
     // 257,1,260
@@ -1253,7 +1253,7 @@ case_13: {
     int max_node_257 = max( num_node_0, num_node_1 );
     int num_edge_257 = max_node_257 * ( max_node_257 + 1 ) / 2 + min_node_257;
     int num_node_257;
-    if ( edge_num_cuts[ num_edge_257 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_257 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -1273,7 +1273,7 @@ case_13: {
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_257 ] = num_node_257;
-        edge_num_cuts[ num_edge_257 ] = num_cut;
+        edge_num_cuts[ num_edge_257 ] = num_cut_proc;
     } else
         num_node_257 = edge_cuts[ num_edge_257 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
@@ -1281,7 +1281,7 @@ case_13: {
     int max_node_260 = max( num_node_1, num_node_2 );
     int num_edge_260 = max_node_260 * ( max_node_260 + 1 ) / 2 + min_node_260;
     int num_node_260;
-    if ( edge_num_cuts[ num_edge_260 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_260 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -1301,7 +1301,7 @@ case_13: {
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_260 ] = num_node_260;
-        edge_num_cuts[ num_edge_260 ] = num_cut;
+        edge_num_cuts[ num_edge_260 ] = num_cut_proc;
     } else
         num_node_260 = edge_cuts[ num_edge_260 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
@@ -1309,7 +1309,7 @@ case_13: {
     int max_node_264 = max( num_node_2, num_node_3 );
     int num_edge_264 = max_node_264 * ( max_node_264 + 1 ) / 2 + min_node_264;
     int num_node_264;
-    if ( edge_num_cuts[ num_edge_264 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_264 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -1329,14 +1329,14 @@ case_13: {
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_264 ] = num_node_264;
-        edge_num_cuts[ num_edge_264 ] = num_cut;
+        edge_num_cuts[ num_edge_264 ] = num_cut_proc;
     } else
         num_node_264 = edge_cuts[ num_edge_264 ];
     int min_node_262 = min( num_node_3, num_node_0 );
     int max_node_262 = max( num_node_3, num_node_0 );
     int num_edge_262 = max_node_262 * ( max_node_262 + 1 ) / 2 + min_node_262;
     int num_node_262;
-    if ( edge_num_cuts[ num_edge_262 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_262 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -1356,7 +1356,7 @@ case_13: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_262 ] = num_node_262;
-        edge_num_cuts[ num_edge_262 ] = num_cut;
+        edge_num_cuts[ num_edge_262 ] = num_cut_proc;
     } else
         num_node_262 = edge_cuts[ num_edge_262 ];
     break;
@@ -1368,7 +1368,7 @@ case_26: {
     int max_node_257 = max( num_node_0, num_node_1 );
     int num_edge_257 = max_node_257 * ( max_node_257 + 1 ) / 2 + min_node_257;
     int num_node_257;
-    if ( edge_num_cuts[ num_edge_257 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_257 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -1388,7 +1388,7 @@ case_26: {
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_257 ] = num_node_257;
-        edge_num_cuts[ num_edge_257 ] = num_cut;
+        edge_num_cuts[ num_edge_257 ] = num_cut_proc;
     } else
         num_node_257 = edge_cuts[ num_edge_257 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
@@ -1396,7 +1396,7 @@ case_26: {
     int max_node_260 = max( num_node_1, num_node_2 );
     int num_edge_260 = max_node_260 * ( max_node_260 + 1 ) / 2 + min_node_260;
     int num_node_260;
-    if ( edge_num_cuts[ num_edge_260 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_260 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -1416,7 +1416,7 @@ case_26: {
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_260 ] = num_node_260;
-        edge_num_cuts[ num_edge_260 ] = num_cut;
+        edge_num_cuts[ num_edge_260 ] = num_cut_proc;
     } else
         num_node_260 = edge_cuts[ num_edge_260 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
@@ -1424,7 +1424,7 @@ case_26: {
     int max_node_264 = max( num_node_2, num_node_3 );
     int num_edge_264 = max_node_264 * ( max_node_264 + 1 ) / 2 + min_node_264;
     int num_node_264;
-    if ( edge_num_cuts[ num_edge_264 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_264 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -1444,7 +1444,7 @@ case_26: {
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_264 ] = num_node_264;
-        edge_num_cuts[ num_edge_264 ] = num_cut;
+        edge_num_cuts[ num_edge_264 ] = num_cut_proc;
     } else
         num_node_264 = edge_cuts[ num_edge_264 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
@@ -1452,7 +1452,7 @@ case_26: {
     int max_node_266 = max( num_node_4, num_node_0 );
     int num_edge_266 = max_node_266 * ( max_node_266 + 1 ) / 2 + min_node_266;
     int num_node_266;
-    if ( edge_num_cuts[ num_edge_266 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_266 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -1472,7 +1472,7 @@ case_26: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_266 ] = num_node_266;
-        edge_num_cuts[ num_edge_266 ] = num_cut;
+        edge_num_cuts[ num_edge_266 ] = num_cut_proc;
     } else
         num_node_266 = edge_cuts[ num_edge_266 ];
     break;
@@ -1484,7 +1484,7 @@ case_31: {
     int max_node_257 = max( num_node_0, num_node_1 );
     int num_edge_257 = max_node_257 * ( max_node_257 + 1 ) / 2 + min_node_257;
     int num_node_257;
-    if ( edge_num_cuts[ num_edge_257 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_257 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -1504,7 +1504,7 @@ case_31: {
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_257 ] = num_node_257;
-        edge_num_cuts[ num_edge_257 ] = num_cut;
+        edge_num_cuts[ num_edge_257 ] = num_cut_proc;
     } else
         num_node_257 = edge_cuts[ num_edge_257 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
@@ -1512,7 +1512,7 @@ case_31: {
     int max_node_260 = max( num_node_1, num_node_2 );
     int num_edge_260 = max_node_260 * ( max_node_260 + 1 ) / 2 + min_node_260;
     int num_node_260;
-    if ( edge_num_cuts[ num_edge_260 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_260 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -1532,7 +1532,7 @@ case_31: {
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_260 ] = num_node_260;
-        edge_num_cuts[ num_edge_260 ] = num_cut;
+        edge_num_cuts[ num_edge_260 ] = num_cut_proc;
     } else
         num_node_260 = edge_cuts[ num_edge_260 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
@@ -1540,7 +1540,7 @@ case_31: {
     int max_node_264 = max( num_node_2, num_node_3 );
     int num_edge_264 = max_node_264 * ( max_node_264 + 1 ) / 2 + min_node_264;
     int num_node_264;
-    if ( edge_num_cuts[ num_edge_264 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_264 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -1560,7 +1560,7 @@ case_31: {
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_264 ] = num_node_264;
-        edge_num_cuts[ num_edge_264 ] = num_cut;
+        edge_num_cuts[ num_edge_264 ] = num_cut_proc;
     } else
         num_node_264 = edge_cuts[ num_edge_264 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
@@ -1568,7 +1568,7 @@ case_31: {
     int max_node_269 = max( num_node_3, num_node_4 );
     int num_edge_269 = max_node_269 * ( max_node_269 + 1 ) / 2 + min_node_269;
     int num_node_269;
-    if ( edge_num_cuts[ num_edge_269 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_269 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -1588,7 +1588,7 @@ case_31: {
         const Node &n1 = nodes.local_at( num_node_4 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_269 ] = num_node_269;
-        edge_num_cuts[ num_edge_269 ] = num_cut;
+        edge_num_cuts[ num_edge_269 ] = num_cut_proc;
     } else
         num_node_269 = edge_cuts[ num_edge_269 ];
     break;
@@ -1600,7 +1600,7 @@ case_64: {
     int max_node_257 = max( num_node_0, num_node_1 );
     int num_edge_257 = max_node_257 * ( max_node_257 + 1 ) / 2 + min_node_257;
     int num_node_257;
-    if ( edge_num_cuts[ num_edge_257 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_257 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -1620,7 +1620,7 @@ case_64: {
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_257 ] = num_node_257;
-        edge_num_cuts[ num_edge_257 ] = num_cut;
+        edge_num_cuts[ num_edge_257 ] = num_cut_proc;
     } else
         num_node_257 = edge_cuts[ num_edge_257 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
@@ -1628,7 +1628,7 @@ case_64: {
     int max_node_260 = max( num_node_1, num_node_2 );
     int num_edge_260 = max_node_260 * ( max_node_260 + 1 ) / 2 + min_node_260;
     int num_node_260;
-    if ( edge_num_cuts[ num_edge_260 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_260 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -1648,7 +1648,7 @@ case_64: {
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_260 ] = num_node_260;
-        edge_num_cuts[ num_edge_260 ] = num_cut;
+        edge_num_cuts[ num_edge_260 ] = num_cut_proc;
     } else
         num_node_260 = edge_cuts[ num_edge_260 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
@@ -1656,7 +1656,7 @@ case_64: {
     int max_node_264 = max( num_node_2, num_node_3 );
     int num_edge_264 = max_node_264 * ( max_node_264 + 1 ) / 2 + min_node_264;
     int num_node_264;
-    if ( edge_num_cuts[ num_edge_264 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_264 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -1676,7 +1676,7 @@ case_64: {
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_264 ] = num_node_264;
-        edge_num_cuts[ num_edge_264 ] = num_cut;
+        edge_num_cuts[ num_edge_264 ] = num_cut_proc;
     } else
         num_node_264 = edge_cuts[ num_edge_264 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
@@ -1684,7 +1684,7 @@ case_64: {
     int max_node_269 = max( num_node_3, num_node_4 );
     int num_edge_269 = max_node_269 * ( max_node_269 + 1 ) / 2 + min_node_269;
     int num_node_269;
-    if ( edge_num_cuts[ num_edge_269 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_269 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -1704,7 +1704,7 @@ case_64: {
         const Node &n1 = nodes.local_at( num_node_4 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_269 ] = num_node_269;
-        edge_num_cuts[ num_edge_269 ] = num_cut;
+        edge_num_cuts[ num_edge_269 ] = num_cut_proc;
     } else
         num_node_269 = edge_cuts[ num_edge_269 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
@@ -1712,7 +1712,7 @@ case_64: {
     int max_node_275 = max( num_node_4, num_node_5 );
     int num_edge_275 = max_node_275 * ( max_node_275 + 1 ) / 2 + min_node_275;
     int num_node_275;
-    if ( edge_num_cuts[ num_edge_275 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_275 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -1732,14 +1732,14 @@ case_64: {
         const Node &n1 = nodes.local_at( num_node_5 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_275 ] = num_node_275;
-        edge_num_cuts[ num_edge_275 ] = num_cut;
+        edge_num_cuts[ num_edge_275 ] = num_cut_proc;
     } else
         num_node_275 = edge_cuts[ num_edge_275 ];
     int min_node_271 = min( num_node_5, num_node_0 );
     int max_node_271 = max( num_node_5, num_node_0 );
     int num_edge_271 = max_node_271 * ( max_node_271 + 1 ) / 2 + min_node_271;
     int num_node_271;
-    if ( edge_num_cuts[ num_edge_271 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_271 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -1759,7 +1759,7 @@ case_64: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_271 ] = num_node_271;
-        edge_num_cuts[ num_edge_271 ] = num_cut;
+        edge_num_cuts[ num_edge_271 ] = num_cut_proc;
     } else
         num_node_271 = edge_cuts[ num_edge_271 ];
     break;
@@ -1771,7 +1771,7 @@ case_102: {
     int max_node_257 = max( num_node_0, num_node_1 );
     int num_edge_257 = max_node_257 * ( max_node_257 + 1 ) / 2 + min_node_257;
     int num_node_257;
-    if ( edge_num_cuts[ num_edge_257 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_257 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -1791,7 +1791,7 @@ case_102: {
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_257 ] = num_node_257;
-        edge_num_cuts[ num_edge_257 ] = num_cut;
+        edge_num_cuts[ num_edge_257 ] = num_cut_proc;
     } else
         num_node_257 = edge_cuts[ num_edge_257 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
@@ -1799,7 +1799,7 @@ case_102: {
     int max_node_260 = max( num_node_1, num_node_2 );
     int num_edge_260 = max_node_260 * ( max_node_260 + 1 ) / 2 + min_node_260;
     int num_node_260;
-    if ( edge_num_cuts[ num_edge_260 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_260 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -1819,7 +1819,7 @@ case_102: {
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_260 ] = num_node_260;
-        edge_num_cuts[ num_edge_260 ] = num_cut;
+        edge_num_cuts[ num_edge_260 ] = num_cut_proc;
     } else
         num_node_260 = edge_cuts[ num_edge_260 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
@@ -1827,7 +1827,7 @@ case_102: {
     int max_node_264 = max( num_node_2, num_node_3 );
     int num_edge_264 = max_node_264 * ( max_node_264 + 1 ) / 2 + min_node_264;
     int num_node_264;
-    if ( edge_num_cuts[ num_edge_264 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_264 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -1847,7 +1847,7 @@ case_102: {
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_264 ] = num_node_264;
-        edge_num_cuts[ num_edge_264 ] = num_cut;
+        edge_num_cuts[ num_edge_264 ] = num_cut_proc;
     } else
         num_node_264 = edge_cuts[ num_edge_264 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
@@ -1855,7 +1855,7 @@ case_102: {
     int max_node_269 = max( num_node_3, num_node_4 );
     int num_edge_269 = max_node_269 * ( max_node_269 + 1 ) / 2 + min_node_269;
     int num_node_269;
-    if ( edge_num_cuts[ num_edge_269 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_269 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -1875,7 +1875,7 @@ case_102: {
         const Node &n1 = nodes.local_at( num_node_4 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_269 ] = num_node_269;
-        edge_num_cuts[ num_edge_269 ] = num_cut;
+        edge_num_cuts[ num_edge_269 ] = num_cut_proc;
     } else
         num_node_269 = edge_cuts[ num_edge_269 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
@@ -1883,7 +1883,7 @@ case_102: {
     int max_node_275 = max( num_node_4, num_node_5 );
     int num_edge_275 = max_node_275 * ( max_node_275 + 1 ) / 2 + min_node_275;
     int num_node_275;
-    if ( edge_num_cuts[ num_edge_275 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_275 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -1903,7 +1903,7 @@ case_102: {
         const Node &n1 = nodes.local_at( num_node_5 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_275 ] = num_node_275;
-        edge_num_cuts[ num_edge_275 ] = num_cut;
+        edge_num_cuts[ num_edge_275 ] = num_cut_proc;
     } else
         num_node_275 = edge_cuts[ num_edge_275 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
@@ -1911,7 +1911,7 @@ case_102: {
     int max_node_277 = max( num_node_6, num_node_0 );
     int num_edge_277 = max_node_277 * ( max_node_277 + 1 ) / 2 + min_node_277;
     int num_node_277;
-    if ( edge_num_cuts[ num_edge_277 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_277 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -1931,7 +1931,7 @@ case_102: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_277 ] = num_node_277;
-        edge_num_cuts[ num_edge_277 ] = num_cut;
+        edge_num_cuts[ num_edge_277 ] = num_cut_proc;
     } else
         num_node_277 = edge_cuts[ num_edge_277 ];
     break;
@@ -1943,7 +1943,7 @@ case_121: {
     int max_node_257 = max( num_node_0, num_node_1 );
     int num_edge_257 = max_node_257 * ( max_node_257 + 1 ) / 2 + min_node_257;
     int num_node_257;
-    if ( edge_num_cuts[ num_edge_257 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_257 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -1963,7 +1963,7 @@ case_121: {
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_257 ] = num_node_257;
-        edge_num_cuts[ num_edge_257 ] = num_cut;
+        edge_num_cuts[ num_edge_257 ] = num_cut_proc;
     } else
         num_node_257 = edge_cuts[ num_edge_257 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
@@ -1971,7 +1971,7 @@ case_121: {
     int max_node_260 = max( num_node_1, num_node_2 );
     int num_edge_260 = max_node_260 * ( max_node_260 + 1 ) / 2 + min_node_260;
     int num_node_260;
-    if ( edge_num_cuts[ num_edge_260 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_260 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -1991,7 +1991,7 @@ case_121: {
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_260 ] = num_node_260;
-        edge_num_cuts[ num_edge_260 ] = num_cut;
+        edge_num_cuts[ num_edge_260 ] = num_cut_proc;
     } else
         num_node_260 = edge_cuts[ num_edge_260 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
@@ -1999,7 +1999,7 @@ case_121: {
     int max_node_264 = max( num_node_2, num_node_3 );
     int num_edge_264 = max_node_264 * ( max_node_264 + 1 ) / 2 + min_node_264;
     int num_node_264;
-    if ( edge_num_cuts[ num_edge_264 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_264 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -2019,7 +2019,7 @@ case_121: {
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_264 ] = num_node_264;
-        edge_num_cuts[ num_edge_264 ] = num_cut;
+        edge_num_cuts[ num_edge_264 ] = num_cut_proc;
     } else
         num_node_264 = edge_cuts[ num_edge_264 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
@@ -2027,7 +2027,7 @@ case_121: {
     int max_node_269 = max( num_node_3, num_node_4 );
     int num_edge_269 = max_node_269 * ( max_node_269 + 1 ) / 2 + min_node_269;
     int num_node_269;
-    if ( edge_num_cuts[ num_edge_269 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_269 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -2047,7 +2047,7 @@ case_121: {
         const Node &n1 = nodes.local_at( num_node_4 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_269 ] = num_node_269;
-        edge_num_cuts[ num_edge_269 ] = num_cut;
+        edge_num_cuts[ num_edge_269 ] = num_cut_proc;
     } else
         num_node_269 = edge_cuts[ num_edge_269 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
@@ -2055,7 +2055,7 @@ case_121: {
     int max_node_275 = max( num_node_4, num_node_5 );
     int num_edge_275 = max_node_275 * ( max_node_275 + 1 ) / 2 + min_node_275;
     int num_node_275;
-    if ( edge_num_cuts[ num_edge_275 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_275 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -2075,7 +2075,7 @@ case_121: {
         const Node &n1 = nodes.local_at( num_node_5 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_275 ] = num_node_275;
-        edge_num_cuts[ num_edge_275 ] = num_cut;
+        edge_num_cuts[ num_edge_275 ] = num_cut_proc;
     } else
         num_node_275 = edge_cuts[ num_edge_275 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
@@ -2083,7 +2083,7 @@ case_121: {
     int max_node_282 = max( num_node_5, num_node_6 );
     int num_edge_282 = max_node_282 * ( max_node_282 + 1 ) / 2 + min_node_282;
     int num_node_282;
-    if ( edge_num_cuts[ num_edge_282 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_282 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -2103,7 +2103,7 @@ case_121: {
         const Node &n1 = nodes.local_at( num_node_6 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_282 ] = num_node_282;
-        edge_num_cuts[ num_edge_282 ] = num_cut;
+        edge_num_cuts[ num_edge_282 ] = num_cut_proc;
     } else
         num_node_282 = edge_cuts[ num_edge_282 ];
     break;
@@ -2115,7 +2115,7 @@ case_223: {
     int max_node_257 = max( num_node_0, num_node_1 );
     int num_edge_257 = max_node_257 * ( max_node_257 + 1 ) / 2 + min_node_257;
     int num_node_257;
-    if ( edge_num_cuts[ num_edge_257 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_257 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -2135,7 +2135,7 @@ case_223: {
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_257 ] = num_node_257;
-        edge_num_cuts[ num_edge_257 ] = num_cut;
+        edge_num_cuts[ num_edge_257 ] = num_cut_proc;
     } else
         num_node_257 = edge_cuts[ num_edge_257 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
@@ -2143,7 +2143,7 @@ case_223: {
     int max_node_260 = max( num_node_1, num_node_2 );
     int num_edge_260 = max_node_260 * ( max_node_260 + 1 ) / 2 + min_node_260;
     int num_node_260;
-    if ( edge_num_cuts[ num_edge_260 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_260 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -2163,7 +2163,7 @@ case_223: {
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_260 ] = num_node_260;
-        edge_num_cuts[ num_edge_260 ] = num_cut;
+        edge_num_cuts[ num_edge_260 ] = num_cut_proc;
     } else
         num_node_260 = edge_cuts[ num_edge_260 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
@@ -2171,7 +2171,7 @@ case_223: {
     int max_node_264 = max( num_node_2, num_node_3 );
     int num_edge_264 = max_node_264 * ( max_node_264 + 1 ) / 2 + min_node_264;
     int num_node_264;
-    if ( edge_num_cuts[ num_edge_264 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_264 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -2191,7 +2191,7 @@ case_223: {
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_264 ] = num_node_264;
-        edge_num_cuts[ num_edge_264 ] = num_cut;
+        edge_num_cuts[ num_edge_264 ] = num_cut_proc;
     } else
         num_node_264 = edge_cuts[ num_edge_264 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
@@ -2199,7 +2199,7 @@ case_223: {
     int max_node_269 = max( num_node_3, num_node_4 );
     int num_edge_269 = max_node_269 * ( max_node_269 + 1 ) / 2 + min_node_269;
     int num_node_269;
-    if ( edge_num_cuts[ num_edge_269 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_269 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -2219,7 +2219,7 @@ case_223: {
         const Node &n1 = nodes.local_at( num_node_4 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_269 ] = num_node_269;
-        edge_num_cuts[ num_edge_269 ] = num_cut;
+        edge_num_cuts[ num_edge_269 ] = num_cut_proc;
     } else
         num_node_269 = edge_cuts[ num_edge_269 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
@@ -2227,7 +2227,7 @@ case_223: {
     int max_node_275 = max( num_node_4, num_node_5 );
     int num_edge_275 = max_node_275 * ( max_node_275 + 1 ) / 2 + min_node_275;
     int num_node_275;
-    if ( edge_num_cuts[ num_edge_275 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_275 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -2247,7 +2247,7 @@ case_223: {
         const Node &n1 = nodes.local_at( num_node_5 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_275 ] = num_node_275;
-        edge_num_cuts[ num_edge_275 ] = num_cut;
+        edge_num_cuts[ num_edge_275 ] = num_cut_proc;
     } else
         num_node_275 = edge_cuts[ num_edge_275 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
@@ -2255,7 +2255,7 @@ case_223: {
     int max_node_282 = max( num_node_5, num_node_6 );
     int num_edge_282 = max_node_282 * ( max_node_282 + 1 ) / 2 + min_node_282;
     int num_node_282;
-    if ( edge_num_cuts[ num_edge_282 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_282 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -2275,7 +2275,7 @@ case_223: {
         const Node &n1 = nodes.local_at( num_node_6 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_282 ] = num_node_282;
-        edge_num_cuts[ num_edge_282 ] = num_cut;
+        edge_num_cuts[ num_edge_282 ] = num_cut_proc;
     } else
         num_node_282 = edge_cuts[ num_edge_282 ];
     int num_node_7 = faces.node_lists[ num_face ][ 7 ];
@@ -2283,7 +2283,7 @@ case_223: {
     int max_node_290 = max( num_node_6, num_node_7 );
     int num_edge_290 = max_node_290 * ( max_node_290 + 1 ) / 2 + min_node_290;
     int num_node_290;
-    if ( edge_num_cuts[ num_edge_290 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_290 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -2303,14 +2303,14 @@ case_223: {
         const Node &n1 = nodes.local_at( num_node_7 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_290 ] = num_node_290;
-        edge_num_cuts[ num_edge_290 ] = num_cut;
+        edge_num_cuts[ num_edge_290 ] = num_cut_proc;
     } else
         num_node_290 = edge_cuts[ num_edge_290 ];
     int min_node_284 = min( num_node_7, num_node_0 );
     int max_node_284 = max( num_node_7, num_node_0 );
     int num_edge_284 = max_node_284 * ( max_node_284 + 1 ) / 2 + min_node_284;
     int num_node_284;
-    if ( edge_num_cuts[ num_edge_284 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_284 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -2330,7 +2330,7 @@ case_223: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_284 ] = num_node_284;
-        edge_num_cuts[ num_edge_284 ] = num_cut;
+        edge_num_cuts[ num_edge_284 ] = num_cut_proc;
     } else
         num_node_284 = edge_cuts[ num_edge_284 ];
     break;
@@ -2342,7 +2342,7 @@ case_244: {
     int max_node_257 = max( num_node_0, num_node_1 );
     int num_edge_257 = max_node_257 * ( max_node_257 + 1 ) / 2 + min_node_257;
     int num_node_257;
-    if ( edge_num_cuts[ num_edge_257 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_257 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -2362,7 +2362,7 @@ case_244: {
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_257 ] = num_node_257;
-        edge_num_cuts[ num_edge_257 ] = num_cut;
+        edge_num_cuts[ num_edge_257 ] = num_cut_proc;
     } else
         num_node_257 = edge_cuts[ num_edge_257 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
@@ -2370,7 +2370,7 @@ case_244: {
     int max_node_260 = max( num_node_1, num_node_2 );
     int num_edge_260 = max_node_260 * ( max_node_260 + 1 ) / 2 + min_node_260;
     int num_node_260;
-    if ( edge_num_cuts[ num_edge_260 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_260 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -2390,7 +2390,7 @@ case_244: {
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_260 ] = num_node_260;
-        edge_num_cuts[ num_edge_260 ] = num_cut;
+        edge_num_cuts[ num_edge_260 ] = num_cut_proc;
     } else
         num_node_260 = edge_cuts[ num_edge_260 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
@@ -2398,7 +2398,7 @@ case_244: {
     int max_node_264 = max( num_node_2, num_node_3 );
     int num_edge_264 = max_node_264 * ( max_node_264 + 1 ) / 2 + min_node_264;
     int num_node_264;
-    if ( edge_num_cuts[ num_edge_264 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_264 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -2418,7 +2418,7 @@ case_244: {
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_264 ] = num_node_264;
-        edge_num_cuts[ num_edge_264 ] = num_cut;
+        edge_num_cuts[ num_edge_264 ] = num_cut_proc;
     } else
         num_node_264 = edge_cuts[ num_edge_264 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
@@ -2426,7 +2426,7 @@ case_244: {
     int max_node_269 = max( num_node_3, num_node_4 );
     int num_edge_269 = max_node_269 * ( max_node_269 + 1 ) / 2 + min_node_269;
     int num_node_269;
-    if ( edge_num_cuts[ num_edge_269 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_269 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -2446,7 +2446,7 @@ case_244: {
         const Node &n1 = nodes.local_at( num_node_4 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_269 ] = num_node_269;
-        edge_num_cuts[ num_edge_269 ] = num_cut;
+        edge_num_cuts[ num_edge_269 ] = num_cut_proc;
     } else
         num_node_269 = edge_cuts[ num_edge_269 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
@@ -2454,7 +2454,7 @@ case_244: {
     int max_node_275 = max( num_node_4, num_node_5 );
     int num_edge_275 = max_node_275 * ( max_node_275 + 1 ) / 2 + min_node_275;
     int num_node_275;
-    if ( edge_num_cuts[ num_edge_275 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_275 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -2474,7 +2474,7 @@ case_244: {
         const Node &n1 = nodes.local_at( num_node_5 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_275 ] = num_node_275;
-        edge_num_cuts[ num_edge_275 ] = num_cut;
+        edge_num_cuts[ num_edge_275 ] = num_cut_proc;
     } else
         num_node_275 = edge_cuts[ num_edge_275 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
@@ -2483,7 +2483,7 @@ case_244: {
     int max_node_290 = max( num_node_6, num_node_7 );
     int num_edge_290 = max_node_290 * ( max_node_290 + 1 ) / 2 + min_node_290;
     int num_node_290;
-    if ( edge_num_cuts[ num_edge_290 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_290 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -2503,7 +2503,7 @@ case_244: {
         const Node &n1 = nodes.local_at( num_node_7 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_290 ] = num_node_290;
-        edge_num_cuts[ num_edge_290 ] = num_cut;
+        edge_num_cuts[ num_edge_290 ] = num_cut_proc;
     } else
         num_node_290 = edge_cuts[ num_edge_290 ];
     break;
@@ -2515,7 +2515,7 @@ case_172: {
     int max_node_257 = max( num_node_0, num_node_1 );
     int num_edge_257 = max_node_257 * ( max_node_257 + 1 ) / 2 + min_node_257;
     int num_node_257;
-    if ( edge_num_cuts[ num_edge_257 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_257 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -2535,7 +2535,7 @@ case_172: {
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_257 ] = num_node_257;
-        edge_num_cuts[ num_edge_257 ] = num_cut;
+        edge_num_cuts[ num_edge_257 ] = num_cut_proc;
     } else
         num_node_257 = edge_cuts[ num_edge_257 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
@@ -2543,7 +2543,7 @@ case_172: {
     int max_node_260 = max( num_node_1, num_node_2 );
     int num_edge_260 = max_node_260 * ( max_node_260 + 1 ) / 2 + min_node_260;
     int num_node_260;
-    if ( edge_num_cuts[ num_edge_260 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_260 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -2563,7 +2563,7 @@ case_172: {
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_260 ] = num_node_260;
-        edge_num_cuts[ num_edge_260 ] = num_cut;
+        edge_num_cuts[ num_edge_260 ] = num_cut_proc;
     } else
         num_node_260 = edge_cuts[ num_edge_260 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
@@ -2571,7 +2571,7 @@ case_172: {
     int max_node_264 = max( num_node_2, num_node_3 );
     int num_edge_264 = max_node_264 * ( max_node_264 + 1 ) / 2 + min_node_264;
     int num_node_264;
-    if ( edge_num_cuts[ num_edge_264 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_264 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -2591,7 +2591,7 @@ case_172: {
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_264 ] = num_node_264;
-        edge_num_cuts[ num_edge_264 ] = num_cut;
+        edge_num_cuts[ num_edge_264 ] = num_cut_proc;
     } else
         num_node_264 = edge_cuts[ num_edge_264 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
@@ -2599,7 +2599,7 @@ case_172: {
     int max_node_269 = max( num_node_3, num_node_4 );
     int num_edge_269 = max_node_269 * ( max_node_269 + 1 ) / 2 + min_node_269;
     int num_node_269;
-    if ( edge_num_cuts[ num_edge_269 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_269 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -2619,7 +2619,7 @@ case_172: {
         const Node &n1 = nodes.local_at( num_node_4 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_269 ] = num_node_269;
-        edge_num_cuts[ num_edge_269 ] = num_cut;
+        edge_num_cuts[ num_edge_269 ] = num_cut_proc;
     } else
         num_node_269 = edge_cuts[ num_edge_269 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
@@ -2627,7 +2627,7 @@ case_172: {
     int max_node_275 = max( num_node_4, num_node_5 );
     int num_edge_275 = max_node_275 * ( max_node_275 + 1 ) / 2 + min_node_275;
     int num_node_275;
-    if ( edge_num_cuts[ num_edge_275 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_275 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -2647,7 +2647,7 @@ case_172: {
         const Node &n1 = nodes.local_at( num_node_5 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_275 ] = num_node_275;
-        edge_num_cuts[ num_edge_275 ] = num_cut;
+        edge_num_cuts[ num_edge_275 ] = num_cut_proc;
     } else
         num_node_275 = edge_cuts[ num_edge_275 ];
     int num_node_7 = faces.node_lists[ num_face ][ 7 ];
@@ -2655,7 +2655,7 @@ case_172: {
     int max_node_284 = max( num_node_7, num_node_0 );
     int num_edge_284 = max_node_284 * ( max_node_284 + 1 ) / 2 + min_node_284;
     int num_node_284;
-    if ( edge_num_cuts[ num_edge_284 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_284 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -2675,7 +2675,7 @@ case_172: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_284 ] = num_node_284;
-        edge_num_cuts[ num_edge_284 ] = num_cut;
+        edge_num_cuts[ num_edge_284 ] = num_cut_proc;
     } else
         num_node_284 = edge_cuts[ num_edge_284 ];
     break;
@@ -2687,7 +2687,7 @@ case_132: {
     int max_node_257 = max( num_node_0, num_node_1 );
     int num_edge_257 = max_node_257 * ( max_node_257 + 1 ) / 2 + min_node_257;
     int num_node_257;
-    if ( edge_num_cuts[ num_edge_257 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_257 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -2707,7 +2707,7 @@ case_132: {
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_257 ] = num_node_257;
-        edge_num_cuts[ num_edge_257 ] = num_cut;
+        edge_num_cuts[ num_edge_257 ] = num_cut_proc;
     } else
         num_node_257 = edge_cuts[ num_edge_257 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
@@ -2715,7 +2715,7 @@ case_132: {
     int max_node_260 = max( num_node_1, num_node_2 );
     int num_edge_260 = max_node_260 * ( max_node_260 + 1 ) / 2 + min_node_260;
     int num_node_260;
-    if ( edge_num_cuts[ num_edge_260 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_260 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -2735,7 +2735,7 @@ case_132: {
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_260 ] = num_node_260;
-        edge_num_cuts[ num_edge_260 ] = num_cut;
+        edge_num_cuts[ num_edge_260 ] = num_cut_proc;
     } else
         num_node_260 = edge_cuts[ num_edge_260 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
@@ -2743,7 +2743,7 @@ case_132: {
     int max_node_264 = max( num_node_2, num_node_3 );
     int num_edge_264 = max_node_264 * ( max_node_264 + 1 ) / 2 + min_node_264;
     int num_node_264;
-    if ( edge_num_cuts[ num_edge_264 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_264 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -2763,7 +2763,7 @@ case_132: {
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_264 ] = num_node_264;
-        edge_num_cuts[ num_edge_264 ] = num_cut;
+        edge_num_cuts[ num_edge_264 ] = num_cut_proc;
     } else
         num_node_264 = edge_cuts[ num_edge_264 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
@@ -2771,7 +2771,7 @@ case_132: {
     int max_node_269 = max( num_node_3, num_node_4 );
     int num_edge_269 = max_node_269 * ( max_node_269 + 1 ) / 2 + min_node_269;
     int num_node_269;
-    if ( edge_num_cuts[ num_edge_269 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_269 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -2791,7 +2791,7 @@ case_132: {
         const Node &n1 = nodes.local_at( num_node_4 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_269 ] = num_node_269;
-        edge_num_cuts[ num_edge_269 ] = num_cut;
+        edge_num_cuts[ num_edge_269 ] = num_cut_proc;
     } else
         num_node_269 = edge_cuts[ num_edge_269 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
@@ -2800,7 +2800,7 @@ case_132: {
     int max_node_282 = max( num_node_5, num_node_6 );
     int num_edge_282 = max_node_282 * ( max_node_282 + 1 ) / 2 + min_node_282;
     int num_node_282;
-    if ( edge_num_cuts[ num_edge_282 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_282 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -2820,14 +2820,14 @@ case_132: {
         const Node &n1 = nodes.local_at( num_node_6 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_282 ] = num_node_282;
-        edge_num_cuts[ num_edge_282 ] = num_cut;
+        edge_num_cuts[ num_edge_282 ] = num_cut_proc;
     } else
         num_node_282 = edge_cuts[ num_edge_282 ];
     int min_node_277 = min( num_node_6, num_node_0 );
     int max_node_277 = max( num_node_6, num_node_0 );
     int num_edge_277 = max_node_277 * ( max_node_277 + 1 ) / 2 + min_node_277;
     int num_node_277;
-    if ( edge_num_cuts[ num_edge_277 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_277 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -2847,7 +2847,7 @@ case_132: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_277 ] = num_node_277;
-        edge_num_cuts[ num_edge_277 ] = num_cut;
+        edge_num_cuts[ num_edge_277 ] = num_cut_proc;
     } else
         num_node_277 = edge_cuts[ num_edge_277 ];
     break;
@@ -2859,7 +2859,7 @@ case_193: {
     int max_node_257 = max( num_node_0, num_node_1 );
     int num_edge_257 = max_node_257 * ( max_node_257 + 1 ) / 2 + min_node_257;
     int num_node_257;
-    if ( edge_num_cuts[ num_edge_257 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_257 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -2879,7 +2879,7 @@ case_193: {
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_257 ] = num_node_257;
-        edge_num_cuts[ num_edge_257 ] = num_cut;
+        edge_num_cuts[ num_edge_257 ] = num_cut_proc;
     } else
         num_node_257 = edge_cuts[ num_edge_257 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
@@ -2887,7 +2887,7 @@ case_193: {
     int max_node_260 = max( num_node_1, num_node_2 );
     int num_edge_260 = max_node_260 * ( max_node_260 + 1 ) / 2 + min_node_260;
     int num_node_260;
-    if ( edge_num_cuts[ num_edge_260 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_260 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -2907,7 +2907,7 @@ case_193: {
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_260 ] = num_node_260;
-        edge_num_cuts[ num_edge_260 ] = num_cut;
+        edge_num_cuts[ num_edge_260 ] = num_cut_proc;
     } else
         num_node_260 = edge_cuts[ num_edge_260 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
@@ -2915,7 +2915,7 @@ case_193: {
     int max_node_264 = max( num_node_2, num_node_3 );
     int num_edge_264 = max_node_264 * ( max_node_264 + 1 ) / 2 + min_node_264;
     int num_node_264;
-    if ( edge_num_cuts[ num_edge_264 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_264 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -2935,7 +2935,7 @@ case_193: {
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_264 ] = num_node_264;
-        edge_num_cuts[ num_edge_264 ] = num_cut;
+        edge_num_cuts[ num_edge_264 ] = num_cut_proc;
     } else
         num_node_264 = edge_cuts[ num_edge_264 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
@@ -2943,7 +2943,7 @@ case_193: {
     int max_node_269 = max( num_node_3, num_node_4 );
     int num_edge_269 = max_node_269 * ( max_node_269 + 1 ) / 2 + min_node_269;
     int num_node_269;
-    if ( edge_num_cuts[ num_edge_269 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_269 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -2963,7 +2963,7 @@ case_193: {
         const Node &n1 = nodes.local_at( num_node_4 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_269 ] = num_node_269;
-        edge_num_cuts[ num_edge_269 ] = num_cut;
+        edge_num_cuts[ num_edge_269 ] = num_cut_proc;
     } else
         num_node_269 = edge_cuts[ num_edge_269 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
@@ -2972,7 +2972,7 @@ case_193: {
     int max_node_282 = max( num_node_5, num_node_6 );
     int num_edge_282 = max_node_282 * ( max_node_282 + 1 ) / 2 + min_node_282;
     int num_node_282;
-    if ( edge_num_cuts[ num_edge_282 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_282 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -2992,7 +2992,7 @@ case_193: {
         const Node &n1 = nodes.local_at( num_node_6 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_282 ] = num_node_282;
-        edge_num_cuts[ num_edge_282 ] = num_cut;
+        edge_num_cuts[ num_edge_282 ] = num_cut_proc;
     } else
         num_node_282 = edge_cuts[ num_edge_282 ];
     int num_node_7 = faces.node_lists[ num_face ][ 7 ];
@@ -3000,7 +3000,7 @@ case_193: {
     int max_node_284 = max( num_node_7, num_node_0 );
     int num_edge_284 = max_node_284 * ( max_node_284 + 1 ) / 2 + min_node_284;
     int num_node_284;
-    if ( edge_num_cuts[ num_edge_284 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_284 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -3020,7 +3020,7 @@ case_193: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_284 ] = num_node_284;
-        edge_num_cuts[ num_edge_284 ] = num_cut;
+        edge_num_cuts[ num_edge_284 ] = num_cut_proc;
     } else
         num_node_284 = edge_cuts[ num_edge_284 ];
     break;
@@ -3032,7 +3032,7 @@ case_212: {
     int max_node_257 = max( num_node_0, num_node_1 );
     int num_edge_257 = max_node_257 * ( max_node_257 + 1 ) / 2 + min_node_257;
     int num_node_257;
-    if ( edge_num_cuts[ num_edge_257 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_257 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -3052,7 +3052,7 @@ case_212: {
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_257 ] = num_node_257;
-        edge_num_cuts[ num_edge_257 ] = num_cut;
+        edge_num_cuts[ num_edge_257 ] = num_cut_proc;
     } else
         num_node_257 = edge_cuts[ num_edge_257 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
@@ -3060,7 +3060,7 @@ case_212: {
     int max_node_260 = max( num_node_1, num_node_2 );
     int num_edge_260 = max_node_260 * ( max_node_260 + 1 ) / 2 + min_node_260;
     int num_node_260;
-    if ( edge_num_cuts[ num_edge_260 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_260 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -3080,7 +3080,7 @@ case_212: {
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_260 ] = num_node_260;
-        edge_num_cuts[ num_edge_260 ] = num_cut;
+        edge_num_cuts[ num_edge_260 ] = num_cut_proc;
     } else
         num_node_260 = edge_cuts[ num_edge_260 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
@@ -3088,7 +3088,7 @@ case_212: {
     int max_node_264 = max( num_node_2, num_node_3 );
     int num_edge_264 = max_node_264 * ( max_node_264 + 1 ) / 2 + min_node_264;
     int num_node_264;
-    if ( edge_num_cuts[ num_edge_264 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_264 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -3108,7 +3108,7 @@ case_212: {
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_264 ] = num_node_264;
-        edge_num_cuts[ num_edge_264 ] = num_cut;
+        edge_num_cuts[ num_edge_264 ] = num_cut_proc;
     } else
         num_node_264 = edge_cuts[ num_edge_264 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
@@ -3116,7 +3116,7 @@ case_212: {
     int max_node_269 = max( num_node_3, num_node_4 );
     int num_edge_269 = max_node_269 * ( max_node_269 + 1 ) / 2 + min_node_269;
     int num_node_269;
-    if ( edge_num_cuts[ num_edge_269 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_269 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -3136,7 +3136,7 @@ case_212: {
         const Node &n1 = nodes.local_at( num_node_4 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_269 ] = num_node_269;
-        edge_num_cuts[ num_edge_269 ] = num_cut;
+        edge_num_cuts[ num_edge_269 ] = num_cut_proc;
     } else
         num_node_269 = edge_cuts[ num_edge_269 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
@@ -3145,7 +3145,7 @@ case_212: {
     int max_node_282 = max( num_node_5, num_node_6 );
     int num_edge_282 = max_node_282 * ( max_node_282 + 1 ) / 2 + min_node_282;
     int num_node_282;
-    if ( edge_num_cuts[ num_edge_282 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_282 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -3165,7 +3165,7 @@ case_212: {
         const Node &n1 = nodes.local_at( num_node_6 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_282 ] = num_node_282;
-        edge_num_cuts[ num_edge_282 ] = num_cut;
+        edge_num_cuts[ num_edge_282 ] = num_cut_proc;
     } else
         num_node_282 = edge_cuts[ num_edge_282 ];
     int num_node_7 = faces.node_lists[ num_face ][ 7 ];
@@ -3173,7 +3173,7 @@ case_212: {
     int max_node_290 = max( num_node_6, num_node_7 );
     int num_edge_290 = max_node_290 * ( max_node_290 + 1 ) / 2 + min_node_290;
     int num_node_290;
-    if ( edge_num_cuts[ num_edge_290 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_290 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -3193,7 +3193,7 @@ case_212: {
         const Node &n1 = nodes.local_at( num_node_7 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_290 ] = num_node_290;
-        edge_num_cuts[ num_edge_290 ] = num_cut;
+        edge_num_cuts[ num_edge_290 ] = num_cut_proc;
     } else
         num_node_290 = edge_cuts[ num_edge_290 ];
     break;
@@ -3205,7 +3205,7 @@ case_255: {
     int max_node_257 = max( num_node_0, num_node_1 );
     int num_edge_257 = max_node_257 * ( max_node_257 + 1 ) / 2 + min_node_257;
     int num_node_257;
-    if ( edge_num_cuts[ num_edge_257 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_257 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -3225,7 +3225,7 @@ case_255: {
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_257 ] = num_node_257;
-        edge_num_cuts[ num_edge_257 ] = num_cut;
+        edge_num_cuts[ num_edge_257 ] = num_cut_proc;
     } else
         num_node_257 = edge_cuts[ num_edge_257 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
@@ -3233,7 +3233,7 @@ case_255: {
     int max_node_260 = max( num_node_1, num_node_2 );
     int num_edge_260 = max_node_260 * ( max_node_260 + 1 ) / 2 + min_node_260;
     int num_node_260;
-    if ( edge_num_cuts[ num_edge_260 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_260 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -3253,7 +3253,7 @@ case_255: {
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_260 ] = num_node_260;
-        edge_num_cuts[ num_edge_260 ] = num_cut;
+        edge_num_cuts[ num_edge_260 ] = num_cut_proc;
     } else
         num_node_260 = edge_cuts[ num_edge_260 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
@@ -3261,7 +3261,7 @@ case_255: {
     int max_node_264 = max( num_node_2, num_node_3 );
     int num_edge_264 = max_node_264 * ( max_node_264 + 1 ) / 2 + min_node_264;
     int num_node_264;
-    if ( edge_num_cuts[ num_edge_264 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_264 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -3281,7 +3281,7 @@ case_255: {
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_264 ] = num_node_264;
-        edge_num_cuts[ num_edge_264 ] = num_cut;
+        edge_num_cuts[ num_edge_264 ] = num_cut_proc;
     } else
         num_node_264 = edge_cuts[ num_edge_264 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
@@ -3289,7 +3289,7 @@ case_255: {
     int max_node_269 = max( num_node_3, num_node_4 );
     int num_edge_269 = max_node_269 * ( max_node_269 + 1 ) / 2 + min_node_269;
     int num_node_269;
-    if ( edge_num_cuts[ num_edge_269 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_269 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -3309,7 +3309,7 @@ case_255: {
         const Node &n1 = nodes.local_at( num_node_4 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_269 ] = num_node_269;
-        edge_num_cuts[ num_edge_269 ] = num_cut;
+        edge_num_cuts[ num_edge_269 ] = num_cut_proc;
     } else
         num_node_269 = edge_cuts[ num_edge_269 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
@@ -3318,7 +3318,7 @@ case_255: {
     int max_node_290 = max( num_node_6, num_node_7 );
     int num_edge_290 = max_node_290 * ( max_node_290 + 1 ) / 2 + min_node_290;
     int num_node_290;
-    if ( edge_num_cuts[ num_edge_290 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_290 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -3338,14 +3338,14 @@ case_255: {
         const Node &n1 = nodes.local_at( num_node_7 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_290 ] = num_node_290;
-        edge_num_cuts[ num_edge_290 ] = num_cut;
+        edge_num_cuts[ num_edge_290 ] = num_cut_proc;
     } else
         num_node_290 = edge_cuts[ num_edge_290 ];
     int min_node_284 = min( num_node_7, num_node_0 );
     int max_node_284 = max( num_node_7, num_node_0 );
     int num_edge_284 = max_node_284 * ( max_node_284 + 1 ) / 2 + min_node_284;
     int num_node_284;
-    if ( edge_num_cuts[ num_edge_284 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_284 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -3365,7 +3365,7 @@ case_255: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_284 ] = num_node_284;
-        edge_num_cuts[ num_edge_284 ] = num_cut;
+        edge_num_cuts[ num_edge_284 ] = num_cut_proc;
     } else
         num_node_284 = edge_cuts[ num_edge_284 ];
     break;
@@ -3377,7 +3377,7 @@ case_69: {
     int max_node_257 = max( num_node_0, num_node_1 );
     int num_edge_257 = max_node_257 * ( max_node_257 + 1 ) / 2 + min_node_257;
     int num_node_257;
-    if ( edge_num_cuts[ num_edge_257 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_257 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -3397,7 +3397,7 @@ case_69: {
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_257 ] = num_node_257;
-        edge_num_cuts[ num_edge_257 ] = num_cut;
+        edge_num_cuts[ num_edge_257 ] = num_cut_proc;
     } else
         num_node_257 = edge_cuts[ num_edge_257 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
@@ -3405,7 +3405,7 @@ case_69: {
     int max_node_260 = max( num_node_1, num_node_2 );
     int num_edge_260 = max_node_260 * ( max_node_260 + 1 ) / 2 + min_node_260;
     int num_node_260;
-    if ( edge_num_cuts[ num_edge_260 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_260 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -3425,7 +3425,7 @@ case_69: {
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_260 ] = num_node_260;
-        edge_num_cuts[ num_edge_260 ] = num_cut;
+        edge_num_cuts[ num_edge_260 ] = num_cut_proc;
     } else
         num_node_260 = edge_cuts[ num_edge_260 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
@@ -3433,7 +3433,7 @@ case_69: {
     int max_node_264 = max( num_node_2, num_node_3 );
     int num_edge_264 = max_node_264 * ( max_node_264 + 1 ) / 2 + min_node_264;
     int num_node_264;
-    if ( edge_num_cuts[ num_edge_264 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_264 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -3453,7 +3453,7 @@ case_69: {
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_264 ] = num_node_264;
-        edge_num_cuts[ num_edge_264 ] = num_cut;
+        edge_num_cuts[ num_edge_264 ] = num_cut_proc;
     } else
         num_node_264 = edge_cuts[ num_edge_264 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
@@ -3462,7 +3462,7 @@ case_69: {
     int max_node_275 = max( num_node_4, num_node_5 );
     int num_edge_275 = max_node_275 * ( max_node_275 + 1 ) / 2 + min_node_275;
     int num_node_275;
-    if ( edge_num_cuts[ num_edge_275 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_275 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -3482,7 +3482,7 @@ case_69: {
         const Node &n1 = nodes.local_at( num_node_5 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_275 ] = num_node_275;
-        edge_num_cuts[ num_edge_275 ] = num_cut;
+        edge_num_cuts[ num_edge_275 ] = num_cut_proc;
     } else
         num_node_275 = edge_cuts[ num_edge_275 ];
     break;
@@ -3494,7 +3494,7 @@ case_116: {
     int max_node_257 = max( num_node_0, num_node_1 );
     int num_edge_257 = max_node_257 * ( max_node_257 + 1 ) / 2 + min_node_257;
     int num_node_257;
-    if ( edge_num_cuts[ num_edge_257 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_257 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -3514,7 +3514,7 @@ case_116: {
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_257 ] = num_node_257;
-        edge_num_cuts[ num_edge_257 ] = num_cut;
+        edge_num_cuts[ num_edge_257 ] = num_cut_proc;
     } else
         num_node_257 = edge_cuts[ num_edge_257 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
@@ -3522,7 +3522,7 @@ case_116: {
     int max_node_260 = max( num_node_1, num_node_2 );
     int num_edge_260 = max_node_260 * ( max_node_260 + 1 ) / 2 + min_node_260;
     int num_node_260;
-    if ( edge_num_cuts[ num_edge_260 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_260 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -3542,7 +3542,7 @@ case_116: {
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_260 ] = num_node_260;
-        edge_num_cuts[ num_edge_260 ] = num_cut;
+        edge_num_cuts[ num_edge_260 ] = num_cut_proc;
     } else
         num_node_260 = edge_cuts[ num_edge_260 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
@@ -3550,7 +3550,7 @@ case_116: {
     int max_node_264 = max( num_node_2, num_node_3 );
     int num_edge_264 = max_node_264 * ( max_node_264 + 1 ) / 2 + min_node_264;
     int num_node_264;
-    if ( edge_num_cuts[ num_edge_264 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_264 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -3570,7 +3570,7 @@ case_116: {
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_264 ] = num_node_264;
-        edge_num_cuts[ num_edge_264 ] = num_cut;
+        edge_num_cuts[ num_edge_264 ] = num_cut_proc;
     } else
         num_node_264 = edge_cuts[ num_edge_264 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
@@ -3579,7 +3579,7 @@ case_116: {
     int max_node_275 = max( num_node_4, num_node_5 );
     int num_edge_275 = max_node_275 * ( max_node_275 + 1 ) / 2 + min_node_275;
     int num_node_275;
-    if ( edge_num_cuts[ num_edge_275 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_275 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -3599,7 +3599,7 @@ case_116: {
         const Node &n1 = nodes.local_at( num_node_5 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_275 ] = num_node_275;
-        edge_num_cuts[ num_edge_275 ] = num_cut;
+        edge_num_cuts[ num_edge_275 ] = num_cut_proc;
     } else
         num_node_275 = edge_cuts[ num_edge_275 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
@@ -3607,7 +3607,7 @@ case_116: {
     int max_node_282 = max( num_node_5, num_node_6 );
     int num_edge_282 = max_node_282 * ( max_node_282 + 1 ) / 2 + min_node_282;
     int num_node_282;
-    if ( edge_num_cuts[ num_edge_282 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_282 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -3627,14 +3627,14 @@ case_116: {
         const Node &n1 = nodes.local_at( num_node_6 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_282 ] = num_node_282;
-        edge_num_cuts[ num_edge_282 ] = num_cut;
+        edge_num_cuts[ num_edge_282 ] = num_cut_proc;
     } else
         num_node_282 = edge_cuts[ num_edge_282 ];
     int min_node_277 = min( num_node_6, num_node_0 );
     int max_node_277 = max( num_node_6, num_node_0 );
     int num_edge_277 = max_node_277 * ( max_node_277 + 1 ) / 2 + min_node_277;
     int num_node_277;
-    if ( edge_num_cuts[ num_edge_277 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_277 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -3654,7 +3654,7 @@ case_116: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_277 ] = num_node_277;
-        edge_num_cuts[ num_edge_277 ] = num_cut;
+        edge_num_cuts[ num_edge_277 ] = num_cut_proc;
     } else
         num_node_277 = edge_cuts[ num_edge_277 ];
     break;
@@ -3666,7 +3666,7 @@ case_184: {
     int max_node_257 = max( num_node_0, num_node_1 );
     int num_edge_257 = max_node_257 * ( max_node_257 + 1 ) / 2 + min_node_257;
     int num_node_257;
-    if ( edge_num_cuts[ num_edge_257 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_257 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -3686,7 +3686,7 @@ case_184: {
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_257 ] = num_node_257;
-        edge_num_cuts[ num_edge_257 ] = num_cut;
+        edge_num_cuts[ num_edge_257 ] = num_cut_proc;
     } else
         num_node_257 = edge_cuts[ num_edge_257 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
@@ -3694,7 +3694,7 @@ case_184: {
     int max_node_260 = max( num_node_1, num_node_2 );
     int num_edge_260 = max_node_260 * ( max_node_260 + 1 ) / 2 + min_node_260;
     int num_node_260;
-    if ( edge_num_cuts[ num_edge_260 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_260 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -3714,7 +3714,7 @@ case_184: {
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_260 ] = num_node_260;
-        edge_num_cuts[ num_edge_260 ] = num_cut;
+        edge_num_cuts[ num_edge_260 ] = num_cut_proc;
     } else
         num_node_260 = edge_cuts[ num_edge_260 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
@@ -3722,7 +3722,7 @@ case_184: {
     int max_node_264 = max( num_node_2, num_node_3 );
     int num_edge_264 = max_node_264 * ( max_node_264 + 1 ) / 2 + min_node_264;
     int num_node_264;
-    if ( edge_num_cuts[ num_edge_264 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_264 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -3742,7 +3742,7 @@ case_184: {
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_264 ] = num_node_264;
-        edge_num_cuts[ num_edge_264 ] = num_cut;
+        edge_num_cuts[ num_edge_264 ] = num_cut_proc;
     } else
         num_node_264 = edge_cuts[ num_edge_264 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
@@ -3751,7 +3751,7 @@ case_184: {
     int max_node_275 = max( num_node_4, num_node_5 );
     int num_edge_275 = max_node_275 * ( max_node_275 + 1 ) / 2 + min_node_275;
     int num_node_275;
-    if ( edge_num_cuts[ num_edge_275 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_275 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -3771,7 +3771,7 @@ case_184: {
         const Node &n1 = nodes.local_at( num_node_5 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_275 ] = num_node_275;
-        edge_num_cuts[ num_edge_275 ] = num_cut;
+        edge_num_cuts[ num_edge_275 ] = num_cut_proc;
     } else
         num_node_275 = edge_cuts[ num_edge_275 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
@@ -3779,7 +3779,7 @@ case_184: {
     int max_node_282 = max( num_node_5, num_node_6 );
     int num_edge_282 = max_node_282 * ( max_node_282 + 1 ) / 2 + min_node_282;
     int num_node_282;
-    if ( edge_num_cuts[ num_edge_282 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_282 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -3799,7 +3799,7 @@ case_184: {
         const Node &n1 = nodes.local_at( num_node_6 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_282 ] = num_node_282;
-        edge_num_cuts[ num_edge_282 ] = num_cut;
+        edge_num_cuts[ num_edge_282 ] = num_cut_proc;
     } else
         num_node_282 = edge_cuts[ num_edge_282 ];
     int num_node_7 = faces.node_lists[ num_face ][ 7 ];
@@ -3807,7 +3807,7 @@ case_184: {
     int max_node_284 = max( num_node_7, num_node_0 );
     int num_edge_284 = max_node_284 * ( max_node_284 + 1 ) / 2 + min_node_284;
     int num_node_284;
-    if ( edge_num_cuts[ num_edge_284 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_284 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -3827,7 +3827,7 @@ case_184: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_284 ] = num_node_284;
-        edge_num_cuts[ num_edge_284 ] = num_cut;
+        edge_num_cuts[ num_edge_284 ] = num_cut_proc;
     } else
         num_node_284 = edge_cuts[ num_edge_284 ];
     break;
@@ -3839,7 +3839,7 @@ case_228: {
     int max_node_257 = max( num_node_0, num_node_1 );
     int num_edge_257 = max_node_257 * ( max_node_257 + 1 ) / 2 + min_node_257;
     int num_node_257;
-    if ( edge_num_cuts[ num_edge_257 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_257 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -3859,7 +3859,7 @@ case_228: {
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_257 ] = num_node_257;
-        edge_num_cuts[ num_edge_257 ] = num_cut;
+        edge_num_cuts[ num_edge_257 ] = num_cut_proc;
     } else
         num_node_257 = edge_cuts[ num_edge_257 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
@@ -3867,7 +3867,7 @@ case_228: {
     int max_node_260 = max( num_node_1, num_node_2 );
     int num_edge_260 = max_node_260 * ( max_node_260 + 1 ) / 2 + min_node_260;
     int num_node_260;
-    if ( edge_num_cuts[ num_edge_260 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_260 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -3887,7 +3887,7 @@ case_228: {
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_260 ] = num_node_260;
-        edge_num_cuts[ num_edge_260 ] = num_cut;
+        edge_num_cuts[ num_edge_260 ] = num_cut_proc;
     } else
         num_node_260 = edge_cuts[ num_edge_260 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
@@ -3895,7 +3895,7 @@ case_228: {
     int max_node_264 = max( num_node_2, num_node_3 );
     int num_edge_264 = max_node_264 * ( max_node_264 + 1 ) / 2 + min_node_264;
     int num_node_264;
-    if ( edge_num_cuts[ num_edge_264 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_264 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -3915,7 +3915,7 @@ case_228: {
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_264 ] = num_node_264;
-        edge_num_cuts[ num_edge_264 ] = num_cut;
+        edge_num_cuts[ num_edge_264 ] = num_cut_proc;
     } else
         num_node_264 = edge_cuts[ num_edge_264 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
@@ -3924,7 +3924,7 @@ case_228: {
     int max_node_275 = max( num_node_4, num_node_5 );
     int num_edge_275 = max_node_275 * ( max_node_275 + 1 ) / 2 + min_node_275;
     int num_node_275;
-    if ( edge_num_cuts[ num_edge_275 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_275 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -3944,7 +3944,7 @@ case_228: {
         const Node &n1 = nodes.local_at( num_node_5 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_275 ] = num_node_275;
-        edge_num_cuts[ num_edge_275 ] = num_cut;
+        edge_num_cuts[ num_edge_275 ] = num_cut_proc;
     } else
         num_node_275 = edge_cuts[ num_edge_275 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
@@ -3952,7 +3952,7 @@ case_228: {
     int max_node_282 = max( num_node_5, num_node_6 );
     int num_edge_282 = max_node_282 * ( max_node_282 + 1 ) / 2 + min_node_282;
     int num_node_282;
-    if ( edge_num_cuts[ num_edge_282 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_282 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -3972,7 +3972,7 @@ case_228: {
         const Node &n1 = nodes.local_at( num_node_6 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_282 ] = num_node_282;
-        edge_num_cuts[ num_edge_282 ] = num_cut;
+        edge_num_cuts[ num_edge_282 ] = num_cut_proc;
     } else
         num_node_282 = edge_cuts[ num_edge_282 ];
     int num_node_7 = faces.node_lists[ num_face ][ 7 ];
@@ -3980,7 +3980,7 @@ case_228: {
     int max_node_290 = max( num_node_6, num_node_7 );
     int num_edge_290 = max_node_290 * ( max_node_290 + 1 ) / 2 + min_node_290;
     int num_node_290;
-    if ( edge_num_cuts[ num_edge_290 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_290 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -4000,7 +4000,7 @@ case_228: {
         const Node &n1 = nodes.local_at( num_node_7 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_290 ] = num_node_290;
-        edge_num_cuts[ num_edge_290 ] = num_cut;
+        edge_num_cuts[ num_edge_290 ] = num_cut_proc;
     } else
         num_node_290 = edge_cuts[ num_edge_290 ];
     break;
@@ -4012,7 +4012,7 @@ case_239: {
     int max_node_257 = max( num_node_0, num_node_1 );
     int num_edge_257 = max_node_257 * ( max_node_257 + 1 ) / 2 + min_node_257;
     int num_node_257;
-    if ( edge_num_cuts[ num_edge_257 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_257 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -4032,7 +4032,7 @@ case_239: {
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_257 ] = num_node_257;
-        edge_num_cuts[ num_edge_257 ] = num_cut;
+        edge_num_cuts[ num_edge_257 ] = num_cut_proc;
     } else
         num_node_257 = edge_cuts[ num_edge_257 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
@@ -4040,7 +4040,7 @@ case_239: {
     int max_node_260 = max( num_node_1, num_node_2 );
     int num_edge_260 = max_node_260 * ( max_node_260 + 1 ) / 2 + min_node_260;
     int num_node_260;
-    if ( edge_num_cuts[ num_edge_260 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_260 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -4060,7 +4060,7 @@ case_239: {
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_260 ] = num_node_260;
-        edge_num_cuts[ num_edge_260 ] = num_cut;
+        edge_num_cuts[ num_edge_260 ] = num_cut_proc;
     } else
         num_node_260 = edge_cuts[ num_edge_260 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
@@ -4068,7 +4068,7 @@ case_239: {
     int max_node_264 = max( num_node_2, num_node_3 );
     int num_edge_264 = max_node_264 * ( max_node_264 + 1 ) / 2 + min_node_264;
     int num_node_264;
-    if ( edge_num_cuts[ num_edge_264 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_264 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -4088,7 +4088,7 @@ case_239: {
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_264 ] = num_node_264;
-        edge_num_cuts[ num_edge_264 ] = num_cut;
+        edge_num_cuts[ num_edge_264 ] = num_cut_proc;
     } else
         num_node_264 = edge_cuts[ num_edge_264 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
@@ -4097,7 +4097,7 @@ case_239: {
     int max_node_275 = max( num_node_4, num_node_5 );
     int num_edge_275 = max_node_275 * ( max_node_275 + 1 ) / 2 + min_node_275;
     int num_node_275;
-    if ( edge_num_cuts[ num_edge_275 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_275 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -4117,7 +4117,7 @@ case_239: {
         const Node &n1 = nodes.local_at( num_node_5 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_275 ] = num_node_275;
-        edge_num_cuts[ num_edge_275 ] = num_cut;
+        edge_num_cuts[ num_edge_275 ] = num_cut_proc;
     } else
         num_node_275 = edge_cuts[ num_edge_275 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
@@ -4126,7 +4126,7 @@ case_239: {
     int max_node_290 = max( num_node_6, num_node_7 );
     int num_edge_290 = max_node_290 * ( max_node_290 + 1 ) / 2 + min_node_290;
     int num_node_290;
-    if ( edge_num_cuts[ num_edge_290 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_290 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -4146,14 +4146,14 @@ case_239: {
         const Node &n1 = nodes.local_at( num_node_7 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_290 ] = num_node_290;
-        edge_num_cuts[ num_edge_290 ] = num_cut;
+        edge_num_cuts[ num_edge_290 ] = num_cut_proc;
     } else
         num_node_290 = edge_cuts[ num_edge_290 ];
     int min_node_284 = min( num_node_7, num_node_0 );
     int max_node_284 = max( num_node_7, num_node_0 );
     int num_edge_284 = max_node_284 * ( max_node_284 + 1 ) / 2 + min_node_284;
     int num_node_284;
-    if ( edge_num_cuts[ num_edge_284 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_284 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -4173,7 +4173,7 @@ case_239: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_284 ] = num_node_284;
-        edge_num_cuts[ num_edge_284 ] = num_cut;
+        edge_num_cuts[ num_edge_284 ] = num_cut_proc;
     } else
         num_node_284 = edge_cuts[ num_edge_284 ];
     break;
@@ -4185,7 +4185,7 @@ case_49: {
     int max_node_257 = max( num_node_0, num_node_1 );
     int num_edge_257 = max_node_257 * ( max_node_257 + 1 ) / 2 + min_node_257;
     int num_node_257;
-    if ( edge_num_cuts[ num_edge_257 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_257 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -4205,7 +4205,7 @@ case_49: {
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_257 ] = num_node_257;
-        edge_num_cuts[ num_edge_257 ] = num_cut;
+        edge_num_cuts[ num_edge_257 ] = num_cut_proc;
     } else
         num_node_257 = edge_cuts[ num_edge_257 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
@@ -4213,7 +4213,7 @@ case_49: {
     int max_node_260 = max( num_node_1, num_node_2 );
     int num_edge_260 = max_node_260 * ( max_node_260 + 1 ) / 2 + min_node_260;
     int num_node_260;
-    if ( edge_num_cuts[ num_edge_260 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_260 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -4233,7 +4233,7 @@ case_49: {
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_260 ] = num_node_260;
-        edge_num_cuts[ num_edge_260 ] = num_cut;
+        edge_num_cuts[ num_edge_260 ] = num_cut_proc;
     } else
         num_node_260 = edge_cuts[ num_edge_260 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
@@ -4241,7 +4241,7 @@ case_49: {
     int max_node_264 = max( num_node_2, num_node_3 );
     int num_edge_264 = max_node_264 * ( max_node_264 + 1 ) / 2 + min_node_264;
     int num_node_264;
-    if ( edge_num_cuts[ num_edge_264 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_264 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -4261,7 +4261,7 @@ case_49: {
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_264 ] = num_node_264;
-        edge_num_cuts[ num_edge_264 ] = num_cut;
+        edge_num_cuts[ num_edge_264 ] = num_cut_proc;
     } else
         num_node_264 = edge_cuts[ num_edge_264 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
@@ -4269,7 +4269,7 @@ case_49: {
     int max_node_271 = max( num_node_5, num_node_0 );
     int num_edge_271 = max_node_271 * ( max_node_271 + 1 ) / 2 + min_node_271;
     int num_node_271;
-    if ( edge_num_cuts[ num_edge_271 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_271 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -4289,7 +4289,7 @@ case_49: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_271 ] = num_node_271;
-        edge_num_cuts[ num_edge_271 ] = num_cut;
+        edge_num_cuts[ num_edge_271 ] = num_cut_proc;
     } else
         num_node_271 = edge_cuts[ num_edge_271 ];
     break;
@@ -4301,7 +4301,7 @@ case_137: {
     int max_node_257 = max( num_node_0, num_node_1 );
     int num_edge_257 = max_node_257 * ( max_node_257 + 1 ) / 2 + min_node_257;
     int num_node_257;
-    if ( edge_num_cuts[ num_edge_257 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_257 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -4321,7 +4321,7 @@ case_137: {
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_257 ] = num_node_257;
-        edge_num_cuts[ num_edge_257 ] = num_cut;
+        edge_num_cuts[ num_edge_257 ] = num_cut_proc;
     } else
         num_node_257 = edge_cuts[ num_edge_257 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
@@ -4329,7 +4329,7 @@ case_137: {
     int max_node_260 = max( num_node_1, num_node_2 );
     int num_edge_260 = max_node_260 * ( max_node_260 + 1 ) / 2 + min_node_260;
     int num_node_260;
-    if ( edge_num_cuts[ num_edge_260 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_260 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -4349,7 +4349,7 @@ case_137: {
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_260 ] = num_node_260;
-        edge_num_cuts[ num_edge_260 ] = num_cut;
+        edge_num_cuts[ num_edge_260 ] = num_cut_proc;
     } else
         num_node_260 = edge_cuts[ num_edge_260 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
@@ -4357,7 +4357,7 @@ case_137: {
     int max_node_264 = max( num_node_2, num_node_3 );
     int num_edge_264 = max_node_264 * ( max_node_264 + 1 ) / 2 + min_node_264;
     int num_node_264;
-    if ( edge_num_cuts[ num_edge_264 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_264 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -4377,7 +4377,7 @@ case_137: {
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_264 ] = num_node_264;
-        edge_num_cuts[ num_edge_264 ] = num_cut;
+        edge_num_cuts[ num_edge_264 ] = num_cut_proc;
     } else
         num_node_264 = edge_cuts[ num_edge_264 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
@@ -4386,7 +4386,7 @@ case_137: {
     int max_node_282 = max( num_node_5, num_node_6 );
     int num_edge_282 = max_node_282 * ( max_node_282 + 1 ) / 2 + min_node_282;
     int num_node_282;
-    if ( edge_num_cuts[ num_edge_282 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_282 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -4406,7 +4406,7 @@ case_137: {
         const Node &n1 = nodes.local_at( num_node_6 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_282 ] = num_node_282;
-        edge_num_cuts[ num_edge_282 ] = num_cut;
+        edge_num_cuts[ num_edge_282 ] = num_cut_proc;
     } else
         num_node_282 = edge_cuts[ num_edge_282 ];
     break;
@@ -4418,7 +4418,7 @@ case_207: {
     int max_node_257 = max( num_node_0, num_node_1 );
     int num_edge_257 = max_node_257 * ( max_node_257 + 1 ) / 2 + min_node_257;
     int num_node_257;
-    if ( edge_num_cuts[ num_edge_257 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_257 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -4438,7 +4438,7 @@ case_207: {
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_257 ] = num_node_257;
-        edge_num_cuts[ num_edge_257 ] = num_cut;
+        edge_num_cuts[ num_edge_257 ] = num_cut_proc;
     } else
         num_node_257 = edge_cuts[ num_edge_257 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
@@ -4446,7 +4446,7 @@ case_207: {
     int max_node_260 = max( num_node_1, num_node_2 );
     int num_edge_260 = max_node_260 * ( max_node_260 + 1 ) / 2 + min_node_260;
     int num_node_260;
-    if ( edge_num_cuts[ num_edge_260 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_260 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -4466,7 +4466,7 @@ case_207: {
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_260 ] = num_node_260;
-        edge_num_cuts[ num_edge_260 ] = num_cut;
+        edge_num_cuts[ num_edge_260 ] = num_cut_proc;
     } else
         num_node_260 = edge_cuts[ num_edge_260 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
@@ -4474,7 +4474,7 @@ case_207: {
     int max_node_264 = max( num_node_2, num_node_3 );
     int num_edge_264 = max_node_264 * ( max_node_264 + 1 ) / 2 + min_node_264;
     int num_node_264;
-    if ( edge_num_cuts[ num_edge_264 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_264 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -4494,7 +4494,7 @@ case_207: {
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_264 ] = num_node_264;
-        edge_num_cuts[ num_edge_264 ] = num_cut;
+        edge_num_cuts[ num_edge_264 ] = num_cut_proc;
     } else
         num_node_264 = edge_cuts[ num_edge_264 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
@@ -4503,7 +4503,7 @@ case_207: {
     int max_node_282 = max( num_node_5, num_node_6 );
     int num_edge_282 = max_node_282 * ( max_node_282 + 1 ) / 2 + min_node_282;
     int num_node_282;
-    if ( edge_num_cuts[ num_edge_282 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_282 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -4523,7 +4523,7 @@ case_207: {
         const Node &n1 = nodes.local_at( num_node_6 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_282 ] = num_node_282;
-        edge_num_cuts[ num_edge_282 ] = num_cut;
+        edge_num_cuts[ num_edge_282 ] = num_cut_proc;
     } else
         num_node_282 = edge_cuts[ num_edge_282 ];
     int num_node_7 = faces.node_lists[ num_face ][ 7 ];
@@ -4531,7 +4531,7 @@ case_207: {
     int max_node_290 = max( num_node_6, num_node_7 );
     int num_edge_290 = max_node_290 * ( max_node_290 + 1 ) / 2 + min_node_290;
     int num_node_290;
-    if ( edge_num_cuts[ num_edge_290 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_290 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -4551,14 +4551,14 @@ case_207: {
         const Node &n1 = nodes.local_at( num_node_7 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_290 ] = num_node_290;
-        edge_num_cuts[ num_edge_290 ] = num_cut;
+        edge_num_cuts[ num_edge_290 ] = num_cut_proc;
     } else
         num_node_290 = edge_cuts[ num_edge_290 ];
     int min_node_284 = min( num_node_7, num_node_0 );
     int max_node_284 = max( num_node_7, num_node_0 );
     int num_edge_284 = max_node_284 * ( max_node_284 + 1 ) / 2 + min_node_284;
     int num_node_284;
-    if ( edge_num_cuts[ num_edge_284 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_284 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -4578,7 +4578,7 @@ case_207: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_284 ] = num_node_284;
-        edge_num_cuts[ num_edge_284 ] = num_cut;
+        edge_num_cuts[ num_edge_284 ] = num_cut_proc;
     } else
         num_node_284 = edge_cuts[ num_edge_284 ];
     break;
@@ -4590,7 +4590,7 @@ case_89: {
     int max_node_257 = max( num_node_0, num_node_1 );
     int num_edge_257 = max_node_257 * ( max_node_257 + 1 ) / 2 + min_node_257;
     int num_node_257;
-    if ( edge_num_cuts[ num_edge_257 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_257 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -4610,7 +4610,7 @@ case_89: {
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_257 ] = num_node_257;
-        edge_num_cuts[ num_edge_257 ] = num_cut;
+        edge_num_cuts[ num_edge_257 ] = num_cut_proc;
     } else
         num_node_257 = edge_cuts[ num_edge_257 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
@@ -4618,7 +4618,7 @@ case_89: {
     int max_node_260 = max( num_node_1, num_node_2 );
     int num_edge_260 = max_node_260 * ( max_node_260 + 1 ) / 2 + min_node_260;
     int num_node_260;
-    if ( edge_num_cuts[ num_edge_260 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_260 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -4638,7 +4638,7 @@ case_89: {
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_260 ] = num_node_260;
-        edge_num_cuts[ num_edge_260 ] = num_cut;
+        edge_num_cuts[ num_edge_260 ] = num_cut_proc;
     } else
         num_node_260 = edge_cuts[ num_edge_260 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
@@ -4646,7 +4646,7 @@ case_89: {
     int max_node_264 = max( num_node_2, num_node_3 );
     int num_edge_264 = max_node_264 * ( max_node_264 + 1 ) / 2 + min_node_264;
     int num_node_264;
-    if ( edge_num_cuts[ num_edge_264 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_264 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -4666,7 +4666,7 @@ case_89: {
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_264 ] = num_node_264;
-        edge_num_cuts[ num_edge_264 ] = num_cut;
+        edge_num_cuts[ num_edge_264 ] = num_cut_proc;
     } else
         num_node_264 = edge_cuts[ num_edge_264 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
@@ -4674,7 +4674,7 @@ case_89: {
     int max_node_277 = max( num_node_6, num_node_0 );
     int num_edge_277 = max_node_277 * ( max_node_277 + 1 ) / 2 + min_node_277;
     int num_node_277;
-    if ( edge_num_cuts[ num_edge_277 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_277 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -4694,7 +4694,7 @@ case_89: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_277 ] = num_node_277;
-        edge_num_cuts[ num_edge_277 ] = num_cut;
+        edge_num_cuts[ num_edge_277 ] = num_cut_proc;
     } else
         num_node_277 = edge_cuts[ num_edge_277 ];
     break;
@@ -4706,7 +4706,7 @@ case_260: {
     int max_node_257 = max( num_node_0, num_node_1 );
     int num_edge_257 = max_node_257 * ( max_node_257 + 1 ) / 2 + min_node_257;
     int num_node_257;
-    if ( edge_num_cuts[ num_edge_257 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_257 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -4726,7 +4726,7 @@ case_260: {
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_257 ] = num_node_257;
-        edge_num_cuts[ num_edge_257 ] = num_cut;
+        edge_num_cuts[ num_edge_257 ] = num_cut_proc;
     } else
         num_node_257 = edge_cuts[ num_edge_257 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
@@ -4734,7 +4734,7 @@ case_260: {
     int max_node_260 = max( num_node_1, num_node_2 );
     int num_edge_260 = max_node_260 * ( max_node_260 + 1 ) / 2 + min_node_260;
     int num_node_260;
-    if ( edge_num_cuts[ num_edge_260 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_260 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -4754,7 +4754,7 @@ case_260: {
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_260 ] = num_node_260;
-        edge_num_cuts[ num_edge_260 ] = num_cut;
+        edge_num_cuts[ num_edge_260 ] = num_cut_proc;
     } else
         num_node_260 = edge_cuts[ num_edge_260 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
@@ -4762,7 +4762,7 @@ case_260: {
     int max_node_264 = max( num_node_2, num_node_3 );
     int num_edge_264 = max_node_264 * ( max_node_264 + 1 ) / 2 + min_node_264;
     int num_node_264;
-    if ( edge_num_cuts[ num_edge_264 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_264 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -4782,7 +4782,7 @@ case_260: {
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_264 ] = num_node_264;
-        edge_num_cuts[ num_edge_264 ] = num_cut;
+        edge_num_cuts[ num_edge_264 ] = num_cut_proc;
     } else
         num_node_264 = edge_cuts[ num_edge_264 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
@@ -4791,7 +4791,7 @@ case_260: {
     int max_node_290 = max( num_node_6, num_node_7 );
     int num_edge_290 = max_node_290 * ( max_node_290 + 1 ) / 2 + min_node_290;
     int num_node_290;
-    if ( edge_num_cuts[ num_edge_290 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_290 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -4811,7 +4811,7 @@ case_260: {
         const Node &n1 = nodes.local_at( num_node_7 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_290 ] = num_node_290;
-        edge_num_cuts[ num_edge_290 ] = num_cut;
+        edge_num_cuts[ num_edge_290 ] = num_cut_proc;
     } else
         num_node_290 = edge_cuts[ num_edge_290 ];
     break;
@@ -4823,7 +4823,7 @@ case_159: {
     int max_node_257 = max( num_node_0, num_node_1 );
     int num_edge_257 = max_node_257 * ( max_node_257 + 1 ) / 2 + min_node_257;
     int num_node_257;
-    if ( edge_num_cuts[ num_edge_257 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_257 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -4843,7 +4843,7 @@ case_159: {
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_257 ] = num_node_257;
-        edge_num_cuts[ num_edge_257 ] = num_cut;
+        edge_num_cuts[ num_edge_257 ] = num_cut_proc;
     } else
         num_node_257 = edge_cuts[ num_edge_257 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
@@ -4851,7 +4851,7 @@ case_159: {
     int max_node_260 = max( num_node_1, num_node_2 );
     int num_edge_260 = max_node_260 * ( max_node_260 + 1 ) / 2 + min_node_260;
     int num_node_260;
-    if ( edge_num_cuts[ num_edge_260 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_260 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -4871,7 +4871,7 @@ case_159: {
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_260 ] = num_node_260;
-        edge_num_cuts[ num_edge_260 ] = num_cut;
+        edge_num_cuts[ num_edge_260 ] = num_cut_proc;
     } else
         num_node_260 = edge_cuts[ num_edge_260 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
@@ -4879,7 +4879,7 @@ case_159: {
     int max_node_264 = max( num_node_2, num_node_3 );
     int num_edge_264 = max_node_264 * ( max_node_264 + 1 ) / 2 + min_node_264;
     int num_node_264;
-    if ( edge_num_cuts[ num_edge_264 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_264 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -4899,7 +4899,7 @@ case_159: {
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_264 ] = num_node_264;
-        edge_num_cuts[ num_edge_264 ] = num_cut;
+        edge_num_cuts[ num_edge_264 ] = num_cut_proc;
     } else
         num_node_264 = edge_cuts[ num_edge_264 ];
     int num_node_7 = faces.node_lists[ num_face ][ 7 ];
@@ -4907,7 +4907,7 @@ case_159: {
     int max_node_284 = max( num_node_7, num_node_0 );
     int num_edge_284 = max_node_284 * ( max_node_284 + 1 ) / 2 + min_node_284;
     int num_node_284;
-    if ( edge_num_cuts[ num_edge_284 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_284 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -4927,7 +4927,7 @@ case_159: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_284 ] = num_node_284;
-        edge_num_cuts[ num_edge_284 ] = num_cut;
+        edge_num_cuts[ num_edge_284 ] = num_cut_proc;
     } else
         num_node_284 = edge_cuts[ num_edge_284 ];
     break;
@@ -4939,7 +4939,7 @@ case_34: {
     int max_node_257 = max( num_node_0, num_node_1 );
     int num_edge_257 = max_node_257 * ( max_node_257 + 1 ) / 2 + min_node_257;
     int num_node_257;
-    if ( edge_num_cuts[ num_edge_257 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_257 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -4959,7 +4959,7 @@ case_34: {
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_257 ] = num_node_257;
-        edge_num_cuts[ num_edge_257 ] = num_cut;
+        edge_num_cuts[ num_edge_257 ] = num_cut_proc;
     } else
         num_node_257 = edge_cuts[ num_edge_257 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
@@ -4967,7 +4967,7 @@ case_34: {
     int max_node_260 = max( num_node_1, num_node_2 );
     int num_edge_260 = max_node_260 * ( max_node_260 + 1 ) / 2 + min_node_260;
     int num_node_260;
-    if ( edge_num_cuts[ num_edge_260 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_260 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -4987,7 +4987,7 @@ case_34: {
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_260 ] = num_node_260;
-        edge_num_cuts[ num_edge_260 ] = num_cut;
+        edge_num_cuts[ num_edge_260 ] = num_cut_proc;
     } else
         num_node_260 = edge_cuts[ num_edge_260 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
@@ -4996,7 +4996,7 @@ case_34: {
     int max_node_269 = max( num_node_3, num_node_4 );
     int num_edge_269 = max_node_269 * ( max_node_269 + 1 ) / 2 + min_node_269;
     int num_node_269;
-    if ( edge_num_cuts[ num_edge_269 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_269 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -5016,14 +5016,14 @@ case_34: {
         const Node &n1 = nodes.local_at( num_node_4 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_269 ] = num_node_269;
-        edge_num_cuts[ num_edge_269 ] = num_cut;
+        edge_num_cuts[ num_edge_269 ] = num_cut_proc;
     } else
         num_node_269 = edge_cuts[ num_edge_269 ];
     int min_node_266 = min( num_node_4, num_node_0 );
     int max_node_266 = max( num_node_4, num_node_0 );
     int num_edge_266 = max_node_266 * ( max_node_266 + 1 ) / 2 + min_node_266;
     int num_node_266;
-    if ( edge_num_cuts[ num_edge_266 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_266 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -5043,7 +5043,7 @@ case_34: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_266 ] = num_node_266;
-        edge_num_cuts[ num_edge_266 ] = num_cut;
+        edge_num_cuts[ num_edge_266 ] = num_cut_proc;
     } else
         num_node_266 = edge_cuts[ num_edge_266 ];
     break;
@@ -5055,7 +5055,7 @@ case_56: {
     int max_node_257 = max( num_node_0, num_node_1 );
     int num_edge_257 = max_node_257 * ( max_node_257 + 1 ) / 2 + min_node_257;
     int num_node_257;
-    if ( edge_num_cuts[ num_edge_257 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_257 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -5075,7 +5075,7 @@ case_56: {
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_257 ] = num_node_257;
-        edge_num_cuts[ num_edge_257 ] = num_cut;
+        edge_num_cuts[ num_edge_257 ] = num_cut_proc;
     } else
         num_node_257 = edge_cuts[ num_edge_257 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
@@ -5083,7 +5083,7 @@ case_56: {
     int max_node_260 = max( num_node_1, num_node_2 );
     int num_edge_260 = max_node_260 * ( max_node_260 + 1 ) / 2 + min_node_260;
     int num_node_260;
-    if ( edge_num_cuts[ num_edge_260 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_260 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -5103,7 +5103,7 @@ case_56: {
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_260 ] = num_node_260;
-        edge_num_cuts[ num_edge_260 ] = num_cut;
+        edge_num_cuts[ num_edge_260 ] = num_cut_proc;
     } else
         num_node_260 = edge_cuts[ num_edge_260 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
@@ -5112,7 +5112,7 @@ case_56: {
     int max_node_269 = max( num_node_3, num_node_4 );
     int num_edge_269 = max_node_269 * ( max_node_269 + 1 ) / 2 + min_node_269;
     int num_node_269;
-    if ( edge_num_cuts[ num_edge_269 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_269 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -5132,7 +5132,7 @@ case_56: {
         const Node &n1 = nodes.local_at( num_node_4 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_269 ] = num_node_269;
-        edge_num_cuts[ num_edge_269 ] = num_cut;
+        edge_num_cuts[ num_edge_269 ] = num_cut_proc;
     } else
         num_node_269 = edge_cuts[ num_edge_269 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
@@ -5140,7 +5140,7 @@ case_56: {
     int max_node_271 = max( num_node_5, num_node_0 );
     int num_edge_271 = max_node_271 * ( max_node_271 + 1 ) / 2 + min_node_271;
     int num_node_271;
-    if ( edge_num_cuts[ num_edge_271 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_271 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -5160,7 +5160,7 @@ case_56: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_271 ] = num_node_271;
-        edge_num_cuts[ num_edge_271 ] = num_cut;
+        edge_num_cuts[ num_edge_271 ] = num_cut_proc;
     } else
         num_node_271 = edge_cuts[ num_edge_271 ];
     break;
@@ -5172,7 +5172,7 @@ case_61: {
     int max_node_257 = max( num_node_0, num_node_1 );
     int num_edge_257 = max_node_257 * ( max_node_257 + 1 ) / 2 + min_node_257;
     int num_node_257;
-    if ( edge_num_cuts[ num_edge_257 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_257 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -5192,7 +5192,7 @@ case_61: {
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_257 ] = num_node_257;
-        edge_num_cuts[ num_edge_257 ] = num_cut;
+        edge_num_cuts[ num_edge_257 ] = num_cut_proc;
     } else
         num_node_257 = edge_cuts[ num_edge_257 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
@@ -5200,7 +5200,7 @@ case_61: {
     int max_node_260 = max( num_node_1, num_node_2 );
     int num_edge_260 = max_node_260 * ( max_node_260 + 1 ) / 2 + min_node_260;
     int num_node_260;
-    if ( edge_num_cuts[ num_edge_260 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_260 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -5220,7 +5220,7 @@ case_61: {
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_260 ] = num_node_260;
-        edge_num_cuts[ num_edge_260 ] = num_cut;
+        edge_num_cuts[ num_edge_260 ] = num_cut_proc;
     } else
         num_node_260 = edge_cuts[ num_edge_260 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
@@ -5229,7 +5229,7 @@ case_61: {
     int max_node_269 = max( num_node_3, num_node_4 );
     int num_edge_269 = max_node_269 * ( max_node_269 + 1 ) / 2 + min_node_269;
     int num_node_269;
-    if ( edge_num_cuts[ num_edge_269 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_269 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -5249,7 +5249,7 @@ case_61: {
         const Node &n1 = nodes.local_at( num_node_4 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_269 ] = num_node_269;
-        edge_num_cuts[ num_edge_269 ] = num_cut;
+        edge_num_cuts[ num_edge_269 ] = num_cut_proc;
     } else
         num_node_269 = edge_cuts[ num_edge_269 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
@@ -5257,7 +5257,7 @@ case_61: {
     int max_node_275 = max( num_node_4, num_node_5 );
     int num_edge_275 = max_node_275 * ( max_node_275 + 1 ) / 2 + min_node_275;
     int num_node_275;
-    if ( edge_num_cuts[ num_edge_275 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_275 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -5277,7 +5277,7 @@ case_61: {
         const Node &n1 = nodes.local_at( num_node_5 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_275 ] = num_node_275;
-        edge_num_cuts[ num_edge_275 ] = num_cut;
+        edge_num_cuts[ num_edge_275 ] = num_cut_proc;
     } else
         num_node_275 = edge_cuts[ num_edge_275 ];
     break;
@@ -5289,7 +5289,7 @@ case_124: {
     int max_node_257 = max( num_node_0, num_node_1 );
     int num_edge_257 = max_node_257 * ( max_node_257 + 1 ) / 2 + min_node_257;
     int num_node_257;
-    if ( edge_num_cuts[ num_edge_257 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_257 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -5309,7 +5309,7 @@ case_124: {
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_257 ] = num_node_257;
-        edge_num_cuts[ num_edge_257 ] = num_cut;
+        edge_num_cuts[ num_edge_257 ] = num_cut_proc;
     } else
         num_node_257 = edge_cuts[ num_edge_257 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
@@ -5317,7 +5317,7 @@ case_124: {
     int max_node_260 = max( num_node_1, num_node_2 );
     int num_edge_260 = max_node_260 * ( max_node_260 + 1 ) / 2 + min_node_260;
     int num_node_260;
-    if ( edge_num_cuts[ num_edge_260 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_260 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -5337,7 +5337,7 @@ case_124: {
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_260 ] = num_node_260;
-        edge_num_cuts[ num_edge_260 ] = num_cut;
+        edge_num_cuts[ num_edge_260 ] = num_cut_proc;
     } else
         num_node_260 = edge_cuts[ num_edge_260 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
@@ -5346,7 +5346,7 @@ case_124: {
     int max_node_269 = max( num_node_3, num_node_4 );
     int num_edge_269 = max_node_269 * ( max_node_269 + 1 ) / 2 + min_node_269;
     int num_node_269;
-    if ( edge_num_cuts[ num_edge_269 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_269 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -5366,7 +5366,7 @@ case_124: {
         const Node &n1 = nodes.local_at( num_node_4 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_269 ] = num_node_269;
-        edge_num_cuts[ num_edge_269 ] = num_cut;
+        edge_num_cuts[ num_edge_269 ] = num_cut_proc;
     } else
         num_node_269 = edge_cuts[ num_edge_269 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
@@ -5374,7 +5374,7 @@ case_124: {
     int max_node_275 = max( num_node_4, num_node_5 );
     int num_edge_275 = max_node_275 * ( max_node_275 + 1 ) / 2 + min_node_275;
     int num_node_275;
-    if ( edge_num_cuts[ num_edge_275 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_275 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -5394,7 +5394,7 @@ case_124: {
         const Node &n1 = nodes.local_at( num_node_5 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_275 ] = num_node_275;
-        edge_num_cuts[ num_edge_275 ] = num_cut;
+        edge_num_cuts[ num_edge_275 ] = num_cut_proc;
     } else
         num_node_275 = edge_cuts[ num_edge_275 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
@@ -5402,7 +5402,7 @@ case_124: {
     int max_node_282 = max( num_node_5, num_node_6 );
     int num_edge_282 = max_node_282 * ( max_node_282 + 1 ) / 2 + min_node_282;
     int num_node_282;
-    if ( edge_num_cuts[ num_edge_282 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_282 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -5422,14 +5422,14 @@ case_124: {
         const Node &n1 = nodes.local_at( num_node_6 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_282 ] = num_node_282;
-        edge_num_cuts[ num_edge_282 ] = num_cut;
+        edge_num_cuts[ num_edge_282 ] = num_cut_proc;
     } else
         num_node_282 = edge_cuts[ num_edge_282 ];
     int min_node_277 = min( num_node_6, num_node_0 );
     int max_node_277 = max( num_node_6, num_node_0 );
     int num_edge_277 = max_node_277 * ( max_node_277 + 1 ) / 2 + min_node_277;
     int num_node_277;
-    if ( edge_num_cuts[ num_edge_277 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_277 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -5449,7 +5449,7 @@ case_124: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_277 ] = num_node_277;
-        edge_num_cuts[ num_edge_277 ] = num_cut;
+        edge_num_cuts[ num_edge_277 ] = num_cut_proc;
     } else
         num_node_277 = edge_cuts[ num_edge_277 ];
     break;
@@ -5461,7 +5461,7 @@ case_188: {
     int max_node_257 = max( num_node_0, num_node_1 );
     int num_edge_257 = max_node_257 * ( max_node_257 + 1 ) / 2 + min_node_257;
     int num_node_257;
-    if ( edge_num_cuts[ num_edge_257 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_257 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -5481,7 +5481,7 @@ case_188: {
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_257 ] = num_node_257;
-        edge_num_cuts[ num_edge_257 ] = num_cut;
+        edge_num_cuts[ num_edge_257 ] = num_cut_proc;
     } else
         num_node_257 = edge_cuts[ num_edge_257 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
@@ -5489,7 +5489,7 @@ case_188: {
     int max_node_260 = max( num_node_1, num_node_2 );
     int num_edge_260 = max_node_260 * ( max_node_260 + 1 ) / 2 + min_node_260;
     int num_node_260;
-    if ( edge_num_cuts[ num_edge_260 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_260 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -5509,7 +5509,7 @@ case_188: {
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_260 ] = num_node_260;
-        edge_num_cuts[ num_edge_260 ] = num_cut;
+        edge_num_cuts[ num_edge_260 ] = num_cut_proc;
     } else
         num_node_260 = edge_cuts[ num_edge_260 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
@@ -5518,7 +5518,7 @@ case_188: {
     int max_node_269 = max( num_node_3, num_node_4 );
     int num_edge_269 = max_node_269 * ( max_node_269 + 1 ) / 2 + min_node_269;
     int num_node_269;
-    if ( edge_num_cuts[ num_edge_269 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_269 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -5538,7 +5538,7 @@ case_188: {
         const Node &n1 = nodes.local_at( num_node_4 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_269 ] = num_node_269;
-        edge_num_cuts[ num_edge_269 ] = num_cut;
+        edge_num_cuts[ num_edge_269 ] = num_cut_proc;
     } else
         num_node_269 = edge_cuts[ num_edge_269 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
@@ -5546,7 +5546,7 @@ case_188: {
     int max_node_275 = max( num_node_4, num_node_5 );
     int num_edge_275 = max_node_275 * ( max_node_275 + 1 ) / 2 + min_node_275;
     int num_node_275;
-    if ( edge_num_cuts[ num_edge_275 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_275 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -5566,7 +5566,7 @@ case_188: {
         const Node &n1 = nodes.local_at( num_node_5 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_275 ] = num_node_275;
-        edge_num_cuts[ num_edge_275 ] = num_cut;
+        edge_num_cuts[ num_edge_275 ] = num_cut_proc;
     } else
         num_node_275 = edge_cuts[ num_edge_275 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
@@ -5574,7 +5574,7 @@ case_188: {
     int max_node_282 = max( num_node_5, num_node_6 );
     int num_edge_282 = max_node_282 * ( max_node_282 + 1 ) / 2 + min_node_282;
     int num_node_282;
-    if ( edge_num_cuts[ num_edge_282 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_282 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -5594,7 +5594,7 @@ case_188: {
         const Node &n1 = nodes.local_at( num_node_6 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_282 ] = num_node_282;
-        edge_num_cuts[ num_edge_282 ] = num_cut;
+        edge_num_cuts[ num_edge_282 ] = num_cut_proc;
     } else
         num_node_282 = edge_cuts[ num_edge_282 ];
     int num_node_7 = faces.node_lists[ num_face ][ 7 ];
@@ -5602,7 +5602,7 @@ case_188: {
     int max_node_284 = max( num_node_7, num_node_0 );
     int num_edge_284 = max_node_284 * ( max_node_284 + 1 ) / 2 + min_node_284;
     int num_node_284;
-    if ( edge_num_cuts[ num_edge_284 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_284 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -5622,7 +5622,7 @@ case_188: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_284 ] = num_node_284;
-        edge_num_cuts[ num_edge_284 ] = num_cut;
+        edge_num_cuts[ num_edge_284 ] = num_cut_proc;
     } else
         num_node_284 = edge_cuts[ num_edge_284 ];
     break;
@@ -5634,7 +5634,7 @@ case_220: {
     int max_node_257 = max( num_node_0, num_node_1 );
     int num_edge_257 = max_node_257 * ( max_node_257 + 1 ) / 2 + min_node_257;
     int num_node_257;
-    if ( edge_num_cuts[ num_edge_257 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_257 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -5654,7 +5654,7 @@ case_220: {
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_257 ] = num_node_257;
-        edge_num_cuts[ num_edge_257 ] = num_cut;
+        edge_num_cuts[ num_edge_257 ] = num_cut_proc;
     } else
         num_node_257 = edge_cuts[ num_edge_257 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
@@ -5662,7 +5662,7 @@ case_220: {
     int max_node_260 = max( num_node_1, num_node_2 );
     int num_edge_260 = max_node_260 * ( max_node_260 + 1 ) / 2 + min_node_260;
     int num_node_260;
-    if ( edge_num_cuts[ num_edge_260 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_260 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -5682,7 +5682,7 @@ case_220: {
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_260 ] = num_node_260;
-        edge_num_cuts[ num_edge_260 ] = num_cut;
+        edge_num_cuts[ num_edge_260 ] = num_cut_proc;
     } else
         num_node_260 = edge_cuts[ num_edge_260 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
@@ -5691,7 +5691,7 @@ case_220: {
     int max_node_269 = max( num_node_3, num_node_4 );
     int num_edge_269 = max_node_269 * ( max_node_269 + 1 ) / 2 + min_node_269;
     int num_node_269;
-    if ( edge_num_cuts[ num_edge_269 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_269 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -5711,7 +5711,7 @@ case_220: {
         const Node &n1 = nodes.local_at( num_node_4 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_269 ] = num_node_269;
-        edge_num_cuts[ num_edge_269 ] = num_cut;
+        edge_num_cuts[ num_edge_269 ] = num_cut_proc;
     } else
         num_node_269 = edge_cuts[ num_edge_269 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
@@ -5719,7 +5719,7 @@ case_220: {
     int max_node_275 = max( num_node_4, num_node_5 );
     int num_edge_275 = max_node_275 * ( max_node_275 + 1 ) / 2 + min_node_275;
     int num_node_275;
-    if ( edge_num_cuts[ num_edge_275 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_275 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -5739,7 +5739,7 @@ case_220: {
         const Node &n1 = nodes.local_at( num_node_5 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_275 ] = num_node_275;
-        edge_num_cuts[ num_edge_275 ] = num_cut;
+        edge_num_cuts[ num_edge_275 ] = num_cut_proc;
     } else
         num_node_275 = edge_cuts[ num_edge_275 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
@@ -5747,7 +5747,7 @@ case_220: {
     int max_node_282 = max( num_node_5, num_node_6 );
     int num_edge_282 = max_node_282 * ( max_node_282 + 1 ) / 2 + min_node_282;
     int num_node_282;
-    if ( edge_num_cuts[ num_edge_282 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_282 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -5767,7 +5767,7 @@ case_220: {
         const Node &n1 = nodes.local_at( num_node_6 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_282 ] = num_node_282;
-        edge_num_cuts[ num_edge_282 ] = num_cut;
+        edge_num_cuts[ num_edge_282 ] = num_cut_proc;
     } else
         num_node_282 = edge_cuts[ num_edge_282 ];
     int num_node_7 = faces.node_lists[ num_face ][ 7 ];
@@ -5775,7 +5775,7 @@ case_220: {
     int max_node_290 = max( num_node_6, num_node_7 );
     int num_edge_290 = max_node_290 * ( max_node_290 + 1 ) / 2 + min_node_290;
     int num_node_290;
-    if ( edge_num_cuts[ num_edge_290 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_290 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -5795,7 +5795,7 @@ case_220: {
         const Node &n1 = nodes.local_at( num_node_7 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_290 ] = num_node_290;
-        edge_num_cuts[ num_edge_290 ] = num_cut;
+        edge_num_cuts[ num_edge_290 ] = num_cut_proc;
     } else
         num_node_290 = edge_cuts[ num_edge_290 ];
     break;
@@ -5807,7 +5807,7 @@ case_247: {
     int max_node_257 = max( num_node_0, num_node_1 );
     int num_edge_257 = max_node_257 * ( max_node_257 + 1 ) / 2 + min_node_257;
     int num_node_257;
-    if ( edge_num_cuts[ num_edge_257 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_257 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -5827,7 +5827,7 @@ case_247: {
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_257 ] = num_node_257;
-        edge_num_cuts[ num_edge_257 ] = num_cut;
+        edge_num_cuts[ num_edge_257 ] = num_cut_proc;
     } else
         num_node_257 = edge_cuts[ num_edge_257 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
@@ -5835,7 +5835,7 @@ case_247: {
     int max_node_260 = max( num_node_1, num_node_2 );
     int num_edge_260 = max_node_260 * ( max_node_260 + 1 ) / 2 + min_node_260;
     int num_node_260;
-    if ( edge_num_cuts[ num_edge_260 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_260 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -5855,7 +5855,7 @@ case_247: {
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_260 ] = num_node_260;
-        edge_num_cuts[ num_edge_260 ] = num_cut;
+        edge_num_cuts[ num_edge_260 ] = num_cut_proc;
     } else
         num_node_260 = edge_cuts[ num_edge_260 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
@@ -5864,7 +5864,7 @@ case_247: {
     int max_node_269 = max( num_node_3, num_node_4 );
     int num_edge_269 = max_node_269 * ( max_node_269 + 1 ) / 2 + min_node_269;
     int num_node_269;
-    if ( edge_num_cuts[ num_edge_269 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_269 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -5884,7 +5884,7 @@ case_247: {
         const Node &n1 = nodes.local_at( num_node_4 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_269 ] = num_node_269;
-        edge_num_cuts[ num_edge_269 ] = num_cut;
+        edge_num_cuts[ num_edge_269 ] = num_cut_proc;
     } else
         num_node_269 = edge_cuts[ num_edge_269 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
@@ -5892,7 +5892,7 @@ case_247: {
     int max_node_275 = max( num_node_4, num_node_5 );
     int num_edge_275 = max_node_275 * ( max_node_275 + 1 ) / 2 + min_node_275;
     int num_node_275;
-    if ( edge_num_cuts[ num_edge_275 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_275 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -5912,7 +5912,7 @@ case_247: {
         const Node &n1 = nodes.local_at( num_node_5 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_275 ] = num_node_275;
-        edge_num_cuts[ num_edge_275 ] = num_cut;
+        edge_num_cuts[ num_edge_275 ] = num_cut_proc;
     } else
         num_node_275 = edge_cuts[ num_edge_275 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
@@ -5921,7 +5921,7 @@ case_247: {
     int max_node_290 = max( num_node_6, num_node_7 );
     int num_edge_290 = max_node_290 * ( max_node_290 + 1 ) / 2 + min_node_290;
     int num_node_290;
-    if ( edge_num_cuts[ num_edge_290 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_290 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -5941,14 +5941,14 @@ case_247: {
         const Node &n1 = nodes.local_at( num_node_7 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_290 ] = num_node_290;
-        edge_num_cuts[ num_edge_290 ] = num_cut;
+        edge_num_cuts[ num_edge_290 ] = num_cut_proc;
     } else
         num_node_290 = edge_cuts[ num_edge_290 ];
     int min_node_284 = min( num_node_7, num_node_0 );
     int max_node_284 = max( num_node_7, num_node_0 );
     int num_edge_284 = max_node_284 * ( max_node_284 + 1 ) / 2 + min_node_284;
     int num_node_284;
-    if ( edge_num_cuts[ num_edge_284 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_284 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -5968,7 +5968,7 @@ case_247: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_284 ] = num_node_284;
-        edge_num_cuts[ num_edge_284 ] = num_cut;
+        edge_num_cuts[ num_edge_284 ] = num_cut_proc;
     } else
         num_node_284 = edge_cuts[ num_edge_284 ];
     break;
@@ -5980,7 +5980,7 @@ case_129: {
     int max_node_257 = max( num_node_0, num_node_1 );
     int num_edge_257 = max_node_257 * ( max_node_257 + 1 ) / 2 + min_node_257;
     int num_node_257;
-    if ( edge_num_cuts[ num_edge_257 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_257 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -6000,7 +6000,7 @@ case_129: {
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_257 ] = num_node_257;
-        edge_num_cuts[ num_edge_257 ] = num_cut;
+        edge_num_cuts[ num_edge_257 ] = num_cut_proc;
     } else
         num_node_257 = edge_cuts[ num_edge_257 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
@@ -6008,7 +6008,7 @@ case_129: {
     int max_node_260 = max( num_node_1, num_node_2 );
     int num_edge_260 = max_node_260 * ( max_node_260 + 1 ) / 2 + min_node_260;
     int num_node_260;
-    if ( edge_num_cuts[ num_edge_260 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_260 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -6028,7 +6028,7 @@ case_129: {
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_260 ] = num_node_260;
-        edge_num_cuts[ num_edge_260 ] = num_cut;
+        edge_num_cuts[ num_edge_260 ] = num_cut_proc;
     } else
         num_node_260 = edge_cuts[ num_edge_260 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
@@ -6037,7 +6037,7 @@ case_129: {
     int max_node_269 = max( num_node_3, num_node_4 );
     int num_edge_269 = max_node_269 * ( max_node_269 + 1 ) / 2 + min_node_269;
     int num_node_269;
-    if ( edge_num_cuts[ num_edge_269 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_269 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -6057,7 +6057,7 @@ case_129: {
         const Node &n1 = nodes.local_at( num_node_4 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_269 ] = num_node_269;
-        edge_num_cuts[ num_edge_269 ] = num_cut;
+        edge_num_cuts[ num_edge_269 ] = num_cut_proc;
     } else
         num_node_269 = edge_cuts[ num_edge_269 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
@@ -6066,7 +6066,7 @@ case_129: {
     int max_node_282 = max( num_node_5, num_node_6 );
     int num_edge_282 = max_node_282 * ( max_node_282 + 1 ) / 2 + min_node_282;
     int num_node_282;
-    if ( edge_num_cuts[ num_edge_282 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_282 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -6086,7 +6086,7 @@ case_129: {
         const Node &n1 = nodes.local_at( num_node_6 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_282 ] = num_node_282;
-        edge_num_cuts[ num_edge_282 ] = num_cut;
+        edge_num_cuts[ num_edge_282 ] = num_cut_proc;
     } else
         num_node_282 = edge_cuts[ num_edge_282 ];
     break;
@@ -6098,7 +6098,7 @@ case_215: {
     int max_node_257 = max( num_node_0, num_node_1 );
     int num_edge_257 = max_node_257 * ( max_node_257 + 1 ) / 2 + min_node_257;
     int num_node_257;
-    if ( edge_num_cuts[ num_edge_257 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_257 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -6118,7 +6118,7 @@ case_215: {
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_257 ] = num_node_257;
-        edge_num_cuts[ num_edge_257 ] = num_cut;
+        edge_num_cuts[ num_edge_257 ] = num_cut_proc;
     } else
         num_node_257 = edge_cuts[ num_edge_257 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
@@ -6126,7 +6126,7 @@ case_215: {
     int max_node_260 = max( num_node_1, num_node_2 );
     int num_edge_260 = max_node_260 * ( max_node_260 + 1 ) / 2 + min_node_260;
     int num_node_260;
-    if ( edge_num_cuts[ num_edge_260 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_260 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -6146,7 +6146,7 @@ case_215: {
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_260 ] = num_node_260;
-        edge_num_cuts[ num_edge_260 ] = num_cut;
+        edge_num_cuts[ num_edge_260 ] = num_cut_proc;
     } else
         num_node_260 = edge_cuts[ num_edge_260 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
@@ -6155,7 +6155,7 @@ case_215: {
     int max_node_269 = max( num_node_3, num_node_4 );
     int num_edge_269 = max_node_269 * ( max_node_269 + 1 ) / 2 + min_node_269;
     int num_node_269;
-    if ( edge_num_cuts[ num_edge_269 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_269 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -6175,7 +6175,7 @@ case_215: {
         const Node &n1 = nodes.local_at( num_node_4 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_269 ] = num_node_269;
-        edge_num_cuts[ num_edge_269 ] = num_cut;
+        edge_num_cuts[ num_edge_269 ] = num_cut_proc;
     } else
         num_node_269 = edge_cuts[ num_edge_269 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
@@ -6184,7 +6184,7 @@ case_215: {
     int max_node_282 = max( num_node_5, num_node_6 );
     int num_edge_282 = max_node_282 * ( max_node_282 + 1 ) / 2 + min_node_282;
     int num_node_282;
-    if ( edge_num_cuts[ num_edge_282 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_282 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -6204,7 +6204,7 @@ case_215: {
         const Node &n1 = nodes.local_at( num_node_6 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_282 ] = num_node_282;
-        edge_num_cuts[ num_edge_282 ] = num_cut;
+        edge_num_cuts[ num_edge_282 ] = num_cut_proc;
     } else
         num_node_282 = edge_cuts[ num_edge_282 ];
     int num_node_7 = faces.node_lists[ num_face ][ 7 ];
@@ -6212,7 +6212,7 @@ case_215: {
     int max_node_290 = max( num_node_6, num_node_7 );
     int num_edge_290 = max_node_290 * ( max_node_290 + 1 ) / 2 + min_node_290;
     int num_node_290;
-    if ( edge_num_cuts[ num_edge_290 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_290 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -6232,14 +6232,14 @@ case_215: {
         const Node &n1 = nodes.local_at( num_node_7 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_290 ] = num_node_290;
-        edge_num_cuts[ num_edge_290 ] = num_cut;
+        edge_num_cuts[ num_edge_290 ] = num_cut_proc;
     } else
         num_node_290 = edge_cuts[ num_edge_290 ];
     int min_node_284 = min( num_node_7, num_node_0 );
     int max_node_284 = max( num_node_7, num_node_0 );
     int num_edge_284 = max_node_284 * ( max_node_284 + 1 ) / 2 + min_node_284;
     int num_node_284;
-    if ( edge_num_cuts[ num_edge_284 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_284 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -6259,7 +6259,7 @@ case_215: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_284 ] = num_node_284;
-        edge_num_cuts[ num_edge_284 ] = num_cut;
+        edge_num_cuts[ num_edge_284 ] = num_cut_proc;
     } else
         num_node_284 = edge_cuts[ num_edge_284 ];
     break;
@@ -6271,7 +6271,7 @@ case_96: {
     int max_node_257 = max( num_node_0, num_node_1 );
     int num_edge_257 = max_node_257 * ( max_node_257 + 1 ) / 2 + min_node_257;
     int num_node_257;
-    if ( edge_num_cuts[ num_edge_257 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_257 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -6291,7 +6291,7 @@ case_96: {
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_257 ] = num_node_257;
-        edge_num_cuts[ num_edge_257 ] = num_cut;
+        edge_num_cuts[ num_edge_257 ] = num_cut_proc;
     } else
         num_node_257 = edge_cuts[ num_edge_257 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
@@ -6299,7 +6299,7 @@ case_96: {
     int max_node_260 = max( num_node_1, num_node_2 );
     int num_edge_260 = max_node_260 * ( max_node_260 + 1 ) / 2 + min_node_260;
     int num_node_260;
-    if ( edge_num_cuts[ num_edge_260 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_260 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -6319,7 +6319,7 @@ case_96: {
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_260 ] = num_node_260;
-        edge_num_cuts[ num_edge_260 ] = num_cut;
+        edge_num_cuts[ num_edge_260 ] = num_cut_proc;
     } else
         num_node_260 = edge_cuts[ num_edge_260 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
@@ -6328,7 +6328,7 @@ case_96: {
     int max_node_269 = max( num_node_3, num_node_4 );
     int num_edge_269 = max_node_269 * ( max_node_269 + 1 ) / 2 + min_node_269;
     int num_node_269;
-    if ( edge_num_cuts[ num_edge_269 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_269 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -6348,7 +6348,7 @@ case_96: {
         const Node &n1 = nodes.local_at( num_node_4 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_269 ] = num_node_269;
-        edge_num_cuts[ num_edge_269 ] = num_cut;
+        edge_num_cuts[ num_edge_269 ] = num_cut_proc;
     } else
         num_node_269 = edge_cuts[ num_edge_269 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
@@ -6356,7 +6356,7 @@ case_96: {
     int max_node_277 = max( num_node_6, num_node_0 );
     int num_edge_277 = max_node_277 * ( max_node_277 + 1 ) / 2 + min_node_277;
     int num_node_277;
-    if ( edge_num_cuts[ num_edge_277 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_277 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -6376,7 +6376,7 @@ case_96: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_277 ] = num_node_277;
-        edge_num_cuts[ num_edge_277 ] = num_cut;
+        edge_num_cuts[ num_edge_277 ] = num_cut_proc;
     } else
         num_node_277 = edge_cuts[ num_edge_277 ];
     break;
@@ -6388,7 +6388,7 @@ case_252: {
     int max_node_257 = max( num_node_0, num_node_1 );
     int num_edge_257 = max_node_257 * ( max_node_257 + 1 ) / 2 + min_node_257;
     int num_node_257;
-    if ( edge_num_cuts[ num_edge_257 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_257 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -6408,7 +6408,7 @@ case_252: {
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_257 ] = num_node_257;
-        edge_num_cuts[ num_edge_257 ] = num_cut;
+        edge_num_cuts[ num_edge_257 ] = num_cut_proc;
     } else
         num_node_257 = edge_cuts[ num_edge_257 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
@@ -6416,7 +6416,7 @@ case_252: {
     int max_node_260 = max( num_node_1, num_node_2 );
     int num_edge_260 = max_node_260 * ( max_node_260 + 1 ) / 2 + min_node_260;
     int num_node_260;
-    if ( edge_num_cuts[ num_edge_260 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_260 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -6436,7 +6436,7 @@ case_252: {
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_260 ] = num_node_260;
-        edge_num_cuts[ num_edge_260 ] = num_cut;
+        edge_num_cuts[ num_edge_260 ] = num_cut_proc;
     } else
         num_node_260 = edge_cuts[ num_edge_260 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
@@ -6445,7 +6445,7 @@ case_252: {
     int max_node_269 = max( num_node_3, num_node_4 );
     int num_edge_269 = max_node_269 * ( max_node_269 + 1 ) / 2 + min_node_269;
     int num_node_269;
-    if ( edge_num_cuts[ num_edge_269 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_269 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -6465,7 +6465,7 @@ case_252: {
         const Node &n1 = nodes.local_at( num_node_4 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_269 ] = num_node_269;
-        edge_num_cuts[ num_edge_269 ] = num_cut;
+        edge_num_cuts[ num_edge_269 ] = num_cut_proc;
     } else
         num_node_269 = edge_cuts[ num_edge_269 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
@@ -6474,7 +6474,7 @@ case_252: {
     int max_node_290 = max( num_node_6, num_node_7 );
     int num_edge_290 = max_node_290 * ( max_node_290 + 1 ) / 2 + min_node_290;
     int num_node_290;
-    if ( edge_num_cuts[ num_edge_290 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_290 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -6494,7 +6494,7 @@ case_252: {
         const Node &n1 = nodes.local_at( num_node_7 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_290 ] = num_node_290;
-        edge_num_cuts[ num_edge_290 ] = num_cut;
+        edge_num_cuts[ num_edge_290 ] = num_cut_proc;
     } else
         num_node_290 = edge_cuts[ num_edge_290 ];
     break;
@@ -6506,7 +6506,7 @@ case_166: {
     int max_node_257 = max( num_node_0, num_node_1 );
     int num_edge_257 = max_node_257 * ( max_node_257 + 1 ) / 2 + min_node_257;
     int num_node_257;
-    if ( edge_num_cuts[ num_edge_257 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_257 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -6526,7 +6526,7 @@ case_166: {
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_257 ] = num_node_257;
-        edge_num_cuts[ num_edge_257 ] = num_cut;
+        edge_num_cuts[ num_edge_257 ] = num_cut_proc;
     } else
         num_node_257 = edge_cuts[ num_edge_257 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
@@ -6534,7 +6534,7 @@ case_166: {
     int max_node_260 = max( num_node_1, num_node_2 );
     int num_edge_260 = max_node_260 * ( max_node_260 + 1 ) / 2 + min_node_260;
     int num_node_260;
-    if ( edge_num_cuts[ num_edge_260 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_260 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -6554,7 +6554,7 @@ case_166: {
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_260 ] = num_node_260;
-        edge_num_cuts[ num_edge_260 ] = num_cut;
+        edge_num_cuts[ num_edge_260 ] = num_cut_proc;
     } else
         num_node_260 = edge_cuts[ num_edge_260 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
@@ -6563,7 +6563,7 @@ case_166: {
     int max_node_269 = max( num_node_3, num_node_4 );
     int num_edge_269 = max_node_269 * ( max_node_269 + 1 ) / 2 + min_node_269;
     int num_node_269;
-    if ( edge_num_cuts[ num_edge_269 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_269 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -6583,7 +6583,7 @@ case_166: {
         const Node &n1 = nodes.local_at( num_node_4 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_269 ] = num_node_269;
-        edge_num_cuts[ num_edge_269 ] = num_cut;
+        edge_num_cuts[ num_edge_269 ] = num_cut_proc;
     } else
         num_node_269 = edge_cuts[ num_edge_269 ];
     int num_node_7 = faces.node_lists[ num_face ][ 7 ];
@@ -6591,7 +6591,7 @@ case_166: {
     int max_node_284 = max( num_node_7, num_node_0 );
     int num_edge_284 = max_node_284 * ( max_node_284 + 1 ) / 2 + min_node_284;
     int num_node_284;
-    if ( edge_num_cuts[ num_edge_284 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_284 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -6611,7 +6611,7 @@ case_166: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_284 ] = num_node_284;
-        edge_num_cuts[ num_edge_284 ] = num_cut;
+        edge_num_cuts[ num_edge_284 ] = num_cut_proc;
     } else
         num_node_284 = edge_cuts[ num_edge_284 ];
     break;
@@ -6623,7 +6623,7 @@ case_72: {
     int max_node_257 = max( num_node_0, num_node_1 );
     int num_edge_257 = max_node_257 * ( max_node_257 + 1 ) / 2 + min_node_257;
     int num_node_257;
-    if ( edge_num_cuts[ num_edge_257 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_257 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -6643,7 +6643,7 @@ case_72: {
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_257 ] = num_node_257;
-        edge_num_cuts[ num_edge_257 ] = num_cut;
+        edge_num_cuts[ num_edge_257 ] = num_cut_proc;
     } else
         num_node_257 = edge_cuts[ num_edge_257 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
@@ -6651,7 +6651,7 @@ case_72: {
     int max_node_260 = max( num_node_1, num_node_2 );
     int num_edge_260 = max_node_260 * ( max_node_260 + 1 ) / 2 + min_node_260;
     int num_node_260;
-    if ( edge_num_cuts[ num_edge_260 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_260 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -6671,7 +6671,7 @@ case_72: {
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_260 ] = num_node_260;
-        edge_num_cuts[ num_edge_260 ] = num_cut;
+        edge_num_cuts[ num_edge_260 ] = num_cut_proc;
     } else
         num_node_260 = edge_cuts[ num_edge_260 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
@@ -6680,7 +6680,7 @@ case_72: {
     int max_node_275 = max( num_node_4, num_node_5 );
     int num_edge_275 = max_node_275 * ( max_node_275 + 1 ) / 2 + min_node_275;
     int num_node_275;
-    if ( edge_num_cuts[ num_edge_275 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_275 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -6700,14 +6700,14 @@ case_72: {
         const Node &n1 = nodes.local_at( num_node_5 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_275 ] = num_node_275;
-        edge_num_cuts[ num_edge_275 ] = num_cut;
+        edge_num_cuts[ num_edge_275 ] = num_cut_proc;
     } else
         num_node_275 = edge_cuts[ num_edge_275 ];
     int min_node_271 = min( num_node_5, num_node_0 );
     int max_node_271 = max( num_node_5, num_node_0 );
     int num_edge_271 = max_node_271 * ( max_node_271 + 1 ) / 2 + min_node_271;
     int num_node_271;
-    if ( edge_num_cuts[ num_edge_271 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_271 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -6727,7 +6727,7 @@ case_72: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_271 ] = num_node_271;
-        edge_num_cuts[ num_edge_271 ] = num_cut;
+        edge_num_cuts[ num_edge_271 ] = num_cut_proc;
     } else
         num_node_271 = edge_cuts[ num_edge_271 ];
     break;
@@ -6739,7 +6739,7 @@ case_108: {
     int max_node_257 = max( num_node_0, num_node_1 );
     int num_edge_257 = max_node_257 * ( max_node_257 + 1 ) / 2 + min_node_257;
     int num_node_257;
-    if ( edge_num_cuts[ num_edge_257 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_257 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -6759,7 +6759,7 @@ case_108: {
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_257 ] = num_node_257;
-        edge_num_cuts[ num_edge_257 ] = num_cut;
+        edge_num_cuts[ num_edge_257 ] = num_cut_proc;
     } else
         num_node_257 = edge_cuts[ num_edge_257 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
@@ -6767,7 +6767,7 @@ case_108: {
     int max_node_260 = max( num_node_1, num_node_2 );
     int num_edge_260 = max_node_260 * ( max_node_260 + 1 ) / 2 + min_node_260;
     int num_node_260;
-    if ( edge_num_cuts[ num_edge_260 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_260 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -6787,7 +6787,7 @@ case_108: {
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_260 ] = num_node_260;
-        edge_num_cuts[ num_edge_260 ] = num_cut;
+        edge_num_cuts[ num_edge_260 ] = num_cut_proc;
     } else
         num_node_260 = edge_cuts[ num_edge_260 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
@@ -6796,7 +6796,7 @@ case_108: {
     int max_node_275 = max( num_node_4, num_node_5 );
     int num_edge_275 = max_node_275 * ( max_node_275 + 1 ) / 2 + min_node_275;
     int num_node_275;
-    if ( edge_num_cuts[ num_edge_275 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_275 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -6816,7 +6816,7 @@ case_108: {
         const Node &n1 = nodes.local_at( num_node_5 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_275 ] = num_node_275;
-        edge_num_cuts[ num_edge_275 ] = num_cut;
+        edge_num_cuts[ num_edge_275 ] = num_cut_proc;
     } else
         num_node_275 = edge_cuts[ num_edge_275 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
@@ -6824,7 +6824,7 @@ case_108: {
     int max_node_277 = max( num_node_6, num_node_0 );
     int num_edge_277 = max_node_277 * ( max_node_277 + 1 ) / 2 + min_node_277;
     int num_node_277;
-    if ( edge_num_cuts[ num_edge_277 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_277 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -6844,7 +6844,7 @@ case_108: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_277 ] = num_node_277;
-        edge_num_cuts[ num_edge_277 ] = num_cut;
+        edge_num_cuts[ num_edge_277 ] = num_cut_proc;
     } else
         num_node_277 = edge_cuts[ num_edge_277 ];
     break;
@@ -6856,7 +6856,7 @@ case_113: {
     int max_node_257 = max( num_node_0, num_node_1 );
     int num_edge_257 = max_node_257 * ( max_node_257 + 1 ) / 2 + min_node_257;
     int num_node_257;
-    if ( edge_num_cuts[ num_edge_257 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_257 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -6876,7 +6876,7 @@ case_113: {
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_257 ] = num_node_257;
-        edge_num_cuts[ num_edge_257 ] = num_cut;
+        edge_num_cuts[ num_edge_257 ] = num_cut_proc;
     } else
         num_node_257 = edge_cuts[ num_edge_257 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
@@ -6884,7 +6884,7 @@ case_113: {
     int max_node_260 = max( num_node_1, num_node_2 );
     int num_edge_260 = max_node_260 * ( max_node_260 + 1 ) / 2 + min_node_260;
     int num_node_260;
-    if ( edge_num_cuts[ num_edge_260 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_260 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -6904,7 +6904,7 @@ case_113: {
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_260 ] = num_node_260;
-        edge_num_cuts[ num_edge_260 ] = num_cut;
+        edge_num_cuts[ num_edge_260 ] = num_cut_proc;
     } else
         num_node_260 = edge_cuts[ num_edge_260 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
@@ -6913,7 +6913,7 @@ case_113: {
     int max_node_275 = max( num_node_4, num_node_5 );
     int num_edge_275 = max_node_275 * ( max_node_275 + 1 ) / 2 + min_node_275;
     int num_node_275;
-    if ( edge_num_cuts[ num_edge_275 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_275 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -6933,7 +6933,7 @@ case_113: {
         const Node &n1 = nodes.local_at( num_node_5 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_275 ] = num_node_275;
-        edge_num_cuts[ num_edge_275 ] = num_cut;
+        edge_num_cuts[ num_edge_275 ] = num_cut_proc;
     } else
         num_node_275 = edge_cuts[ num_edge_275 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
@@ -6941,7 +6941,7 @@ case_113: {
     int max_node_282 = max( num_node_5, num_node_6 );
     int num_edge_282 = max_node_282 * ( max_node_282 + 1 ) / 2 + min_node_282;
     int num_node_282;
-    if ( edge_num_cuts[ num_edge_282 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_282 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -6961,7 +6961,7 @@ case_113: {
         const Node &n1 = nodes.local_at( num_node_6 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_282 ] = num_node_282;
-        edge_num_cuts[ num_edge_282 ] = num_cut;
+        edge_num_cuts[ num_edge_282 ] = num_cut_proc;
     } else
         num_node_282 = edge_cuts[ num_edge_282 ];
     break;
@@ -6973,7 +6973,7 @@ case_231: {
     int max_node_257 = max( num_node_0, num_node_1 );
     int num_edge_257 = max_node_257 * ( max_node_257 + 1 ) / 2 + min_node_257;
     int num_node_257;
-    if ( edge_num_cuts[ num_edge_257 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_257 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -6993,7 +6993,7 @@ case_231: {
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_257 ] = num_node_257;
-        edge_num_cuts[ num_edge_257 ] = num_cut;
+        edge_num_cuts[ num_edge_257 ] = num_cut_proc;
     } else
         num_node_257 = edge_cuts[ num_edge_257 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
@@ -7001,7 +7001,7 @@ case_231: {
     int max_node_260 = max( num_node_1, num_node_2 );
     int num_edge_260 = max_node_260 * ( max_node_260 + 1 ) / 2 + min_node_260;
     int num_node_260;
-    if ( edge_num_cuts[ num_edge_260 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_260 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -7021,7 +7021,7 @@ case_231: {
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_260 ] = num_node_260;
-        edge_num_cuts[ num_edge_260 ] = num_cut;
+        edge_num_cuts[ num_edge_260 ] = num_cut_proc;
     } else
         num_node_260 = edge_cuts[ num_edge_260 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
@@ -7030,7 +7030,7 @@ case_231: {
     int max_node_275 = max( num_node_4, num_node_5 );
     int num_edge_275 = max_node_275 * ( max_node_275 + 1 ) / 2 + min_node_275;
     int num_node_275;
-    if ( edge_num_cuts[ num_edge_275 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_275 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -7050,7 +7050,7 @@ case_231: {
         const Node &n1 = nodes.local_at( num_node_5 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_275 ] = num_node_275;
-        edge_num_cuts[ num_edge_275 ] = num_cut;
+        edge_num_cuts[ num_edge_275 ] = num_cut_proc;
     } else
         num_node_275 = edge_cuts[ num_edge_275 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
@@ -7058,7 +7058,7 @@ case_231: {
     int max_node_282 = max( num_node_5, num_node_6 );
     int num_edge_282 = max_node_282 * ( max_node_282 + 1 ) / 2 + min_node_282;
     int num_node_282;
-    if ( edge_num_cuts[ num_edge_282 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_282 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -7078,7 +7078,7 @@ case_231: {
         const Node &n1 = nodes.local_at( num_node_6 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_282 ] = num_node_282;
-        edge_num_cuts[ num_edge_282 ] = num_cut;
+        edge_num_cuts[ num_edge_282 ] = num_cut_proc;
     } else
         num_node_282 = edge_cuts[ num_edge_282 ];
     int num_node_7 = faces.node_lists[ num_face ][ 7 ];
@@ -7086,7 +7086,7 @@ case_231: {
     int max_node_290 = max( num_node_6, num_node_7 );
     int num_edge_290 = max_node_290 * ( max_node_290 + 1 ) / 2 + min_node_290;
     int num_node_290;
-    if ( edge_num_cuts[ num_edge_290 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_290 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -7106,14 +7106,14 @@ case_231: {
         const Node &n1 = nodes.local_at( num_node_7 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_290 ] = num_node_290;
-        edge_num_cuts[ num_edge_290 ] = num_cut;
+        edge_num_cuts[ num_edge_290 ] = num_cut_proc;
     } else
         num_node_290 = edge_cuts[ num_edge_290 ];
     int min_node_284 = min( num_node_7, num_node_0 );
     int max_node_284 = max( num_node_7, num_node_0 );
     int num_edge_284 = max_node_284 * ( max_node_284 + 1 ) / 2 + min_node_284;
     int num_node_284;
-    if ( edge_num_cuts[ num_edge_284 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_284 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -7133,7 +7133,7 @@ case_231: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_284 ] = num_node_284;
-        edge_num_cuts[ num_edge_284 ] = num_cut;
+        edge_num_cuts[ num_edge_284 ] = num_cut_proc;
     } else
         num_node_284 = edge_cuts[ num_edge_284 ];
     break;
@@ -7145,7 +7145,7 @@ case_236: {
     int max_node_257 = max( num_node_0, num_node_1 );
     int num_edge_257 = max_node_257 * ( max_node_257 + 1 ) / 2 + min_node_257;
     int num_node_257;
-    if ( edge_num_cuts[ num_edge_257 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_257 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -7165,7 +7165,7 @@ case_236: {
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_257 ] = num_node_257;
-        edge_num_cuts[ num_edge_257 ] = num_cut;
+        edge_num_cuts[ num_edge_257 ] = num_cut_proc;
     } else
         num_node_257 = edge_cuts[ num_edge_257 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
@@ -7173,7 +7173,7 @@ case_236: {
     int max_node_260 = max( num_node_1, num_node_2 );
     int num_edge_260 = max_node_260 * ( max_node_260 + 1 ) / 2 + min_node_260;
     int num_node_260;
-    if ( edge_num_cuts[ num_edge_260 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_260 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -7193,7 +7193,7 @@ case_236: {
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_260 ] = num_node_260;
-        edge_num_cuts[ num_edge_260 ] = num_cut;
+        edge_num_cuts[ num_edge_260 ] = num_cut_proc;
     } else
         num_node_260 = edge_cuts[ num_edge_260 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
@@ -7202,7 +7202,7 @@ case_236: {
     int max_node_275 = max( num_node_4, num_node_5 );
     int num_edge_275 = max_node_275 * ( max_node_275 + 1 ) / 2 + min_node_275;
     int num_node_275;
-    if ( edge_num_cuts[ num_edge_275 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_275 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -7222,7 +7222,7 @@ case_236: {
         const Node &n1 = nodes.local_at( num_node_5 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_275 ] = num_node_275;
-        edge_num_cuts[ num_edge_275 ] = num_cut;
+        edge_num_cuts[ num_edge_275 ] = num_cut_proc;
     } else
         num_node_275 = edge_cuts[ num_edge_275 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
@@ -7231,7 +7231,7 @@ case_236: {
     int max_node_290 = max( num_node_6, num_node_7 );
     int num_edge_290 = max_node_290 * ( max_node_290 + 1 ) / 2 + min_node_290;
     int num_node_290;
-    if ( edge_num_cuts[ num_edge_290 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_290 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -7251,7 +7251,7 @@ case_236: {
         const Node &n1 = nodes.local_at( num_node_7 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_290 ] = num_node_290;
-        edge_num_cuts[ num_edge_290 ] = num_cut;
+        edge_num_cuts[ num_edge_290 ] = num_cut_proc;
     } else
         num_node_290 = edge_cuts[ num_edge_290 ];
     break;
@@ -7263,7 +7263,7 @@ case_178: {
     int max_node_257 = max( num_node_0, num_node_1 );
     int num_edge_257 = max_node_257 * ( max_node_257 + 1 ) / 2 + min_node_257;
     int num_node_257;
-    if ( edge_num_cuts[ num_edge_257 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_257 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -7283,7 +7283,7 @@ case_178: {
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_257 ] = num_node_257;
-        edge_num_cuts[ num_edge_257 ] = num_cut;
+        edge_num_cuts[ num_edge_257 ] = num_cut_proc;
     } else
         num_node_257 = edge_cuts[ num_edge_257 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
@@ -7291,7 +7291,7 @@ case_178: {
     int max_node_260 = max( num_node_1, num_node_2 );
     int num_edge_260 = max_node_260 * ( max_node_260 + 1 ) / 2 + min_node_260;
     int num_node_260;
-    if ( edge_num_cuts[ num_edge_260 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_260 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -7311,7 +7311,7 @@ case_178: {
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_260 ] = num_node_260;
-        edge_num_cuts[ num_edge_260 ] = num_cut;
+        edge_num_cuts[ num_edge_260 ] = num_cut_proc;
     } else
         num_node_260 = edge_cuts[ num_edge_260 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
@@ -7320,7 +7320,7 @@ case_178: {
     int max_node_275 = max( num_node_4, num_node_5 );
     int num_edge_275 = max_node_275 * ( max_node_275 + 1 ) / 2 + min_node_275;
     int num_node_275;
-    if ( edge_num_cuts[ num_edge_275 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_275 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -7340,7 +7340,7 @@ case_178: {
         const Node &n1 = nodes.local_at( num_node_5 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_275 ] = num_node_275;
-        edge_num_cuts[ num_edge_275 ] = num_cut;
+        edge_num_cuts[ num_edge_275 ] = num_cut_proc;
     } else
         num_node_275 = edge_cuts[ num_edge_275 ];
     int num_node_7 = faces.node_lists[ num_face ][ 7 ];
@@ -7348,7 +7348,7 @@ case_178: {
     int max_node_284 = max( num_node_7, num_node_0 );
     int num_edge_284 = max_node_284 * ( max_node_284 + 1 ) / 2 + min_node_284;
     int num_node_284;
-    if ( edge_num_cuts[ num_edge_284 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_284 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -7368,7 +7368,7 @@ case_178: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_284 ] = num_node_284;
-        edge_num_cuts[ num_edge_284 ] = num_cut;
+        edge_num_cuts[ num_edge_284 ] = num_cut_proc;
     } else
         num_node_284 = edge_cuts[ num_edge_284 ];
     break;
@@ -7380,7 +7380,7 @@ case_140: {
     int max_node_257 = max( num_node_0, num_node_1 );
     int num_edge_257 = max_node_257 * ( max_node_257 + 1 ) / 2 + min_node_257;
     int num_node_257;
-    if ( edge_num_cuts[ num_edge_257 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_257 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -7400,7 +7400,7 @@ case_140: {
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_257 ] = num_node_257;
-        edge_num_cuts[ num_edge_257 ] = num_cut;
+        edge_num_cuts[ num_edge_257 ] = num_cut_proc;
     } else
         num_node_257 = edge_cuts[ num_edge_257 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
@@ -7408,7 +7408,7 @@ case_140: {
     int max_node_260 = max( num_node_1, num_node_2 );
     int num_edge_260 = max_node_260 * ( max_node_260 + 1 ) / 2 + min_node_260;
     int num_node_260;
-    if ( edge_num_cuts[ num_edge_260 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_260 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -7428,7 +7428,7 @@ case_140: {
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_260 ] = num_node_260;
-        edge_num_cuts[ num_edge_260 ] = num_cut;
+        edge_num_cuts[ num_edge_260 ] = num_cut_proc;
     } else
         num_node_260 = edge_cuts[ num_edge_260 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
@@ -7437,7 +7437,7 @@ case_140: {
     int max_node_282 = max( num_node_5, num_node_6 );
     int num_edge_282 = max_node_282 * ( max_node_282 + 1 ) / 2 + min_node_282;
     int num_node_282;
-    if ( edge_num_cuts[ num_edge_282 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_282 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -7457,14 +7457,14 @@ case_140: {
         const Node &n1 = nodes.local_at( num_node_6 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_282 ] = num_node_282;
-        edge_num_cuts[ num_edge_282 ] = num_cut;
+        edge_num_cuts[ num_edge_282 ] = num_cut_proc;
     } else
         num_node_282 = edge_cuts[ num_edge_282 ];
     int min_node_277 = min( num_node_6, num_node_0 );
     int max_node_277 = max( num_node_6, num_node_0 );
     int num_edge_277 = max_node_277 * ( max_node_277 + 1 ) / 2 + min_node_277;
     int num_node_277;
-    if ( edge_num_cuts[ num_edge_277 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_277 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -7484,7 +7484,7 @@ case_140: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_277 ] = num_node_277;
-        edge_num_cuts[ num_edge_277 ] = num_cut;
+        edge_num_cuts[ num_edge_277 ] = num_cut_proc;
     } else
         num_node_277 = edge_cuts[ num_edge_277 ];
     break;
@@ -7496,7 +7496,7 @@ case_199: {
     int max_node_257 = max( num_node_0, num_node_1 );
     int num_edge_257 = max_node_257 * ( max_node_257 + 1 ) / 2 + min_node_257;
     int num_node_257;
-    if ( edge_num_cuts[ num_edge_257 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_257 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -7516,7 +7516,7 @@ case_199: {
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_257 ] = num_node_257;
-        edge_num_cuts[ num_edge_257 ] = num_cut;
+        edge_num_cuts[ num_edge_257 ] = num_cut_proc;
     } else
         num_node_257 = edge_cuts[ num_edge_257 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
@@ -7524,7 +7524,7 @@ case_199: {
     int max_node_260 = max( num_node_1, num_node_2 );
     int num_edge_260 = max_node_260 * ( max_node_260 + 1 ) / 2 + min_node_260;
     int num_node_260;
-    if ( edge_num_cuts[ num_edge_260 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_260 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -7544,7 +7544,7 @@ case_199: {
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_260 ] = num_node_260;
-        edge_num_cuts[ num_edge_260 ] = num_cut;
+        edge_num_cuts[ num_edge_260 ] = num_cut_proc;
     } else
         num_node_260 = edge_cuts[ num_edge_260 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
@@ -7553,7 +7553,7 @@ case_199: {
     int max_node_282 = max( num_node_5, num_node_6 );
     int num_edge_282 = max_node_282 * ( max_node_282 + 1 ) / 2 + min_node_282;
     int num_node_282;
-    if ( edge_num_cuts[ num_edge_282 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_282 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -7573,7 +7573,7 @@ case_199: {
         const Node &n1 = nodes.local_at( num_node_6 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_282 ] = num_node_282;
-        edge_num_cuts[ num_edge_282 ] = num_cut;
+        edge_num_cuts[ num_edge_282 ] = num_cut_proc;
     } else
         num_node_282 = edge_cuts[ num_edge_282 ];
     int num_node_7 = faces.node_lists[ num_face ][ 7 ];
@@ -7581,7 +7581,7 @@ case_199: {
     int max_node_284 = max( num_node_7, num_node_0 );
     int num_edge_284 = max_node_284 * ( max_node_284 + 1 ) / 2 + min_node_284;
     int num_node_284;
-    if ( edge_num_cuts[ num_edge_284 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_284 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -7601,7 +7601,7 @@ case_199: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_284 ] = num_node_284;
-        edge_num_cuts[ num_edge_284 ] = num_cut;
+        edge_num_cuts[ num_edge_284 ] = num_cut_proc;
     } else
         num_node_284 = edge_cuts[ num_edge_284 ];
     break;
@@ -7613,7 +7613,7 @@ case_204: {
     int max_node_257 = max( num_node_0, num_node_1 );
     int num_edge_257 = max_node_257 * ( max_node_257 + 1 ) / 2 + min_node_257;
     int num_node_257;
-    if ( edge_num_cuts[ num_edge_257 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_257 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -7633,7 +7633,7 @@ case_204: {
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_257 ] = num_node_257;
-        edge_num_cuts[ num_edge_257 ] = num_cut;
+        edge_num_cuts[ num_edge_257 ] = num_cut_proc;
     } else
         num_node_257 = edge_cuts[ num_edge_257 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
@@ -7641,7 +7641,7 @@ case_204: {
     int max_node_260 = max( num_node_1, num_node_2 );
     int num_edge_260 = max_node_260 * ( max_node_260 + 1 ) / 2 + min_node_260;
     int num_node_260;
-    if ( edge_num_cuts[ num_edge_260 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_260 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -7661,7 +7661,7 @@ case_204: {
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_260 ] = num_node_260;
-        edge_num_cuts[ num_edge_260 ] = num_cut;
+        edge_num_cuts[ num_edge_260 ] = num_cut_proc;
     } else
         num_node_260 = edge_cuts[ num_edge_260 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
@@ -7670,7 +7670,7 @@ case_204: {
     int max_node_282 = max( num_node_5, num_node_6 );
     int num_edge_282 = max_node_282 * ( max_node_282 + 1 ) / 2 + min_node_282;
     int num_node_282;
-    if ( edge_num_cuts[ num_edge_282 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_282 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -7690,7 +7690,7 @@ case_204: {
         const Node &n1 = nodes.local_at( num_node_6 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_282 ] = num_node_282;
-        edge_num_cuts[ num_edge_282 ] = num_cut;
+        edge_num_cuts[ num_edge_282 ] = num_cut_proc;
     } else
         num_node_282 = edge_cuts[ num_edge_282 ];
     int num_node_7 = faces.node_lists[ num_face ][ 7 ];
@@ -7698,7 +7698,7 @@ case_204: {
     int max_node_290 = max( num_node_6, num_node_7 );
     int num_edge_290 = max_node_290 * ( max_node_290 + 1 ) / 2 + min_node_290;
     int num_node_290;
-    if ( edge_num_cuts[ num_edge_290 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_290 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -7718,7 +7718,7 @@ case_204: {
         const Node &n1 = nodes.local_at( num_node_7 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_290 ] = num_node_290;
-        edge_num_cuts[ num_edge_290 ] = num_cut;
+        edge_num_cuts[ num_edge_290 ] = num_cut_proc;
     } else
         num_node_290 = edge_cuts[ num_edge_290 ];
     break;
@@ -7730,7 +7730,7 @@ case_263: {
     int max_node_257 = max( num_node_0, num_node_1 );
     int num_edge_257 = max_node_257 * ( max_node_257 + 1 ) / 2 + min_node_257;
     int num_node_257;
-    if ( edge_num_cuts[ num_edge_257 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_257 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -7750,7 +7750,7 @@ case_263: {
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_257 ] = num_node_257;
-        edge_num_cuts[ num_edge_257 ] = num_cut;
+        edge_num_cuts[ num_edge_257 ] = num_cut_proc;
     } else
         num_node_257 = edge_cuts[ num_edge_257 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
@@ -7758,7 +7758,7 @@ case_263: {
     int max_node_260 = max( num_node_1, num_node_2 );
     int num_edge_260 = max_node_260 * ( max_node_260 + 1 ) / 2 + min_node_260;
     int num_node_260;
-    if ( edge_num_cuts[ num_edge_260 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_260 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -7778,7 +7778,7 @@ case_263: {
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_260 ] = num_node_260;
-        edge_num_cuts[ num_edge_260 ] = num_cut;
+        edge_num_cuts[ num_edge_260 ] = num_cut_proc;
     } else
         num_node_260 = edge_cuts[ num_edge_260 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
@@ -7787,7 +7787,7 @@ case_263: {
     int max_node_290 = max( num_node_6, num_node_7 );
     int num_edge_290 = max_node_290 * ( max_node_290 + 1 ) / 2 + min_node_290;
     int num_node_290;
-    if ( edge_num_cuts[ num_edge_290 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_290 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -7807,14 +7807,14 @@ case_263: {
         const Node &n1 = nodes.local_at( num_node_7 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_290 ] = num_node_290;
-        edge_num_cuts[ num_edge_290 ] = num_cut;
+        edge_num_cuts[ num_edge_290 ] = num_cut_proc;
     } else
         num_node_290 = edge_cuts[ num_edge_290 ];
     int min_node_284 = min( num_node_7, num_node_0 );
     int max_node_284 = max( num_node_7, num_node_0 );
     int num_edge_284 = max_node_284 * ( max_node_284 + 1 ) / 2 + min_node_284;
     int num_node_284;
-    if ( edge_num_cuts[ num_edge_284 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_284 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -7834,7 +7834,7 @@ case_263: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_284 ] = num_node_284;
-        edge_num_cuts[ num_edge_284 ] = num_cut;
+        edge_num_cuts[ num_edge_284 ] = num_cut_proc;
     } else
         num_node_284 = edge_cuts[ num_edge_284 ];
     break;
@@ -7846,7 +7846,7 @@ case_14: {
     int max_node_257 = max( num_node_0, num_node_1 );
     int num_edge_257 = max_node_257 * ( max_node_257 + 1 ) / 2 + min_node_257;
     int num_node_257;
-    if ( edge_num_cuts[ num_edge_257 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_257 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -7866,7 +7866,7 @@ case_14: {
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_257 ] = num_node_257;
-        edge_num_cuts[ num_edge_257 ] = num_cut;
+        edge_num_cuts[ num_edge_257 ] = num_cut_proc;
     } else
         num_node_257 = edge_cuts[ num_edge_257 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
@@ -7875,7 +7875,7 @@ case_14: {
     int max_node_264 = max( num_node_2, num_node_3 );
     int num_edge_264 = max_node_264 * ( max_node_264 + 1 ) / 2 + min_node_264;
     int num_node_264;
-    if ( edge_num_cuts[ num_edge_264 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_264 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -7895,7 +7895,7 @@ case_14: {
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_264 ] = num_node_264;
-        edge_num_cuts[ num_edge_264 ] = num_cut;
+        edge_num_cuts[ num_edge_264 ] = num_cut_proc;
     } else
         num_node_264 = edge_cuts[ num_edge_264 ];
     // 0,257,264,3
@@ -7915,7 +7915,7 @@ case_27: {
     int max_node_257 = max( num_node_0, num_node_1 );
     int num_edge_257 = max_node_257 * ( max_node_257 + 1 ) / 2 + min_node_257;
     int num_node_257;
-    if ( edge_num_cuts[ num_edge_257 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_257 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -7935,7 +7935,7 @@ case_27: {
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_257 ] = num_node_257;
-        edge_num_cuts[ num_edge_257 ] = num_cut;
+        edge_num_cuts[ num_edge_257 ] = num_cut_proc;
     } else
         num_node_257 = edge_cuts[ num_edge_257 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
@@ -7944,7 +7944,7 @@ case_27: {
     int max_node_264 = max( num_node_2, num_node_3 );
     int num_edge_264 = max_node_264 * ( max_node_264 + 1 ) / 2 + min_node_264;
     int num_node_264;
-    if ( edge_num_cuts[ num_edge_264 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_264 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -7964,7 +7964,7 @@ case_27: {
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_264 ] = num_node_264;
-        edge_num_cuts[ num_edge_264 ] = num_cut;
+        edge_num_cuts[ num_edge_264 ] = num_cut_proc;
     } else
         num_node_264 = edge_cuts[ num_edge_264 ];
     // 0,257,264,3,4
@@ -7986,7 +7986,7 @@ case_50: {
     int max_node_257 = max( num_node_0, num_node_1 );
     int num_edge_257 = max_node_257 * ( max_node_257 + 1 ) / 2 + min_node_257;
     int num_node_257;
-    if ( edge_num_cuts[ num_edge_257 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_257 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -8006,7 +8006,7 @@ case_50: {
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_257 ] = num_node_257;
-        edge_num_cuts[ num_edge_257 ] = num_cut;
+        edge_num_cuts[ num_edge_257 ] = num_cut_proc;
     } else
         num_node_257 = edge_cuts[ num_edge_257 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
@@ -8015,7 +8015,7 @@ case_50: {
     int max_node_264 = max( num_node_2, num_node_3 );
     int num_edge_264 = max_node_264 * ( max_node_264 + 1 ) / 2 + min_node_264;
     int num_node_264;
-    if ( edge_num_cuts[ num_edge_264 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_264 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -8035,7 +8035,7 @@ case_50: {
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_264 ] = num_node_264;
-        edge_num_cuts[ num_edge_264 ] = num_cut;
+        edge_num_cuts[ num_edge_264 ] = num_cut_proc;
     } else
         num_node_264 = edge_cuts[ num_edge_264 ];
     // 0,257,264,3,4,5
@@ -8059,7 +8059,7 @@ case_90: {
     int max_node_257 = max( num_node_0, num_node_1 );
     int num_edge_257 = max_node_257 * ( max_node_257 + 1 ) / 2 + min_node_257;
     int num_node_257;
-    if ( edge_num_cuts[ num_edge_257 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_257 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -8079,7 +8079,7 @@ case_90: {
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_257 ] = num_node_257;
-        edge_num_cuts[ num_edge_257 ] = num_cut;
+        edge_num_cuts[ num_edge_257 ] = num_cut_proc;
     } else
         num_node_257 = edge_cuts[ num_edge_257 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
@@ -8088,7 +8088,7 @@ case_90: {
     int max_node_264 = max( num_node_2, num_node_3 );
     int num_edge_264 = max_node_264 * ( max_node_264 + 1 ) / 2 + min_node_264;
     int num_node_264;
-    if ( edge_num_cuts[ num_edge_264 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_264 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -8108,7 +8108,7 @@ case_90: {
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_264 ] = num_node_264;
-        edge_num_cuts[ num_edge_264 ] = num_cut;
+        edge_num_cuts[ num_edge_264 ] = num_cut_proc;
     } else
         num_node_264 = edge_cuts[ num_edge_264 ];
     // 0,257,264,3,4,5,6
@@ -8134,7 +8134,7 @@ case_160: {
     int max_node_257 = max( num_node_0, num_node_1 );
     int num_edge_257 = max_node_257 * ( max_node_257 + 1 ) / 2 + min_node_257;
     int num_node_257;
-    if ( edge_num_cuts[ num_edge_257 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_257 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -8154,7 +8154,7 @@ case_160: {
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_257 ] = num_node_257;
-        edge_num_cuts[ num_edge_257 ] = num_cut;
+        edge_num_cuts[ num_edge_257 ] = num_cut_proc;
     } else
         num_node_257 = edge_cuts[ num_edge_257 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
@@ -8163,7 +8163,7 @@ case_160: {
     int max_node_264 = max( num_node_2, num_node_3 );
     int num_edge_264 = max_node_264 * ( max_node_264 + 1 ) / 2 + min_node_264;
     int num_node_264;
-    if ( edge_num_cuts[ num_edge_264 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_264 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -8183,7 +8183,7 @@ case_160: {
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_264 ] = num_node_264;
-        edge_num_cuts[ num_edge_264 ] = num_cut;
+        edge_num_cuts[ num_edge_264 ] = num_cut_proc;
     } else
         num_node_264 = edge_cuts[ num_edge_264 ];
     // 0,257,264,3,4,5,6,7
@@ -8211,7 +8211,7 @@ case_42: {
     int max_node_257 = max( num_node_0, num_node_1 );
     int num_edge_257 = max_node_257 * ( max_node_257 + 1 ) / 2 + min_node_257;
     int num_node_257;
-    if ( edge_num_cuts[ num_edge_257 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_257 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -8231,7 +8231,7 @@ case_42: {
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_257 ] = num_node_257;
-        edge_num_cuts[ num_edge_257 ] = num_cut;
+        edge_num_cuts[ num_edge_257 ] = num_cut_proc;
     } else
         num_node_257 = edge_cuts[ num_edge_257 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
@@ -8240,7 +8240,7 @@ case_42: {
     int max_node_264 = max( num_node_2, num_node_3 );
     int num_edge_264 = max_node_264 * ( max_node_264 + 1 ) / 2 + min_node_264;
     int num_node_264;
-    if ( edge_num_cuts[ num_edge_264 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_264 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -8260,7 +8260,7 @@ case_42: {
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_264 ] = num_node_264;
-        edge_num_cuts[ num_edge_264 ] = num_cut;
+        edge_num_cuts[ num_edge_264 ] = num_cut_proc;
     } else
         num_node_264 = edge_cuts[ num_edge_264 ];
     // 257,1,2,264
@@ -8281,7 +8281,7 @@ case_17: {
     int max_node_257 = max( num_node_0, num_node_1 );
     int num_edge_257 = max_node_257 * ( max_node_257 + 1 ) / 2 + min_node_257;
     int num_node_257;
-    if ( edge_num_cuts[ num_edge_257 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_257 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -8301,7 +8301,7 @@ case_17: {
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_257 ] = num_node_257;
-        edge_num_cuts[ num_edge_257 ] = num_cut;
+        edge_num_cuts[ num_edge_257 ] = num_cut_proc;
     } else
         num_node_257 = edge_cuts[ num_edge_257 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
@@ -8310,7 +8310,7 @@ case_17: {
     int max_node_264 = max( num_node_2, num_node_3 );
     int num_edge_264 = max_node_264 * ( max_node_264 + 1 ) / 2 + min_node_264;
     int num_node_264;
-    if ( edge_num_cuts[ num_edge_264 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_264 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -8330,7 +8330,7 @@ case_17: {
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_264 ] = num_node_264;
-        edge_num_cuts[ num_edge_264 ] = num_cut;
+        edge_num_cuts[ num_edge_264 ] = num_cut_proc;
     } else
         num_node_264 = edge_cuts[ num_edge_264 ];
     // 257,1,2,264
@@ -8350,7 +8350,7 @@ case_30: {
     int max_node_257 = max( num_node_0, num_node_1 );
     int num_edge_257 = max_node_257 * ( max_node_257 + 1 ) / 2 + min_node_257;
     int num_node_257;
-    if ( edge_num_cuts[ num_edge_257 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_257 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -8370,7 +8370,7 @@ case_30: {
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_257 ] = num_node_257;
-        edge_num_cuts[ num_edge_257 ] = num_cut;
+        edge_num_cuts[ num_edge_257 ] = num_cut_proc;
     } else
         num_node_257 = edge_cuts[ num_edge_257 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
@@ -8379,7 +8379,7 @@ case_30: {
     int max_node_264 = max( num_node_2, num_node_3 );
     int num_edge_264 = max_node_264 * ( max_node_264 + 1 ) / 2 + min_node_264;
     int num_node_264;
-    if ( edge_num_cuts[ num_edge_264 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_264 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -8399,7 +8399,7 @@ case_30: {
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_264 ] = num_node_264;
-        edge_num_cuts[ num_edge_264 ] = num_cut;
+        edge_num_cuts[ num_edge_264 ] = num_cut_proc;
     } else
         num_node_264 = edge_cuts[ num_edge_264 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
@@ -8407,7 +8407,7 @@ case_30: {
     int max_node_269 = max( num_node_3, num_node_4 );
     int num_edge_269 = max_node_269 * ( max_node_269 + 1 ) / 2 + min_node_269;
     int num_node_269;
-    if ( edge_num_cuts[ num_edge_269 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_269 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -8427,14 +8427,14 @@ case_30: {
         const Node &n1 = nodes.local_at( num_node_4 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_269 ] = num_node_269;
-        edge_num_cuts[ num_edge_269 ] = num_cut;
+        edge_num_cuts[ num_edge_269 ] = num_cut_proc;
     } else
         num_node_269 = edge_cuts[ num_edge_269 ];
     int min_node_266 = min( num_node_4, num_node_0 );
     int max_node_266 = max( num_node_4, num_node_0 );
     int num_edge_266 = max_node_266 * ( max_node_266 + 1 ) / 2 + min_node_266;
     int num_node_266;
-    if ( edge_num_cuts[ num_edge_266 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_266 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -8454,7 +8454,7 @@ case_30: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_266 ] = num_node_266;
-        edge_num_cuts[ num_edge_266 ] = num_cut;
+        edge_num_cuts[ num_edge_266 ] = num_cut_proc;
     } else
         num_node_266 = edge_cuts[ num_edge_266 ];
     break;
@@ -8466,7 +8466,7 @@ case_53: {
     int max_node_257 = max( num_node_0, num_node_1 );
     int num_edge_257 = max_node_257 * ( max_node_257 + 1 ) / 2 + min_node_257;
     int num_node_257;
-    if ( edge_num_cuts[ num_edge_257 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_257 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -8486,7 +8486,7 @@ case_53: {
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_257 ] = num_node_257;
-        edge_num_cuts[ num_edge_257 ] = num_cut;
+        edge_num_cuts[ num_edge_257 ] = num_cut_proc;
     } else
         num_node_257 = edge_cuts[ num_edge_257 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
@@ -8495,7 +8495,7 @@ case_53: {
     int max_node_264 = max( num_node_2, num_node_3 );
     int num_edge_264 = max_node_264 * ( max_node_264 + 1 ) / 2 + min_node_264;
     int num_node_264;
-    if ( edge_num_cuts[ num_edge_264 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_264 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -8515,7 +8515,7 @@ case_53: {
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_264 ] = num_node_264;
-        edge_num_cuts[ num_edge_264 ] = num_cut;
+        edge_num_cuts[ num_edge_264 ] = num_cut_proc;
     } else
         num_node_264 = edge_cuts[ num_edge_264 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
@@ -8523,7 +8523,7 @@ case_53: {
     int max_node_269 = max( num_node_3, num_node_4 );
     int num_edge_269 = max_node_269 * ( max_node_269 + 1 ) / 2 + min_node_269;
     int num_node_269;
-    if ( edge_num_cuts[ num_edge_269 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_269 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -8543,7 +8543,7 @@ case_53: {
         const Node &n1 = nodes.local_at( num_node_4 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_269 ] = num_node_269;
-        edge_num_cuts[ num_edge_269 ] = num_cut;
+        edge_num_cuts[ num_edge_269 ] = num_cut_proc;
     } else
         num_node_269 = edge_cuts[ num_edge_269 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
@@ -8551,7 +8551,7 @@ case_53: {
     int max_node_271 = max( num_node_5, num_node_0 );
     int num_edge_271 = max_node_271 * ( max_node_271 + 1 ) / 2 + min_node_271;
     int num_node_271;
-    if ( edge_num_cuts[ num_edge_271 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_271 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -8571,7 +8571,7 @@ case_53: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_271 ] = num_node_271;
-        edge_num_cuts[ num_edge_271 ] = num_cut;
+        edge_num_cuts[ num_edge_271 ] = num_cut_proc;
     } else
         num_node_271 = edge_cuts[ num_edge_271 ];
     break;
@@ -8583,7 +8583,7 @@ case_65: {
     int max_node_257 = max( num_node_0, num_node_1 );
     int num_edge_257 = max_node_257 * ( max_node_257 + 1 ) / 2 + min_node_257;
     int num_node_257;
-    if ( edge_num_cuts[ num_edge_257 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_257 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -8603,7 +8603,7 @@ case_65: {
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_257 ] = num_node_257;
-        edge_num_cuts[ num_edge_257 ] = num_cut;
+        edge_num_cuts[ num_edge_257 ] = num_cut_proc;
     } else
         num_node_257 = edge_cuts[ num_edge_257 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
@@ -8612,7 +8612,7 @@ case_65: {
     int max_node_264 = max( num_node_2, num_node_3 );
     int num_edge_264 = max_node_264 * ( max_node_264 + 1 ) / 2 + min_node_264;
     int num_node_264;
-    if ( edge_num_cuts[ num_edge_264 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_264 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -8632,7 +8632,7 @@ case_65: {
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_264 ] = num_node_264;
-        edge_num_cuts[ num_edge_264 ] = num_cut;
+        edge_num_cuts[ num_edge_264 ] = num_cut_proc;
     } else
         num_node_264 = edge_cuts[ num_edge_264 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
@@ -8640,7 +8640,7 @@ case_65: {
     int max_node_269 = max( num_node_3, num_node_4 );
     int num_edge_269 = max_node_269 * ( max_node_269 + 1 ) / 2 + min_node_269;
     int num_node_269;
-    if ( edge_num_cuts[ num_edge_269 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_269 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -8660,7 +8660,7 @@ case_65: {
         const Node &n1 = nodes.local_at( num_node_4 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_269 ] = num_node_269;
-        edge_num_cuts[ num_edge_269 ] = num_cut;
+        edge_num_cuts[ num_edge_269 ] = num_cut_proc;
     } else
         num_node_269 = edge_cuts[ num_edge_269 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
@@ -8668,7 +8668,7 @@ case_65: {
     int max_node_275 = max( num_node_4, num_node_5 );
     int num_edge_275 = max_node_275 * ( max_node_275 + 1 ) / 2 + min_node_275;
     int num_node_275;
-    if ( edge_num_cuts[ num_edge_275 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_275 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -8688,7 +8688,7 @@ case_65: {
         const Node &n1 = nodes.local_at( num_node_5 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_275 ] = num_node_275;
-        edge_num_cuts[ num_edge_275 ] = num_cut;
+        edge_num_cuts[ num_edge_275 ] = num_cut_proc;
     } else
         num_node_275 = edge_cuts[ num_edge_275 ];
     break;
@@ -8700,7 +8700,7 @@ case_120: {
     int max_node_257 = max( num_node_0, num_node_1 );
     int num_edge_257 = max_node_257 * ( max_node_257 + 1 ) / 2 + min_node_257;
     int num_node_257;
-    if ( edge_num_cuts[ num_edge_257 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_257 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -8720,7 +8720,7 @@ case_120: {
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_257 ] = num_node_257;
-        edge_num_cuts[ num_edge_257 ] = num_cut;
+        edge_num_cuts[ num_edge_257 ] = num_cut_proc;
     } else
         num_node_257 = edge_cuts[ num_edge_257 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
@@ -8729,7 +8729,7 @@ case_120: {
     int max_node_264 = max( num_node_2, num_node_3 );
     int num_edge_264 = max_node_264 * ( max_node_264 + 1 ) / 2 + min_node_264;
     int num_node_264;
-    if ( edge_num_cuts[ num_edge_264 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_264 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -8749,7 +8749,7 @@ case_120: {
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_264 ] = num_node_264;
-        edge_num_cuts[ num_edge_264 ] = num_cut;
+        edge_num_cuts[ num_edge_264 ] = num_cut_proc;
     } else
         num_node_264 = edge_cuts[ num_edge_264 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
@@ -8757,7 +8757,7 @@ case_120: {
     int max_node_269 = max( num_node_3, num_node_4 );
     int num_edge_269 = max_node_269 * ( max_node_269 + 1 ) / 2 + min_node_269;
     int num_node_269;
-    if ( edge_num_cuts[ num_edge_269 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_269 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -8777,7 +8777,7 @@ case_120: {
         const Node &n1 = nodes.local_at( num_node_4 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_269 ] = num_node_269;
-        edge_num_cuts[ num_edge_269 ] = num_cut;
+        edge_num_cuts[ num_edge_269 ] = num_cut_proc;
     } else
         num_node_269 = edge_cuts[ num_edge_269 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
@@ -8785,7 +8785,7 @@ case_120: {
     int max_node_275 = max( num_node_4, num_node_5 );
     int num_edge_275 = max_node_275 * ( max_node_275 + 1 ) / 2 + min_node_275;
     int num_node_275;
-    if ( edge_num_cuts[ num_edge_275 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_275 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -8805,7 +8805,7 @@ case_120: {
         const Node &n1 = nodes.local_at( num_node_5 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_275 ] = num_node_275;
-        edge_num_cuts[ num_edge_275 ] = num_cut;
+        edge_num_cuts[ num_edge_275 ] = num_cut_proc;
     } else
         num_node_275 = edge_cuts[ num_edge_275 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
@@ -8813,7 +8813,7 @@ case_120: {
     int max_node_282 = max( num_node_5, num_node_6 );
     int num_edge_282 = max_node_282 * ( max_node_282 + 1 ) / 2 + min_node_282;
     int num_node_282;
-    if ( edge_num_cuts[ num_edge_282 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_282 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -8833,14 +8833,14 @@ case_120: {
         const Node &n1 = nodes.local_at( num_node_6 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_282 ] = num_node_282;
-        edge_num_cuts[ num_edge_282 ] = num_cut;
+        edge_num_cuts[ num_edge_282 ] = num_cut_proc;
     } else
         num_node_282 = edge_cuts[ num_edge_282 ];
     int min_node_277 = min( num_node_6, num_node_0 );
     int max_node_277 = max( num_node_6, num_node_0 );
     int num_edge_277 = max_node_277 * ( max_node_277 + 1 ) / 2 + min_node_277;
     int num_node_277;
-    if ( edge_num_cuts[ num_edge_277 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_277 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -8860,7 +8860,7 @@ case_120: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_277 ] = num_node_277;
-        edge_num_cuts[ num_edge_277 ] = num_cut;
+        edge_num_cuts[ num_edge_277 ] = num_cut_proc;
     } else
         num_node_277 = edge_cuts[ num_edge_277 ];
     break;
@@ -8872,7 +8872,7 @@ case_186: {
     int max_node_257 = max( num_node_0, num_node_1 );
     int num_edge_257 = max_node_257 * ( max_node_257 + 1 ) / 2 + min_node_257;
     int num_node_257;
-    if ( edge_num_cuts[ num_edge_257 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_257 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -8892,7 +8892,7 @@ case_186: {
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_257 ] = num_node_257;
-        edge_num_cuts[ num_edge_257 ] = num_cut;
+        edge_num_cuts[ num_edge_257 ] = num_cut_proc;
     } else
         num_node_257 = edge_cuts[ num_edge_257 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
@@ -8901,7 +8901,7 @@ case_186: {
     int max_node_264 = max( num_node_2, num_node_3 );
     int num_edge_264 = max_node_264 * ( max_node_264 + 1 ) / 2 + min_node_264;
     int num_node_264;
-    if ( edge_num_cuts[ num_edge_264 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_264 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -8921,7 +8921,7 @@ case_186: {
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_264 ] = num_node_264;
-        edge_num_cuts[ num_edge_264 ] = num_cut;
+        edge_num_cuts[ num_edge_264 ] = num_cut_proc;
     } else
         num_node_264 = edge_cuts[ num_edge_264 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
@@ -8929,7 +8929,7 @@ case_186: {
     int max_node_269 = max( num_node_3, num_node_4 );
     int num_edge_269 = max_node_269 * ( max_node_269 + 1 ) / 2 + min_node_269;
     int num_node_269;
-    if ( edge_num_cuts[ num_edge_269 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_269 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -8949,7 +8949,7 @@ case_186: {
         const Node &n1 = nodes.local_at( num_node_4 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_269 ] = num_node_269;
-        edge_num_cuts[ num_edge_269 ] = num_cut;
+        edge_num_cuts[ num_edge_269 ] = num_cut_proc;
     } else
         num_node_269 = edge_cuts[ num_edge_269 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
@@ -8957,7 +8957,7 @@ case_186: {
     int max_node_275 = max( num_node_4, num_node_5 );
     int num_edge_275 = max_node_275 * ( max_node_275 + 1 ) / 2 + min_node_275;
     int num_node_275;
-    if ( edge_num_cuts[ num_edge_275 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_275 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -8977,7 +8977,7 @@ case_186: {
         const Node &n1 = nodes.local_at( num_node_5 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_275 ] = num_node_275;
-        edge_num_cuts[ num_edge_275 ] = num_cut;
+        edge_num_cuts[ num_edge_275 ] = num_cut_proc;
     } else
         num_node_275 = edge_cuts[ num_edge_275 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
@@ -8985,7 +8985,7 @@ case_186: {
     int max_node_282 = max( num_node_5, num_node_6 );
     int num_edge_282 = max_node_282 * ( max_node_282 + 1 ) / 2 + min_node_282;
     int num_node_282;
-    if ( edge_num_cuts[ num_edge_282 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_282 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -9005,7 +9005,7 @@ case_186: {
         const Node &n1 = nodes.local_at( num_node_6 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_282 ] = num_node_282;
-        edge_num_cuts[ num_edge_282 ] = num_cut;
+        edge_num_cuts[ num_edge_282 ] = num_cut_proc;
     } else
         num_node_282 = edge_cuts[ num_edge_282 ];
     int num_node_7 = faces.node_lists[ num_face ][ 7 ];
@@ -9013,7 +9013,7 @@ case_186: {
     int max_node_284 = max( num_node_7, num_node_0 );
     int num_edge_284 = max_node_284 * ( max_node_284 + 1 ) / 2 + min_node_284;
     int num_node_284;
-    if ( edge_num_cuts[ num_edge_284 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_284 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -9033,7 +9033,7 @@ case_186: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_284 ] = num_node_284;
-        edge_num_cuts[ num_edge_284 ] = num_cut;
+        edge_num_cuts[ num_edge_284 ] = num_cut_proc;
     } else
         num_node_284 = edge_cuts[ num_edge_284 ];
     break;
@@ -9045,7 +9045,7 @@ case_224: {
     int max_node_257 = max( num_node_0, num_node_1 );
     int num_edge_257 = max_node_257 * ( max_node_257 + 1 ) / 2 + min_node_257;
     int num_node_257;
-    if ( edge_num_cuts[ num_edge_257 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_257 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -9065,7 +9065,7 @@ case_224: {
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_257 ] = num_node_257;
-        edge_num_cuts[ num_edge_257 ] = num_cut;
+        edge_num_cuts[ num_edge_257 ] = num_cut_proc;
     } else
         num_node_257 = edge_cuts[ num_edge_257 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
@@ -9074,7 +9074,7 @@ case_224: {
     int max_node_264 = max( num_node_2, num_node_3 );
     int num_edge_264 = max_node_264 * ( max_node_264 + 1 ) / 2 + min_node_264;
     int num_node_264;
-    if ( edge_num_cuts[ num_edge_264 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_264 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -9094,7 +9094,7 @@ case_224: {
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_264 ] = num_node_264;
-        edge_num_cuts[ num_edge_264 ] = num_cut;
+        edge_num_cuts[ num_edge_264 ] = num_cut_proc;
     } else
         num_node_264 = edge_cuts[ num_edge_264 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
@@ -9102,7 +9102,7 @@ case_224: {
     int max_node_269 = max( num_node_3, num_node_4 );
     int num_edge_269 = max_node_269 * ( max_node_269 + 1 ) / 2 + min_node_269;
     int num_node_269;
-    if ( edge_num_cuts[ num_edge_269 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_269 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -9122,7 +9122,7 @@ case_224: {
         const Node &n1 = nodes.local_at( num_node_4 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_269 ] = num_node_269;
-        edge_num_cuts[ num_edge_269 ] = num_cut;
+        edge_num_cuts[ num_edge_269 ] = num_cut_proc;
     } else
         num_node_269 = edge_cuts[ num_edge_269 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
@@ -9130,7 +9130,7 @@ case_224: {
     int max_node_275 = max( num_node_4, num_node_5 );
     int num_edge_275 = max_node_275 * ( max_node_275 + 1 ) / 2 + min_node_275;
     int num_node_275;
-    if ( edge_num_cuts[ num_edge_275 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_275 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -9150,7 +9150,7 @@ case_224: {
         const Node &n1 = nodes.local_at( num_node_5 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_275 ] = num_node_275;
-        edge_num_cuts[ num_edge_275 ] = num_cut;
+        edge_num_cuts[ num_edge_275 ] = num_cut_proc;
     } else
         num_node_275 = edge_cuts[ num_edge_275 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
@@ -9158,7 +9158,7 @@ case_224: {
     int max_node_282 = max( num_node_5, num_node_6 );
     int num_edge_282 = max_node_282 * ( max_node_282 + 1 ) / 2 + min_node_282;
     int num_node_282;
-    if ( edge_num_cuts[ num_edge_282 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_282 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -9178,7 +9178,7 @@ case_224: {
         const Node &n1 = nodes.local_at( num_node_6 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_282 ] = num_node_282;
-        edge_num_cuts[ num_edge_282 ] = num_cut;
+        edge_num_cuts[ num_edge_282 ] = num_cut_proc;
     } else
         num_node_282 = edge_cuts[ num_edge_282 ];
     int num_node_7 = faces.node_lists[ num_face ][ 7 ];
@@ -9186,7 +9186,7 @@ case_224: {
     int max_node_290 = max( num_node_6, num_node_7 );
     int num_edge_290 = max_node_290 * ( max_node_290 + 1 ) / 2 + min_node_290;
     int num_node_290;
-    if ( edge_num_cuts[ num_edge_290 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_290 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -9206,7 +9206,7 @@ case_224: {
         const Node &n1 = nodes.local_at( num_node_7 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_290 ] = num_node_290;
-        edge_num_cuts[ num_edge_290 ] = num_cut;
+        edge_num_cuts[ num_edge_290 ] = num_cut_proc;
     } else
         num_node_290 = edge_cuts[ num_edge_290 ];
     break;
@@ -9218,7 +9218,7 @@ case_243: {
     int max_node_257 = max( num_node_0, num_node_1 );
     int num_edge_257 = max_node_257 * ( max_node_257 + 1 ) / 2 + min_node_257;
     int num_node_257;
-    if ( edge_num_cuts[ num_edge_257 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_257 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -9238,7 +9238,7 @@ case_243: {
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_257 ] = num_node_257;
-        edge_num_cuts[ num_edge_257 ] = num_cut;
+        edge_num_cuts[ num_edge_257 ] = num_cut_proc;
     } else
         num_node_257 = edge_cuts[ num_edge_257 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
@@ -9247,7 +9247,7 @@ case_243: {
     int max_node_264 = max( num_node_2, num_node_3 );
     int num_edge_264 = max_node_264 * ( max_node_264 + 1 ) / 2 + min_node_264;
     int num_node_264;
-    if ( edge_num_cuts[ num_edge_264 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_264 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -9267,7 +9267,7 @@ case_243: {
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_264 ] = num_node_264;
-        edge_num_cuts[ num_edge_264 ] = num_cut;
+        edge_num_cuts[ num_edge_264 ] = num_cut_proc;
     } else
         num_node_264 = edge_cuts[ num_edge_264 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
@@ -9275,7 +9275,7 @@ case_243: {
     int max_node_269 = max( num_node_3, num_node_4 );
     int num_edge_269 = max_node_269 * ( max_node_269 + 1 ) / 2 + min_node_269;
     int num_node_269;
-    if ( edge_num_cuts[ num_edge_269 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_269 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -9295,7 +9295,7 @@ case_243: {
         const Node &n1 = nodes.local_at( num_node_4 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_269 ] = num_node_269;
-        edge_num_cuts[ num_edge_269 ] = num_cut;
+        edge_num_cuts[ num_edge_269 ] = num_cut_proc;
     } else
         num_node_269 = edge_cuts[ num_edge_269 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
@@ -9303,7 +9303,7 @@ case_243: {
     int max_node_275 = max( num_node_4, num_node_5 );
     int num_edge_275 = max_node_275 * ( max_node_275 + 1 ) / 2 + min_node_275;
     int num_node_275;
-    if ( edge_num_cuts[ num_edge_275 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_275 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -9323,7 +9323,7 @@ case_243: {
         const Node &n1 = nodes.local_at( num_node_5 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_275 ] = num_node_275;
-        edge_num_cuts[ num_edge_275 ] = num_cut;
+        edge_num_cuts[ num_edge_275 ] = num_cut_proc;
     } else
         num_node_275 = edge_cuts[ num_edge_275 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
@@ -9332,7 +9332,7 @@ case_243: {
     int max_node_290 = max( num_node_6, num_node_7 );
     int num_edge_290 = max_node_290 * ( max_node_290 + 1 ) / 2 + min_node_290;
     int num_node_290;
-    if ( edge_num_cuts[ num_edge_290 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_290 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -9352,14 +9352,14 @@ case_243: {
         const Node &n1 = nodes.local_at( num_node_7 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_290 ] = num_node_290;
-        edge_num_cuts[ num_edge_290 ] = num_cut;
+        edge_num_cuts[ num_edge_290 ] = num_cut_proc;
     } else
         num_node_290 = edge_cuts[ num_edge_290 ];
     int min_node_284 = min( num_node_7, num_node_0 );
     int max_node_284 = max( num_node_7, num_node_0 );
     int num_edge_284 = max_node_284 * ( max_node_284 + 1 ) / 2 + min_node_284;
     int num_node_284;
-    if ( edge_num_cuts[ num_edge_284 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_284 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -9379,7 +9379,7 @@ case_243: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_284 ] = num_node_284;
-        edge_num_cuts[ num_edge_284 ] = num_cut;
+        edge_num_cuts[ num_edge_284 ] = num_cut_proc;
     } else
         num_node_284 = edge_cuts[ num_edge_284 ];
     break;
@@ -9391,7 +9391,7 @@ case_133: {
     int max_node_257 = max( num_node_0, num_node_1 );
     int num_edge_257 = max_node_257 * ( max_node_257 + 1 ) / 2 + min_node_257;
     int num_node_257;
-    if ( edge_num_cuts[ num_edge_257 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_257 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -9411,7 +9411,7 @@ case_133: {
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_257 ] = num_node_257;
-        edge_num_cuts[ num_edge_257 ] = num_cut;
+        edge_num_cuts[ num_edge_257 ] = num_cut_proc;
     } else
         num_node_257 = edge_cuts[ num_edge_257 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
@@ -9420,7 +9420,7 @@ case_133: {
     int max_node_264 = max( num_node_2, num_node_3 );
     int num_edge_264 = max_node_264 * ( max_node_264 + 1 ) / 2 + min_node_264;
     int num_node_264;
-    if ( edge_num_cuts[ num_edge_264 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_264 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -9440,7 +9440,7 @@ case_133: {
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_264 ] = num_node_264;
-        edge_num_cuts[ num_edge_264 ] = num_cut;
+        edge_num_cuts[ num_edge_264 ] = num_cut_proc;
     } else
         num_node_264 = edge_cuts[ num_edge_264 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
@@ -9448,7 +9448,7 @@ case_133: {
     int max_node_269 = max( num_node_3, num_node_4 );
     int num_edge_269 = max_node_269 * ( max_node_269 + 1 ) / 2 + min_node_269;
     int num_node_269;
-    if ( edge_num_cuts[ num_edge_269 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_269 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -9468,7 +9468,7 @@ case_133: {
         const Node &n1 = nodes.local_at( num_node_4 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_269 ] = num_node_269;
-        edge_num_cuts[ num_edge_269 ] = num_cut;
+        edge_num_cuts[ num_edge_269 ] = num_cut_proc;
     } else
         num_node_269 = edge_cuts[ num_edge_269 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
@@ -9477,7 +9477,7 @@ case_133: {
     int max_node_282 = max( num_node_5, num_node_6 );
     int num_edge_282 = max_node_282 * ( max_node_282 + 1 ) / 2 + min_node_282;
     int num_node_282;
-    if ( edge_num_cuts[ num_edge_282 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_282 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -9497,7 +9497,7 @@ case_133: {
         const Node &n1 = nodes.local_at( num_node_6 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_282 ] = num_node_282;
-        edge_num_cuts[ num_edge_282 ] = num_cut;
+        edge_num_cuts[ num_edge_282 ] = num_cut_proc;
     } else
         num_node_282 = edge_cuts[ num_edge_282 ];
     break;
@@ -9509,7 +9509,7 @@ case_211: {
     int max_node_257 = max( num_node_0, num_node_1 );
     int num_edge_257 = max_node_257 * ( max_node_257 + 1 ) / 2 + min_node_257;
     int num_node_257;
-    if ( edge_num_cuts[ num_edge_257 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_257 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -9529,7 +9529,7 @@ case_211: {
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_257 ] = num_node_257;
-        edge_num_cuts[ num_edge_257 ] = num_cut;
+        edge_num_cuts[ num_edge_257 ] = num_cut_proc;
     } else
         num_node_257 = edge_cuts[ num_edge_257 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
@@ -9538,7 +9538,7 @@ case_211: {
     int max_node_264 = max( num_node_2, num_node_3 );
     int num_edge_264 = max_node_264 * ( max_node_264 + 1 ) / 2 + min_node_264;
     int num_node_264;
-    if ( edge_num_cuts[ num_edge_264 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_264 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -9558,7 +9558,7 @@ case_211: {
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_264 ] = num_node_264;
-        edge_num_cuts[ num_edge_264 ] = num_cut;
+        edge_num_cuts[ num_edge_264 ] = num_cut_proc;
     } else
         num_node_264 = edge_cuts[ num_edge_264 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
@@ -9566,7 +9566,7 @@ case_211: {
     int max_node_269 = max( num_node_3, num_node_4 );
     int num_edge_269 = max_node_269 * ( max_node_269 + 1 ) / 2 + min_node_269;
     int num_node_269;
-    if ( edge_num_cuts[ num_edge_269 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_269 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -9586,7 +9586,7 @@ case_211: {
         const Node &n1 = nodes.local_at( num_node_4 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_269 ] = num_node_269;
-        edge_num_cuts[ num_edge_269 ] = num_cut;
+        edge_num_cuts[ num_edge_269 ] = num_cut_proc;
     } else
         num_node_269 = edge_cuts[ num_edge_269 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
@@ -9595,7 +9595,7 @@ case_211: {
     int max_node_282 = max( num_node_5, num_node_6 );
     int num_edge_282 = max_node_282 * ( max_node_282 + 1 ) / 2 + min_node_282;
     int num_node_282;
-    if ( edge_num_cuts[ num_edge_282 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_282 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -9615,7 +9615,7 @@ case_211: {
         const Node &n1 = nodes.local_at( num_node_6 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_282 ] = num_node_282;
-        edge_num_cuts[ num_edge_282 ] = num_cut;
+        edge_num_cuts[ num_edge_282 ] = num_cut_proc;
     } else
         num_node_282 = edge_cuts[ num_edge_282 ];
     int num_node_7 = faces.node_lists[ num_face ][ 7 ];
@@ -9623,7 +9623,7 @@ case_211: {
     int max_node_290 = max( num_node_6, num_node_7 );
     int num_edge_290 = max_node_290 * ( max_node_290 + 1 ) / 2 + min_node_290;
     int num_node_290;
-    if ( edge_num_cuts[ num_edge_290 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_290 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -9643,14 +9643,14 @@ case_211: {
         const Node &n1 = nodes.local_at( num_node_7 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_290 ] = num_node_290;
-        edge_num_cuts[ num_edge_290 ] = num_cut;
+        edge_num_cuts[ num_edge_290 ] = num_cut_proc;
     } else
         num_node_290 = edge_cuts[ num_edge_290 ];
     int min_node_284 = min( num_node_7, num_node_0 );
     int max_node_284 = max( num_node_7, num_node_0 );
     int num_edge_284 = max_node_284 * ( max_node_284 + 1 ) / 2 + min_node_284;
     int num_node_284;
-    if ( edge_num_cuts[ num_edge_284 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_284 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -9670,7 +9670,7 @@ case_211: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_284 ] = num_node_284;
-        edge_num_cuts[ num_edge_284 ] = num_cut;
+        edge_num_cuts[ num_edge_284 ] = num_cut_proc;
     } else
         num_node_284 = edge_cuts[ num_edge_284 ];
     break;
@@ -9682,7 +9682,7 @@ case_93: {
     int max_node_257 = max( num_node_0, num_node_1 );
     int num_edge_257 = max_node_257 * ( max_node_257 + 1 ) / 2 + min_node_257;
     int num_node_257;
-    if ( edge_num_cuts[ num_edge_257 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_257 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -9702,7 +9702,7 @@ case_93: {
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_257 ] = num_node_257;
-        edge_num_cuts[ num_edge_257 ] = num_cut;
+        edge_num_cuts[ num_edge_257 ] = num_cut_proc;
     } else
         num_node_257 = edge_cuts[ num_edge_257 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
@@ -9711,7 +9711,7 @@ case_93: {
     int max_node_264 = max( num_node_2, num_node_3 );
     int num_edge_264 = max_node_264 * ( max_node_264 + 1 ) / 2 + min_node_264;
     int num_node_264;
-    if ( edge_num_cuts[ num_edge_264 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_264 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -9731,7 +9731,7 @@ case_93: {
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_264 ] = num_node_264;
-        edge_num_cuts[ num_edge_264 ] = num_cut;
+        edge_num_cuts[ num_edge_264 ] = num_cut_proc;
     } else
         num_node_264 = edge_cuts[ num_edge_264 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
@@ -9739,7 +9739,7 @@ case_93: {
     int max_node_269 = max( num_node_3, num_node_4 );
     int num_edge_269 = max_node_269 * ( max_node_269 + 1 ) / 2 + min_node_269;
     int num_node_269;
-    if ( edge_num_cuts[ num_edge_269 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_269 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -9759,7 +9759,7 @@ case_93: {
         const Node &n1 = nodes.local_at( num_node_4 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_269 ] = num_node_269;
-        edge_num_cuts[ num_edge_269 ] = num_cut;
+        edge_num_cuts[ num_edge_269 ] = num_cut_proc;
     } else
         num_node_269 = edge_cuts[ num_edge_269 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
@@ -9767,7 +9767,7 @@ case_93: {
     int max_node_277 = max( num_node_6, num_node_0 );
     int num_edge_277 = max_node_277 * ( max_node_277 + 1 ) / 2 + min_node_277;
     int num_node_277;
-    if ( edge_num_cuts[ num_edge_277 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_277 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -9787,7 +9787,7 @@ case_93: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_277 ] = num_node_277;
-        edge_num_cuts[ num_edge_277 ] = num_cut;
+        edge_num_cuts[ num_edge_277 ] = num_cut_proc;
     } else
         num_node_277 = edge_cuts[ num_edge_277 ];
     break;
@@ -9799,7 +9799,7 @@ case_256: {
     int max_node_257 = max( num_node_0, num_node_1 );
     int num_edge_257 = max_node_257 * ( max_node_257 + 1 ) / 2 + min_node_257;
     int num_node_257;
-    if ( edge_num_cuts[ num_edge_257 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_257 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -9819,7 +9819,7 @@ case_256: {
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_257 ] = num_node_257;
-        edge_num_cuts[ num_edge_257 ] = num_cut;
+        edge_num_cuts[ num_edge_257 ] = num_cut_proc;
     } else
         num_node_257 = edge_cuts[ num_edge_257 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
@@ -9828,7 +9828,7 @@ case_256: {
     int max_node_264 = max( num_node_2, num_node_3 );
     int num_edge_264 = max_node_264 * ( max_node_264 + 1 ) / 2 + min_node_264;
     int num_node_264;
-    if ( edge_num_cuts[ num_edge_264 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_264 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -9848,7 +9848,7 @@ case_256: {
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_264 ] = num_node_264;
-        edge_num_cuts[ num_edge_264 ] = num_cut;
+        edge_num_cuts[ num_edge_264 ] = num_cut_proc;
     } else
         num_node_264 = edge_cuts[ num_edge_264 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
@@ -9856,7 +9856,7 @@ case_256: {
     int max_node_269 = max( num_node_3, num_node_4 );
     int num_edge_269 = max_node_269 * ( max_node_269 + 1 ) / 2 + min_node_269;
     int num_node_269;
-    if ( edge_num_cuts[ num_edge_269 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_269 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -9876,7 +9876,7 @@ case_256: {
         const Node &n1 = nodes.local_at( num_node_4 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_269 ] = num_node_269;
-        edge_num_cuts[ num_edge_269 ] = num_cut;
+        edge_num_cuts[ num_edge_269 ] = num_cut_proc;
     } else
         num_node_269 = edge_cuts[ num_edge_269 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
@@ -9885,7 +9885,7 @@ case_256: {
     int max_node_290 = max( num_node_6, num_node_7 );
     int num_edge_290 = max_node_290 * ( max_node_290 + 1 ) / 2 + min_node_290;
     int num_node_290;
-    if ( edge_num_cuts[ num_edge_290 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_290 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -9905,7 +9905,7 @@ case_256: {
         const Node &n1 = nodes.local_at( num_node_7 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_290 ] = num_node_290;
-        edge_num_cuts[ num_edge_290 ] = num_cut;
+        edge_num_cuts[ num_edge_290 ] = num_cut_proc;
     } else
         num_node_290 = edge_cuts[ num_edge_290 ];
     break;
@@ -9917,7 +9917,7 @@ case_163: {
     int max_node_257 = max( num_node_0, num_node_1 );
     int num_edge_257 = max_node_257 * ( max_node_257 + 1 ) / 2 + min_node_257;
     int num_node_257;
-    if ( edge_num_cuts[ num_edge_257 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_257 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -9937,7 +9937,7 @@ case_163: {
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_257 ] = num_node_257;
-        edge_num_cuts[ num_edge_257 ] = num_cut;
+        edge_num_cuts[ num_edge_257 ] = num_cut_proc;
     } else
         num_node_257 = edge_cuts[ num_edge_257 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
@@ -9946,7 +9946,7 @@ case_163: {
     int max_node_264 = max( num_node_2, num_node_3 );
     int num_edge_264 = max_node_264 * ( max_node_264 + 1 ) / 2 + min_node_264;
     int num_node_264;
-    if ( edge_num_cuts[ num_edge_264 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_264 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -9966,7 +9966,7 @@ case_163: {
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_264 ] = num_node_264;
-        edge_num_cuts[ num_edge_264 ] = num_cut;
+        edge_num_cuts[ num_edge_264 ] = num_cut_proc;
     } else
         num_node_264 = edge_cuts[ num_edge_264 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
@@ -9974,7 +9974,7 @@ case_163: {
     int max_node_269 = max( num_node_3, num_node_4 );
     int num_edge_269 = max_node_269 * ( max_node_269 + 1 ) / 2 + min_node_269;
     int num_node_269;
-    if ( edge_num_cuts[ num_edge_269 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_269 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -9994,7 +9994,7 @@ case_163: {
         const Node &n1 = nodes.local_at( num_node_4 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_269 ] = num_node_269;
-        edge_num_cuts[ num_edge_269 ] = num_cut;
+        edge_num_cuts[ num_edge_269 ] = num_cut_proc;
     } else
         num_node_269 = edge_cuts[ num_edge_269 ];
     int num_node_7 = faces.node_lists[ num_face ][ 7 ];
@@ -10002,7 +10002,7 @@ case_163: {
     int max_node_284 = max( num_node_7, num_node_0 );
     int num_edge_284 = max_node_284 * ( max_node_284 + 1 ) / 2 + min_node_284;
     int num_node_284;
-    if ( edge_num_cuts[ num_edge_284 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_284 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -10022,7 +10022,7 @@ case_163: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_284 ] = num_node_284;
-        edge_num_cuts[ num_edge_284 ] = num_cut;
+        edge_num_cuts[ num_edge_284 ] = num_cut_proc;
     } else
         num_node_284 = edge_cuts[ num_edge_284 ];
     break;
@@ -10034,7 +10034,7 @@ case_68: {
     int max_node_257 = max( num_node_0, num_node_1 );
     int num_edge_257 = max_node_257 * ( max_node_257 + 1 ) / 2 + min_node_257;
     int num_node_257;
-    if ( edge_num_cuts[ num_edge_257 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_257 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -10054,7 +10054,7 @@ case_68: {
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_257 ] = num_node_257;
-        edge_num_cuts[ num_edge_257 ] = num_cut;
+        edge_num_cuts[ num_edge_257 ] = num_cut_proc;
     } else
         num_node_257 = edge_cuts[ num_edge_257 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
@@ -10063,7 +10063,7 @@ case_68: {
     int max_node_264 = max( num_node_2, num_node_3 );
     int num_edge_264 = max_node_264 * ( max_node_264 + 1 ) / 2 + min_node_264;
     int num_node_264;
-    if ( edge_num_cuts[ num_edge_264 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_264 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -10083,7 +10083,7 @@ case_68: {
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_264 ] = num_node_264;
-        edge_num_cuts[ num_edge_264 ] = num_cut;
+        edge_num_cuts[ num_edge_264 ] = num_cut_proc;
     } else
         num_node_264 = edge_cuts[ num_edge_264 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
@@ -10092,7 +10092,7 @@ case_68: {
     int max_node_275 = max( num_node_4, num_node_5 );
     int num_edge_275 = max_node_275 * ( max_node_275 + 1 ) / 2 + min_node_275;
     int num_node_275;
-    if ( edge_num_cuts[ num_edge_275 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_275 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -10112,14 +10112,14 @@ case_68: {
         const Node &n1 = nodes.local_at( num_node_5 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_275 ] = num_node_275;
-        edge_num_cuts[ num_edge_275 ] = num_cut;
+        edge_num_cuts[ num_edge_275 ] = num_cut_proc;
     } else
         num_node_275 = edge_cuts[ num_edge_275 ];
     int min_node_271 = min( num_node_5, num_node_0 );
     int max_node_271 = max( num_node_5, num_node_0 );
     int num_edge_271 = max_node_271 * ( max_node_271 + 1 ) / 2 + min_node_271;
     int num_node_271;
-    if ( edge_num_cuts[ num_edge_271 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_271 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -10139,7 +10139,7 @@ case_68: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_271 ] = num_node_271;
-        edge_num_cuts[ num_edge_271 ] = num_cut;
+        edge_num_cuts[ num_edge_271 ] = num_cut_proc;
     } else
         num_node_271 = edge_cuts[ num_edge_271 ];
     break;
@@ -10151,7 +10151,7 @@ case_105: {
     int max_node_257 = max( num_node_0, num_node_1 );
     int num_edge_257 = max_node_257 * ( max_node_257 + 1 ) / 2 + min_node_257;
     int num_node_257;
-    if ( edge_num_cuts[ num_edge_257 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_257 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -10171,7 +10171,7 @@ case_105: {
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_257 ] = num_node_257;
-        edge_num_cuts[ num_edge_257 ] = num_cut;
+        edge_num_cuts[ num_edge_257 ] = num_cut_proc;
     } else
         num_node_257 = edge_cuts[ num_edge_257 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
@@ -10180,7 +10180,7 @@ case_105: {
     int max_node_264 = max( num_node_2, num_node_3 );
     int num_edge_264 = max_node_264 * ( max_node_264 + 1 ) / 2 + min_node_264;
     int num_node_264;
-    if ( edge_num_cuts[ num_edge_264 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_264 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -10200,7 +10200,7 @@ case_105: {
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_264 ] = num_node_264;
-        edge_num_cuts[ num_edge_264 ] = num_cut;
+        edge_num_cuts[ num_edge_264 ] = num_cut_proc;
     } else
         num_node_264 = edge_cuts[ num_edge_264 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
@@ -10209,7 +10209,7 @@ case_105: {
     int max_node_275 = max( num_node_4, num_node_5 );
     int num_edge_275 = max_node_275 * ( max_node_275 + 1 ) / 2 + min_node_275;
     int num_node_275;
-    if ( edge_num_cuts[ num_edge_275 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_275 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -10229,7 +10229,7 @@ case_105: {
         const Node &n1 = nodes.local_at( num_node_5 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_275 ] = num_node_275;
-        edge_num_cuts[ num_edge_275 ] = num_cut;
+        edge_num_cuts[ num_edge_275 ] = num_cut_proc;
     } else
         num_node_275 = edge_cuts[ num_edge_275 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
@@ -10237,7 +10237,7 @@ case_105: {
     int max_node_277 = max( num_node_6, num_node_0 );
     int num_edge_277 = max_node_277 * ( max_node_277 + 1 ) / 2 + min_node_277;
     int num_node_277;
-    if ( edge_num_cuts[ num_edge_277 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_277 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -10257,7 +10257,7 @@ case_105: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_277 ] = num_node_277;
-        edge_num_cuts[ num_edge_277 ] = num_cut;
+        edge_num_cuts[ num_edge_277 ] = num_cut_proc;
     } else
         num_node_277 = edge_cuts[ num_edge_277 ];
     break;
@@ -10269,7 +10269,7 @@ case_117: {
     int max_node_257 = max( num_node_0, num_node_1 );
     int num_edge_257 = max_node_257 * ( max_node_257 + 1 ) / 2 + min_node_257;
     int num_node_257;
-    if ( edge_num_cuts[ num_edge_257 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_257 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -10289,7 +10289,7 @@ case_117: {
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_257 ] = num_node_257;
-        edge_num_cuts[ num_edge_257 ] = num_cut;
+        edge_num_cuts[ num_edge_257 ] = num_cut_proc;
     } else
         num_node_257 = edge_cuts[ num_edge_257 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
@@ -10298,7 +10298,7 @@ case_117: {
     int max_node_264 = max( num_node_2, num_node_3 );
     int num_edge_264 = max_node_264 * ( max_node_264 + 1 ) / 2 + min_node_264;
     int num_node_264;
-    if ( edge_num_cuts[ num_edge_264 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_264 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -10318,7 +10318,7 @@ case_117: {
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_264 ] = num_node_264;
-        edge_num_cuts[ num_edge_264 ] = num_cut;
+        edge_num_cuts[ num_edge_264 ] = num_cut_proc;
     } else
         num_node_264 = edge_cuts[ num_edge_264 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
@@ -10327,7 +10327,7 @@ case_117: {
     int max_node_275 = max( num_node_4, num_node_5 );
     int num_edge_275 = max_node_275 * ( max_node_275 + 1 ) / 2 + min_node_275;
     int num_node_275;
-    if ( edge_num_cuts[ num_edge_275 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_275 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -10347,7 +10347,7 @@ case_117: {
         const Node &n1 = nodes.local_at( num_node_5 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_275 ] = num_node_275;
-        edge_num_cuts[ num_edge_275 ] = num_cut;
+        edge_num_cuts[ num_edge_275 ] = num_cut_proc;
     } else
         num_node_275 = edge_cuts[ num_edge_275 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
@@ -10355,7 +10355,7 @@ case_117: {
     int max_node_282 = max( num_node_5, num_node_6 );
     int num_edge_282 = max_node_282 * ( max_node_282 + 1 ) / 2 + min_node_282;
     int num_node_282;
-    if ( edge_num_cuts[ num_edge_282 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_282 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -10375,7 +10375,7 @@ case_117: {
         const Node &n1 = nodes.local_at( num_node_6 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_282 ] = num_node_282;
-        edge_num_cuts[ num_edge_282 ] = num_cut;
+        edge_num_cuts[ num_edge_282 ] = num_cut_proc;
     } else
         num_node_282 = edge_cuts[ num_edge_282 ];
     break;
@@ -10387,7 +10387,7 @@ case_227: {
     int max_node_257 = max( num_node_0, num_node_1 );
     int num_edge_257 = max_node_257 * ( max_node_257 + 1 ) / 2 + min_node_257;
     int num_node_257;
-    if ( edge_num_cuts[ num_edge_257 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_257 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -10407,7 +10407,7 @@ case_227: {
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_257 ] = num_node_257;
-        edge_num_cuts[ num_edge_257 ] = num_cut;
+        edge_num_cuts[ num_edge_257 ] = num_cut_proc;
     } else
         num_node_257 = edge_cuts[ num_edge_257 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
@@ -10416,7 +10416,7 @@ case_227: {
     int max_node_264 = max( num_node_2, num_node_3 );
     int num_edge_264 = max_node_264 * ( max_node_264 + 1 ) / 2 + min_node_264;
     int num_node_264;
-    if ( edge_num_cuts[ num_edge_264 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_264 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -10436,7 +10436,7 @@ case_227: {
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_264 ] = num_node_264;
-        edge_num_cuts[ num_edge_264 ] = num_cut;
+        edge_num_cuts[ num_edge_264 ] = num_cut_proc;
     } else
         num_node_264 = edge_cuts[ num_edge_264 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
@@ -10445,7 +10445,7 @@ case_227: {
     int max_node_275 = max( num_node_4, num_node_5 );
     int num_edge_275 = max_node_275 * ( max_node_275 + 1 ) / 2 + min_node_275;
     int num_node_275;
-    if ( edge_num_cuts[ num_edge_275 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_275 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -10465,7 +10465,7 @@ case_227: {
         const Node &n1 = nodes.local_at( num_node_5 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_275 ] = num_node_275;
-        edge_num_cuts[ num_edge_275 ] = num_cut;
+        edge_num_cuts[ num_edge_275 ] = num_cut_proc;
     } else
         num_node_275 = edge_cuts[ num_edge_275 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
@@ -10473,7 +10473,7 @@ case_227: {
     int max_node_282 = max( num_node_5, num_node_6 );
     int num_edge_282 = max_node_282 * ( max_node_282 + 1 ) / 2 + min_node_282;
     int num_node_282;
-    if ( edge_num_cuts[ num_edge_282 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_282 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -10493,7 +10493,7 @@ case_227: {
         const Node &n1 = nodes.local_at( num_node_6 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_282 ] = num_node_282;
-        edge_num_cuts[ num_edge_282 ] = num_cut;
+        edge_num_cuts[ num_edge_282 ] = num_cut_proc;
     } else
         num_node_282 = edge_cuts[ num_edge_282 ];
     int num_node_7 = faces.node_lists[ num_face ][ 7 ];
@@ -10501,7 +10501,7 @@ case_227: {
     int max_node_290 = max( num_node_6, num_node_7 );
     int num_edge_290 = max_node_290 * ( max_node_290 + 1 ) / 2 + min_node_290;
     int num_node_290;
-    if ( edge_num_cuts[ num_edge_290 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_290 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -10521,14 +10521,14 @@ case_227: {
         const Node &n1 = nodes.local_at( num_node_7 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_290 ] = num_node_290;
-        edge_num_cuts[ num_edge_290 ] = num_cut;
+        edge_num_cuts[ num_edge_290 ] = num_cut_proc;
     } else
         num_node_290 = edge_cuts[ num_edge_290 ];
     int min_node_284 = min( num_node_7, num_node_0 );
     int max_node_284 = max( num_node_7, num_node_0 );
     int num_edge_284 = max_node_284 * ( max_node_284 + 1 ) / 2 + min_node_284;
     int num_node_284;
-    if ( edge_num_cuts[ num_edge_284 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_284 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -10548,7 +10548,7 @@ case_227: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_284 ] = num_node_284;
-        edge_num_cuts[ num_edge_284 ] = num_cut;
+        edge_num_cuts[ num_edge_284 ] = num_cut_proc;
     } else
         num_node_284 = edge_cuts[ num_edge_284 ];
     break;
@@ -10560,7 +10560,7 @@ case_240: {
     int max_node_257 = max( num_node_0, num_node_1 );
     int num_edge_257 = max_node_257 * ( max_node_257 + 1 ) / 2 + min_node_257;
     int num_node_257;
-    if ( edge_num_cuts[ num_edge_257 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_257 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -10580,7 +10580,7 @@ case_240: {
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_257 ] = num_node_257;
-        edge_num_cuts[ num_edge_257 ] = num_cut;
+        edge_num_cuts[ num_edge_257 ] = num_cut_proc;
     } else
         num_node_257 = edge_cuts[ num_edge_257 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
@@ -10589,7 +10589,7 @@ case_240: {
     int max_node_264 = max( num_node_2, num_node_3 );
     int num_edge_264 = max_node_264 * ( max_node_264 + 1 ) / 2 + min_node_264;
     int num_node_264;
-    if ( edge_num_cuts[ num_edge_264 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_264 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -10609,7 +10609,7 @@ case_240: {
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_264 ] = num_node_264;
-        edge_num_cuts[ num_edge_264 ] = num_cut;
+        edge_num_cuts[ num_edge_264 ] = num_cut_proc;
     } else
         num_node_264 = edge_cuts[ num_edge_264 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
@@ -10618,7 +10618,7 @@ case_240: {
     int max_node_275 = max( num_node_4, num_node_5 );
     int num_edge_275 = max_node_275 * ( max_node_275 + 1 ) / 2 + min_node_275;
     int num_node_275;
-    if ( edge_num_cuts[ num_edge_275 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_275 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -10638,7 +10638,7 @@ case_240: {
         const Node &n1 = nodes.local_at( num_node_5 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_275 ] = num_node_275;
-        edge_num_cuts[ num_edge_275 ] = num_cut;
+        edge_num_cuts[ num_edge_275 ] = num_cut_proc;
     } else
         num_node_275 = edge_cuts[ num_edge_275 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
@@ -10647,7 +10647,7 @@ case_240: {
     int max_node_290 = max( num_node_6, num_node_7 );
     int num_edge_290 = max_node_290 * ( max_node_290 + 1 ) / 2 + min_node_290;
     int num_node_290;
-    if ( edge_num_cuts[ num_edge_290 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_290 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -10667,7 +10667,7 @@ case_240: {
         const Node &n1 = nodes.local_at( num_node_7 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_290 ] = num_node_290;
-        edge_num_cuts[ num_edge_290 ] = num_cut;
+        edge_num_cuts[ num_edge_290 ] = num_cut_proc;
     } else
         num_node_290 = edge_cuts[ num_edge_290 ];
     break;
@@ -10679,7 +10679,7 @@ case_175: {
     int max_node_257 = max( num_node_0, num_node_1 );
     int num_edge_257 = max_node_257 * ( max_node_257 + 1 ) / 2 + min_node_257;
     int num_node_257;
-    if ( edge_num_cuts[ num_edge_257 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_257 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -10699,7 +10699,7 @@ case_175: {
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_257 ] = num_node_257;
-        edge_num_cuts[ num_edge_257 ] = num_cut;
+        edge_num_cuts[ num_edge_257 ] = num_cut_proc;
     } else
         num_node_257 = edge_cuts[ num_edge_257 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
@@ -10708,7 +10708,7 @@ case_175: {
     int max_node_264 = max( num_node_2, num_node_3 );
     int num_edge_264 = max_node_264 * ( max_node_264 + 1 ) / 2 + min_node_264;
     int num_node_264;
-    if ( edge_num_cuts[ num_edge_264 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_264 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -10728,7 +10728,7 @@ case_175: {
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_264 ] = num_node_264;
-        edge_num_cuts[ num_edge_264 ] = num_cut;
+        edge_num_cuts[ num_edge_264 ] = num_cut_proc;
     } else
         num_node_264 = edge_cuts[ num_edge_264 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
@@ -10737,7 +10737,7 @@ case_175: {
     int max_node_275 = max( num_node_4, num_node_5 );
     int num_edge_275 = max_node_275 * ( max_node_275 + 1 ) / 2 + min_node_275;
     int num_node_275;
-    if ( edge_num_cuts[ num_edge_275 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_275 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -10757,7 +10757,7 @@ case_175: {
         const Node &n1 = nodes.local_at( num_node_5 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_275 ] = num_node_275;
-        edge_num_cuts[ num_edge_275 ] = num_cut;
+        edge_num_cuts[ num_edge_275 ] = num_cut_proc;
     } else
         num_node_275 = edge_cuts[ num_edge_275 ];
     int num_node_7 = faces.node_lists[ num_face ][ 7 ];
@@ -10765,7 +10765,7 @@ case_175: {
     int max_node_284 = max( num_node_7, num_node_0 );
     int num_edge_284 = max_node_284 * ( max_node_284 + 1 ) / 2 + min_node_284;
     int num_node_284;
-    if ( edge_num_cuts[ num_edge_284 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_284 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -10785,7 +10785,7 @@ case_175: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_284 ] = num_node_284;
-        edge_num_cuts[ num_edge_284 ] = num_cut;
+        edge_num_cuts[ num_edge_284 ] = num_cut_proc;
     } else
         num_node_284 = edge_cuts[ num_edge_284 ];
     break;
@@ -10797,7 +10797,7 @@ case_136: {
     int max_node_257 = max( num_node_0, num_node_1 );
     int num_edge_257 = max_node_257 * ( max_node_257 + 1 ) / 2 + min_node_257;
     int num_node_257;
-    if ( edge_num_cuts[ num_edge_257 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_257 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -10817,7 +10817,7 @@ case_136: {
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_257 ] = num_node_257;
-        edge_num_cuts[ num_edge_257 ] = num_cut;
+        edge_num_cuts[ num_edge_257 ] = num_cut_proc;
     } else
         num_node_257 = edge_cuts[ num_edge_257 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
@@ -10826,7 +10826,7 @@ case_136: {
     int max_node_264 = max( num_node_2, num_node_3 );
     int num_edge_264 = max_node_264 * ( max_node_264 + 1 ) / 2 + min_node_264;
     int num_node_264;
-    if ( edge_num_cuts[ num_edge_264 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_264 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -10846,7 +10846,7 @@ case_136: {
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_264 ] = num_node_264;
-        edge_num_cuts[ num_edge_264 ] = num_cut;
+        edge_num_cuts[ num_edge_264 ] = num_cut_proc;
     } else
         num_node_264 = edge_cuts[ num_edge_264 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
@@ -10855,7 +10855,7 @@ case_136: {
     int max_node_282 = max( num_node_5, num_node_6 );
     int num_edge_282 = max_node_282 * ( max_node_282 + 1 ) / 2 + min_node_282;
     int num_node_282;
-    if ( edge_num_cuts[ num_edge_282 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_282 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -10875,14 +10875,14 @@ case_136: {
         const Node &n1 = nodes.local_at( num_node_6 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_282 ] = num_node_282;
-        edge_num_cuts[ num_edge_282 ] = num_cut;
+        edge_num_cuts[ num_edge_282 ] = num_cut_proc;
     } else
         num_node_282 = edge_cuts[ num_edge_282 ];
     int min_node_277 = min( num_node_6, num_node_0 );
     int max_node_277 = max( num_node_6, num_node_0 );
     int num_edge_277 = max_node_277 * ( max_node_277 + 1 ) / 2 + min_node_277;
     int num_node_277;
-    if ( edge_num_cuts[ num_edge_277 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_277 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -10902,7 +10902,7 @@ case_136: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_277 ] = num_node_277;
-        edge_num_cuts[ num_edge_277 ] = num_cut;
+        edge_num_cuts[ num_edge_277 ] = num_cut_proc;
     } else
         num_node_277 = edge_cuts[ num_edge_277 ];
     break;
@@ -10914,7 +10914,7 @@ case_196: {
     int max_node_257 = max( num_node_0, num_node_1 );
     int num_edge_257 = max_node_257 * ( max_node_257 + 1 ) / 2 + min_node_257;
     int num_node_257;
-    if ( edge_num_cuts[ num_edge_257 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_257 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -10934,7 +10934,7 @@ case_196: {
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_257 ] = num_node_257;
-        edge_num_cuts[ num_edge_257 ] = num_cut;
+        edge_num_cuts[ num_edge_257 ] = num_cut_proc;
     } else
         num_node_257 = edge_cuts[ num_edge_257 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
@@ -10943,7 +10943,7 @@ case_196: {
     int max_node_264 = max( num_node_2, num_node_3 );
     int num_edge_264 = max_node_264 * ( max_node_264 + 1 ) / 2 + min_node_264;
     int num_node_264;
-    if ( edge_num_cuts[ num_edge_264 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_264 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -10963,7 +10963,7 @@ case_196: {
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_264 ] = num_node_264;
-        edge_num_cuts[ num_edge_264 ] = num_cut;
+        edge_num_cuts[ num_edge_264 ] = num_cut_proc;
     } else
         num_node_264 = edge_cuts[ num_edge_264 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
@@ -10972,7 +10972,7 @@ case_196: {
     int max_node_282 = max( num_node_5, num_node_6 );
     int num_edge_282 = max_node_282 * ( max_node_282 + 1 ) / 2 + min_node_282;
     int num_node_282;
-    if ( edge_num_cuts[ num_edge_282 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_282 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -10992,7 +10992,7 @@ case_196: {
         const Node &n1 = nodes.local_at( num_node_6 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_282 ] = num_node_282;
-        edge_num_cuts[ num_edge_282 ] = num_cut;
+        edge_num_cuts[ num_edge_282 ] = num_cut_proc;
     } else
         num_node_282 = edge_cuts[ num_edge_282 ];
     int num_node_7 = faces.node_lists[ num_face ][ 7 ];
@@ -11000,7 +11000,7 @@ case_196: {
     int max_node_284 = max( num_node_7, num_node_0 );
     int num_edge_284 = max_node_284 * ( max_node_284 + 1 ) / 2 + min_node_284;
     int num_node_284;
-    if ( edge_num_cuts[ num_edge_284 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_284 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -11020,7 +11020,7 @@ case_196: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_284 ] = num_node_284;
-        edge_num_cuts[ num_edge_284 ] = num_cut;
+        edge_num_cuts[ num_edge_284 ] = num_cut_proc;
     } else
         num_node_284 = edge_cuts[ num_edge_284 ];
     break;
@@ -11032,7 +11032,7 @@ case_208: {
     int max_node_257 = max( num_node_0, num_node_1 );
     int num_edge_257 = max_node_257 * ( max_node_257 + 1 ) / 2 + min_node_257;
     int num_node_257;
-    if ( edge_num_cuts[ num_edge_257 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_257 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -11052,7 +11052,7 @@ case_208: {
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_257 ] = num_node_257;
-        edge_num_cuts[ num_edge_257 ] = num_cut;
+        edge_num_cuts[ num_edge_257 ] = num_cut_proc;
     } else
         num_node_257 = edge_cuts[ num_edge_257 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
@@ -11061,7 +11061,7 @@ case_208: {
     int max_node_264 = max( num_node_2, num_node_3 );
     int num_edge_264 = max_node_264 * ( max_node_264 + 1 ) / 2 + min_node_264;
     int num_node_264;
-    if ( edge_num_cuts[ num_edge_264 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_264 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -11081,7 +11081,7 @@ case_208: {
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_264 ] = num_node_264;
-        edge_num_cuts[ num_edge_264 ] = num_cut;
+        edge_num_cuts[ num_edge_264 ] = num_cut_proc;
     } else
         num_node_264 = edge_cuts[ num_edge_264 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
@@ -11090,7 +11090,7 @@ case_208: {
     int max_node_282 = max( num_node_5, num_node_6 );
     int num_edge_282 = max_node_282 * ( max_node_282 + 1 ) / 2 + min_node_282;
     int num_node_282;
-    if ( edge_num_cuts[ num_edge_282 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_282 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -11110,7 +11110,7 @@ case_208: {
         const Node &n1 = nodes.local_at( num_node_6 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_282 ] = num_node_282;
-        edge_num_cuts[ num_edge_282 ] = num_cut;
+        edge_num_cuts[ num_edge_282 ] = num_cut_proc;
     } else
         num_node_282 = edge_cuts[ num_edge_282 ];
     int num_node_7 = faces.node_lists[ num_face ][ 7 ];
@@ -11118,7 +11118,7 @@ case_208: {
     int max_node_290 = max( num_node_6, num_node_7 );
     int num_edge_290 = max_node_290 * ( max_node_290 + 1 ) / 2 + min_node_290;
     int num_node_290;
-    if ( edge_num_cuts[ num_edge_290 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_290 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -11138,7 +11138,7 @@ case_208: {
         const Node &n1 = nodes.local_at( num_node_7 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_290 ] = num_node_290;
-        edge_num_cuts[ num_edge_290 ] = num_cut;
+        edge_num_cuts[ num_edge_290 ] = num_cut_proc;
     } else
         num_node_290 = edge_cuts[ num_edge_290 ];
     break;
@@ -11150,7 +11150,7 @@ case_259: {
     int max_node_257 = max( num_node_0, num_node_1 );
     int num_edge_257 = max_node_257 * ( max_node_257 + 1 ) / 2 + min_node_257;
     int num_node_257;
-    if ( edge_num_cuts[ num_edge_257 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_257 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -11170,7 +11170,7 @@ case_259: {
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_257 ] = num_node_257;
-        edge_num_cuts[ num_edge_257 ] = num_cut;
+        edge_num_cuts[ num_edge_257 ] = num_cut_proc;
     } else
         num_node_257 = edge_cuts[ num_edge_257 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
@@ -11179,7 +11179,7 @@ case_259: {
     int max_node_264 = max( num_node_2, num_node_3 );
     int num_edge_264 = max_node_264 * ( max_node_264 + 1 ) / 2 + min_node_264;
     int num_node_264;
-    if ( edge_num_cuts[ num_edge_264 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_264 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -11199,7 +11199,7 @@ case_259: {
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_264 ] = num_node_264;
-        edge_num_cuts[ num_edge_264 ] = num_cut;
+        edge_num_cuts[ num_edge_264 ] = num_cut_proc;
     } else
         num_node_264 = edge_cuts[ num_edge_264 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
@@ -11208,7 +11208,7 @@ case_259: {
     int max_node_290 = max( num_node_6, num_node_7 );
     int num_edge_290 = max_node_290 * ( max_node_290 + 1 ) / 2 + min_node_290;
     int num_node_290;
-    if ( edge_num_cuts[ num_edge_290 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_290 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -11228,14 +11228,14 @@ case_259: {
         const Node &n1 = nodes.local_at( num_node_7 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_290 ] = num_node_290;
-        edge_num_cuts[ num_edge_290 ] = num_cut;
+        edge_num_cuts[ num_edge_290 ] = num_cut_proc;
     } else
         num_node_290 = edge_cuts[ num_edge_290 ];
     int min_node_284 = min( num_node_7, num_node_0 );
     int max_node_284 = max( num_node_7, num_node_0 );
     int num_edge_284 = max_node_284 * ( max_node_284 + 1 ) / 2 + min_node_284;
     int num_node_284;
-    if ( edge_num_cuts[ num_edge_284 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_284 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -11255,7 +11255,7 @@ case_259: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_284 ] = num_node_284;
-        edge_num_cuts[ num_edge_284 ] = num_cut;
+        edge_num_cuts[ num_edge_284 ] = num_cut_proc;
     } else
         num_node_284 = edge_cuts[ num_edge_284 ];
     break;
@@ -11267,7 +11267,7 @@ case_9: {
     int max_node_257 = max( num_node_0, num_node_1 );
     int num_edge_257 = max_node_257 * ( max_node_257 + 1 ) / 2 + min_node_257;
     int num_node_257;
-    if ( edge_num_cuts[ num_edge_257 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_257 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -11287,7 +11287,7 @@ case_9: {
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_257 ] = num_node_257;
-        edge_num_cuts[ num_edge_257 ] = num_cut;
+        edge_num_cuts[ num_edge_257 ] = num_cut_proc;
     } else
         num_node_257 = edge_cuts[ num_edge_257 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
@@ -11295,7 +11295,7 @@ case_9: {
     int max_node_262 = max( num_node_3, num_node_0 );
     int num_edge_262 = max_node_262 * ( max_node_262 + 1 ) / 2 + min_node_262;
     int num_node_262;
-    if ( edge_num_cuts[ num_edge_262 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_262 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -11315,7 +11315,7 @@ case_9: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_262 ] = num_node_262;
-        edge_num_cuts[ num_edge_262 ] = num_cut;
+        edge_num_cuts[ num_edge_262 ] = num_cut_proc;
     } else
         num_node_262 = edge_cuts[ num_edge_262 ];
     // 257,1,2,3,262
@@ -11338,7 +11338,7 @@ case_21: {
     int max_node_257 = max( num_node_0, num_node_1 );
     int num_edge_257 = max_node_257 * ( max_node_257 + 1 ) / 2 + min_node_257;
     int num_node_257;
-    if ( edge_num_cuts[ num_edge_257 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_257 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -11358,7 +11358,7 @@ case_21: {
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_257 ] = num_node_257;
-        edge_num_cuts[ num_edge_257 ] = num_cut;
+        edge_num_cuts[ num_edge_257 ] = num_cut_proc;
     } else
         num_node_257 = edge_cuts[ num_edge_257 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
@@ -11366,7 +11366,7 @@ case_21: {
     int max_node_262 = max( num_node_3, num_node_0 );
     int num_edge_262 = max_node_262 * ( max_node_262 + 1 ) / 2 + min_node_262;
     int num_node_262;
-    if ( edge_num_cuts[ num_edge_262 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_262 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -11386,7 +11386,7 @@ case_21: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_262 ] = num_node_262;
-        edge_num_cuts[ num_edge_262 ] = num_cut;
+        edge_num_cuts[ num_edge_262 ] = num_cut_proc;
     } else
         num_node_262 = edge_cuts[ num_edge_262 ];
     // 262,0,257
@@ -11406,7 +11406,7 @@ case_35: {
     int max_node_257 = max( num_node_0, num_node_1 );
     int num_edge_257 = max_node_257 * ( max_node_257 + 1 ) / 2 + min_node_257;
     int num_node_257;
-    if ( edge_num_cuts[ num_edge_257 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_257 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -11426,7 +11426,7 @@ case_35: {
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_257 ] = num_node_257;
-        edge_num_cuts[ num_edge_257 ] = num_cut;
+        edge_num_cuts[ num_edge_257 ] = num_cut_proc;
     } else
         num_node_257 = edge_cuts[ num_edge_257 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
@@ -11435,7 +11435,7 @@ case_35: {
     int max_node_269 = max( num_node_3, num_node_4 );
     int num_edge_269 = max_node_269 * ( max_node_269 + 1 ) / 2 + min_node_269;
     int num_node_269;
-    if ( edge_num_cuts[ num_edge_269 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_269 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -11455,7 +11455,7 @@ case_35: {
         const Node &n1 = nodes.local_at( num_node_4 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_269 ] = num_node_269;
-        edge_num_cuts[ num_edge_269 ] = num_cut;
+        edge_num_cuts[ num_edge_269 ] = num_cut_proc;
     } else
         num_node_269 = edge_cuts[ num_edge_269 ];
     // 0,257,269,4
@@ -11477,7 +11477,7 @@ case_57: {
     int max_node_257 = max( num_node_0, num_node_1 );
     int num_edge_257 = max_node_257 * ( max_node_257 + 1 ) / 2 + min_node_257;
     int num_node_257;
-    if ( edge_num_cuts[ num_edge_257 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_257 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -11497,7 +11497,7 @@ case_57: {
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_257 ] = num_node_257;
-        edge_num_cuts[ num_edge_257 ] = num_cut;
+        edge_num_cuts[ num_edge_257 ] = num_cut_proc;
     } else
         num_node_257 = edge_cuts[ num_edge_257 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
@@ -11506,7 +11506,7 @@ case_57: {
     int max_node_269 = max( num_node_3, num_node_4 );
     int num_edge_269 = max_node_269 * ( max_node_269 + 1 ) / 2 + min_node_269;
     int num_node_269;
-    if ( edge_num_cuts[ num_edge_269 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_269 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -11526,7 +11526,7 @@ case_57: {
         const Node &n1 = nodes.local_at( num_node_4 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_269 ] = num_node_269;
-        edge_num_cuts[ num_edge_269 ] = num_cut;
+        edge_num_cuts[ num_edge_269 ] = num_cut_proc;
     } else
         num_node_269 = edge_cuts[ num_edge_269 ];
     // 0,257,269,4,5
@@ -11551,7 +11551,7 @@ case_97: {
     int max_node_257 = max( num_node_0, num_node_1 );
     int num_edge_257 = max_node_257 * ( max_node_257 + 1 ) / 2 + min_node_257;
     int num_node_257;
-    if ( edge_num_cuts[ num_edge_257 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_257 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -11571,7 +11571,7 @@ case_97: {
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_257 ] = num_node_257;
-        edge_num_cuts[ num_edge_257 ] = num_cut;
+        edge_num_cuts[ num_edge_257 ] = num_cut_proc;
     } else
         num_node_257 = edge_cuts[ num_edge_257 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
@@ -11580,7 +11580,7 @@ case_97: {
     int max_node_269 = max( num_node_3, num_node_4 );
     int num_edge_269 = max_node_269 * ( max_node_269 + 1 ) / 2 + min_node_269;
     int num_node_269;
-    if ( edge_num_cuts[ num_edge_269 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_269 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -11600,7 +11600,7 @@ case_97: {
         const Node &n1 = nodes.local_at( num_node_4 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_269 ] = num_node_269;
-        edge_num_cuts[ num_edge_269 ] = num_cut;
+        edge_num_cuts[ num_edge_269 ] = num_cut_proc;
     } else
         num_node_269 = edge_cuts[ num_edge_269 ];
     // 0,257,269,4,5,6
@@ -11627,7 +11627,7 @@ case_167: {
     int max_node_257 = max( num_node_0, num_node_1 );
     int num_edge_257 = max_node_257 * ( max_node_257 + 1 ) / 2 + min_node_257;
     int num_node_257;
-    if ( edge_num_cuts[ num_edge_257 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_257 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -11647,7 +11647,7 @@ case_167: {
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_257 ] = num_node_257;
-        edge_num_cuts[ num_edge_257 ] = num_cut;
+        edge_num_cuts[ num_edge_257 ] = num_cut_proc;
     } else
         num_node_257 = edge_cuts[ num_edge_257 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
@@ -11656,7 +11656,7 @@ case_167: {
     int max_node_269 = max( num_node_3, num_node_4 );
     int num_edge_269 = max_node_269 * ( max_node_269 + 1 ) / 2 + min_node_269;
     int num_node_269;
-    if ( edge_num_cuts[ num_edge_269 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_269 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -11676,7 +11676,7 @@ case_167: {
         const Node &n1 = nodes.local_at( num_node_4 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_269 ] = num_node_269;
-        edge_num_cuts[ num_edge_269 ] = num_cut;
+        edge_num_cuts[ num_edge_269 ] = num_cut_proc;
     } else
         num_node_269 = edge_cuts[ num_edge_269 ];
     // 0,257,269,4,5,6,7
@@ -11705,7 +11705,7 @@ case_81: {
     int max_node_257 = max( num_node_0, num_node_1 );
     int num_edge_257 = max_node_257 * ( max_node_257 + 1 ) / 2 + min_node_257;
     int num_node_257;
-    if ( edge_num_cuts[ num_edge_257 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_257 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -11725,7 +11725,7 @@ case_81: {
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_257 ] = num_node_257;
-        edge_num_cuts[ num_edge_257 ] = num_cut;
+        edge_num_cuts[ num_edge_257 ] = num_cut_proc;
     } else
         num_node_257 = edge_cuts[ num_edge_257 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
@@ -11734,7 +11734,7 @@ case_81: {
     int max_node_269 = max( num_node_3, num_node_4 );
     int num_edge_269 = max_node_269 * ( max_node_269 + 1 ) / 2 + min_node_269;
     int num_node_269;
-    if ( edge_num_cuts[ num_edge_269 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_269 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -11754,7 +11754,7 @@ case_81: {
         const Node &n1 = nodes.local_at( num_node_4 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_269 ] = num_node_269;
-        edge_num_cuts[ num_edge_269 ] = num_cut;
+        edge_num_cuts[ num_edge_269 ] = num_cut_proc;
     } else
         num_node_269 = edge_cuts[ num_edge_269 ];
     // 257,1,2,3,269
@@ -11777,7 +11777,7 @@ case_38: {
     int max_node_257 = max( num_node_0, num_node_1 );
     int num_edge_257 = max_node_257 * ( max_node_257 + 1 ) / 2 + min_node_257;
     int num_node_257;
-    if ( edge_num_cuts[ num_edge_257 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_257 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -11797,7 +11797,7 @@ case_38: {
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_257 ] = num_node_257;
-        edge_num_cuts[ num_edge_257 ] = num_cut;
+        edge_num_cuts[ num_edge_257 ] = num_cut_proc;
     } else
         num_node_257 = edge_cuts[ num_edge_257 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
@@ -11806,7 +11806,7 @@ case_38: {
     int max_node_269 = max( num_node_3, num_node_4 );
     int num_edge_269 = max_node_269 * ( max_node_269 + 1 ) / 2 + min_node_269;
     int num_node_269;
-    if ( edge_num_cuts[ num_edge_269 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_269 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -11826,7 +11826,7 @@ case_38: {
         const Node &n1 = nodes.local_at( num_node_4 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_269 ] = num_node_269;
-        edge_num_cuts[ num_edge_269 ] = num_cut;
+        edge_num_cuts[ num_edge_269 ] = num_cut_proc;
     } else
         num_node_269 = edge_cuts[ num_edge_269 ];
     // 257,1,2,3,269
@@ -11848,7 +11848,7 @@ case_60: {
     int max_node_257 = max( num_node_0, num_node_1 );
     int num_edge_257 = max_node_257 * ( max_node_257 + 1 ) / 2 + min_node_257;
     int num_node_257;
-    if ( edge_num_cuts[ num_edge_257 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_257 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -11868,7 +11868,7 @@ case_60: {
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_257 ] = num_node_257;
-        edge_num_cuts[ num_edge_257 ] = num_cut;
+        edge_num_cuts[ num_edge_257 ] = num_cut_proc;
     } else
         num_node_257 = edge_cuts[ num_edge_257 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
@@ -11877,7 +11877,7 @@ case_60: {
     int max_node_269 = max( num_node_3, num_node_4 );
     int num_edge_269 = max_node_269 * ( max_node_269 + 1 ) / 2 + min_node_269;
     int num_node_269;
-    if ( edge_num_cuts[ num_edge_269 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_269 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -11897,7 +11897,7 @@ case_60: {
         const Node &n1 = nodes.local_at( num_node_4 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_269 ] = num_node_269;
-        edge_num_cuts[ num_edge_269 ] = num_cut;
+        edge_num_cuts[ num_edge_269 ] = num_cut_proc;
     } else
         num_node_269 = edge_cuts[ num_edge_269 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
@@ -11905,7 +11905,7 @@ case_60: {
     int max_node_275 = max( num_node_4, num_node_5 );
     int num_edge_275 = max_node_275 * ( max_node_275 + 1 ) / 2 + min_node_275;
     int num_node_275;
-    if ( edge_num_cuts[ num_edge_275 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_275 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -11925,14 +11925,14 @@ case_60: {
         const Node &n1 = nodes.local_at( num_node_5 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_275 ] = num_node_275;
-        edge_num_cuts[ num_edge_275 ] = num_cut;
+        edge_num_cuts[ num_edge_275 ] = num_cut_proc;
     } else
         num_node_275 = edge_cuts[ num_edge_275 ];
     int min_node_271 = min( num_node_5, num_node_0 );
     int max_node_271 = max( num_node_5, num_node_0 );
     int num_edge_271 = max_node_271 * ( max_node_271 + 1 ) / 2 + min_node_271;
     int num_node_271;
-    if ( edge_num_cuts[ num_edge_271 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_271 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -11952,7 +11952,7 @@ case_60: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_271 ] = num_node_271;
-        edge_num_cuts[ num_edge_271 ] = num_cut;
+        edge_num_cuts[ num_edge_271 ] = num_cut_proc;
     } else
         num_node_271 = edge_cuts[ num_edge_271 ];
     break;
@@ -11964,7 +11964,7 @@ case_100: {
     int max_node_257 = max( num_node_0, num_node_1 );
     int num_edge_257 = max_node_257 * ( max_node_257 + 1 ) / 2 + min_node_257;
     int num_node_257;
-    if ( edge_num_cuts[ num_edge_257 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_257 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -11984,7 +11984,7 @@ case_100: {
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_257 ] = num_node_257;
-        edge_num_cuts[ num_edge_257 ] = num_cut;
+        edge_num_cuts[ num_edge_257 ] = num_cut_proc;
     } else
         num_node_257 = edge_cuts[ num_edge_257 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
@@ -11993,7 +11993,7 @@ case_100: {
     int max_node_269 = max( num_node_3, num_node_4 );
     int num_edge_269 = max_node_269 * ( max_node_269 + 1 ) / 2 + min_node_269;
     int num_node_269;
-    if ( edge_num_cuts[ num_edge_269 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_269 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -12013,7 +12013,7 @@ case_100: {
         const Node &n1 = nodes.local_at( num_node_4 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_269 ] = num_node_269;
-        edge_num_cuts[ num_edge_269 ] = num_cut;
+        edge_num_cuts[ num_edge_269 ] = num_cut_proc;
     } else
         num_node_269 = edge_cuts[ num_edge_269 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
@@ -12021,7 +12021,7 @@ case_100: {
     int max_node_275 = max( num_node_4, num_node_5 );
     int num_edge_275 = max_node_275 * ( max_node_275 + 1 ) / 2 + min_node_275;
     int num_node_275;
-    if ( edge_num_cuts[ num_edge_275 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_275 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -12041,7 +12041,7 @@ case_100: {
         const Node &n1 = nodes.local_at( num_node_5 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_275 ] = num_node_275;
-        edge_num_cuts[ num_edge_275 ] = num_cut;
+        edge_num_cuts[ num_edge_275 ] = num_cut_proc;
     } else
         num_node_275 = edge_cuts[ num_edge_275 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
@@ -12049,7 +12049,7 @@ case_100: {
     int max_node_277 = max( num_node_6, num_node_0 );
     int num_edge_277 = max_node_277 * ( max_node_277 + 1 ) / 2 + min_node_277;
     int num_node_277;
-    if ( edge_num_cuts[ num_edge_277 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_277 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -12069,7 +12069,7 @@ case_100: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_277 ] = num_node_277;
-        edge_num_cuts[ num_edge_277 ] = num_cut;
+        edge_num_cuts[ num_edge_277 ] = num_cut_proc;
     } else
         num_node_277 = edge_cuts[ num_edge_277 ];
     break;
@@ -12081,7 +12081,7 @@ case_125: {
     int max_node_257 = max( num_node_0, num_node_1 );
     int num_edge_257 = max_node_257 * ( max_node_257 + 1 ) / 2 + min_node_257;
     int num_node_257;
-    if ( edge_num_cuts[ num_edge_257 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_257 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -12101,7 +12101,7 @@ case_125: {
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_257 ] = num_node_257;
-        edge_num_cuts[ num_edge_257 ] = num_cut;
+        edge_num_cuts[ num_edge_257 ] = num_cut_proc;
     } else
         num_node_257 = edge_cuts[ num_edge_257 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
@@ -12110,7 +12110,7 @@ case_125: {
     int max_node_269 = max( num_node_3, num_node_4 );
     int num_edge_269 = max_node_269 * ( max_node_269 + 1 ) / 2 + min_node_269;
     int num_node_269;
-    if ( edge_num_cuts[ num_edge_269 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_269 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -12130,7 +12130,7 @@ case_125: {
         const Node &n1 = nodes.local_at( num_node_4 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_269 ] = num_node_269;
-        edge_num_cuts[ num_edge_269 ] = num_cut;
+        edge_num_cuts[ num_edge_269 ] = num_cut_proc;
     } else
         num_node_269 = edge_cuts[ num_edge_269 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
@@ -12138,7 +12138,7 @@ case_125: {
     int max_node_275 = max( num_node_4, num_node_5 );
     int num_edge_275 = max_node_275 * ( max_node_275 + 1 ) / 2 + min_node_275;
     int num_node_275;
-    if ( edge_num_cuts[ num_edge_275 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_275 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -12158,7 +12158,7 @@ case_125: {
         const Node &n1 = nodes.local_at( num_node_5 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_275 ] = num_node_275;
-        edge_num_cuts[ num_edge_275 ] = num_cut;
+        edge_num_cuts[ num_edge_275 ] = num_cut_proc;
     } else
         num_node_275 = edge_cuts[ num_edge_275 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
@@ -12166,7 +12166,7 @@ case_125: {
     int max_node_282 = max( num_node_5, num_node_6 );
     int num_edge_282 = max_node_282 * ( max_node_282 + 1 ) / 2 + min_node_282;
     int num_node_282;
-    if ( edge_num_cuts[ num_edge_282 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_282 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -12186,7 +12186,7 @@ case_125: {
         const Node &n1 = nodes.local_at( num_node_6 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_282 ] = num_node_282;
-        edge_num_cuts[ num_edge_282 ] = num_cut;
+        edge_num_cuts[ num_edge_282 ] = num_cut_proc;
     } else
         num_node_282 = edge_cuts[ num_edge_282 ];
     break;
@@ -12198,7 +12198,7 @@ case_219: {
     int max_node_257 = max( num_node_0, num_node_1 );
     int num_edge_257 = max_node_257 * ( max_node_257 + 1 ) / 2 + min_node_257;
     int num_node_257;
-    if ( edge_num_cuts[ num_edge_257 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_257 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -12218,7 +12218,7 @@ case_219: {
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_257 ] = num_node_257;
-        edge_num_cuts[ num_edge_257 ] = num_cut;
+        edge_num_cuts[ num_edge_257 ] = num_cut_proc;
     } else
         num_node_257 = edge_cuts[ num_edge_257 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
@@ -12227,7 +12227,7 @@ case_219: {
     int max_node_269 = max( num_node_3, num_node_4 );
     int num_edge_269 = max_node_269 * ( max_node_269 + 1 ) / 2 + min_node_269;
     int num_node_269;
-    if ( edge_num_cuts[ num_edge_269 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_269 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -12247,7 +12247,7 @@ case_219: {
         const Node &n1 = nodes.local_at( num_node_4 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_269 ] = num_node_269;
-        edge_num_cuts[ num_edge_269 ] = num_cut;
+        edge_num_cuts[ num_edge_269 ] = num_cut_proc;
     } else
         num_node_269 = edge_cuts[ num_edge_269 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
@@ -12255,7 +12255,7 @@ case_219: {
     int max_node_275 = max( num_node_4, num_node_5 );
     int num_edge_275 = max_node_275 * ( max_node_275 + 1 ) / 2 + min_node_275;
     int num_node_275;
-    if ( edge_num_cuts[ num_edge_275 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_275 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -12275,7 +12275,7 @@ case_219: {
         const Node &n1 = nodes.local_at( num_node_5 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_275 ] = num_node_275;
-        edge_num_cuts[ num_edge_275 ] = num_cut;
+        edge_num_cuts[ num_edge_275 ] = num_cut_proc;
     } else
         num_node_275 = edge_cuts[ num_edge_275 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
@@ -12283,7 +12283,7 @@ case_219: {
     int max_node_282 = max( num_node_5, num_node_6 );
     int num_edge_282 = max_node_282 * ( max_node_282 + 1 ) / 2 + min_node_282;
     int num_node_282;
-    if ( edge_num_cuts[ num_edge_282 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_282 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -12303,7 +12303,7 @@ case_219: {
         const Node &n1 = nodes.local_at( num_node_6 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_282 ] = num_node_282;
-        edge_num_cuts[ num_edge_282 ] = num_cut;
+        edge_num_cuts[ num_edge_282 ] = num_cut_proc;
     } else
         num_node_282 = edge_cuts[ num_edge_282 ];
     int num_node_7 = faces.node_lists[ num_face ][ 7 ];
@@ -12311,7 +12311,7 @@ case_219: {
     int max_node_290 = max( num_node_6, num_node_7 );
     int num_edge_290 = max_node_290 * ( max_node_290 + 1 ) / 2 + min_node_290;
     int num_node_290;
-    if ( edge_num_cuts[ num_edge_290 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_290 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -12331,14 +12331,14 @@ case_219: {
         const Node &n1 = nodes.local_at( num_node_7 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_290 ] = num_node_290;
-        edge_num_cuts[ num_edge_290 ] = num_cut;
+        edge_num_cuts[ num_edge_290 ] = num_cut_proc;
     } else
         num_node_290 = edge_cuts[ num_edge_290 ];
     int min_node_284 = min( num_node_7, num_node_0 );
     int max_node_284 = max( num_node_7, num_node_0 );
     int num_edge_284 = max_node_284 * ( max_node_284 + 1 ) / 2 + min_node_284;
     int num_node_284;
-    if ( edge_num_cuts[ num_edge_284 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_284 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -12358,7 +12358,7 @@ case_219: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_284 ] = num_node_284;
-        edge_num_cuts[ num_edge_284 ] = num_cut;
+        edge_num_cuts[ num_edge_284 ] = num_cut_proc;
     } else
         num_node_284 = edge_cuts[ num_edge_284 ];
     break;
@@ -12370,7 +12370,7 @@ case_248: {
     int max_node_257 = max( num_node_0, num_node_1 );
     int num_edge_257 = max_node_257 * ( max_node_257 + 1 ) / 2 + min_node_257;
     int num_node_257;
-    if ( edge_num_cuts[ num_edge_257 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_257 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -12390,7 +12390,7 @@ case_248: {
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_257 ] = num_node_257;
-        edge_num_cuts[ num_edge_257 ] = num_cut;
+        edge_num_cuts[ num_edge_257 ] = num_cut_proc;
     } else
         num_node_257 = edge_cuts[ num_edge_257 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
@@ -12399,7 +12399,7 @@ case_248: {
     int max_node_269 = max( num_node_3, num_node_4 );
     int num_edge_269 = max_node_269 * ( max_node_269 + 1 ) / 2 + min_node_269;
     int num_node_269;
-    if ( edge_num_cuts[ num_edge_269 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_269 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -12419,7 +12419,7 @@ case_248: {
         const Node &n1 = nodes.local_at( num_node_4 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_269 ] = num_node_269;
-        edge_num_cuts[ num_edge_269 ] = num_cut;
+        edge_num_cuts[ num_edge_269 ] = num_cut_proc;
     } else
         num_node_269 = edge_cuts[ num_edge_269 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
@@ -12427,7 +12427,7 @@ case_248: {
     int max_node_275 = max( num_node_4, num_node_5 );
     int num_edge_275 = max_node_275 * ( max_node_275 + 1 ) / 2 + min_node_275;
     int num_node_275;
-    if ( edge_num_cuts[ num_edge_275 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_275 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -12447,7 +12447,7 @@ case_248: {
         const Node &n1 = nodes.local_at( num_node_5 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_275 ] = num_node_275;
-        edge_num_cuts[ num_edge_275 ] = num_cut;
+        edge_num_cuts[ num_edge_275 ] = num_cut_proc;
     } else
         num_node_275 = edge_cuts[ num_edge_275 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
@@ -12456,7 +12456,7 @@ case_248: {
     int max_node_290 = max( num_node_6, num_node_7 );
     int num_edge_290 = max_node_290 * ( max_node_290 + 1 ) / 2 + min_node_290;
     int num_node_290;
-    if ( edge_num_cuts[ num_edge_290 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_290 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -12476,7 +12476,7 @@ case_248: {
         const Node &n1 = nodes.local_at( num_node_7 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_290 ] = num_node_290;
-        edge_num_cuts[ num_edge_290 ] = num_cut;
+        edge_num_cuts[ num_edge_290 ] = num_cut_proc;
     } else
         num_node_290 = edge_cuts[ num_edge_290 ];
     break;
@@ -12488,7 +12488,7 @@ case_170: {
     int max_node_257 = max( num_node_0, num_node_1 );
     int num_edge_257 = max_node_257 * ( max_node_257 + 1 ) / 2 + min_node_257;
     int num_node_257;
-    if ( edge_num_cuts[ num_edge_257 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_257 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -12508,7 +12508,7 @@ case_170: {
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_257 ] = num_node_257;
-        edge_num_cuts[ num_edge_257 ] = num_cut;
+        edge_num_cuts[ num_edge_257 ] = num_cut_proc;
     } else
         num_node_257 = edge_cuts[ num_edge_257 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
@@ -12517,7 +12517,7 @@ case_170: {
     int max_node_269 = max( num_node_3, num_node_4 );
     int num_edge_269 = max_node_269 * ( max_node_269 + 1 ) / 2 + min_node_269;
     int num_node_269;
-    if ( edge_num_cuts[ num_edge_269 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_269 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -12537,7 +12537,7 @@ case_170: {
         const Node &n1 = nodes.local_at( num_node_4 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_269 ] = num_node_269;
-        edge_num_cuts[ num_edge_269 ] = num_cut;
+        edge_num_cuts[ num_edge_269 ] = num_cut_proc;
     } else
         num_node_269 = edge_cuts[ num_edge_269 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
@@ -12545,7 +12545,7 @@ case_170: {
     int max_node_275 = max( num_node_4, num_node_5 );
     int num_edge_275 = max_node_275 * ( max_node_275 + 1 ) / 2 + min_node_275;
     int num_node_275;
-    if ( edge_num_cuts[ num_edge_275 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_275 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -12565,7 +12565,7 @@ case_170: {
         const Node &n1 = nodes.local_at( num_node_5 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_275 ] = num_node_275;
-        edge_num_cuts[ num_edge_275 ] = num_cut;
+        edge_num_cuts[ num_edge_275 ] = num_cut_proc;
     } else
         num_node_275 = edge_cuts[ num_edge_275 ];
     int num_node_7 = faces.node_lists[ num_face ][ 7 ];
@@ -12573,7 +12573,7 @@ case_170: {
     int max_node_284 = max( num_node_7, num_node_0 );
     int num_edge_284 = max_node_284 * ( max_node_284 + 1 ) / 2 + min_node_284;
     int num_node_284;
-    if ( edge_num_cuts[ num_edge_284 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_284 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -12593,7 +12593,7 @@ case_170: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_284 ] = num_node_284;
-        edge_num_cuts[ num_edge_284 ] = num_cut;
+        edge_num_cuts[ num_edge_284 ] = num_cut_proc;
     } else
         num_node_284 = edge_cuts[ num_edge_284 ];
     break;
@@ -12605,7 +12605,7 @@ case_128: {
     int max_node_257 = max( num_node_0, num_node_1 );
     int num_edge_257 = max_node_257 * ( max_node_257 + 1 ) / 2 + min_node_257;
     int num_node_257;
-    if ( edge_num_cuts[ num_edge_257 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_257 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -12625,7 +12625,7 @@ case_128: {
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_257 ] = num_node_257;
-        edge_num_cuts[ num_edge_257 ] = num_cut;
+        edge_num_cuts[ num_edge_257 ] = num_cut_proc;
     } else
         num_node_257 = edge_cuts[ num_edge_257 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
@@ -12634,7 +12634,7 @@ case_128: {
     int max_node_269 = max( num_node_3, num_node_4 );
     int num_edge_269 = max_node_269 * ( max_node_269 + 1 ) / 2 + min_node_269;
     int num_node_269;
-    if ( edge_num_cuts[ num_edge_269 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_269 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -12654,7 +12654,7 @@ case_128: {
         const Node &n1 = nodes.local_at( num_node_4 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_269 ] = num_node_269;
-        edge_num_cuts[ num_edge_269 ] = num_cut;
+        edge_num_cuts[ num_edge_269 ] = num_cut_proc;
     } else
         num_node_269 = edge_cuts[ num_edge_269 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
@@ -12663,7 +12663,7 @@ case_128: {
     int max_node_282 = max( num_node_5, num_node_6 );
     int num_edge_282 = max_node_282 * ( max_node_282 + 1 ) / 2 + min_node_282;
     int num_node_282;
-    if ( edge_num_cuts[ num_edge_282 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_282 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -12683,14 +12683,14 @@ case_128: {
         const Node &n1 = nodes.local_at( num_node_6 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_282 ] = num_node_282;
-        edge_num_cuts[ num_edge_282 ] = num_cut;
+        edge_num_cuts[ num_edge_282 ] = num_cut_proc;
     } else
         num_node_282 = edge_cuts[ num_edge_282 ];
     int min_node_277 = min( num_node_6, num_node_0 );
     int max_node_277 = max( num_node_6, num_node_0 );
     int num_edge_277 = max_node_277 * ( max_node_277 + 1 ) / 2 + min_node_277;
     int num_node_277;
-    if ( edge_num_cuts[ num_edge_277 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_277 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -12710,7 +12710,7 @@ case_128: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_277 ] = num_node_277;
-        edge_num_cuts[ num_edge_277 ] = num_cut;
+        edge_num_cuts[ num_edge_277 ] = num_cut_proc;
     } else
         num_node_277 = edge_cuts[ num_edge_277 ];
     break;
@@ -12722,7 +12722,7 @@ case_191: {
     int max_node_257 = max( num_node_0, num_node_1 );
     int num_edge_257 = max_node_257 * ( max_node_257 + 1 ) / 2 + min_node_257;
     int num_node_257;
-    if ( edge_num_cuts[ num_edge_257 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_257 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -12742,7 +12742,7 @@ case_191: {
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_257 ] = num_node_257;
-        edge_num_cuts[ num_edge_257 ] = num_cut;
+        edge_num_cuts[ num_edge_257 ] = num_cut_proc;
     } else
         num_node_257 = edge_cuts[ num_edge_257 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
@@ -12751,7 +12751,7 @@ case_191: {
     int max_node_269 = max( num_node_3, num_node_4 );
     int num_edge_269 = max_node_269 * ( max_node_269 + 1 ) / 2 + min_node_269;
     int num_node_269;
-    if ( edge_num_cuts[ num_edge_269 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_269 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -12771,7 +12771,7 @@ case_191: {
         const Node &n1 = nodes.local_at( num_node_4 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_269 ] = num_node_269;
-        edge_num_cuts[ num_edge_269 ] = num_cut;
+        edge_num_cuts[ num_edge_269 ] = num_cut_proc;
     } else
         num_node_269 = edge_cuts[ num_edge_269 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
@@ -12780,7 +12780,7 @@ case_191: {
     int max_node_282 = max( num_node_5, num_node_6 );
     int num_edge_282 = max_node_282 * ( max_node_282 + 1 ) / 2 + min_node_282;
     int num_node_282;
-    if ( edge_num_cuts[ num_edge_282 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_282 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -12800,7 +12800,7 @@ case_191: {
         const Node &n1 = nodes.local_at( num_node_6 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_282 ] = num_node_282;
-        edge_num_cuts[ num_edge_282 ] = num_cut;
+        edge_num_cuts[ num_edge_282 ] = num_cut_proc;
     } else
         num_node_282 = edge_cuts[ num_edge_282 ];
     int num_node_7 = faces.node_lists[ num_face ][ 7 ];
@@ -12808,7 +12808,7 @@ case_191: {
     int max_node_284 = max( num_node_7, num_node_0 );
     int num_edge_284 = max_node_284 * ( max_node_284 + 1 ) / 2 + min_node_284;
     int num_node_284;
-    if ( edge_num_cuts[ num_edge_284 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_284 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -12828,7 +12828,7 @@ case_191: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_284 ] = num_node_284;
-        edge_num_cuts[ num_edge_284 ] = num_cut;
+        edge_num_cuts[ num_edge_284 ] = num_cut_proc;
     } else
         num_node_284 = edge_cuts[ num_edge_284 ];
     break;
@@ -12840,7 +12840,7 @@ case_216: {
     int max_node_257 = max( num_node_0, num_node_1 );
     int num_edge_257 = max_node_257 * ( max_node_257 + 1 ) / 2 + min_node_257;
     int num_node_257;
-    if ( edge_num_cuts[ num_edge_257 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_257 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -12860,7 +12860,7 @@ case_216: {
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_257 ] = num_node_257;
-        edge_num_cuts[ num_edge_257 ] = num_cut;
+        edge_num_cuts[ num_edge_257 ] = num_cut_proc;
     } else
         num_node_257 = edge_cuts[ num_edge_257 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
@@ -12869,7 +12869,7 @@ case_216: {
     int max_node_269 = max( num_node_3, num_node_4 );
     int num_edge_269 = max_node_269 * ( max_node_269 + 1 ) / 2 + min_node_269;
     int num_node_269;
-    if ( edge_num_cuts[ num_edge_269 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_269 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -12889,7 +12889,7 @@ case_216: {
         const Node &n1 = nodes.local_at( num_node_4 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_269 ] = num_node_269;
-        edge_num_cuts[ num_edge_269 ] = num_cut;
+        edge_num_cuts[ num_edge_269 ] = num_cut_proc;
     } else
         num_node_269 = edge_cuts[ num_edge_269 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
@@ -12898,7 +12898,7 @@ case_216: {
     int max_node_282 = max( num_node_5, num_node_6 );
     int num_edge_282 = max_node_282 * ( max_node_282 + 1 ) / 2 + min_node_282;
     int num_node_282;
-    if ( edge_num_cuts[ num_edge_282 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_282 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -12918,7 +12918,7 @@ case_216: {
         const Node &n1 = nodes.local_at( num_node_6 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_282 ] = num_node_282;
-        edge_num_cuts[ num_edge_282 ] = num_cut;
+        edge_num_cuts[ num_edge_282 ] = num_cut_proc;
     } else
         num_node_282 = edge_cuts[ num_edge_282 ];
     int num_node_7 = faces.node_lists[ num_face ][ 7 ];
@@ -12926,7 +12926,7 @@ case_216: {
     int max_node_290 = max( num_node_6, num_node_7 );
     int num_edge_290 = max_node_290 * ( max_node_290 + 1 ) / 2 + min_node_290;
     int num_node_290;
-    if ( edge_num_cuts[ num_edge_290 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_290 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -12946,7 +12946,7 @@ case_216: {
         const Node &n1 = nodes.local_at( num_node_7 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_290 ] = num_node_290;
-        edge_num_cuts[ num_edge_290 ] = num_cut;
+        edge_num_cuts[ num_edge_290 ] = num_cut_proc;
     } else
         num_node_290 = edge_cuts[ num_edge_290 ];
     break;
@@ -12958,7 +12958,7 @@ case_251: {
     int max_node_257 = max( num_node_0, num_node_1 );
     int num_edge_257 = max_node_257 * ( max_node_257 + 1 ) / 2 + min_node_257;
     int num_node_257;
-    if ( edge_num_cuts[ num_edge_257 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_257 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -12978,7 +12978,7 @@ case_251: {
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_257 ] = num_node_257;
-        edge_num_cuts[ num_edge_257 ] = num_cut;
+        edge_num_cuts[ num_edge_257 ] = num_cut_proc;
     } else
         num_node_257 = edge_cuts[ num_edge_257 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
@@ -12987,7 +12987,7 @@ case_251: {
     int max_node_269 = max( num_node_3, num_node_4 );
     int num_edge_269 = max_node_269 * ( max_node_269 + 1 ) / 2 + min_node_269;
     int num_node_269;
-    if ( edge_num_cuts[ num_edge_269 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_269 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -13007,7 +13007,7 @@ case_251: {
         const Node &n1 = nodes.local_at( num_node_4 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_269 ] = num_node_269;
-        edge_num_cuts[ num_edge_269 ] = num_cut;
+        edge_num_cuts[ num_edge_269 ] = num_cut_proc;
     } else
         num_node_269 = edge_cuts[ num_edge_269 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
@@ -13016,7 +13016,7 @@ case_251: {
     int max_node_290 = max( num_node_6, num_node_7 );
     int num_edge_290 = max_node_290 * ( max_node_290 + 1 ) / 2 + min_node_290;
     int num_node_290;
-    if ( edge_num_cuts[ num_edge_290 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_290 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -13036,14 +13036,14 @@ case_251: {
         const Node &n1 = nodes.local_at( num_node_7 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_290 ] = num_node_290;
-        edge_num_cuts[ num_edge_290 ] = num_cut;
+        edge_num_cuts[ num_edge_290 ] = num_cut_proc;
     } else
         num_node_290 = edge_cuts[ num_edge_290 ];
     int min_node_284 = min( num_node_7, num_node_0 );
     int max_node_284 = max( num_node_7, num_node_0 );
     int num_edge_284 = max_node_284 * ( max_node_284 + 1 ) / 2 + min_node_284;
     int num_node_284;
-    if ( edge_num_cuts[ num_edge_284 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_284 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -13063,7 +13063,7 @@ case_251: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_284 ] = num_node_284;
-        edge_num_cuts[ num_edge_284 ] = num_cut;
+        edge_num_cuts[ num_edge_284 ] = num_cut_proc;
     } else
         num_node_284 = edge_cuts[ num_edge_284 ];
     break;
@@ -13075,7 +13075,7 @@ case_22: {
     int max_node_257 = max( num_node_0, num_node_1 );
     int num_edge_257 = max_node_257 * ( max_node_257 + 1 ) / 2 + min_node_257;
     int num_node_257;
-    if ( edge_num_cuts[ num_edge_257 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_257 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -13095,7 +13095,7 @@ case_22: {
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_257 ] = num_node_257;
-        edge_num_cuts[ num_edge_257 ] = num_cut;
+        edge_num_cuts[ num_edge_257 ] = num_cut_proc;
     } else
         num_node_257 = edge_cuts[ num_edge_257 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
@@ -13103,7 +13103,7 @@ case_22: {
     int max_node_266 = max( num_node_4, num_node_0 );
     int num_edge_266 = max_node_266 * ( max_node_266 + 1 ) / 2 + min_node_266;
     int num_node_266;
-    if ( edge_num_cuts[ num_edge_266 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_266 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -13123,7 +13123,7 @@ case_22: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_266 ] = num_node_266;
-        edge_num_cuts[ num_edge_266 ] = num_cut;
+        edge_num_cuts[ num_edge_266 ] = num_cut_proc;
     } else
         num_node_266 = edge_cuts[ num_edge_266 ];
     // 257,1,2,3,4,266
@@ -13148,7 +13148,7 @@ case_44: {
     int max_node_257 = max( num_node_0, num_node_1 );
     int num_edge_257 = max_node_257 * ( max_node_257 + 1 ) / 2 + min_node_257;
     int num_node_257;
-    if ( edge_num_cuts[ num_edge_257 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_257 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -13168,7 +13168,7 @@ case_44: {
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_257 ] = num_node_257;
-        edge_num_cuts[ num_edge_257 ] = num_cut;
+        edge_num_cuts[ num_edge_257 ] = num_cut_proc;
     } else
         num_node_257 = edge_cuts[ num_edge_257 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
@@ -13176,7 +13176,7 @@ case_44: {
     int max_node_266 = max( num_node_4, num_node_0 );
     int num_edge_266 = max_node_266 * ( max_node_266 + 1 ) / 2 + min_node_266;
     int num_node_266;
-    if ( edge_num_cuts[ num_edge_266 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_266 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -13196,7 +13196,7 @@ case_44: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_266 ] = num_node_266;
-        edge_num_cuts[ num_edge_266 ] = num_cut;
+        edge_num_cuts[ num_edge_266 ] = num_cut_proc;
     } else
         num_node_266 = edge_cuts[ num_edge_266 ];
     // 266,0,257
@@ -13216,7 +13216,7 @@ case_73: {
     int max_node_257 = max( num_node_0, num_node_1 );
     int num_edge_257 = max_node_257 * ( max_node_257 + 1 ) / 2 + min_node_257;
     int num_node_257;
-    if ( edge_num_cuts[ num_edge_257 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_257 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -13236,7 +13236,7 @@ case_73: {
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_257 ] = num_node_257;
-        edge_num_cuts[ num_edge_257 ] = num_cut;
+        edge_num_cuts[ num_edge_257 ] = num_cut_proc;
     } else
         num_node_257 = edge_cuts[ num_edge_257 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
@@ -13245,7 +13245,7 @@ case_73: {
     int max_node_275 = max( num_node_4, num_node_5 );
     int num_edge_275 = max_node_275 * ( max_node_275 + 1 ) / 2 + min_node_275;
     int num_node_275;
-    if ( edge_num_cuts[ num_edge_275 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_275 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -13265,7 +13265,7 @@ case_73: {
         const Node &n1 = nodes.local_at( num_node_5 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_275 ] = num_node_275;
-        edge_num_cuts[ num_edge_275 ] = num_cut;
+        edge_num_cuts[ num_edge_275 ] = num_cut_proc;
     } else
         num_node_275 = edge_cuts[ num_edge_275 ];
     // 0,257,275,5
@@ -13287,7 +13287,7 @@ case_109: {
     int max_node_257 = max( num_node_0, num_node_1 );
     int num_edge_257 = max_node_257 * ( max_node_257 + 1 ) / 2 + min_node_257;
     int num_node_257;
-    if ( edge_num_cuts[ num_edge_257 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_257 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -13307,7 +13307,7 @@ case_109: {
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_257 ] = num_node_257;
-        edge_num_cuts[ num_edge_257 ] = num_cut;
+        edge_num_cuts[ num_edge_257 ] = num_cut_proc;
     } else
         num_node_257 = edge_cuts[ num_edge_257 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
@@ -13316,7 +13316,7 @@ case_109: {
     int max_node_275 = max( num_node_4, num_node_5 );
     int num_edge_275 = max_node_275 * ( max_node_275 + 1 ) / 2 + min_node_275;
     int num_node_275;
-    if ( edge_num_cuts[ num_edge_275 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_275 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -13336,7 +13336,7 @@ case_109: {
         const Node &n1 = nodes.local_at( num_node_5 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_275 ] = num_node_275;
-        edge_num_cuts[ num_edge_275 ] = num_cut;
+        edge_num_cuts[ num_edge_275 ] = num_cut_proc;
     } else
         num_node_275 = edge_cuts[ num_edge_275 ];
     // 0,257,275,5,6
@@ -13361,7 +13361,7 @@ case_179: {
     int max_node_257 = max( num_node_0, num_node_1 );
     int num_edge_257 = max_node_257 * ( max_node_257 + 1 ) / 2 + min_node_257;
     int num_node_257;
-    if ( edge_num_cuts[ num_edge_257 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_257 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -13381,7 +13381,7 @@ case_179: {
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_257 ] = num_node_257;
-        edge_num_cuts[ num_edge_257 ] = num_cut;
+        edge_num_cuts[ num_edge_257 ] = num_cut_proc;
     } else
         num_node_257 = edge_cuts[ num_edge_257 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
@@ -13390,7 +13390,7 @@ case_179: {
     int max_node_275 = max( num_node_4, num_node_5 );
     int num_edge_275 = max_node_275 * ( max_node_275 + 1 ) / 2 + min_node_275;
     int num_node_275;
-    if ( edge_num_cuts[ num_edge_275 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_275 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -13410,7 +13410,7 @@ case_179: {
         const Node &n1 = nodes.local_at( num_node_5 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_275 ] = num_node_275;
-        edge_num_cuts[ num_edge_275 ] = num_cut;
+        edge_num_cuts[ num_edge_275 ] = num_cut_proc;
     } else
         num_node_275 = edge_cuts[ num_edge_275 ];
     // 0,257,275,5,6,7
@@ -13438,7 +13438,7 @@ case_150: {
     int max_node_257 = max( num_node_0, num_node_1 );
     int num_edge_257 = max_node_257 * ( max_node_257 + 1 ) / 2 + min_node_257;
     int num_node_257;
-    if ( edge_num_cuts[ num_edge_257 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_257 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -13458,7 +13458,7 @@ case_150: {
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_257 ] = num_node_257;
-        edge_num_cuts[ num_edge_257 ] = num_cut;
+        edge_num_cuts[ num_edge_257 ] = num_cut_proc;
     } else
         num_node_257 = edge_cuts[ num_edge_257 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
@@ -13467,7 +13467,7 @@ case_150: {
     int max_node_275 = max( num_node_4, num_node_5 );
     int num_edge_275 = max_node_275 * ( max_node_275 + 1 ) / 2 + min_node_275;
     int num_node_275;
-    if ( edge_num_cuts[ num_edge_275 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_275 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -13487,7 +13487,7 @@ case_150: {
         const Node &n1 = nodes.local_at( num_node_5 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_275 ] = num_node_275;
-        edge_num_cuts[ num_edge_275 ] = num_cut;
+        edge_num_cuts[ num_edge_275 ] = num_cut_proc;
     } else
         num_node_275 = edge_cuts[ num_edge_275 ];
     // 257,1,2,3,4,275
@@ -13512,7 +13512,7 @@ case_76: {
     int max_node_257 = max( num_node_0, num_node_1 );
     int num_edge_257 = max_node_257 * ( max_node_257 + 1 ) / 2 + min_node_257;
     int num_node_257;
-    if ( edge_num_cuts[ num_edge_257 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_257 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -13532,7 +13532,7 @@ case_76: {
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_257 ] = num_node_257;
-        edge_num_cuts[ num_edge_257 ] = num_cut;
+        edge_num_cuts[ num_edge_257 ] = num_cut_proc;
     } else
         num_node_257 = edge_cuts[ num_edge_257 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
@@ -13541,7 +13541,7 @@ case_76: {
     int max_node_275 = max( num_node_4, num_node_5 );
     int num_edge_275 = max_node_275 * ( max_node_275 + 1 ) / 2 + min_node_275;
     int num_node_275;
-    if ( edge_num_cuts[ num_edge_275 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_275 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -13561,7 +13561,7 @@ case_76: {
         const Node &n1 = nodes.local_at( num_node_5 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_275 ] = num_node_275;
-        edge_num_cuts[ num_edge_275 ] = num_cut;
+        edge_num_cuts[ num_edge_275 ] = num_cut_proc;
     } else
         num_node_275 = edge_cuts[ num_edge_275 ];
     // 257,1,2,3,4,275
@@ -13585,7 +13585,7 @@ case_112: {
     int max_node_257 = max( num_node_0, num_node_1 );
     int num_edge_257 = max_node_257 * ( max_node_257 + 1 ) / 2 + min_node_257;
     int num_node_257;
-    if ( edge_num_cuts[ num_edge_257 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_257 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -13605,7 +13605,7 @@ case_112: {
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_257 ] = num_node_257;
-        edge_num_cuts[ num_edge_257 ] = num_cut;
+        edge_num_cuts[ num_edge_257 ] = num_cut_proc;
     } else
         num_node_257 = edge_cuts[ num_edge_257 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
@@ -13614,7 +13614,7 @@ case_112: {
     int max_node_275 = max( num_node_4, num_node_5 );
     int num_edge_275 = max_node_275 * ( max_node_275 + 1 ) / 2 + min_node_275;
     int num_node_275;
-    if ( edge_num_cuts[ num_edge_275 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_275 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -13634,7 +13634,7 @@ case_112: {
         const Node &n1 = nodes.local_at( num_node_5 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_275 ] = num_node_275;
-        edge_num_cuts[ num_edge_275 ] = num_cut;
+        edge_num_cuts[ num_edge_275 ] = num_cut_proc;
     } else
         num_node_275 = edge_cuts[ num_edge_275 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
@@ -13642,7 +13642,7 @@ case_112: {
     int max_node_282 = max( num_node_5, num_node_6 );
     int num_edge_282 = max_node_282 * ( max_node_282 + 1 ) / 2 + min_node_282;
     int num_node_282;
-    if ( edge_num_cuts[ num_edge_282 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_282 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -13662,14 +13662,14 @@ case_112: {
         const Node &n1 = nodes.local_at( num_node_6 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_282 ] = num_node_282;
-        edge_num_cuts[ num_edge_282 ] = num_cut;
+        edge_num_cuts[ num_edge_282 ] = num_cut_proc;
     } else
         num_node_282 = edge_cuts[ num_edge_282 ];
     int min_node_277 = min( num_node_6, num_node_0 );
     int max_node_277 = max( num_node_6, num_node_0 );
     int num_edge_277 = max_node_277 * ( max_node_277 + 1 ) / 2 + min_node_277;
     int num_node_277;
-    if ( edge_num_cuts[ num_edge_277 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_277 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -13689,7 +13689,7 @@ case_112: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_277 ] = num_node_277;
-        edge_num_cuts[ num_edge_277 ] = num_cut;
+        edge_num_cuts[ num_edge_277 ] = num_cut_proc;
     } else
         num_node_277 = edge_cuts[ num_edge_277 ];
     break;
@@ -13701,7 +13701,7 @@ case_182: {
     int max_node_257 = max( num_node_0, num_node_1 );
     int num_edge_257 = max_node_257 * ( max_node_257 + 1 ) / 2 + min_node_257;
     int num_node_257;
-    if ( edge_num_cuts[ num_edge_257 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_257 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -13721,7 +13721,7 @@ case_182: {
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_257 ] = num_node_257;
-        edge_num_cuts[ num_edge_257 ] = num_cut;
+        edge_num_cuts[ num_edge_257 ] = num_cut_proc;
     } else
         num_node_257 = edge_cuts[ num_edge_257 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
@@ -13730,7 +13730,7 @@ case_182: {
     int max_node_275 = max( num_node_4, num_node_5 );
     int num_edge_275 = max_node_275 * ( max_node_275 + 1 ) / 2 + min_node_275;
     int num_node_275;
-    if ( edge_num_cuts[ num_edge_275 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_275 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -13750,7 +13750,7 @@ case_182: {
         const Node &n1 = nodes.local_at( num_node_5 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_275 ] = num_node_275;
-        edge_num_cuts[ num_edge_275 ] = num_cut;
+        edge_num_cuts[ num_edge_275 ] = num_cut_proc;
     } else
         num_node_275 = edge_cuts[ num_edge_275 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
@@ -13758,7 +13758,7 @@ case_182: {
     int max_node_282 = max( num_node_5, num_node_6 );
     int num_edge_282 = max_node_282 * ( max_node_282 + 1 ) / 2 + min_node_282;
     int num_node_282;
-    if ( edge_num_cuts[ num_edge_282 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_282 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -13778,7 +13778,7 @@ case_182: {
         const Node &n1 = nodes.local_at( num_node_6 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_282 ] = num_node_282;
-        edge_num_cuts[ num_edge_282 ] = num_cut;
+        edge_num_cuts[ num_edge_282 ] = num_cut_proc;
     } else
         num_node_282 = edge_cuts[ num_edge_282 ];
     int num_node_7 = faces.node_lists[ num_face ][ 7 ];
@@ -13786,7 +13786,7 @@ case_182: {
     int max_node_284 = max( num_node_7, num_node_0 );
     int num_edge_284 = max_node_284 * ( max_node_284 + 1 ) / 2 + min_node_284;
     int num_node_284;
-    if ( edge_num_cuts[ num_edge_284 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_284 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -13806,7 +13806,7 @@ case_182: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_284 ] = num_node_284;
-        edge_num_cuts[ num_edge_284 ] = num_cut;
+        edge_num_cuts[ num_edge_284 ] = num_cut_proc;
     } else
         num_node_284 = edge_cuts[ num_edge_284 ];
     break;
@@ -13818,7 +13818,7 @@ case_232: {
     int max_node_257 = max( num_node_0, num_node_1 );
     int num_edge_257 = max_node_257 * ( max_node_257 + 1 ) / 2 + min_node_257;
     int num_node_257;
-    if ( edge_num_cuts[ num_edge_257 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_257 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -13838,7 +13838,7 @@ case_232: {
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_257 ] = num_node_257;
-        edge_num_cuts[ num_edge_257 ] = num_cut;
+        edge_num_cuts[ num_edge_257 ] = num_cut_proc;
     } else
         num_node_257 = edge_cuts[ num_edge_257 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
@@ -13847,7 +13847,7 @@ case_232: {
     int max_node_275 = max( num_node_4, num_node_5 );
     int num_edge_275 = max_node_275 * ( max_node_275 + 1 ) / 2 + min_node_275;
     int num_node_275;
-    if ( edge_num_cuts[ num_edge_275 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_275 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -13867,7 +13867,7 @@ case_232: {
         const Node &n1 = nodes.local_at( num_node_5 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_275 ] = num_node_275;
-        edge_num_cuts[ num_edge_275 ] = num_cut;
+        edge_num_cuts[ num_edge_275 ] = num_cut_proc;
     } else
         num_node_275 = edge_cuts[ num_edge_275 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
@@ -13875,7 +13875,7 @@ case_232: {
     int max_node_282 = max( num_node_5, num_node_6 );
     int num_edge_282 = max_node_282 * ( max_node_282 + 1 ) / 2 + min_node_282;
     int num_node_282;
-    if ( edge_num_cuts[ num_edge_282 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_282 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -13895,7 +13895,7 @@ case_232: {
         const Node &n1 = nodes.local_at( num_node_6 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_282 ] = num_node_282;
-        edge_num_cuts[ num_edge_282 ] = num_cut;
+        edge_num_cuts[ num_edge_282 ] = num_cut_proc;
     } else
         num_node_282 = edge_cuts[ num_edge_282 ];
     int num_node_7 = faces.node_lists[ num_face ][ 7 ];
@@ -13903,7 +13903,7 @@ case_232: {
     int max_node_290 = max( num_node_6, num_node_7 );
     int num_edge_290 = max_node_290 * ( max_node_290 + 1 ) / 2 + min_node_290;
     int num_node_290;
-    if ( edge_num_cuts[ num_edge_290 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_290 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -13923,7 +13923,7 @@ case_232: {
         const Node &n1 = nodes.local_at( num_node_7 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_290 ] = num_node_290;
-        edge_num_cuts[ num_edge_290 ] = num_cut;
+        edge_num_cuts[ num_edge_290 ] = num_cut_proc;
     } else
         num_node_290 = edge_cuts[ num_edge_290 ];
     break;
@@ -13935,7 +13935,7 @@ case_235: {
     int max_node_257 = max( num_node_0, num_node_1 );
     int num_edge_257 = max_node_257 * ( max_node_257 + 1 ) / 2 + min_node_257;
     int num_node_257;
-    if ( edge_num_cuts[ num_edge_257 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_257 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -13955,7 +13955,7 @@ case_235: {
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_257 ] = num_node_257;
-        edge_num_cuts[ num_edge_257 ] = num_cut;
+        edge_num_cuts[ num_edge_257 ] = num_cut_proc;
     } else
         num_node_257 = edge_cuts[ num_edge_257 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
@@ -13964,7 +13964,7 @@ case_235: {
     int max_node_275 = max( num_node_4, num_node_5 );
     int num_edge_275 = max_node_275 * ( max_node_275 + 1 ) / 2 + min_node_275;
     int num_node_275;
-    if ( edge_num_cuts[ num_edge_275 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_275 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -13984,7 +13984,7 @@ case_235: {
         const Node &n1 = nodes.local_at( num_node_5 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_275 ] = num_node_275;
-        edge_num_cuts[ num_edge_275 ] = num_cut;
+        edge_num_cuts[ num_edge_275 ] = num_cut_proc;
     } else
         num_node_275 = edge_cuts[ num_edge_275 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
@@ -13993,7 +13993,7 @@ case_235: {
     int max_node_290 = max( num_node_6, num_node_7 );
     int num_edge_290 = max_node_290 * ( max_node_290 + 1 ) / 2 + min_node_290;
     int num_node_290;
-    if ( edge_num_cuts[ num_edge_290 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_290 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -14013,14 +14013,14 @@ case_235: {
         const Node &n1 = nodes.local_at( num_node_7 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_290 ] = num_node_290;
-        edge_num_cuts[ num_edge_290 ] = num_cut;
+        edge_num_cuts[ num_edge_290 ] = num_cut_proc;
     } else
         num_node_290 = edge_cuts[ num_edge_290 ];
     int min_node_284 = min( num_node_7, num_node_0 );
     int max_node_284 = max( num_node_7, num_node_0 );
     int num_edge_284 = max_node_284 * ( max_node_284 + 1 ) / 2 + min_node_284;
     int num_node_284;
-    if ( edge_num_cuts[ num_edge_284 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_284 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -14040,7 +14040,7 @@ case_235: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_284 ] = num_node_284;
-        edge_num_cuts[ num_edge_284 ] = num_cut;
+        edge_num_cuts[ num_edge_284 ] = num_cut_proc;
     } else
         num_node_284 = edge_cuts[ num_edge_284 ];
     break;
@@ -14052,7 +14052,7 @@ case_45: {
     int max_node_257 = max( num_node_0, num_node_1 );
     int num_edge_257 = max_node_257 * ( max_node_257 + 1 ) / 2 + min_node_257;
     int num_node_257;
-    if ( edge_num_cuts[ num_edge_257 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_257 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -14072,7 +14072,7 @@ case_45: {
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_257 ] = num_node_257;
-        edge_num_cuts[ num_edge_257 ] = num_cut;
+        edge_num_cuts[ num_edge_257 ] = num_cut_proc;
     } else
         num_node_257 = edge_cuts[ num_edge_257 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
@@ -14080,7 +14080,7 @@ case_45: {
     int max_node_271 = max( num_node_5, num_node_0 );
     int num_edge_271 = max_node_271 * ( max_node_271 + 1 ) / 2 + min_node_271;
     int num_node_271;
-    if ( edge_num_cuts[ num_edge_271 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_271 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -14100,7 +14100,7 @@ case_45: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_271 ] = num_node_271;
-        edge_num_cuts[ num_edge_271 ] = num_cut;
+        edge_num_cuts[ num_edge_271 ] = num_cut_proc;
     } else
         num_node_271 = edge_cuts[ num_edge_271 ];
     // 257,1,2,3,4,5,271
@@ -14127,7 +14127,7 @@ case_84: {
     int max_node_257 = max( num_node_0, num_node_1 );
     int num_edge_257 = max_node_257 * ( max_node_257 + 1 ) / 2 + min_node_257;
     int num_node_257;
-    if ( edge_num_cuts[ num_edge_257 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_257 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -14147,7 +14147,7 @@ case_84: {
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_257 ] = num_node_257;
-        edge_num_cuts[ num_edge_257 ] = num_cut;
+        edge_num_cuts[ num_edge_257 ] = num_cut_proc;
     } else
         num_node_257 = edge_cuts[ num_edge_257 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
@@ -14155,7 +14155,7 @@ case_84: {
     int max_node_271 = max( num_node_5, num_node_0 );
     int num_edge_271 = max_node_271 * ( max_node_271 + 1 ) / 2 + min_node_271;
     int num_node_271;
-    if ( edge_num_cuts[ num_edge_271 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_271 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -14175,7 +14175,7 @@ case_84: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_271 ] = num_node_271;
-        edge_num_cuts[ num_edge_271 ] = num_cut;
+        edge_num_cuts[ num_edge_271 ] = num_cut_proc;
     } else
         num_node_271 = edge_cuts[ num_edge_271 ];
     // 271,0,257
@@ -14195,7 +14195,7 @@ case_141: {
     int max_node_257 = max( num_node_0, num_node_1 );
     int num_edge_257 = max_node_257 * ( max_node_257 + 1 ) / 2 + min_node_257;
     int num_node_257;
-    if ( edge_num_cuts[ num_edge_257 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_257 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -14215,7 +14215,7 @@ case_141: {
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_257 ] = num_node_257;
-        edge_num_cuts[ num_edge_257 ] = num_cut;
+        edge_num_cuts[ num_edge_257 ] = num_cut_proc;
     } else
         num_node_257 = edge_cuts[ num_edge_257 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
@@ -14224,7 +14224,7 @@ case_141: {
     int max_node_282 = max( num_node_5, num_node_6 );
     int num_edge_282 = max_node_282 * ( max_node_282 + 1 ) / 2 + min_node_282;
     int num_node_282;
-    if ( edge_num_cuts[ num_edge_282 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_282 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -14244,7 +14244,7 @@ case_141: {
         const Node &n1 = nodes.local_at( num_node_6 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_282 ] = num_node_282;
-        edge_num_cuts[ num_edge_282 ] = num_cut;
+        edge_num_cuts[ num_edge_282 ] = num_cut_proc;
     } else
         num_node_282 = edge_cuts[ num_edge_282 ];
     // 0,257,282,6
@@ -14266,7 +14266,7 @@ case_200: {
     int max_node_257 = max( num_node_0, num_node_1 );
     int num_edge_257 = max_node_257 * ( max_node_257 + 1 ) / 2 + min_node_257;
     int num_node_257;
-    if ( edge_num_cuts[ num_edge_257 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_257 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -14286,7 +14286,7 @@ case_200: {
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_257 ] = num_node_257;
-        edge_num_cuts[ num_edge_257 ] = num_cut;
+        edge_num_cuts[ num_edge_257 ] = num_cut_proc;
     } else
         num_node_257 = edge_cuts[ num_edge_257 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
@@ -14295,7 +14295,7 @@ case_200: {
     int max_node_282 = max( num_node_5, num_node_6 );
     int num_edge_282 = max_node_282 * ( max_node_282 + 1 ) / 2 + min_node_282;
     int num_node_282;
-    if ( edge_num_cuts[ num_edge_282 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_282 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -14315,7 +14315,7 @@ case_200: {
         const Node &n1 = nodes.local_at( num_node_6 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_282 ] = num_node_282;
-        edge_num_cuts[ num_edge_282 ] = num_cut;
+        edge_num_cuts[ num_edge_282 ] = num_cut_proc;
     } else
         num_node_282 = edge_cuts[ num_edge_282 ];
     // 0,257,282,6,7
@@ -14340,7 +14340,7 @@ case_274: {
     int max_node_257 = max( num_node_0, num_node_1 );
     int num_edge_257 = max_node_257 * ( max_node_257 + 1 ) / 2 + min_node_257;
     int num_node_257;
-    if ( edge_num_cuts[ num_edge_257 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_257 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -14360,7 +14360,7 @@ case_274: {
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_257 ] = num_node_257;
-        edge_num_cuts[ num_edge_257 ] = num_cut;
+        edge_num_cuts[ num_edge_257 ] = num_cut_proc;
     } else
         num_node_257 = edge_cuts[ num_edge_257 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
@@ -14369,7 +14369,7 @@ case_274: {
     int max_node_282 = max( num_node_5, num_node_6 );
     int num_edge_282 = max_node_282 * ( max_node_282 + 1 ) / 2 + min_node_282;
     int num_node_282;
-    if ( edge_num_cuts[ num_edge_282 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_282 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -14389,7 +14389,7 @@ case_274: {
         const Node &n1 = nodes.local_at( num_node_6 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_282 ] = num_node_282;
-        edge_num_cuts[ num_edge_282 ] = num_cut;
+        edge_num_cuts[ num_edge_282 ] = num_cut_proc;
     } else
         num_node_282 = edge_cuts[ num_edge_282 ];
     // 257,1,2,3,4,5,282
@@ -14416,7 +14416,7 @@ case_144: {
     int max_node_257 = max( num_node_0, num_node_1 );
     int num_edge_257 = max_node_257 * ( max_node_257 + 1 ) / 2 + min_node_257;
     int num_node_257;
-    if ( edge_num_cuts[ num_edge_257 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_257 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -14436,7 +14436,7 @@ case_144: {
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_257 ] = num_node_257;
-        edge_num_cuts[ num_edge_257 ] = num_cut;
+        edge_num_cuts[ num_edge_257 ] = num_cut_proc;
     } else
         num_node_257 = edge_cuts[ num_edge_257 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
@@ -14445,7 +14445,7 @@ case_144: {
     int max_node_282 = max( num_node_5, num_node_6 );
     int num_edge_282 = max_node_282 * ( max_node_282 + 1 ) / 2 + min_node_282;
     int num_node_282;
-    if ( edge_num_cuts[ num_edge_282 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_282 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -14465,7 +14465,7 @@ case_144: {
         const Node &n1 = nodes.local_at( num_node_6 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_282 ] = num_node_282;
-        edge_num_cuts[ num_edge_282 ] = num_cut;
+        edge_num_cuts[ num_edge_282 ] = num_cut_proc;
     } else
         num_node_282 = edge_cuts[ num_edge_282 ];
     // 257,1,2,3,4,5,282
@@ -14491,7 +14491,7 @@ case_203: {
     int max_node_257 = max( num_node_0, num_node_1 );
     int num_edge_257 = max_node_257 * ( max_node_257 + 1 ) / 2 + min_node_257;
     int num_node_257;
-    if ( edge_num_cuts[ num_edge_257 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_257 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -14511,7 +14511,7 @@ case_203: {
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_257 ] = num_node_257;
-        edge_num_cuts[ num_edge_257 ] = num_cut;
+        edge_num_cuts[ num_edge_257 ] = num_cut_proc;
     } else
         num_node_257 = edge_cuts[ num_edge_257 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
@@ -14520,7 +14520,7 @@ case_203: {
     int max_node_282 = max( num_node_5, num_node_6 );
     int num_edge_282 = max_node_282 * ( max_node_282 + 1 ) / 2 + min_node_282;
     int num_node_282;
-    if ( edge_num_cuts[ num_edge_282 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_282 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -14540,7 +14540,7 @@ case_203: {
         const Node &n1 = nodes.local_at( num_node_6 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_282 ] = num_node_282;
-        edge_num_cuts[ num_edge_282 ] = num_cut;
+        edge_num_cuts[ num_edge_282 ] = num_cut_proc;
     } else
         num_node_282 = edge_cuts[ num_edge_282 ];
     int num_node_7 = faces.node_lists[ num_face ][ 7 ];
@@ -14548,7 +14548,7 @@ case_203: {
     int max_node_290 = max( num_node_6, num_node_7 );
     int num_edge_290 = max_node_290 * ( max_node_290 + 1 ) / 2 + min_node_290;
     int num_node_290;
-    if ( edge_num_cuts[ num_edge_290 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_290 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -14568,14 +14568,14 @@ case_203: {
         const Node &n1 = nodes.local_at( num_node_7 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_290 ] = num_node_290;
-        edge_num_cuts[ num_edge_290 ] = num_cut;
+        edge_num_cuts[ num_edge_290 ] = num_cut_proc;
     } else
         num_node_290 = edge_cuts[ num_edge_290 ];
     int min_node_284 = min( num_node_7, num_node_0 );
     int max_node_284 = max( num_node_7, num_node_0 );
     int num_edge_284 = max_node_284 * ( max_node_284 + 1 ) / 2 + min_node_284;
     int num_node_284;
-    if ( edge_num_cuts[ num_edge_284 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_284 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -14595,7 +14595,7 @@ case_203: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_284 ] = num_node_284;
-        edge_num_cuts[ num_edge_284 ] = num_cut;
+        edge_num_cuts[ num_edge_284 ] = num_cut_proc;
     } else
         num_node_284 = edge_cuts[ num_edge_284 ];
     break;
@@ -14607,7 +14607,7 @@ case_85: {
     int max_node_257 = max( num_node_0, num_node_1 );
     int num_edge_257 = max_node_257 * ( max_node_257 + 1 ) / 2 + min_node_257;
     int num_node_257;
-    if ( edge_num_cuts[ num_edge_257 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_257 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -14627,7 +14627,7 @@ case_85: {
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_257 ] = num_node_257;
-        edge_num_cuts[ num_edge_257 ] = num_cut;
+        edge_num_cuts[ num_edge_257 ] = num_cut_proc;
     } else
         num_node_257 = edge_cuts[ num_edge_257 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
@@ -14635,7 +14635,7 @@ case_85: {
     int max_node_277 = max( num_node_6, num_node_0 );
     int num_edge_277 = max_node_277 * ( max_node_277 + 1 ) / 2 + min_node_277;
     int num_node_277;
-    if ( edge_num_cuts[ num_edge_277 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_277 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -14655,7 +14655,7 @@ case_85: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_277 ] = num_node_277;
-        edge_num_cuts[ num_edge_277 ] = num_cut;
+        edge_num_cuts[ num_edge_277 ] = num_cut_proc;
     } else
         num_node_277 = edge_cuts[ num_edge_277 ];
     // 257,1,2,3,4,5,6,277
@@ -14684,7 +14684,7 @@ case_154: {
     int max_node_257 = max( num_node_0, num_node_1 );
     int num_edge_257 = max_node_257 * ( max_node_257 + 1 ) / 2 + min_node_257;
     int num_node_257;
-    if ( edge_num_cuts[ num_edge_257 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_257 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -14704,7 +14704,7 @@ case_154: {
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_257 ] = num_node_257;
-        edge_num_cuts[ num_edge_257 ] = num_cut;
+        edge_num_cuts[ num_edge_257 ] = num_cut_proc;
     } else
         num_node_257 = edge_cuts[ num_edge_257 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
@@ -14712,7 +14712,7 @@ case_154: {
     int max_node_277 = max( num_node_6, num_node_0 );
     int num_edge_277 = max_node_277 * ( max_node_277 + 1 ) / 2 + min_node_277;
     int num_node_277;
-    if ( edge_num_cuts[ num_edge_277 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_277 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -14732,7 +14732,7 @@ case_154: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_277 ] = num_node_277;
-        edge_num_cuts[ num_edge_277 ] = num_cut;
+        edge_num_cuts[ num_edge_277 ] = num_cut_proc;
     } else
         num_node_277 = edge_cuts[ num_edge_277 ];
     // 277,0,257
@@ -14752,7 +14752,7 @@ case_264: {
     int max_node_257 = max( num_node_0, num_node_1 );
     int num_edge_257 = max_node_257 * ( max_node_257 + 1 ) / 2 + min_node_257;
     int num_node_257;
-    if ( edge_num_cuts[ num_edge_257 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_257 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -14772,7 +14772,7 @@ case_264: {
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_257 ] = num_node_257;
-        edge_num_cuts[ num_edge_257 ] = num_cut;
+        edge_num_cuts[ num_edge_257 ] = num_cut_proc;
     } else
         num_node_257 = edge_cuts[ num_edge_257 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
@@ -14781,7 +14781,7 @@ case_264: {
     int max_node_290 = max( num_node_6, num_node_7 );
     int num_edge_290 = max_node_290 * ( max_node_290 + 1 ) / 2 + min_node_290;
     int num_node_290;
-    if ( edge_num_cuts[ num_edge_290 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_290 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -14801,7 +14801,7 @@ case_264: {
         const Node &n1 = nodes.local_at( num_node_7 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_290 ] = num_node_290;
-        edge_num_cuts[ num_edge_290 ] = num_cut;
+        edge_num_cuts[ num_edge_290 ] = num_cut_proc;
     } else
         num_node_290 = edge_cuts[ num_edge_290 ];
     // 0,257,290,7
@@ -14823,7 +14823,7 @@ case_267: {
     int max_node_257 = max( num_node_0, num_node_1 );
     int num_edge_257 = max_node_257 * ( max_node_257 + 1 ) / 2 + min_node_257;
     int num_node_257;
-    if ( edge_num_cuts[ num_edge_257 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_257 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -14843,7 +14843,7 @@ case_267: {
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_257 ] = num_node_257;
-        edge_num_cuts[ num_edge_257 ] = num_cut;
+        edge_num_cuts[ num_edge_257 ] = num_cut_proc;
     } else
         num_node_257 = edge_cuts[ num_edge_257 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
@@ -14852,7 +14852,7 @@ case_267: {
     int max_node_290 = max( num_node_6, num_node_7 );
     int num_edge_290 = max_node_290 * ( max_node_290 + 1 ) / 2 + min_node_290;
     int num_node_290;
-    if ( edge_num_cuts[ num_edge_290 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_290 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -14872,7 +14872,7 @@ case_267: {
         const Node &n1 = nodes.local_at( num_node_7 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_290 ] = num_node_290;
-        edge_num_cuts[ num_edge_290 ] = num_cut;
+        edge_num_cuts[ num_edge_290 ] = num_cut_proc;
     } else
         num_node_290 = edge_cuts[ num_edge_290 ];
     // 257,1,2,3,4,5,6,290
@@ -14900,7 +14900,7 @@ case_155: {
     int max_node_257 = max( num_node_0, num_node_1 );
     int num_edge_257 = max_node_257 * ( max_node_257 + 1 ) / 2 + min_node_257;
     int num_node_257;
-    if ( edge_num_cuts[ num_edge_257 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_257 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -14920,7 +14920,7 @@ case_155: {
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_257 ] = num_node_257;
-        edge_num_cuts[ num_edge_257 ] = num_cut;
+        edge_num_cuts[ num_edge_257 ] = num_cut_proc;
     } else
         num_node_257 = edge_cuts[ num_edge_257 ];
     int num_node_7 = faces.node_lists[ num_face ][ 7 ];
@@ -14928,7 +14928,7 @@ case_155: {
     int max_node_284 = max( num_node_7, num_node_0 );
     int num_edge_284 = max_node_284 * ( max_node_284 + 1 ) / 2 + min_node_284;
     int num_node_284;
-    if ( edge_num_cuts[ num_edge_284 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_284 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -14948,7 +14948,7 @@ case_155: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_284 ] = num_node_284;
-        edge_num_cuts[ num_edge_284 ] = num_cut;
+        edge_num_cuts[ num_edge_284 ] = num_cut_proc;
     } else
         num_node_284 = edge_cuts[ num_edge_284 ];
     // 257,1,2,3,4,5,6,7,284
@@ -14979,7 +14979,7 @@ case_279: {
     int max_node_257 = max( num_node_0, num_node_1 );
     int num_edge_257 = max_node_257 * ( max_node_257 + 1 ) / 2 + min_node_257;
     int num_node_257;
-    if ( edge_num_cuts[ num_edge_257 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_257 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -14999,7 +14999,7 @@ case_279: {
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_257 ] = num_node_257;
-        edge_num_cuts[ num_edge_257 ] = num_cut;
+        edge_num_cuts[ num_edge_257 ] = num_cut_proc;
     } else
         num_node_257 = edge_cuts[ num_edge_257 ];
     int num_node_7 = faces.node_lists[ num_face ][ 7 ];
@@ -15007,7 +15007,7 @@ case_279: {
     int max_node_284 = max( num_node_7, num_node_0 );
     int num_edge_284 = max_node_284 * ( max_node_284 + 1 ) / 2 + min_node_284;
     int num_node_284;
-    if ( edge_num_cuts[ num_edge_284 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_284 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -15027,7 +15027,7 @@ case_279: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_284 ] = num_node_284;
-        edge_num_cuts[ num_edge_284 ] = num_cut;
+        edge_num_cuts[ num_edge_284 ] = num_cut_proc;
     } else
         num_node_284 = edge_cuts[ num_edge_284 ];
     // 284,0,257
@@ -15047,7 +15047,7 @@ case_5: {
     int max_node_260 = max( num_node_1, num_node_2 );
     int num_edge_260 = max_node_260 * ( max_node_260 + 1 ) / 2 + min_node_260;
     int num_node_260;
-    if ( edge_num_cuts[ num_edge_260 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_260 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -15067,7 +15067,7 @@ case_5: {
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_260 ] = num_node_260;
-        edge_num_cuts[ num_edge_260 ] = num_cut;
+        edge_num_cuts[ num_edge_260 ] = num_cut_proc;
     } else
         num_node_260 = edge_cuts[ num_edge_260 ];
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
@@ -15075,7 +15075,7 @@ case_5: {
     int max_node_259 = max( num_node_2, num_node_0 );
     int num_edge_259 = max_node_259 * ( max_node_259 + 1 ) / 2 + min_node_259;
     int num_node_259;
-    if ( edge_num_cuts[ num_edge_259 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_259 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -15095,7 +15095,7 @@ case_5: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_259 ] = num_node_259;
-        edge_num_cuts[ num_edge_259 ] = num_cut;
+        edge_num_cuts[ num_edge_259 ] = num_cut_proc;
     } else
         num_node_259 = edge_cuts[ num_edge_259 ];
     // 259,0,1,260
@@ -15116,7 +15116,7 @@ case_4: {
     int max_node_260 = max( num_node_1, num_node_2 );
     int num_edge_260 = max_node_260 * ( max_node_260 + 1 ) / 2 + min_node_260;
     int num_node_260;
-    if ( edge_num_cuts[ num_edge_260 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_260 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -15136,7 +15136,7 @@ case_4: {
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_260 ] = num_node_260;
-        edge_num_cuts[ num_edge_260 ] = num_cut;
+        edge_num_cuts[ num_edge_260 ] = num_cut_proc;
     } else
         num_node_260 = edge_cuts[ num_edge_260 ];
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
@@ -15144,7 +15144,7 @@ case_4: {
     int max_node_259 = max( num_node_2, num_node_0 );
     int num_edge_259 = max_node_259 * ( max_node_259 + 1 ) / 2 + min_node_259;
     int num_node_259;
-    if ( edge_num_cuts[ num_edge_259 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_259 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -15164,7 +15164,7 @@ case_4: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_259 ] = num_node_259;
-        edge_num_cuts[ num_edge_259 ] = num_cut;
+        edge_num_cuts[ num_edge_259 ] = num_cut_proc;
     } else
         num_node_259 = edge_cuts[ num_edge_259 ];
     // 260,2,259
@@ -15183,7 +15183,7 @@ case_12: {
     int max_node_260 = max( num_node_1, num_node_2 );
     int num_edge_260 = max_node_260 * ( max_node_260 + 1 ) / 2 + min_node_260;
     int num_node_260;
-    if ( edge_num_cuts[ num_edge_260 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_260 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -15203,7 +15203,7 @@ case_12: {
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_260 ] = num_node_260;
-        edge_num_cuts[ num_edge_260 ] = num_cut;
+        edge_num_cuts[ num_edge_260 ] = num_cut_proc;
     } else
         num_node_260 = edge_cuts[ num_edge_260 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
@@ -15211,7 +15211,7 @@ case_12: {
     int max_node_264 = max( num_node_2, num_node_3 );
     int num_edge_264 = max_node_264 * ( max_node_264 + 1 ) / 2 + min_node_264;
     int num_node_264;
-    if ( edge_num_cuts[ num_edge_264 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_264 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -15231,7 +15231,7 @@ case_12: {
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_264 ] = num_node_264;
-        edge_num_cuts[ num_edge_264 ] = num_cut;
+        edge_num_cuts[ num_edge_264 ] = num_cut_proc;
     } else
         num_node_264 = edge_cuts[ num_edge_264 ];
     // 0,1,260,264,3
@@ -15255,7 +15255,7 @@ case_25: {
     int max_node_260 = max( num_node_1, num_node_2 );
     int num_edge_260 = max_node_260 * ( max_node_260 + 1 ) / 2 + min_node_260;
     int num_node_260;
-    if ( edge_num_cuts[ num_edge_260 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_260 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -15275,7 +15275,7 @@ case_25: {
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_260 ] = num_node_260;
-        edge_num_cuts[ num_edge_260 ] = num_cut;
+        edge_num_cuts[ num_edge_260 ] = num_cut_proc;
     } else
         num_node_260 = edge_cuts[ num_edge_260 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
@@ -15283,7 +15283,7 @@ case_25: {
     int max_node_264 = max( num_node_2, num_node_3 );
     int num_edge_264 = max_node_264 * ( max_node_264 + 1 ) / 2 + min_node_264;
     int num_node_264;
-    if ( edge_num_cuts[ num_edge_264 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_264 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -15303,7 +15303,7 @@ case_25: {
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_264 ] = num_node_264;
-        edge_num_cuts[ num_edge_264 ] = num_cut;
+        edge_num_cuts[ num_edge_264 ] = num_cut_proc;
     } else
         num_node_264 = edge_cuts[ num_edge_264 ];
     // 0,1,260,264,3,4
@@ -15330,7 +15330,7 @@ case_48: {
     int max_node_260 = max( num_node_1, num_node_2 );
     int num_edge_260 = max_node_260 * ( max_node_260 + 1 ) / 2 + min_node_260;
     int num_node_260;
-    if ( edge_num_cuts[ num_edge_260 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_260 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -15350,7 +15350,7 @@ case_48: {
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_260 ] = num_node_260;
-        edge_num_cuts[ num_edge_260 ] = num_cut;
+        edge_num_cuts[ num_edge_260 ] = num_cut_proc;
     } else
         num_node_260 = edge_cuts[ num_edge_260 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
@@ -15358,7 +15358,7 @@ case_48: {
     int max_node_264 = max( num_node_2, num_node_3 );
     int num_edge_264 = max_node_264 * ( max_node_264 + 1 ) / 2 + min_node_264;
     int num_node_264;
-    if ( edge_num_cuts[ num_edge_264 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_264 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -15378,7 +15378,7 @@ case_48: {
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_264 ] = num_node_264;
-        edge_num_cuts[ num_edge_264 ] = num_cut;
+        edge_num_cuts[ num_edge_264 ] = num_cut_proc;
     } else
         num_node_264 = edge_cuts[ num_edge_264 ];
     // 0,1,260,264,3,4,5
@@ -15407,7 +15407,7 @@ case_88: {
     int max_node_260 = max( num_node_1, num_node_2 );
     int num_edge_260 = max_node_260 * ( max_node_260 + 1 ) / 2 + min_node_260;
     int num_node_260;
-    if ( edge_num_cuts[ num_edge_260 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_260 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -15427,7 +15427,7 @@ case_88: {
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_260 ] = num_node_260;
-        edge_num_cuts[ num_edge_260 ] = num_cut;
+        edge_num_cuts[ num_edge_260 ] = num_cut_proc;
     } else
         num_node_260 = edge_cuts[ num_edge_260 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
@@ -15435,7 +15435,7 @@ case_88: {
     int max_node_264 = max( num_node_2, num_node_3 );
     int num_edge_264 = max_node_264 * ( max_node_264 + 1 ) / 2 + min_node_264;
     int num_node_264;
-    if ( edge_num_cuts[ num_edge_264 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_264 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -15455,7 +15455,7 @@ case_88: {
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_264 ] = num_node_264;
-        edge_num_cuts[ num_edge_264 ] = num_cut;
+        edge_num_cuts[ num_edge_264 ] = num_cut_proc;
     } else
         num_node_264 = edge_cuts[ num_edge_264 ];
     // 0,1,260,264,3,4,5,6
@@ -15486,7 +15486,7 @@ case_158: {
     int max_node_260 = max( num_node_1, num_node_2 );
     int num_edge_260 = max_node_260 * ( max_node_260 + 1 ) / 2 + min_node_260;
     int num_node_260;
-    if ( edge_num_cuts[ num_edge_260 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_260 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -15506,7 +15506,7 @@ case_158: {
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_260 ] = num_node_260;
-        edge_num_cuts[ num_edge_260 ] = num_cut;
+        edge_num_cuts[ num_edge_260 ] = num_cut_proc;
     } else
         num_node_260 = edge_cuts[ num_edge_260 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
@@ -15514,7 +15514,7 @@ case_158: {
     int max_node_264 = max( num_node_2, num_node_3 );
     int num_edge_264 = max_node_264 * ( max_node_264 + 1 ) / 2 + min_node_264;
     int num_node_264;
-    if ( edge_num_cuts[ num_edge_264 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_264 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -15534,7 +15534,7 @@ case_158: {
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_264 ] = num_node_264;
-        edge_num_cuts[ num_edge_264 ] = num_cut;
+        edge_num_cuts[ num_edge_264 ] = num_cut_proc;
     } else
         num_node_264 = edge_cuts[ num_edge_264 ];
     // 0,1,260,264,3,4,5,6,7
@@ -15567,7 +15567,7 @@ case_18: {
     int max_node_260 = max( num_node_1, num_node_2 );
     int num_edge_260 = max_node_260 * ( max_node_260 + 1 ) / 2 + min_node_260;
     int num_node_260;
-    if ( edge_num_cuts[ num_edge_260 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_260 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -15587,7 +15587,7 @@ case_18: {
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_260 ] = num_node_260;
-        edge_num_cuts[ num_edge_260 ] = num_cut;
+        edge_num_cuts[ num_edge_260 ] = num_cut_proc;
     } else
         num_node_260 = edge_cuts[ num_edge_260 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
@@ -15595,7 +15595,7 @@ case_18: {
     int max_node_264 = max( num_node_2, num_node_3 );
     int num_edge_264 = max_node_264 * ( max_node_264 + 1 ) / 2 + min_node_264;
     int num_node_264;
-    if ( edge_num_cuts[ num_edge_264 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_264 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -15615,7 +15615,7 @@ case_18: {
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_264 ] = num_node_264;
-        edge_num_cuts[ num_edge_264 ] = num_cut;
+        edge_num_cuts[ num_edge_264 ] = num_cut_proc;
     } else
         num_node_264 = edge_cuts[ num_edge_264 ];
     // 260,2,264
@@ -15635,7 +15635,7 @@ case_32: {
     int max_node_260 = max( num_node_1, num_node_2 );
     int num_edge_260 = max_node_260 * ( max_node_260 + 1 ) / 2 + min_node_260;
     int num_node_260;
-    if ( edge_num_cuts[ num_edge_260 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_260 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -15655,7 +15655,7 @@ case_32: {
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_260 ] = num_node_260;
-        edge_num_cuts[ num_edge_260 ] = num_cut;
+        edge_num_cuts[ num_edge_260 ] = num_cut_proc;
     } else
         num_node_260 = edge_cuts[ num_edge_260 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
@@ -15663,7 +15663,7 @@ case_32: {
     int max_node_264 = max( num_node_2, num_node_3 );
     int num_edge_264 = max_node_264 * ( max_node_264 + 1 ) / 2 + min_node_264;
     int num_node_264;
-    if ( edge_num_cuts[ num_edge_264 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_264 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -15683,7 +15683,7 @@ case_32: {
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_264 ] = num_node_264;
-        edge_num_cuts[ num_edge_264 ] = num_cut;
+        edge_num_cuts[ num_edge_264 ] = num_cut_proc;
     } else
         num_node_264 = edge_cuts[ num_edge_264 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
@@ -15691,7 +15691,7 @@ case_32: {
     int max_node_269 = max( num_node_3, num_node_4 );
     int num_edge_269 = max_node_269 * ( max_node_269 + 1 ) / 2 + min_node_269;
     int num_node_269;
-    if ( edge_num_cuts[ num_edge_269 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_269 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -15711,7 +15711,7 @@ case_32: {
         const Node &n1 = nodes.local_at( num_node_4 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_269 ] = num_node_269;
-        edge_num_cuts[ num_edge_269 ] = num_cut;
+        edge_num_cuts[ num_edge_269 ] = num_cut_proc;
     } else
         num_node_269 = edge_cuts[ num_edge_269 ];
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
@@ -15719,7 +15719,7 @@ case_32: {
     int max_node_266 = max( num_node_4, num_node_0 );
     int num_edge_266 = max_node_266 * ( max_node_266 + 1 ) / 2 + min_node_266;
     int num_node_266;
-    if ( edge_num_cuts[ num_edge_266 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_266 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -15739,7 +15739,7 @@ case_32: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_266 ] = num_node_266;
-        edge_num_cuts[ num_edge_266 ] = num_cut;
+        edge_num_cuts[ num_edge_266 ] = num_cut_proc;
     } else
         num_node_266 = edge_cuts[ num_edge_266 ];
     break;
@@ -15751,7 +15751,7 @@ case_63: {
     int max_node_260 = max( num_node_1, num_node_2 );
     int num_edge_260 = max_node_260 * ( max_node_260 + 1 ) / 2 + min_node_260;
     int num_node_260;
-    if ( edge_num_cuts[ num_edge_260 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_260 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -15771,7 +15771,7 @@ case_63: {
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_260 ] = num_node_260;
-        edge_num_cuts[ num_edge_260 ] = num_cut;
+        edge_num_cuts[ num_edge_260 ] = num_cut_proc;
     } else
         num_node_260 = edge_cuts[ num_edge_260 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
@@ -15779,7 +15779,7 @@ case_63: {
     int max_node_264 = max( num_node_2, num_node_3 );
     int num_edge_264 = max_node_264 * ( max_node_264 + 1 ) / 2 + min_node_264;
     int num_node_264;
-    if ( edge_num_cuts[ num_edge_264 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_264 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -15799,7 +15799,7 @@ case_63: {
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_264 ] = num_node_264;
-        edge_num_cuts[ num_edge_264 ] = num_cut;
+        edge_num_cuts[ num_edge_264 ] = num_cut_proc;
     } else
         num_node_264 = edge_cuts[ num_edge_264 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
@@ -15807,7 +15807,7 @@ case_63: {
     int max_node_269 = max( num_node_3, num_node_4 );
     int num_edge_269 = max_node_269 * ( max_node_269 + 1 ) / 2 + min_node_269;
     int num_node_269;
-    if ( edge_num_cuts[ num_edge_269 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_269 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -15827,7 +15827,7 @@ case_63: {
         const Node &n1 = nodes.local_at( num_node_4 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_269 ] = num_node_269;
-        edge_num_cuts[ num_edge_269 ] = num_cut;
+        edge_num_cuts[ num_edge_269 ] = num_cut_proc;
     } else
         num_node_269 = edge_cuts[ num_edge_269 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
@@ -15835,7 +15835,7 @@ case_63: {
     int max_node_275 = max( num_node_4, num_node_5 );
     int num_edge_275 = max_node_275 * ( max_node_275 + 1 ) / 2 + min_node_275;
     int num_node_275;
-    if ( edge_num_cuts[ num_edge_275 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_275 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -15855,7 +15855,7 @@ case_63: {
         const Node &n1 = nodes.local_at( num_node_5 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_275 ] = num_node_275;
-        edge_num_cuts[ num_edge_275 ] = num_cut;
+        edge_num_cuts[ num_edge_275 ] = num_cut_proc;
     } else
         num_node_275 = edge_cuts[ num_edge_275 ];
     break;
@@ -15867,7 +15867,7 @@ case_122: {
     int max_node_260 = max( num_node_1, num_node_2 );
     int num_edge_260 = max_node_260 * ( max_node_260 + 1 ) / 2 + min_node_260;
     int num_node_260;
-    if ( edge_num_cuts[ num_edge_260 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_260 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -15887,7 +15887,7 @@ case_122: {
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_260 ] = num_node_260;
-        edge_num_cuts[ num_edge_260 ] = num_cut;
+        edge_num_cuts[ num_edge_260 ] = num_cut_proc;
     } else
         num_node_260 = edge_cuts[ num_edge_260 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
@@ -15895,7 +15895,7 @@ case_122: {
     int max_node_264 = max( num_node_2, num_node_3 );
     int num_edge_264 = max_node_264 * ( max_node_264 + 1 ) / 2 + min_node_264;
     int num_node_264;
-    if ( edge_num_cuts[ num_edge_264 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_264 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -15915,7 +15915,7 @@ case_122: {
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_264 ] = num_node_264;
-        edge_num_cuts[ num_edge_264 ] = num_cut;
+        edge_num_cuts[ num_edge_264 ] = num_cut_proc;
     } else
         num_node_264 = edge_cuts[ num_edge_264 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
@@ -15923,7 +15923,7 @@ case_122: {
     int max_node_269 = max( num_node_3, num_node_4 );
     int num_edge_269 = max_node_269 * ( max_node_269 + 1 ) / 2 + min_node_269;
     int num_node_269;
-    if ( edge_num_cuts[ num_edge_269 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_269 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -15943,7 +15943,7 @@ case_122: {
         const Node &n1 = nodes.local_at( num_node_4 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_269 ] = num_node_269;
-        edge_num_cuts[ num_edge_269 ] = num_cut;
+        edge_num_cuts[ num_edge_269 ] = num_cut_proc;
     } else
         num_node_269 = edge_cuts[ num_edge_269 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
@@ -15951,7 +15951,7 @@ case_122: {
     int max_node_275 = max( num_node_4, num_node_5 );
     int num_edge_275 = max_node_275 * ( max_node_275 + 1 ) / 2 + min_node_275;
     int num_node_275;
-    if ( edge_num_cuts[ num_edge_275 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_275 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -15971,7 +15971,7 @@ case_122: {
         const Node &n1 = nodes.local_at( num_node_5 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_275 ] = num_node_275;
-        edge_num_cuts[ num_edge_275 ] = num_cut;
+        edge_num_cuts[ num_edge_275 ] = num_cut_proc;
     } else
         num_node_275 = edge_cuts[ num_edge_275 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
@@ -15979,7 +15979,7 @@ case_122: {
     int max_node_282 = max( num_node_5, num_node_6 );
     int num_edge_282 = max_node_282 * ( max_node_282 + 1 ) / 2 + min_node_282;
     int num_node_282;
-    if ( edge_num_cuts[ num_edge_282 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_282 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -15999,7 +15999,7 @@ case_122: {
         const Node &n1 = nodes.local_at( num_node_6 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_282 ] = num_node_282;
-        edge_num_cuts[ num_edge_282 ] = num_cut;
+        edge_num_cuts[ num_edge_282 ] = num_cut_proc;
     } else
         num_node_282 = edge_cuts[ num_edge_282 ];
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
@@ -16007,7 +16007,7 @@ case_122: {
     int max_node_277 = max( num_node_6, num_node_0 );
     int num_edge_277 = max_node_277 * ( max_node_277 + 1 ) / 2 + min_node_277;
     int num_node_277;
-    if ( edge_num_cuts[ num_edge_277 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_277 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -16027,7 +16027,7 @@ case_122: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_277 ] = num_node_277;
-        edge_num_cuts[ num_edge_277 ] = num_cut;
+        edge_num_cuts[ num_edge_277 ] = num_cut_proc;
     } else
         num_node_277 = edge_cuts[ num_edge_277 ];
     break;
@@ -16039,7 +16039,7 @@ case_222: {
     int max_node_260 = max( num_node_1, num_node_2 );
     int num_edge_260 = max_node_260 * ( max_node_260 + 1 ) / 2 + min_node_260;
     int num_node_260;
-    if ( edge_num_cuts[ num_edge_260 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_260 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -16059,7 +16059,7 @@ case_222: {
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_260 ] = num_node_260;
-        edge_num_cuts[ num_edge_260 ] = num_cut;
+        edge_num_cuts[ num_edge_260 ] = num_cut_proc;
     } else
         num_node_260 = edge_cuts[ num_edge_260 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
@@ -16067,7 +16067,7 @@ case_222: {
     int max_node_264 = max( num_node_2, num_node_3 );
     int num_edge_264 = max_node_264 * ( max_node_264 + 1 ) / 2 + min_node_264;
     int num_node_264;
-    if ( edge_num_cuts[ num_edge_264 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_264 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -16087,7 +16087,7 @@ case_222: {
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_264 ] = num_node_264;
-        edge_num_cuts[ num_edge_264 ] = num_cut;
+        edge_num_cuts[ num_edge_264 ] = num_cut_proc;
     } else
         num_node_264 = edge_cuts[ num_edge_264 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
@@ -16095,7 +16095,7 @@ case_222: {
     int max_node_269 = max( num_node_3, num_node_4 );
     int num_edge_269 = max_node_269 * ( max_node_269 + 1 ) / 2 + min_node_269;
     int num_node_269;
-    if ( edge_num_cuts[ num_edge_269 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_269 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -16115,7 +16115,7 @@ case_222: {
         const Node &n1 = nodes.local_at( num_node_4 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_269 ] = num_node_269;
-        edge_num_cuts[ num_edge_269 ] = num_cut;
+        edge_num_cuts[ num_edge_269 ] = num_cut_proc;
     } else
         num_node_269 = edge_cuts[ num_edge_269 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
@@ -16123,7 +16123,7 @@ case_222: {
     int max_node_275 = max( num_node_4, num_node_5 );
     int num_edge_275 = max_node_275 * ( max_node_275 + 1 ) / 2 + min_node_275;
     int num_node_275;
-    if ( edge_num_cuts[ num_edge_275 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_275 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -16143,7 +16143,7 @@ case_222: {
         const Node &n1 = nodes.local_at( num_node_5 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_275 ] = num_node_275;
-        edge_num_cuts[ num_edge_275 ] = num_cut;
+        edge_num_cuts[ num_edge_275 ] = num_cut_proc;
     } else
         num_node_275 = edge_cuts[ num_edge_275 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
@@ -16151,7 +16151,7 @@ case_222: {
     int max_node_282 = max( num_node_5, num_node_6 );
     int num_edge_282 = max_node_282 * ( max_node_282 + 1 ) / 2 + min_node_282;
     int num_node_282;
-    if ( edge_num_cuts[ num_edge_282 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_282 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -16171,7 +16171,7 @@ case_222: {
         const Node &n1 = nodes.local_at( num_node_6 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_282 ] = num_node_282;
-        edge_num_cuts[ num_edge_282 ] = num_cut;
+        edge_num_cuts[ num_edge_282 ] = num_cut_proc;
     } else
         num_node_282 = edge_cuts[ num_edge_282 ];
     int num_node_7 = faces.node_lists[ num_face ][ 7 ];
@@ -16179,7 +16179,7 @@ case_222: {
     int max_node_290 = max( num_node_6, num_node_7 );
     int num_edge_290 = max_node_290 * ( max_node_290 + 1 ) / 2 + min_node_290;
     int num_node_290;
-    if ( edge_num_cuts[ num_edge_290 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_290 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -16199,7 +16199,7 @@ case_222: {
         const Node &n1 = nodes.local_at( num_node_7 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_290 ] = num_node_290;
-        edge_num_cuts[ num_edge_290 ] = num_cut;
+        edge_num_cuts[ num_edge_290 ] = num_cut_proc;
     } else
         num_node_290 = edge_cuts[ num_edge_290 ];
     break;
@@ -16211,7 +16211,7 @@ case_187: {
     int max_node_260 = max( num_node_1, num_node_2 );
     int num_edge_260 = max_node_260 * ( max_node_260 + 1 ) / 2 + min_node_260;
     int num_node_260;
-    if ( edge_num_cuts[ num_edge_260 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_260 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -16231,7 +16231,7 @@ case_187: {
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_260 ] = num_node_260;
-        edge_num_cuts[ num_edge_260 ] = num_cut;
+        edge_num_cuts[ num_edge_260 ] = num_cut_proc;
     } else
         num_node_260 = edge_cuts[ num_edge_260 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
@@ -16239,7 +16239,7 @@ case_187: {
     int max_node_264 = max( num_node_2, num_node_3 );
     int num_edge_264 = max_node_264 * ( max_node_264 + 1 ) / 2 + min_node_264;
     int num_node_264;
-    if ( edge_num_cuts[ num_edge_264 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_264 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -16259,7 +16259,7 @@ case_187: {
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_264 ] = num_node_264;
-        edge_num_cuts[ num_edge_264 ] = num_cut;
+        edge_num_cuts[ num_edge_264 ] = num_cut_proc;
     } else
         num_node_264 = edge_cuts[ num_edge_264 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
@@ -16267,7 +16267,7 @@ case_187: {
     int max_node_269 = max( num_node_3, num_node_4 );
     int num_edge_269 = max_node_269 * ( max_node_269 + 1 ) / 2 + min_node_269;
     int num_node_269;
-    if ( edge_num_cuts[ num_edge_269 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_269 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -16287,7 +16287,7 @@ case_187: {
         const Node &n1 = nodes.local_at( num_node_4 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_269 ] = num_node_269;
-        edge_num_cuts[ num_edge_269 ] = num_cut;
+        edge_num_cuts[ num_edge_269 ] = num_cut_proc;
     } else
         num_node_269 = edge_cuts[ num_edge_269 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
@@ -16295,7 +16295,7 @@ case_187: {
     int max_node_275 = max( num_node_4, num_node_5 );
     int num_edge_275 = max_node_275 * ( max_node_275 + 1 ) / 2 + min_node_275;
     int num_node_275;
-    if ( edge_num_cuts[ num_edge_275 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_275 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -16315,7 +16315,7 @@ case_187: {
         const Node &n1 = nodes.local_at( num_node_5 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_275 ] = num_node_275;
-        edge_num_cuts[ num_edge_275 ] = num_cut;
+        edge_num_cuts[ num_edge_275 ] = num_cut_proc;
     } else
         num_node_275 = edge_cuts[ num_edge_275 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
@@ -16323,7 +16323,7 @@ case_187: {
     int max_node_282 = max( num_node_5, num_node_6 );
     int num_edge_282 = max_node_282 * ( max_node_282 + 1 ) / 2 + min_node_282;
     int num_node_282;
-    if ( edge_num_cuts[ num_edge_282 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_282 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -16343,7 +16343,7 @@ case_187: {
         const Node &n1 = nodes.local_at( num_node_6 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_282 ] = num_node_282;
-        edge_num_cuts[ num_edge_282 ] = num_cut;
+        edge_num_cuts[ num_edge_282 ] = num_cut_proc;
     } else
         num_node_282 = edge_cuts[ num_edge_282 ];
     int num_node_7 = faces.node_lists[ num_face ][ 7 ];
@@ -16352,7 +16352,7 @@ case_187: {
     int max_node_284 = max( num_node_7, num_node_0 );
     int num_edge_284 = max_node_284 * ( max_node_284 + 1 ) / 2 + min_node_284;
     int num_node_284;
-    if ( edge_num_cuts[ num_edge_284 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_284 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -16372,7 +16372,7 @@ case_187: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_284 ] = num_node_284;
-        edge_num_cuts[ num_edge_284 ] = num_cut;
+        edge_num_cuts[ num_edge_284 ] = num_cut_proc;
     } else
         num_node_284 = edge_cuts[ num_edge_284 ];
     break;
@@ -16384,7 +16384,7 @@ case_245: {
     int max_node_260 = max( num_node_1, num_node_2 );
     int num_edge_260 = max_node_260 * ( max_node_260 + 1 ) / 2 + min_node_260;
     int num_node_260;
-    if ( edge_num_cuts[ num_edge_260 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_260 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -16404,7 +16404,7 @@ case_245: {
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_260 ] = num_node_260;
-        edge_num_cuts[ num_edge_260 ] = num_cut;
+        edge_num_cuts[ num_edge_260 ] = num_cut_proc;
     } else
         num_node_260 = edge_cuts[ num_edge_260 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
@@ -16412,7 +16412,7 @@ case_245: {
     int max_node_264 = max( num_node_2, num_node_3 );
     int num_edge_264 = max_node_264 * ( max_node_264 + 1 ) / 2 + min_node_264;
     int num_node_264;
-    if ( edge_num_cuts[ num_edge_264 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_264 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -16432,7 +16432,7 @@ case_245: {
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_264 ] = num_node_264;
-        edge_num_cuts[ num_edge_264 ] = num_cut;
+        edge_num_cuts[ num_edge_264 ] = num_cut_proc;
     } else
         num_node_264 = edge_cuts[ num_edge_264 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
@@ -16440,7 +16440,7 @@ case_245: {
     int max_node_269 = max( num_node_3, num_node_4 );
     int num_edge_269 = max_node_269 * ( max_node_269 + 1 ) / 2 + min_node_269;
     int num_node_269;
-    if ( edge_num_cuts[ num_edge_269 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_269 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -16460,7 +16460,7 @@ case_245: {
         const Node &n1 = nodes.local_at( num_node_4 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_269 ] = num_node_269;
-        edge_num_cuts[ num_edge_269 ] = num_cut;
+        edge_num_cuts[ num_edge_269 ] = num_cut_proc;
     } else
         num_node_269 = edge_cuts[ num_edge_269 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
@@ -16468,7 +16468,7 @@ case_245: {
     int max_node_275 = max( num_node_4, num_node_5 );
     int num_edge_275 = max_node_275 * ( max_node_275 + 1 ) / 2 + min_node_275;
     int num_node_275;
-    if ( edge_num_cuts[ num_edge_275 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_275 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -16488,7 +16488,7 @@ case_245: {
         const Node &n1 = nodes.local_at( num_node_5 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_275 ] = num_node_275;
-        edge_num_cuts[ num_edge_275 ] = num_cut;
+        edge_num_cuts[ num_edge_275 ] = num_cut_proc;
     } else
         num_node_275 = edge_cuts[ num_edge_275 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
@@ -16497,7 +16497,7 @@ case_245: {
     int max_node_290 = max( num_node_6, num_node_7 );
     int num_edge_290 = max_node_290 * ( max_node_290 + 1 ) / 2 + min_node_290;
     int num_node_290;
-    if ( edge_num_cuts[ num_edge_290 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_290 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -16517,7 +16517,7 @@ case_245: {
         const Node &n1 = nodes.local_at( num_node_7 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_290 ] = num_node_290;
-        edge_num_cuts[ num_edge_290 ] = num_cut;
+        edge_num_cuts[ num_edge_290 ] = num_cut_proc;
     } else
         num_node_290 = edge_cuts[ num_edge_290 ];
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
@@ -16525,7 +16525,7 @@ case_245: {
     int max_node_284 = max( num_node_7, num_node_0 );
     int num_edge_284 = max_node_284 * ( max_node_284 + 1 ) / 2 + min_node_284;
     int num_node_284;
-    if ( edge_num_cuts[ num_edge_284 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_284 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -16545,7 +16545,7 @@ case_245: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_284 ] = num_node_284;
-        edge_num_cuts[ num_edge_284 ] = num_cut;
+        edge_num_cuts[ num_edge_284 ] = num_cut_proc;
     } else
         num_node_284 = edge_cuts[ num_edge_284 ];
     break;
@@ -16557,7 +16557,7 @@ case_54: {
     int max_node_260 = max( num_node_1, num_node_2 );
     int num_edge_260 = max_node_260 * ( max_node_260 + 1 ) / 2 + min_node_260;
     int num_node_260;
-    if ( edge_num_cuts[ num_edge_260 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_260 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -16577,7 +16577,7 @@ case_54: {
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_260 ] = num_node_260;
-        edge_num_cuts[ num_edge_260 ] = num_cut;
+        edge_num_cuts[ num_edge_260 ] = num_cut_proc;
     } else
         num_node_260 = edge_cuts[ num_edge_260 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
@@ -16585,7 +16585,7 @@ case_54: {
     int max_node_264 = max( num_node_2, num_node_3 );
     int num_edge_264 = max_node_264 * ( max_node_264 + 1 ) / 2 + min_node_264;
     int num_node_264;
-    if ( edge_num_cuts[ num_edge_264 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_264 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -16605,7 +16605,7 @@ case_54: {
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_264 ] = num_node_264;
-        edge_num_cuts[ num_edge_264 ] = num_cut;
+        edge_num_cuts[ num_edge_264 ] = num_cut_proc;
     } else
         num_node_264 = edge_cuts[ num_edge_264 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
@@ -16613,7 +16613,7 @@ case_54: {
     int max_node_269 = max( num_node_3, num_node_4 );
     int num_edge_269 = max_node_269 * ( max_node_269 + 1 ) / 2 + min_node_269;
     int num_node_269;
-    if ( edge_num_cuts[ num_edge_269 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_269 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -16633,7 +16633,7 @@ case_54: {
         const Node &n1 = nodes.local_at( num_node_4 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_269 ] = num_node_269;
-        edge_num_cuts[ num_edge_269 ] = num_cut;
+        edge_num_cuts[ num_edge_269 ] = num_cut_proc;
     } else
         num_node_269 = edge_cuts[ num_edge_269 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
@@ -16642,7 +16642,7 @@ case_54: {
     int max_node_271 = max( num_node_5, num_node_0 );
     int num_edge_271 = max_node_271 * ( max_node_271 + 1 ) / 2 + min_node_271;
     int num_node_271;
-    if ( edge_num_cuts[ num_edge_271 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_271 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -16662,7 +16662,7 @@ case_54: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_271 ] = num_node_271;
-        edge_num_cuts[ num_edge_271 ] = num_cut;
+        edge_num_cuts[ num_edge_271 ] = num_cut_proc;
     } else
         num_node_271 = edge_cuts[ num_edge_271 ];
     break;
@@ -16674,7 +16674,7 @@ case_131: {
     int max_node_260 = max( num_node_1, num_node_2 );
     int num_edge_260 = max_node_260 * ( max_node_260 + 1 ) / 2 + min_node_260;
     int num_node_260;
-    if ( edge_num_cuts[ num_edge_260 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_260 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -16694,7 +16694,7 @@ case_131: {
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_260 ] = num_node_260;
-        edge_num_cuts[ num_edge_260 ] = num_cut;
+        edge_num_cuts[ num_edge_260 ] = num_cut_proc;
     } else
         num_node_260 = edge_cuts[ num_edge_260 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
@@ -16702,7 +16702,7 @@ case_131: {
     int max_node_264 = max( num_node_2, num_node_3 );
     int num_edge_264 = max_node_264 * ( max_node_264 + 1 ) / 2 + min_node_264;
     int num_node_264;
-    if ( edge_num_cuts[ num_edge_264 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_264 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -16722,7 +16722,7 @@ case_131: {
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_264 ] = num_node_264;
-        edge_num_cuts[ num_edge_264 ] = num_cut;
+        edge_num_cuts[ num_edge_264 ] = num_cut_proc;
     } else
         num_node_264 = edge_cuts[ num_edge_264 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
@@ -16730,7 +16730,7 @@ case_131: {
     int max_node_269 = max( num_node_3, num_node_4 );
     int num_edge_269 = max_node_269 * ( max_node_269 + 1 ) / 2 + min_node_269;
     int num_node_269;
-    if ( edge_num_cuts[ num_edge_269 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_269 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -16750,7 +16750,7 @@ case_131: {
         const Node &n1 = nodes.local_at( num_node_4 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_269 ] = num_node_269;
-        edge_num_cuts[ num_edge_269 ] = num_cut;
+        edge_num_cuts[ num_edge_269 ] = num_cut_proc;
     } else
         num_node_269 = edge_cuts[ num_edge_269 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
@@ -16759,7 +16759,7 @@ case_131: {
     int max_node_282 = max( num_node_5, num_node_6 );
     int num_edge_282 = max_node_282 * ( max_node_282 + 1 ) / 2 + min_node_282;
     int num_node_282;
-    if ( edge_num_cuts[ num_edge_282 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_282 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -16779,7 +16779,7 @@ case_131: {
         const Node &n1 = nodes.local_at( num_node_6 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_282 ] = num_node_282;
-        edge_num_cuts[ num_edge_282 ] = num_cut;
+        edge_num_cuts[ num_edge_282 ] = num_cut_proc;
     } else
         num_node_282 = edge_cuts[ num_edge_282 ];
     break;
@@ -16791,7 +16791,7 @@ case_213: {
     int max_node_260 = max( num_node_1, num_node_2 );
     int num_edge_260 = max_node_260 * ( max_node_260 + 1 ) / 2 + min_node_260;
     int num_node_260;
-    if ( edge_num_cuts[ num_edge_260 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_260 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -16811,7 +16811,7 @@ case_213: {
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_260 ] = num_node_260;
-        edge_num_cuts[ num_edge_260 ] = num_cut;
+        edge_num_cuts[ num_edge_260 ] = num_cut_proc;
     } else
         num_node_260 = edge_cuts[ num_edge_260 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
@@ -16819,7 +16819,7 @@ case_213: {
     int max_node_264 = max( num_node_2, num_node_3 );
     int num_edge_264 = max_node_264 * ( max_node_264 + 1 ) / 2 + min_node_264;
     int num_node_264;
-    if ( edge_num_cuts[ num_edge_264 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_264 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -16839,7 +16839,7 @@ case_213: {
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_264 ] = num_node_264;
-        edge_num_cuts[ num_edge_264 ] = num_cut;
+        edge_num_cuts[ num_edge_264 ] = num_cut_proc;
     } else
         num_node_264 = edge_cuts[ num_edge_264 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
@@ -16847,7 +16847,7 @@ case_213: {
     int max_node_269 = max( num_node_3, num_node_4 );
     int num_edge_269 = max_node_269 * ( max_node_269 + 1 ) / 2 + min_node_269;
     int num_node_269;
-    if ( edge_num_cuts[ num_edge_269 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_269 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -16867,7 +16867,7 @@ case_213: {
         const Node &n1 = nodes.local_at( num_node_4 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_269 ] = num_node_269;
-        edge_num_cuts[ num_edge_269 ] = num_cut;
+        edge_num_cuts[ num_edge_269 ] = num_cut_proc;
     } else
         num_node_269 = edge_cuts[ num_edge_269 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
@@ -16876,7 +16876,7 @@ case_213: {
     int max_node_282 = max( num_node_5, num_node_6 );
     int num_edge_282 = max_node_282 * ( max_node_282 + 1 ) / 2 + min_node_282;
     int num_node_282;
-    if ( edge_num_cuts[ num_edge_282 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_282 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -16896,7 +16896,7 @@ case_213: {
         const Node &n1 = nodes.local_at( num_node_6 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_282 ] = num_node_282;
-        edge_num_cuts[ num_edge_282 ] = num_cut;
+        edge_num_cuts[ num_edge_282 ] = num_cut_proc;
     } else
         num_node_282 = edge_cuts[ num_edge_282 ];
     int num_node_7 = faces.node_lists[ num_face ][ 7 ];
@@ -16904,7 +16904,7 @@ case_213: {
     int max_node_290 = max( num_node_6, num_node_7 );
     int num_edge_290 = max_node_290 * ( max_node_290 + 1 ) / 2 + min_node_290;
     int num_node_290;
-    if ( edge_num_cuts[ num_edge_290 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_290 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -16924,7 +16924,7 @@ case_213: {
         const Node &n1 = nodes.local_at( num_node_7 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_290 ] = num_node_290;
-        edge_num_cuts[ num_edge_290 ] = num_cut;
+        edge_num_cuts[ num_edge_290 ] = num_cut_proc;
     } else
         num_node_290 = edge_cuts[ num_edge_290 ];
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
@@ -16932,7 +16932,7 @@ case_213: {
     int max_node_284 = max( num_node_7, num_node_0 );
     int num_edge_284 = max_node_284 * ( max_node_284 + 1 ) / 2 + min_node_284;
     int num_node_284;
-    if ( edge_num_cuts[ num_edge_284 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_284 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -16952,7 +16952,7 @@ case_213: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_284 ] = num_node_284;
-        edge_num_cuts[ num_edge_284 ] = num_cut;
+        edge_num_cuts[ num_edge_284 ] = num_cut_proc;
     } else
         num_node_284 = edge_cuts[ num_edge_284 ];
     break;
@@ -16964,7 +16964,7 @@ case_94: {
     int max_node_260 = max( num_node_1, num_node_2 );
     int num_edge_260 = max_node_260 * ( max_node_260 + 1 ) / 2 + min_node_260;
     int num_node_260;
-    if ( edge_num_cuts[ num_edge_260 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_260 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -16984,7 +16984,7 @@ case_94: {
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_260 ] = num_node_260;
-        edge_num_cuts[ num_edge_260 ] = num_cut;
+        edge_num_cuts[ num_edge_260 ] = num_cut_proc;
     } else
         num_node_260 = edge_cuts[ num_edge_260 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
@@ -16992,7 +16992,7 @@ case_94: {
     int max_node_264 = max( num_node_2, num_node_3 );
     int num_edge_264 = max_node_264 * ( max_node_264 + 1 ) / 2 + min_node_264;
     int num_node_264;
-    if ( edge_num_cuts[ num_edge_264 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_264 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -17012,7 +17012,7 @@ case_94: {
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_264 ] = num_node_264;
-        edge_num_cuts[ num_edge_264 ] = num_cut;
+        edge_num_cuts[ num_edge_264 ] = num_cut_proc;
     } else
         num_node_264 = edge_cuts[ num_edge_264 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
@@ -17020,7 +17020,7 @@ case_94: {
     int max_node_269 = max( num_node_3, num_node_4 );
     int num_edge_269 = max_node_269 * ( max_node_269 + 1 ) / 2 + min_node_269;
     int num_node_269;
-    if ( edge_num_cuts[ num_edge_269 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_269 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -17040,7 +17040,7 @@ case_94: {
         const Node &n1 = nodes.local_at( num_node_4 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_269 ] = num_node_269;
-        edge_num_cuts[ num_edge_269 ] = num_cut;
+        edge_num_cuts[ num_edge_269 ] = num_cut_proc;
     } else
         num_node_269 = edge_cuts[ num_edge_269 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
@@ -17049,7 +17049,7 @@ case_94: {
     int max_node_277 = max( num_node_6, num_node_0 );
     int num_edge_277 = max_node_277 * ( max_node_277 + 1 ) / 2 + min_node_277;
     int num_node_277;
-    if ( edge_num_cuts[ num_edge_277 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_277 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -17069,7 +17069,7 @@ case_94: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_277 ] = num_node_277;
-        edge_num_cuts[ num_edge_277 ] = num_cut;
+        edge_num_cuts[ num_edge_277 ] = num_cut_proc;
     } else
         num_node_277 = edge_cuts[ num_edge_277 ];
     break;
@@ -17081,7 +17081,7 @@ case_254: {
     int max_node_260 = max( num_node_1, num_node_2 );
     int num_edge_260 = max_node_260 * ( max_node_260 + 1 ) / 2 + min_node_260;
     int num_node_260;
-    if ( edge_num_cuts[ num_edge_260 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_260 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -17101,7 +17101,7 @@ case_254: {
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_260 ] = num_node_260;
-        edge_num_cuts[ num_edge_260 ] = num_cut;
+        edge_num_cuts[ num_edge_260 ] = num_cut_proc;
     } else
         num_node_260 = edge_cuts[ num_edge_260 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
@@ -17109,7 +17109,7 @@ case_254: {
     int max_node_264 = max( num_node_2, num_node_3 );
     int num_edge_264 = max_node_264 * ( max_node_264 + 1 ) / 2 + min_node_264;
     int num_node_264;
-    if ( edge_num_cuts[ num_edge_264 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_264 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -17129,7 +17129,7 @@ case_254: {
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_264 ] = num_node_264;
-        edge_num_cuts[ num_edge_264 ] = num_cut;
+        edge_num_cuts[ num_edge_264 ] = num_cut_proc;
     } else
         num_node_264 = edge_cuts[ num_edge_264 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
@@ -17137,7 +17137,7 @@ case_254: {
     int max_node_269 = max( num_node_3, num_node_4 );
     int num_edge_269 = max_node_269 * ( max_node_269 + 1 ) / 2 + min_node_269;
     int num_node_269;
-    if ( edge_num_cuts[ num_edge_269 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_269 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -17157,7 +17157,7 @@ case_254: {
         const Node &n1 = nodes.local_at( num_node_4 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_269 ] = num_node_269;
-        edge_num_cuts[ num_edge_269 ] = num_cut;
+        edge_num_cuts[ num_edge_269 ] = num_cut_proc;
     } else
         num_node_269 = edge_cuts[ num_edge_269 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
@@ -17166,7 +17166,7 @@ case_254: {
     int max_node_290 = max( num_node_6, num_node_7 );
     int num_edge_290 = max_node_290 * ( max_node_290 + 1 ) / 2 + min_node_290;
     int num_node_290;
-    if ( edge_num_cuts[ num_edge_290 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_290 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -17186,7 +17186,7 @@ case_254: {
         const Node &n1 = nodes.local_at( num_node_7 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_290 ] = num_node_290;
-        edge_num_cuts[ num_edge_290 ] = num_cut;
+        edge_num_cuts[ num_edge_290 ] = num_cut_proc;
     } else
         num_node_290 = edge_cuts[ num_edge_290 ];
     break;
@@ -17198,7 +17198,7 @@ case_164: {
     int max_node_260 = max( num_node_1, num_node_2 );
     int num_edge_260 = max_node_260 * ( max_node_260 + 1 ) / 2 + min_node_260;
     int num_node_260;
-    if ( edge_num_cuts[ num_edge_260 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_260 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -17218,7 +17218,7 @@ case_164: {
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_260 ] = num_node_260;
-        edge_num_cuts[ num_edge_260 ] = num_cut;
+        edge_num_cuts[ num_edge_260 ] = num_cut_proc;
     } else
         num_node_260 = edge_cuts[ num_edge_260 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
@@ -17226,7 +17226,7 @@ case_164: {
     int max_node_264 = max( num_node_2, num_node_3 );
     int num_edge_264 = max_node_264 * ( max_node_264 + 1 ) / 2 + min_node_264;
     int num_node_264;
-    if ( edge_num_cuts[ num_edge_264 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_264 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -17246,7 +17246,7 @@ case_164: {
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_264 ] = num_node_264;
-        edge_num_cuts[ num_edge_264 ] = num_cut;
+        edge_num_cuts[ num_edge_264 ] = num_cut_proc;
     } else
         num_node_264 = edge_cuts[ num_edge_264 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
@@ -17254,7 +17254,7 @@ case_164: {
     int max_node_269 = max( num_node_3, num_node_4 );
     int num_edge_269 = max_node_269 * ( max_node_269 + 1 ) / 2 + min_node_269;
     int num_node_269;
-    if ( edge_num_cuts[ num_edge_269 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_269 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -17274,7 +17274,7 @@ case_164: {
         const Node &n1 = nodes.local_at( num_node_4 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_269 ] = num_node_269;
-        edge_num_cuts[ num_edge_269 ] = num_cut;
+        edge_num_cuts[ num_edge_269 ] = num_cut_proc;
     } else
         num_node_269 = edge_cuts[ num_edge_269 ];
     int num_node_7 = faces.node_lists[ num_face ][ 7 ];
@@ -17283,7 +17283,7 @@ case_164: {
     int max_node_284 = max( num_node_7, num_node_0 );
     int num_edge_284 = max_node_284 * ( max_node_284 + 1 ) / 2 + min_node_284;
     int num_node_284;
-    if ( edge_num_cuts[ num_edge_284 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_284 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -17303,7 +17303,7 @@ case_164: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_284 ] = num_node_284;
-        edge_num_cuts[ num_edge_284 ] = num_cut;
+        edge_num_cuts[ num_edge_284 ] = num_cut_proc;
     } else
         num_node_284 = edge_cuts[ num_edge_284 ];
     break;
@@ -17315,7 +17315,7 @@ case_70: {
     int max_node_260 = max( num_node_1, num_node_2 );
     int num_edge_260 = max_node_260 * ( max_node_260 + 1 ) / 2 + min_node_260;
     int num_node_260;
-    if ( edge_num_cuts[ num_edge_260 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_260 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -17335,7 +17335,7 @@ case_70: {
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_260 ] = num_node_260;
-        edge_num_cuts[ num_edge_260 ] = num_cut;
+        edge_num_cuts[ num_edge_260 ] = num_cut_proc;
     } else
         num_node_260 = edge_cuts[ num_edge_260 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
@@ -17343,7 +17343,7 @@ case_70: {
     int max_node_264 = max( num_node_2, num_node_3 );
     int num_edge_264 = max_node_264 * ( max_node_264 + 1 ) / 2 + min_node_264;
     int num_node_264;
-    if ( edge_num_cuts[ num_edge_264 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_264 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -17363,7 +17363,7 @@ case_70: {
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_264 ] = num_node_264;
-        edge_num_cuts[ num_edge_264 ] = num_cut;
+        edge_num_cuts[ num_edge_264 ] = num_cut_proc;
     } else
         num_node_264 = edge_cuts[ num_edge_264 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
@@ -17372,7 +17372,7 @@ case_70: {
     int max_node_275 = max( num_node_4, num_node_5 );
     int num_edge_275 = max_node_275 * ( max_node_275 + 1 ) / 2 + min_node_275;
     int num_node_275;
-    if ( edge_num_cuts[ num_edge_275 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_275 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -17392,7 +17392,7 @@ case_70: {
         const Node &n1 = nodes.local_at( num_node_5 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_275 ] = num_node_275;
-        edge_num_cuts[ num_edge_275 ] = num_cut;
+        edge_num_cuts[ num_edge_275 ] = num_cut_proc;
     } else
         num_node_275 = edge_cuts[ num_edge_275 ];
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
@@ -17400,7 +17400,7 @@ case_70: {
     int max_node_271 = max( num_node_5, num_node_0 );
     int num_edge_271 = max_node_271 * ( max_node_271 + 1 ) / 2 + min_node_271;
     int num_node_271;
-    if ( edge_num_cuts[ num_edge_271 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_271 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -17420,7 +17420,7 @@ case_70: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_271 ] = num_node_271;
-        edge_num_cuts[ num_edge_271 ] = num_cut;
+        edge_num_cuts[ num_edge_271 ] = num_cut_proc;
     } else
         num_node_271 = edge_cuts[ num_edge_271 ];
     break;
@@ -17432,7 +17432,7 @@ case_115: {
     int max_node_260 = max( num_node_1, num_node_2 );
     int num_edge_260 = max_node_260 * ( max_node_260 + 1 ) / 2 + min_node_260;
     int num_node_260;
-    if ( edge_num_cuts[ num_edge_260 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_260 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -17452,7 +17452,7 @@ case_115: {
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_260 ] = num_node_260;
-        edge_num_cuts[ num_edge_260 ] = num_cut;
+        edge_num_cuts[ num_edge_260 ] = num_cut_proc;
     } else
         num_node_260 = edge_cuts[ num_edge_260 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
@@ -17460,7 +17460,7 @@ case_115: {
     int max_node_264 = max( num_node_2, num_node_3 );
     int num_edge_264 = max_node_264 * ( max_node_264 + 1 ) / 2 + min_node_264;
     int num_node_264;
-    if ( edge_num_cuts[ num_edge_264 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_264 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -17480,7 +17480,7 @@ case_115: {
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_264 ] = num_node_264;
-        edge_num_cuts[ num_edge_264 ] = num_cut;
+        edge_num_cuts[ num_edge_264 ] = num_cut_proc;
     } else
         num_node_264 = edge_cuts[ num_edge_264 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
@@ -17489,7 +17489,7 @@ case_115: {
     int max_node_275 = max( num_node_4, num_node_5 );
     int num_edge_275 = max_node_275 * ( max_node_275 + 1 ) / 2 + min_node_275;
     int num_node_275;
-    if ( edge_num_cuts[ num_edge_275 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_275 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -17509,7 +17509,7 @@ case_115: {
         const Node &n1 = nodes.local_at( num_node_5 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_275 ] = num_node_275;
-        edge_num_cuts[ num_edge_275 ] = num_cut;
+        edge_num_cuts[ num_edge_275 ] = num_cut_proc;
     } else
         num_node_275 = edge_cuts[ num_edge_275 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
@@ -17517,7 +17517,7 @@ case_115: {
     int max_node_282 = max( num_node_5, num_node_6 );
     int num_edge_282 = max_node_282 * ( max_node_282 + 1 ) / 2 + min_node_282;
     int num_node_282;
-    if ( edge_num_cuts[ num_edge_282 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_282 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -17537,7 +17537,7 @@ case_115: {
         const Node &n1 = nodes.local_at( num_node_6 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_282 ] = num_node_282;
-        edge_num_cuts[ num_edge_282 ] = num_cut;
+        edge_num_cuts[ num_edge_282 ] = num_cut_proc;
     } else
         num_node_282 = edge_cuts[ num_edge_282 ];
     break;
@@ -17549,7 +17549,7 @@ case_229: {
     int max_node_260 = max( num_node_1, num_node_2 );
     int num_edge_260 = max_node_260 * ( max_node_260 + 1 ) / 2 + min_node_260;
     int num_node_260;
-    if ( edge_num_cuts[ num_edge_260 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_260 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -17569,7 +17569,7 @@ case_229: {
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_260 ] = num_node_260;
-        edge_num_cuts[ num_edge_260 ] = num_cut;
+        edge_num_cuts[ num_edge_260 ] = num_cut_proc;
     } else
         num_node_260 = edge_cuts[ num_edge_260 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
@@ -17577,7 +17577,7 @@ case_229: {
     int max_node_264 = max( num_node_2, num_node_3 );
     int num_edge_264 = max_node_264 * ( max_node_264 + 1 ) / 2 + min_node_264;
     int num_node_264;
-    if ( edge_num_cuts[ num_edge_264 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_264 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -17597,7 +17597,7 @@ case_229: {
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_264 ] = num_node_264;
-        edge_num_cuts[ num_edge_264 ] = num_cut;
+        edge_num_cuts[ num_edge_264 ] = num_cut_proc;
     } else
         num_node_264 = edge_cuts[ num_edge_264 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
@@ -17606,7 +17606,7 @@ case_229: {
     int max_node_275 = max( num_node_4, num_node_5 );
     int num_edge_275 = max_node_275 * ( max_node_275 + 1 ) / 2 + min_node_275;
     int num_node_275;
-    if ( edge_num_cuts[ num_edge_275 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_275 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -17626,7 +17626,7 @@ case_229: {
         const Node &n1 = nodes.local_at( num_node_5 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_275 ] = num_node_275;
-        edge_num_cuts[ num_edge_275 ] = num_cut;
+        edge_num_cuts[ num_edge_275 ] = num_cut_proc;
     } else
         num_node_275 = edge_cuts[ num_edge_275 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
@@ -17634,7 +17634,7 @@ case_229: {
     int max_node_282 = max( num_node_5, num_node_6 );
     int num_edge_282 = max_node_282 * ( max_node_282 + 1 ) / 2 + min_node_282;
     int num_node_282;
-    if ( edge_num_cuts[ num_edge_282 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_282 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -17654,7 +17654,7 @@ case_229: {
         const Node &n1 = nodes.local_at( num_node_6 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_282 ] = num_node_282;
-        edge_num_cuts[ num_edge_282 ] = num_cut;
+        edge_num_cuts[ num_edge_282 ] = num_cut_proc;
     } else
         num_node_282 = edge_cuts[ num_edge_282 ];
     int num_node_7 = faces.node_lists[ num_face ][ 7 ];
@@ -17662,7 +17662,7 @@ case_229: {
     int max_node_290 = max( num_node_6, num_node_7 );
     int num_edge_290 = max_node_290 * ( max_node_290 + 1 ) / 2 + min_node_290;
     int num_node_290;
-    if ( edge_num_cuts[ num_edge_290 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_290 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -17682,7 +17682,7 @@ case_229: {
         const Node &n1 = nodes.local_at( num_node_7 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_290 ] = num_node_290;
-        edge_num_cuts[ num_edge_290 ] = num_cut;
+        edge_num_cuts[ num_edge_290 ] = num_cut_proc;
     } else
         num_node_290 = edge_cuts[ num_edge_290 ];
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
@@ -17690,7 +17690,7 @@ case_229: {
     int max_node_284 = max( num_node_7, num_node_0 );
     int num_edge_284 = max_node_284 * ( max_node_284 + 1 ) / 2 + min_node_284;
     int num_node_284;
-    if ( edge_num_cuts[ num_edge_284 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_284 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -17710,7 +17710,7 @@ case_229: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_284 ] = num_node_284;
-        edge_num_cuts[ num_edge_284 ] = num_cut;
+        edge_num_cuts[ num_edge_284 ] = num_cut_proc;
     } else
         num_node_284 = edge_cuts[ num_edge_284 ];
     break;
@@ -17722,7 +17722,7 @@ case_106: {
     int max_node_260 = max( num_node_1, num_node_2 );
     int num_edge_260 = max_node_260 * ( max_node_260 + 1 ) / 2 + min_node_260;
     int num_node_260;
-    if ( edge_num_cuts[ num_edge_260 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_260 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -17742,7 +17742,7 @@ case_106: {
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_260 ] = num_node_260;
-        edge_num_cuts[ num_edge_260 ] = num_cut;
+        edge_num_cuts[ num_edge_260 ] = num_cut_proc;
     } else
         num_node_260 = edge_cuts[ num_edge_260 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
@@ -17750,7 +17750,7 @@ case_106: {
     int max_node_264 = max( num_node_2, num_node_3 );
     int num_edge_264 = max_node_264 * ( max_node_264 + 1 ) / 2 + min_node_264;
     int num_node_264;
-    if ( edge_num_cuts[ num_edge_264 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_264 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -17770,7 +17770,7 @@ case_106: {
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_264 ] = num_node_264;
-        edge_num_cuts[ num_edge_264 ] = num_cut;
+        edge_num_cuts[ num_edge_264 ] = num_cut_proc;
     } else
         num_node_264 = edge_cuts[ num_edge_264 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
@@ -17779,7 +17779,7 @@ case_106: {
     int max_node_275 = max( num_node_4, num_node_5 );
     int num_edge_275 = max_node_275 * ( max_node_275 + 1 ) / 2 + min_node_275;
     int num_node_275;
-    if ( edge_num_cuts[ num_edge_275 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_275 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -17799,7 +17799,7 @@ case_106: {
         const Node &n1 = nodes.local_at( num_node_5 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_275 ] = num_node_275;
-        edge_num_cuts[ num_edge_275 ] = num_cut;
+        edge_num_cuts[ num_edge_275 ] = num_cut_proc;
     } else
         num_node_275 = edge_cuts[ num_edge_275 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
@@ -17808,7 +17808,7 @@ case_106: {
     int max_node_277 = max( num_node_6, num_node_0 );
     int num_edge_277 = max_node_277 * ( max_node_277 + 1 ) / 2 + min_node_277;
     int num_node_277;
-    if ( edge_num_cuts[ num_edge_277 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_277 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -17828,7 +17828,7 @@ case_106: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_277 ] = num_node_277;
-        edge_num_cuts[ num_edge_277 ] = num_cut;
+        edge_num_cuts[ num_edge_277 ] = num_cut_proc;
     } else
         num_node_277 = edge_cuts[ num_edge_277 ];
     break;
@@ -17840,7 +17840,7 @@ case_238: {
     int max_node_260 = max( num_node_1, num_node_2 );
     int num_edge_260 = max_node_260 * ( max_node_260 + 1 ) / 2 + min_node_260;
     int num_node_260;
-    if ( edge_num_cuts[ num_edge_260 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_260 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -17860,7 +17860,7 @@ case_238: {
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_260 ] = num_node_260;
-        edge_num_cuts[ num_edge_260 ] = num_cut;
+        edge_num_cuts[ num_edge_260 ] = num_cut_proc;
     } else
         num_node_260 = edge_cuts[ num_edge_260 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
@@ -17868,7 +17868,7 @@ case_238: {
     int max_node_264 = max( num_node_2, num_node_3 );
     int num_edge_264 = max_node_264 * ( max_node_264 + 1 ) / 2 + min_node_264;
     int num_node_264;
-    if ( edge_num_cuts[ num_edge_264 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_264 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -17888,7 +17888,7 @@ case_238: {
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_264 ] = num_node_264;
-        edge_num_cuts[ num_edge_264 ] = num_cut;
+        edge_num_cuts[ num_edge_264 ] = num_cut_proc;
     } else
         num_node_264 = edge_cuts[ num_edge_264 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
@@ -17897,7 +17897,7 @@ case_238: {
     int max_node_275 = max( num_node_4, num_node_5 );
     int num_edge_275 = max_node_275 * ( max_node_275 + 1 ) / 2 + min_node_275;
     int num_node_275;
-    if ( edge_num_cuts[ num_edge_275 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_275 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -17917,7 +17917,7 @@ case_238: {
         const Node &n1 = nodes.local_at( num_node_5 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_275 ] = num_node_275;
-        edge_num_cuts[ num_edge_275 ] = num_cut;
+        edge_num_cuts[ num_edge_275 ] = num_cut_proc;
     } else
         num_node_275 = edge_cuts[ num_edge_275 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
@@ -17926,7 +17926,7 @@ case_238: {
     int max_node_290 = max( num_node_6, num_node_7 );
     int num_edge_290 = max_node_290 * ( max_node_290 + 1 ) / 2 + min_node_290;
     int num_node_290;
-    if ( edge_num_cuts[ num_edge_290 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_290 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -17946,7 +17946,7 @@ case_238: {
         const Node &n1 = nodes.local_at( num_node_7 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_290 ] = num_node_290;
-        edge_num_cuts[ num_edge_290 ] = num_cut;
+        edge_num_cuts[ num_edge_290 ] = num_cut_proc;
     } else
         num_node_290 = edge_cuts[ num_edge_290 ];
     break;
@@ -17958,7 +17958,7 @@ case_176: {
     int max_node_260 = max( num_node_1, num_node_2 );
     int num_edge_260 = max_node_260 * ( max_node_260 + 1 ) / 2 + min_node_260;
     int num_node_260;
-    if ( edge_num_cuts[ num_edge_260 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_260 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -17978,7 +17978,7 @@ case_176: {
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_260 ] = num_node_260;
-        edge_num_cuts[ num_edge_260 ] = num_cut;
+        edge_num_cuts[ num_edge_260 ] = num_cut_proc;
     } else
         num_node_260 = edge_cuts[ num_edge_260 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
@@ -17986,7 +17986,7 @@ case_176: {
     int max_node_264 = max( num_node_2, num_node_3 );
     int num_edge_264 = max_node_264 * ( max_node_264 + 1 ) / 2 + min_node_264;
     int num_node_264;
-    if ( edge_num_cuts[ num_edge_264 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_264 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -18006,7 +18006,7 @@ case_176: {
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_264 ] = num_node_264;
-        edge_num_cuts[ num_edge_264 ] = num_cut;
+        edge_num_cuts[ num_edge_264 ] = num_cut_proc;
     } else
         num_node_264 = edge_cuts[ num_edge_264 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
@@ -18015,7 +18015,7 @@ case_176: {
     int max_node_275 = max( num_node_4, num_node_5 );
     int num_edge_275 = max_node_275 * ( max_node_275 + 1 ) / 2 + min_node_275;
     int num_node_275;
-    if ( edge_num_cuts[ num_edge_275 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_275 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -18035,7 +18035,7 @@ case_176: {
         const Node &n1 = nodes.local_at( num_node_5 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_275 ] = num_node_275;
-        edge_num_cuts[ num_edge_275 ] = num_cut;
+        edge_num_cuts[ num_edge_275 ] = num_cut_proc;
     } else
         num_node_275 = edge_cuts[ num_edge_275 ];
     int num_node_7 = faces.node_lists[ num_face ][ 7 ];
@@ -18044,7 +18044,7 @@ case_176: {
     int max_node_284 = max( num_node_7, num_node_0 );
     int num_edge_284 = max_node_284 * ( max_node_284 + 1 ) / 2 + min_node_284;
     int num_node_284;
-    if ( edge_num_cuts[ num_edge_284 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_284 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -18064,7 +18064,7 @@ case_176: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_284 ] = num_node_284;
-        edge_num_cuts[ num_edge_284 ] = num_cut;
+        edge_num_cuts[ num_edge_284 ] = num_cut_proc;
     } else
         num_node_284 = edge_cuts[ num_edge_284 ];
     break;
@@ -18076,7 +18076,7 @@ case_138: {
     int max_node_260 = max( num_node_1, num_node_2 );
     int num_edge_260 = max_node_260 * ( max_node_260 + 1 ) / 2 + min_node_260;
     int num_node_260;
-    if ( edge_num_cuts[ num_edge_260 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_260 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -18096,7 +18096,7 @@ case_138: {
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_260 ] = num_node_260;
-        edge_num_cuts[ num_edge_260 ] = num_cut;
+        edge_num_cuts[ num_edge_260 ] = num_cut_proc;
     } else
         num_node_260 = edge_cuts[ num_edge_260 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
@@ -18104,7 +18104,7 @@ case_138: {
     int max_node_264 = max( num_node_2, num_node_3 );
     int num_edge_264 = max_node_264 * ( max_node_264 + 1 ) / 2 + min_node_264;
     int num_node_264;
-    if ( edge_num_cuts[ num_edge_264 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_264 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -18124,7 +18124,7 @@ case_138: {
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_264 ] = num_node_264;
-        edge_num_cuts[ num_edge_264 ] = num_cut;
+        edge_num_cuts[ num_edge_264 ] = num_cut_proc;
     } else
         num_node_264 = edge_cuts[ num_edge_264 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
@@ -18133,7 +18133,7 @@ case_138: {
     int max_node_282 = max( num_node_5, num_node_6 );
     int num_edge_282 = max_node_282 * ( max_node_282 + 1 ) / 2 + min_node_282;
     int num_node_282;
-    if ( edge_num_cuts[ num_edge_282 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_282 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -18153,7 +18153,7 @@ case_138: {
         const Node &n1 = nodes.local_at( num_node_6 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_282 ] = num_node_282;
-        edge_num_cuts[ num_edge_282 ] = num_cut;
+        edge_num_cuts[ num_edge_282 ] = num_cut_proc;
     } else
         num_node_282 = edge_cuts[ num_edge_282 ];
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
@@ -18161,7 +18161,7 @@ case_138: {
     int max_node_277 = max( num_node_6, num_node_0 );
     int num_edge_277 = max_node_277 * ( max_node_277 + 1 ) / 2 + min_node_277;
     int num_node_277;
-    if ( edge_num_cuts[ num_edge_277 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_277 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -18181,7 +18181,7 @@ case_138: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_277 ] = num_node_277;
-        edge_num_cuts[ num_edge_277 ] = num_cut;
+        edge_num_cuts[ num_edge_277 ] = num_cut_proc;
     } else
         num_node_277 = edge_cuts[ num_edge_277 ];
     break;
@@ -18193,7 +18193,7 @@ case_206: {
     int max_node_260 = max( num_node_1, num_node_2 );
     int num_edge_260 = max_node_260 * ( max_node_260 + 1 ) / 2 + min_node_260;
     int num_node_260;
-    if ( edge_num_cuts[ num_edge_260 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_260 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -18213,7 +18213,7 @@ case_206: {
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_260 ] = num_node_260;
-        edge_num_cuts[ num_edge_260 ] = num_cut;
+        edge_num_cuts[ num_edge_260 ] = num_cut_proc;
     } else
         num_node_260 = edge_cuts[ num_edge_260 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
@@ -18221,7 +18221,7 @@ case_206: {
     int max_node_264 = max( num_node_2, num_node_3 );
     int num_edge_264 = max_node_264 * ( max_node_264 + 1 ) / 2 + min_node_264;
     int num_node_264;
-    if ( edge_num_cuts[ num_edge_264 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_264 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -18241,7 +18241,7 @@ case_206: {
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_264 ] = num_node_264;
-        edge_num_cuts[ num_edge_264 ] = num_cut;
+        edge_num_cuts[ num_edge_264 ] = num_cut_proc;
     } else
         num_node_264 = edge_cuts[ num_edge_264 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
@@ -18250,7 +18250,7 @@ case_206: {
     int max_node_282 = max( num_node_5, num_node_6 );
     int num_edge_282 = max_node_282 * ( max_node_282 + 1 ) / 2 + min_node_282;
     int num_node_282;
-    if ( edge_num_cuts[ num_edge_282 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_282 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -18270,7 +18270,7 @@ case_206: {
         const Node &n1 = nodes.local_at( num_node_6 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_282 ] = num_node_282;
-        edge_num_cuts[ num_edge_282 ] = num_cut;
+        edge_num_cuts[ num_edge_282 ] = num_cut_proc;
     } else
         num_node_282 = edge_cuts[ num_edge_282 ];
     int num_node_7 = faces.node_lists[ num_face ][ 7 ];
@@ -18278,7 +18278,7 @@ case_206: {
     int max_node_290 = max( num_node_6, num_node_7 );
     int num_edge_290 = max_node_290 * ( max_node_290 + 1 ) / 2 + min_node_290;
     int num_node_290;
-    if ( edge_num_cuts[ num_edge_290 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_290 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -18298,7 +18298,7 @@ case_206: {
         const Node &n1 = nodes.local_at( num_node_7 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_290 ] = num_node_290;
-        edge_num_cuts[ num_edge_290 ] = num_cut;
+        edge_num_cuts[ num_edge_290 ] = num_cut_proc;
     } else
         num_node_290 = edge_cuts[ num_edge_290 ];
     break;
@@ -18310,7 +18310,7 @@ case_197: {
     int max_node_260 = max( num_node_1, num_node_2 );
     int num_edge_260 = max_node_260 * ( max_node_260 + 1 ) / 2 + min_node_260;
     int num_node_260;
-    if ( edge_num_cuts[ num_edge_260 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_260 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -18330,7 +18330,7 @@ case_197: {
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_260 ] = num_node_260;
-        edge_num_cuts[ num_edge_260 ] = num_cut;
+        edge_num_cuts[ num_edge_260 ] = num_cut_proc;
     } else
         num_node_260 = edge_cuts[ num_edge_260 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
@@ -18338,7 +18338,7 @@ case_197: {
     int max_node_264 = max( num_node_2, num_node_3 );
     int num_edge_264 = max_node_264 * ( max_node_264 + 1 ) / 2 + min_node_264;
     int num_node_264;
-    if ( edge_num_cuts[ num_edge_264 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_264 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -18358,7 +18358,7 @@ case_197: {
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_264 ] = num_node_264;
-        edge_num_cuts[ num_edge_264 ] = num_cut;
+        edge_num_cuts[ num_edge_264 ] = num_cut_proc;
     } else
         num_node_264 = edge_cuts[ num_edge_264 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
@@ -18367,7 +18367,7 @@ case_197: {
     int max_node_282 = max( num_node_5, num_node_6 );
     int num_edge_282 = max_node_282 * ( max_node_282 + 1 ) / 2 + min_node_282;
     int num_node_282;
-    if ( edge_num_cuts[ num_edge_282 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_282 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -18387,7 +18387,7 @@ case_197: {
         const Node &n1 = nodes.local_at( num_node_6 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_282 ] = num_node_282;
-        edge_num_cuts[ num_edge_282 ] = num_cut;
+        edge_num_cuts[ num_edge_282 ] = num_cut_proc;
     } else
         num_node_282 = edge_cuts[ num_edge_282 ];
     int num_node_7 = faces.node_lists[ num_face ][ 7 ];
@@ -18396,7 +18396,7 @@ case_197: {
     int max_node_284 = max( num_node_7, num_node_0 );
     int num_edge_284 = max_node_284 * ( max_node_284 + 1 ) / 2 + min_node_284;
     int num_node_284;
-    if ( edge_num_cuts[ num_edge_284 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_284 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -18416,7 +18416,7 @@ case_197: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_284 ] = num_node_284;
-        edge_num_cuts[ num_edge_284 ] = num_cut;
+        edge_num_cuts[ num_edge_284 ] = num_cut_proc;
     } else
         num_node_284 = edge_cuts[ num_edge_284 ];
     break;
@@ -18428,7 +18428,7 @@ case_261: {
     int max_node_260 = max( num_node_1, num_node_2 );
     int num_edge_260 = max_node_260 * ( max_node_260 + 1 ) / 2 + min_node_260;
     int num_node_260;
-    if ( edge_num_cuts[ num_edge_260 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_260 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -18448,7 +18448,7 @@ case_261: {
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_260 ] = num_node_260;
-        edge_num_cuts[ num_edge_260 ] = num_cut;
+        edge_num_cuts[ num_edge_260 ] = num_cut_proc;
     } else
         num_node_260 = edge_cuts[ num_edge_260 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
@@ -18456,7 +18456,7 @@ case_261: {
     int max_node_264 = max( num_node_2, num_node_3 );
     int num_edge_264 = max_node_264 * ( max_node_264 + 1 ) / 2 + min_node_264;
     int num_node_264;
-    if ( edge_num_cuts[ num_edge_264 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_264 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -18476,7 +18476,7 @@ case_261: {
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_264 ] = num_node_264;
-        edge_num_cuts[ num_edge_264 ] = num_cut;
+        edge_num_cuts[ num_edge_264 ] = num_cut_proc;
     } else
         num_node_264 = edge_cuts[ num_edge_264 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
@@ -18485,7 +18485,7 @@ case_261: {
     int max_node_290 = max( num_node_6, num_node_7 );
     int num_edge_290 = max_node_290 * ( max_node_290 + 1 ) / 2 + min_node_290;
     int num_node_290;
-    if ( edge_num_cuts[ num_edge_290 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_290 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -18505,7 +18505,7 @@ case_261: {
         const Node &n1 = nodes.local_at( num_node_7 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_290 ] = num_node_290;
-        edge_num_cuts[ num_edge_290 ] = num_cut;
+        edge_num_cuts[ num_edge_290 ] = num_cut_proc;
     } else
         num_node_290 = edge_cuts[ num_edge_290 ];
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
@@ -18513,7 +18513,7 @@ case_261: {
     int max_node_284 = max( num_node_7, num_node_0 );
     int num_edge_284 = max_node_284 * ( max_node_284 + 1 ) / 2 + min_node_284;
     int num_node_284;
-    if ( edge_num_cuts[ num_edge_284 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_284 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -18533,7 +18533,7 @@ case_261: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_284 ] = num_node_284;
-        edge_num_cuts[ num_edge_284 ] = num_cut;
+        edge_num_cuts[ num_edge_284 ] = num_cut_proc;
     } else
         num_node_284 = edge_cuts[ num_edge_284 ];
     break;
@@ -18545,7 +18545,7 @@ case_11: {
     int max_node_260 = max( num_node_1, num_node_2 );
     int num_edge_260 = max_node_260 * ( max_node_260 + 1 ) / 2 + min_node_260;
     int num_node_260;
-    if ( edge_num_cuts[ num_edge_260 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_260 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -18565,7 +18565,7 @@ case_11: {
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_260 ] = num_node_260;
-        edge_num_cuts[ num_edge_260 ] = num_cut;
+        edge_num_cuts[ num_edge_260 ] = num_cut_proc;
     } else
         num_node_260 = edge_cuts[ num_edge_260 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
@@ -18574,7 +18574,7 @@ case_11: {
     int max_node_262 = max( num_node_3, num_node_0 );
     int num_edge_262 = max_node_262 * ( max_node_262 + 1 ) / 2 + min_node_262;
     int num_node_262;
-    if ( edge_num_cuts[ num_edge_262 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_262 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -18594,7 +18594,7 @@ case_11: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_262 ] = num_node_262;
-        edge_num_cuts[ num_edge_262 ] = num_cut;
+        edge_num_cuts[ num_edge_262 ] = num_cut_proc;
     } else
         num_node_262 = edge_cuts[ num_edge_262 ];
     // 260,2,3,262
@@ -18614,7 +18614,7 @@ case_19: {
     int max_node_260 = max( num_node_1, num_node_2 );
     int num_edge_260 = max_node_260 * ( max_node_260 + 1 ) / 2 + min_node_260;
     int num_node_260;
-    if ( edge_num_cuts[ num_edge_260 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_260 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -18634,7 +18634,7 @@ case_19: {
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_260 ] = num_node_260;
-        edge_num_cuts[ num_edge_260 ] = num_cut;
+        edge_num_cuts[ num_edge_260 ] = num_cut_proc;
     } else
         num_node_260 = edge_cuts[ num_edge_260 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
@@ -18643,7 +18643,7 @@ case_19: {
     int max_node_262 = max( num_node_3, num_node_0 );
     int num_edge_262 = max_node_262 * ( max_node_262 + 1 ) / 2 + min_node_262;
     int num_node_262;
-    if ( edge_num_cuts[ num_edge_262 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_262 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -18663,7 +18663,7 @@ case_19: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_262 ] = num_node_262;
-        edge_num_cuts[ num_edge_262 ] = num_cut;
+        edge_num_cuts[ num_edge_262 ] = num_cut_proc;
     } else
         num_node_262 = edge_cuts[ num_edge_262 ];
     // 262,0,1,260
@@ -18683,7 +18683,7 @@ case_33: {
     int max_node_260 = max( num_node_1, num_node_2 );
     int num_edge_260 = max_node_260 * ( max_node_260 + 1 ) / 2 + min_node_260;
     int num_node_260;
-    if ( edge_num_cuts[ num_edge_260 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_260 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -18703,7 +18703,7 @@ case_33: {
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_260 ] = num_node_260;
-        edge_num_cuts[ num_edge_260 ] = num_cut;
+        edge_num_cuts[ num_edge_260 ] = num_cut_proc;
     } else
         num_node_260 = edge_cuts[ num_edge_260 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
@@ -18712,7 +18712,7 @@ case_33: {
     int max_node_269 = max( num_node_3, num_node_4 );
     int num_edge_269 = max_node_269 * ( max_node_269 + 1 ) / 2 + min_node_269;
     int num_node_269;
-    if ( edge_num_cuts[ num_edge_269 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_269 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -18732,7 +18732,7 @@ case_33: {
         const Node &n1 = nodes.local_at( num_node_4 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_269 ] = num_node_269;
-        edge_num_cuts[ num_edge_269 ] = num_cut;
+        edge_num_cuts[ num_edge_269 ] = num_cut_proc;
     } else
         num_node_269 = edge_cuts[ num_edge_269 ];
     // 0,1,260,269,4
@@ -18754,7 +18754,7 @@ case_55: {
     int max_node_260 = max( num_node_1, num_node_2 );
     int num_edge_260 = max_node_260 * ( max_node_260 + 1 ) / 2 + min_node_260;
     int num_node_260;
-    if ( edge_num_cuts[ num_edge_260 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_260 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -18774,7 +18774,7 @@ case_55: {
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_260 ] = num_node_260;
-        edge_num_cuts[ num_edge_260 ] = num_cut;
+        edge_num_cuts[ num_edge_260 ] = num_cut_proc;
     } else
         num_node_260 = edge_cuts[ num_edge_260 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
@@ -18783,7 +18783,7 @@ case_55: {
     int max_node_269 = max( num_node_3, num_node_4 );
     int num_edge_269 = max_node_269 * ( max_node_269 + 1 ) / 2 + min_node_269;
     int num_node_269;
-    if ( edge_num_cuts[ num_edge_269 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_269 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -18803,7 +18803,7 @@ case_55: {
         const Node &n1 = nodes.local_at( num_node_4 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_269 ] = num_node_269;
-        edge_num_cuts[ num_edge_269 ] = num_cut;
+        edge_num_cuts[ num_edge_269 ] = num_cut_proc;
     } else
         num_node_269 = edge_cuts[ num_edge_269 ];
     // 0,1,260,269,4,5
@@ -18827,7 +18827,7 @@ case_95: {
     int max_node_260 = max( num_node_1, num_node_2 );
     int num_edge_260 = max_node_260 * ( max_node_260 + 1 ) / 2 + min_node_260;
     int num_node_260;
-    if ( edge_num_cuts[ num_edge_260 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_260 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -18847,7 +18847,7 @@ case_95: {
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_260 ] = num_node_260;
-        edge_num_cuts[ num_edge_260 ] = num_cut;
+        edge_num_cuts[ num_edge_260 ] = num_cut_proc;
     } else
         num_node_260 = edge_cuts[ num_edge_260 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
@@ -18856,7 +18856,7 @@ case_95: {
     int max_node_269 = max( num_node_3, num_node_4 );
     int num_edge_269 = max_node_269 * ( max_node_269 + 1 ) / 2 + min_node_269;
     int num_node_269;
-    if ( edge_num_cuts[ num_edge_269 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_269 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -18876,7 +18876,7 @@ case_95: {
         const Node &n1 = nodes.local_at( num_node_4 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_269 ] = num_node_269;
-        edge_num_cuts[ num_edge_269 ] = num_cut;
+        edge_num_cuts[ num_edge_269 ] = num_cut_proc;
     } else
         num_node_269 = edge_cuts[ num_edge_269 ];
     // 0,1,260,269,4,5,6
@@ -18902,7 +18902,7 @@ case_165: {
     int max_node_260 = max( num_node_1, num_node_2 );
     int num_edge_260 = max_node_260 * ( max_node_260 + 1 ) / 2 + min_node_260;
     int num_node_260;
-    if ( edge_num_cuts[ num_edge_260 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_260 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -18922,7 +18922,7 @@ case_165: {
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_260 ] = num_node_260;
-        edge_num_cuts[ num_edge_260 ] = num_cut;
+        edge_num_cuts[ num_edge_260 ] = num_cut_proc;
     } else
         num_node_260 = edge_cuts[ num_edge_260 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
@@ -18931,7 +18931,7 @@ case_165: {
     int max_node_269 = max( num_node_3, num_node_4 );
     int num_edge_269 = max_node_269 * ( max_node_269 + 1 ) / 2 + min_node_269;
     int num_node_269;
-    if ( edge_num_cuts[ num_edge_269 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_269 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -18951,7 +18951,7 @@ case_165: {
         const Node &n1 = nodes.local_at( num_node_4 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_269 ] = num_node_269;
-        edge_num_cuts[ num_edge_269 ] = num_cut;
+        edge_num_cuts[ num_edge_269 ] = num_cut_proc;
     } else
         num_node_269 = edge_cuts[ num_edge_269 ];
     // 0,1,260,269,4,5,6,7
@@ -18979,7 +18979,7 @@ case_39: {
     int max_node_260 = max( num_node_1, num_node_2 );
     int num_edge_260 = max_node_260 * ( max_node_260 + 1 ) / 2 + min_node_260;
     int num_node_260;
-    if ( edge_num_cuts[ num_edge_260 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_260 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -18999,7 +18999,7 @@ case_39: {
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_260 ] = num_node_260;
-        edge_num_cuts[ num_edge_260 ] = num_cut;
+        edge_num_cuts[ num_edge_260 ] = num_cut_proc;
     } else
         num_node_260 = edge_cuts[ num_edge_260 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
@@ -19008,7 +19008,7 @@ case_39: {
     int max_node_269 = max( num_node_3, num_node_4 );
     int num_edge_269 = max_node_269 * ( max_node_269 + 1 ) / 2 + min_node_269;
     int num_node_269;
-    if ( edge_num_cuts[ num_edge_269 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_269 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -19028,7 +19028,7 @@ case_39: {
         const Node &n1 = nodes.local_at( num_node_4 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_269 ] = num_node_269;
-        edge_num_cuts[ num_edge_269 ] = num_cut;
+        edge_num_cuts[ num_edge_269 ] = num_cut_proc;
     } else
         num_node_269 = edge_cuts[ num_edge_269 ];
     // 260,2,3,269
@@ -19049,7 +19049,7 @@ case_62: {
     int max_node_260 = max( num_node_1, num_node_2 );
     int num_edge_260 = max_node_260 * ( max_node_260 + 1 ) / 2 + min_node_260;
     int num_node_260;
-    if ( edge_num_cuts[ num_edge_260 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_260 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -19069,7 +19069,7 @@ case_62: {
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_260 ] = num_node_260;
-        edge_num_cuts[ num_edge_260 ] = num_cut;
+        edge_num_cuts[ num_edge_260 ] = num_cut_proc;
     } else
         num_node_260 = edge_cuts[ num_edge_260 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
@@ -19078,7 +19078,7 @@ case_62: {
     int max_node_269 = max( num_node_3, num_node_4 );
     int num_edge_269 = max_node_269 * ( max_node_269 + 1 ) / 2 + min_node_269;
     int num_node_269;
-    if ( edge_num_cuts[ num_edge_269 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_269 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -19098,7 +19098,7 @@ case_62: {
         const Node &n1 = nodes.local_at( num_node_4 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_269 ] = num_node_269;
-        edge_num_cuts[ num_edge_269 ] = num_cut;
+        edge_num_cuts[ num_edge_269 ] = num_cut_proc;
     } else
         num_node_269 = edge_cuts[ num_edge_269 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
@@ -19106,7 +19106,7 @@ case_62: {
     int max_node_275 = max( num_node_4, num_node_5 );
     int num_edge_275 = max_node_275 * ( max_node_275 + 1 ) / 2 + min_node_275;
     int num_node_275;
-    if ( edge_num_cuts[ num_edge_275 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_275 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -19126,7 +19126,7 @@ case_62: {
         const Node &n1 = nodes.local_at( num_node_5 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_275 ] = num_node_275;
-        edge_num_cuts[ num_edge_275 ] = num_cut;
+        edge_num_cuts[ num_edge_275 ] = num_cut_proc;
     } else
         num_node_275 = edge_cuts[ num_edge_275 ];
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
@@ -19134,7 +19134,7 @@ case_62: {
     int max_node_271 = max( num_node_5, num_node_0 );
     int num_edge_271 = max_node_271 * ( max_node_271 + 1 ) / 2 + min_node_271;
     int num_node_271;
-    if ( edge_num_cuts[ num_edge_271 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_271 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -19154,7 +19154,7 @@ case_62: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_271 ] = num_node_271;
-        edge_num_cuts[ num_edge_271 ] = num_cut;
+        edge_num_cuts[ num_edge_271 ] = num_cut_proc;
     } else
         num_node_271 = edge_cuts[ num_edge_271 ];
     break;
@@ -19166,7 +19166,7 @@ case_123: {
     int max_node_260 = max( num_node_1, num_node_2 );
     int num_edge_260 = max_node_260 * ( max_node_260 + 1 ) / 2 + min_node_260;
     int num_node_260;
-    if ( edge_num_cuts[ num_edge_260 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_260 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -19186,7 +19186,7 @@ case_123: {
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_260 ] = num_node_260;
-        edge_num_cuts[ num_edge_260 ] = num_cut;
+        edge_num_cuts[ num_edge_260 ] = num_cut_proc;
     } else
         num_node_260 = edge_cuts[ num_edge_260 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
@@ -19195,7 +19195,7 @@ case_123: {
     int max_node_269 = max( num_node_3, num_node_4 );
     int num_edge_269 = max_node_269 * ( max_node_269 + 1 ) / 2 + min_node_269;
     int num_node_269;
-    if ( edge_num_cuts[ num_edge_269 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_269 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -19215,7 +19215,7 @@ case_123: {
         const Node &n1 = nodes.local_at( num_node_4 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_269 ] = num_node_269;
-        edge_num_cuts[ num_edge_269 ] = num_cut;
+        edge_num_cuts[ num_edge_269 ] = num_cut_proc;
     } else
         num_node_269 = edge_cuts[ num_edge_269 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
@@ -19223,7 +19223,7 @@ case_123: {
     int max_node_275 = max( num_node_4, num_node_5 );
     int num_edge_275 = max_node_275 * ( max_node_275 + 1 ) / 2 + min_node_275;
     int num_node_275;
-    if ( edge_num_cuts[ num_edge_275 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_275 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -19243,7 +19243,7 @@ case_123: {
         const Node &n1 = nodes.local_at( num_node_5 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_275 ] = num_node_275;
-        edge_num_cuts[ num_edge_275 ] = num_cut;
+        edge_num_cuts[ num_edge_275 ] = num_cut_proc;
     } else
         num_node_275 = edge_cuts[ num_edge_275 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
@@ -19251,7 +19251,7 @@ case_123: {
     int max_node_282 = max( num_node_5, num_node_6 );
     int num_edge_282 = max_node_282 * ( max_node_282 + 1 ) / 2 + min_node_282;
     int num_node_282;
-    if ( edge_num_cuts[ num_edge_282 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_282 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -19271,7 +19271,7 @@ case_123: {
         const Node &n1 = nodes.local_at( num_node_6 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_282 ] = num_node_282;
-        edge_num_cuts[ num_edge_282 ] = num_cut;
+        edge_num_cuts[ num_edge_282 ] = num_cut_proc;
     } else
         num_node_282 = edge_cuts[ num_edge_282 ];
     break;
@@ -19283,7 +19283,7 @@ case_221: {
     int max_node_260 = max( num_node_1, num_node_2 );
     int num_edge_260 = max_node_260 * ( max_node_260 + 1 ) / 2 + min_node_260;
     int num_node_260;
-    if ( edge_num_cuts[ num_edge_260 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_260 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -19303,7 +19303,7 @@ case_221: {
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_260 ] = num_node_260;
-        edge_num_cuts[ num_edge_260 ] = num_cut;
+        edge_num_cuts[ num_edge_260 ] = num_cut_proc;
     } else
         num_node_260 = edge_cuts[ num_edge_260 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
@@ -19312,7 +19312,7 @@ case_221: {
     int max_node_269 = max( num_node_3, num_node_4 );
     int num_edge_269 = max_node_269 * ( max_node_269 + 1 ) / 2 + min_node_269;
     int num_node_269;
-    if ( edge_num_cuts[ num_edge_269 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_269 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -19332,7 +19332,7 @@ case_221: {
         const Node &n1 = nodes.local_at( num_node_4 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_269 ] = num_node_269;
-        edge_num_cuts[ num_edge_269 ] = num_cut;
+        edge_num_cuts[ num_edge_269 ] = num_cut_proc;
     } else
         num_node_269 = edge_cuts[ num_edge_269 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
@@ -19340,7 +19340,7 @@ case_221: {
     int max_node_275 = max( num_node_4, num_node_5 );
     int num_edge_275 = max_node_275 * ( max_node_275 + 1 ) / 2 + min_node_275;
     int num_node_275;
-    if ( edge_num_cuts[ num_edge_275 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_275 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -19360,7 +19360,7 @@ case_221: {
         const Node &n1 = nodes.local_at( num_node_5 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_275 ] = num_node_275;
-        edge_num_cuts[ num_edge_275 ] = num_cut;
+        edge_num_cuts[ num_edge_275 ] = num_cut_proc;
     } else
         num_node_275 = edge_cuts[ num_edge_275 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
@@ -19368,7 +19368,7 @@ case_221: {
     int max_node_282 = max( num_node_5, num_node_6 );
     int num_edge_282 = max_node_282 * ( max_node_282 + 1 ) / 2 + min_node_282;
     int num_node_282;
-    if ( edge_num_cuts[ num_edge_282 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_282 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -19388,7 +19388,7 @@ case_221: {
         const Node &n1 = nodes.local_at( num_node_6 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_282 ] = num_node_282;
-        edge_num_cuts[ num_edge_282 ] = num_cut;
+        edge_num_cuts[ num_edge_282 ] = num_cut_proc;
     } else
         num_node_282 = edge_cuts[ num_edge_282 ];
     int num_node_7 = faces.node_lists[ num_face ][ 7 ];
@@ -19396,7 +19396,7 @@ case_221: {
     int max_node_290 = max( num_node_6, num_node_7 );
     int num_edge_290 = max_node_290 * ( max_node_290 + 1 ) / 2 + min_node_290;
     int num_node_290;
-    if ( edge_num_cuts[ num_edge_290 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_290 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -19416,7 +19416,7 @@ case_221: {
         const Node &n1 = nodes.local_at( num_node_7 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_290 ] = num_node_290;
-        edge_num_cuts[ num_edge_290 ] = num_cut;
+        edge_num_cuts[ num_edge_290 ] = num_cut_proc;
     } else
         num_node_290 = edge_cuts[ num_edge_290 ];
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
@@ -19424,7 +19424,7 @@ case_221: {
     int max_node_284 = max( num_node_7, num_node_0 );
     int num_edge_284 = max_node_284 * ( max_node_284 + 1 ) / 2 + min_node_284;
     int num_node_284;
-    if ( edge_num_cuts[ num_edge_284 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_284 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -19444,7 +19444,7 @@ case_221: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_284 ] = num_node_284;
-        edge_num_cuts[ num_edge_284 ] = num_cut;
+        edge_num_cuts[ num_edge_284 ] = num_cut_proc;
     } else
         num_node_284 = edge_cuts[ num_edge_284 ];
     break;
@@ -19456,7 +19456,7 @@ case_101: {
     int max_node_260 = max( num_node_1, num_node_2 );
     int num_edge_260 = max_node_260 * ( max_node_260 + 1 ) / 2 + min_node_260;
     int num_node_260;
-    if ( edge_num_cuts[ num_edge_260 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_260 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -19476,7 +19476,7 @@ case_101: {
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_260 ] = num_node_260;
-        edge_num_cuts[ num_edge_260 ] = num_cut;
+        edge_num_cuts[ num_edge_260 ] = num_cut_proc;
     } else
         num_node_260 = edge_cuts[ num_edge_260 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
@@ -19485,7 +19485,7 @@ case_101: {
     int max_node_269 = max( num_node_3, num_node_4 );
     int num_edge_269 = max_node_269 * ( max_node_269 + 1 ) / 2 + min_node_269;
     int num_node_269;
-    if ( edge_num_cuts[ num_edge_269 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_269 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -19505,7 +19505,7 @@ case_101: {
         const Node &n1 = nodes.local_at( num_node_4 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_269 ] = num_node_269;
-        edge_num_cuts[ num_edge_269 ] = num_cut;
+        edge_num_cuts[ num_edge_269 ] = num_cut_proc;
     } else
         num_node_269 = edge_cuts[ num_edge_269 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
@@ -19513,7 +19513,7 @@ case_101: {
     int max_node_275 = max( num_node_4, num_node_5 );
     int num_edge_275 = max_node_275 * ( max_node_275 + 1 ) / 2 + min_node_275;
     int num_node_275;
-    if ( edge_num_cuts[ num_edge_275 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_275 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -19533,7 +19533,7 @@ case_101: {
         const Node &n1 = nodes.local_at( num_node_5 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_275 ] = num_node_275;
-        edge_num_cuts[ num_edge_275 ] = num_cut;
+        edge_num_cuts[ num_edge_275 ] = num_cut_proc;
     } else
         num_node_275 = edge_cuts[ num_edge_275 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
@@ -19542,7 +19542,7 @@ case_101: {
     int max_node_277 = max( num_node_6, num_node_0 );
     int num_edge_277 = max_node_277 * ( max_node_277 + 1 ) / 2 + min_node_277;
     int num_node_277;
-    if ( edge_num_cuts[ num_edge_277 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_277 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -19562,7 +19562,7 @@ case_101: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_277 ] = num_node_277;
-        edge_num_cuts[ num_edge_277 ] = num_cut;
+        edge_num_cuts[ num_edge_277 ] = num_cut_proc;
     } else
         num_node_277 = edge_cuts[ num_edge_277 ];
     break;
@@ -19574,7 +19574,7 @@ case_246: {
     int max_node_260 = max( num_node_1, num_node_2 );
     int num_edge_260 = max_node_260 * ( max_node_260 + 1 ) / 2 + min_node_260;
     int num_node_260;
-    if ( edge_num_cuts[ num_edge_260 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_260 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -19594,7 +19594,7 @@ case_246: {
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_260 ] = num_node_260;
-        edge_num_cuts[ num_edge_260 ] = num_cut;
+        edge_num_cuts[ num_edge_260 ] = num_cut_proc;
     } else
         num_node_260 = edge_cuts[ num_edge_260 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
@@ -19603,7 +19603,7 @@ case_246: {
     int max_node_269 = max( num_node_3, num_node_4 );
     int num_edge_269 = max_node_269 * ( max_node_269 + 1 ) / 2 + min_node_269;
     int num_node_269;
-    if ( edge_num_cuts[ num_edge_269 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_269 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -19623,7 +19623,7 @@ case_246: {
         const Node &n1 = nodes.local_at( num_node_4 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_269 ] = num_node_269;
-        edge_num_cuts[ num_edge_269 ] = num_cut;
+        edge_num_cuts[ num_edge_269 ] = num_cut_proc;
     } else
         num_node_269 = edge_cuts[ num_edge_269 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
@@ -19631,7 +19631,7 @@ case_246: {
     int max_node_275 = max( num_node_4, num_node_5 );
     int num_edge_275 = max_node_275 * ( max_node_275 + 1 ) / 2 + min_node_275;
     int num_node_275;
-    if ( edge_num_cuts[ num_edge_275 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_275 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -19651,7 +19651,7 @@ case_246: {
         const Node &n1 = nodes.local_at( num_node_5 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_275 ] = num_node_275;
-        edge_num_cuts[ num_edge_275 ] = num_cut;
+        edge_num_cuts[ num_edge_275 ] = num_cut_proc;
     } else
         num_node_275 = edge_cuts[ num_edge_275 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
@@ -19660,7 +19660,7 @@ case_246: {
     int max_node_290 = max( num_node_6, num_node_7 );
     int num_edge_290 = max_node_290 * ( max_node_290 + 1 ) / 2 + min_node_290;
     int num_node_290;
-    if ( edge_num_cuts[ num_edge_290 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_290 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -19680,7 +19680,7 @@ case_246: {
         const Node &n1 = nodes.local_at( num_node_7 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_290 ] = num_node_290;
-        edge_num_cuts[ num_edge_290 ] = num_cut;
+        edge_num_cuts[ num_edge_290 ] = num_cut_proc;
     } else
         num_node_290 = edge_cuts[ num_edge_290 ];
     break;
@@ -19692,7 +19692,7 @@ case_171: {
     int max_node_260 = max( num_node_1, num_node_2 );
     int num_edge_260 = max_node_260 * ( max_node_260 + 1 ) / 2 + min_node_260;
     int num_node_260;
-    if ( edge_num_cuts[ num_edge_260 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_260 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -19712,7 +19712,7 @@ case_171: {
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_260 ] = num_node_260;
-        edge_num_cuts[ num_edge_260 ] = num_cut;
+        edge_num_cuts[ num_edge_260 ] = num_cut_proc;
     } else
         num_node_260 = edge_cuts[ num_edge_260 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
@@ -19721,7 +19721,7 @@ case_171: {
     int max_node_269 = max( num_node_3, num_node_4 );
     int num_edge_269 = max_node_269 * ( max_node_269 + 1 ) / 2 + min_node_269;
     int num_node_269;
-    if ( edge_num_cuts[ num_edge_269 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_269 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -19741,7 +19741,7 @@ case_171: {
         const Node &n1 = nodes.local_at( num_node_4 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_269 ] = num_node_269;
-        edge_num_cuts[ num_edge_269 ] = num_cut;
+        edge_num_cuts[ num_edge_269 ] = num_cut_proc;
     } else
         num_node_269 = edge_cuts[ num_edge_269 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
@@ -19749,7 +19749,7 @@ case_171: {
     int max_node_275 = max( num_node_4, num_node_5 );
     int num_edge_275 = max_node_275 * ( max_node_275 + 1 ) / 2 + min_node_275;
     int num_node_275;
-    if ( edge_num_cuts[ num_edge_275 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_275 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -19769,7 +19769,7 @@ case_171: {
         const Node &n1 = nodes.local_at( num_node_5 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_275 ] = num_node_275;
-        edge_num_cuts[ num_edge_275 ] = num_cut;
+        edge_num_cuts[ num_edge_275 ] = num_cut_proc;
     } else
         num_node_275 = edge_cuts[ num_edge_275 ];
     int num_node_7 = faces.node_lists[ num_face ][ 7 ];
@@ -19778,7 +19778,7 @@ case_171: {
     int max_node_284 = max( num_node_7, num_node_0 );
     int num_edge_284 = max_node_284 * ( max_node_284 + 1 ) / 2 + min_node_284;
     int num_node_284;
-    if ( edge_num_cuts[ num_edge_284 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_284 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -19798,7 +19798,7 @@ case_171: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_284 ] = num_node_284;
-        edge_num_cuts[ num_edge_284 ] = num_cut;
+        edge_num_cuts[ num_edge_284 ] = num_cut_proc;
     } else
         num_node_284 = edge_cuts[ num_edge_284 ];
     break;
@@ -19810,7 +19810,7 @@ case_130: {
     int max_node_260 = max( num_node_1, num_node_2 );
     int num_edge_260 = max_node_260 * ( max_node_260 + 1 ) / 2 + min_node_260;
     int num_node_260;
-    if ( edge_num_cuts[ num_edge_260 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_260 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -19830,7 +19830,7 @@ case_130: {
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_260 ] = num_node_260;
-        edge_num_cuts[ num_edge_260 ] = num_cut;
+        edge_num_cuts[ num_edge_260 ] = num_cut_proc;
     } else
         num_node_260 = edge_cuts[ num_edge_260 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
@@ -19839,7 +19839,7 @@ case_130: {
     int max_node_269 = max( num_node_3, num_node_4 );
     int num_edge_269 = max_node_269 * ( max_node_269 + 1 ) / 2 + min_node_269;
     int num_node_269;
-    if ( edge_num_cuts[ num_edge_269 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_269 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -19859,7 +19859,7 @@ case_130: {
         const Node &n1 = nodes.local_at( num_node_4 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_269 ] = num_node_269;
-        edge_num_cuts[ num_edge_269 ] = num_cut;
+        edge_num_cuts[ num_edge_269 ] = num_cut_proc;
     } else
         num_node_269 = edge_cuts[ num_edge_269 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
@@ -19868,7 +19868,7 @@ case_130: {
     int max_node_282 = max( num_node_5, num_node_6 );
     int num_edge_282 = max_node_282 * ( max_node_282 + 1 ) / 2 + min_node_282;
     int num_node_282;
-    if ( edge_num_cuts[ num_edge_282 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_282 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -19888,7 +19888,7 @@ case_130: {
         const Node &n1 = nodes.local_at( num_node_6 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_282 ] = num_node_282;
-        edge_num_cuts[ num_edge_282 ] = num_cut;
+        edge_num_cuts[ num_edge_282 ] = num_cut_proc;
     } else
         num_node_282 = edge_cuts[ num_edge_282 ];
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
@@ -19896,7 +19896,7 @@ case_130: {
     int max_node_277 = max( num_node_6, num_node_0 );
     int num_edge_277 = max_node_277 * ( max_node_277 + 1 ) / 2 + min_node_277;
     int num_node_277;
-    if ( edge_num_cuts[ num_edge_277 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_277 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -19916,7 +19916,7 @@ case_130: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_277 ] = num_node_277;
-        edge_num_cuts[ num_edge_277 ] = num_cut;
+        edge_num_cuts[ num_edge_277 ] = num_cut_proc;
     } else
         num_node_277 = edge_cuts[ num_edge_277 ];
     break;
@@ -19928,7 +19928,7 @@ case_214: {
     int max_node_260 = max( num_node_1, num_node_2 );
     int num_edge_260 = max_node_260 * ( max_node_260 + 1 ) / 2 + min_node_260;
     int num_node_260;
-    if ( edge_num_cuts[ num_edge_260 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_260 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -19948,7 +19948,7 @@ case_214: {
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_260 ] = num_node_260;
-        edge_num_cuts[ num_edge_260 ] = num_cut;
+        edge_num_cuts[ num_edge_260 ] = num_cut_proc;
     } else
         num_node_260 = edge_cuts[ num_edge_260 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
@@ -19957,7 +19957,7 @@ case_214: {
     int max_node_269 = max( num_node_3, num_node_4 );
     int num_edge_269 = max_node_269 * ( max_node_269 + 1 ) / 2 + min_node_269;
     int num_node_269;
-    if ( edge_num_cuts[ num_edge_269 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_269 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -19977,7 +19977,7 @@ case_214: {
         const Node &n1 = nodes.local_at( num_node_4 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_269 ] = num_node_269;
-        edge_num_cuts[ num_edge_269 ] = num_cut;
+        edge_num_cuts[ num_edge_269 ] = num_cut_proc;
     } else
         num_node_269 = edge_cuts[ num_edge_269 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
@@ -19986,7 +19986,7 @@ case_214: {
     int max_node_282 = max( num_node_5, num_node_6 );
     int num_edge_282 = max_node_282 * ( max_node_282 + 1 ) / 2 + min_node_282;
     int num_node_282;
-    if ( edge_num_cuts[ num_edge_282 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_282 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -20006,7 +20006,7 @@ case_214: {
         const Node &n1 = nodes.local_at( num_node_6 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_282 ] = num_node_282;
-        edge_num_cuts[ num_edge_282 ] = num_cut;
+        edge_num_cuts[ num_edge_282 ] = num_cut_proc;
     } else
         num_node_282 = edge_cuts[ num_edge_282 ];
     int num_node_7 = faces.node_lists[ num_face ][ 7 ];
@@ -20014,7 +20014,7 @@ case_214: {
     int max_node_290 = max( num_node_6, num_node_7 );
     int num_edge_290 = max_node_290 * ( max_node_290 + 1 ) / 2 + min_node_290;
     int num_node_290;
-    if ( edge_num_cuts[ num_edge_290 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_290 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -20034,7 +20034,7 @@ case_214: {
         const Node &n1 = nodes.local_at( num_node_7 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_290 ] = num_node_290;
-        edge_num_cuts[ num_edge_290 ] = num_cut;
+        edge_num_cuts[ num_edge_290 ] = num_cut_proc;
     } else
         num_node_290 = edge_cuts[ num_edge_290 ];
     break;
@@ -20046,7 +20046,7 @@ case_192: {
     int max_node_260 = max( num_node_1, num_node_2 );
     int num_edge_260 = max_node_260 * ( max_node_260 + 1 ) / 2 + min_node_260;
     int num_node_260;
-    if ( edge_num_cuts[ num_edge_260 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_260 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -20066,7 +20066,7 @@ case_192: {
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_260 ] = num_node_260;
-        edge_num_cuts[ num_edge_260 ] = num_cut;
+        edge_num_cuts[ num_edge_260 ] = num_cut_proc;
     } else
         num_node_260 = edge_cuts[ num_edge_260 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
@@ -20075,7 +20075,7 @@ case_192: {
     int max_node_269 = max( num_node_3, num_node_4 );
     int num_edge_269 = max_node_269 * ( max_node_269 + 1 ) / 2 + min_node_269;
     int num_node_269;
-    if ( edge_num_cuts[ num_edge_269 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_269 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -20095,7 +20095,7 @@ case_192: {
         const Node &n1 = nodes.local_at( num_node_4 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_269 ] = num_node_269;
-        edge_num_cuts[ num_edge_269 ] = num_cut;
+        edge_num_cuts[ num_edge_269 ] = num_cut_proc;
     } else
         num_node_269 = edge_cuts[ num_edge_269 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
@@ -20104,7 +20104,7 @@ case_192: {
     int max_node_282 = max( num_node_5, num_node_6 );
     int num_edge_282 = max_node_282 * ( max_node_282 + 1 ) / 2 + min_node_282;
     int num_node_282;
-    if ( edge_num_cuts[ num_edge_282 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_282 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -20124,7 +20124,7 @@ case_192: {
         const Node &n1 = nodes.local_at( num_node_6 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_282 ] = num_node_282;
-        edge_num_cuts[ num_edge_282 ] = num_cut;
+        edge_num_cuts[ num_edge_282 ] = num_cut_proc;
     } else
         num_node_282 = edge_cuts[ num_edge_282 ];
     int num_node_7 = faces.node_lists[ num_face ][ 7 ];
@@ -20133,7 +20133,7 @@ case_192: {
     int max_node_284 = max( num_node_7, num_node_0 );
     int num_edge_284 = max_node_284 * ( max_node_284 + 1 ) / 2 + min_node_284;
     int num_node_284;
-    if ( edge_num_cuts[ num_edge_284 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_284 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -20153,7 +20153,7 @@ case_192: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_284 ] = num_node_284;
-        edge_num_cuts[ num_edge_284 ] = num_cut;
+        edge_num_cuts[ num_edge_284 ] = num_cut_proc;
     } else
         num_node_284 = edge_cuts[ num_edge_284 ];
     break;
@@ -20165,7 +20165,7 @@ case_253: {
     int max_node_260 = max( num_node_1, num_node_2 );
     int num_edge_260 = max_node_260 * ( max_node_260 + 1 ) / 2 + min_node_260;
     int num_node_260;
-    if ( edge_num_cuts[ num_edge_260 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_260 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -20185,7 +20185,7 @@ case_253: {
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_260 ] = num_node_260;
-        edge_num_cuts[ num_edge_260 ] = num_cut;
+        edge_num_cuts[ num_edge_260 ] = num_cut_proc;
     } else
         num_node_260 = edge_cuts[ num_edge_260 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
@@ -20194,7 +20194,7 @@ case_253: {
     int max_node_269 = max( num_node_3, num_node_4 );
     int num_edge_269 = max_node_269 * ( max_node_269 + 1 ) / 2 + min_node_269;
     int num_node_269;
-    if ( edge_num_cuts[ num_edge_269 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_269 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -20214,7 +20214,7 @@ case_253: {
         const Node &n1 = nodes.local_at( num_node_4 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_269 ] = num_node_269;
-        edge_num_cuts[ num_edge_269 ] = num_cut;
+        edge_num_cuts[ num_edge_269 ] = num_cut_proc;
     } else
         num_node_269 = edge_cuts[ num_edge_269 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
@@ -20223,7 +20223,7 @@ case_253: {
     int max_node_290 = max( num_node_6, num_node_7 );
     int num_edge_290 = max_node_290 * ( max_node_290 + 1 ) / 2 + min_node_290;
     int num_node_290;
-    if ( edge_num_cuts[ num_edge_290 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_290 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -20243,7 +20243,7 @@ case_253: {
         const Node &n1 = nodes.local_at( num_node_7 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_290 ] = num_node_290;
-        edge_num_cuts[ num_edge_290 ] = num_cut;
+        edge_num_cuts[ num_edge_290 ] = num_cut_proc;
     } else
         num_node_290 = edge_cuts[ num_edge_290 ];
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
@@ -20251,7 +20251,7 @@ case_253: {
     int max_node_284 = max( num_node_7, num_node_0 );
     int num_edge_284 = max_node_284 * ( max_node_284 + 1 ) / 2 + min_node_284;
     int num_node_284;
-    if ( edge_num_cuts[ num_edge_284 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_284 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -20271,7 +20271,7 @@ case_253: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_284 ] = num_node_284;
-        edge_num_cuts[ num_edge_284 ] = num_cut;
+        edge_num_cuts[ num_edge_284 ] = num_cut_proc;
     } else
         num_node_284 = edge_cuts[ num_edge_284 ];
     break;
@@ -20283,7 +20283,7 @@ case_24: {
     int max_node_260 = max( num_node_1, num_node_2 );
     int num_edge_260 = max_node_260 * ( max_node_260 + 1 ) / 2 + min_node_260;
     int num_node_260;
-    if ( edge_num_cuts[ num_edge_260 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_260 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -20303,7 +20303,7 @@ case_24: {
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_260 ] = num_node_260;
-        edge_num_cuts[ num_edge_260 ] = num_cut;
+        edge_num_cuts[ num_edge_260 ] = num_cut_proc;
     } else
         num_node_260 = edge_cuts[ num_edge_260 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
@@ -20312,7 +20312,7 @@ case_24: {
     int max_node_266 = max( num_node_4, num_node_0 );
     int num_edge_266 = max_node_266 * ( max_node_266 + 1 ) / 2 + min_node_266;
     int num_node_266;
-    if ( edge_num_cuts[ num_edge_266 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_266 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -20332,7 +20332,7 @@ case_24: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_266 ] = num_node_266;
-        edge_num_cuts[ num_edge_266 ] = num_cut;
+        edge_num_cuts[ num_edge_266 ] = num_cut_proc;
     } else
         num_node_266 = edge_cuts[ num_edge_266 ];
     // 260,2,3,4,266
@@ -20354,7 +20354,7 @@ case_43: {
     int max_node_260 = max( num_node_1, num_node_2 );
     int num_edge_260 = max_node_260 * ( max_node_260 + 1 ) / 2 + min_node_260;
     int num_node_260;
-    if ( edge_num_cuts[ num_edge_260 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_260 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -20374,7 +20374,7 @@ case_43: {
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_260 ] = num_node_260;
-        edge_num_cuts[ num_edge_260 ] = num_cut;
+        edge_num_cuts[ num_edge_260 ] = num_cut_proc;
     } else
         num_node_260 = edge_cuts[ num_edge_260 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
@@ -20383,7 +20383,7 @@ case_43: {
     int max_node_266 = max( num_node_4, num_node_0 );
     int num_edge_266 = max_node_266 * ( max_node_266 + 1 ) / 2 + min_node_266;
     int num_node_266;
-    if ( edge_num_cuts[ num_edge_266 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_266 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -20403,7 +20403,7 @@ case_43: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_266 ] = num_node_266;
-        edge_num_cuts[ num_edge_266 ] = num_cut;
+        edge_num_cuts[ num_edge_266 ] = num_cut_proc;
     } else
         num_node_266 = edge_cuts[ num_edge_266 ];
     // 266,0,1,260
@@ -20424,7 +20424,7 @@ case_71: {
     int max_node_260 = max( num_node_1, num_node_2 );
     int num_edge_260 = max_node_260 * ( max_node_260 + 1 ) / 2 + min_node_260;
     int num_node_260;
-    if ( edge_num_cuts[ num_edge_260 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_260 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -20444,7 +20444,7 @@ case_71: {
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_260 ] = num_node_260;
-        edge_num_cuts[ num_edge_260 ] = num_cut;
+        edge_num_cuts[ num_edge_260 ] = num_cut_proc;
     } else
         num_node_260 = edge_cuts[ num_edge_260 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
@@ -20453,7 +20453,7 @@ case_71: {
     int max_node_275 = max( num_node_4, num_node_5 );
     int num_edge_275 = max_node_275 * ( max_node_275 + 1 ) / 2 + min_node_275;
     int num_node_275;
-    if ( edge_num_cuts[ num_edge_275 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_275 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -20473,7 +20473,7 @@ case_71: {
         const Node &n1 = nodes.local_at( num_node_5 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_275 ] = num_node_275;
-        edge_num_cuts[ num_edge_275 ] = num_cut;
+        edge_num_cuts[ num_edge_275 ] = num_cut_proc;
     } else
         num_node_275 = edge_cuts[ num_edge_275 ];
     // 0,1,260,275,5
@@ -20497,7 +20497,7 @@ case_107: {
     int max_node_260 = max( num_node_1, num_node_2 );
     int num_edge_260 = max_node_260 * ( max_node_260 + 1 ) / 2 + min_node_260;
     int num_node_260;
-    if ( edge_num_cuts[ num_edge_260 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_260 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -20517,7 +20517,7 @@ case_107: {
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_260 ] = num_node_260;
-        edge_num_cuts[ num_edge_260 ] = num_cut;
+        edge_num_cuts[ num_edge_260 ] = num_cut_proc;
     } else
         num_node_260 = edge_cuts[ num_edge_260 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
@@ -20526,7 +20526,7 @@ case_107: {
     int max_node_275 = max( num_node_4, num_node_5 );
     int num_edge_275 = max_node_275 * ( max_node_275 + 1 ) / 2 + min_node_275;
     int num_node_275;
-    if ( edge_num_cuts[ num_edge_275 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_275 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -20546,7 +20546,7 @@ case_107: {
         const Node &n1 = nodes.local_at( num_node_5 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_275 ] = num_node_275;
-        edge_num_cuts[ num_edge_275 ] = num_cut;
+        edge_num_cuts[ num_edge_275 ] = num_cut_proc;
     } else
         num_node_275 = edge_cuts[ num_edge_275 ];
     // 0,1,260,275,5,6
@@ -20573,7 +20573,7 @@ case_177: {
     int max_node_260 = max( num_node_1, num_node_2 );
     int num_edge_260 = max_node_260 * ( max_node_260 + 1 ) / 2 + min_node_260;
     int num_node_260;
-    if ( edge_num_cuts[ num_edge_260 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_260 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -20593,7 +20593,7 @@ case_177: {
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_260 ] = num_node_260;
-        edge_num_cuts[ num_edge_260 ] = num_cut;
+        edge_num_cuts[ num_edge_260 ] = num_cut_proc;
     } else
         num_node_260 = edge_cuts[ num_edge_260 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
@@ -20602,7 +20602,7 @@ case_177: {
     int max_node_275 = max( num_node_4, num_node_5 );
     int num_edge_275 = max_node_275 * ( max_node_275 + 1 ) / 2 + min_node_275;
     int num_node_275;
-    if ( edge_num_cuts[ num_edge_275 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_275 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -20622,7 +20622,7 @@ case_177: {
         const Node &n1 = nodes.local_at( num_node_5 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_275 ] = num_node_275;
-        edge_num_cuts[ num_edge_275 ] = num_cut;
+        edge_num_cuts[ num_edge_275 ] = num_cut_proc;
     } else
         num_node_275 = edge_cuts[ num_edge_275 ];
     // 0,1,260,275,5,6,7
@@ -20652,7 +20652,7 @@ case_77: {
     int max_node_260 = max( num_node_1, num_node_2 );
     int num_edge_260 = max_node_260 * ( max_node_260 + 1 ) / 2 + min_node_260;
     int num_node_260;
-    if ( edge_num_cuts[ num_edge_260 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_260 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -20672,7 +20672,7 @@ case_77: {
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_260 ] = num_node_260;
-        edge_num_cuts[ num_edge_260 ] = num_cut;
+        edge_num_cuts[ num_edge_260 ] = num_cut_proc;
     } else
         num_node_260 = edge_cuts[ num_edge_260 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
@@ -20681,7 +20681,7 @@ case_77: {
     int max_node_275 = max( num_node_4, num_node_5 );
     int num_edge_275 = max_node_275 * ( max_node_275 + 1 ) / 2 + min_node_275;
     int num_node_275;
-    if ( edge_num_cuts[ num_edge_275 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_275 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -20701,7 +20701,7 @@ case_77: {
         const Node &n1 = nodes.local_at( num_node_5 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_275 ] = num_node_275;
-        edge_num_cuts[ num_edge_275 ] = num_cut;
+        edge_num_cuts[ num_edge_275 ] = num_cut_proc;
     } else
         num_node_275 = edge_cuts[ num_edge_275 ];
     // 260,2,3,4,275
@@ -20724,7 +20724,7 @@ case_114: {
     int max_node_260 = max( num_node_1, num_node_2 );
     int num_edge_260 = max_node_260 * ( max_node_260 + 1 ) / 2 + min_node_260;
     int num_node_260;
-    if ( edge_num_cuts[ num_edge_260 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_260 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -20744,7 +20744,7 @@ case_114: {
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_260 ] = num_node_260;
-        edge_num_cuts[ num_edge_260 ] = num_cut;
+        edge_num_cuts[ num_edge_260 ] = num_cut_proc;
     } else
         num_node_260 = edge_cuts[ num_edge_260 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
@@ -20753,7 +20753,7 @@ case_114: {
     int max_node_275 = max( num_node_4, num_node_5 );
     int num_edge_275 = max_node_275 * ( max_node_275 + 1 ) / 2 + min_node_275;
     int num_node_275;
-    if ( edge_num_cuts[ num_edge_275 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_275 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -20773,7 +20773,7 @@ case_114: {
         const Node &n1 = nodes.local_at( num_node_5 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_275 ] = num_node_275;
-        edge_num_cuts[ num_edge_275 ] = num_cut;
+        edge_num_cuts[ num_edge_275 ] = num_cut_proc;
     } else
         num_node_275 = edge_cuts[ num_edge_275 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
@@ -20781,7 +20781,7 @@ case_114: {
     int max_node_282 = max( num_node_5, num_node_6 );
     int num_edge_282 = max_node_282 * ( max_node_282 + 1 ) / 2 + min_node_282;
     int num_node_282;
-    if ( edge_num_cuts[ num_edge_282 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_282 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -20801,7 +20801,7 @@ case_114: {
         const Node &n1 = nodes.local_at( num_node_6 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_282 ] = num_node_282;
-        edge_num_cuts[ num_edge_282 ] = num_cut;
+        edge_num_cuts[ num_edge_282 ] = num_cut_proc;
     } else
         num_node_282 = edge_cuts[ num_edge_282 ];
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
@@ -20809,7 +20809,7 @@ case_114: {
     int max_node_277 = max( num_node_6, num_node_0 );
     int num_edge_277 = max_node_277 * ( max_node_277 + 1 ) / 2 + min_node_277;
     int num_node_277;
-    if ( edge_num_cuts[ num_edge_277 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_277 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -20829,7 +20829,7 @@ case_114: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_277 ] = num_node_277;
-        edge_num_cuts[ num_edge_277 ] = num_cut;
+        edge_num_cuts[ num_edge_277 ] = num_cut_proc;
     } else
         num_node_277 = edge_cuts[ num_edge_277 ];
     break;
@@ -20841,7 +20841,7 @@ case_230: {
     int max_node_260 = max( num_node_1, num_node_2 );
     int num_edge_260 = max_node_260 * ( max_node_260 + 1 ) / 2 + min_node_260;
     int num_node_260;
-    if ( edge_num_cuts[ num_edge_260 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_260 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -20861,7 +20861,7 @@ case_230: {
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_260 ] = num_node_260;
-        edge_num_cuts[ num_edge_260 ] = num_cut;
+        edge_num_cuts[ num_edge_260 ] = num_cut_proc;
     } else
         num_node_260 = edge_cuts[ num_edge_260 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
@@ -20870,7 +20870,7 @@ case_230: {
     int max_node_275 = max( num_node_4, num_node_5 );
     int num_edge_275 = max_node_275 * ( max_node_275 + 1 ) / 2 + min_node_275;
     int num_node_275;
-    if ( edge_num_cuts[ num_edge_275 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_275 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -20890,7 +20890,7 @@ case_230: {
         const Node &n1 = nodes.local_at( num_node_5 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_275 ] = num_node_275;
-        edge_num_cuts[ num_edge_275 ] = num_cut;
+        edge_num_cuts[ num_edge_275 ] = num_cut_proc;
     } else
         num_node_275 = edge_cuts[ num_edge_275 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
@@ -20898,7 +20898,7 @@ case_230: {
     int max_node_282 = max( num_node_5, num_node_6 );
     int num_edge_282 = max_node_282 * ( max_node_282 + 1 ) / 2 + min_node_282;
     int num_node_282;
-    if ( edge_num_cuts[ num_edge_282 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_282 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -20918,7 +20918,7 @@ case_230: {
         const Node &n1 = nodes.local_at( num_node_6 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_282 ] = num_node_282;
-        edge_num_cuts[ num_edge_282 ] = num_cut;
+        edge_num_cuts[ num_edge_282 ] = num_cut_proc;
     } else
         num_node_282 = edge_cuts[ num_edge_282 ];
     int num_node_7 = faces.node_lists[ num_face ][ 7 ];
@@ -20926,7 +20926,7 @@ case_230: {
     int max_node_290 = max( num_node_6, num_node_7 );
     int num_edge_290 = max_node_290 * ( max_node_290 + 1 ) / 2 + min_node_290;
     int num_node_290;
-    if ( edge_num_cuts[ num_edge_290 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_290 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -20946,7 +20946,7 @@ case_230: {
         const Node &n1 = nodes.local_at( num_node_7 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_290 ] = num_node_290;
-        edge_num_cuts[ num_edge_290 ] = num_cut;
+        edge_num_cuts[ num_edge_290 ] = num_cut_proc;
     } else
         num_node_290 = edge_cuts[ num_edge_290 ];
     break;
@@ -20958,7 +20958,7 @@ case_183: {
     int max_node_260 = max( num_node_1, num_node_2 );
     int num_edge_260 = max_node_260 * ( max_node_260 + 1 ) / 2 + min_node_260;
     int num_node_260;
-    if ( edge_num_cuts[ num_edge_260 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_260 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -20978,7 +20978,7 @@ case_183: {
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_260 ] = num_node_260;
-        edge_num_cuts[ num_edge_260 ] = num_cut;
+        edge_num_cuts[ num_edge_260 ] = num_cut_proc;
     } else
         num_node_260 = edge_cuts[ num_edge_260 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
@@ -20987,7 +20987,7 @@ case_183: {
     int max_node_275 = max( num_node_4, num_node_5 );
     int num_edge_275 = max_node_275 * ( max_node_275 + 1 ) / 2 + min_node_275;
     int num_node_275;
-    if ( edge_num_cuts[ num_edge_275 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_275 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -21007,7 +21007,7 @@ case_183: {
         const Node &n1 = nodes.local_at( num_node_5 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_275 ] = num_node_275;
-        edge_num_cuts[ num_edge_275 ] = num_cut;
+        edge_num_cuts[ num_edge_275 ] = num_cut_proc;
     } else
         num_node_275 = edge_cuts[ num_edge_275 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
@@ -21015,7 +21015,7 @@ case_183: {
     int max_node_282 = max( num_node_5, num_node_6 );
     int num_edge_282 = max_node_282 * ( max_node_282 + 1 ) / 2 + min_node_282;
     int num_node_282;
-    if ( edge_num_cuts[ num_edge_282 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_282 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -21035,7 +21035,7 @@ case_183: {
         const Node &n1 = nodes.local_at( num_node_6 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_282 ] = num_node_282;
-        edge_num_cuts[ num_edge_282 ] = num_cut;
+        edge_num_cuts[ num_edge_282 ] = num_cut_proc;
     } else
         num_node_282 = edge_cuts[ num_edge_282 ];
     int num_node_7 = faces.node_lists[ num_face ][ 7 ];
@@ -21044,7 +21044,7 @@ case_183: {
     int max_node_284 = max( num_node_7, num_node_0 );
     int num_edge_284 = max_node_284 * ( max_node_284 + 1 ) / 2 + min_node_284;
     int num_node_284;
-    if ( edge_num_cuts[ num_edge_284 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_284 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -21064,7 +21064,7 @@ case_183: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_284 ] = num_node_284;
-        edge_num_cuts[ num_edge_284 ] = num_cut;
+        edge_num_cuts[ num_edge_284 ] = num_cut_proc;
     } else
         num_node_284 = edge_cuts[ num_edge_284 ];
     break;
@@ -21076,7 +21076,7 @@ case_237: {
     int max_node_260 = max( num_node_1, num_node_2 );
     int num_edge_260 = max_node_260 * ( max_node_260 + 1 ) / 2 + min_node_260;
     int num_node_260;
-    if ( edge_num_cuts[ num_edge_260 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_260 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -21096,7 +21096,7 @@ case_237: {
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_260 ] = num_node_260;
-        edge_num_cuts[ num_edge_260 ] = num_cut;
+        edge_num_cuts[ num_edge_260 ] = num_cut_proc;
     } else
         num_node_260 = edge_cuts[ num_edge_260 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
@@ -21105,7 +21105,7 @@ case_237: {
     int max_node_275 = max( num_node_4, num_node_5 );
     int num_edge_275 = max_node_275 * ( max_node_275 + 1 ) / 2 + min_node_275;
     int num_node_275;
-    if ( edge_num_cuts[ num_edge_275 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_275 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -21125,7 +21125,7 @@ case_237: {
         const Node &n1 = nodes.local_at( num_node_5 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_275 ] = num_node_275;
-        edge_num_cuts[ num_edge_275 ] = num_cut;
+        edge_num_cuts[ num_edge_275 ] = num_cut_proc;
     } else
         num_node_275 = edge_cuts[ num_edge_275 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
@@ -21134,7 +21134,7 @@ case_237: {
     int max_node_290 = max( num_node_6, num_node_7 );
     int num_edge_290 = max_node_290 * ( max_node_290 + 1 ) / 2 + min_node_290;
     int num_node_290;
-    if ( edge_num_cuts[ num_edge_290 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_290 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -21154,7 +21154,7 @@ case_237: {
         const Node &n1 = nodes.local_at( num_node_7 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_290 ] = num_node_290;
-        edge_num_cuts[ num_edge_290 ] = num_cut;
+        edge_num_cuts[ num_edge_290 ] = num_cut_proc;
     } else
         num_node_290 = edge_cuts[ num_edge_290 ];
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
@@ -21162,7 +21162,7 @@ case_237: {
     int max_node_284 = max( num_node_7, num_node_0 );
     int num_edge_284 = max_node_284 * ( max_node_284 + 1 ) / 2 + min_node_284;
     int num_node_284;
-    if ( edge_num_cuts[ num_edge_284 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_284 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -21182,7 +21182,7 @@ case_237: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_284 ] = num_node_284;
-        edge_num_cuts[ num_edge_284 ] = num_cut;
+        edge_num_cuts[ num_edge_284 ] = num_cut_proc;
     } else
         num_node_284 = edge_cuts[ num_edge_284 ];
     break;
@@ -21194,7 +21194,7 @@ case_47: {
     int max_node_260 = max( num_node_1, num_node_2 );
     int num_edge_260 = max_node_260 * ( max_node_260 + 1 ) / 2 + min_node_260;
     int num_node_260;
-    if ( edge_num_cuts[ num_edge_260 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_260 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -21214,7 +21214,7 @@ case_47: {
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_260 ] = num_node_260;
-        edge_num_cuts[ num_edge_260 ] = num_cut;
+        edge_num_cuts[ num_edge_260 ] = num_cut_proc;
     } else
         num_node_260 = edge_cuts[ num_edge_260 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
@@ -21223,7 +21223,7 @@ case_47: {
     int max_node_271 = max( num_node_5, num_node_0 );
     int num_edge_271 = max_node_271 * ( max_node_271 + 1 ) / 2 + min_node_271;
     int num_node_271;
-    if ( edge_num_cuts[ num_edge_271 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_271 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -21243,7 +21243,7 @@ case_47: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_271 ] = num_node_271;
-        edge_num_cuts[ num_edge_271 ] = num_cut;
+        edge_num_cuts[ num_edge_271 ] = num_cut_proc;
     } else
         num_node_271 = edge_cuts[ num_edge_271 ];
     // 260,2,3,4,5,271
@@ -21267,7 +21267,7 @@ case_83: {
     int max_node_260 = max( num_node_1, num_node_2 );
     int num_edge_260 = max_node_260 * ( max_node_260 + 1 ) / 2 + min_node_260;
     int num_node_260;
-    if ( edge_num_cuts[ num_edge_260 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_260 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -21287,7 +21287,7 @@ case_83: {
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_260 ] = num_node_260;
-        edge_num_cuts[ num_edge_260 ] = num_cut;
+        edge_num_cuts[ num_edge_260 ] = num_cut_proc;
     } else
         num_node_260 = edge_cuts[ num_edge_260 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
@@ -21296,7 +21296,7 @@ case_83: {
     int max_node_271 = max( num_node_5, num_node_0 );
     int num_edge_271 = max_node_271 * ( max_node_271 + 1 ) / 2 + min_node_271;
     int num_node_271;
-    if ( edge_num_cuts[ num_edge_271 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_271 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -21316,7 +21316,7 @@ case_83: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_271 ] = num_node_271;
-        edge_num_cuts[ num_edge_271 ] = num_cut;
+        edge_num_cuts[ num_edge_271 ] = num_cut_proc;
     } else
         num_node_271 = edge_cuts[ num_edge_271 ];
     // 271,0,1,260
@@ -21337,7 +21337,7 @@ case_139: {
     int max_node_260 = max( num_node_1, num_node_2 );
     int num_edge_260 = max_node_260 * ( max_node_260 + 1 ) / 2 + min_node_260;
     int num_node_260;
-    if ( edge_num_cuts[ num_edge_260 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_260 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -21357,7 +21357,7 @@ case_139: {
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_260 ] = num_node_260;
-        edge_num_cuts[ num_edge_260 ] = num_cut;
+        edge_num_cuts[ num_edge_260 ] = num_cut_proc;
     } else
         num_node_260 = edge_cuts[ num_edge_260 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
@@ -21366,7 +21366,7 @@ case_139: {
     int max_node_282 = max( num_node_5, num_node_6 );
     int num_edge_282 = max_node_282 * ( max_node_282 + 1 ) / 2 + min_node_282;
     int num_node_282;
-    if ( edge_num_cuts[ num_edge_282 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_282 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -21386,7 +21386,7 @@ case_139: {
         const Node &n1 = nodes.local_at( num_node_6 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_282 ] = num_node_282;
-        edge_num_cuts[ num_edge_282 ] = num_cut;
+        edge_num_cuts[ num_edge_282 ] = num_cut_proc;
     } else
         num_node_282 = edge_cuts[ num_edge_282 ];
     // 0,1,260,282,6
@@ -21410,7 +21410,7 @@ case_198: {
     int max_node_260 = max( num_node_1, num_node_2 );
     int num_edge_260 = max_node_260 * ( max_node_260 + 1 ) / 2 + min_node_260;
     int num_node_260;
-    if ( edge_num_cuts[ num_edge_260 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_260 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -21430,7 +21430,7 @@ case_198: {
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_260 ] = num_node_260;
-        edge_num_cuts[ num_edge_260 ] = num_cut;
+        edge_num_cuts[ num_edge_260 ] = num_cut_proc;
     } else
         num_node_260 = edge_cuts[ num_edge_260 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
@@ -21439,7 +21439,7 @@ case_198: {
     int max_node_282 = max( num_node_5, num_node_6 );
     int num_edge_282 = max_node_282 * ( max_node_282 + 1 ) / 2 + min_node_282;
     int num_node_282;
-    if ( edge_num_cuts[ num_edge_282 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_282 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -21459,7 +21459,7 @@ case_198: {
         const Node &n1 = nodes.local_at( num_node_6 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_282 ] = num_node_282;
-        edge_num_cuts[ num_edge_282 ] = num_cut;
+        edge_num_cuts[ num_edge_282 ] = num_cut_proc;
     } else
         num_node_282 = edge_cuts[ num_edge_282 ];
     // 0,1,260,282,6,7
@@ -21486,7 +21486,7 @@ case_145: {
     int max_node_260 = max( num_node_1, num_node_2 );
     int num_edge_260 = max_node_260 * ( max_node_260 + 1 ) / 2 + min_node_260;
     int num_node_260;
-    if ( edge_num_cuts[ num_edge_260 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_260 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -21506,7 +21506,7 @@ case_145: {
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_260 ] = num_node_260;
-        edge_num_cuts[ num_edge_260 ] = num_cut;
+        edge_num_cuts[ num_edge_260 ] = num_cut_proc;
     } else
         num_node_260 = edge_cuts[ num_edge_260 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
@@ -21515,7 +21515,7 @@ case_145: {
     int max_node_282 = max( num_node_5, num_node_6 );
     int num_edge_282 = max_node_282 * ( max_node_282 + 1 ) / 2 + min_node_282;
     int num_node_282;
-    if ( edge_num_cuts[ num_edge_282 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_282 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -21535,7 +21535,7 @@ case_145: {
         const Node &n1 = nodes.local_at( num_node_6 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_282 ] = num_node_282;
-        edge_num_cuts[ num_edge_282 ] = num_cut;
+        edge_num_cuts[ num_edge_282 ] = num_cut_proc;
     } else
         num_node_282 = edge_cuts[ num_edge_282 ];
     // 260,2,3,4,5,282
@@ -21560,7 +21560,7 @@ case_205: {
     int max_node_260 = max( num_node_1, num_node_2 );
     int num_edge_260 = max_node_260 * ( max_node_260 + 1 ) / 2 + min_node_260;
     int num_node_260;
-    if ( edge_num_cuts[ num_edge_260 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_260 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -21580,7 +21580,7 @@ case_205: {
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_260 ] = num_node_260;
-        edge_num_cuts[ num_edge_260 ] = num_cut;
+        edge_num_cuts[ num_edge_260 ] = num_cut_proc;
     } else
         num_node_260 = edge_cuts[ num_edge_260 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
@@ -21589,7 +21589,7 @@ case_205: {
     int max_node_282 = max( num_node_5, num_node_6 );
     int num_edge_282 = max_node_282 * ( max_node_282 + 1 ) / 2 + min_node_282;
     int num_node_282;
-    if ( edge_num_cuts[ num_edge_282 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_282 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -21609,7 +21609,7 @@ case_205: {
         const Node &n1 = nodes.local_at( num_node_6 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_282 ] = num_node_282;
-        edge_num_cuts[ num_edge_282 ] = num_cut;
+        edge_num_cuts[ num_edge_282 ] = num_cut_proc;
     } else
         num_node_282 = edge_cuts[ num_edge_282 ];
     int num_node_7 = faces.node_lists[ num_face ][ 7 ];
@@ -21617,7 +21617,7 @@ case_205: {
     int max_node_290 = max( num_node_6, num_node_7 );
     int num_edge_290 = max_node_290 * ( max_node_290 + 1 ) / 2 + min_node_290;
     int num_node_290;
-    if ( edge_num_cuts[ num_edge_290 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_290 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -21637,7 +21637,7 @@ case_205: {
         const Node &n1 = nodes.local_at( num_node_7 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_290 ] = num_node_290;
-        edge_num_cuts[ num_edge_290 ] = num_cut;
+        edge_num_cuts[ num_edge_290 ] = num_cut_proc;
     } else
         num_node_290 = edge_cuts[ num_edge_290 ];
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
@@ -21645,7 +21645,7 @@ case_205: {
     int max_node_284 = max( num_node_7, num_node_0 );
     int num_edge_284 = max_node_284 * ( max_node_284 + 1 ) / 2 + min_node_284;
     int num_node_284;
-    if ( edge_num_cuts[ num_edge_284 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_284 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -21665,7 +21665,7 @@ case_205: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_284 ] = num_node_284;
-        edge_num_cuts[ num_edge_284 ] = num_cut;
+        edge_num_cuts[ num_edge_284 ] = num_cut_proc;
     } else
         num_node_284 = edge_cuts[ num_edge_284 ];
     break;
@@ -21677,7 +21677,7 @@ case_87: {
     int max_node_260 = max( num_node_1, num_node_2 );
     int num_edge_260 = max_node_260 * ( max_node_260 + 1 ) / 2 + min_node_260;
     int num_node_260;
-    if ( edge_num_cuts[ num_edge_260 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_260 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -21697,7 +21697,7 @@ case_87: {
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_260 ] = num_node_260;
-        edge_num_cuts[ num_edge_260 ] = num_cut;
+        edge_num_cuts[ num_edge_260 ] = num_cut_proc;
     } else
         num_node_260 = edge_cuts[ num_edge_260 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
@@ -21706,7 +21706,7 @@ case_87: {
     int max_node_277 = max( num_node_6, num_node_0 );
     int num_edge_277 = max_node_277 * ( max_node_277 + 1 ) / 2 + min_node_277;
     int num_node_277;
-    if ( edge_num_cuts[ num_edge_277 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_277 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -21726,7 +21726,7 @@ case_87: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_277 ] = num_node_277;
-        edge_num_cuts[ num_edge_277 ] = num_cut;
+        edge_num_cuts[ num_edge_277 ] = num_cut_proc;
     } else
         num_node_277 = edge_cuts[ num_edge_277 ];
     // 260,2,3,4,5,6,277
@@ -21752,7 +21752,7 @@ case_153: {
     int max_node_260 = max( num_node_1, num_node_2 );
     int num_edge_260 = max_node_260 * ( max_node_260 + 1 ) / 2 + min_node_260;
     int num_node_260;
-    if ( edge_num_cuts[ num_edge_260 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_260 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -21772,7 +21772,7 @@ case_153: {
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_260 ] = num_node_260;
-        edge_num_cuts[ num_edge_260 ] = num_cut;
+        edge_num_cuts[ num_edge_260 ] = num_cut_proc;
     } else
         num_node_260 = edge_cuts[ num_edge_260 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
@@ -21781,7 +21781,7 @@ case_153: {
     int max_node_277 = max( num_node_6, num_node_0 );
     int num_edge_277 = max_node_277 * ( max_node_277 + 1 ) / 2 + min_node_277;
     int num_node_277;
-    if ( edge_num_cuts[ num_edge_277 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_277 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -21801,7 +21801,7 @@ case_153: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_277 ] = num_node_277;
-        edge_num_cuts[ num_edge_277 ] = num_cut;
+        edge_num_cuts[ num_edge_277 ] = num_cut_proc;
     } else
         num_node_277 = edge_cuts[ num_edge_277 ];
     // 277,0,1,260
@@ -21822,7 +21822,7 @@ case_262: {
     int max_node_260 = max( num_node_1, num_node_2 );
     int num_edge_260 = max_node_260 * ( max_node_260 + 1 ) / 2 + min_node_260;
     int num_node_260;
-    if ( edge_num_cuts[ num_edge_260 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_260 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -21842,7 +21842,7 @@ case_262: {
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_260 ] = num_node_260;
-        edge_num_cuts[ num_edge_260 ] = num_cut;
+        edge_num_cuts[ num_edge_260 ] = num_cut_proc;
     } else
         num_node_260 = edge_cuts[ num_edge_260 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
@@ -21851,7 +21851,7 @@ case_262: {
     int max_node_290 = max( num_node_6, num_node_7 );
     int num_edge_290 = max_node_290 * ( max_node_290 + 1 ) / 2 + min_node_290;
     int num_node_290;
-    if ( edge_num_cuts[ num_edge_290 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_290 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -21871,7 +21871,7 @@ case_262: {
         const Node &n1 = nodes.local_at( num_node_7 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_290 ] = num_node_290;
-        edge_num_cuts[ num_edge_290 ] = num_cut;
+        edge_num_cuts[ num_edge_290 ] = num_cut_proc;
     } else
         num_node_290 = edge_cuts[ num_edge_290 ];
     // 0,1,260,290,7
@@ -21895,7 +21895,7 @@ case_268: {
     int max_node_260 = max( num_node_1, num_node_2 );
     int num_edge_260 = max_node_260 * ( max_node_260 + 1 ) / 2 + min_node_260;
     int num_node_260;
-    if ( edge_num_cuts[ num_edge_260 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_260 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -21915,7 +21915,7 @@ case_268: {
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_260 ] = num_node_260;
-        edge_num_cuts[ num_edge_260 ] = num_cut;
+        edge_num_cuts[ num_edge_260 ] = num_cut_proc;
     } else
         num_node_260 = edge_cuts[ num_edge_260 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
@@ -21924,7 +21924,7 @@ case_268: {
     int max_node_290 = max( num_node_6, num_node_7 );
     int num_edge_290 = max_node_290 * ( max_node_290 + 1 ) / 2 + min_node_290;
     int num_node_290;
-    if ( edge_num_cuts[ num_edge_290 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_290 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -21944,7 +21944,7 @@ case_268: {
         const Node &n1 = nodes.local_at( num_node_7 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_290 ] = num_node_290;
-        edge_num_cuts[ num_edge_290 ] = num_cut;
+        edge_num_cuts[ num_edge_290 ] = num_cut_proc;
     } else
         num_node_290 = edge_cuts[ num_edge_290 ];
     // 260,2,3,4,5,6,290
@@ -21971,7 +21971,7 @@ case_157: {
     int max_node_260 = max( num_node_1, num_node_2 );
     int num_edge_260 = max_node_260 * ( max_node_260 + 1 ) / 2 + min_node_260;
     int num_node_260;
-    if ( edge_num_cuts[ num_edge_260 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_260 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -21991,7 +21991,7 @@ case_157: {
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_260 ] = num_node_260;
-        edge_num_cuts[ num_edge_260 ] = num_cut;
+        edge_num_cuts[ num_edge_260 ] = num_cut_proc;
     } else
         num_node_260 = edge_cuts[ num_edge_260 ];
     int num_node_7 = faces.node_lists[ num_face ][ 7 ];
@@ -22000,7 +22000,7 @@ case_157: {
     int max_node_284 = max( num_node_7, num_node_0 );
     int num_edge_284 = max_node_284 * ( max_node_284 + 1 ) / 2 + min_node_284;
     int num_node_284;
-    if ( edge_num_cuts[ num_edge_284 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_284 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -22020,7 +22020,7 @@ case_157: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_284 ] = num_node_284;
-        edge_num_cuts[ num_edge_284 ] = num_cut;
+        edge_num_cuts[ num_edge_284 ] = num_cut_proc;
     } else
         num_node_284 = edge_cuts[ num_edge_284 ];
     // 260,2,3,4,5,6,7,284
@@ -22048,7 +22048,7 @@ case_278: {
     int max_node_260 = max( num_node_1, num_node_2 );
     int num_edge_260 = max_node_260 * ( max_node_260 + 1 ) / 2 + min_node_260;
     int num_node_260;
-    if ( edge_num_cuts[ num_edge_260 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_260 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -22068,7 +22068,7 @@ case_278: {
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_260 ] = num_node_260;
-        edge_num_cuts[ num_edge_260 ] = num_cut;
+        edge_num_cuts[ num_edge_260 ] = num_cut_proc;
     } else
         num_node_260 = edge_cuts[ num_edge_260 ];
     int num_node_7 = faces.node_lists[ num_face ][ 7 ];
@@ -22077,7 +22077,7 @@ case_278: {
     int max_node_284 = max( num_node_7, num_node_0 );
     int num_edge_284 = max_node_284 * ( max_node_284 + 1 ) / 2 + min_node_284;
     int num_node_284;
-    if ( edge_num_cuts[ num_edge_284 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_284 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -22097,7 +22097,7 @@ case_278: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_284 ] = num_node_284;
-        edge_num_cuts[ num_edge_284 ] = num_cut;
+        edge_num_cuts[ num_edge_284 ] = num_cut_proc;
     } else
         num_node_284 = edge_cuts[ num_edge_284 ];
     // 284,0,1,260
@@ -22118,7 +22118,7 @@ case_16: {
     int max_node_264 = max( num_node_2, num_node_3 );
     int num_edge_264 = max_node_264 * ( max_node_264 + 1 ) / 2 + min_node_264;
     int num_node_264;
-    if ( edge_num_cuts[ num_edge_264 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_264 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -22138,7 +22138,7 @@ case_16: {
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_264 ] = num_node_264;
-        edge_num_cuts[ num_edge_264 ] = num_cut;
+        edge_num_cuts[ num_edge_264 ] = num_cut_proc;
     } else
         num_node_264 = edge_cuts[ num_edge_264 ];
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
@@ -22146,7 +22146,7 @@ case_16: {
     int max_node_262 = max( num_node_3, num_node_0 );
     int num_edge_262 = max_node_262 * ( max_node_262 + 1 ) / 2 + min_node_262;
     int num_node_262;
-    if ( edge_num_cuts[ num_edge_262 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_262 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -22166,7 +22166,7 @@ case_16: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_262 ] = num_node_262;
-        edge_num_cuts[ num_edge_262 ] = num_cut;
+        edge_num_cuts[ num_edge_262 ] = num_cut_proc;
     } else
         num_node_262 = edge_cuts[ num_edge_262 ];
     // 262,0,1,2,264
@@ -22189,7 +22189,7 @@ case_15: {
     int max_node_264 = max( num_node_2, num_node_3 );
     int num_edge_264 = max_node_264 * ( max_node_264 + 1 ) / 2 + min_node_264;
     int num_node_264;
-    if ( edge_num_cuts[ num_edge_264 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_264 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -22209,7 +22209,7 @@ case_15: {
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_264 ] = num_node_264;
-        edge_num_cuts[ num_edge_264 ] = num_cut;
+        edge_num_cuts[ num_edge_264 ] = num_cut_proc;
     } else
         num_node_264 = edge_cuts[ num_edge_264 ];
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
@@ -22217,7 +22217,7 @@ case_15: {
     int max_node_262 = max( num_node_3, num_node_0 );
     int num_edge_262 = max_node_262 * ( max_node_262 + 1 ) / 2 + min_node_262;
     int num_node_262;
-    if ( edge_num_cuts[ num_edge_262 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_262 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -22237,7 +22237,7 @@ case_15: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_262 ] = num_node_262;
-        edge_num_cuts[ num_edge_262 ] = num_cut;
+        edge_num_cuts[ num_edge_262 ] = num_cut_proc;
     } else
         num_node_262 = edge_cuts[ num_edge_262 ];
     // 264,3,262
@@ -22258,7 +22258,7 @@ case_29: {
     int max_node_264 = max( num_node_2, num_node_3 );
     int num_edge_264 = max_node_264 * ( max_node_264 + 1 ) / 2 + min_node_264;
     int num_node_264;
-    if ( edge_num_cuts[ num_edge_264 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_264 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -22278,7 +22278,7 @@ case_29: {
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_264 ] = num_node_264;
-        edge_num_cuts[ num_edge_264 ] = num_cut;
+        edge_num_cuts[ num_edge_264 ] = num_cut_proc;
     } else
         num_node_264 = edge_cuts[ num_edge_264 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
@@ -22286,7 +22286,7 @@ case_29: {
     int max_node_269 = max( num_node_3, num_node_4 );
     int num_edge_269 = max_node_269 * ( max_node_269 + 1 ) / 2 + min_node_269;
     int num_node_269;
-    if ( edge_num_cuts[ num_edge_269 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_269 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -22306,7 +22306,7 @@ case_29: {
         const Node &n1 = nodes.local_at( num_node_4 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_269 ] = num_node_269;
-        edge_num_cuts[ num_edge_269 ] = num_cut;
+        edge_num_cuts[ num_edge_269 ] = num_cut_proc;
     } else
         num_node_269 = edge_cuts[ num_edge_269 ];
     // 0,1,2,264,269,4
@@ -22332,7 +22332,7 @@ case_52: {
     int max_node_264 = max( num_node_2, num_node_3 );
     int num_edge_264 = max_node_264 * ( max_node_264 + 1 ) / 2 + min_node_264;
     int num_node_264;
-    if ( edge_num_cuts[ num_edge_264 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_264 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -22352,7 +22352,7 @@ case_52: {
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_264 ] = num_node_264;
-        edge_num_cuts[ num_edge_264 ] = num_cut;
+        edge_num_cuts[ num_edge_264 ] = num_cut_proc;
     } else
         num_node_264 = edge_cuts[ num_edge_264 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
@@ -22360,7 +22360,7 @@ case_52: {
     int max_node_269 = max( num_node_3, num_node_4 );
     int num_edge_269 = max_node_269 * ( max_node_269 + 1 ) / 2 + min_node_269;
     int num_node_269;
-    if ( edge_num_cuts[ num_edge_269 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_269 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -22380,7 +22380,7 @@ case_52: {
         const Node &n1 = nodes.local_at( num_node_4 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_269 ] = num_node_269;
-        edge_num_cuts[ num_edge_269 ] = num_cut;
+        edge_num_cuts[ num_edge_269 ] = num_cut_proc;
     } else
         num_node_269 = edge_cuts[ num_edge_269 ];
     // 0,1,2,264,269,4,5
@@ -22409,7 +22409,7 @@ case_92: {
     int max_node_264 = max( num_node_2, num_node_3 );
     int num_edge_264 = max_node_264 * ( max_node_264 + 1 ) / 2 + min_node_264;
     int num_node_264;
-    if ( edge_num_cuts[ num_edge_264 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_264 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -22429,7 +22429,7 @@ case_92: {
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_264 ] = num_node_264;
-        edge_num_cuts[ num_edge_264 ] = num_cut;
+        edge_num_cuts[ num_edge_264 ] = num_cut_proc;
     } else
         num_node_264 = edge_cuts[ num_edge_264 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
@@ -22437,7 +22437,7 @@ case_92: {
     int max_node_269 = max( num_node_3, num_node_4 );
     int num_edge_269 = max_node_269 * ( max_node_269 + 1 ) / 2 + min_node_269;
     int num_node_269;
-    if ( edge_num_cuts[ num_edge_269 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_269 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -22457,7 +22457,7 @@ case_92: {
         const Node &n1 = nodes.local_at( num_node_4 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_269 ] = num_node_269;
-        edge_num_cuts[ num_edge_269 ] = num_cut;
+        edge_num_cuts[ num_edge_269 ] = num_cut_proc;
     } else
         num_node_269 = edge_cuts[ num_edge_269 ];
     // 0,1,2,264,269,4,5,6
@@ -22489,7 +22489,7 @@ case_162: {
     int max_node_264 = max( num_node_2, num_node_3 );
     int num_edge_264 = max_node_264 * ( max_node_264 + 1 ) / 2 + min_node_264;
     int num_node_264;
-    if ( edge_num_cuts[ num_edge_264 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_264 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -22509,7 +22509,7 @@ case_162: {
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_264 ] = num_node_264;
-        edge_num_cuts[ num_edge_264 ] = num_cut;
+        edge_num_cuts[ num_edge_264 ] = num_cut_proc;
     } else
         num_node_264 = edge_cuts[ num_edge_264 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
@@ -22517,7 +22517,7 @@ case_162: {
     int max_node_269 = max( num_node_3, num_node_4 );
     int num_edge_269 = max_node_269 * ( max_node_269 + 1 ) / 2 + min_node_269;
     int num_node_269;
-    if ( edge_num_cuts[ num_edge_269 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_269 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -22537,7 +22537,7 @@ case_162: {
         const Node &n1 = nodes.local_at( num_node_4 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_269 ] = num_node_269;
-        edge_num_cuts[ num_edge_269 ] = num_cut;
+        edge_num_cuts[ num_edge_269 ] = num_cut_proc;
     } else
         num_node_269 = edge_cuts[ num_edge_269 ];
     // 0,1,2,264,269,4,5,6,7
@@ -22571,7 +22571,7 @@ case_40: {
     int max_node_264 = max( num_node_2, num_node_3 );
     int num_edge_264 = max_node_264 * ( max_node_264 + 1 ) / 2 + min_node_264;
     int num_node_264;
-    if ( edge_num_cuts[ num_edge_264 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_264 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -22591,7 +22591,7 @@ case_40: {
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_264 ] = num_node_264;
-        edge_num_cuts[ num_edge_264 ] = num_cut;
+        edge_num_cuts[ num_edge_264 ] = num_cut_proc;
     } else
         num_node_264 = edge_cuts[ num_edge_264 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
@@ -22599,7 +22599,7 @@ case_40: {
     int max_node_269 = max( num_node_3, num_node_4 );
     int num_edge_269 = max_node_269 * ( max_node_269 + 1 ) / 2 + min_node_269;
     int num_node_269;
-    if ( edge_num_cuts[ num_edge_269 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_269 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -22619,7 +22619,7 @@ case_40: {
         const Node &n1 = nodes.local_at( num_node_4 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_269 ] = num_node_269;
-        edge_num_cuts[ num_edge_269 ] = num_cut;
+        edge_num_cuts[ num_edge_269 ] = num_cut_proc;
     } else
         num_node_269 = edge_cuts[ num_edge_269 ];
     // 264,3,269
@@ -22640,7 +22640,7 @@ case_66: {
     int max_node_264 = max( num_node_2, num_node_3 );
     int num_edge_264 = max_node_264 * ( max_node_264 + 1 ) / 2 + min_node_264;
     int num_node_264;
-    if ( edge_num_cuts[ num_edge_264 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_264 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -22660,7 +22660,7 @@ case_66: {
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_264 ] = num_node_264;
-        edge_num_cuts[ num_edge_264 ] = num_cut;
+        edge_num_cuts[ num_edge_264 ] = num_cut_proc;
     } else
         num_node_264 = edge_cuts[ num_edge_264 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
@@ -22668,7 +22668,7 @@ case_66: {
     int max_node_269 = max( num_node_3, num_node_4 );
     int num_edge_269 = max_node_269 * ( max_node_269 + 1 ) / 2 + min_node_269;
     int num_node_269;
-    if ( edge_num_cuts[ num_edge_269 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_269 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -22688,7 +22688,7 @@ case_66: {
         const Node &n1 = nodes.local_at( num_node_4 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_269 ] = num_node_269;
-        edge_num_cuts[ num_edge_269 ] = num_cut;
+        edge_num_cuts[ num_edge_269 ] = num_cut_proc;
     } else
         num_node_269 = edge_cuts[ num_edge_269 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
@@ -22696,7 +22696,7 @@ case_66: {
     int max_node_275 = max( num_node_4, num_node_5 );
     int num_edge_275 = max_node_275 * ( max_node_275 + 1 ) / 2 + min_node_275;
     int num_node_275;
-    if ( edge_num_cuts[ num_edge_275 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_275 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -22716,7 +22716,7 @@ case_66: {
         const Node &n1 = nodes.local_at( num_node_5 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_275 ] = num_node_275;
-        edge_num_cuts[ num_edge_275 ] = num_cut;
+        edge_num_cuts[ num_edge_275 ] = num_cut_proc;
     } else
         num_node_275 = edge_cuts[ num_edge_275 ];
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
@@ -22724,7 +22724,7 @@ case_66: {
     int max_node_271 = max( num_node_5, num_node_0 );
     int num_edge_271 = max_node_271 * ( max_node_271 + 1 ) / 2 + min_node_271;
     int num_node_271;
-    if ( edge_num_cuts[ num_edge_271 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_271 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -22744,7 +22744,7 @@ case_66: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_271 ] = num_node_271;
-        edge_num_cuts[ num_edge_271 ] = num_cut;
+        edge_num_cuts[ num_edge_271 ] = num_cut_proc;
     } else
         num_node_271 = edge_cuts[ num_edge_271 ];
     break;
@@ -22756,7 +22756,7 @@ case_119: {
     int max_node_264 = max( num_node_2, num_node_3 );
     int num_edge_264 = max_node_264 * ( max_node_264 + 1 ) / 2 + min_node_264;
     int num_node_264;
-    if ( edge_num_cuts[ num_edge_264 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_264 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -22776,7 +22776,7 @@ case_119: {
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_264 ] = num_node_264;
-        edge_num_cuts[ num_edge_264 ] = num_cut;
+        edge_num_cuts[ num_edge_264 ] = num_cut_proc;
     } else
         num_node_264 = edge_cuts[ num_edge_264 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
@@ -22784,7 +22784,7 @@ case_119: {
     int max_node_269 = max( num_node_3, num_node_4 );
     int num_edge_269 = max_node_269 * ( max_node_269 + 1 ) / 2 + min_node_269;
     int num_node_269;
-    if ( edge_num_cuts[ num_edge_269 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_269 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -22804,7 +22804,7 @@ case_119: {
         const Node &n1 = nodes.local_at( num_node_4 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_269 ] = num_node_269;
-        edge_num_cuts[ num_edge_269 ] = num_cut;
+        edge_num_cuts[ num_edge_269 ] = num_cut_proc;
     } else
         num_node_269 = edge_cuts[ num_edge_269 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
@@ -22812,7 +22812,7 @@ case_119: {
     int max_node_275 = max( num_node_4, num_node_5 );
     int num_edge_275 = max_node_275 * ( max_node_275 + 1 ) / 2 + min_node_275;
     int num_node_275;
-    if ( edge_num_cuts[ num_edge_275 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_275 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -22832,7 +22832,7 @@ case_119: {
         const Node &n1 = nodes.local_at( num_node_5 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_275 ] = num_node_275;
-        edge_num_cuts[ num_edge_275 ] = num_cut;
+        edge_num_cuts[ num_edge_275 ] = num_cut_proc;
     } else
         num_node_275 = edge_cuts[ num_edge_275 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
@@ -22840,7 +22840,7 @@ case_119: {
     int max_node_282 = max( num_node_5, num_node_6 );
     int num_edge_282 = max_node_282 * ( max_node_282 + 1 ) / 2 + min_node_282;
     int num_node_282;
-    if ( edge_num_cuts[ num_edge_282 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_282 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -22860,7 +22860,7 @@ case_119: {
         const Node &n1 = nodes.local_at( num_node_6 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_282 ] = num_node_282;
-        edge_num_cuts[ num_edge_282 ] = num_cut;
+        edge_num_cuts[ num_edge_282 ] = num_cut_proc;
     } else
         num_node_282 = edge_cuts[ num_edge_282 ];
     break;
@@ -22872,7 +22872,7 @@ case_225: {
     int max_node_264 = max( num_node_2, num_node_3 );
     int num_edge_264 = max_node_264 * ( max_node_264 + 1 ) / 2 + min_node_264;
     int num_node_264;
-    if ( edge_num_cuts[ num_edge_264 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_264 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -22892,7 +22892,7 @@ case_225: {
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_264 ] = num_node_264;
-        edge_num_cuts[ num_edge_264 ] = num_cut;
+        edge_num_cuts[ num_edge_264 ] = num_cut_proc;
     } else
         num_node_264 = edge_cuts[ num_edge_264 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
@@ -22900,7 +22900,7 @@ case_225: {
     int max_node_269 = max( num_node_3, num_node_4 );
     int num_edge_269 = max_node_269 * ( max_node_269 + 1 ) / 2 + min_node_269;
     int num_node_269;
-    if ( edge_num_cuts[ num_edge_269 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_269 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -22920,7 +22920,7 @@ case_225: {
         const Node &n1 = nodes.local_at( num_node_4 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_269 ] = num_node_269;
-        edge_num_cuts[ num_edge_269 ] = num_cut;
+        edge_num_cuts[ num_edge_269 ] = num_cut_proc;
     } else
         num_node_269 = edge_cuts[ num_edge_269 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
@@ -22928,7 +22928,7 @@ case_225: {
     int max_node_275 = max( num_node_4, num_node_5 );
     int num_edge_275 = max_node_275 * ( max_node_275 + 1 ) / 2 + min_node_275;
     int num_node_275;
-    if ( edge_num_cuts[ num_edge_275 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_275 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -22948,7 +22948,7 @@ case_225: {
         const Node &n1 = nodes.local_at( num_node_5 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_275 ] = num_node_275;
-        edge_num_cuts[ num_edge_275 ] = num_cut;
+        edge_num_cuts[ num_edge_275 ] = num_cut_proc;
     } else
         num_node_275 = edge_cuts[ num_edge_275 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
@@ -22956,7 +22956,7 @@ case_225: {
     int max_node_282 = max( num_node_5, num_node_6 );
     int num_edge_282 = max_node_282 * ( max_node_282 + 1 ) / 2 + min_node_282;
     int num_node_282;
-    if ( edge_num_cuts[ num_edge_282 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_282 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -22976,7 +22976,7 @@ case_225: {
         const Node &n1 = nodes.local_at( num_node_6 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_282 ] = num_node_282;
-        edge_num_cuts[ num_edge_282 ] = num_cut;
+        edge_num_cuts[ num_edge_282 ] = num_cut_proc;
     } else
         num_node_282 = edge_cuts[ num_edge_282 ];
     int num_node_7 = faces.node_lists[ num_face ][ 7 ];
@@ -22984,7 +22984,7 @@ case_225: {
     int max_node_290 = max( num_node_6, num_node_7 );
     int num_edge_290 = max_node_290 * ( max_node_290 + 1 ) / 2 + min_node_290;
     int num_node_290;
-    if ( edge_num_cuts[ num_edge_290 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_290 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -23004,7 +23004,7 @@ case_225: {
         const Node &n1 = nodes.local_at( num_node_7 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_290 ] = num_node_290;
-        edge_num_cuts[ num_edge_290 ] = num_cut;
+        edge_num_cuts[ num_edge_290 ] = num_cut_proc;
     } else
         num_node_290 = edge_cuts[ num_edge_290 ];
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
@@ -23012,7 +23012,7 @@ case_225: {
     int max_node_284 = max( num_node_7, num_node_0 );
     int num_edge_284 = max_node_284 * ( max_node_284 + 1 ) / 2 + min_node_284;
     int num_node_284;
-    if ( edge_num_cuts[ num_edge_284 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_284 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -23032,7 +23032,7 @@ case_225: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_284 ] = num_node_284;
-        edge_num_cuts[ num_edge_284 ] = num_cut;
+        edge_num_cuts[ num_edge_284 ] = num_cut_proc;
     } else
         num_node_284 = edge_cuts[ num_edge_284 ];
     break;
@@ -23044,7 +23044,7 @@ case_103: {
     int max_node_264 = max( num_node_2, num_node_3 );
     int num_edge_264 = max_node_264 * ( max_node_264 + 1 ) / 2 + min_node_264;
     int num_node_264;
-    if ( edge_num_cuts[ num_edge_264 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_264 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -23064,7 +23064,7 @@ case_103: {
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_264 ] = num_node_264;
-        edge_num_cuts[ num_edge_264 ] = num_cut;
+        edge_num_cuts[ num_edge_264 ] = num_cut_proc;
     } else
         num_node_264 = edge_cuts[ num_edge_264 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
@@ -23072,7 +23072,7 @@ case_103: {
     int max_node_269 = max( num_node_3, num_node_4 );
     int num_edge_269 = max_node_269 * ( max_node_269 + 1 ) / 2 + min_node_269;
     int num_node_269;
-    if ( edge_num_cuts[ num_edge_269 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_269 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -23092,7 +23092,7 @@ case_103: {
         const Node &n1 = nodes.local_at( num_node_4 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_269 ] = num_node_269;
-        edge_num_cuts[ num_edge_269 ] = num_cut;
+        edge_num_cuts[ num_edge_269 ] = num_cut_proc;
     } else
         num_node_269 = edge_cuts[ num_edge_269 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
@@ -23100,7 +23100,7 @@ case_103: {
     int max_node_275 = max( num_node_4, num_node_5 );
     int num_edge_275 = max_node_275 * ( max_node_275 + 1 ) / 2 + min_node_275;
     int num_node_275;
-    if ( edge_num_cuts[ num_edge_275 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_275 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -23120,7 +23120,7 @@ case_103: {
         const Node &n1 = nodes.local_at( num_node_5 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_275 ] = num_node_275;
-        edge_num_cuts[ num_edge_275 ] = num_cut;
+        edge_num_cuts[ num_edge_275 ] = num_cut_proc;
     } else
         num_node_275 = edge_cuts[ num_edge_275 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
@@ -23129,7 +23129,7 @@ case_103: {
     int max_node_277 = max( num_node_6, num_node_0 );
     int num_edge_277 = max_node_277 * ( max_node_277 + 1 ) / 2 + min_node_277;
     int num_node_277;
-    if ( edge_num_cuts[ num_edge_277 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_277 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -23149,7 +23149,7 @@ case_103: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_277 ] = num_node_277;
-        edge_num_cuts[ num_edge_277 ] = num_cut;
+        edge_num_cuts[ num_edge_277 ] = num_cut_proc;
     } else
         num_node_277 = edge_cuts[ num_edge_277 ];
     break;
@@ -23161,7 +23161,7 @@ case_242: {
     int max_node_264 = max( num_node_2, num_node_3 );
     int num_edge_264 = max_node_264 * ( max_node_264 + 1 ) / 2 + min_node_264;
     int num_node_264;
-    if ( edge_num_cuts[ num_edge_264 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_264 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -23181,7 +23181,7 @@ case_242: {
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_264 ] = num_node_264;
-        edge_num_cuts[ num_edge_264 ] = num_cut;
+        edge_num_cuts[ num_edge_264 ] = num_cut_proc;
     } else
         num_node_264 = edge_cuts[ num_edge_264 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
@@ -23189,7 +23189,7 @@ case_242: {
     int max_node_269 = max( num_node_3, num_node_4 );
     int num_edge_269 = max_node_269 * ( max_node_269 + 1 ) / 2 + min_node_269;
     int num_node_269;
-    if ( edge_num_cuts[ num_edge_269 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_269 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -23209,7 +23209,7 @@ case_242: {
         const Node &n1 = nodes.local_at( num_node_4 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_269 ] = num_node_269;
-        edge_num_cuts[ num_edge_269 ] = num_cut;
+        edge_num_cuts[ num_edge_269 ] = num_cut_proc;
     } else
         num_node_269 = edge_cuts[ num_edge_269 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
@@ -23217,7 +23217,7 @@ case_242: {
     int max_node_275 = max( num_node_4, num_node_5 );
     int num_edge_275 = max_node_275 * ( max_node_275 + 1 ) / 2 + min_node_275;
     int num_node_275;
-    if ( edge_num_cuts[ num_edge_275 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_275 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -23237,7 +23237,7 @@ case_242: {
         const Node &n1 = nodes.local_at( num_node_5 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_275 ] = num_node_275;
-        edge_num_cuts[ num_edge_275 ] = num_cut;
+        edge_num_cuts[ num_edge_275 ] = num_cut_proc;
     } else
         num_node_275 = edge_cuts[ num_edge_275 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
@@ -23246,7 +23246,7 @@ case_242: {
     int max_node_290 = max( num_node_6, num_node_7 );
     int num_edge_290 = max_node_290 * ( max_node_290 + 1 ) / 2 + min_node_290;
     int num_node_290;
-    if ( edge_num_cuts[ num_edge_290 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_290 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -23266,7 +23266,7 @@ case_242: {
         const Node &n1 = nodes.local_at( num_node_7 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_290 ] = num_node_290;
-        edge_num_cuts[ num_edge_290 ] = num_cut;
+        edge_num_cuts[ num_edge_290 ] = num_cut_proc;
     } else
         num_node_290 = edge_cuts[ num_edge_290 ];
     break;
@@ -23278,7 +23278,7 @@ case_173: {
     int max_node_264 = max( num_node_2, num_node_3 );
     int num_edge_264 = max_node_264 * ( max_node_264 + 1 ) / 2 + min_node_264;
     int num_node_264;
-    if ( edge_num_cuts[ num_edge_264 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_264 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -23298,7 +23298,7 @@ case_173: {
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_264 ] = num_node_264;
-        edge_num_cuts[ num_edge_264 ] = num_cut;
+        edge_num_cuts[ num_edge_264 ] = num_cut_proc;
     } else
         num_node_264 = edge_cuts[ num_edge_264 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
@@ -23306,7 +23306,7 @@ case_173: {
     int max_node_269 = max( num_node_3, num_node_4 );
     int num_edge_269 = max_node_269 * ( max_node_269 + 1 ) / 2 + min_node_269;
     int num_node_269;
-    if ( edge_num_cuts[ num_edge_269 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_269 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -23326,7 +23326,7 @@ case_173: {
         const Node &n1 = nodes.local_at( num_node_4 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_269 ] = num_node_269;
-        edge_num_cuts[ num_edge_269 ] = num_cut;
+        edge_num_cuts[ num_edge_269 ] = num_cut_proc;
     } else
         num_node_269 = edge_cuts[ num_edge_269 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
@@ -23334,7 +23334,7 @@ case_173: {
     int max_node_275 = max( num_node_4, num_node_5 );
     int num_edge_275 = max_node_275 * ( max_node_275 + 1 ) / 2 + min_node_275;
     int num_node_275;
-    if ( edge_num_cuts[ num_edge_275 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_275 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -23354,7 +23354,7 @@ case_173: {
         const Node &n1 = nodes.local_at( num_node_5 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_275 ] = num_node_275;
-        edge_num_cuts[ num_edge_275 ] = num_cut;
+        edge_num_cuts[ num_edge_275 ] = num_cut_proc;
     } else
         num_node_275 = edge_cuts[ num_edge_275 ];
     int num_node_7 = faces.node_lists[ num_face ][ 7 ];
@@ -23363,7 +23363,7 @@ case_173: {
     int max_node_284 = max( num_node_7, num_node_0 );
     int num_edge_284 = max_node_284 * ( max_node_284 + 1 ) / 2 + min_node_284;
     int num_node_284;
-    if ( edge_num_cuts[ num_edge_284 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_284 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -23383,7 +23383,7 @@ case_173: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_284 ] = num_node_284;
-        edge_num_cuts[ num_edge_284 ] = num_cut;
+        edge_num_cuts[ num_edge_284 ] = num_cut_proc;
     } else
         num_node_284 = edge_cuts[ num_edge_284 ];
     break;
@@ -23395,7 +23395,7 @@ case_134: {
     int max_node_264 = max( num_node_2, num_node_3 );
     int num_edge_264 = max_node_264 * ( max_node_264 + 1 ) / 2 + min_node_264;
     int num_node_264;
-    if ( edge_num_cuts[ num_edge_264 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_264 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -23415,7 +23415,7 @@ case_134: {
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_264 ] = num_node_264;
-        edge_num_cuts[ num_edge_264 ] = num_cut;
+        edge_num_cuts[ num_edge_264 ] = num_cut_proc;
     } else
         num_node_264 = edge_cuts[ num_edge_264 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
@@ -23423,7 +23423,7 @@ case_134: {
     int max_node_269 = max( num_node_3, num_node_4 );
     int num_edge_269 = max_node_269 * ( max_node_269 + 1 ) / 2 + min_node_269;
     int num_node_269;
-    if ( edge_num_cuts[ num_edge_269 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_269 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -23443,7 +23443,7 @@ case_134: {
         const Node &n1 = nodes.local_at( num_node_4 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_269 ] = num_node_269;
-        edge_num_cuts[ num_edge_269 ] = num_cut;
+        edge_num_cuts[ num_edge_269 ] = num_cut_proc;
     } else
         num_node_269 = edge_cuts[ num_edge_269 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
@@ -23452,7 +23452,7 @@ case_134: {
     int max_node_282 = max( num_node_5, num_node_6 );
     int num_edge_282 = max_node_282 * ( max_node_282 + 1 ) / 2 + min_node_282;
     int num_node_282;
-    if ( edge_num_cuts[ num_edge_282 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_282 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -23472,7 +23472,7 @@ case_134: {
         const Node &n1 = nodes.local_at( num_node_6 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_282 ] = num_node_282;
-        edge_num_cuts[ num_edge_282 ] = num_cut;
+        edge_num_cuts[ num_edge_282 ] = num_cut_proc;
     } else
         num_node_282 = edge_cuts[ num_edge_282 ];
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
@@ -23480,7 +23480,7 @@ case_134: {
     int max_node_277 = max( num_node_6, num_node_0 );
     int num_edge_277 = max_node_277 * ( max_node_277 + 1 ) / 2 + min_node_277;
     int num_node_277;
-    if ( edge_num_cuts[ num_edge_277 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_277 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -23500,7 +23500,7 @@ case_134: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_277 ] = num_node_277;
-        edge_num_cuts[ num_edge_277 ] = num_cut;
+        edge_num_cuts[ num_edge_277 ] = num_cut_proc;
     } else
         num_node_277 = edge_cuts[ num_edge_277 ];
     break;
@@ -23512,7 +23512,7 @@ case_210: {
     int max_node_264 = max( num_node_2, num_node_3 );
     int num_edge_264 = max_node_264 * ( max_node_264 + 1 ) / 2 + min_node_264;
     int num_node_264;
-    if ( edge_num_cuts[ num_edge_264 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_264 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -23532,7 +23532,7 @@ case_210: {
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_264 ] = num_node_264;
-        edge_num_cuts[ num_edge_264 ] = num_cut;
+        edge_num_cuts[ num_edge_264 ] = num_cut_proc;
     } else
         num_node_264 = edge_cuts[ num_edge_264 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
@@ -23540,7 +23540,7 @@ case_210: {
     int max_node_269 = max( num_node_3, num_node_4 );
     int num_edge_269 = max_node_269 * ( max_node_269 + 1 ) / 2 + min_node_269;
     int num_node_269;
-    if ( edge_num_cuts[ num_edge_269 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_269 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -23560,7 +23560,7 @@ case_210: {
         const Node &n1 = nodes.local_at( num_node_4 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_269 ] = num_node_269;
-        edge_num_cuts[ num_edge_269 ] = num_cut;
+        edge_num_cuts[ num_edge_269 ] = num_cut_proc;
     } else
         num_node_269 = edge_cuts[ num_edge_269 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
@@ -23569,7 +23569,7 @@ case_210: {
     int max_node_282 = max( num_node_5, num_node_6 );
     int num_edge_282 = max_node_282 * ( max_node_282 + 1 ) / 2 + min_node_282;
     int num_node_282;
-    if ( edge_num_cuts[ num_edge_282 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_282 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -23589,7 +23589,7 @@ case_210: {
         const Node &n1 = nodes.local_at( num_node_6 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_282 ] = num_node_282;
-        edge_num_cuts[ num_edge_282 ] = num_cut;
+        edge_num_cuts[ num_edge_282 ] = num_cut_proc;
     } else
         num_node_282 = edge_cuts[ num_edge_282 ];
     int num_node_7 = faces.node_lists[ num_face ][ 7 ];
@@ -23597,7 +23597,7 @@ case_210: {
     int max_node_290 = max( num_node_6, num_node_7 );
     int num_edge_290 = max_node_290 * ( max_node_290 + 1 ) / 2 + min_node_290;
     int num_node_290;
-    if ( edge_num_cuts[ num_edge_290 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_290 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -23617,7 +23617,7 @@ case_210: {
         const Node &n1 = nodes.local_at( num_node_7 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_290 ] = num_node_290;
-        edge_num_cuts[ num_edge_290 ] = num_cut;
+        edge_num_cuts[ num_edge_290 ] = num_cut_proc;
     } else
         num_node_290 = edge_cuts[ num_edge_290 ];
     break;
@@ -23629,7 +23629,7 @@ case_194: {
     int max_node_264 = max( num_node_2, num_node_3 );
     int num_edge_264 = max_node_264 * ( max_node_264 + 1 ) / 2 + min_node_264;
     int num_node_264;
-    if ( edge_num_cuts[ num_edge_264 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_264 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -23649,7 +23649,7 @@ case_194: {
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_264 ] = num_node_264;
-        edge_num_cuts[ num_edge_264 ] = num_cut;
+        edge_num_cuts[ num_edge_264 ] = num_cut_proc;
     } else
         num_node_264 = edge_cuts[ num_edge_264 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
@@ -23657,7 +23657,7 @@ case_194: {
     int max_node_269 = max( num_node_3, num_node_4 );
     int num_edge_269 = max_node_269 * ( max_node_269 + 1 ) / 2 + min_node_269;
     int num_node_269;
-    if ( edge_num_cuts[ num_edge_269 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_269 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -23677,7 +23677,7 @@ case_194: {
         const Node &n1 = nodes.local_at( num_node_4 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_269 ] = num_node_269;
-        edge_num_cuts[ num_edge_269 ] = num_cut;
+        edge_num_cuts[ num_edge_269 ] = num_cut_proc;
     } else
         num_node_269 = edge_cuts[ num_edge_269 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
@@ -23686,7 +23686,7 @@ case_194: {
     int max_node_282 = max( num_node_5, num_node_6 );
     int num_edge_282 = max_node_282 * ( max_node_282 + 1 ) / 2 + min_node_282;
     int num_node_282;
-    if ( edge_num_cuts[ num_edge_282 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_282 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -23706,7 +23706,7 @@ case_194: {
         const Node &n1 = nodes.local_at( num_node_6 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_282 ] = num_node_282;
-        edge_num_cuts[ num_edge_282 ] = num_cut;
+        edge_num_cuts[ num_edge_282 ] = num_cut_proc;
     } else
         num_node_282 = edge_cuts[ num_edge_282 ];
     int num_node_7 = faces.node_lists[ num_face ][ 7 ];
@@ -23715,7 +23715,7 @@ case_194: {
     int max_node_284 = max( num_node_7, num_node_0 );
     int num_edge_284 = max_node_284 * ( max_node_284 + 1 ) / 2 + min_node_284;
     int num_node_284;
-    if ( edge_num_cuts[ num_edge_284 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_284 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -23735,7 +23735,7 @@ case_194: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_284 ] = num_node_284;
-        edge_num_cuts[ num_edge_284 ] = num_cut;
+        edge_num_cuts[ num_edge_284 ] = num_cut_proc;
     } else
         num_node_284 = edge_cuts[ num_edge_284 ];
     break;
@@ -23747,7 +23747,7 @@ case_257: {
     int max_node_264 = max( num_node_2, num_node_3 );
     int num_edge_264 = max_node_264 * ( max_node_264 + 1 ) / 2 + min_node_264;
     int num_node_264;
-    if ( edge_num_cuts[ num_edge_264 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_264 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -23767,7 +23767,7 @@ case_257: {
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_264 ] = num_node_264;
-        edge_num_cuts[ num_edge_264 ] = num_cut;
+        edge_num_cuts[ num_edge_264 ] = num_cut_proc;
     } else
         num_node_264 = edge_cuts[ num_edge_264 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
@@ -23775,7 +23775,7 @@ case_257: {
     int max_node_269 = max( num_node_3, num_node_4 );
     int num_edge_269 = max_node_269 * ( max_node_269 + 1 ) / 2 + min_node_269;
     int num_node_269;
-    if ( edge_num_cuts[ num_edge_269 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_269 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -23795,7 +23795,7 @@ case_257: {
         const Node &n1 = nodes.local_at( num_node_4 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_269 ] = num_node_269;
-        edge_num_cuts[ num_edge_269 ] = num_cut;
+        edge_num_cuts[ num_edge_269 ] = num_cut_proc;
     } else
         num_node_269 = edge_cuts[ num_edge_269 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
@@ -23804,7 +23804,7 @@ case_257: {
     int max_node_290 = max( num_node_6, num_node_7 );
     int num_edge_290 = max_node_290 * ( max_node_290 + 1 ) / 2 + min_node_290;
     int num_node_290;
-    if ( edge_num_cuts[ num_edge_290 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_290 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -23824,7 +23824,7 @@ case_257: {
         const Node &n1 = nodes.local_at( num_node_7 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_290 ] = num_node_290;
-        edge_num_cuts[ num_edge_290 ] = num_cut;
+        edge_num_cuts[ num_edge_290 ] = num_cut_proc;
     } else
         num_node_290 = edge_cuts[ num_edge_290 ];
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
@@ -23832,7 +23832,7 @@ case_257: {
     int max_node_284 = max( num_node_7, num_node_0 );
     int num_edge_284 = max_node_284 * ( max_node_284 + 1 ) / 2 + min_node_284;
     int num_node_284;
-    if ( edge_num_cuts[ num_edge_284 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_284 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -23852,7 +23852,7 @@ case_257: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_284 ] = num_node_284;
-        edge_num_cuts[ num_edge_284 ] = num_cut;
+        edge_num_cuts[ num_edge_284 ] = num_cut_proc;
     } else
         num_node_284 = edge_cuts[ num_edge_284 ];
     break;
@@ -23864,7 +23864,7 @@ case_28: {
     int max_node_264 = max( num_node_2, num_node_3 );
     int num_edge_264 = max_node_264 * ( max_node_264 + 1 ) / 2 + min_node_264;
     int num_node_264;
-    if ( edge_num_cuts[ num_edge_264 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_264 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -23884,7 +23884,7 @@ case_28: {
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_264 ] = num_node_264;
-        edge_num_cuts[ num_edge_264 ] = num_cut;
+        edge_num_cuts[ num_edge_264 ] = num_cut_proc;
     } else
         num_node_264 = edge_cuts[ num_edge_264 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
@@ -23893,7 +23893,7 @@ case_28: {
     int max_node_266 = max( num_node_4, num_node_0 );
     int num_edge_266 = max_node_266 * ( max_node_266 + 1 ) / 2 + min_node_266;
     int num_node_266;
-    if ( edge_num_cuts[ num_edge_266 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_266 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -23913,7 +23913,7 @@ case_28: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_266 ] = num_node_266;
-        edge_num_cuts[ num_edge_266 ] = num_cut;
+        edge_num_cuts[ num_edge_266 ] = num_cut_proc;
     } else
         num_node_266 = edge_cuts[ num_edge_266 ];
     // 264,3,4,266
@@ -23935,7 +23935,7 @@ case_41: {
     int max_node_264 = max( num_node_2, num_node_3 );
     int num_edge_264 = max_node_264 * ( max_node_264 + 1 ) / 2 + min_node_264;
     int num_node_264;
-    if ( edge_num_cuts[ num_edge_264 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_264 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -23955,7 +23955,7 @@ case_41: {
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_264 ] = num_node_264;
-        edge_num_cuts[ num_edge_264 ] = num_cut;
+        edge_num_cuts[ num_edge_264 ] = num_cut_proc;
     } else
         num_node_264 = edge_cuts[ num_edge_264 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
@@ -23964,7 +23964,7 @@ case_41: {
     int max_node_266 = max( num_node_4, num_node_0 );
     int num_edge_266 = max_node_266 * ( max_node_266 + 1 ) / 2 + min_node_266;
     int num_node_266;
-    if ( edge_num_cuts[ num_edge_266 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_266 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -23984,7 +23984,7 @@ case_41: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_266 ] = num_node_266;
-        edge_num_cuts[ num_edge_266 ] = num_cut;
+        edge_num_cuts[ num_edge_266 ] = num_cut_proc;
     } else
         num_node_266 = edge_cuts[ num_edge_266 ];
     // 266,0,1,2,264
@@ -24006,7 +24006,7 @@ case_67: {
     int max_node_264 = max( num_node_2, num_node_3 );
     int num_edge_264 = max_node_264 * ( max_node_264 + 1 ) / 2 + min_node_264;
     int num_node_264;
-    if ( edge_num_cuts[ num_edge_264 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_264 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -24026,7 +24026,7 @@ case_67: {
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_264 ] = num_node_264;
-        edge_num_cuts[ num_edge_264 ] = num_cut;
+        edge_num_cuts[ num_edge_264 ] = num_cut_proc;
     } else
         num_node_264 = edge_cuts[ num_edge_264 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
@@ -24035,7 +24035,7 @@ case_67: {
     int max_node_275 = max( num_node_4, num_node_5 );
     int num_edge_275 = max_node_275 * ( max_node_275 + 1 ) / 2 + min_node_275;
     int num_node_275;
-    if ( edge_num_cuts[ num_edge_275 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_275 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -24055,7 +24055,7 @@ case_67: {
         const Node &n1 = nodes.local_at( num_node_5 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_275 ] = num_node_275;
-        edge_num_cuts[ num_edge_275 ] = num_cut;
+        edge_num_cuts[ num_edge_275 ] = num_cut_proc;
     } else
         num_node_275 = edge_cuts[ num_edge_275 ];
     // 0,1,2,264,275,5
@@ -24079,7 +24079,7 @@ case_104: {
     int max_node_264 = max( num_node_2, num_node_3 );
     int num_edge_264 = max_node_264 * ( max_node_264 + 1 ) / 2 + min_node_264;
     int num_node_264;
-    if ( edge_num_cuts[ num_edge_264 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_264 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -24099,7 +24099,7 @@ case_104: {
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_264 ] = num_node_264;
-        edge_num_cuts[ num_edge_264 ] = num_cut;
+        edge_num_cuts[ num_edge_264 ] = num_cut_proc;
     } else
         num_node_264 = edge_cuts[ num_edge_264 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
@@ -24108,7 +24108,7 @@ case_104: {
     int max_node_275 = max( num_node_4, num_node_5 );
     int num_edge_275 = max_node_275 * ( max_node_275 + 1 ) / 2 + min_node_275;
     int num_node_275;
-    if ( edge_num_cuts[ num_edge_275 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_275 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -24128,7 +24128,7 @@ case_104: {
         const Node &n1 = nodes.local_at( num_node_5 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_275 ] = num_node_275;
-        edge_num_cuts[ num_edge_275 ] = num_cut;
+        edge_num_cuts[ num_edge_275 ] = num_cut_proc;
     } else
         num_node_275 = edge_cuts[ num_edge_275 ];
     // 0,1,2,264,275,5,6
@@ -24154,7 +24154,7 @@ case_174: {
     int max_node_264 = max( num_node_2, num_node_3 );
     int num_edge_264 = max_node_264 * ( max_node_264 + 1 ) / 2 + min_node_264;
     int num_node_264;
-    if ( edge_num_cuts[ num_edge_264 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_264 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -24174,7 +24174,7 @@ case_174: {
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_264 ] = num_node_264;
-        edge_num_cuts[ num_edge_264 ] = num_cut;
+        edge_num_cuts[ num_edge_264 ] = num_cut_proc;
     } else
         num_node_264 = edge_cuts[ num_edge_264 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
@@ -24183,7 +24183,7 @@ case_174: {
     int max_node_275 = max( num_node_4, num_node_5 );
     int num_edge_275 = max_node_275 * ( max_node_275 + 1 ) / 2 + min_node_275;
     int num_node_275;
-    if ( edge_num_cuts[ num_edge_275 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_275 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -24203,7 +24203,7 @@ case_174: {
         const Node &n1 = nodes.local_at( num_node_5 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_275 ] = num_node_275;
-        edge_num_cuts[ num_edge_275 ] = num_cut;
+        edge_num_cuts[ num_edge_275 ] = num_cut_proc;
     } else
         num_node_275 = edge_cuts[ num_edge_275 ];
     // 0,1,2,264,275,5,6,7
@@ -24231,7 +24231,7 @@ case_78: {
     int max_node_264 = max( num_node_2, num_node_3 );
     int num_edge_264 = max_node_264 * ( max_node_264 + 1 ) / 2 + min_node_264;
     int num_node_264;
-    if ( edge_num_cuts[ num_edge_264 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_264 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -24251,7 +24251,7 @@ case_78: {
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_264 ] = num_node_264;
-        edge_num_cuts[ num_edge_264 ] = num_cut;
+        edge_num_cuts[ num_edge_264 ] = num_cut_proc;
     } else
         num_node_264 = edge_cuts[ num_edge_264 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
@@ -24260,7 +24260,7 @@ case_78: {
     int max_node_275 = max( num_node_4, num_node_5 );
     int num_edge_275 = max_node_275 * ( max_node_275 + 1 ) / 2 + min_node_275;
     int num_node_275;
-    if ( edge_num_cuts[ num_edge_275 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_275 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -24280,7 +24280,7 @@ case_78: {
         const Node &n1 = nodes.local_at( num_node_5 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_275 ] = num_node_275;
-        edge_num_cuts[ num_edge_275 ] = num_cut;
+        edge_num_cuts[ num_edge_275 ] = num_cut_proc;
     } else
         num_node_275 = edge_cuts[ num_edge_275 ];
     // 264,3,4,275
@@ -24302,7 +24302,7 @@ case_118: {
     int max_node_264 = max( num_node_2, num_node_3 );
     int num_edge_264 = max_node_264 * ( max_node_264 + 1 ) / 2 + min_node_264;
     int num_node_264;
-    if ( edge_num_cuts[ num_edge_264 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_264 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -24322,7 +24322,7 @@ case_118: {
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_264 ] = num_node_264;
-        edge_num_cuts[ num_edge_264 ] = num_cut;
+        edge_num_cuts[ num_edge_264 ] = num_cut_proc;
     } else
         num_node_264 = edge_cuts[ num_edge_264 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
@@ -24331,7 +24331,7 @@ case_118: {
     int max_node_275 = max( num_node_4, num_node_5 );
     int num_edge_275 = max_node_275 * ( max_node_275 + 1 ) / 2 + min_node_275;
     int num_node_275;
-    if ( edge_num_cuts[ num_edge_275 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_275 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -24351,7 +24351,7 @@ case_118: {
         const Node &n1 = nodes.local_at( num_node_5 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_275 ] = num_node_275;
-        edge_num_cuts[ num_edge_275 ] = num_cut;
+        edge_num_cuts[ num_edge_275 ] = num_cut_proc;
     } else
         num_node_275 = edge_cuts[ num_edge_275 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
@@ -24359,7 +24359,7 @@ case_118: {
     int max_node_282 = max( num_node_5, num_node_6 );
     int num_edge_282 = max_node_282 * ( max_node_282 + 1 ) / 2 + min_node_282;
     int num_node_282;
-    if ( edge_num_cuts[ num_edge_282 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_282 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -24379,7 +24379,7 @@ case_118: {
         const Node &n1 = nodes.local_at( num_node_6 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_282 ] = num_node_282;
-        edge_num_cuts[ num_edge_282 ] = num_cut;
+        edge_num_cuts[ num_edge_282 ] = num_cut_proc;
     } else
         num_node_282 = edge_cuts[ num_edge_282 ];
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
@@ -24387,7 +24387,7 @@ case_118: {
     int max_node_277 = max( num_node_6, num_node_0 );
     int num_edge_277 = max_node_277 * ( max_node_277 + 1 ) / 2 + min_node_277;
     int num_node_277;
-    if ( edge_num_cuts[ num_edge_277 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_277 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -24407,7 +24407,7 @@ case_118: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_277 ] = num_node_277;
-        edge_num_cuts[ num_edge_277 ] = num_cut;
+        edge_num_cuts[ num_edge_277 ] = num_cut_proc;
     } else
         num_node_277 = edge_cuts[ num_edge_277 ];
     break;
@@ -24419,7 +24419,7 @@ case_226: {
     int max_node_264 = max( num_node_2, num_node_3 );
     int num_edge_264 = max_node_264 * ( max_node_264 + 1 ) / 2 + min_node_264;
     int num_node_264;
-    if ( edge_num_cuts[ num_edge_264 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_264 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -24439,7 +24439,7 @@ case_226: {
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_264 ] = num_node_264;
-        edge_num_cuts[ num_edge_264 ] = num_cut;
+        edge_num_cuts[ num_edge_264 ] = num_cut_proc;
     } else
         num_node_264 = edge_cuts[ num_edge_264 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
@@ -24448,7 +24448,7 @@ case_226: {
     int max_node_275 = max( num_node_4, num_node_5 );
     int num_edge_275 = max_node_275 * ( max_node_275 + 1 ) / 2 + min_node_275;
     int num_node_275;
-    if ( edge_num_cuts[ num_edge_275 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_275 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -24468,7 +24468,7 @@ case_226: {
         const Node &n1 = nodes.local_at( num_node_5 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_275 ] = num_node_275;
-        edge_num_cuts[ num_edge_275 ] = num_cut;
+        edge_num_cuts[ num_edge_275 ] = num_cut_proc;
     } else
         num_node_275 = edge_cuts[ num_edge_275 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
@@ -24476,7 +24476,7 @@ case_226: {
     int max_node_282 = max( num_node_5, num_node_6 );
     int num_edge_282 = max_node_282 * ( max_node_282 + 1 ) / 2 + min_node_282;
     int num_node_282;
-    if ( edge_num_cuts[ num_edge_282 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_282 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -24496,7 +24496,7 @@ case_226: {
         const Node &n1 = nodes.local_at( num_node_6 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_282 ] = num_node_282;
-        edge_num_cuts[ num_edge_282 ] = num_cut;
+        edge_num_cuts[ num_edge_282 ] = num_cut_proc;
     } else
         num_node_282 = edge_cuts[ num_edge_282 ];
     int num_node_7 = faces.node_lists[ num_face ][ 7 ];
@@ -24504,7 +24504,7 @@ case_226: {
     int max_node_290 = max( num_node_6, num_node_7 );
     int num_edge_290 = max_node_290 * ( max_node_290 + 1 ) / 2 + min_node_290;
     int num_node_290;
-    if ( edge_num_cuts[ num_edge_290 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_290 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -24524,7 +24524,7 @@ case_226: {
         const Node &n1 = nodes.local_at( num_node_7 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_290 ] = num_node_290;
-        edge_num_cuts[ num_edge_290 ] = num_cut;
+        edge_num_cuts[ num_edge_290 ] = num_cut_proc;
     } else
         num_node_290 = edge_cuts[ num_edge_290 ];
     break;
@@ -24536,7 +24536,7 @@ case_185: {
     int max_node_264 = max( num_node_2, num_node_3 );
     int num_edge_264 = max_node_264 * ( max_node_264 + 1 ) / 2 + min_node_264;
     int num_node_264;
-    if ( edge_num_cuts[ num_edge_264 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_264 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -24556,7 +24556,7 @@ case_185: {
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_264 ] = num_node_264;
-        edge_num_cuts[ num_edge_264 ] = num_cut;
+        edge_num_cuts[ num_edge_264 ] = num_cut_proc;
     } else
         num_node_264 = edge_cuts[ num_edge_264 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
@@ -24565,7 +24565,7 @@ case_185: {
     int max_node_275 = max( num_node_4, num_node_5 );
     int num_edge_275 = max_node_275 * ( max_node_275 + 1 ) / 2 + min_node_275;
     int num_node_275;
-    if ( edge_num_cuts[ num_edge_275 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_275 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -24585,7 +24585,7 @@ case_185: {
         const Node &n1 = nodes.local_at( num_node_5 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_275 ] = num_node_275;
-        edge_num_cuts[ num_edge_275 ] = num_cut;
+        edge_num_cuts[ num_edge_275 ] = num_cut_proc;
     } else
         num_node_275 = edge_cuts[ num_edge_275 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
@@ -24593,7 +24593,7 @@ case_185: {
     int max_node_282 = max( num_node_5, num_node_6 );
     int num_edge_282 = max_node_282 * ( max_node_282 + 1 ) / 2 + min_node_282;
     int num_node_282;
-    if ( edge_num_cuts[ num_edge_282 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_282 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -24613,7 +24613,7 @@ case_185: {
         const Node &n1 = nodes.local_at( num_node_6 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_282 ] = num_node_282;
-        edge_num_cuts[ num_edge_282 ] = num_cut;
+        edge_num_cuts[ num_edge_282 ] = num_cut_proc;
     } else
         num_node_282 = edge_cuts[ num_edge_282 ];
     int num_node_7 = faces.node_lists[ num_face ][ 7 ];
@@ -24622,7 +24622,7 @@ case_185: {
     int max_node_284 = max( num_node_7, num_node_0 );
     int num_edge_284 = max_node_284 * ( max_node_284 + 1 ) / 2 + min_node_284;
     int num_node_284;
-    if ( edge_num_cuts[ num_edge_284 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_284 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -24642,7 +24642,7 @@ case_185: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_284 ] = num_node_284;
-        edge_num_cuts[ num_edge_284 ] = num_cut;
+        edge_num_cuts[ num_edge_284 ] = num_cut_proc;
     } else
         num_node_284 = edge_cuts[ num_edge_284 ];
     break;
@@ -24654,7 +24654,7 @@ case_241: {
     int max_node_264 = max( num_node_2, num_node_3 );
     int num_edge_264 = max_node_264 * ( max_node_264 + 1 ) / 2 + min_node_264;
     int num_node_264;
-    if ( edge_num_cuts[ num_edge_264 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_264 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -24674,7 +24674,7 @@ case_241: {
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_264 ] = num_node_264;
-        edge_num_cuts[ num_edge_264 ] = num_cut;
+        edge_num_cuts[ num_edge_264 ] = num_cut_proc;
     } else
         num_node_264 = edge_cuts[ num_edge_264 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
@@ -24683,7 +24683,7 @@ case_241: {
     int max_node_275 = max( num_node_4, num_node_5 );
     int num_edge_275 = max_node_275 * ( max_node_275 + 1 ) / 2 + min_node_275;
     int num_node_275;
-    if ( edge_num_cuts[ num_edge_275 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_275 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -24703,7 +24703,7 @@ case_241: {
         const Node &n1 = nodes.local_at( num_node_5 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_275 ] = num_node_275;
-        edge_num_cuts[ num_edge_275 ] = num_cut;
+        edge_num_cuts[ num_edge_275 ] = num_cut_proc;
     } else
         num_node_275 = edge_cuts[ num_edge_275 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
@@ -24712,7 +24712,7 @@ case_241: {
     int max_node_290 = max( num_node_6, num_node_7 );
     int num_edge_290 = max_node_290 * ( max_node_290 + 1 ) / 2 + min_node_290;
     int num_node_290;
-    if ( edge_num_cuts[ num_edge_290 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_290 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -24732,7 +24732,7 @@ case_241: {
         const Node &n1 = nodes.local_at( num_node_7 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_290 ] = num_node_290;
-        edge_num_cuts[ num_edge_290 ] = num_cut;
+        edge_num_cuts[ num_edge_290 ] = num_cut_proc;
     } else
         num_node_290 = edge_cuts[ num_edge_290 ];
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
@@ -24740,7 +24740,7 @@ case_241: {
     int max_node_284 = max( num_node_7, num_node_0 );
     int num_edge_284 = max_node_284 * ( max_node_284 + 1 ) / 2 + min_node_284;
     int num_node_284;
-    if ( edge_num_cuts[ num_edge_284 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_284 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -24760,7 +24760,7 @@ case_241: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_284 ] = num_node_284;
-        edge_num_cuts[ num_edge_284 ] = num_cut;
+        edge_num_cuts[ num_edge_284 ] = num_cut_proc;
     } else
         num_node_284 = edge_cuts[ num_edge_284 ];
     break;
@@ -24772,7 +24772,7 @@ case_51: {
     int max_node_264 = max( num_node_2, num_node_3 );
     int num_edge_264 = max_node_264 * ( max_node_264 + 1 ) / 2 + min_node_264;
     int num_node_264;
-    if ( edge_num_cuts[ num_edge_264 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_264 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -24792,7 +24792,7 @@ case_51: {
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_264 ] = num_node_264;
-        edge_num_cuts[ num_edge_264 ] = num_cut;
+        edge_num_cuts[ num_edge_264 ] = num_cut_proc;
     } else
         num_node_264 = edge_cuts[ num_edge_264 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
@@ -24801,7 +24801,7 @@ case_51: {
     int max_node_271 = max( num_node_5, num_node_0 );
     int num_edge_271 = max_node_271 * ( max_node_271 + 1 ) / 2 + min_node_271;
     int num_node_271;
-    if ( edge_num_cuts[ num_edge_271 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_271 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -24821,7 +24821,7 @@ case_51: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_271 ] = num_node_271;
-        edge_num_cuts[ num_edge_271 ] = num_cut;
+        edge_num_cuts[ num_edge_271 ] = num_cut_proc;
     } else
         num_node_271 = edge_cuts[ num_edge_271 ];
     // 264,3,4,5,271
@@ -24845,7 +24845,7 @@ case_82: {
     int max_node_264 = max( num_node_2, num_node_3 );
     int num_edge_264 = max_node_264 * ( max_node_264 + 1 ) / 2 + min_node_264;
     int num_node_264;
-    if ( edge_num_cuts[ num_edge_264 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_264 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -24865,7 +24865,7 @@ case_82: {
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_264 ] = num_node_264;
-        edge_num_cuts[ num_edge_264 ] = num_cut;
+        edge_num_cuts[ num_edge_264 ] = num_cut_proc;
     } else
         num_node_264 = edge_cuts[ num_edge_264 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
@@ -24874,7 +24874,7 @@ case_82: {
     int max_node_271 = max( num_node_5, num_node_0 );
     int num_edge_271 = max_node_271 * ( max_node_271 + 1 ) / 2 + min_node_271;
     int num_node_271;
-    if ( edge_num_cuts[ num_edge_271 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_271 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -24894,7 +24894,7 @@ case_82: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_271 ] = num_node_271;
-        edge_num_cuts[ num_edge_271 ] = num_cut;
+        edge_num_cuts[ num_edge_271 ] = num_cut_proc;
     } else
         num_node_271 = edge_cuts[ num_edge_271 ];
     // 271,0,1,2,264
@@ -24917,7 +24917,7 @@ case_135: {
     int max_node_264 = max( num_node_2, num_node_3 );
     int num_edge_264 = max_node_264 * ( max_node_264 + 1 ) / 2 + min_node_264;
     int num_node_264;
-    if ( edge_num_cuts[ num_edge_264 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_264 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -24937,7 +24937,7 @@ case_135: {
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_264 ] = num_node_264;
-        edge_num_cuts[ num_edge_264 ] = num_cut;
+        edge_num_cuts[ num_edge_264 ] = num_cut_proc;
     } else
         num_node_264 = edge_cuts[ num_edge_264 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
@@ -24946,7 +24946,7 @@ case_135: {
     int max_node_282 = max( num_node_5, num_node_6 );
     int num_edge_282 = max_node_282 * ( max_node_282 + 1 ) / 2 + min_node_282;
     int num_node_282;
-    if ( edge_num_cuts[ num_edge_282 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_282 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -24966,7 +24966,7 @@ case_135: {
         const Node &n1 = nodes.local_at( num_node_6 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_282 ] = num_node_282;
-        edge_num_cuts[ num_edge_282 ] = num_cut;
+        edge_num_cuts[ num_edge_282 ] = num_cut_proc;
     } else
         num_node_282 = edge_cuts[ num_edge_282 ];
     // 0,1,2,264,282,6
@@ -24992,7 +24992,7 @@ case_195: {
     int max_node_264 = max( num_node_2, num_node_3 );
     int num_edge_264 = max_node_264 * ( max_node_264 + 1 ) / 2 + min_node_264;
     int num_node_264;
-    if ( edge_num_cuts[ num_edge_264 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_264 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -25012,7 +25012,7 @@ case_195: {
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_264 ] = num_node_264;
-        edge_num_cuts[ num_edge_264 ] = num_cut;
+        edge_num_cuts[ num_edge_264 ] = num_cut_proc;
     } else
         num_node_264 = edge_cuts[ num_edge_264 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
@@ -25021,7 +25021,7 @@ case_195: {
     int max_node_282 = max( num_node_5, num_node_6 );
     int num_edge_282 = max_node_282 * ( max_node_282 + 1 ) / 2 + min_node_282;
     int num_node_282;
-    if ( edge_num_cuts[ num_edge_282 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_282 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -25041,7 +25041,7 @@ case_195: {
         const Node &n1 = nodes.local_at( num_node_6 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_282 ] = num_node_282;
-        edge_num_cuts[ num_edge_282 ] = num_cut;
+        edge_num_cuts[ num_edge_282 ] = num_cut_proc;
     } else
         num_node_282 = edge_cuts[ num_edge_282 ];
     // 0,1,2,264,282,6,7
@@ -25070,7 +25070,7 @@ case_146: {
     int max_node_264 = max( num_node_2, num_node_3 );
     int num_edge_264 = max_node_264 * ( max_node_264 + 1 ) / 2 + min_node_264;
     int num_node_264;
-    if ( edge_num_cuts[ num_edge_264 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_264 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -25090,7 +25090,7 @@ case_146: {
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_264 ] = num_node_264;
-        edge_num_cuts[ num_edge_264 ] = num_cut;
+        edge_num_cuts[ num_edge_264 ] = num_cut_proc;
     } else
         num_node_264 = edge_cuts[ num_edge_264 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
@@ -25099,7 +25099,7 @@ case_146: {
     int max_node_282 = max( num_node_5, num_node_6 );
     int num_edge_282 = max_node_282 * ( max_node_282 + 1 ) / 2 + min_node_282;
     int num_node_282;
-    if ( edge_num_cuts[ num_edge_282 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_282 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -25119,7 +25119,7 @@ case_146: {
         const Node &n1 = nodes.local_at( num_node_6 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_282 ] = num_node_282;
-        edge_num_cuts[ num_edge_282 ] = num_cut;
+        edge_num_cuts[ num_edge_282 ] = num_cut_proc;
     } else
         num_node_282 = edge_cuts[ num_edge_282 ];
     // 264,3,4,5,282
@@ -25143,7 +25143,7 @@ case_209: {
     int max_node_264 = max( num_node_2, num_node_3 );
     int num_edge_264 = max_node_264 * ( max_node_264 + 1 ) / 2 + min_node_264;
     int num_node_264;
-    if ( edge_num_cuts[ num_edge_264 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_264 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -25163,7 +25163,7 @@ case_209: {
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_264 ] = num_node_264;
-        edge_num_cuts[ num_edge_264 ] = num_cut;
+        edge_num_cuts[ num_edge_264 ] = num_cut_proc;
     } else
         num_node_264 = edge_cuts[ num_edge_264 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
@@ -25172,7 +25172,7 @@ case_209: {
     int max_node_282 = max( num_node_5, num_node_6 );
     int num_edge_282 = max_node_282 * ( max_node_282 + 1 ) / 2 + min_node_282;
     int num_node_282;
-    if ( edge_num_cuts[ num_edge_282 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_282 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -25192,7 +25192,7 @@ case_209: {
         const Node &n1 = nodes.local_at( num_node_6 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_282 ] = num_node_282;
-        edge_num_cuts[ num_edge_282 ] = num_cut;
+        edge_num_cuts[ num_edge_282 ] = num_cut_proc;
     } else
         num_node_282 = edge_cuts[ num_edge_282 ];
     int num_node_7 = faces.node_lists[ num_face ][ 7 ];
@@ -25200,7 +25200,7 @@ case_209: {
     int max_node_290 = max( num_node_6, num_node_7 );
     int num_edge_290 = max_node_290 * ( max_node_290 + 1 ) / 2 + min_node_290;
     int num_node_290;
-    if ( edge_num_cuts[ num_edge_290 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_290 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -25220,7 +25220,7 @@ case_209: {
         const Node &n1 = nodes.local_at( num_node_7 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_290 ] = num_node_290;
-        edge_num_cuts[ num_edge_290 ] = num_cut;
+        edge_num_cuts[ num_edge_290 ] = num_cut_proc;
     } else
         num_node_290 = edge_cuts[ num_edge_290 ];
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
@@ -25228,7 +25228,7 @@ case_209: {
     int max_node_284 = max( num_node_7, num_node_0 );
     int num_edge_284 = max_node_284 * ( max_node_284 + 1 ) / 2 + min_node_284;
     int num_node_284;
-    if ( edge_num_cuts[ num_edge_284 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_284 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -25248,7 +25248,7 @@ case_209: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_284 ] = num_node_284;
-        edge_num_cuts[ num_edge_284 ] = num_cut;
+        edge_num_cuts[ num_edge_284 ] = num_cut_proc;
     } else
         num_node_284 = edge_cuts[ num_edge_284 ];
     break;
@@ -25260,7 +25260,7 @@ case_91: {
     int max_node_264 = max( num_node_2, num_node_3 );
     int num_edge_264 = max_node_264 * ( max_node_264 + 1 ) / 2 + min_node_264;
     int num_node_264;
-    if ( edge_num_cuts[ num_edge_264 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_264 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -25280,7 +25280,7 @@ case_91: {
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_264 ] = num_node_264;
-        edge_num_cuts[ num_edge_264 ] = num_cut;
+        edge_num_cuts[ num_edge_264 ] = num_cut_proc;
     } else
         num_node_264 = edge_cuts[ num_edge_264 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
@@ -25289,7 +25289,7 @@ case_91: {
     int max_node_277 = max( num_node_6, num_node_0 );
     int num_edge_277 = max_node_277 * ( max_node_277 + 1 ) / 2 + min_node_277;
     int num_node_277;
-    if ( edge_num_cuts[ num_edge_277 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_277 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -25309,7 +25309,7 @@ case_91: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_277 ] = num_node_277;
-        edge_num_cuts[ num_edge_277 ] = num_cut;
+        edge_num_cuts[ num_edge_277 ] = num_cut_proc;
     } else
         num_node_277 = edge_cuts[ num_edge_277 ];
     // 264,3,4,5,6,277
@@ -25335,7 +25335,7 @@ case_152: {
     int max_node_264 = max( num_node_2, num_node_3 );
     int num_edge_264 = max_node_264 * ( max_node_264 + 1 ) / 2 + min_node_264;
     int num_node_264;
-    if ( edge_num_cuts[ num_edge_264 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_264 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -25355,7 +25355,7 @@ case_152: {
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_264 ] = num_node_264;
-        edge_num_cuts[ num_edge_264 ] = num_cut;
+        edge_num_cuts[ num_edge_264 ] = num_cut_proc;
     } else
         num_node_264 = edge_cuts[ num_edge_264 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
@@ -25364,7 +25364,7 @@ case_152: {
     int max_node_277 = max( num_node_6, num_node_0 );
     int num_edge_277 = max_node_277 * ( max_node_277 + 1 ) / 2 + min_node_277;
     int num_node_277;
-    if ( edge_num_cuts[ num_edge_277 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_277 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -25384,7 +25384,7 @@ case_152: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_277 ] = num_node_277;
-        edge_num_cuts[ num_edge_277 ] = num_cut;
+        edge_num_cuts[ num_edge_277 ] = num_cut_proc;
     } else
         num_node_277 = edge_cuts[ num_edge_277 ];
     // 277,0,1,2,264
@@ -25407,7 +25407,7 @@ case_258: {
     int max_node_264 = max( num_node_2, num_node_3 );
     int num_edge_264 = max_node_264 * ( max_node_264 + 1 ) / 2 + min_node_264;
     int num_node_264;
-    if ( edge_num_cuts[ num_edge_264 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_264 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -25427,7 +25427,7 @@ case_258: {
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_264 ] = num_node_264;
-        edge_num_cuts[ num_edge_264 ] = num_cut;
+        edge_num_cuts[ num_edge_264 ] = num_cut_proc;
     } else
         num_node_264 = edge_cuts[ num_edge_264 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
@@ -25436,7 +25436,7 @@ case_258: {
     int max_node_290 = max( num_node_6, num_node_7 );
     int num_edge_290 = max_node_290 * ( max_node_290 + 1 ) / 2 + min_node_290;
     int num_node_290;
-    if ( edge_num_cuts[ num_edge_290 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_290 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -25456,7 +25456,7 @@ case_258: {
         const Node &n1 = nodes.local_at( num_node_7 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_290 ] = num_node_290;
-        edge_num_cuts[ num_edge_290 ] = num_cut;
+        edge_num_cuts[ num_edge_290 ] = num_cut_proc;
     } else
         num_node_290 = edge_cuts[ num_edge_290 ];
     // 0,1,2,264,290,7
@@ -25482,7 +25482,7 @@ case_269: {
     int max_node_264 = max( num_node_2, num_node_3 );
     int num_edge_264 = max_node_264 * ( max_node_264 + 1 ) / 2 + min_node_264;
     int num_node_264;
-    if ( edge_num_cuts[ num_edge_264 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_264 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -25502,7 +25502,7 @@ case_269: {
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_264 ] = num_node_264;
-        edge_num_cuts[ num_edge_264 ] = num_cut;
+        edge_num_cuts[ num_edge_264 ] = num_cut_proc;
     } else
         num_node_264 = edge_cuts[ num_edge_264 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
@@ -25511,7 +25511,7 @@ case_269: {
     int max_node_290 = max( num_node_6, num_node_7 );
     int num_edge_290 = max_node_290 * ( max_node_290 + 1 ) / 2 + min_node_290;
     int num_node_290;
-    if ( edge_num_cuts[ num_edge_290 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_290 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -25531,7 +25531,7 @@ case_269: {
         const Node &n1 = nodes.local_at( num_node_7 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_290 ] = num_node_290;
-        edge_num_cuts[ num_edge_290 ] = num_cut;
+        edge_num_cuts[ num_edge_290 ] = num_cut_proc;
     } else
         num_node_290 = edge_cuts[ num_edge_290 ];
     // 264,3,4,5,6,290
@@ -25557,7 +25557,7 @@ case_161: {
     int max_node_264 = max( num_node_2, num_node_3 );
     int num_edge_264 = max_node_264 * ( max_node_264 + 1 ) / 2 + min_node_264;
     int num_node_264;
-    if ( edge_num_cuts[ num_edge_264 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_264 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -25577,7 +25577,7 @@ case_161: {
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_264 ] = num_node_264;
-        edge_num_cuts[ num_edge_264 ] = num_cut;
+        edge_num_cuts[ num_edge_264 ] = num_cut_proc;
     } else
         num_node_264 = edge_cuts[ num_edge_264 ];
     int num_node_7 = faces.node_lists[ num_face ][ 7 ];
@@ -25586,7 +25586,7 @@ case_161: {
     int max_node_284 = max( num_node_7, num_node_0 );
     int num_edge_284 = max_node_284 * ( max_node_284 + 1 ) / 2 + min_node_284;
     int num_node_284;
-    if ( edge_num_cuts[ num_edge_284 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_284 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -25606,7 +25606,7 @@ case_161: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_284 ] = num_node_284;
-        edge_num_cuts[ num_edge_284 ] = num_cut;
+        edge_num_cuts[ num_edge_284 ] = num_cut_proc;
     } else
         num_node_284 = edge_cuts[ num_edge_284 ];
     // 264,3,4,5,6,7,284
@@ -25634,7 +25634,7 @@ case_277: {
     int max_node_264 = max( num_node_2, num_node_3 );
     int num_edge_264 = max_node_264 * ( max_node_264 + 1 ) / 2 + min_node_264;
     int num_node_264;
-    if ( edge_num_cuts[ num_edge_264 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_264 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -25654,7 +25654,7 @@ case_277: {
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_264 ] = num_node_264;
-        edge_num_cuts[ num_edge_264 ] = num_cut;
+        edge_num_cuts[ num_edge_264 ] = num_cut_proc;
     } else
         num_node_264 = edge_cuts[ num_edge_264 ];
     int num_node_7 = faces.node_lists[ num_face ][ 7 ];
@@ -25663,7 +25663,7 @@ case_277: {
     int max_node_284 = max( num_node_7, num_node_0 );
     int num_edge_284 = max_node_284 * ( max_node_284 + 1 ) / 2 + min_node_284;
     int num_node_284;
-    if ( edge_num_cuts[ num_edge_284 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_284 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -25683,7 +25683,7 @@ case_277: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_284 ] = num_node_284;
-        edge_num_cuts[ num_edge_284 ] = num_cut;
+        edge_num_cuts[ num_edge_284 ] = num_cut_proc;
     } else
         num_node_284 = edge_cuts[ num_edge_284 ];
     // 284,0,1,2,264
@@ -25706,7 +25706,7 @@ case_37: {
     int max_node_269 = max( num_node_3, num_node_4 );
     int num_edge_269 = max_node_269 * ( max_node_269 + 1 ) / 2 + min_node_269;
     int num_node_269;
-    if ( edge_num_cuts[ num_edge_269 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_269 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -25726,7 +25726,7 @@ case_37: {
         const Node &n1 = nodes.local_at( num_node_4 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_269 ] = num_node_269;
-        edge_num_cuts[ num_edge_269 ] = num_cut;
+        edge_num_cuts[ num_edge_269 ] = num_cut_proc;
     } else
         num_node_269 = edge_cuts[ num_edge_269 ];
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
@@ -25734,7 +25734,7 @@ case_37: {
     int max_node_266 = max( num_node_4, num_node_0 );
     int num_edge_266 = max_node_266 * ( max_node_266 + 1 ) / 2 + min_node_266;
     int num_node_266;
-    if ( edge_num_cuts[ num_edge_266 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_266 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -25754,7 +25754,7 @@ case_37: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_266 ] = num_node_266;
-        edge_num_cuts[ num_edge_266 ] = num_cut;
+        edge_num_cuts[ num_edge_266 ] = num_cut_proc;
     } else
         num_node_266 = edge_cuts[ num_edge_266 ];
     // 266,0,1,2,3,269
@@ -25779,7 +25779,7 @@ case_36: {
     int max_node_269 = max( num_node_3, num_node_4 );
     int num_edge_269 = max_node_269 * ( max_node_269 + 1 ) / 2 + min_node_269;
     int num_node_269;
-    if ( edge_num_cuts[ num_edge_269 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_269 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -25799,7 +25799,7 @@ case_36: {
         const Node &n1 = nodes.local_at( num_node_4 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_269 ] = num_node_269;
-        edge_num_cuts[ num_edge_269 ] = num_cut;
+        edge_num_cuts[ num_edge_269 ] = num_cut_proc;
     } else
         num_node_269 = edge_cuts[ num_edge_269 ];
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
@@ -25807,7 +25807,7 @@ case_36: {
     int max_node_266 = max( num_node_4, num_node_0 );
     int num_edge_266 = max_node_266 * ( max_node_266 + 1 ) / 2 + min_node_266;
     int num_node_266;
-    if ( edge_num_cuts[ num_edge_266 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_266 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -25827,7 +25827,7 @@ case_36: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_266 ] = num_node_266;
-        edge_num_cuts[ num_edge_266 ] = num_cut;
+        edge_num_cuts[ num_edge_266 ] = num_cut_proc;
     } else
         num_node_266 = edge_cuts[ num_edge_266 ];
     // 269,4,266
@@ -25848,7 +25848,7 @@ case_59: {
     int max_node_269 = max( num_node_3, num_node_4 );
     int num_edge_269 = max_node_269 * ( max_node_269 + 1 ) / 2 + min_node_269;
     int num_node_269;
-    if ( edge_num_cuts[ num_edge_269 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_269 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -25868,7 +25868,7 @@ case_59: {
         const Node &n1 = nodes.local_at( num_node_4 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_269 ] = num_node_269;
-        edge_num_cuts[ num_edge_269 ] = num_cut;
+        edge_num_cuts[ num_edge_269 ] = num_cut_proc;
     } else
         num_node_269 = edge_cuts[ num_edge_269 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
@@ -25876,7 +25876,7 @@ case_59: {
     int max_node_275 = max( num_node_4, num_node_5 );
     int num_edge_275 = max_node_275 * ( max_node_275 + 1 ) / 2 + min_node_275;
     int num_node_275;
-    if ( edge_num_cuts[ num_edge_275 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_275 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -25896,7 +25896,7 @@ case_59: {
         const Node &n1 = nodes.local_at( num_node_5 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_275 ] = num_node_275;
-        edge_num_cuts[ num_edge_275 ] = num_cut;
+        edge_num_cuts[ num_edge_275 ] = num_cut_proc;
     } else
         num_node_275 = edge_cuts[ num_edge_275 ];
     // 0,1,2,3,269,275,5
@@ -25924,7 +25924,7 @@ case_99: {
     int max_node_269 = max( num_node_3, num_node_4 );
     int num_edge_269 = max_node_269 * ( max_node_269 + 1 ) / 2 + min_node_269;
     int num_node_269;
-    if ( edge_num_cuts[ num_edge_269 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_269 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -25944,7 +25944,7 @@ case_99: {
         const Node &n1 = nodes.local_at( num_node_4 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_269 ] = num_node_269;
-        edge_num_cuts[ num_edge_269 ] = num_cut;
+        edge_num_cuts[ num_edge_269 ] = num_cut_proc;
     } else
         num_node_269 = edge_cuts[ num_edge_269 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
@@ -25952,7 +25952,7 @@ case_99: {
     int max_node_275 = max( num_node_4, num_node_5 );
     int num_edge_275 = max_node_275 * ( max_node_275 + 1 ) / 2 + min_node_275;
     int num_node_275;
-    if ( edge_num_cuts[ num_edge_275 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_275 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -25972,7 +25972,7 @@ case_99: {
         const Node &n1 = nodes.local_at( num_node_5 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_275 ] = num_node_275;
-        edge_num_cuts[ num_edge_275 ] = num_cut;
+        edge_num_cuts[ num_edge_275 ] = num_cut_proc;
     } else
         num_node_275 = edge_cuts[ num_edge_275 ];
     // 0,1,2,3,269,275,5,6
@@ -26003,7 +26003,7 @@ case_169: {
     int max_node_269 = max( num_node_3, num_node_4 );
     int num_edge_269 = max_node_269 * ( max_node_269 + 1 ) / 2 + min_node_269;
     int num_node_269;
-    if ( edge_num_cuts[ num_edge_269 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_269 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -26023,7 +26023,7 @@ case_169: {
         const Node &n1 = nodes.local_at( num_node_4 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_269 ] = num_node_269;
-        edge_num_cuts[ num_edge_269 ] = num_cut;
+        edge_num_cuts[ num_edge_269 ] = num_cut_proc;
     } else
         num_node_269 = edge_cuts[ num_edge_269 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
@@ -26031,7 +26031,7 @@ case_169: {
     int max_node_275 = max( num_node_4, num_node_5 );
     int num_edge_275 = max_node_275 * ( max_node_275 + 1 ) / 2 + min_node_275;
     int num_node_275;
-    if ( edge_num_cuts[ num_edge_275 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_275 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -26051,7 +26051,7 @@ case_169: {
         const Node &n1 = nodes.local_at( num_node_5 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_275 ] = num_node_275;
-        edge_num_cuts[ num_edge_275 ] = num_cut;
+        edge_num_cuts[ num_edge_275 ] = num_cut_proc;
     } else
         num_node_275 = edge_cuts[ num_edge_275 ];
     // 0,1,2,3,269,275,5,6,7
@@ -26085,7 +26085,7 @@ case_79: {
     int max_node_269 = max( num_node_3, num_node_4 );
     int num_edge_269 = max_node_269 * ( max_node_269 + 1 ) / 2 + min_node_269;
     int num_node_269;
-    if ( edge_num_cuts[ num_edge_269 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_269 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -26105,7 +26105,7 @@ case_79: {
         const Node &n1 = nodes.local_at( num_node_4 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_269 ] = num_node_269;
-        edge_num_cuts[ num_edge_269 ] = num_cut;
+        edge_num_cuts[ num_edge_269 ] = num_cut_proc;
     } else
         num_node_269 = edge_cuts[ num_edge_269 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
@@ -26113,7 +26113,7 @@ case_79: {
     int max_node_275 = max( num_node_4, num_node_5 );
     int num_edge_275 = max_node_275 * ( max_node_275 + 1 ) / 2 + min_node_275;
     int num_node_275;
-    if ( edge_num_cuts[ num_edge_275 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_275 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -26133,7 +26133,7 @@ case_79: {
         const Node &n1 = nodes.local_at( num_node_5 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_275 ] = num_node_275;
-        edge_num_cuts[ num_edge_275 ] = num_cut;
+        edge_num_cuts[ num_edge_275 ] = num_cut_proc;
     } else
         num_node_275 = edge_cuts[ num_edge_275 ];
     // 269,4,275
@@ -26154,7 +26154,7 @@ case_126: {
     int max_node_269 = max( num_node_3, num_node_4 );
     int num_edge_269 = max_node_269 * ( max_node_269 + 1 ) / 2 + min_node_269;
     int num_node_269;
-    if ( edge_num_cuts[ num_edge_269 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_269 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -26174,7 +26174,7 @@ case_126: {
         const Node &n1 = nodes.local_at( num_node_4 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_269 ] = num_node_269;
-        edge_num_cuts[ num_edge_269 ] = num_cut;
+        edge_num_cuts[ num_edge_269 ] = num_cut_proc;
     } else
         num_node_269 = edge_cuts[ num_edge_269 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
@@ -26182,7 +26182,7 @@ case_126: {
     int max_node_275 = max( num_node_4, num_node_5 );
     int num_edge_275 = max_node_275 * ( max_node_275 + 1 ) / 2 + min_node_275;
     int num_node_275;
-    if ( edge_num_cuts[ num_edge_275 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_275 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -26202,7 +26202,7 @@ case_126: {
         const Node &n1 = nodes.local_at( num_node_5 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_275 ] = num_node_275;
-        edge_num_cuts[ num_edge_275 ] = num_cut;
+        edge_num_cuts[ num_edge_275 ] = num_cut_proc;
     } else
         num_node_275 = edge_cuts[ num_edge_275 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
@@ -26210,7 +26210,7 @@ case_126: {
     int max_node_282 = max( num_node_5, num_node_6 );
     int num_edge_282 = max_node_282 * ( max_node_282 + 1 ) / 2 + min_node_282;
     int num_node_282;
-    if ( edge_num_cuts[ num_edge_282 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_282 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -26230,7 +26230,7 @@ case_126: {
         const Node &n1 = nodes.local_at( num_node_6 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_282 ] = num_node_282;
-        edge_num_cuts[ num_edge_282 ] = num_cut;
+        edge_num_cuts[ num_edge_282 ] = num_cut_proc;
     } else
         num_node_282 = edge_cuts[ num_edge_282 ];
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
@@ -26238,7 +26238,7 @@ case_126: {
     int max_node_277 = max( num_node_6, num_node_0 );
     int num_edge_277 = max_node_277 * ( max_node_277 + 1 ) / 2 + min_node_277;
     int num_node_277;
-    if ( edge_num_cuts[ num_edge_277 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_277 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -26258,7 +26258,7 @@ case_126: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_277 ] = num_node_277;
-        edge_num_cuts[ num_edge_277 ] = num_cut;
+        edge_num_cuts[ num_edge_277 ] = num_cut_proc;
     } else
         num_node_277 = edge_cuts[ num_edge_277 ];
     break;
@@ -26270,7 +26270,7 @@ case_218: {
     int max_node_269 = max( num_node_3, num_node_4 );
     int num_edge_269 = max_node_269 * ( max_node_269 + 1 ) / 2 + min_node_269;
     int num_node_269;
-    if ( edge_num_cuts[ num_edge_269 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_269 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -26290,7 +26290,7 @@ case_218: {
         const Node &n1 = nodes.local_at( num_node_4 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_269 ] = num_node_269;
-        edge_num_cuts[ num_edge_269 ] = num_cut;
+        edge_num_cuts[ num_edge_269 ] = num_cut_proc;
     } else
         num_node_269 = edge_cuts[ num_edge_269 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
@@ -26298,7 +26298,7 @@ case_218: {
     int max_node_275 = max( num_node_4, num_node_5 );
     int num_edge_275 = max_node_275 * ( max_node_275 + 1 ) / 2 + min_node_275;
     int num_node_275;
-    if ( edge_num_cuts[ num_edge_275 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_275 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -26318,7 +26318,7 @@ case_218: {
         const Node &n1 = nodes.local_at( num_node_5 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_275 ] = num_node_275;
-        edge_num_cuts[ num_edge_275 ] = num_cut;
+        edge_num_cuts[ num_edge_275 ] = num_cut_proc;
     } else
         num_node_275 = edge_cuts[ num_edge_275 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
@@ -26326,7 +26326,7 @@ case_218: {
     int max_node_282 = max( num_node_5, num_node_6 );
     int num_edge_282 = max_node_282 * ( max_node_282 + 1 ) / 2 + min_node_282;
     int num_node_282;
-    if ( edge_num_cuts[ num_edge_282 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_282 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -26346,7 +26346,7 @@ case_218: {
         const Node &n1 = nodes.local_at( num_node_6 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_282 ] = num_node_282;
-        edge_num_cuts[ num_edge_282 ] = num_cut;
+        edge_num_cuts[ num_edge_282 ] = num_cut_proc;
     } else
         num_node_282 = edge_cuts[ num_edge_282 ];
     int num_node_7 = faces.node_lists[ num_face ][ 7 ];
@@ -26354,7 +26354,7 @@ case_218: {
     int max_node_290 = max( num_node_6, num_node_7 );
     int num_edge_290 = max_node_290 * ( max_node_290 + 1 ) / 2 + min_node_290;
     int num_node_290;
-    if ( edge_num_cuts[ num_edge_290 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_290 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -26374,7 +26374,7 @@ case_218: {
         const Node &n1 = nodes.local_at( num_node_7 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_290 ] = num_node_290;
-        edge_num_cuts[ num_edge_290 ] = num_cut;
+        edge_num_cuts[ num_edge_290 ] = num_cut_proc;
     } else
         num_node_290 = edge_cuts[ num_edge_290 ];
     break;
@@ -26386,7 +26386,7 @@ case_189: {
     int max_node_269 = max( num_node_3, num_node_4 );
     int num_edge_269 = max_node_269 * ( max_node_269 + 1 ) / 2 + min_node_269;
     int num_node_269;
-    if ( edge_num_cuts[ num_edge_269 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_269 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -26406,7 +26406,7 @@ case_189: {
         const Node &n1 = nodes.local_at( num_node_4 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_269 ] = num_node_269;
-        edge_num_cuts[ num_edge_269 ] = num_cut;
+        edge_num_cuts[ num_edge_269 ] = num_cut_proc;
     } else
         num_node_269 = edge_cuts[ num_edge_269 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
@@ -26414,7 +26414,7 @@ case_189: {
     int max_node_275 = max( num_node_4, num_node_5 );
     int num_edge_275 = max_node_275 * ( max_node_275 + 1 ) / 2 + min_node_275;
     int num_node_275;
-    if ( edge_num_cuts[ num_edge_275 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_275 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -26434,7 +26434,7 @@ case_189: {
         const Node &n1 = nodes.local_at( num_node_5 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_275 ] = num_node_275;
-        edge_num_cuts[ num_edge_275 ] = num_cut;
+        edge_num_cuts[ num_edge_275 ] = num_cut_proc;
     } else
         num_node_275 = edge_cuts[ num_edge_275 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
@@ -26442,7 +26442,7 @@ case_189: {
     int max_node_282 = max( num_node_5, num_node_6 );
     int num_edge_282 = max_node_282 * ( max_node_282 + 1 ) / 2 + min_node_282;
     int num_node_282;
-    if ( edge_num_cuts[ num_edge_282 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_282 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -26462,7 +26462,7 @@ case_189: {
         const Node &n1 = nodes.local_at( num_node_6 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_282 ] = num_node_282;
-        edge_num_cuts[ num_edge_282 ] = num_cut;
+        edge_num_cuts[ num_edge_282 ] = num_cut_proc;
     } else
         num_node_282 = edge_cuts[ num_edge_282 ];
     int num_node_7 = faces.node_lists[ num_face ][ 7 ];
@@ -26471,7 +26471,7 @@ case_189: {
     int max_node_284 = max( num_node_7, num_node_0 );
     int num_edge_284 = max_node_284 * ( max_node_284 + 1 ) / 2 + min_node_284;
     int num_node_284;
-    if ( edge_num_cuts[ num_edge_284 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_284 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -26491,7 +26491,7 @@ case_189: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_284 ] = num_node_284;
-        edge_num_cuts[ num_edge_284 ] = num_cut;
+        edge_num_cuts[ num_edge_284 ] = num_cut_proc;
     } else
         num_node_284 = edge_cuts[ num_edge_284 ];
     break;
@@ -26503,7 +26503,7 @@ case_249: {
     int max_node_269 = max( num_node_3, num_node_4 );
     int num_edge_269 = max_node_269 * ( max_node_269 + 1 ) / 2 + min_node_269;
     int num_node_269;
-    if ( edge_num_cuts[ num_edge_269 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_269 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -26523,7 +26523,7 @@ case_249: {
         const Node &n1 = nodes.local_at( num_node_4 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_269 ] = num_node_269;
-        edge_num_cuts[ num_edge_269 ] = num_cut;
+        edge_num_cuts[ num_edge_269 ] = num_cut_proc;
     } else
         num_node_269 = edge_cuts[ num_edge_269 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
@@ -26531,7 +26531,7 @@ case_249: {
     int max_node_275 = max( num_node_4, num_node_5 );
     int num_edge_275 = max_node_275 * ( max_node_275 + 1 ) / 2 + min_node_275;
     int num_node_275;
-    if ( edge_num_cuts[ num_edge_275 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_275 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -26551,7 +26551,7 @@ case_249: {
         const Node &n1 = nodes.local_at( num_node_5 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_275 ] = num_node_275;
-        edge_num_cuts[ num_edge_275 ] = num_cut;
+        edge_num_cuts[ num_edge_275 ] = num_cut_proc;
     } else
         num_node_275 = edge_cuts[ num_edge_275 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
@@ -26560,7 +26560,7 @@ case_249: {
     int max_node_290 = max( num_node_6, num_node_7 );
     int num_edge_290 = max_node_290 * ( max_node_290 + 1 ) / 2 + min_node_290;
     int num_node_290;
-    if ( edge_num_cuts[ num_edge_290 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_290 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -26580,7 +26580,7 @@ case_249: {
         const Node &n1 = nodes.local_at( num_node_7 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_290 ] = num_node_290;
-        edge_num_cuts[ num_edge_290 ] = num_cut;
+        edge_num_cuts[ num_edge_290 ] = num_cut_proc;
     } else
         num_node_290 = edge_cuts[ num_edge_290 ];
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
@@ -26588,7 +26588,7 @@ case_249: {
     int max_node_284 = max( num_node_7, num_node_0 );
     int num_edge_284 = max_node_284 * ( max_node_284 + 1 ) / 2 + min_node_284;
     int num_node_284;
-    if ( edge_num_cuts[ num_edge_284 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_284 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -26608,7 +26608,7 @@ case_249: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_284 ] = num_node_284;
-        edge_num_cuts[ num_edge_284 ] = num_cut;
+        edge_num_cuts[ num_edge_284 ] = num_cut_proc;
     } else
         num_node_284 = edge_cuts[ num_edge_284 ];
     break;
@@ -26620,7 +26620,7 @@ case_58: {
     int max_node_269 = max( num_node_3, num_node_4 );
     int num_edge_269 = max_node_269 * ( max_node_269 + 1 ) / 2 + min_node_269;
     int num_node_269;
-    if ( edge_num_cuts[ num_edge_269 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_269 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -26640,7 +26640,7 @@ case_58: {
         const Node &n1 = nodes.local_at( num_node_4 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_269 ] = num_node_269;
-        edge_num_cuts[ num_edge_269 ] = num_cut;
+        edge_num_cuts[ num_edge_269 ] = num_cut_proc;
     } else
         num_node_269 = edge_cuts[ num_edge_269 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
@@ -26649,7 +26649,7 @@ case_58: {
     int max_node_271 = max( num_node_5, num_node_0 );
     int num_edge_271 = max_node_271 * ( max_node_271 + 1 ) / 2 + min_node_271;
     int num_node_271;
-    if ( edge_num_cuts[ num_edge_271 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_271 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -26669,7 +26669,7 @@ case_58: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_271 ] = num_node_271;
-        edge_num_cuts[ num_edge_271 ] = num_cut;
+        edge_num_cuts[ num_edge_271 ] = num_cut_proc;
     } else
         num_node_271 = edge_cuts[ num_edge_271 ];
     // 269,4,5,271
@@ -26692,7 +26692,7 @@ case_80: {
     int max_node_269 = max( num_node_3, num_node_4 );
     int num_edge_269 = max_node_269 * ( max_node_269 + 1 ) / 2 + min_node_269;
     int num_node_269;
-    if ( edge_num_cuts[ num_edge_269 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_269 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -26712,7 +26712,7 @@ case_80: {
         const Node &n1 = nodes.local_at( num_node_4 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_269 ] = num_node_269;
-        edge_num_cuts[ num_edge_269 ] = num_cut;
+        edge_num_cuts[ num_edge_269 ] = num_cut_proc;
     } else
         num_node_269 = edge_cuts[ num_edge_269 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
@@ -26721,7 +26721,7 @@ case_80: {
     int max_node_271 = max( num_node_5, num_node_0 );
     int num_edge_271 = max_node_271 * ( max_node_271 + 1 ) / 2 + min_node_271;
     int num_node_271;
-    if ( edge_num_cuts[ num_edge_271 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_271 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -26741,7 +26741,7 @@ case_80: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_271 ] = num_node_271;
-        edge_num_cuts[ num_edge_271 ] = num_cut;
+        edge_num_cuts[ num_edge_271 ] = num_cut_proc;
     } else
         num_node_271 = edge_cuts[ num_edge_271 ];
     // 271,0,1,2,3,269
@@ -26765,7 +26765,7 @@ case_127: {
     int max_node_269 = max( num_node_3, num_node_4 );
     int num_edge_269 = max_node_269 * ( max_node_269 + 1 ) / 2 + min_node_269;
     int num_node_269;
-    if ( edge_num_cuts[ num_edge_269 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_269 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -26785,7 +26785,7 @@ case_127: {
         const Node &n1 = nodes.local_at( num_node_4 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_269 ] = num_node_269;
-        edge_num_cuts[ num_edge_269 ] = num_cut;
+        edge_num_cuts[ num_edge_269 ] = num_cut_proc;
     } else
         num_node_269 = edge_cuts[ num_edge_269 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
@@ -26794,7 +26794,7 @@ case_127: {
     int max_node_282 = max( num_node_5, num_node_6 );
     int num_edge_282 = max_node_282 * ( max_node_282 + 1 ) / 2 + min_node_282;
     int num_node_282;
-    if ( edge_num_cuts[ num_edge_282 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_282 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -26814,7 +26814,7 @@ case_127: {
         const Node &n1 = nodes.local_at( num_node_6 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_282 ] = num_node_282;
-        edge_num_cuts[ num_edge_282 ] = num_cut;
+        edge_num_cuts[ num_edge_282 ] = num_cut_proc;
     } else
         num_node_282 = edge_cuts[ num_edge_282 ];
     // 0,1,2,3,269,282,6
@@ -26840,7 +26840,7 @@ case_190: {
     int max_node_269 = max( num_node_3, num_node_4 );
     int num_edge_269 = max_node_269 * ( max_node_269 + 1 ) / 2 + min_node_269;
     int num_node_269;
-    if ( edge_num_cuts[ num_edge_269 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_269 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -26860,7 +26860,7 @@ case_190: {
         const Node &n1 = nodes.local_at( num_node_4 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_269 ] = num_node_269;
-        edge_num_cuts[ num_edge_269 ] = num_cut;
+        edge_num_cuts[ num_edge_269 ] = num_cut_proc;
     } else
         num_node_269 = edge_cuts[ num_edge_269 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
@@ -26869,7 +26869,7 @@ case_190: {
     int max_node_282 = max( num_node_5, num_node_6 );
     int num_edge_282 = max_node_282 * ( max_node_282 + 1 ) / 2 + min_node_282;
     int num_node_282;
-    if ( edge_num_cuts[ num_edge_282 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_282 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -26889,7 +26889,7 @@ case_190: {
         const Node &n1 = nodes.local_at( num_node_6 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_282 ] = num_node_282;
-        edge_num_cuts[ num_edge_282 ] = num_cut;
+        edge_num_cuts[ num_edge_282 ] = num_cut_proc;
     } else
         num_node_282 = edge_cuts[ num_edge_282 ];
     // 0,1,2,3,269,282,6,7
@@ -26917,7 +26917,7 @@ case_147: {
     int max_node_269 = max( num_node_3, num_node_4 );
     int num_edge_269 = max_node_269 * ( max_node_269 + 1 ) / 2 + min_node_269;
     int num_node_269;
-    if ( edge_num_cuts[ num_edge_269 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_269 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -26937,7 +26937,7 @@ case_147: {
         const Node &n1 = nodes.local_at( num_node_4 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_269 ] = num_node_269;
-        edge_num_cuts[ num_edge_269 ] = num_cut;
+        edge_num_cuts[ num_edge_269 ] = num_cut_proc;
     } else
         num_node_269 = edge_cuts[ num_edge_269 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
@@ -26946,7 +26946,7 @@ case_147: {
     int max_node_282 = max( num_node_5, num_node_6 );
     int num_edge_282 = max_node_282 * ( max_node_282 + 1 ) / 2 + min_node_282;
     int num_node_282;
-    if ( edge_num_cuts[ num_edge_282 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_282 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -26966,7 +26966,7 @@ case_147: {
         const Node &n1 = nodes.local_at( num_node_6 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_282 ] = num_node_282;
-        edge_num_cuts[ num_edge_282 ] = num_cut;
+        edge_num_cuts[ num_edge_282 ] = num_cut_proc;
     } else
         num_node_282 = edge_cuts[ num_edge_282 ];
     // 269,4,5,282
@@ -26989,7 +26989,7 @@ case_217: {
     int max_node_269 = max( num_node_3, num_node_4 );
     int num_edge_269 = max_node_269 * ( max_node_269 + 1 ) / 2 + min_node_269;
     int num_node_269;
-    if ( edge_num_cuts[ num_edge_269 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_269 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -27009,7 +27009,7 @@ case_217: {
         const Node &n1 = nodes.local_at( num_node_4 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_269 ] = num_node_269;
-        edge_num_cuts[ num_edge_269 ] = num_cut;
+        edge_num_cuts[ num_edge_269 ] = num_cut_proc;
     } else
         num_node_269 = edge_cuts[ num_edge_269 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
@@ -27018,7 +27018,7 @@ case_217: {
     int max_node_282 = max( num_node_5, num_node_6 );
     int num_edge_282 = max_node_282 * ( max_node_282 + 1 ) / 2 + min_node_282;
     int num_node_282;
-    if ( edge_num_cuts[ num_edge_282 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_282 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -27038,7 +27038,7 @@ case_217: {
         const Node &n1 = nodes.local_at( num_node_6 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_282 ] = num_node_282;
-        edge_num_cuts[ num_edge_282 ] = num_cut;
+        edge_num_cuts[ num_edge_282 ] = num_cut_proc;
     } else
         num_node_282 = edge_cuts[ num_edge_282 ];
     int num_node_7 = faces.node_lists[ num_face ][ 7 ];
@@ -27046,7 +27046,7 @@ case_217: {
     int max_node_290 = max( num_node_6, num_node_7 );
     int num_edge_290 = max_node_290 * ( max_node_290 + 1 ) / 2 + min_node_290;
     int num_node_290;
-    if ( edge_num_cuts[ num_edge_290 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_290 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -27066,7 +27066,7 @@ case_217: {
         const Node &n1 = nodes.local_at( num_node_7 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_290 ] = num_node_290;
-        edge_num_cuts[ num_edge_290 ] = num_cut;
+        edge_num_cuts[ num_edge_290 ] = num_cut_proc;
     } else
         num_node_290 = edge_cuts[ num_edge_290 ];
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
@@ -27074,7 +27074,7 @@ case_217: {
     int max_node_284 = max( num_node_7, num_node_0 );
     int num_edge_284 = max_node_284 * ( max_node_284 + 1 ) / 2 + min_node_284;
     int num_node_284;
-    if ( edge_num_cuts[ num_edge_284 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_284 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -27094,7 +27094,7 @@ case_217: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_284 ] = num_node_284;
-        edge_num_cuts[ num_edge_284 ] = num_cut;
+        edge_num_cuts[ num_edge_284 ] = num_cut_proc;
     } else
         num_node_284 = edge_cuts[ num_edge_284 ];
     break;
@@ -27106,7 +27106,7 @@ case_98: {
     int max_node_269 = max( num_node_3, num_node_4 );
     int num_edge_269 = max_node_269 * ( max_node_269 + 1 ) / 2 + min_node_269;
     int num_node_269;
-    if ( edge_num_cuts[ num_edge_269 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_269 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -27126,7 +27126,7 @@ case_98: {
         const Node &n1 = nodes.local_at( num_node_4 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_269 ] = num_node_269;
-        edge_num_cuts[ num_edge_269 ] = num_cut;
+        edge_num_cuts[ num_edge_269 ] = num_cut_proc;
     } else
         num_node_269 = edge_cuts[ num_edge_269 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
@@ -27135,7 +27135,7 @@ case_98: {
     int max_node_277 = max( num_node_6, num_node_0 );
     int num_edge_277 = max_node_277 * ( max_node_277 + 1 ) / 2 + min_node_277;
     int num_node_277;
-    if ( edge_num_cuts[ num_edge_277 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_277 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -27155,7 +27155,7 @@ case_98: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_277 ] = num_node_277;
-        edge_num_cuts[ num_edge_277 ] = num_cut;
+        edge_num_cuts[ num_edge_277 ] = num_cut_proc;
     } else
         num_node_277 = edge_cuts[ num_edge_277 ];
     // 269,4,5,6,277
@@ -27180,7 +27180,7 @@ case_151: {
     int max_node_269 = max( num_node_3, num_node_4 );
     int num_edge_269 = max_node_269 * ( max_node_269 + 1 ) / 2 + min_node_269;
     int num_node_269;
-    if ( edge_num_cuts[ num_edge_269 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_269 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -27200,7 +27200,7 @@ case_151: {
         const Node &n1 = nodes.local_at( num_node_4 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_269 ] = num_node_269;
-        edge_num_cuts[ num_edge_269 ] = num_cut;
+        edge_num_cuts[ num_edge_269 ] = num_cut_proc;
     } else
         num_node_269 = edge_cuts[ num_edge_269 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
@@ -27209,7 +27209,7 @@ case_151: {
     int max_node_277 = max( num_node_6, num_node_0 );
     int num_edge_277 = max_node_277 * ( max_node_277 + 1 ) / 2 + min_node_277;
     int num_node_277;
-    if ( edge_num_cuts[ num_edge_277 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_277 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -27229,7 +27229,7 @@ case_151: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_277 ] = num_node_277;
-        edge_num_cuts[ num_edge_277 ] = num_cut;
+        edge_num_cuts[ num_edge_277 ] = num_cut_proc;
     } else
         num_node_277 = edge_cuts[ num_edge_277 ];
     // 277,0,1,2,3,269
@@ -27254,7 +27254,7 @@ case_250: {
     int max_node_269 = max( num_node_3, num_node_4 );
     int num_edge_269 = max_node_269 * ( max_node_269 + 1 ) / 2 + min_node_269;
     int num_node_269;
-    if ( edge_num_cuts[ num_edge_269 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_269 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -27274,7 +27274,7 @@ case_250: {
         const Node &n1 = nodes.local_at( num_node_4 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_269 ] = num_node_269;
-        edge_num_cuts[ num_edge_269 ] = num_cut;
+        edge_num_cuts[ num_edge_269 ] = num_cut_proc;
     } else
         num_node_269 = edge_cuts[ num_edge_269 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
@@ -27283,7 +27283,7 @@ case_250: {
     int max_node_290 = max( num_node_6, num_node_7 );
     int num_edge_290 = max_node_290 * ( max_node_290 + 1 ) / 2 + min_node_290;
     int num_node_290;
-    if ( edge_num_cuts[ num_edge_290 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_290 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -27303,7 +27303,7 @@ case_250: {
         const Node &n1 = nodes.local_at( num_node_7 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_290 ] = num_node_290;
-        edge_num_cuts[ num_edge_290 ] = num_cut;
+        edge_num_cuts[ num_edge_290 ] = num_cut_proc;
     } else
         num_node_290 = edge_cuts[ num_edge_290 ];
     // 0,1,2,3,269,290,7
@@ -27331,7 +27331,7 @@ case_270: {
     int max_node_269 = max( num_node_3, num_node_4 );
     int num_edge_269 = max_node_269 * ( max_node_269 + 1 ) / 2 + min_node_269;
     int num_node_269;
-    if ( edge_num_cuts[ num_edge_269 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_269 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -27351,7 +27351,7 @@ case_270: {
         const Node &n1 = nodes.local_at( num_node_4 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_269 ] = num_node_269;
-        edge_num_cuts[ num_edge_269 ] = num_cut;
+        edge_num_cuts[ num_edge_269 ] = num_cut_proc;
     } else
         num_node_269 = edge_cuts[ num_edge_269 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
@@ -27360,7 +27360,7 @@ case_270: {
     int max_node_290 = max( num_node_6, num_node_7 );
     int num_edge_290 = max_node_290 * ( max_node_290 + 1 ) / 2 + min_node_290;
     int num_node_290;
-    if ( edge_num_cuts[ num_edge_290 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_290 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -27380,7 +27380,7 @@ case_270: {
         const Node &n1 = nodes.local_at( num_node_7 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_290 ] = num_node_290;
-        edge_num_cuts[ num_edge_290 ] = num_cut;
+        edge_num_cuts[ num_edge_290 ] = num_cut_proc;
     } else
         num_node_290 = edge_cuts[ num_edge_290 ];
     // 269,4,5,6,290
@@ -27405,7 +27405,7 @@ case_168: {
     int max_node_269 = max( num_node_3, num_node_4 );
     int num_edge_269 = max_node_269 * ( max_node_269 + 1 ) / 2 + min_node_269;
     int num_node_269;
-    if ( edge_num_cuts[ num_edge_269 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_269 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -27425,7 +27425,7 @@ case_168: {
         const Node &n1 = nodes.local_at( num_node_4 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_269 ] = num_node_269;
-        edge_num_cuts[ num_edge_269 ] = num_cut;
+        edge_num_cuts[ num_edge_269 ] = num_cut_proc;
     } else
         num_node_269 = edge_cuts[ num_edge_269 ];
     int num_node_7 = faces.node_lists[ num_face ][ 7 ];
@@ -27434,7 +27434,7 @@ case_168: {
     int max_node_284 = max( num_node_7, num_node_0 );
     int num_edge_284 = max_node_284 * ( max_node_284 + 1 ) / 2 + min_node_284;
     int num_node_284;
-    if ( edge_num_cuts[ num_edge_284 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_284 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -27454,7 +27454,7 @@ case_168: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_284 ] = num_node_284;
-        edge_num_cuts[ num_edge_284 ] = num_cut;
+        edge_num_cuts[ num_edge_284 ] = num_cut_proc;
     } else
         num_node_284 = edge_cuts[ num_edge_284 ];
     // 269,4,5,6,7,284
@@ -27481,7 +27481,7 @@ case_276: {
     int max_node_269 = max( num_node_3, num_node_4 );
     int num_edge_269 = max_node_269 * ( max_node_269 + 1 ) / 2 + min_node_269;
     int num_node_269;
-    if ( edge_num_cuts[ num_edge_269 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_269 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -27501,7 +27501,7 @@ case_276: {
         const Node &n1 = nodes.local_at( num_node_4 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_269 ] = num_node_269;
-        edge_num_cuts[ num_edge_269 ] = num_cut;
+        edge_num_cuts[ num_edge_269 ] = num_cut_proc;
     } else
         num_node_269 = edge_cuts[ num_edge_269 ];
     int num_node_7 = faces.node_lists[ num_face ][ 7 ];
@@ -27510,7 +27510,7 @@ case_276: {
     int max_node_284 = max( num_node_7, num_node_0 );
     int num_edge_284 = max_node_284 * ( max_node_284 + 1 ) / 2 + min_node_284;
     int num_node_284;
-    if ( edge_num_cuts[ num_edge_284 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_284 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -27530,7 +27530,7 @@ case_276: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_284 ] = num_node_284;
-        edge_num_cuts[ num_edge_284 ] = num_cut;
+        edge_num_cuts[ num_edge_284 ] = num_cut_proc;
     } else
         num_node_284 = edge_cuts[ num_edge_284 ];
     // 284,0,1,2,3,269
@@ -27555,7 +27555,7 @@ case_75: {
     int max_node_275 = max( num_node_4, num_node_5 );
     int num_edge_275 = max_node_275 * ( max_node_275 + 1 ) / 2 + min_node_275;
     int num_node_275;
-    if ( edge_num_cuts[ num_edge_275 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_275 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -27575,7 +27575,7 @@ case_75: {
         const Node &n1 = nodes.local_at( num_node_5 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_275 ] = num_node_275;
-        edge_num_cuts[ num_edge_275 ] = num_cut;
+        edge_num_cuts[ num_edge_275 ] = num_cut_proc;
     } else
         num_node_275 = edge_cuts[ num_edge_275 ];
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
@@ -27583,7 +27583,7 @@ case_75: {
     int max_node_271 = max( num_node_5, num_node_0 );
     int num_edge_271 = max_node_271 * ( max_node_271 + 1 ) / 2 + min_node_271;
     int num_node_271;
-    if ( edge_num_cuts[ num_edge_271 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_271 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -27603,7 +27603,7 @@ case_75: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_271 ] = num_node_271;
-        edge_num_cuts[ num_edge_271 ] = num_cut;
+        edge_num_cuts[ num_edge_271 ] = num_cut_proc;
     } else
         num_node_271 = edge_cuts[ num_edge_271 ];
     // 271,0,1,2,3,4,275
@@ -27630,7 +27630,7 @@ case_74: {
     int max_node_275 = max( num_node_4, num_node_5 );
     int num_edge_275 = max_node_275 * ( max_node_275 + 1 ) / 2 + min_node_275;
     int num_node_275;
-    if ( edge_num_cuts[ num_edge_275 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_275 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -27650,7 +27650,7 @@ case_74: {
         const Node &n1 = nodes.local_at( num_node_5 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_275 ] = num_node_275;
-        edge_num_cuts[ num_edge_275 ] = num_cut;
+        edge_num_cuts[ num_edge_275 ] = num_cut_proc;
     } else
         num_node_275 = edge_cuts[ num_edge_275 ];
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
@@ -27658,7 +27658,7 @@ case_74: {
     int max_node_271 = max( num_node_5, num_node_0 );
     int num_edge_271 = max_node_271 * ( max_node_271 + 1 ) / 2 + min_node_271;
     int num_node_271;
-    if ( edge_num_cuts[ num_edge_271 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_271 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -27678,7 +27678,7 @@ case_74: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_271 ] = num_node_271;
-        edge_num_cuts[ num_edge_271 ] = num_cut;
+        edge_num_cuts[ num_edge_271 ] = num_cut_proc;
     } else
         num_node_271 = edge_cuts[ num_edge_271 ];
     // 275,5,271
@@ -27699,7 +27699,7 @@ case_111: {
     int max_node_275 = max( num_node_4, num_node_5 );
     int num_edge_275 = max_node_275 * ( max_node_275 + 1 ) / 2 + min_node_275;
     int num_node_275;
-    if ( edge_num_cuts[ num_edge_275 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_275 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -27719,7 +27719,7 @@ case_111: {
         const Node &n1 = nodes.local_at( num_node_5 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_275 ] = num_node_275;
-        edge_num_cuts[ num_edge_275 ] = num_cut;
+        edge_num_cuts[ num_edge_275 ] = num_cut_proc;
     } else
         num_node_275 = edge_cuts[ num_edge_275 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
@@ -27727,7 +27727,7 @@ case_111: {
     int max_node_282 = max( num_node_5, num_node_6 );
     int num_edge_282 = max_node_282 * ( max_node_282 + 1 ) / 2 + min_node_282;
     int num_node_282;
-    if ( edge_num_cuts[ num_edge_282 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_282 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -27747,7 +27747,7 @@ case_111: {
         const Node &n1 = nodes.local_at( num_node_6 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_282 ] = num_node_282;
-        edge_num_cuts[ num_edge_282 ] = num_cut;
+        edge_num_cuts[ num_edge_282 ] = num_cut_proc;
     } else
         num_node_282 = edge_cuts[ num_edge_282 ];
     // 0,1,2,3,4,275,282,6
@@ -27777,7 +27777,7 @@ case_181: {
     int max_node_275 = max( num_node_4, num_node_5 );
     int num_edge_275 = max_node_275 * ( max_node_275 + 1 ) / 2 + min_node_275;
     int num_node_275;
-    if ( edge_num_cuts[ num_edge_275 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_275 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -27797,7 +27797,7 @@ case_181: {
         const Node &n1 = nodes.local_at( num_node_5 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_275 ] = num_node_275;
-        edge_num_cuts[ num_edge_275 ] = num_cut;
+        edge_num_cuts[ num_edge_275 ] = num_cut_proc;
     } else
         num_node_275 = edge_cuts[ num_edge_275 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
@@ -27805,7 +27805,7 @@ case_181: {
     int max_node_282 = max( num_node_5, num_node_6 );
     int num_edge_282 = max_node_282 * ( max_node_282 + 1 ) / 2 + min_node_282;
     int num_node_282;
-    if ( edge_num_cuts[ num_edge_282 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_282 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -27825,7 +27825,7 @@ case_181: {
         const Node &n1 = nodes.local_at( num_node_6 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_282 ] = num_node_282;
-        edge_num_cuts[ num_edge_282 ] = num_cut;
+        edge_num_cuts[ num_edge_282 ] = num_cut_proc;
     } else
         num_node_282 = edge_cuts[ num_edge_282 ];
     // 0,1,2,3,4,275,282,6,7
@@ -27858,7 +27858,7 @@ case_148: {
     int max_node_275 = max( num_node_4, num_node_5 );
     int num_edge_275 = max_node_275 * ( max_node_275 + 1 ) / 2 + min_node_275;
     int num_node_275;
-    if ( edge_num_cuts[ num_edge_275 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_275 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -27878,7 +27878,7 @@ case_148: {
         const Node &n1 = nodes.local_at( num_node_5 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_275 ] = num_node_275;
-        edge_num_cuts[ num_edge_275 ] = num_cut;
+        edge_num_cuts[ num_edge_275 ] = num_cut_proc;
     } else
         num_node_275 = edge_cuts[ num_edge_275 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
@@ -27886,7 +27886,7 @@ case_148: {
     int max_node_282 = max( num_node_5, num_node_6 );
     int num_edge_282 = max_node_282 * ( max_node_282 + 1 ) / 2 + min_node_282;
     int num_node_282;
-    if ( edge_num_cuts[ num_edge_282 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_282 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -27906,7 +27906,7 @@ case_148: {
         const Node &n1 = nodes.local_at( num_node_6 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_282 ] = num_node_282;
-        edge_num_cuts[ num_edge_282 ] = num_cut;
+        edge_num_cuts[ num_edge_282 ] = num_cut_proc;
     } else
         num_node_282 = edge_cuts[ num_edge_282 ];
     // 275,5,282
@@ -27927,7 +27927,7 @@ case_233: {
     int max_node_275 = max( num_node_4, num_node_5 );
     int num_edge_275 = max_node_275 * ( max_node_275 + 1 ) / 2 + min_node_275;
     int num_node_275;
-    if ( edge_num_cuts[ num_edge_275 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_275 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -27947,7 +27947,7 @@ case_233: {
         const Node &n1 = nodes.local_at( num_node_5 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_275 ] = num_node_275;
-        edge_num_cuts[ num_edge_275 ] = num_cut;
+        edge_num_cuts[ num_edge_275 ] = num_cut_proc;
     } else
         num_node_275 = edge_cuts[ num_edge_275 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
@@ -27955,7 +27955,7 @@ case_233: {
     int max_node_282 = max( num_node_5, num_node_6 );
     int num_edge_282 = max_node_282 * ( max_node_282 + 1 ) / 2 + min_node_282;
     int num_node_282;
-    if ( edge_num_cuts[ num_edge_282 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_282 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -27975,7 +27975,7 @@ case_233: {
         const Node &n1 = nodes.local_at( num_node_6 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_282 ] = num_node_282;
-        edge_num_cuts[ num_edge_282 ] = num_cut;
+        edge_num_cuts[ num_edge_282 ] = num_cut_proc;
     } else
         num_node_282 = edge_cuts[ num_edge_282 ];
     int num_node_7 = faces.node_lists[ num_face ][ 7 ];
@@ -27983,7 +27983,7 @@ case_233: {
     int max_node_290 = max( num_node_6, num_node_7 );
     int num_edge_290 = max_node_290 * ( max_node_290 + 1 ) / 2 + min_node_290;
     int num_node_290;
-    if ( edge_num_cuts[ num_edge_290 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_290 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -28003,7 +28003,7 @@ case_233: {
         const Node &n1 = nodes.local_at( num_node_7 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_290 ] = num_node_290;
-        edge_num_cuts[ num_edge_290 ] = num_cut;
+        edge_num_cuts[ num_edge_290 ] = num_cut_proc;
     } else
         num_node_290 = edge_cuts[ num_edge_290 ];
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
@@ -28011,7 +28011,7 @@ case_233: {
     int max_node_284 = max( num_node_7, num_node_0 );
     int num_edge_284 = max_node_284 * ( max_node_284 + 1 ) / 2 + min_node_284;
     int num_node_284;
-    if ( edge_num_cuts[ num_edge_284 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_284 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -28031,7 +28031,7 @@ case_233: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_284 ] = num_node_284;
-        edge_num_cuts[ num_edge_284 ] = num_cut;
+        edge_num_cuts[ num_edge_284 ] = num_cut_proc;
     } else
         num_node_284 = edge_cuts[ num_edge_284 ];
     break;
@@ -28043,7 +28043,7 @@ case_110: {
     int max_node_275 = max( num_node_4, num_node_5 );
     int num_edge_275 = max_node_275 * ( max_node_275 + 1 ) / 2 + min_node_275;
     int num_node_275;
-    if ( edge_num_cuts[ num_edge_275 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_275 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -28063,7 +28063,7 @@ case_110: {
         const Node &n1 = nodes.local_at( num_node_5 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_275 ] = num_node_275;
-        edge_num_cuts[ num_edge_275 ] = num_cut;
+        edge_num_cuts[ num_edge_275 ] = num_cut_proc;
     } else
         num_node_275 = edge_cuts[ num_edge_275 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
@@ -28072,7 +28072,7 @@ case_110: {
     int max_node_277 = max( num_node_6, num_node_0 );
     int num_edge_277 = max_node_277 * ( max_node_277 + 1 ) / 2 + min_node_277;
     int num_node_277;
-    if ( edge_num_cuts[ num_edge_277 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_277 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -28092,7 +28092,7 @@ case_110: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_277 ] = num_node_277;
-        edge_num_cuts[ num_edge_277 ] = num_cut;
+        edge_num_cuts[ num_edge_277 ] = num_cut_proc;
     } else
         num_node_277 = edge_cuts[ num_edge_277 ];
     // 275,5,6,277
@@ -28115,7 +28115,7 @@ case_149: {
     int max_node_275 = max( num_node_4, num_node_5 );
     int num_edge_275 = max_node_275 * ( max_node_275 + 1 ) / 2 + min_node_275;
     int num_node_275;
-    if ( edge_num_cuts[ num_edge_275 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_275 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -28135,7 +28135,7 @@ case_149: {
         const Node &n1 = nodes.local_at( num_node_5 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_275 ] = num_node_275;
-        edge_num_cuts[ num_edge_275 ] = num_cut;
+        edge_num_cuts[ num_edge_275 ] = num_cut_proc;
     } else
         num_node_275 = edge_cuts[ num_edge_275 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
@@ -28144,7 +28144,7 @@ case_149: {
     int max_node_277 = max( num_node_6, num_node_0 );
     int num_edge_277 = max_node_277 * ( max_node_277 + 1 ) / 2 + min_node_277;
     int num_node_277;
-    if ( edge_num_cuts[ num_edge_277 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_277 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -28164,7 +28164,7 @@ case_149: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_277 ] = num_node_277;
-        edge_num_cuts[ num_edge_277 ] = num_cut;
+        edge_num_cuts[ num_edge_277 ] = num_cut_proc;
     } else
         num_node_277 = edge_cuts[ num_edge_277 ];
     // 277,0,1,2,3,4,275
@@ -28190,7 +28190,7 @@ case_234: {
     int max_node_275 = max( num_node_4, num_node_5 );
     int num_edge_275 = max_node_275 * ( max_node_275 + 1 ) / 2 + min_node_275;
     int num_node_275;
-    if ( edge_num_cuts[ num_edge_275 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_275 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -28210,7 +28210,7 @@ case_234: {
         const Node &n1 = nodes.local_at( num_node_5 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_275 ] = num_node_275;
-        edge_num_cuts[ num_edge_275 ] = num_cut;
+        edge_num_cuts[ num_edge_275 ] = num_cut_proc;
     } else
         num_node_275 = edge_cuts[ num_edge_275 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
@@ -28219,7 +28219,7 @@ case_234: {
     int max_node_290 = max( num_node_6, num_node_7 );
     int num_edge_290 = max_node_290 * ( max_node_290 + 1 ) / 2 + min_node_290;
     int num_node_290;
-    if ( edge_num_cuts[ num_edge_290 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_290 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -28239,7 +28239,7 @@ case_234: {
         const Node &n1 = nodes.local_at( num_node_7 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_290 ] = num_node_290;
-        edge_num_cuts[ num_edge_290 ] = num_cut;
+        edge_num_cuts[ num_edge_290 ] = num_cut_proc;
     } else
         num_node_290 = edge_cuts[ num_edge_290 ];
     // 0,1,2,3,4,275,290,7
@@ -28267,7 +28267,7 @@ case_271: {
     int max_node_275 = max( num_node_4, num_node_5 );
     int num_edge_275 = max_node_275 * ( max_node_275 + 1 ) / 2 + min_node_275;
     int num_node_275;
-    if ( edge_num_cuts[ num_edge_275 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_275 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -28287,7 +28287,7 @@ case_271: {
         const Node &n1 = nodes.local_at( num_node_5 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_275 ] = num_node_275;
-        edge_num_cuts[ num_edge_275 ] = num_cut;
+        edge_num_cuts[ num_edge_275 ] = num_cut_proc;
     } else
         num_node_275 = edge_cuts[ num_edge_275 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
@@ -28296,7 +28296,7 @@ case_271: {
     int max_node_290 = max( num_node_6, num_node_7 );
     int num_edge_290 = max_node_290 * ( max_node_290 + 1 ) / 2 + min_node_290;
     int num_node_290;
-    if ( edge_num_cuts[ num_edge_290 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_290 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -28316,7 +28316,7 @@ case_271: {
         const Node &n1 = nodes.local_at( num_node_7 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_290 ] = num_node_290;
-        edge_num_cuts[ num_edge_290 ] = num_cut;
+        edge_num_cuts[ num_edge_290 ] = num_cut_proc;
     } else
         num_node_290 = edge_cuts[ num_edge_290 ];
     // 275,5,6,290
@@ -28339,7 +28339,7 @@ case_180: {
     int max_node_275 = max( num_node_4, num_node_5 );
     int num_edge_275 = max_node_275 * ( max_node_275 + 1 ) / 2 + min_node_275;
     int num_node_275;
-    if ( edge_num_cuts[ num_edge_275 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_275 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -28359,7 +28359,7 @@ case_180: {
         const Node &n1 = nodes.local_at( num_node_5 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_275 ] = num_node_275;
-        edge_num_cuts[ num_edge_275 ] = num_cut;
+        edge_num_cuts[ num_edge_275 ] = num_cut_proc;
     } else
         num_node_275 = edge_cuts[ num_edge_275 ];
     int num_node_7 = faces.node_lists[ num_face ][ 7 ];
@@ -28368,7 +28368,7 @@ case_180: {
     int max_node_284 = max( num_node_7, num_node_0 );
     int num_edge_284 = max_node_284 * ( max_node_284 + 1 ) / 2 + min_node_284;
     int num_node_284;
-    if ( edge_num_cuts[ num_edge_284 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_284 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -28388,7 +28388,7 @@ case_180: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_284 ] = num_node_284;
-        edge_num_cuts[ num_edge_284 ] = num_cut;
+        edge_num_cuts[ num_edge_284 ] = num_cut_proc;
     } else
         num_node_284 = edge_cuts[ num_edge_284 ];
     // 275,5,6,7,284
@@ -28414,7 +28414,7 @@ case_275: {
     int max_node_275 = max( num_node_4, num_node_5 );
     int num_edge_275 = max_node_275 * ( max_node_275 + 1 ) / 2 + min_node_275;
     int num_node_275;
-    if ( edge_num_cuts[ num_edge_275 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_275 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -28434,7 +28434,7 @@ case_275: {
         const Node &n1 = nodes.local_at( num_node_5 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_275 ] = num_node_275;
-        edge_num_cuts[ num_edge_275 ] = num_cut;
+        edge_num_cuts[ num_edge_275 ] = num_cut_proc;
     } else
         num_node_275 = edge_cuts[ num_edge_275 ];
     int num_node_7 = faces.node_lists[ num_face ][ 7 ];
@@ -28443,7 +28443,7 @@ case_275: {
     int max_node_284 = max( num_node_7, num_node_0 );
     int num_edge_284 = max_node_284 * ( max_node_284 + 1 ) / 2 + min_node_284;
     int num_node_284;
-    if ( edge_num_cuts[ num_edge_284 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_284 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -28463,7 +28463,7 @@ case_275: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_284 ] = num_node_284;
-        edge_num_cuts[ num_edge_284 ] = num_cut;
+        edge_num_cuts[ num_edge_284 ] = num_cut_proc;
     } else
         num_node_284 = edge_cuts[ num_edge_284 ];
     // 284,0,1,2,3,4,275
@@ -28490,7 +28490,7 @@ case_143: {
     int max_node_282 = max( num_node_5, num_node_6 );
     int num_edge_282 = max_node_282 * ( max_node_282 + 1 ) / 2 + min_node_282;
     int num_node_282;
-    if ( edge_num_cuts[ num_edge_282 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_282 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -28510,7 +28510,7 @@ case_143: {
         const Node &n1 = nodes.local_at( num_node_6 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_282 ] = num_node_282;
-        edge_num_cuts[ num_edge_282 ] = num_cut;
+        edge_num_cuts[ num_edge_282 ] = num_cut_proc;
     } else
         num_node_282 = edge_cuts[ num_edge_282 ];
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
@@ -28518,7 +28518,7 @@ case_143: {
     int max_node_277 = max( num_node_6, num_node_0 );
     int num_edge_277 = max_node_277 * ( max_node_277 + 1 ) / 2 + min_node_277;
     int num_node_277;
-    if ( edge_num_cuts[ num_edge_277 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_277 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -28538,7 +28538,7 @@ case_143: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_277 ] = num_node_277;
-        edge_num_cuts[ num_edge_277 ] = num_cut;
+        edge_num_cuts[ num_edge_277 ] = num_cut_proc;
     } else
         num_node_277 = edge_cuts[ num_edge_277 ];
     // 277,0,1,2,3,4,5,282
@@ -28567,7 +28567,7 @@ case_142: {
     int max_node_282 = max( num_node_5, num_node_6 );
     int num_edge_282 = max_node_282 * ( max_node_282 + 1 ) / 2 + min_node_282;
     int num_node_282;
-    if ( edge_num_cuts[ num_edge_282 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_282 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -28587,7 +28587,7 @@ case_142: {
         const Node &n1 = nodes.local_at( num_node_6 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_282 ] = num_node_282;
-        edge_num_cuts[ num_edge_282 ] = num_cut;
+        edge_num_cuts[ num_edge_282 ] = num_cut_proc;
     } else
         num_node_282 = edge_cuts[ num_edge_282 ];
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
@@ -28595,7 +28595,7 @@ case_142: {
     int max_node_277 = max( num_node_6, num_node_0 );
     int num_edge_277 = max_node_277 * ( max_node_277 + 1 ) / 2 + min_node_277;
     int num_node_277;
-    if ( edge_num_cuts[ num_edge_277 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_277 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -28615,7 +28615,7 @@ case_142: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_277 ] = num_node_277;
-        edge_num_cuts[ num_edge_277 ] = num_cut;
+        edge_num_cuts[ num_edge_277 ] = num_cut_proc;
     } else
         num_node_277 = edge_cuts[ num_edge_277 ];
     // 282,6,277
@@ -28636,7 +28636,7 @@ case_202: {
     int max_node_282 = max( num_node_5, num_node_6 );
     int num_edge_282 = max_node_282 * ( max_node_282 + 1 ) / 2 + min_node_282;
     int num_node_282;
-    if ( edge_num_cuts[ num_edge_282 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_282 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -28656,7 +28656,7 @@ case_202: {
         const Node &n1 = nodes.local_at( num_node_6 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_282 ] = num_node_282;
-        edge_num_cuts[ num_edge_282 ] = num_cut;
+        edge_num_cuts[ num_edge_282 ] = num_cut_proc;
     } else
         num_node_282 = edge_cuts[ num_edge_282 ];
     int num_node_7 = faces.node_lists[ num_face ][ 7 ];
@@ -28664,7 +28664,7 @@ case_202: {
     int max_node_290 = max( num_node_6, num_node_7 );
     int num_edge_290 = max_node_290 * ( max_node_290 + 1 ) / 2 + min_node_290;
     int num_node_290;
-    if ( edge_num_cuts[ num_edge_290 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_290 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -28684,7 +28684,7 @@ case_202: {
         const Node &n1 = nodes.local_at( num_node_7 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_290 ] = num_node_290;
-        edge_num_cuts[ num_edge_290 ] = num_cut;
+        edge_num_cuts[ num_edge_290 ] = num_cut_proc;
     } else
         num_node_290 = edge_cuts[ num_edge_290 ];
     // 0,1,2,3,4,5,282,290,7
@@ -28716,7 +28716,7 @@ case_272: {
     int max_node_282 = max( num_node_5, num_node_6 );
     int num_edge_282 = max_node_282 * ( max_node_282 + 1 ) / 2 + min_node_282;
     int num_node_282;
-    if ( edge_num_cuts[ num_edge_282 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_282 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -28736,7 +28736,7 @@ case_272: {
         const Node &n1 = nodes.local_at( num_node_6 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_282 ] = num_node_282;
-        edge_num_cuts[ num_edge_282 ] = num_cut;
+        edge_num_cuts[ num_edge_282 ] = num_cut_proc;
     } else
         num_node_282 = edge_cuts[ num_edge_282 ];
     int num_node_7 = faces.node_lists[ num_face ][ 7 ];
@@ -28744,7 +28744,7 @@ case_272: {
     int max_node_290 = max( num_node_6, num_node_7 );
     int num_edge_290 = max_node_290 * ( max_node_290 + 1 ) / 2 + min_node_290;
     int num_node_290;
-    if ( edge_num_cuts[ num_edge_290 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_290 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -28764,7 +28764,7 @@ case_272: {
         const Node &n1 = nodes.local_at( num_node_7 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_290 ] = num_node_290;
-        edge_num_cuts[ num_edge_290 ] = num_cut;
+        edge_num_cuts[ num_edge_290 ] = num_cut_proc;
     } else
         num_node_290 = edge_cuts[ num_edge_290 ];
     // 282,6,290
@@ -28785,7 +28785,7 @@ case_201: {
     int max_node_282 = max( num_node_5, num_node_6 );
     int num_edge_282 = max_node_282 * ( max_node_282 + 1 ) / 2 + min_node_282;
     int num_node_282;
-    if ( edge_num_cuts[ num_edge_282 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_282 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -28805,7 +28805,7 @@ case_201: {
         const Node &n1 = nodes.local_at( num_node_6 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_282 ] = num_node_282;
-        edge_num_cuts[ num_edge_282 ] = num_cut;
+        edge_num_cuts[ num_edge_282 ] = num_cut_proc;
     } else
         num_node_282 = edge_cuts[ num_edge_282 ];
     int num_node_7 = faces.node_lists[ num_face ][ 7 ];
@@ -28814,7 +28814,7 @@ case_201: {
     int max_node_284 = max( num_node_7, num_node_0 );
     int num_edge_284 = max_node_284 * ( max_node_284 + 1 ) / 2 + min_node_284;
     int num_node_284;
-    if ( edge_num_cuts[ num_edge_284 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_284 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -28834,7 +28834,7 @@ case_201: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_284 ] = num_node_284;
-        edge_num_cuts[ num_edge_284 ] = num_cut;
+        edge_num_cuts[ num_edge_284 ] = num_cut_proc;
     } else
         num_node_284 = edge_cuts[ num_edge_284 ];
     // 282,6,7,284
@@ -28857,7 +28857,7 @@ case_273: {
     int max_node_282 = max( num_node_5, num_node_6 );
     int num_edge_282 = max_node_282 * ( max_node_282 + 1 ) / 2 + min_node_282;
     int num_node_282;
-    if ( edge_num_cuts[ num_edge_282 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_282 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -28877,7 +28877,7 @@ case_273: {
         const Node &n1 = nodes.local_at( num_node_6 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_282 ] = num_node_282;
-        edge_num_cuts[ num_edge_282 ] = num_cut;
+        edge_num_cuts[ num_edge_282 ] = num_cut_proc;
     } else
         num_node_282 = edge_cuts[ num_edge_282 ];
     int num_node_7 = faces.node_lists[ num_face ][ 7 ];
@@ -28886,7 +28886,7 @@ case_273: {
     int max_node_284 = max( num_node_7, num_node_0 );
     int num_edge_284 = max_node_284 * ( max_node_284 + 1 ) / 2 + min_node_284;
     int num_node_284;
-    if ( edge_num_cuts[ num_edge_284 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_284 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -28906,7 +28906,7 @@ case_273: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_284 ] = num_node_284;
-        edge_num_cuts[ num_edge_284 ] = num_cut;
+        edge_num_cuts[ num_edge_284 ] = num_cut_proc;
     } else
         num_node_284 = edge_cuts[ num_edge_284 ];
     // 284,0,1,2,3,4,5,282
@@ -28934,7 +28934,7 @@ case_266: {
     int max_node_290 = max( num_node_6, num_node_7 );
     int num_edge_290 = max_node_290 * ( max_node_290 + 1 ) / 2 + min_node_290;
     int num_node_290;
-    if ( edge_num_cuts[ num_edge_290 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_290 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -28954,7 +28954,7 @@ case_266: {
         const Node &n1 = nodes.local_at( num_node_7 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_290 ] = num_node_290;
-        edge_num_cuts[ num_edge_290 ] = num_cut;
+        edge_num_cuts[ num_edge_290 ] = num_cut_proc;
     } else
         num_node_290 = edge_cuts[ num_edge_290 ];
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
@@ -28962,7 +28962,7 @@ case_266: {
     int max_node_284 = max( num_node_7, num_node_0 );
     int num_edge_284 = max_node_284 * ( max_node_284 + 1 ) / 2 + min_node_284;
     int num_node_284;
-    if ( edge_num_cuts[ num_edge_284 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_284 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -28982,7 +28982,7 @@ case_266: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_284 ] = num_node_284;
-        edge_num_cuts[ num_edge_284 ] = num_cut;
+        edge_num_cuts[ num_edge_284 ] = num_cut_proc;
     } else
         num_node_284 = edge_cuts[ num_edge_284 ];
     // 284,0,1,2,3,4,5,6,290
@@ -29013,7 +29013,7 @@ case_265: {
     int max_node_290 = max( num_node_6, num_node_7 );
     int num_edge_290 = max_node_290 * ( max_node_290 + 1 ) / 2 + min_node_290;
     int num_node_290;
-    if ( edge_num_cuts[ num_edge_290 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_290 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -29033,7 +29033,7 @@ case_265: {
         const Node &n1 = nodes.local_at( num_node_7 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_290 ] = num_node_290;
-        edge_num_cuts[ num_edge_290 ] = num_cut;
+        edge_num_cuts[ num_edge_290 ] = num_cut_proc;
     } else
         num_node_290 = edge_cuts[ num_edge_290 ];
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
@@ -29041,7 +29041,7 @@ case_265: {
     int max_node_284 = max( num_node_7, num_node_0 );
     int num_edge_284 = max_node_284 * ( max_node_284 + 1 ) / 2 + min_node_284;
     int num_node_284;
-    if ( edge_num_cuts[ num_edge_284 ] != num_cut ) {
+    if ( edge_num_cuts[ num_edge_284 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // 
             int nn = tzcnt( cou );
@@ -29061,7 +29061,7 @@ case_265: {
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
         edge_cuts[ num_edge_284 ] = num_node_284;
-        edge_num_cuts[ num_edge_284 ] = num_cut;
+        edge_num_cuts[ num_edge_284 ] = num_cut_proc;
     } else
         num_node_284 = edge_cuts[ num_edge_284 ];
     // 290,7,284
