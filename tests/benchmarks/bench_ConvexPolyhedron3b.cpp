@@ -8,8 +8,8 @@ using namespace sdot;
 //// nsmake cxx_name clang++
 //// nsmake cpp_flag -march=native
 //// nsmake cpp_flag -ffast-math
-//// nsmake cpp_flag -O3
-//// nsmake lib_flag -O3
+// // nsmake cpp_flag -O3
+// // nsmake lib_flag -O3
 
 struct Pc {
     enum { store_the_normals = false };
@@ -74,7 +74,7 @@ void bench( std::vector<TF> xs, std::vector<TF> ys, std::vector<TF> zs, std::vec
 
 int main() {
     bool single_test = 0;
-    bool single_dir = 1; // single_test;
+    bool single_dir = 0; // single_test;
 
     std::vector<Pt> directions;
     if ( single_dir ) {
@@ -92,7 +92,7 @@ int main() {
         }
     }
 
-    std::size_t nb_cuts = single_test ? 1 : 64;
+    std::size_t nb_cuts = 4; //single_test ? 1 : 64;
     std::vector<TF> xs, ys, zs, ps;
     std::vector<Pc::Dirac *> ds;
     for( std::size_t n = 0; n < nb_cuts; ++n ) {
@@ -104,5 +104,5 @@ int main() {
         ds.push_back( nullptr );
     }
 
-    bench( xs, ys, zs, ps, ds, single_test ? 1 : 200000 );
+    bench( xs, ys, zs, ps, ds, single_test ? 1 : 2 );
 }
