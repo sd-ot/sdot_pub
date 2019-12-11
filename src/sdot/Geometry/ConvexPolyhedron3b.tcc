@@ -90,6 +90,7 @@ ConvexPolyhedron3<Pc>::ConvexPolyhedron3() {
     for( std::size_t i = 0; i < max_nb_edges; ++i )
         edge_num_cut_procs[ i ] = 0;
 
+    // to please valgrind
     for( std::size_t i = 0; i < ConvexPolyhedron3Lt64FaceBlock<Pc>::max_nb_faces_per_cell; ++i )
         for( std::size_t j = 0; j < ConvexPolyhedron3Lt64FaceBlock<Pc>::max_nb_nodes_per_face; ++j )
             faces.node_lists[ i ][ j ] = 0;
@@ -280,6 +281,7 @@ std::size_t ConvexPolyhedron3<Pc>::plane_cut( std::array<const TF *,dim> cut_dir
             SimdVec<std::uint64_t,8> bsh = SimdVec<std::uint64_t,8>( 1 ) << blo;
             SimdVec<std::uint64_t,8> ban = SimdVec<std::uint64_t,8>( ou ) & bsh;
             int ouf = ban.nz() | ( 1 << nb_fnodes );
+            P( ban, ban.nz(), nb_fnodes, binary_repr( ouf ) );
             do {
                 #include "Internal/(ConvexPolyhedron3Lt64_plane_cut_switch.cpp).h"
             } while ( 0 );
@@ -355,7 +357,6 @@ std::size_t ConvexPolyhedron3<Pc>::plane_cut( std::array<const TF *,dim> cut_dir
 
             // if we still have nodes to free
             if ( cou ) {
-                P( binary_repr( cou ), nodes_size );
                 // while we have nodes to free
                 do {
                     // if the last node is valid, move if to the free room. Else, remove it from cou

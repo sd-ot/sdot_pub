@@ -31,6 +31,9 @@ bool make_case( std::ostream &os, int nb_nodes, std::bitset<8> outside_nodes ) {
         return true;
     }
 
+    os << "    // n=" << nb_nodes << " " << outside_nodes << "\n";
+    os << "    P( " << nb_nodes << ", \"" << outside_nodes << "\" );\n";
+
     // if < 64 => num_node. Else, num_edge
     std::set<int> registered_num_nodes;
     auto get_node = [&]( int num_node ) {
@@ -63,10 +66,10 @@ bool make_case( std::ostream &os, int nb_nodes, std::bitset<8> outside_nodes ) {
             os << "        int pos_node;\n";
             os << "        if ( cou ) { // there's a node that is going to be freed\n";
             os << "            int nn = tzcnt( cou );\n";
-            os << "            cou -= 1 << nn;\n";
+            os << "            cou -= std::uint64_t( 1 ) << nn;\n";
             os << "            \n";
-            os << "            num_node_" << edge << " = nn;\n";
             os << "            pos_node = ind_nxt_tmp_node++;\n";
+            os << "            num_node_" << edge << " = nn;\n";
             os << "            \n";
             os << "            repl_node_dsts[ nb_repl_nodes ] = num_node_" << edge << ";\n";
             os << "            repl_node_srcs[ nb_repl_nodes ] = pos_node;\n";
@@ -79,7 +82,7 @@ bool make_case( std::ostream &os, int nb_nodes, std::bitset<8> outside_nodes ) {
             os << "        const Node &n1 = nodes.local_at( num_node_" << n1 << " );\n";
             os << "        nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );\n";
             os << "        edge_num_cut_procs[ num_edge_" << edge << " ] = num_cut_proc;\n";
-            os << "        edge_cuts[ num_edge_" << edge << " ] = num_node_" << edge<< ";\n";
+            os << "        edge_cuts[ num_edge_" << edge << " ] = num_node_" << edge << ";\n";
             os << "    } else\n";
             os << "        num_node_" << edge << " = edge_cuts[ num_edge_" << edge << " ];\n";
         }
