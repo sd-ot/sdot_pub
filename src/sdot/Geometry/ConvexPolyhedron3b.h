@@ -75,8 +75,8 @@ private:
     enum {                               max_nb_faces = ConvexPolyhedron3Lt64FaceBlock<Pc>::max_nb_faces_per_cell };
 
     // aligned structures
-    ConvexPolyhedron3Lt64NodeBlock<Pc>   nodes;                    ///<
-    ConvexPolyhedron3Lt64FaceBlock<Pc>   faces;                    ///<
+    ConvexPolyhedron3Lt64NodeBlock<Pc>   nodes;                              ///<
+    ConvexPolyhedron3Lt64FaceBlock<Pc>   faces;                              ///<
 
     int                                  nodes_size;
     int                                  faces_size;
@@ -85,11 +85,11 @@ private:
     Pt                                   sphere_center;
     CI                                   sphere_cut_id;
 
-    std::vector<Pt>                      additional_nodes;         ///< used if nodes_size > 64 (meaning that we have to use another ConvexPolyhedron class)
-    std::vector<std::uint8_t>            additional_nums;          ///< used if some face have more than 16 nodes (meaning that we have to use another ConvexPolyhedron class)
+    std::vector<Pt>                      additional_nodes;                   ///< used if nodes_size > 64 (meaning that we have to use another ConvexPolyhedron class)
+    std::vector<std::uint8_t>            additional_nums;                    ///< used if some face have more than 16 nodes (meaning that we have to use another ConvexPolyhedron class)
 
-    std::uint64_t                        edge_num_cuts [ max_nb_edges ]; ///< to be compared to this->num_cut
-    std::uint8_t                         edge_cuts     [ max_nb_edges ]; ///< num node for each possible edge
+    std::uint64_t                        edge_num_cut_procs[ max_nb_edges ]; ///< to be compared to this->num_cut_proc
+    std::uint8_t                         edge_cuts         [ max_nb_edges ]; ///< num node for each possible edge
 
     std::uint64_t                        num_cut_proc;
 };

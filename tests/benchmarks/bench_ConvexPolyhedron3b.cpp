@@ -6,8 +6,8 @@
 using namespace sdot;
 
 //// nsmake cxx_name clang++
-//// nsmake cpp_flag -march=native
-//// nsmake cpp_flag -ffast-math
+// // nsmake cpp_flag -march=native
+// // nsmake cpp_flag -ffast-math
 // // nsmake cpp_flag -O3
 // // nsmake lib_flag -O3
 
@@ -73,7 +73,7 @@ void bench( std::vector<TF> xs, std::vector<TF> ys, std::vector<TF> zs, std::vec
 
 
 int main() {
-    bool single_test = 0;
+    bool single_test = 1;
     bool single_dir = 0; // single_test;
 
     std::vector<Pt> directions;
@@ -92,7 +92,7 @@ int main() {
         }
     }
 
-    std::size_t nb_cuts = 10; //single_test ? 1 : 64;
+    std::size_t nb_cuts = 5; //single_test ? 1 : 64;
     std::vector<TF> xs, ys, zs, ps;
     std::vector<Pc::Dirac *> ds;
     for( std::size_t n = 0; n < nb_cuts; ++n ) {
@@ -100,7 +100,7 @@ int main() {
         xs.push_back( directions[ th ].x );
         ys.push_back( directions[ th ].y );
         zs.push_back( directions[ th ].z );
-        ps.push_back( 10.0 / ( 11 + n ) + ( n % 2 ) );
+        ps.push_back( 10.0 / ( 11 + n ) + 0.7 * ( n % 2 ) );
         ds.push_back( nullptr );
     }
 

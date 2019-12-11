@@ -59,26 +59,26 @@ bool make_case( std::ostream &os, int nb_nodes, std::bitset<8> outside_nodes ) {
             os << "    int max_node_" << edge << " = max( num_node_" << n0 << ", num_node_" << n1 << " );\n";
             os << "    int num_edge_" << edge << " = 64 * max_node_" << edge << " + min_node_" << edge << ";\n";
             os << "    int num_node_" << edge << ";\n";
-            os << "    if ( edge_num_cuts[ num_edge_" << edge << " ] != num_cut_proc ) {\n";
+            os << "    if ( edge_num_cut_procs[ num_edge_" << edge << " ] != num_cut_proc ) {\n";
             os << "        int pos_node;\n";
             os << "        if ( cou ) { // there's a node that is going to be freed\n";
             os << "            int nn = tzcnt( cou );\n";
             os << "            cou -= 1 << nn;\n";
             os << "            \n";
             os << "            num_node_" << edge << " = nn;\n";
-            os << "            pos_node = --end_nodes;\n";
+            os << "            pos_node = ind_nxt_tmp_node++;\n";
             os << "            \n";
             os << "            repl_node_dsts[ nb_repl_nodes ] = num_node_" << edge << ";\n";
             os << "            repl_node_srcs[ nb_repl_nodes ] = pos_node;\n";
             os << "            ++nb_repl_nodes;\n";
             os << "        } else {\n";
-            os << "            num_node_" << edge << " = new_nodes_size;\n";
-            os << "            pos_node = new_nodes_size++;\n";
+            os << "            num_node_" << edge << " = nodes_size;\n";
+            os << "            pos_node = nodes_size++;\n";
             os << "        }\n";
             os << "        const Node &n0 = nodes.local_at( num_node_" << n0 << " );\n";
             os << "        const Node &n1 = nodes.local_at( num_node_" << n1 << " );\n";
             os << "        nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );\n";
-            os << "        edge_num_cuts[ num_edge_" << edge << " ] = num_cut_proc;\n";
+            os << "        edge_num_cut_procs[ num_edge_" << edge << " ] = num_cut_proc;\n";
             os << "        edge_cuts[ num_edge_" << edge << " ] = num_node_" << edge<< ";\n";
             os << "    } else\n";
             os << "        num_node_" << edge << " = edge_cuts[ num_edge_" << edge << " ];\n";
@@ -111,10 +111,12 @@ bool make_case( std::ostream &os, int nb_nodes, std::bitset<8> outside_nodes ) {
         }
     }
 
-    // register nodes for the new face
+    // uncommon (and complicated) case
     if ( out_ins.size() >= 2 || in_outs.size() >= 2 ) {
         return false;
     }
+
+    // register nodes for the new face
     os << "    prev_cut_nodes[ num_node_" << out_ins[ 0 ] << " ] = num_node_" << in_outs[ 0 ] << ";\n";
     os << "    last_cut_node = num_node_" << out_ins[ 0 ] << ";\n";
 

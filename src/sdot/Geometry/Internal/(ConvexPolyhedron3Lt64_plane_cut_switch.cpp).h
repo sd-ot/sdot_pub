@@ -532,26 +532,26 @@ case_2: {
     int max_node_128 = max( num_node_0, num_node_1 );
     int num_edge_128 = 64 * max_node_128 + min_node_128;
     int num_node_128;
-    if ( edge_num_cuts[ num_edge_128 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_128 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_128;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_128 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_128 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_0 );
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_128 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_128 ] = num_cut_proc;
         edge_cuts[ num_edge_128 ] = num_node_128;
     } else
         num_node_128 = edge_cuts[ num_edge_128 ];
@@ -560,26 +560,26 @@ case_2: {
     int max_node_192 = max( num_node_2, num_node_0 );
     int num_edge_192 = 64 * max_node_192 + min_node_192;
     int num_node_192;
-    if ( edge_num_cuts[ num_edge_192 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_192 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_192 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_192;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_192 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_192 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_2 );
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_192 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_192 ] = num_cut_proc;
         edge_cuts[ num_edge_192 ] = num_node_192;
     } else
         num_node_192 = edge_cuts[ num_edge_192 ];
@@ -603,26 +603,26 @@ case_7: {
     int max_node_128 = max( num_node_0, num_node_1 );
     int num_edge_128 = 64 * max_node_128 + min_node_128;
     int num_node_128;
-    if ( edge_num_cuts[ num_edge_128 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_128 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_128;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_128 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_128 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_0 );
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_128 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_128 ] = num_cut_proc;
         edge_cuts[ num_edge_128 ] = num_node_128;
     } else
         num_node_128 = edge_cuts[ num_edge_128 ];
@@ -631,26 +631,26 @@ case_7: {
     int max_node_192 = max( num_node_2, num_node_0 );
     int num_edge_192 = 64 * max_node_192 + min_node_192;
     int num_node_192;
-    if ( edge_num_cuts[ num_edge_192 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_192 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_192 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_192;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_192 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_192 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_2 );
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_192 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_192 ] = num_cut_proc;
         edge_cuts[ num_edge_192 ] = num_node_192;
     } else
         num_node_192 = edge_cuts[ num_edge_192 ];
@@ -672,26 +672,26 @@ case_19: {
     int max_node_128 = max( num_node_0, num_node_1 );
     int num_edge_128 = 64 * max_node_128 + min_node_128;
     int num_node_128;
-    if ( edge_num_cuts[ num_edge_128 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_128 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_128;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_128 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_128 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_0 );
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_128 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_128 ] = num_cut_proc;
         edge_cuts[ num_edge_128 ] = num_node_128;
     } else
         num_node_128 = edge_cuts[ num_edge_128 ];
@@ -700,26 +700,26 @@ case_19: {
     int max_node_193 = max( num_node_1, num_node_2 );
     int num_edge_193 = 64 * max_node_193 + min_node_193;
     int num_node_193;
-    if ( edge_num_cuts[ num_edge_193 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_193 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_193 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_193;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_193 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_193 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_1 );
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_193 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_193 ] = num_cut_proc;
         edge_cuts[ num_edge_193 ] = num_node_193;
     } else
         num_node_193 = edge_cuts[ num_edge_193 ];
@@ -742,26 +742,26 @@ case_6: {
     int max_node_128 = max( num_node_0, num_node_1 );
     int num_edge_128 = 64 * max_node_128 + min_node_128;
     int num_node_128;
-    if ( edge_num_cuts[ num_edge_128 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_128 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_128;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_128 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_128 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_0 );
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_128 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_128 ] = num_cut_proc;
         edge_cuts[ num_edge_128 ] = num_node_128;
     } else
         num_node_128 = edge_cuts[ num_edge_128 ];
@@ -770,26 +770,26 @@ case_6: {
     int max_node_193 = max( num_node_1, num_node_2 );
     int num_edge_193 = 64 * max_node_193 + min_node_193;
     int num_node_193;
-    if ( edge_num_cuts[ num_edge_193 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_193 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_193 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_193;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_193 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_193 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_1 );
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_193 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_193 ] = num_cut_proc;
         edge_cuts[ num_edge_193 ] = num_node_193;
     } else
         num_node_193 = edge_cuts[ num_edge_193 ];
@@ -811,26 +811,26 @@ case_3: {
     int max_node_128 = max( num_node_0, num_node_1 );
     int num_edge_128 = 64 * max_node_128 + min_node_128;
     int num_node_128;
-    if ( edge_num_cuts[ num_edge_128 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_128 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_128;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_128 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_128 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_0 );
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_128 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_128 ] = num_cut_proc;
         edge_cuts[ num_edge_128 ] = num_node_128;
     } else
         num_node_128 = edge_cuts[ num_edge_128 ];
@@ -839,26 +839,26 @@ case_3: {
     int max_node_193 = max( num_node_1, num_node_2 );
     int num_edge_193 = 64 * max_node_193 + min_node_193;
     int num_node_193;
-    if ( edge_num_cuts[ num_edge_193 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_193 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_193 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_193;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_193 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_193 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_1 );
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_193 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_193 ] = num_cut_proc;
         edge_cuts[ num_edge_193 ] = num_node_193;
     } else
         num_node_193 = edge_cuts[ num_edge_193 ];
@@ -883,26 +883,26 @@ case_10: {
     int max_node_128 = max( num_node_0, num_node_1 );
     int num_edge_128 = 64 * max_node_128 + min_node_128;
     int num_node_128;
-    if ( edge_num_cuts[ num_edge_128 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_128 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_128;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_128 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_128 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_0 );
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_128 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_128 ] = num_cut_proc;
         edge_cuts[ num_edge_128 ] = num_node_128;
     } else
         num_node_128 = edge_cuts[ num_edge_128 ];
@@ -911,26 +911,26 @@ case_10: {
     int max_node_193 = max( num_node_1, num_node_2 );
     int num_edge_193 = 64 * max_node_193 + min_node_193;
     int num_node_193;
-    if ( edge_num_cuts[ num_edge_193 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_193 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_193 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_193;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_193 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_193 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_1 );
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_193 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_193 ] = num_cut_proc;
         edge_cuts[ num_edge_193 ] = num_node_193;
     } else
         num_node_193 = edge_cuts[ num_edge_193 ];
@@ -957,26 +957,26 @@ case_22: {
     int max_node_128 = max( num_node_0, num_node_1 );
     int num_edge_128 = 64 * max_node_128 + min_node_128;
     int num_node_128;
-    if ( edge_num_cuts[ num_edge_128 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_128 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_128;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_128 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_128 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_0 );
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_128 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_128 ] = num_cut_proc;
         edge_cuts[ num_edge_128 ] = num_node_128;
     } else
         num_node_128 = edge_cuts[ num_edge_128 ];
@@ -985,26 +985,26 @@ case_22: {
     int max_node_193 = max( num_node_1, num_node_2 );
     int num_edge_193 = 64 * max_node_193 + min_node_193;
     int num_node_193;
-    if ( edge_num_cuts[ num_edge_193 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_193 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_193 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_193;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_193 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_193 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_1 );
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_193 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_193 ] = num_cut_proc;
         edge_cuts[ num_edge_193 ] = num_node_193;
     } else
         num_node_193 = edge_cuts[ num_edge_193 ];
@@ -1033,26 +1033,26 @@ case_40: {
     int max_node_128 = max( num_node_0, num_node_1 );
     int num_edge_128 = 64 * max_node_128 + min_node_128;
     int num_node_128;
-    if ( edge_num_cuts[ num_edge_128 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_128 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_128;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_128 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_128 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_0 );
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_128 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_128 ] = num_cut_proc;
         edge_cuts[ num_edge_128 ] = num_node_128;
     } else
         num_node_128 = edge_cuts[ num_edge_128 ];
@@ -1061,26 +1061,26 @@ case_40: {
     int max_node_193 = max( num_node_1, num_node_2 );
     int num_edge_193 = 64 * max_node_193 + min_node_193;
     int num_node_193;
-    if ( edge_num_cuts[ num_edge_193 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_193 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_193 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_193;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_193 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_193 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_1 );
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_193 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_193 ] = num_cut_proc;
         edge_cuts[ num_edge_193 ] = num_node_193;
     } else
         num_node_193 = edge_cuts[ num_edge_193 ];
@@ -1111,26 +1111,26 @@ case_65: {
     int max_node_128 = max( num_node_0, num_node_1 );
     int num_edge_128 = 64 * max_node_128 + min_node_128;
     int num_node_128;
-    if ( edge_num_cuts[ num_edge_128 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_128 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_128;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_128 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_128 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_0 );
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_128 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_128 ] = num_cut_proc;
         edge_cuts[ num_edge_128 ] = num_node_128;
     } else
         num_node_128 = edge_cuts[ num_edge_128 ];
@@ -1139,26 +1139,26 @@ case_65: {
     int max_node_193 = max( num_node_1, num_node_2 );
     int num_edge_193 = 64 * max_node_193 + min_node_193;
     int num_node_193;
-    if ( edge_num_cuts[ num_edge_193 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_193 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_193 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_193;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_193 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_193 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_1 );
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_193 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_193 ] = num_cut_proc;
         edge_cuts[ num_edge_193 ] = num_node_193;
     } else
         num_node_193 = edge_cuts[ num_edge_193 ];
@@ -1191,26 +1191,26 @@ case_98: {
     int max_node_128 = max( num_node_0, num_node_1 );
     int num_edge_128 = 64 * max_node_128 + min_node_128;
     int num_node_128;
-    if ( edge_num_cuts[ num_edge_128 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_128 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_128;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_128 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_128 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_0 );
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_128 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_128 ] = num_cut_proc;
         edge_cuts[ num_edge_128 ] = num_node_128;
     } else
         num_node_128 = edge_cuts[ num_edge_128 ];
@@ -1219,26 +1219,26 @@ case_98: {
     int max_node_193 = max( num_node_1, num_node_2 );
     int num_edge_193 = 64 * max_node_193 + min_node_193;
     int num_node_193;
-    if ( edge_num_cuts[ num_edge_193 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_193 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_193 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_193;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_193 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_193 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_1 );
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_193 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_193 ] = num_cut_proc;
         edge_cuts[ num_edge_193 ] = num_node_193;
     } else
         num_node_193 = edge_cuts[ num_edge_193 ];
@@ -1273,26 +1273,26 @@ case_36: {
     int max_node_128 = max( num_node_0, num_node_1 );
     int num_edge_128 = 64 * max_node_128 + min_node_128;
     int num_node_128;
-    if ( edge_num_cuts[ num_edge_128 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_128 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_128;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_128 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_128 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_0 );
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_128 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_128 ] = num_cut_proc;
         edge_cuts[ num_edge_128 ] = num_node_128;
     } else
         num_node_128 = edge_cuts[ num_edge_128 ];
@@ -1302,26 +1302,26 @@ case_36: {
     int max_node_258 = max( num_node_2, num_node_3 );
     int num_edge_258 = 64 * max_node_258 + min_node_258;
     int num_node_258;
-    if ( edge_num_cuts[ num_edge_258 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_258 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_258 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_258;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_258 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_258 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_2 );
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_258 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_258 ] = num_cut_proc;
         edge_cuts[ num_edge_258 ] = num_node_258;
     } else
         num_node_258 = edge_cuts[ num_edge_258 ];
@@ -1345,26 +1345,26 @@ case_16: {
     int max_node_128 = max( num_node_0, num_node_1 );
     int num_edge_128 = 64 * max_node_128 + min_node_128;
     int num_node_128;
-    if ( edge_num_cuts[ num_edge_128 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_128 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_128;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_128 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_128 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_0 );
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_128 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_128 ] = num_cut_proc;
         edge_cuts[ num_edge_128 ] = num_node_128;
     } else
         num_node_128 = edge_cuts[ num_edge_128 ];
@@ -1374,26 +1374,26 @@ case_16: {
     int max_node_258 = max( num_node_2, num_node_3 );
     int num_edge_258 = 64 * max_node_258 + min_node_258;
     int num_node_258;
-    if ( edge_num_cuts[ num_edge_258 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_258 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_258 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_258;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_258 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_258 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_2 );
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_258 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_258 ] = num_cut_proc;
         edge_cuts[ num_edge_258 ] = num_node_258;
     } else
         num_node_258 = edge_cuts[ num_edge_258 ];
@@ -1416,26 +1416,26 @@ case_13: {
     int max_node_128 = max( num_node_0, num_node_1 );
     int num_edge_128 = 64 * max_node_128 + min_node_128;
     int num_node_128;
-    if ( edge_num_cuts[ num_edge_128 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_128 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_128;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_128 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_128 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_0 );
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_128 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_128 ] = num_cut_proc;
         edge_cuts[ num_edge_128 ] = num_node_128;
     } else
         num_node_128 = edge_cuts[ num_edge_128 ];
@@ -1445,26 +1445,26 @@ case_13: {
     int max_node_258 = max( num_node_2, num_node_3 );
     int num_edge_258 = 64 * max_node_258 + min_node_258;
     int num_node_258;
-    if ( edge_num_cuts[ num_edge_258 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_258 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_258 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_258;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_258 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_258 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_2 );
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_258 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_258 ] = num_cut_proc;
         edge_cuts[ num_edge_258 ] = num_node_258;
     } else
         num_node_258 = edge_cuts[ num_edge_258 ];
@@ -1487,26 +1487,26 @@ case_25: {
     int max_node_128 = max( num_node_0, num_node_1 );
     int num_edge_128 = 64 * max_node_128 + min_node_128;
     int num_node_128;
-    if ( edge_num_cuts[ num_edge_128 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_128 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_128;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_128 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_128 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_0 );
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_128 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_128 ] = num_cut_proc;
         edge_cuts[ num_edge_128 ] = num_node_128;
     } else
         num_node_128 = edge_cuts[ num_edge_128 ];
@@ -1516,26 +1516,26 @@ case_25: {
     int max_node_258 = max( num_node_2, num_node_3 );
     int num_edge_258 = 64 * max_node_258 + min_node_258;
     int num_node_258;
-    if ( edge_num_cuts[ num_edge_258 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_258 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_258 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_258;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_258 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_258 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_2 );
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_258 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_258 ] = num_cut_proc;
         edge_cuts[ num_edge_258 ] = num_node_258;
     } else
         num_node_258 = edge_cuts[ num_edge_258 ];
@@ -1560,26 +1560,26 @@ case_43: {
     int max_node_128 = max( num_node_0, num_node_1 );
     int num_edge_128 = 64 * max_node_128 + min_node_128;
     int num_node_128;
-    if ( edge_num_cuts[ num_edge_128 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_128 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_128;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_128 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_128 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_0 );
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_128 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_128 ] = num_cut_proc;
         edge_cuts[ num_edge_128 ] = num_node_128;
     } else
         num_node_128 = edge_cuts[ num_edge_128 ];
@@ -1589,26 +1589,26 @@ case_43: {
     int max_node_258 = max( num_node_2, num_node_3 );
     int num_edge_258 = 64 * max_node_258 + min_node_258;
     int num_node_258;
-    if ( edge_num_cuts[ num_edge_258 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_258 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_258 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_258;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_258 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_258 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_2 );
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_258 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_258 ] = num_cut_proc;
         edge_cuts[ num_edge_258 ] = num_node_258;
     } else
         num_node_258 = edge_cuts[ num_edge_258 ];
@@ -1635,26 +1635,26 @@ case_68: {
     int max_node_128 = max( num_node_0, num_node_1 );
     int num_edge_128 = 64 * max_node_128 + min_node_128;
     int num_node_128;
-    if ( edge_num_cuts[ num_edge_128 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_128 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_128;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_128 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_128 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_0 );
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_128 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_128 ] = num_cut_proc;
         edge_cuts[ num_edge_128 ] = num_node_128;
     } else
         num_node_128 = edge_cuts[ num_edge_128 ];
@@ -1664,26 +1664,26 @@ case_68: {
     int max_node_258 = max( num_node_2, num_node_3 );
     int num_edge_258 = 64 * max_node_258 + min_node_258;
     int num_node_258;
-    if ( edge_num_cuts[ num_edge_258 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_258 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_258 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_258;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_258 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_258 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_2 );
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_258 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_258 ] = num_cut_proc;
         edge_cuts[ num_edge_258 ] = num_node_258;
     } else
         num_node_258 = edge_cuts[ num_edge_258 ];
@@ -1712,26 +1712,26 @@ case_101: {
     int max_node_128 = max( num_node_0, num_node_1 );
     int num_edge_128 = 64 * max_node_128 + min_node_128;
     int num_node_128;
-    if ( edge_num_cuts[ num_edge_128 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_128 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_128;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_128 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_128 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_0 );
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_128 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_128 ] = num_cut_proc;
         edge_cuts[ num_edge_128 ] = num_node_128;
     } else
         num_node_128 = edge_cuts[ num_edge_128 ];
@@ -1741,26 +1741,26 @@ case_101: {
     int max_node_258 = max( num_node_2, num_node_3 );
     int num_edge_258 = 64 * max_node_258 + min_node_258;
     int num_node_258;
-    if ( edge_num_cuts[ num_edge_258 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_258 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_258 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_258;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_258 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_258 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_2 );
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_258 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_258 ] = num_cut_proc;
         edge_cuts[ num_edge_258 ] = num_node_258;
     } else
         num_node_258 = edge_cuts[ num_edge_258 ];
@@ -1791,26 +1791,26 @@ case_9: {
     int max_node_128 = max( num_node_0, num_node_1 );
     int num_edge_128 = 64 * max_node_128 + min_node_128;
     int num_node_128;
-    if ( edge_num_cuts[ num_edge_128 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_128 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_128;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_128 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_128 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_0 );
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_128 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_128 ] = num_cut_proc;
         edge_cuts[ num_edge_128 ] = num_node_128;
     } else
         num_node_128 = edge_cuts[ num_edge_128 ];
@@ -1819,26 +1819,26 @@ case_9: {
     int max_node_256 = max( num_node_3, num_node_0 );
     int num_edge_256 = 64 * max_node_256 + min_node_256;
     int num_node_256;
-    if ( edge_num_cuts[ num_edge_256 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_256 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_256 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_256;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_256 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_256 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_3 );
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_256 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_256 ] = num_cut_proc;
         edge_cuts[ num_edge_256 ] = num_node_256;
     } else
         num_node_256 = edge_cuts[ num_edge_256 ];
@@ -1864,26 +1864,26 @@ case_20: {
     int max_node_128 = max( num_node_0, num_node_1 );
     int num_edge_128 = 64 * max_node_128 + min_node_128;
     int num_node_128;
-    if ( edge_num_cuts[ num_edge_128 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_128 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_128;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_128 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_128 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_0 );
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_128 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_128 ] = num_cut_proc;
         edge_cuts[ num_edge_128 ] = num_node_128;
     } else
         num_node_128 = edge_cuts[ num_edge_128 ];
@@ -1892,26 +1892,26 @@ case_20: {
     int max_node_256 = max( num_node_3, num_node_0 );
     int num_edge_256 = 64 * max_node_256 + min_node_256;
     int num_node_256;
-    if ( edge_num_cuts[ num_edge_256 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_256 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_256 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_256;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_256 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_256 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_3 );
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_256 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_256 ] = num_cut_proc;
         edge_cuts[ num_edge_256 ] = num_node_256;
     } else
         num_node_256 = edge_cuts[ num_edge_256 ];
@@ -1934,26 +1934,26 @@ case_60: {
     int max_node_128 = max( num_node_0, num_node_1 );
     int num_edge_128 = 64 * max_node_128 + min_node_128;
     int num_node_128;
-    if ( edge_num_cuts[ num_edge_128 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_128 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_128;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_128 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_128 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_0 );
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_128 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_128 ] = num_cut_proc;
         edge_cuts[ num_edge_128 ] = num_node_128;
     } else
         num_node_128 = edge_cuts[ num_edge_128 ];
@@ -1963,26 +1963,26 @@ case_60: {
     int max_node_323 = max( num_node_3, num_node_4 );
     int num_edge_323 = 64 * max_node_323 + min_node_323;
     int num_node_323;
-    if ( edge_num_cuts[ num_edge_323 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_323 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_323 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_323;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_323 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_323 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_3 );
         const Node &n1 = nodes.local_at( num_node_4 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_323 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_323 ] = num_cut_proc;
         edge_cuts[ num_edge_323 ] = num_node_323;
     } else
         num_node_323 = edge_cuts[ num_edge_323 ];
@@ -2008,26 +2008,26 @@ case_32: {
     int max_node_128 = max( num_node_0, num_node_1 );
     int num_edge_128 = 64 * max_node_128 + min_node_128;
     int num_node_128;
-    if ( edge_num_cuts[ num_edge_128 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_128 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_128;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_128 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_128 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_0 );
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_128 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_128 ] = num_cut_proc;
         edge_cuts[ num_edge_128 ] = num_node_128;
     } else
         num_node_128 = edge_cuts[ num_edge_128 ];
@@ -2037,26 +2037,26 @@ case_32: {
     int max_node_323 = max( num_node_3, num_node_4 );
     int num_edge_323 = 64 * max_node_323 + min_node_323;
     int num_node_323;
-    if ( edge_num_cuts[ num_edge_323 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_323 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_323 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_323;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_323 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_323 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_3 );
         const Node &n1 = nodes.local_at( num_node_4 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_323 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_323 ] = num_cut_proc;
         edge_cuts[ num_edge_323 ] = num_node_323;
     } else
         num_node_323 = edge_cuts[ num_edge_323 ];
@@ -2081,26 +2081,26 @@ case_29: {
     int max_node_128 = max( num_node_0, num_node_1 );
     int num_edge_128 = 64 * max_node_128 + min_node_128;
     int num_node_128;
-    if ( edge_num_cuts[ num_edge_128 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_128 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_128;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_128 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_128 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_0 );
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_128 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_128 ] = num_cut_proc;
         edge_cuts[ num_edge_128 ] = num_node_128;
     } else
         num_node_128 = edge_cuts[ num_edge_128 ];
@@ -2110,26 +2110,26 @@ case_29: {
     int max_node_323 = max( num_node_3, num_node_4 );
     int num_edge_323 = 64 * max_node_323 + min_node_323;
     int num_node_323;
-    if ( edge_num_cuts[ num_edge_323 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_323 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_323 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_323;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_323 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_323 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_3 );
         const Node &n1 = nodes.local_at( num_node_4 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_323 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_323 ] = num_cut_proc;
         edge_cuts[ num_edge_323 ] = num_node_323;
     } else
         num_node_323 = edge_cuts[ num_edge_323 ];
@@ -2154,26 +2154,26 @@ case_47: {
     int max_node_128 = max( num_node_0, num_node_1 );
     int num_edge_128 = 64 * max_node_128 + min_node_128;
     int num_node_128;
-    if ( edge_num_cuts[ num_edge_128 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_128 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_128;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_128 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_128 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_0 );
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_128 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_128 ] = num_cut_proc;
         edge_cuts[ num_edge_128 ] = num_node_128;
     } else
         num_node_128 = edge_cuts[ num_edge_128 ];
@@ -2183,26 +2183,26 @@ case_47: {
     int max_node_323 = max( num_node_3, num_node_4 );
     int num_edge_323 = 64 * max_node_323 + min_node_323;
     int num_node_323;
-    if ( edge_num_cuts[ num_edge_323 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_323 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_323 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_323;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_323 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_323 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_3 );
         const Node &n1 = nodes.local_at( num_node_4 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_323 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_323 ] = num_cut_proc;
         edge_cuts[ num_edge_323 ] = num_node_323;
     } else
         num_node_323 = edge_cuts[ num_edge_323 ];
@@ -2230,26 +2230,26 @@ case_72: {
     int max_node_128 = max( num_node_0, num_node_1 );
     int num_edge_128 = 64 * max_node_128 + min_node_128;
     int num_node_128;
-    if ( edge_num_cuts[ num_edge_128 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_128 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_128;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_128 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_128 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_0 );
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_128 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_128 ] = num_cut_proc;
         edge_cuts[ num_edge_128 ] = num_node_128;
     } else
         num_node_128 = edge_cuts[ num_edge_128 ];
@@ -2259,26 +2259,26 @@ case_72: {
     int max_node_323 = max( num_node_3, num_node_4 );
     int num_edge_323 = 64 * max_node_323 + min_node_323;
     int num_node_323;
-    if ( edge_num_cuts[ num_edge_323 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_323 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_323 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_323;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_323 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_323 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_3 );
         const Node &n1 = nodes.local_at( num_node_4 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_323 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_323 ] = num_cut_proc;
         edge_cuts[ num_edge_323 ] = num_node_323;
     } else
         num_node_323 = edge_cuts[ num_edge_323 ];
@@ -2308,26 +2308,26 @@ case_105: {
     int max_node_128 = max( num_node_0, num_node_1 );
     int num_edge_128 = 64 * max_node_128 + min_node_128;
     int num_node_128;
-    if ( edge_num_cuts[ num_edge_128 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_128 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_128;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_128 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_128 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_0 );
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_128 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_128 ] = num_cut_proc;
         edge_cuts[ num_edge_128 ] = num_node_128;
     } else
         num_node_128 = edge_cuts[ num_edge_128 ];
@@ -2337,26 +2337,26 @@ case_105: {
     int max_node_323 = max( num_node_3, num_node_4 );
     int num_edge_323 = 64 * max_node_323 + min_node_323;
     int num_node_323;
-    if ( edge_num_cuts[ num_edge_323 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_323 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_323 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_323;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_323 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_323 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_3 );
         const Node &n1 = nodes.local_at( num_node_4 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_323 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_323 ] = num_cut_proc;
         edge_cuts[ num_edge_323 ] = num_node_323;
     } else
         num_node_323 = edge_cuts[ num_edge_323 ];
@@ -2388,26 +2388,26 @@ case_21: {
     int max_node_128 = max( num_node_0, num_node_1 );
     int num_edge_128 = 64 * max_node_128 + min_node_128;
     int num_node_128;
-    if ( edge_num_cuts[ num_edge_128 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_128 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_128;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_128 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_128 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_0 );
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_128 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_128 ] = num_cut_proc;
         edge_cuts[ num_edge_128 ] = num_node_128;
     } else
         num_node_128 = edge_cuts[ num_edge_128 ];
@@ -2416,26 +2416,26 @@ case_21: {
     int max_node_320 = max( num_node_4, num_node_0 );
     int num_edge_320 = 64 * max_node_320 + min_node_320;
     int num_node_320;
-    if ( edge_num_cuts[ num_edge_320 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_320 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_320 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_320;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_320 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_320 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_4 );
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_320 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_320 ] = num_cut_proc;
         edge_cuts[ num_edge_320 ] = num_node_320;
     } else
         num_node_320 = edge_cuts[ num_edge_320 ];
@@ -2463,26 +2463,26 @@ case_38: {
     int max_node_128 = max( num_node_0, num_node_1 );
     int num_edge_128 = 64 * max_node_128 + min_node_128;
     int num_node_128;
-    if ( edge_num_cuts[ num_edge_128 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_128 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_128;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_128 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_128 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_0 );
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_128 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_128 ] = num_cut_proc;
         edge_cuts[ num_edge_128 ] = num_node_128;
     } else
         num_node_128 = edge_cuts[ num_edge_128 ];
@@ -2491,26 +2491,26 @@ case_38: {
     int max_node_320 = max( num_node_4, num_node_0 );
     int num_edge_320 = 64 * max_node_320 + min_node_320;
     int num_node_320;
-    if ( edge_num_cuts[ num_edge_320 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_320 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_320 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_320;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_320 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_320 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_4 );
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_320 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_320 ] = num_cut_proc;
         edge_cuts[ num_edge_320 ] = num_node_320;
     } else
         num_node_320 = edge_cuts[ num_edge_320 ];
@@ -2533,26 +2533,26 @@ case_92: {
     int max_node_128 = max( num_node_0, num_node_1 );
     int num_edge_128 = 64 * max_node_128 + min_node_128;
     int num_node_128;
-    if ( edge_num_cuts[ num_edge_128 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_128 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_128;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_128 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_128 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_0 );
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_128 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_128 ] = num_cut_proc;
         edge_cuts[ num_edge_128 ] = num_node_128;
     } else
         num_node_128 = edge_cuts[ num_edge_128 ];
@@ -2562,26 +2562,26 @@ case_92: {
     int max_node_388 = max( num_node_4, num_node_5 );
     int num_edge_388 = 64 * max_node_388 + min_node_388;
     int num_node_388;
-    if ( edge_num_cuts[ num_edge_388 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_388 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_388 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_388;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_388 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_388 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_4 );
         const Node &n1 = nodes.local_at( num_node_5 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_388 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_388 ] = num_cut_proc;
         edge_cuts[ num_edge_388 ] = num_node_388;
     } else
         num_node_388 = edge_cuts[ num_edge_388 ];
@@ -2609,26 +2609,26 @@ case_55: {
     int max_node_128 = max( num_node_0, num_node_1 );
     int num_edge_128 = 64 * max_node_128 + min_node_128;
     int num_node_128;
-    if ( edge_num_cuts[ num_edge_128 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_128 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_128;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_128 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_128 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_0 );
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_128 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_128 ] = num_cut_proc;
         edge_cuts[ num_edge_128 ] = num_node_128;
     } else
         num_node_128 = edge_cuts[ num_edge_128 ];
@@ -2638,26 +2638,26 @@ case_55: {
     int max_node_388 = max( num_node_4, num_node_5 );
     int num_edge_388 = 64 * max_node_388 + min_node_388;
     int num_node_388;
-    if ( edge_num_cuts[ num_edge_388 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_388 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_388 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_388;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_388 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_388 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_4 );
         const Node &n1 = nodes.local_at( num_node_5 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_388 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_388 ] = num_cut_proc;
         edge_cuts[ num_edge_388 ] = num_node_388;
     } else
         num_node_388 = edge_cuts[ num_edge_388 ];
@@ -2684,26 +2684,26 @@ case_52: {
     int max_node_128 = max( num_node_0, num_node_1 );
     int num_edge_128 = 64 * max_node_128 + min_node_128;
     int num_node_128;
-    if ( edge_num_cuts[ num_edge_128 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_128 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_128;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_128 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_128 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_0 );
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_128 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_128 ] = num_cut_proc;
         edge_cuts[ num_edge_128 ] = num_node_128;
     } else
         num_node_128 = edge_cuts[ num_edge_128 ];
@@ -2713,26 +2713,26 @@ case_52: {
     int max_node_388 = max( num_node_4, num_node_5 );
     int num_edge_388 = 64 * max_node_388 + min_node_388;
     int num_node_388;
-    if ( edge_num_cuts[ num_edge_388 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_388 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_388 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_388;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_388 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_388 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_4 );
         const Node &n1 = nodes.local_at( num_node_5 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_388 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_388 ] = num_cut_proc;
         edge_cuts[ num_edge_388 ] = num_node_388;
     } else
         num_node_388 = edge_cuts[ num_edge_388 ];
@@ -2757,26 +2757,26 @@ case_77: {
     int max_node_128 = max( num_node_0, num_node_1 );
     int num_edge_128 = 64 * max_node_128 + min_node_128;
     int num_node_128;
-    if ( edge_num_cuts[ num_edge_128 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_128 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_128;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_128 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_128 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_0 );
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_128 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_128 ] = num_cut_proc;
         edge_cuts[ num_edge_128 ] = num_node_128;
     } else
         num_node_128 = edge_cuts[ num_edge_128 ];
@@ -2786,26 +2786,26 @@ case_77: {
     int max_node_388 = max( num_node_4, num_node_5 );
     int num_edge_388 = 64 * max_node_388 + min_node_388;
     int num_node_388;
-    if ( edge_num_cuts[ num_edge_388 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_388 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_388 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_388;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_388 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_388 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_4 );
         const Node &n1 = nodes.local_at( num_node_5 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_388 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_388 ] = num_cut_proc;
         edge_cuts[ num_edge_388 ] = num_node_388;
     } else
         num_node_388 = edge_cuts[ num_edge_388 ];
@@ -2833,26 +2833,26 @@ case_110: {
     int max_node_128 = max( num_node_0, num_node_1 );
     int num_edge_128 = 64 * max_node_128 + min_node_128;
     int num_node_128;
-    if ( edge_num_cuts[ num_edge_128 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_128 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_128;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_128 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_128 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_0 );
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_128 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_128 ] = num_cut_proc;
         edge_cuts[ num_edge_128 ] = num_node_128;
     } else
         num_node_128 = edge_cuts[ num_edge_128 ];
@@ -2862,26 +2862,26 @@ case_110: {
     int max_node_388 = max( num_node_4, num_node_5 );
     int num_edge_388 = 64 * max_node_388 + min_node_388;
     int num_node_388;
-    if ( edge_num_cuts[ num_edge_388 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_388 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_388 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_388;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_388 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_388 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_4 );
         const Node &n1 = nodes.local_at( num_node_5 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_388 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_388 ] = num_cut_proc;
         edge_cuts[ num_edge_388 ] = num_node_388;
     } else
         num_node_388 = edge_cuts[ num_edge_388 ];
@@ -2912,26 +2912,26 @@ case_39: {
     int max_node_128 = max( num_node_0, num_node_1 );
     int num_edge_128 = 64 * max_node_128 + min_node_128;
     int num_node_128;
-    if ( edge_num_cuts[ num_edge_128 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_128 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_128;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_128 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_128 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_0 );
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_128 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_128 ] = num_cut_proc;
         edge_cuts[ num_edge_128 ] = num_node_128;
     } else
         num_node_128 = edge_cuts[ num_edge_128 ];
@@ -2940,26 +2940,26 @@ case_39: {
     int max_node_384 = max( num_node_5, num_node_0 );
     int num_edge_384 = 64 * max_node_384 + min_node_384;
     int num_node_384;
-    if ( edge_num_cuts[ num_edge_384 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_384 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_384 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_384;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_384 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_384 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_5 );
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_384 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_384 ] = num_cut_proc;
         edge_cuts[ num_edge_384 ] = num_node_384;
     } else
         num_node_384 = edge_cuts[ num_edge_384 ];
@@ -2989,26 +2989,26 @@ case_63: {
     int max_node_128 = max( num_node_0, num_node_1 );
     int num_edge_128 = 64 * max_node_128 + min_node_128;
     int num_node_128;
-    if ( edge_num_cuts[ num_edge_128 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_128 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_128;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_128 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_128 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_0 );
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_128 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_128 ] = num_cut_proc;
         edge_cuts[ num_edge_128 ] = num_node_128;
     } else
         num_node_128 = edge_cuts[ num_edge_128 ];
@@ -3017,26 +3017,26 @@ case_63: {
     int max_node_384 = max( num_node_5, num_node_0 );
     int num_edge_384 = 64 * max_node_384 + min_node_384;
     int num_node_384;
-    if ( edge_num_cuts[ num_edge_384 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_384 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_384 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_384;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_384 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_384 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_5 );
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_384 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_384 ] = num_cut_proc;
         edge_cuts[ num_edge_384 ] = num_node_384;
     } else
         num_node_384 = edge_cuts[ num_edge_384 ];
@@ -3059,26 +3059,26 @@ case_133: {
     int max_node_128 = max( num_node_0, num_node_1 );
     int num_edge_128 = 64 * max_node_128 + min_node_128;
     int num_node_128;
-    if ( edge_num_cuts[ num_edge_128 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_128 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_128;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_128 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_128 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_0 );
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_128 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_128 ] = num_cut_proc;
         edge_cuts[ num_edge_128 ] = num_node_128;
     } else
         num_node_128 = edge_cuts[ num_edge_128 ];
@@ -3088,26 +3088,26 @@ case_133: {
     int max_node_453 = max( num_node_5, num_node_6 );
     int num_edge_453 = 64 * max_node_453 + min_node_453;
     int num_node_453;
-    if ( edge_num_cuts[ num_edge_453 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_453 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_453 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_453;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_453 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_453 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_5 );
         const Node &n1 = nodes.local_at( num_node_6 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_453 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_453 ] = num_cut_proc;
         edge_cuts[ num_edge_453 ] = num_node_453;
     } else
         num_node_453 = edge_cuts[ num_edge_453 ];
@@ -3137,26 +3137,26 @@ case_86: {
     int max_node_128 = max( num_node_0, num_node_1 );
     int num_edge_128 = 64 * max_node_128 + min_node_128;
     int num_node_128;
-    if ( edge_num_cuts[ num_edge_128 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_128 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_128;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_128 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_128 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_0 );
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_128 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_128 ] = num_cut_proc;
         edge_cuts[ num_edge_128 ] = num_node_128;
     } else
         num_node_128 = edge_cuts[ num_edge_128 ];
@@ -3166,26 +3166,26 @@ case_86: {
     int max_node_453 = max( num_node_5, num_node_6 );
     int num_edge_453 = 64 * max_node_453 + min_node_453;
     int num_node_453;
-    if ( edge_num_cuts[ num_edge_453 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_453 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_453 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_453;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_453 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_453 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_5 );
         const Node &n1 = nodes.local_at( num_node_6 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_453 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_453 ] = num_cut_proc;
         edge_cuts[ num_edge_453 ] = num_node_453;
     } else
         num_node_453 = edge_cuts[ num_edge_453 ];
@@ -3214,26 +3214,26 @@ case_83: {
     int max_node_128 = max( num_node_0, num_node_1 );
     int num_edge_128 = 64 * max_node_128 + min_node_128;
     int num_node_128;
-    if ( edge_num_cuts[ num_edge_128 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_128 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_128;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_128 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_128 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_0 );
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_128 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_128 ] = num_cut_proc;
         edge_cuts[ num_edge_128 ] = num_node_128;
     } else
         num_node_128 = edge_cuts[ num_edge_128 ];
@@ -3243,26 +3243,26 @@ case_83: {
     int max_node_453 = max( num_node_5, num_node_6 );
     int num_edge_453 = 64 * max_node_453 + min_node_453;
     int num_node_453;
-    if ( edge_num_cuts[ num_edge_453 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_453 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_453 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_453;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_453 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_453 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_5 );
         const Node &n1 = nodes.local_at( num_node_6 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_453 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_453 ] = num_cut_proc;
         edge_cuts[ num_edge_453 ] = num_node_453;
     } else
         num_node_453 = edge_cuts[ num_edge_453 ];
@@ -3287,26 +3287,26 @@ case_116: {
     int max_node_128 = max( num_node_0, num_node_1 );
     int num_edge_128 = 64 * max_node_128 + min_node_128;
     int num_node_128;
-    if ( edge_num_cuts[ num_edge_128 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_128 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_128;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_128 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_128 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_0 );
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_128 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_128 ] = num_cut_proc;
         edge_cuts[ num_edge_128 ] = num_node_128;
     } else
         num_node_128 = edge_cuts[ num_edge_128 ];
@@ -3316,26 +3316,26 @@ case_116: {
     int max_node_453 = max( num_node_5, num_node_6 );
     int num_edge_453 = 64 * max_node_453 + min_node_453;
     int num_node_453;
-    if ( edge_num_cuts[ num_edge_453 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_453 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_453 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_453;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_453 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_453 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_5 );
         const Node &n1 = nodes.local_at( num_node_6 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_453 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_453 ] = num_cut_proc;
         edge_cuts[ num_edge_453 ] = num_node_453;
     } else
         num_node_453 = edge_cuts[ num_edge_453 ];
@@ -3363,26 +3363,26 @@ case_64: {
     int max_node_128 = max( num_node_0, num_node_1 );
     int num_edge_128 = 64 * max_node_128 + min_node_128;
     int num_node_128;
-    if ( edge_num_cuts[ num_edge_128 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_128 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_128;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_128 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_128 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_0 );
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_128 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_128 ] = num_cut_proc;
         edge_cuts[ num_edge_128 ] = num_node_128;
     } else
         num_node_128 = edge_cuts[ num_edge_128 ];
@@ -3391,26 +3391,26 @@ case_64: {
     int max_node_448 = max( num_node_6, num_node_0 );
     int num_edge_448 = 64 * max_node_448 + min_node_448;
     int num_node_448;
-    if ( edge_num_cuts[ num_edge_448 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_448 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_448 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_448;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_448 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_448 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_6 );
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_448 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_448 ] = num_cut_proc;
         edge_cuts[ num_edge_448 ] = num_node_448;
     } else
         num_node_448 = edge_cuts[ num_edge_448 ];
@@ -3442,26 +3442,26 @@ case_96: {
     int max_node_128 = max( num_node_0, num_node_1 );
     int num_edge_128 = 64 * max_node_128 + min_node_128;
     int num_node_128;
-    if ( edge_num_cuts[ num_edge_128 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_128 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_128;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_128 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_128 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_0 );
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_128 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_128 ] = num_cut_proc;
         edge_cuts[ num_edge_128 ] = num_node_128;
     } else
         num_node_128 = edge_cuts[ num_edge_128 ];
@@ -3470,26 +3470,26 @@ case_96: {
     int max_node_448 = max( num_node_6, num_node_0 );
     int num_edge_448 = 64 * max_node_448 + min_node_448;
     int num_node_448;
-    if ( edge_num_cuts[ num_edge_448 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_448 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_448 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_448;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_448 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_448 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_6 );
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_448 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_448 ] = num_cut_proc;
         edge_cuts[ num_edge_448 ] = num_node_448;
     } else
         num_node_448 = edge_cuts[ num_edge_448 ];
@@ -3512,26 +3512,26 @@ case_126: {
     int max_node_128 = max( num_node_0, num_node_1 );
     int num_edge_128 = 64 * max_node_128 + min_node_128;
     int num_node_128;
-    if ( edge_num_cuts[ num_edge_128 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_128 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_128;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_128 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_128 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_0 );
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_128 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_128 ] = num_cut_proc;
         edge_cuts[ num_edge_128 ] = num_node_128;
     } else
         num_node_128 = edge_cuts[ num_edge_128 ];
@@ -3541,26 +3541,26 @@ case_126: {
     int max_node_518 = max( num_node_6, num_node_7 );
     int num_edge_518 = 64 * max_node_518 + min_node_518;
     int num_node_518;
-    if ( edge_num_cuts[ num_edge_518 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_518 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_518 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_518;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_518 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_518 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_6 );
         const Node &n1 = nodes.local_at( num_node_7 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_518 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_518 ] = num_cut_proc;
         edge_cuts[ num_edge_518 ] = num_node_518;
     } else
         num_node_518 = edge_cuts[ num_edge_518 ];
@@ -3591,26 +3591,26 @@ case_123: {
     int max_node_128 = max( num_node_0, num_node_1 );
     int num_edge_128 = 64 * max_node_128 + min_node_128;
     int num_node_128;
-    if ( edge_num_cuts[ num_edge_128 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_128 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_128;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_128 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_128 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_0 );
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_128 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_128 ] = num_cut_proc;
         edge_cuts[ num_edge_128 ] = num_node_128;
     } else
         num_node_128 = edge_cuts[ num_edge_128 ];
@@ -3620,26 +3620,26 @@ case_123: {
     int max_node_518 = max( num_node_6, num_node_7 );
     int num_edge_518 = 64 * max_node_518 + min_node_518;
     int num_node_518;
-    if ( edge_num_cuts[ num_edge_518 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_518 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_518 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_518;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_518 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_518 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_6 );
         const Node &n1 = nodes.local_at( num_node_7 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_518 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_518 ] = num_cut_proc;
         edge_cuts[ num_edge_518 ] = num_node_518;
     } else
         num_node_518 = edge_cuts[ num_edge_518 ];
@@ -3664,26 +3664,26 @@ case_97: {
     int max_node_128 = max( num_node_0, num_node_1 );
     int num_edge_128 = 64 * max_node_128 + min_node_128;
     int num_node_128;
-    if ( edge_num_cuts[ num_edge_128 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_128 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_128;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_128 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_128 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_0 );
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_128 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_128 ] = num_cut_proc;
         edge_cuts[ num_edge_128 ] = num_node_128;
     } else
         num_node_128 = edge_cuts[ num_edge_128 ];
@@ -3692,26 +3692,26 @@ case_97: {
     int max_node_512 = max( num_node_7, num_node_0 );
     int num_edge_512 = 64 * max_node_512 + min_node_512;
     int num_node_512;
-    if ( edge_num_cuts[ num_edge_512 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_512 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_512 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_512;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_512 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_512 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_7 );
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_512 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_512 ] = num_cut_proc;
         edge_cuts[ num_edge_512 ] = num_node_512;
     } else
         num_node_512 = edge_cuts[ num_edge_512 ];
@@ -3745,26 +3745,26 @@ case_138: {
     int max_node_128 = max( num_node_0, num_node_1 );
     int num_edge_128 = 64 * max_node_128 + min_node_128;
     int num_node_128;
-    if ( edge_num_cuts[ num_edge_128 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_128 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_128;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_128 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_128 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_0 );
         const Node &n1 = nodes.local_at( num_node_1 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_128 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_128 ] = num_cut_proc;
         edge_cuts[ num_edge_128 ] = num_node_128;
     } else
         num_node_128 = edge_cuts[ num_edge_128 ];
@@ -3773,26 +3773,26 @@ case_138: {
     int max_node_512 = max( num_node_7, num_node_0 );
     int num_edge_512 = 64 * max_node_512 + min_node_512;
     int num_node_512;
-    if ( edge_num_cuts[ num_edge_512 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_512 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_512 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_512;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_512 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_512 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_7 );
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_512 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_512 ] = num_cut_proc;
         edge_cuts[ num_edge_512 ] = num_node_512;
     } else
         num_node_512 = edge_cuts[ num_edge_512 ];
@@ -3815,26 +3815,26 @@ case_5: {
     int max_node_193 = max( num_node_1, num_node_2 );
     int num_edge_193 = 64 * max_node_193 + min_node_193;
     int num_node_193;
-    if ( edge_num_cuts[ num_edge_193 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_193 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_193 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_193;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_193 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_193 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_1 );
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_193 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_193 ] = num_cut_proc;
         edge_cuts[ num_edge_193 ] = num_node_193;
     } else
         num_node_193 = edge_cuts[ num_edge_193 ];
@@ -3843,26 +3843,26 @@ case_5: {
     int max_node_192 = max( num_node_2, num_node_0 );
     int num_edge_192 = 64 * max_node_192 + min_node_192;
     int num_node_192;
-    if ( edge_num_cuts[ num_edge_192 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_192 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_192 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_192;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_192 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_192 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_2 );
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_192 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_192 ] = num_cut_proc;
         edge_cuts[ num_edge_192 ] = num_node_192;
     } else
         num_node_192 = edge_cuts[ num_edge_192 ];
@@ -3886,26 +3886,26 @@ case_4: {
     int max_node_193 = max( num_node_1, num_node_2 );
     int num_edge_193 = 64 * max_node_193 + min_node_193;
     int num_node_193;
-    if ( edge_num_cuts[ num_edge_193 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_193 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_193 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_193;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_193 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_193 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_1 );
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_193 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_193 ] = num_cut_proc;
         edge_cuts[ num_edge_193 ] = num_node_193;
     } else
         num_node_193 = edge_cuts[ num_edge_193 ];
@@ -3914,26 +3914,26 @@ case_4: {
     int max_node_192 = max( num_node_2, num_node_0 );
     int num_edge_192 = 64 * max_node_192 + min_node_192;
     int num_node_192;
-    if ( edge_num_cuts[ num_edge_192 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_192 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_192 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_192;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_192 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_192 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_2 );
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_192 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_192 ] = num_cut_proc;
         edge_cuts[ num_edge_192 ] = num_node_192;
     } else
         num_node_192 = edge_cuts[ num_edge_192 ];
@@ -3955,26 +3955,26 @@ case_17: {
     int max_node_193 = max( num_node_1, num_node_2 );
     int num_edge_193 = 64 * max_node_193 + min_node_193;
     int num_node_193;
-    if ( edge_num_cuts[ num_edge_193 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_193 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_193 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_193;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_193 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_193 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_1 );
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_193 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_193 ] = num_cut_proc;
         edge_cuts[ num_edge_193 ] = num_node_193;
     } else
         num_node_193 = edge_cuts[ num_edge_193 ];
@@ -3983,26 +3983,26 @@ case_17: {
     int max_node_258 = max( num_node_2, num_node_3 );
     int num_edge_258 = 64 * max_node_258 + min_node_258;
     int num_node_258;
-    if ( edge_num_cuts[ num_edge_258 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_258 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_258 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_258;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_258 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_258 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_2 );
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_258 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_258 ] = num_cut_proc;
         edge_cuts[ num_edge_258 ] = num_node_258;
     } else
         num_node_258 = edge_cuts[ num_edge_258 ];
@@ -4025,26 +4025,26 @@ case_12: {
     int max_node_193 = max( num_node_1, num_node_2 );
     int num_edge_193 = 64 * max_node_193 + min_node_193;
     int num_node_193;
-    if ( edge_num_cuts[ num_edge_193 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_193 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_193 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_193;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_193 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_193 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_1 );
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_193 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_193 ] = num_cut_proc;
         edge_cuts[ num_edge_193 ] = num_node_193;
     } else
         num_node_193 = edge_cuts[ num_edge_193 ];
@@ -4053,26 +4053,26 @@ case_12: {
     int max_node_258 = max( num_node_2, num_node_3 );
     int num_edge_258 = 64 * max_node_258 + min_node_258;
     int num_node_258;
-    if ( edge_num_cuts[ num_edge_258 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_258 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_258 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_258;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_258 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_258 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_2 );
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_258 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_258 ] = num_cut_proc;
         edge_cuts[ num_edge_258 ] = num_node_258;
     } else
         num_node_258 = edge_cuts[ num_edge_258 ];
@@ -4099,26 +4099,26 @@ case_24: {
     int max_node_193 = max( num_node_1, num_node_2 );
     int num_edge_193 = 64 * max_node_193 + min_node_193;
     int num_node_193;
-    if ( edge_num_cuts[ num_edge_193 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_193 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_193 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_193;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_193 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_193 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_1 );
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_193 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_193 ] = num_cut_proc;
         edge_cuts[ num_edge_193 ] = num_node_193;
     } else
         num_node_193 = edge_cuts[ num_edge_193 ];
@@ -4127,26 +4127,26 @@ case_24: {
     int max_node_258 = max( num_node_2, num_node_3 );
     int num_edge_258 = 64 * max_node_258 + min_node_258;
     int num_node_258;
-    if ( edge_num_cuts[ num_edge_258 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_258 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_258 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_258;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_258 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_258 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_2 );
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_258 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_258 ] = num_cut_proc;
         edge_cuts[ num_edge_258 ] = num_node_258;
     } else
         num_node_258 = edge_cuts[ num_edge_258 ];
@@ -4176,26 +4176,26 @@ case_42: {
     int max_node_193 = max( num_node_1, num_node_2 );
     int num_edge_193 = 64 * max_node_193 + min_node_193;
     int num_node_193;
-    if ( edge_num_cuts[ num_edge_193 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_193 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_193 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_193;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_193 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_193 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_1 );
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_193 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_193 ] = num_cut_proc;
         edge_cuts[ num_edge_193 ] = num_node_193;
     } else
         num_node_193 = edge_cuts[ num_edge_193 ];
@@ -4204,26 +4204,26 @@ case_42: {
     int max_node_258 = max( num_node_2, num_node_3 );
     int num_edge_258 = 64 * max_node_258 + min_node_258;
     int num_node_258;
-    if ( edge_num_cuts[ num_edge_258 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_258 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_258 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_258;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_258 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_258 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_2 );
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_258 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_258 ] = num_cut_proc;
         edge_cuts[ num_edge_258 ] = num_node_258;
     } else
         num_node_258 = edge_cuts[ num_edge_258 ];
@@ -4255,26 +4255,26 @@ case_67: {
     int max_node_193 = max( num_node_1, num_node_2 );
     int num_edge_193 = 64 * max_node_193 + min_node_193;
     int num_node_193;
-    if ( edge_num_cuts[ num_edge_193 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_193 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_193 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_193;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_193 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_193 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_1 );
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_193 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_193 ] = num_cut_proc;
         edge_cuts[ num_edge_193 ] = num_node_193;
     } else
         num_node_193 = edge_cuts[ num_edge_193 ];
@@ -4283,26 +4283,26 @@ case_67: {
     int max_node_258 = max( num_node_2, num_node_3 );
     int num_edge_258 = 64 * max_node_258 + min_node_258;
     int num_node_258;
-    if ( edge_num_cuts[ num_edge_258 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_258 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_258 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_258;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_258 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_258 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_2 );
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_258 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_258 ] = num_cut_proc;
         edge_cuts[ num_edge_258 ] = num_node_258;
     } else
         num_node_258 = edge_cuts[ num_edge_258 ];
@@ -4336,26 +4336,26 @@ case_100: {
     int max_node_193 = max( num_node_1, num_node_2 );
     int num_edge_193 = 64 * max_node_193 + min_node_193;
     int num_node_193;
-    if ( edge_num_cuts[ num_edge_193 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_193 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_193 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_193;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_193 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_193 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_1 );
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_193 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_193 ] = num_cut_proc;
         edge_cuts[ num_edge_193 ] = num_node_193;
     } else
         num_node_193 = edge_cuts[ num_edge_193 ];
@@ -4364,26 +4364,26 @@ case_100: {
     int max_node_258 = max( num_node_2, num_node_3 );
     int num_edge_258 = 64 * max_node_258 + min_node_258;
     int num_node_258;
-    if ( edge_num_cuts[ num_edge_258 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_258 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_258 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_258;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_258 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_258 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_2 );
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_258 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_258 ] = num_cut_proc;
         edge_cuts[ num_edge_258 ] = num_node_258;
     } else
         num_node_258 = edge_cuts[ num_edge_258 ];
@@ -4419,26 +4419,26 @@ case_11: {
     int max_node_193 = max( num_node_1, num_node_2 );
     int num_edge_193 = 64 * max_node_193 + min_node_193;
     int num_node_193;
-    if ( edge_num_cuts[ num_edge_193 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_193 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_193 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_193;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_193 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_193 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_1 );
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_193 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_193 ] = num_cut_proc;
         edge_cuts[ num_edge_193 ] = num_node_193;
     } else
         num_node_193 = edge_cuts[ num_edge_193 ];
@@ -4448,26 +4448,26 @@ case_11: {
     int max_node_256 = max( num_node_3, num_node_0 );
     int num_edge_256 = 64 * max_node_256 + min_node_256;
     int num_node_256;
-    if ( edge_num_cuts[ num_edge_256 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_256 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_256 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_256;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_256 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_256 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_3 );
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_256 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_256 ] = num_cut_proc;
         edge_cuts[ num_edge_256 ] = num_node_256;
     } else
         num_node_256 = edge_cuts[ num_edge_256 ];
@@ -4490,26 +4490,26 @@ case_18: {
     int max_node_193 = max( num_node_1, num_node_2 );
     int num_edge_193 = 64 * max_node_193 + min_node_193;
     int num_node_193;
-    if ( edge_num_cuts[ num_edge_193 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_193 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_193 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_193;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_193 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_193 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_1 );
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_193 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_193 ] = num_cut_proc;
         edge_cuts[ num_edge_193 ] = num_node_193;
     } else
         num_node_193 = edge_cuts[ num_edge_193 ];
@@ -4519,26 +4519,26 @@ case_18: {
     int max_node_256 = max( num_node_3, num_node_0 );
     int num_edge_256 = 64 * max_node_256 + min_node_256;
     int num_node_256;
-    if ( edge_num_cuts[ num_edge_256 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_256 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_256 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_256;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_256 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_256 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_3 );
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_256 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_256 ] = num_cut_proc;
         edge_cuts[ num_edge_256 ] = num_node_256;
     } else
         num_node_256 = edge_cuts[ num_edge_256 ];
@@ -4561,26 +4561,26 @@ case_33: {
     int max_node_193 = max( num_node_1, num_node_2 );
     int num_edge_193 = 64 * max_node_193 + min_node_193;
     int num_node_193;
-    if ( edge_num_cuts[ num_edge_193 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_193 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_193 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_193;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_193 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_193 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_1 );
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_193 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_193 ] = num_cut_proc;
         edge_cuts[ num_edge_193 ] = num_node_193;
     } else
         num_node_193 = edge_cuts[ num_edge_193 ];
@@ -4590,26 +4590,26 @@ case_33: {
     int max_node_323 = max( num_node_3, num_node_4 );
     int num_edge_323 = 64 * max_node_323 + min_node_323;
     int num_node_323;
-    if ( edge_num_cuts[ num_edge_323 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_323 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_323 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_323;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_323 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_323 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_3 );
         const Node &n1 = nodes.local_at( num_node_4 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_323 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_323 ] = num_cut_proc;
         edge_cuts[ num_edge_323 ] = num_node_323;
     } else
         num_node_323 = edge_cuts[ num_edge_323 ];
@@ -4633,26 +4633,26 @@ case_28: {
     int max_node_193 = max( num_node_1, num_node_2 );
     int num_edge_193 = 64 * max_node_193 + min_node_193;
     int num_node_193;
-    if ( edge_num_cuts[ num_edge_193 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_193 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_193 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_193;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_193 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_193 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_1 );
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_193 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_193 ] = num_cut_proc;
         edge_cuts[ num_edge_193 ] = num_node_193;
     } else
         num_node_193 = edge_cuts[ num_edge_193 ];
@@ -4662,26 +4662,26 @@ case_28: {
     int max_node_323 = max( num_node_3, num_node_4 );
     int num_edge_323 = 64 * max_node_323 + min_node_323;
     int num_node_323;
-    if ( edge_num_cuts[ num_edge_323 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_323 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_323 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_323;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_323 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_323 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_3 );
         const Node &n1 = nodes.local_at( num_node_4 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_323 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_323 ] = num_cut_proc;
         edge_cuts[ num_edge_323 ] = num_node_323;
     } else
         num_node_323 = edge_cuts[ num_edge_323 ];
@@ -4706,26 +4706,26 @@ case_46: {
     int max_node_193 = max( num_node_1, num_node_2 );
     int num_edge_193 = 64 * max_node_193 + min_node_193;
     int num_node_193;
-    if ( edge_num_cuts[ num_edge_193 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_193 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_193 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_193;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_193 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_193 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_1 );
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_193 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_193 ] = num_cut_proc;
         edge_cuts[ num_edge_193 ] = num_node_193;
     } else
         num_node_193 = edge_cuts[ num_edge_193 ];
@@ -4735,26 +4735,26 @@ case_46: {
     int max_node_323 = max( num_node_3, num_node_4 );
     int num_edge_323 = 64 * max_node_323 + min_node_323;
     int num_node_323;
-    if ( edge_num_cuts[ num_edge_323 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_323 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_323 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_323;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_323 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_323 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_3 );
         const Node &n1 = nodes.local_at( num_node_4 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_323 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_323 ] = num_cut_proc;
         edge_cuts[ num_edge_323 ] = num_node_323;
     } else
         num_node_323 = edge_cuts[ num_edge_323 ];
@@ -4781,26 +4781,26 @@ case_71: {
     int max_node_193 = max( num_node_1, num_node_2 );
     int num_edge_193 = 64 * max_node_193 + min_node_193;
     int num_node_193;
-    if ( edge_num_cuts[ num_edge_193 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_193 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_193 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_193;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_193 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_193 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_1 );
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_193 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_193 ] = num_cut_proc;
         edge_cuts[ num_edge_193 ] = num_node_193;
     } else
         num_node_193 = edge_cuts[ num_edge_193 ];
@@ -4810,26 +4810,26 @@ case_71: {
     int max_node_323 = max( num_node_3, num_node_4 );
     int num_edge_323 = 64 * max_node_323 + min_node_323;
     int num_node_323;
-    if ( edge_num_cuts[ num_edge_323 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_323 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_323 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_323;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_323 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_323 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_3 );
         const Node &n1 = nodes.local_at( num_node_4 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_323 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_323 ] = num_cut_proc;
         edge_cuts[ num_edge_323 ] = num_node_323;
     } else
         num_node_323 = edge_cuts[ num_edge_323 ];
@@ -4858,26 +4858,26 @@ case_104: {
     int max_node_193 = max( num_node_1, num_node_2 );
     int num_edge_193 = 64 * max_node_193 + min_node_193;
     int num_node_193;
-    if ( edge_num_cuts[ num_edge_193 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_193 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_193 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_193;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_193 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_193 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_1 );
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_193 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_193 ] = num_cut_proc;
         edge_cuts[ num_edge_193 ] = num_node_193;
     } else
         num_node_193 = edge_cuts[ num_edge_193 ];
@@ -4887,26 +4887,26 @@ case_104: {
     int max_node_323 = max( num_node_3, num_node_4 );
     int num_edge_323 = 64 * max_node_323 + min_node_323;
     int num_node_323;
-    if ( edge_num_cuts[ num_edge_323 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_323 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_323 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_323;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_323 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_323 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_3 );
         const Node &n1 = nodes.local_at( num_node_4 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_323 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_323 ] = num_cut_proc;
         edge_cuts[ num_edge_323 ] = num_node_323;
     } else
         num_node_323 = edge_cuts[ num_edge_323 ];
@@ -4937,26 +4937,26 @@ case_23: {
     int max_node_193 = max( num_node_1, num_node_2 );
     int num_edge_193 = 64 * max_node_193 + min_node_193;
     int num_node_193;
-    if ( edge_num_cuts[ num_edge_193 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_193 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_193 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_193;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_193 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_193 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_1 );
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_193 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_193 ] = num_cut_proc;
         edge_cuts[ num_edge_193 ] = num_node_193;
     } else
         num_node_193 = edge_cuts[ num_edge_193 ];
@@ -4966,26 +4966,26 @@ case_23: {
     int max_node_320 = max( num_node_4, num_node_0 );
     int num_edge_320 = 64 * max_node_320 + min_node_320;
     int num_node_320;
-    if ( edge_num_cuts[ num_edge_320 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_320 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_320 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_320;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_320 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_320 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_4 );
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_320 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_320 ] = num_cut_proc;
         edge_cuts[ num_edge_320 ] = num_node_320;
     } else
         num_node_320 = edge_cuts[ num_edge_320 ];
@@ -5010,26 +5010,26 @@ case_37: {
     int max_node_193 = max( num_node_1, num_node_2 );
     int num_edge_193 = 64 * max_node_193 + min_node_193;
     int num_node_193;
-    if ( edge_num_cuts[ num_edge_193 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_193 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_193 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_193;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_193 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_193 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_1 );
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_193 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_193 ] = num_cut_proc;
         edge_cuts[ num_edge_193 ] = num_node_193;
     } else
         num_node_193 = edge_cuts[ num_edge_193 ];
@@ -5039,26 +5039,26 @@ case_37: {
     int max_node_320 = max( num_node_4, num_node_0 );
     int num_edge_320 = 64 * max_node_320 + min_node_320;
     int num_node_320;
-    if ( edge_num_cuts[ num_edge_320 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_320 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_320 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_320;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_320 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_320 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_4 );
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_320 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_320 ] = num_cut_proc;
         edge_cuts[ num_edge_320 ] = num_node_320;
     } else
         num_node_320 = edge_cuts[ num_edge_320 ];
@@ -5082,26 +5082,26 @@ case_56: {
     int max_node_193 = max( num_node_1, num_node_2 );
     int num_edge_193 = 64 * max_node_193 + min_node_193;
     int num_node_193;
-    if ( edge_num_cuts[ num_edge_193 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_193 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_193 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_193;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_193 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_193 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_1 );
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_193 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_193 ] = num_cut_proc;
         edge_cuts[ num_edge_193 ] = num_node_193;
     } else
         num_node_193 = edge_cuts[ num_edge_193 ];
@@ -5111,26 +5111,26 @@ case_56: {
     int max_node_388 = max( num_node_4, num_node_5 );
     int num_edge_388 = 64 * max_node_388 + min_node_388;
     int num_node_388;
-    if ( edge_num_cuts[ num_edge_388 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_388 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_388 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_388;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_388 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_388 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_4 );
         const Node &n1 = nodes.local_at( num_node_5 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_388 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_388 ] = num_cut_proc;
         edge_cuts[ num_edge_388 ] = num_node_388;
     } else
         num_node_388 = edge_cuts[ num_edge_388 ];
@@ -5156,26 +5156,26 @@ case_51: {
     int max_node_193 = max( num_node_1, num_node_2 );
     int num_edge_193 = 64 * max_node_193 + min_node_193;
     int num_node_193;
-    if ( edge_num_cuts[ num_edge_193 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_193 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_193 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_193;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_193 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_193 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_1 );
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_193 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_193 ] = num_cut_proc;
         edge_cuts[ num_edge_193 ] = num_node_193;
     } else
         num_node_193 = edge_cuts[ num_edge_193 ];
@@ -5185,26 +5185,26 @@ case_51: {
     int max_node_388 = max( num_node_4, num_node_5 );
     int num_edge_388 = 64 * max_node_388 + min_node_388;
     int num_node_388;
-    if ( edge_num_cuts[ num_edge_388 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_388 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_388 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_388;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_388 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_388 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_4 );
         const Node &n1 = nodes.local_at( num_node_5 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_388 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_388 ] = num_cut_proc;
         edge_cuts[ num_edge_388 ] = num_node_388;
     } else
         num_node_388 = edge_cuts[ num_edge_388 ];
@@ -5231,26 +5231,26 @@ case_76: {
     int max_node_193 = max( num_node_1, num_node_2 );
     int num_edge_193 = 64 * max_node_193 + min_node_193;
     int num_node_193;
-    if ( edge_num_cuts[ num_edge_193 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_193 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_193 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_193;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_193 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_193 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_1 );
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_193 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_193 ] = num_cut_proc;
         edge_cuts[ num_edge_193 ] = num_node_193;
     } else
         num_node_193 = edge_cuts[ num_edge_193 ];
@@ -5260,26 +5260,26 @@ case_76: {
     int max_node_388 = max( num_node_4, num_node_5 );
     int num_edge_388 = 64 * max_node_388 + min_node_388;
     int num_node_388;
-    if ( edge_num_cuts[ num_edge_388 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_388 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_388 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_388;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_388 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_388 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_4 );
         const Node &n1 = nodes.local_at( num_node_5 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_388 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_388 ] = num_cut_proc;
         edge_cuts[ num_edge_388 ] = num_node_388;
     } else
         num_node_388 = edge_cuts[ num_edge_388 ];
@@ -5309,26 +5309,26 @@ case_109: {
     int max_node_193 = max( num_node_1, num_node_2 );
     int num_edge_193 = 64 * max_node_193 + min_node_193;
     int num_node_193;
-    if ( edge_num_cuts[ num_edge_193 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_193 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_193 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_193;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_193 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_193 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_1 );
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_193 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_193 ] = num_cut_proc;
         edge_cuts[ num_edge_193 ] = num_node_193;
     } else
         num_node_193 = edge_cuts[ num_edge_193 ];
@@ -5338,26 +5338,26 @@ case_109: {
     int max_node_388 = max( num_node_4, num_node_5 );
     int num_edge_388 = 64 * max_node_388 + min_node_388;
     int num_node_388;
-    if ( edge_num_cuts[ num_edge_388 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_388 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_388 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_388;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_388 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_388 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_4 );
         const Node &n1 = nodes.local_at( num_node_5 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_388 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_388 ] = num_cut_proc;
         edge_cuts[ num_edge_388 ] = num_node_388;
     } else
         num_node_388 = edge_cuts[ num_edge_388 ];
@@ -5390,26 +5390,26 @@ case_41: {
     int max_node_193 = max( num_node_1, num_node_2 );
     int num_edge_193 = 64 * max_node_193 + min_node_193;
     int num_node_193;
-    if ( edge_num_cuts[ num_edge_193 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_193 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_193 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_193;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_193 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_193 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_1 );
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_193 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_193 ] = num_cut_proc;
         edge_cuts[ num_edge_193 ] = num_node_193;
     } else
         num_node_193 = edge_cuts[ num_edge_193 ];
@@ -5419,26 +5419,26 @@ case_41: {
     int max_node_384 = max( num_node_5, num_node_0 );
     int num_edge_384 = 64 * max_node_384 + min_node_384;
     int num_node_384;
-    if ( edge_num_cuts[ num_edge_384 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_384 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_384 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_384;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_384 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_384 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_5 );
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_384 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_384 ] = num_cut_proc;
         edge_cuts[ num_edge_384 ] = num_node_384;
     } else
         num_node_384 = edge_cuts[ num_edge_384 ];
@@ -5465,26 +5465,26 @@ case_62: {
     int max_node_193 = max( num_node_1, num_node_2 );
     int num_edge_193 = 64 * max_node_193 + min_node_193;
     int num_node_193;
-    if ( edge_num_cuts[ num_edge_193 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_193 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_193 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_193;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_193 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_193 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_1 );
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_193 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_193 ] = num_cut_proc;
         edge_cuts[ num_edge_193 ] = num_node_193;
     } else
         num_node_193 = edge_cuts[ num_edge_193 ];
@@ -5494,26 +5494,26 @@ case_62: {
     int max_node_384 = max( num_node_5, num_node_0 );
     int num_edge_384 = 64 * max_node_384 + min_node_384;
     int num_node_384;
-    if ( edge_num_cuts[ num_edge_384 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_384 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_384 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_384;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_384 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_384 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_5 );
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_384 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_384 ] = num_cut_proc;
         edge_cuts[ num_edge_384 ] = num_node_384;
     } else
         num_node_384 = edge_cuts[ num_edge_384 ];
@@ -5537,26 +5537,26 @@ case_87: {
     int max_node_193 = max( num_node_1, num_node_2 );
     int num_edge_193 = 64 * max_node_193 + min_node_193;
     int num_node_193;
-    if ( edge_num_cuts[ num_edge_193 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_193 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_193 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_193;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_193 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_193 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_1 );
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_193 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_193 ] = num_cut_proc;
         edge_cuts[ num_edge_193 ] = num_node_193;
     } else
         num_node_193 = edge_cuts[ num_edge_193 ];
@@ -5566,26 +5566,26 @@ case_87: {
     int max_node_453 = max( num_node_5, num_node_6 );
     int num_edge_453 = 64 * max_node_453 + min_node_453;
     int num_node_453;
-    if ( edge_num_cuts[ num_edge_453 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_453 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_453 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_453;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_453 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_453 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_5 );
         const Node &n1 = nodes.local_at( num_node_6 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_453 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_453 ] = num_cut_proc;
         edge_cuts[ num_edge_453 ] = num_node_453;
     } else
         num_node_453 = edge_cuts[ num_edge_453 ];
@@ -5613,26 +5613,26 @@ case_82: {
     int max_node_193 = max( num_node_1, num_node_2 );
     int num_edge_193 = 64 * max_node_193 + min_node_193;
     int num_node_193;
-    if ( edge_num_cuts[ num_edge_193 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_193 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_193 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_193;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_193 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_193 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_1 );
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_193 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_193 ] = num_cut_proc;
         edge_cuts[ num_edge_193 ] = num_node_193;
     } else
         num_node_193 = edge_cuts[ num_edge_193 ];
@@ -5642,26 +5642,26 @@ case_82: {
     int max_node_453 = max( num_node_5, num_node_6 );
     int num_edge_453 = 64 * max_node_453 + min_node_453;
     int num_node_453;
-    if ( edge_num_cuts[ num_edge_453 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_453 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_453 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_453;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_453 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_453 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_5 );
         const Node &n1 = nodes.local_at( num_node_6 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_453 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_453 ] = num_cut_proc;
         edge_cuts[ num_edge_453 ] = num_node_453;
     } else
         num_node_453 = edge_cuts[ num_edge_453 ];
@@ -5688,26 +5688,26 @@ case_115: {
     int max_node_193 = max( num_node_1, num_node_2 );
     int num_edge_193 = 64 * max_node_193 + min_node_193;
     int num_node_193;
-    if ( edge_num_cuts[ num_edge_193 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_193 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_193 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_193;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_193 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_193 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_1 );
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_193 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_193 ] = num_cut_proc;
         edge_cuts[ num_edge_193 ] = num_node_193;
     } else
         num_node_193 = edge_cuts[ num_edge_193 ];
@@ -5717,26 +5717,26 @@ case_115: {
     int max_node_453 = max( num_node_5, num_node_6 );
     int num_edge_453 = 64 * max_node_453 + min_node_453;
     int num_node_453;
-    if ( edge_num_cuts[ num_edge_453 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_453 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_453 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_453;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_453 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_453 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_5 );
         const Node &n1 = nodes.local_at( num_node_6 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_453 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_453 ] = num_cut_proc;
         edge_cuts[ num_edge_453 ] = num_node_453;
     } else
         num_node_453 = edge_cuts[ num_edge_453 ];
@@ -5766,26 +5766,26 @@ case_66: {
     int max_node_193 = max( num_node_1, num_node_2 );
     int num_edge_193 = 64 * max_node_193 + min_node_193;
     int num_node_193;
-    if ( edge_num_cuts[ num_edge_193 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_193 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_193 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_193;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_193 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_193 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_1 );
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_193 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_193 ] = num_cut_proc;
         edge_cuts[ num_edge_193 ] = num_node_193;
     } else
         num_node_193 = edge_cuts[ num_edge_193 ];
@@ -5795,26 +5795,26 @@ case_66: {
     int max_node_448 = max( num_node_6, num_node_0 );
     int num_edge_448 = 64 * max_node_448 + min_node_448;
     int num_node_448;
-    if ( edge_num_cuts[ num_edge_448 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_448 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_448 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_448;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_448 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_448 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_6 );
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_448 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_448 ] = num_cut_proc;
         edge_cuts[ num_edge_448 ] = num_node_448;
     } else
         num_node_448 = edge_cuts[ num_edge_448 ];
@@ -5843,26 +5843,26 @@ case_95: {
     int max_node_193 = max( num_node_1, num_node_2 );
     int num_edge_193 = 64 * max_node_193 + min_node_193;
     int num_node_193;
-    if ( edge_num_cuts[ num_edge_193 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_193 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_193 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_193;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_193 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_193 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_1 );
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_193 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_193 ] = num_cut_proc;
         edge_cuts[ num_edge_193 ] = num_node_193;
     } else
         num_node_193 = edge_cuts[ num_edge_193 ];
@@ -5872,26 +5872,26 @@ case_95: {
     int max_node_448 = max( num_node_6, num_node_0 );
     int num_edge_448 = 64 * max_node_448 + min_node_448;
     int num_node_448;
-    if ( edge_num_cuts[ num_edge_448 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_448 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_448 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_448;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_448 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_448 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_6 );
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_448 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_448 ] = num_cut_proc;
         edge_cuts[ num_edge_448 ] = num_node_448;
     } else
         num_node_448 = edge_cuts[ num_edge_448 ];
@@ -5915,26 +5915,26 @@ case_127: {
     int max_node_193 = max( num_node_1, num_node_2 );
     int num_edge_193 = 64 * max_node_193 + min_node_193;
     int num_node_193;
-    if ( edge_num_cuts[ num_edge_193 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_193 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_193 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_193;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_193 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_193 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_1 );
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_193 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_193 ] = num_cut_proc;
         edge_cuts[ num_edge_193 ] = num_node_193;
     } else
         num_node_193 = edge_cuts[ num_edge_193 ];
@@ -5944,26 +5944,26 @@ case_127: {
     int max_node_518 = max( num_node_6, num_node_7 );
     int num_edge_518 = 64 * max_node_518 + min_node_518;
     int num_node_518;
-    if ( edge_num_cuts[ num_edge_518 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_518 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_518 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_518;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_518 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_518 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_6 );
         const Node &n1 = nodes.local_at( num_node_7 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_518 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_518 ] = num_cut_proc;
         edge_cuts[ num_edge_518 ] = num_node_518;
     } else
         num_node_518 = edge_cuts[ num_edge_518 ];
@@ -5993,26 +5993,26 @@ case_122: {
     int max_node_193 = max( num_node_1, num_node_2 );
     int num_edge_193 = 64 * max_node_193 + min_node_193;
     int num_node_193;
-    if ( edge_num_cuts[ num_edge_193 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_193 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_193 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_193;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_193 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_193 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_1 );
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_193 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_193 ] = num_cut_proc;
         edge_cuts[ num_edge_193 ] = num_node_193;
     } else
         num_node_193 = edge_cuts[ num_edge_193 ];
@@ -6022,26 +6022,26 @@ case_122: {
     int max_node_518 = max( num_node_6, num_node_7 );
     int num_edge_518 = 64 * max_node_518 + min_node_518;
     int num_node_518;
-    if ( edge_num_cuts[ num_edge_518 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_518 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_518 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_518;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_518 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_518 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_6 );
         const Node &n1 = nodes.local_at( num_node_7 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_518 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_518 ] = num_cut_proc;
         edge_cuts[ num_edge_518 ] = num_node_518;
     } else
         num_node_518 = edge_cuts[ num_edge_518 ];
@@ -6068,26 +6068,26 @@ case_99: {
     int max_node_193 = max( num_node_1, num_node_2 );
     int num_edge_193 = 64 * max_node_193 + min_node_193;
     int num_node_193;
-    if ( edge_num_cuts[ num_edge_193 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_193 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_193 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_193;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_193 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_193 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_1 );
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_193 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_193 ] = num_cut_proc;
         edge_cuts[ num_edge_193 ] = num_node_193;
     } else
         num_node_193 = edge_cuts[ num_edge_193 ];
@@ -6097,26 +6097,26 @@ case_99: {
     int max_node_512 = max( num_node_7, num_node_0 );
     int num_edge_512 = 64 * max_node_512 + min_node_512;
     int num_node_512;
-    if ( edge_num_cuts[ num_edge_512 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_512 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_512 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_512;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_512 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_512 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_7 );
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_512 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_512 ] = num_cut_proc;
         edge_cuts[ num_edge_512 ] = num_node_512;
     } else
         num_node_512 = edge_cuts[ num_edge_512 ];
@@ -6147,26 +6147,26 @@ case_137: {
     int max_node_193 = max( num_node_1, num_node_2 );
     int num_edge_193 = 64 * max_node_193 + min_node_193;
     int num_node_193;
-    if ( edge_num_cuts[ num_edge_193 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_193 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_193 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_193;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_193 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_193 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_1 );
         const Node &n1 = nodes.local_at( num_node_2 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_193 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_193 ] = num_cut_proc;
         edge_cuts[ num_edge_193 ] = num_node_193;
     } else
         num_node_193 = edge_cuts[ num_edge_193 ];
@@ -6176,26 +6176,26 @@ case_137: {
     int max_node_512 = max( num_node_7, num_node_0 );
     int num_edge_512 = 64 * max_node_512 + min_node_512;
     int num_node_512;
-    if ( edge_num_cuts[ num_edge_512 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_512 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_512 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_512;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_512 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_512 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_7 );
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_512 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_512 ] = num_cut_proc;
         edge_cuts[ num_edge_512 ] = num_node_512;
     } else
         num_node_512 = edge_cuts[ num_edge_512 ];
@@ -6219,26 +6219,26 @@ case_15: {
     int max_node_258 = max( num_node_2, num_node_3 );
     int num_edge_258 = 64 * max_node_258 + min_node_258;
     int num_node_258;
-    if ( edge_num_cuts[ num_edge_258 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_258 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_258 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_258;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_258 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_258 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_2 );
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_258 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_258 ] = num_cut_proc;
         edge_cuts[ num_edge_258 ] = num_node_258;
     } else
         num_node_258 = edge_cuts[ num_edge_258 ];
@@ -6247,26 +6247,26 @@ case_15: {
     int max_node_256 = max( num_node_3, num_node_0 );
     int num_edge_256 = 64 * max_node_256 + min_node_256;
     int num_node_256;
-    if ( edge_num_cuts[ num_edge_256 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_256 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_256 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_256;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_256 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_256 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_3 );
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_256 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_256 ] = num_cut_proc;
         edge_cuts[ num_edge_256 ] = num_node_256;
     } else
         num_node_256 = edge_cuts[ num_edge_256 ];
@@ -6292,26 +6292,26 @@ case_14: {
     int max_node_258 = max( num_node_2, num_node_3 );
     int num_edge_258 = 64 * max_node_258 + min_node_258;
     int num_node_258;
-    if ( edge_num_cuts[ num_edge_258 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_258 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_258 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_258;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_258 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_258 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_2 );
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_258 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_258 ] = num_cut_proc;
         edge_cuts[ num_edge_258 ] = num_node_258;
     } else
         num_node_258 = edge_cuts[ num_edge_258 ];
@@ -6320,26 +6320,26 @@ case_14: {
     int max_node_256 = max( num_node_3, num_node_0 );
     int num_edge_256 = 64 * max_node_256 + min_node_256;
     int num_node_256;
-    if ( edge_num_cuts[ num_edge_256 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_256 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_256 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_256;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_256 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_256 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_3 );
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_256 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_256 ] = num_cut_proc;
         edge_cuts[ num_edge_256 ] = num_node_256;
     } else
         num_node_256 = edge_cuts[ num_edge_256 ];
@@ -6363,26 +6363,26 @@ case_34: {
     int max_node_258 = max( num_node_2, num_node_3 );
     int num_edge_258 = 64 * max_node_258 + min_node_258;
     int num_node_258;
-    if ( edge_num_cuts[ num_edge_258 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_258 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_258 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_258;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_258 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_258 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_2 );
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_258 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_258 ] = num_cut_proc;
         edge_cuts[ num_edge_258 ] = num_node_258;
     } else
         num_node_258 = edge_cuts[ num_edge_258 ];
@@ -6391,26 +6391,26 @@ case_34: {
     int max_node_323 = max( num_node_3, num_node_4 );
     int num_edge_323 = 64 * max_node_323 + min_node_323;
     int num_node_323;
-    if ( edge_num_cuts[ num_edge_323 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_323 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_323 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_323;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_323 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_323 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_3 );
         const Node &n1 = nodes.local_at( num_node_4 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_323 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_323 ] = num_cut_proc;
         edge_cuts[ num_edge_323 ] = num_node_323;
     } else
         num_node_323 = edge_cuts[ num_edge_323 ];
@@ -6434,26 +6434,26 @@ case_27: {
     int max_node_258 = max( num_node_2, num_node_3 );
     int num_edge_258 = 64 * max_node_258 + min_node_258;
     int num_node_258;
-    if ( edge_num_cuts[ num_edge_258 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_258 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_258 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_258;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_258 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_258 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_2 );
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_258 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_258 ] = num_cut_proc;
         edge_cuts[ num_edge_258 ] = num_node_258;
     } else
         num_node_258 = edge_cuts[ num_edge_258 ];
@@ -6462,26 +6462,26 @@ case_27: {
     int max_node_323 = max( num_node_3, num_node_4 );
     int num_edge_323 = 64 * max_node_323 + min_node_323;
     int num_node_323;
-    if ( edge_num_cuts[ num_edge_323 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_323 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_323 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_323;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_323 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_323 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_3 );
         const Node &n1 = nodes.local_at( num_node_4 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_323 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_323 ] = num_cut_proc;
         edge_cuts[ num_edge_323 ] = num_node_323;
     } else
         num_node_323 = edge_cuts[ num_edge_323 ];
@@ -6510,26 +6510,26 @@ case_45: {
     int max_node_258 = max( num_node_2, num_node_3 );
     int num_edge_258 = 64 * max_node_258 + min_node_258;
     int num_node_258;
-    if ( edge_num_cuts[ num_edge_258 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_258 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_258 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_258;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_258 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_258 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_2 );
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_258 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_258 ] = num_cut_proc;
         edge_cuts[ num_edge_258 ] = num_node_258;
     } else
         num_node_258 = edge_cuts[ num_edge_258 ];
@@ -6538,26 +6538,26 @@ case_45: {
     int max_node_323 = max( num_node_3, num_node_4 );
     int num_edge_323 = 64 * max_node_323 + min_node_323;
     int num_node_323;
-    if ( edge_num_cuts[ num_edge_323 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_323 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_323 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_323;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_323 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_323 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_3 );
         const Node &n1 = nodes.local_at( num_node_4 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_323 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_323 ] = num_cut_proc;
         edge_cuts[ num_edge_323 ] = num_node_323;
     } else
         num_node_323 = edge_cuts[ num_edge_323 ];
@@ -6589,26 +6589,26 @@ case_70: {
     int max_node_258 = max( num_node_2, num_node_3 );
     int num_edge_258 = 64 * max_node_258 + min_node_258;
     int num_node_258;
-    if ( edge_num_cuts[ num_edge_258 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_258 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_258 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_258;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_258 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_258 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_2 );
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_258 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_258 ] = num_cut_proc;
         edge_cuts[ num_edge_258 ] = num_node_258;
     } else
         num_node_258 = edge_cuts[ num_edge_258 ];
@@ -6617,26 +6617,26 @@ case_70: {
     int max_node_323 = max( num_node_3, num_node_4 );
     int num_edge_323 = 64 * max_node_323 + min_node_323;
     int num_node_323;
-    if ( edge_num_cuts[ num_edge_323 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_323 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_323 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_323;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_323 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_323 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_3 );
         const Node &n1 = nodes.local_at( num_node_4 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_323 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_323 ] = num_cut_proc;
         edge_cuts[ num_edge_323 ] = num_node_323;
     } else
         num_node_323 = edge_cuts[ num_edge_323 ];
@@ -6671,26 +6671,26 @@ case_103: {
     int max_node_258 = max( num_node_2, num_node_3 );
     int num_edge_258 = 64 * max_node_258 + min_node_258;
     int num_node_258;
-    if ( edge_num_cuts[ num_edge_258 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_258 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_258 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_258;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_258 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_258 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_2 );
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_258 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_258 ] = num_cut_proc;
         edge_cuts[ num_edge_258 ] = num_node_258;
     } else
         num_node_258 = edge_cuts[ num_edge_258 ];
@@ -6699,26 +6699,26 @@ case_103: {
     int max_node_323 = max( num_node_3, num_node_4 );
     int num_edge_323 = 64 * max_node_323 + min_node_323;
     int num_node_323;
-    if ( edge_num_cuts[ num_edge_323 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_323 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_323 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_323;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_323 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_323 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_3 );
         const Node &n1 = nodes.local_at( num_node_4 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_323 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_323 ] = num_cut_proc;
         edge_cuts[ num_edge_323 ] = num_node_323;
     } else
         num_node_323 = edge_cuts[ num_edge_323 ];
@@ -6755,26 +6755,26 @@ case_26: {
     int max_node_258 = max( num_node_2, num_node_3 );
     int num_edge_258 = 64 * max_node_258 + min_node_258;
     int num_node_258;
-    if ( edge_num_cuts[ num_edge_258 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_258 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_258 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_258;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_258 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_258 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_2 );
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_258 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_258 ] = num_cut_proc;
         edge_cuts[ num_edge_258 ] = num_node_258;
     } else
         num_node_258 = edge_cuts[ num_edge_258 ];
@@ -6784,26 +6784,26 @@ case_26: {
     int max_node_320 = max( num_node_4, num_node_0 );
     int num_edge_320 = 64 * max_node_320 + min_node_320;
     int num_node_320;
-    if ( edge_num_cuts[ num_edge_320 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_320 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_320 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_320;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_320 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_320 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_4 );
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_320 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_320 ] = num_cut_proc;
         edge_cuts[ num_edge_320 ] = num_node_320;
     } else
         num_node_320 = edge_cuts[ num_edge_320 ];
@@ -6828,26 +6828,26 @@ case_35: {
     int max_node_258 = max( num_node_2, num_node_3 );
     int num_edge_258 = 64 * max_node_258 + min_node_258;
     int num_node_258;
-    if ( edge_num_cuts[ num_edge_258 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_258 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_258 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_258;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_258 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_258 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_2 );
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_258 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_258 ] = num_cut_proc;
         edge_cuts[ num_edge_258 ] = num_node_258;
     } else
         num_node_258 = edge_cuts[ num_edge_258 ];
@@ -6857,26 +6857,26 @@ case_35: {
     int max_node_320 = max( num_node_4, num_node_0 );
     int num_edge_320 = 64 * max_node_320 + min_node_320;
     int num_node_320;
-    if ( edge_num_cuts[ num_edge_320 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_320 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_320 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_320;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_320 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_320 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_4 );
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_320 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_320 ] = num_cut_proc;
         edge_cuts[ num_edge_320 ] = num_node_320;
     } else
         num_node_320 = edge_cuts[ num_edge_320 ];
@@ -6901,26 +6901,26 @@ case_57: {
     int max_node_258 = max( num_node_2, num_node_3 );
     int num_edge_258 = 64 * max_node_258 + min_node_258;
     int num_node_258;
-    if ( edge_num_cuts[ num_edge_258 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_258 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_258 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_258;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_258 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_258 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_2 );
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_258 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_258 ] = num_cut_proc;
         edge_cuts[ num_edge_258 ] = num_node_258;
     } else
         num_node_258 = edge_cuts[ num_edge_258 ];
@@ -6930,26 +6930,26 @@ case_57: {
     int max_node_388 = max( num_node_4, num_node_5 );
     int num_edge_388 = 64 * max_node_388 + min_node_388;
     int num_node_388;
-    if ( edge_num_cuts[ num_edge_388 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_388 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_388 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_388;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_388 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_388 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_4 );
         const Node &n1 = nodes.local_at( num_node_5 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_388 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_388 ] = num_cut_proc;
         edge_cuts[ num_edge_388 ] = num_node_388;
     } else
         num_node_388 = edge_cuts[ num_edge_388 ];
@@ -6974,26 +6974,26 @@ case_50: {
     int max_node_258 = max( num_node_2, num_node_3 );
     int num_edge_258 = 64 * max_node_258 + min_node_258;
     int num_node_258;
-    if ( edge_num_cuts[ num_edge_258 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_258 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_258 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_258;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_258 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_258 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_2 );
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_258 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_258 ] = num_cut_proc;
         edge_cuts[ num_edge_258 ] = num_node_258;
     } else
         num_node_258 = edge_cuts[ num_edge_258 ];
@@ -7003,26 +7003,26 @@ case_50: {
     int max_node_388 = max( num_node_4, num_node_5 );
     int num_edge_388 = 64 * max_node_388 + min_node_388;
     int num_node_388;
-    if ( edge_num_cuts[ num_edge_388 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_388 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_388 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_388;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_388 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_388 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_4 );
         const Node &n1 = nodes.local_at( num_node_5 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_388 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_388 ] = num_cut_proc;
         edge_cuts[ num_edge_388 ] = num_node_388;
     } else
         num_node_388 = edge_cuts[ num_edge_388 ];
@@ -7049,26 +7049,26 @@ case_75: {
     int max_node_258 = max( num_node_2, num_node_3 );
     int num_edge_258 = 64 * max_node_258 + min_node_258;
     int num_node_258;
-    if ( edge_num_cuts[ num_edge_258 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_258 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_258 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_258;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_258 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_258 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_2 );
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_258 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_258 ] = num_cut_proc;
         edge_cuts[ num_edge_258 ] = num_node_258;
     } else
         num_node_258 = edge_cuts[ num_edge_258 ];
@@ -7078,26 +7078,26 @@ case_75: {
     int max_node_388 = max( num_node_4, num_node_5 );
     int num_edge_388 = 64 * max_node_388 + min_node_388;
     int num_node_388;
-    if ( edge_num_cuts[ num_edge_388 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_388 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_388 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_388;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_388 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_388 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_4 );
         const Node &n1 = nodes.local_at( num_node_5 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_388 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_388 ] = num_cut_proc;
         edge_cuts[ num_edge_388 ] = num_node_388;
     } else
         num_node_388 = edge_cuts[ num_edge_388 ];
@@ -7126,26 +7126,26 @@ case_108: {
     int max_node_258 = max( num_node_2, num_node_3 );
     int num_edge_258 = 64 * max_node_258 + min_node_258;
     int num_node_258;
-    if ( edge_num_cuts[ num_edge_258 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_258 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_258 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_258;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_258 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_258 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_2 );
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_258 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_258 ] = num_cut_proc;
         edge_cuts[ num_edge_258 ] = num_node_258;
     } else
         num_node_258 = edge_cuts[ num_edge_258 ];
@@ -7155,26 +7155,26 @@ case_108: {
     int max_node_388 = max( num_node_4, num_node_5 );
     int num_edge_388 = 64 * max_node_388 + min_node_388;
     int num_node_388;
-    if ( edge_num_cuts[ num_edge_388 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_388 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_388 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_388;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_388 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_388 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_4 );
         const Node &n1 = nodes.local_at( num_node_5 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_388 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_388 ] = num_cut_proc;
         edge_cuts[ num_edge_388 ] = num_node_388;
     } else
         num_node_388 = edge_cuts[ num_edge_388 ];
@@ -7205,26 +7205,26 @@ case_44: {
     int max_node_258 = max( num_node_2, num_node_3 );
     int num_edge_258 = 64 * max_node_258 + min_node_258;
     int num_node_258;
-    if ( edge_num_cuts[ num_edge_258 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_258 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_258 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_258;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_258 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_258 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_2 );
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_258 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_258 ] = num_cut_proc;
         edge_cuts[ num_edge_258 ] = num_node_258;
     } else
         num_node_258 = edge_cuts[ num_edge_258 ];
@@ -7234,26 +7234,26 @@ case_44: {
     int max_node_384 = max( num_node_5, num_node_0 );
     int num_edge_384 = 64 * max_node_384 + min_node_384;
     int num_node_384;
-    if ( edge_num_cuts[ num_edge_384 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_384 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_384 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_384;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_384 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_384 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_5 );
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_384 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_384 ] = num_cut_proc;
         edge_cuts[ num_edge_384 ] = num_node_384;
     } else
         num_node_384 = edge_cuts[ num_edge_384 ];
@@ -7280,26 +7280,26 @@ case_61: {
     int max_node_258 = max( num_node_2, num_node_3 );
     int num_edge_258 = 64 * max_node_258 + min_node_258;
     int num_node_258;
-    if ( edge_num_cuts[ num_edge_258 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_258 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_258 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_258;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_258 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_258 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_2 );
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_258 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_258 ] = num_cut_proc;
         edge_cuts[ num_edge_258 ] = num_node_258;
     } else
         num_node_258 = edge_cuts[ num_edge_258 ];
@@ -7309,26 +7309,26 @@ case_61: {
     int max_node_384 = max( num_node_5, num_node_0 );
     int num_edge_384 = 64 * max_node_384 + min_node_384;
     int num_node_384;
-    if ( edge_num_cuts[ num_edge_384 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_384 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_384 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_384;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_384 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_384 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_5 );
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_384 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_384 ] = num_cut_proc;
         edge_cuts[ num_edge_384 ] = num_node_384;
     } else
         num_node_384 = edge_cuts[ num_edge_384 ];
@@ -7354,26 +7354,26 @@ case_88: {
     int max_node_258 = max( num_node_2, num_node_3 );
     int num_edge_258 = 64 * max_node_258 + min_node_258;
     int num_node_258;
-    if ( edge_num_cuts[ num_edge_258 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_258 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_258 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_258;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_258 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_258 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_2 );
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_258 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_258 ] = num_cut_proc;
         edge_cuts[ num_edge_258 ] = num_node_258;
     } else
         num_node_258 = edge_cuts[ num_edge_258 ];
@@ -7383,26 +7383,26 @@ case_88: {
     int max_node_453 = max( num_node_5, num_node_6 );
     int num_edge_453 = 64 * max_node_453 + min_node_453;
     int num_node_453;
-    if ( edge_num_cuts[ num_edge_453 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_453 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_453 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_453;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_453 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_453 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_5 );
         const Node &n1 = nodes.local_at( num_node_6 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_453 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_453 ] = num_cut_proc;
         edge_cuts[ num_edge_453 ] = num_node_453;
     } else
         num_node_453 = edge_cuts[ num_edge_453 ];
@@ -7429,26 +7429,26 @@ case_81: {
     int max_node_258 = max( num_node_2, num_node_3 );
     int num_edge_258 = 64 * max_node_258 + min_node_258;
     int num_node_258;
-    if ( edge_num_cuts[ num_edge_258 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_258 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_258 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_258;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_258 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_258 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_2 );
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_258 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_258 ] = num_cut_proc;
         edge_cuts[ num_edge_258 ] = num_node_258;
     } else
         num_node_258 = edge_cuts[ num_edge_258 ];
@@ -7458,26 +7458,26 @@ case_81: {
     int max_node_453 = max( num_node_5, num_node_6 );
     int num_edge_453 = 64 * max_node_453 + min_node_453;
     int num_node_453;
-    if ( edge_num_cuts[ num_edge_453 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_453 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_453 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_453;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_453 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_453 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_5 );
         const Node &n1 = nodes.local_at( num_node_6 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_453 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_453 ] = num_cut_proc;
         edge_cuts[ num_edge_453 ] = num_node_453;
     } else
         num_node_453 = edge_cuts[ num_edge_453 ];
@@ -7506,26 +7506,26 @@ case_114: {
     int max_node_258 = max( num_node_2, num_node_3 );
     int num_edge_258 = 64 * max_node_258 + min_node_258;
     int num_node_258;
-    if ( edge_num_cuts[ num_edge_258 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_258 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_258 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_258;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_258 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_258 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_2 );
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_258 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_258 ] = num_cut_proc;
         edge_cuts[ num_edge_258 ] = num_node_258;
     } else
         num_node_258 = edge_cuts[ num_edge_258 ];
@@ -7535,26 +7535,26 @@ case_114: {
     int max_node_453 = max( num_node_5, num_node_6 );
     int num_edge_453 = 64 * max_node_453 + min_node_453;
     int num_node_453;
-    if ( edge_num_cuts[ num_edge_453 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_453 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_453 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_453;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_453 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_453 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_5 );
         const Node &n1 = nodes.local_at( num_node_6 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_453 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_453 ] = num_cut_proc;
         edge_cuts[ num_edge_453 ] = num_node_453;
     } else
         num_node_453 = edge_cuts[ num_edge_453 ];
@@ -7586,26 +7586,26 @@ case_69: {
     int max_node_258 = max( num_node_2, num_node_3 );
     int num_edge_258 = 64 * max_node_258 + min_node_258;
     int num_node_258;
-    if ( edge_num_cuts[ num_edge_258 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_258 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_258 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_258;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_258 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_258 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_2 );
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_258 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_258 ] = num_cut_proc;
         edge_cuts[ num_edge_258 ] = num_node_258;
     } else
         num_node_258 = edge_cuts[ num_edge_258 ];
@@ -7615,26 +7615,26 @@ case_69: {
     int max_node_448 = max( num_node_6, num_node_0 );
     int num_edge_448 = 64 * max_node_448 + min_node_448;
     int num_node_448;
-    if ( edge_num_cuts[ num_edge_448 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_448 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_448 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_448;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_448 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_448 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_6 );
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_448 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_448 ] = num_cut_proc;
         edge_cuts[ num_edge_448 ] = num_node_448;
     } else
         num_node_448 = edge_cuts[ num_edge_448 ];
@@ -7663,26 +7663,26 @@ case_94: {
     int max_node_258 = max( num_node_2, num_node_3 );
     int num_edge_258 = 64 * max_node_258 + min_node_258;
     int num_node_258;
-    if ( edge_num_cuts[ num_edge_258 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_258 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_258 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_258;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_258 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_258 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_2 );
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_258 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_258 ] = num_cut_proc;
         edge_cuts[ num_edge_258 ] = num_node_258;
     } else
         num_node_258 = edge_cuts[ num_edge_258 ];
@@ -7692,26 +7692,26 @@ case_94: {
     int max_node_448 = max( num_node_6, num_node_0 );
     int num_edge_448 = 64 * max_node_448 + min_node_448;
     int num_node_448;
-    if ( edge_num_cuts[ num_edge_448 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_448 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_448 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_448;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_448 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_448 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_6 );
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_448 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_448 ] = num_cut_proc;
         edge_cuts[ num_edge_448 ] = num_node_448;
     } else
         num_node_448 = edge_cuts[ num_edge_448 ];
@@ -7737,26 +7737,26 @@ case_128: {
     int max_node_258 = max( num_node_2, num_node_3 );
     int num_edge_258 = 64 * max_node_258 + min_node_258;
     int num_node_258;
-    if ( edge_num_cuts[ num_edge_258 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_258 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_258 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_258;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_258 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_258 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_2 );
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_258 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_258 ] = num_cut_proc;
         edge_cuts[ num_edge_258 ] = num_node_258;
     } else
         num_node_258 = edge_cuts[ num_edge_258 ];
@@ -7766,26 +7766,26 @@ case_128: {
     int max_node_518 = max( num_node_6, num_node_7 );
     int num_edge_518 = 64 * max_node_518 + min_node_518;
     int num_node_518;
-    if ( edge_num_cuts[ num_edge_518 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_518 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_518 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_518;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_518 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_518 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_6 );
         const Node &n1 = nodes.local_at( num_node_7 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_518 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_518 ] = num_cut_proc;
         edge_cuts[ num_edge_518 ] = num_node_518;
     } else
         num_node_518 = edge_cuts[ num_edge_518 ];
@@ -7814,26 +7814,26 @@ case_121: {
     int max_node_258 = max( num_node_2, num_node_3 );
     int num_edge_258 = 64 * max_node_258 + min_node_258;
     int num_node_258;
-    if ( edge_num_cuts[ num_edge_258 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_258 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_258 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_258;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_258 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_258 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_2 );
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_258 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_258 ] = num_cut_proc;
         edge_cuts[ num_edge_258 ] = num_node_258;
     } else
         num_node_258 = edge_cuts[ num_edge_258 ];
@@ -7843,26 +7843,26 @@ case_121: {
     int max_node_518 = max( num_node_6, num_node_7 );
     int num_edge_518 = 64 * max_node_518 + min_node_518;
     int num_node_518;
-    if ( edge_num_cuts[ num_edge_518 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_518 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_518 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_518;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_518 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_518 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_6 );
         const Node &n1 = nodes.local_at( num_node_7 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_518 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_518 ] = num_cut_proc;
         edge_cuts[ num_edge_518 ] = num_node_518;
     } else
         num_node_518 = edge_cuts[ num_edge_518 ];
@@ -7891,26 +7891,26 @@ case_102: {
     int max_node_258 = max( num_node_2, num_node_3 );
     int num_edge_258 = 64 * max_node_258 + min_node_258;
     int num_node_258;
-    if ( edge_num_cuts[ num_edge_258 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_258 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_258 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_258;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_258 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_258 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_2 );
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_258 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_258 ] = num_cut_proc;
         edge_cuts[ num_edge_258 ] = num_node_258;
     } else
         num_node_258 = edge_cuts[ num_edge_258 ];
@@ -7920,26 +7920,26 @@ case_102: {
     int max_node_512 = max( num_node_7, num_node_0 );
     int num_edge_512 = 64 * max_node_512 + min_node_512;
     int num_node_512;
-    if ( edge_num_cuts[ num_edge_512 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_512 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_512 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_512;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_512 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_512 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_7 );
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_512 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_512 ] = num_cut_proc;
         edge_cuts[ num_edge_512 ] = num_node_512;
     } else
         num_node_512 = edge_cuts[ num_edge_512 ];
@@ -7970,26 +7970,26 @@ case_136: {
     int max_node_258 = max( num_node_2, num_node_3 );
     int num_edge_258 = 64 * max_node_258 + min_node_258;
     int num_node_258;
-    if ( edge_num_cuts[ num_edge_258 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_258 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_258 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_258;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_258 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_258 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_2 );
         const Node &n1 = nodes.local_at( num_node_3 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_258 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_258 ] = num_cut_proc;
         edge_cuts[ num_edge_258 ] = num_node_258;
     } else
         num_node_258 = edge_cuts[ num_edge_258 ];
@@ -7999,26 +7999,26 @@ case_136: {
     int max_node_512 = max( num_node_7, num_node_0 );
     int num_edge_512 = 64 * max_node_512 + min_node_512;
     int num_node_512;
-    if ( edge_num_cuts[ num_edge_512 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_512 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_512 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_512;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_512 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_512 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_7 );
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_512 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_512 ] = num_cut_proc;
         edge_cuts[ num_edge_512 ] = num_node_512;
     } else
         num_node_512 = edge_cuts[ num_edge_512 ];
@@ -8044,26 +8044,26 @@ case_31: {
     int max_node_323 = max( num_node_3, num_node_4 );
     int num_edge_323 = 64 * max_node_323 + min_node_323;
     int num_node_323;
-    if ( edge_num_cuts[ num_edge_323 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_323 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_323 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_323;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_323 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_323 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_3 );
         const Node &n1 = nodes.local_at( num_node_4 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_323 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_323 ] = num_cut_proc;
         edge_cuts[ num_edge_323 ] = num_node_323;
     } else
         num_node_323 = edge_cuts[ num_edge_323 ];
@@ -8072,26 +8072,26 @@ case_31: {
     int max_node_320 = max( num_node_4, num_node_0 );
     int num_edge_320 = 64 * max_node_320 + min_node_320;
     int num_node_320;
-    if ( edge_num_cuts[ num_edge_320 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_320 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_320 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_320;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_320 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_320 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_4 );
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_320 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_320 ] = num_cut_proc;
         edge_cuts[ num_edge_320 ] = num_node_320;
     } else
         num_node_320 = edge_cuts[ num_edge_320 ];
@@ -8119,26 +8119,26 @@ case_30: {
     int max_node_323 = max( num_node_3, num_node_4 );
     int num_edge_323 = 64 * max_node_323 + min_node_323;
     int num_node_323;
-    if ( edge_num_cuts[ num_edge_323 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_323 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_323 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_323;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_323 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_323 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_3 );
         const Node &n1 = nodes.local_at( num_node_4 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_323 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_323 ] = num_cut_proc;
         edge_cuts[ num_edge_323 ] = num_node_323;
     } else
         num_node_323 = edge_cuts[ num_edge_323 ];
@@ -8147,26 +8147,26 @@ case_30: {
     int max_node_320 = max( num_node_4, num_node_0 );
     int num_edge_320 = 64 * max_node_320 + min_node_320;
     int num_node_320;
-    if ( edge_num_cuts[ num_edge_320 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_320 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_320 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_320;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_320 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_320 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_4 );
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_320 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_320 ] = num_cut_proc;
         edge_cuts[ num_edge_320 ] = num_node_320;
     } else
         num_node_320 = edge_cuts[ num_edge_320 ];
@@ -8190,26 +8190,26 @@ case_58: {
     int max_node_323 = max( num_node_3, num_node_4 );
     int num_edge_323 = 64 * max_node_323 + min_node_323;
     int num_node_323;
-    if ( edge_num_cuts[ num_edge_323 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_323 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_323 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_323;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_323 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_323 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_3 );
         const Node &n1 = nodes.local_at( num_node_4 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_323 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_323 ] = num_cut_proc;
         edge_cuts[ num_edge_323 ] = num_node_323;
     } else
         num_node_323 = edge_cuts[ num_edge_323 ];
@@ -8218,26 +8218,26 @@ case_58: {
     int max_node_388 = max( num_node_4, num_node_5 );
     int num_edge_388 = 64 * max_node_388 + min_node_388;
     int num_node_388;
-    if ( edge_num_cuts[ num_edge_388 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_388 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_388 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_388;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_388 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_388 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_4 );
         const Node &n1 = nodes.local_at( num_node_5 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_388 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_388 ] = num_cut_proc;
         edge_cuts[ num_edge_388 ] = num_node_388;
     } else
         num_node_388 = edge_cuts[ num_edge_388 ];
@@ -8261,26 +8261,26 @@ case_49: {
     int max_node_323 = max( num_node_3, num_node_4 );
     int num_edge_323 = 64 * max_node_323 + min_node_323;
     int num_node_323;
-    if ( edge_num_cuts[ num_edge_323 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_323 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_323 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_323;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_323 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_323 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_3 );
         const Node &n1 = nodes.local_at( num_node_4 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_323 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_323 ] = num_cut_proc;
         edge_cuts[ num_edge_323 ] = num_node_323;
     } else
         num_node_323 = edge_cuts[ num_edge_323 ];
@@ -8289,26 +8289,26 @@ case_49: {
     int max_node_388 = max( num_node_4, num_node_5 );
     int num_edge_388 = 64 * max_node_388 + min_node_388;
     int num_node_388;
-    if ( edge_num_cuts[ num_edge_388 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_388 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_388 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_388;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_388 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_388 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_4 );
         const Node &n1 = nodes.local_at( num_node_5 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_388 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_388 ] = num_cut_proc;
         edge_cuts[ num_edge_388 ] = num_node_388;
     } else
         num_node_388 = edge_cuts[ num_edge_388 ];
@@ -8339,26 +8339,26 @@ case_74: {
     int max_node_323 = max( num_node_3, num_node_4 );
     int num_edge_323 = 64 * max_node_323 + min_node_323;
     int num_node_323;
-    if ( edge_num_cuts[ num_edge_323 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_323 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_323 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_323;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_323 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_323 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_3 );
         const Node &n1 = nodes.local_at( num_node_4 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_323 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_323 ] = num_cut_proc;
         edge_cuts[ num_edge_323 ] = num_node_323;
     } else
         num_node_323 = edge_cuts[ num_edge_323 ];
@@ -8367,26 +8367,26 @@ case_74: {
     int max_node_388 = max( num_node_4, num_node_5 );
     int num_edge_388 = 64 * max_node_388 + min_node_388;
     int num_node_388;
-    if ( edge_num_cuts[ num_edge_388 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_388 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_388 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_388;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_388 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_388 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_4 );
         const Node &n1 = nodes.local_at( num_node_5 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_388 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_388 ] = num_cut_proc;
         edge_cuts[ num_edge_388 ] = num_node_388;
     } else
         num_node_388 = edge_cuts[ num_edge_388 ];
@@ -8420,26 +8420,26 @@ case_107: {
     int max_node_323 = max( num_node_3, num_node_4 );
     int num_edge_323 = 64 * max_node_323 + min_node_323;
     int num_node_323;
-    if ( edge_num_cuts[ num_edge_323 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_323 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_323 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_323;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_323 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_323 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_3 );
         const Node &n1 = nodes.local_at( num_node_4 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_323 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_323 ] = num_cut_proc;
         edge_cuts[ num_edge_323 ] = num_node_323;
     } else
         num_node_323 = edge_cuts[ num_edge_323 ];
@@ -8448,26 +8448,26 @@ case_107: {
     int max_node_388 = max( num_node_4, num_node_5 );
     int num_edge_388 = 64 * max_node_388 + min_node_388;
     int num_node_388;
-    if ( edge_num_cuts[ num_edge_388 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_388 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_388 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_388;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_388 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_388 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_4 );
         const Node &n1 = nodes.local_at( num_node_5 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_388 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_388 ] = num_cut_proc;
         edge_cuts[ num_edge_388 ] = num_node_388;
     } else
         num_node_388 = edge_cuts[ num_edge_388 ];
@@ -8504,26 +8504,26 @@ case_48: {
     int max_node_323 = max( num_node_3, num_node_4 );
     int num_edge_323 = 64 * max_node_323 + min_node_323;
     int num_node_323;
-    if ( edge_num_cuts[ num_edge_323 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_323 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_323 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_323;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_323 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_323 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_3 );
         const Node &n1 = nodes.local_at( num_node_4 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_323 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_323 ] = num_cut_proc;
         edge_cuts[ num_edge_323 ] = num_node_323;
     } else
         num_node_323 = edge_cuts[ num_edge_323 ];
@@ -8533,26 +8533,26 @@ case_48: {
     int max_node_384 = max( num_node_5, num_node_0 );
     int num_edge_384 = 64 * max_node_384 + min_node_384;
     int num_node_384;
-    if ( edge_num_cuts[ num_edge_384 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_384 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_384 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_384;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_384 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_384 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_5 );
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_384 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_384 ] = num_cut_proc;
         edge_cuts[ num_edge_384 ] = num_node_384;
     } else
         num_node_384 = edge_cuts[ num_edge_384 ];
@@ -8578,26 +8578,26 @@ case_59: {
     int max_node_323 = max( num_node_3, num_node_4 );
     int num_edge_323 = 64 * max_node_323 + min_node_323;
     int num_node_323;
-    if ( edge_num_cuts[ num_edge_323 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_323 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_323 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_323;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_323 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_323 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_3 );
         const Node &n1 = nodes.local_at( num_node_4 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_323 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_323 ] = num_cut_proc;
         edge_cuts[ num_edge_323 ] = num_node_323;
     } else
         num_node_323 = edge_cuts[ num_edge_323 ];
@@ -8607,26 +8607,26 @@ case_59: {
     int max_node_384 = max( num_node_5, num_node_0 );
     int num_edge_384 = 64 * max_node_384 + min_node_384;
     int num_node_384;
-    if ( edge_num_cuts[ num_edge_384 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_384 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_384 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_384;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_384 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_384 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_5 );
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_384 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_384 ] = num_cut_proc;
         edge_cuts[ num_edge_384 ] = num_node_384;
     } else
         num_node_384 = edge_cuts[ num_edge_384 ];
@@ -8653,26 +8653,26 @@ case_89: {
     int max_node_323 = max( num_node_3, num_node_4 );
     int num_edge_323 = 64 * max_node_323 + min_node_323;
     int num_node_323;
-    if ( edge_num_cuts[ num_edge_323 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_323 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_323 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_323;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_323 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_323 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_3 );
         const Node &n1 = nodes.local_at( num_node_4 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_323 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_323 ] = num_cut_proc;
         edge_cuts[ num_edge_323 ] = num_node_323;
     } else
         num_node_323 = edge_cuts[ num_edge_323 ];
@@ -8682,26 +8682,26 @@ case_89: {
     int max_node_453 = max( num_node_5, num_node_6 );
     int num_edge_453 = 64 * max_node_453 + min_node_453;
     int num_node_453;
-    if ( edge_num_cuts[ num_edge_453 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_453 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_453 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_453;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_453 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_453 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_5 );
         const Node &n1 = nodes.local_at( num_node_6 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_453 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_453 ] = num_cut_proc;
         edge_cuts[ num_edge_453 ] = num_node_453;
     } else
         num_node_453 = edge_cuts[ num_edge_453 ];
@@ -8727,26 +8727,26 @@ case_80: {
     int max_node_323 = max( num_node_3, num_node_4 );
     int num_edge_323 = 64 * max_node_323 + min_node_323;
     int num_node_323;
-    if ( edge_num_cuts[ num_edge_323 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_323 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_323 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_323;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_323 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_323 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_3 );
         const Node &n1 = nodes.local_at( num_node_4 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_323 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_323 ] = num_cut_proc;
         edge_cuts[ num_edge_323 ] = num_node_323;
     } else
         num_node_323 = edge_cuts[ num_edge_323 ];
@@ -8756,26 +8756,26 @@ case_80: {
     int max_node_453 = max( num_node_5, num_node_6 );
     int num_edge_453 = 64 * max_node_453 + min_node_453;
     int num_node_453;
-    if ( edge_num_cuts[ num_edge_453 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_453 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_453 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_453;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_453 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_453 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_5 );
         const Node &n1 = nodes.local_at( num_node_6 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_453 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_453 ] = num_cut_proc;
         edge_cuts[ num_edge_453 ] = num_node_453;
     } else
         num_node_453 = edge_cuts[ num_edge_453 ];
@@ -8804,26 +8804,26 @@ case_113: {
     int max_node_323 = max( num_node_3, num_node_4 );
     int num_edge_323 = 64 * max_node_323 + min_node_323;
     int num_node_323;
-    if ( edge_num_cuts[ num_edge_323 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_323 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_323 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_323;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_323 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_323 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_3 );
         const Node &n1 = nodes.local_at( num_node_4 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_323 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_323 ] = num_cut_proc;
         edge_cuts[ num_edge_323 ] = num_node_323;
     } else
         num_node_323 = edge_cuts[ num_edge_323 ];
@@ -8833,26 +8833,26 @@ case_113: {
     int max_node_453 = max( num_node_5, num_node_6 );
     int num_edge_453 = 64 * max_node_453 + min_node_453;
     int num_node_453;
-    if ( edge_num_cuts[ num_edge_453 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_453 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_453 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_453;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_453 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_453 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_5 );
         const Node &n1 = nodes.local_at( num_node_6 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_453 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_453 ] = num_cut_proc;
         edge_cuts[ num_edge_453 ] = num_node_453;
     } else
         num_node_453 = edge_cuts[ num_edge_453 ];
@@ -8883,26 +8883,26 @@ case_73: {
     int max_node_323 = max( num_node_3, num_node_4 );
     int num_edge_323 = 64 * max_node_323 + min_node_323;
     int num_node_323;
-    if ( edge_num_cuts[ num_edge_323 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_323 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_323 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_323;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_323 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_323 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_3 );
         const Node &n1 = nodes.local_at( num_node_4 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_323 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_323 ] = num_cut_proc;
         edge_cuts[ num_edge_323 ] = num_node_323;
     } else
         num_node_323 = edge_cuts[ num_edge_323 ];
@@ -8912,26 +8912,26 @@ case_73: {
     int max_node_448 = max( num_node_6, num_node_0 );
     int num_edge_448 = 64 * max_node_448 + min_node_448;
     int num_node_448;
-    if ( edge_num_cuts[ num_edge_448 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_448 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_448 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_448;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_448 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_448 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_6 );
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_448 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_448 ] = num_cut_proc;
         edge_cuts[ num_edge_448 ] = num_node_448;
     } else
         num_node_448 = edge_cuts[ num_edge_448 ];
@@ -8959,26 +8959,26 @@ case_93: {
     int max_node_323 = max( num_node_3, num_node_4 );
     int num_edge_323 = 64 * max_node_323 + min_node_323;
     int num_node_323;
-    if ( edge_num_cuts[ num_edge_323 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_323 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_323 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_323;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_323 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_323 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_3 );
         const Node &n1 = nodes.local_at( num_node_4 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_323 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_323 ] = num_cut_proc;
         edge_cuts[ num_edge_323 ] = num_node_323;
     } else
         num_node_323 = edge_cuts[ num_edge_323 ];
@@ -8988,26 +8988,26 @@ case_93: {
     int max_node_448 = max( num_node_6, num_node_0 );
     int num_edge_448 = 64 * max_node_448 + min_node_448;
     int num_node_448;
-    if ( edge_num_cuts[ num_edge_448 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_448 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_448 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_448;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_448 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_448 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_6 );
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_448 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_448 ] = num_cut_proc;
         edge_cuts[ num_edge_448 ] = num_node_448;
     } else
         num_node_448 = edge_cuts[ num_edge_448 ];
@@ -9035,26 +9035,26 @@ case_129: {
     int max_node_323 = max( num_node_3, num_node_4 );
     int num_edge_323 = 64 * max_node_323 + min_node_323;
     int num_node_323;
-    if ( edge_num_cuts[ num_edge_323 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_323 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_323 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_323;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_323 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_323 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_3 );
         const Node &n1 = nodes.local_at( num_node_4 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_323 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_323 ] = num_cut_proc;
         edge_cuts[ num_edge_323 ] = num_node_323;
     } else
         num_node_323 = edge_cuts[ num_edge_323 ];
@@ -9064,26 +9064,26 @@ case_129: {
     int max_node_518 = max( num_node_6, num_node_7 );
     int num_edge_518 = 64 * max_node_518 + min_node_518;
     int num_node_518;
-    if ( edge_num_cuts[ num_edge_518 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_518 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_518 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_518;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_518 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_518 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_6 );
         const Node &n1 = nodes.local_at( num_node_7 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_518 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_518 ] = num_cut_proc;
         edge_cuts[ num_edge_518 ] = num_node_518;
     } else
         num_node_518 = edge_cuts[ num_edge_518 ];
@@ -9111,26 +9111,26 @@ case_120: {
     int max_node_323 = max( num_node_3, num_node_4 );
     int num_edge_323 = 64 * max_node_323 + min_node_323;
     int num_node_323;
-    if ( edge_num_cuts[ num_edge_323 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_323 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_323 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_323;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_323 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_323 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_3 );
         const Node &n1 = nodes.local_at( num_node_4 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_323 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_323 ] = num_cut_proc;
         edge_cuts[ num_edge_323 ] = num_node_323;
     } else
         num_node_323 = edge_cuts[ num_edge_323 ];
@@ -9140,26 +9140,26 @@ case_120: {
     int max_node_518 = max( num_node_6, num_node_7 );
     int num_edge_518 = 64 * max_node_518 + min_node_518;
     int num_node_518;
-    if ( edge_num_cuts[ num_edge_518 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_518 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_518 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_518;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_518 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_518 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_6 );
         const Node &n1 = nodes.local_at( num_node_7 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_518 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_518 ] = num_cut_proc;
         edge_cuts[ num_edge_518 ] = num_node_518;
     } else
         num_node_518 = edge_cuts[ num_edge_518 ];
@@ -9190,26 +9190,26 @@ case_106: {
     int max_node_323 = max( num_node_3, num_node_4 );
     int num_edge_323 = 64 * max_node_323 + min_node_323;
     int num_node_323;
-    if ( edge_num_cuts[ num_edge_323 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_323 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_323 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_323;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_323 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_323 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_3 );
         const Node &n1 = nodes.local_at( num_node_4 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_323 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_323 ] = num_cut_proc;
         edge_cuts[ num_edge_323 ] = num_node_323;
     } else
         num_node_323 = edge_cuts[ num_edge_323 ];
@@ -9219,26 +9219,26 @@ case_106: {
     int max_node_512 = max( num_node_7, num_node_0 );
     int num_edge_512 = 64 * max_node_512 + min_node_512;
     int num_node_512;
-    if ( edge_num_cuts[ num_edge_512 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_512 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_512 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_512;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_512 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_512 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_7 );
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_512 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_512 ] = num_cut_proc;
         edge_cuts[ num_edge_512 ] = num_node_512;
     } else
         num_node_512 = edge_cuts[ num_edge_512 ];
@@ -9268,26 +9268,26 @@ case_135: {
     int max_node_323 = max( num_node_3, num_node_4 );
     int num_edge_323 = 64 * max_node_323 + min_node_323;
     int num_node_323;
-    if ( edge_num_cuts[ num_edge_323 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_323 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_323 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_323;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_323 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_323 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_3 );
         const Node &n1 = nodes.local_at( num_node_4 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_323 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_323 ] = num_cut_proc;
         edge_cuts[ num_edge_323 ] = num_node_323;
     } else
         num_node_323 = edge_cuts[ num_edge_323 ];
@@ -9297,26 +9297,26 @@ case_135: {
     int max_node_512 = max( num_node_7, num_node_0 );
     int num_edge_512 = 64 * max_node_512 + min_node_512;
     int num_node_512;
-    if ( edge_num_cuts[ num_edge_512 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_512 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_512 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_512;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_512 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_512 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_7 );
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_512 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_512 ] = num_cut_proc;
         edge_cuts[ num_edge_512 ] = num_node_512;
     } else
         num_node_512 = edge_cuts[ num_edge_512 ];
@@ -9344,26 +9344,26 @@ case_54: {
     int max_node_388 = max( num_node_4, num_node_5 );
     int num_edge_388 = 64 * max_node_388 + min_node_388;
     int num_node_388;
-    if ( edge_num_cuts[ num_edge_388 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_388 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_388 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_388;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_388 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_388 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_4 );
         const Node &n1 = nodes.local_at( num_node_5 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_388 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_388 ] = num_cut_proc;
         edge_cuts[ num_edge_388 ] = num_node_388;
     } else
         num_node_388 = edge_cuts[ num_edge_388 ];
@@ -9372,26 +9372,26 @@ case_54: {
     int max_node_384 = max( num_node_5, num_node_0 );
     int num_edge_384 = 64 * max_node_384 + min_node_384;
     int num_node_384;
-    if ( edge_num_cuts[ num_edge_384 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_384 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_384 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_384;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_384 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_384 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_5 );
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_384 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_384 ] = num_cut_proc;
         edge_cuts[ num_edge_384 ] = num_node_384;
     } else
         num_node_384 = edge_cuts[ num_edge_384 ];
@@ -9421,26 +9421,26 @@ case_53: {
     int max_node_388 = max( num_node_4, num_node_5 );
     int num_edge_388 = 64 * max_node_388 + min_node_388;
     int num_node_388;
-    if ( edge_num_cuts[ num_edge_388 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_388 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_388 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_388;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_388 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_388 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_4 );
         const Node &n1 = nodes.local_at( num_node_5 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_388 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_388 ] = num_cut_proc;
         edge_cuts[ num_edge_388 ] = num_node_388;
     } else
         num_node_388 = edge_cuts[ num_edge_388 ];
@@ -9449,26 +9449,26 @@ case_53: {
     int max_node_384 = max( num_node_5, num_node_0 );
     int num_edge_384 = 64 * max_node_384 + min_node_384;
     int num_node_384;
-    if ( edge_num_cuts[ num_edge_384 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_384 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_384 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_384;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_384 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_384 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_5 );
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_384 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_384 ] = num_cut_proc;
         edge_cuts[ num_edge_384 ] = num_node_384;
     } else
         num_node_384 = edge_cuts[ num_edge_384 ];
@@ -9492,26 +9492,26 @@ case_90: {
     int max_node_388 = max( num_node_4, num_node_5 );
     int num_edge_388 = 64 * max_node_388 + min_node_388;
     int num_node_388;
-    if ( edge_num_cuts[ num_edge_388 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_388 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_388 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_388;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_388 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_388 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_4 );
         const Node &n1 = nodes.local_at( num_node_5 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_388 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_388 ] = num_cut_proc;
         edge_cuts[ num_edge_388 ] = num_node_388;
     } else
         num_node_388 = edge_cuts[ num_edge_388 ];
@@ -9520,26 +9520,26 @@ case_90: {
     int max_node_453 = max( num_node_5, num_node_6 );
     int num_edge_453 = 64 * max_node_453 + min_node_453;
     int num_node_453;
-    if ( edge_num_cuts[ num_edge_453 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_453 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_453 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_453;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_453 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_453 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_5 );
         const Node &n1 = nodes.local_at( num_node_6 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_453 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_453 ] = num_cut_proc;
         edge_cuts[ num_edge_453 ] = num_node_453;
     } else
         num_node_453 = edge_cuts[ num_edge_453 ];
@@ -9563,26 +9563,26 @@ case_79: {
     int max_node_388 = max( num_node_4, num_node_5 );
     int num_edge_388 = 64 * max_node_388 + min_node_388;
     int num_node_388;
-    if ( edge_num_cuts[ num_edge_388 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_388 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_388 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_388;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_388 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_388 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_4 );
         const Node &n1 = nodes.local_at( num_node_5 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_388 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_388 ] = num_cut_proc;
         edge_cuts[ num_edge_388 ] = num_node_388;
     } else
         num_node_388 = edge_cuts[ num_edge_388 ];
@@ -9591,26 +9591,26 @@ case_79: {
     int max_node_453 = max( num_node_5, num_node_6 );
     int num_edge_453 = 64 * max_node_453 + min_node_453;
     int num_node_453;
-    if ( edge_num_cuts[ num_edge_453 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_453 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_453 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_453;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_453 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_453 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_5 );
         const Node &n1 = nodes.local_at( num_node_6 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_453 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_453 ] = num_cut_proc;
         edge_cuts[ num_edge_453 ] = num_node_453;
     } else
         num_node_453 = edge_cuts[ num_edge_453 ];
@@ -9643,26 +9643,26 @@ case_112: {
     int max_node_388 = max( num_node_4, num_node_5 );
     int num_edge_388 = 64 * max_node_388 + min_node_388;
     int num_node_388;
-    if ( edge_num_cuts[ num_edge_388 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_388 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_388 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_388;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_388 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_388 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_4 );
         const Node &n1 = nodes.local_at( num_node_5 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_388 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_388 ] = num_cut_proc;
         edge_cuts[ num_edge_388 ] = num_node_388;
     } else
         num_node_388 = edge_cuts[ num_edge_388 ];
@@ -9671,26 +9671,26 @@ case_112: {
     int max_node_453 = max( num_node_5, num_node_6 );
     int num_edge_453 = 64 * max_node_453 + min_node_453;
     int num_node_453;
-    if ( edge_num_cuts[ num_edge_453 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_453 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_453 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_453;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_453 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_453 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_5 );
         const Node &n1 = nodes.local_at( num_node_6 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_453 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_453 ] = num_cut_proc;
         edge_cuts[ num_edge_453 ] = num_node_453;
     } else
         num_node_453 = edge_cuts[ num_edge_453 ];
@@ -9726,26 +9726,26 @@ case_78: {
     int max_node_388 = max( num_node_4, num_node_5 );
     int num_edge_388 = 64 * max_node_388 + min_node_388;
     int num_node_388;
-    if ( edge_num_cuts[ num_edge_388 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_388 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_388 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_388;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_388 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_388 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_4 );
         const Node &n1 = nodes.local_at( num_node_5 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_388 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_388 ] = num_cut_proc;
         edge_cuts[ num_edge_388 ] = num_node_388;
     } else
         num_node_388 = edge_cuts[ num_edge_388 ];
@@ -9755,26 +9755,26 @@ case_78: {
     int max_node_448 = max( num_node_6, num_node_0 );
     int num_edge_448 = 64 * max_node_448 + min_node_448;
     int num_node_448;
-    if ( edge_num_cuts[ num_edge_448 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_448 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_448 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_448;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_448 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_448 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_6 );
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_448 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_448 ] = num_cut_proc;
         edge_cuts[ num_edge_448 ] = num_node_448;
     } else
         num_node_448 = edge_cuts[ num_edge_448 ];
@@ -9800,26 +9800,26 @@ case_91: {
     int max_node_388 = max( num_node_4, num_node_5 );
     int num_edge_388 = 64 * max_node_388 + min_node_388;
     int num_node_388;
-    if ( edge_num_cuts[ num_edge_388 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_388 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_388 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_388;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_388 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_388 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_4 );
         const Node &n1 = nodes.local_at( num_node_5 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_388 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_388 ] = num_cut_proc;
         edge_cuts[ num_edge_388 ] = num_node_388;
     } else
         num_node_388 = edge_cuts[ num_edge_388 ];
@@ -9829,26 +9829,26 @@ case_91: {
     int max_node_448 = max( num_node_6, num_node_0 );
     int num_edge_448 = 64 * max_node_448 + min_node_448;
     int num_node_448;
-    if ( edge_num_cuts[ num_edge_448 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_448 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_448 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_448;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_448 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_448 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_6 );
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_448 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_448 ] = num_cut_proc;
         edge_cuts[ num_edge_448 ] = num_node_448;
     } else
         num_node_448 = edge_cuts[ num_edge_448 ];
@@ -9877,26 +9877,26 @@ case_130: {
     int max_node_388 = max( num_node_4, num_node_5 );
     int num_edge_388 = 64 * max_node_388 + min_node_388;
     int num_node_388;
-    if ( edge_num_cuts[ num_edge_388 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_388 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_388 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_388;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_388 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_388 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_4 );
         const Node &n1 = nodes.local_at( num_node_5 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_388 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_388 ] = num_cut_proc;
         edge_cuts[ num_edge_388 ] = num_node_388;
     } else
         num_node_388 = edge_cuts[ num_edge_388 ];
@@ -9906,26 +9906,26 @@ case_130: {
     int max_node_518 = max( num_node_6, num_node_7 );
     int num_edge_518 = 64 * max_node_518 + min_node_518;
     int num_node_518;
-    if ( edge_num_cuts[ num_edge_518 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_518 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_518 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_518;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_518 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_518 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_6 );
         const Node &n1 = nodes.local_at( num_node_7 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_518 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_518 ] = num_cut_proc;
         edge_cuts[ num_edge_518 ] = num_node_518;
     } else
         num_node_518 = edge_cuts[ num_edge_518 ];
@@ -9951,26 +9951,26 @@ case_119: {
     int max_node_388 = max( num_node_4, num_node_5 );
     int num_edge_388 = 64 * max_node_388 + min_node_388;
     int num_node_388;
-    if ( edge_num_cuts[ num_edge_388 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_388 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_388 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_388;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_388 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_388 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_4 );
         const Node &n1 = nodes.local_at( num_node_5 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_388 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_388 ] = num_cut_proc;
         edge_cuts[ num_edge_388 ] = num_node_388;
     } else
         num_node_388 = edge_cuts[ num_edge_388 ];
@@ -9980,26 +9980,26 @@ case_119: {
     int max_node_518 = max( num_node_6, num_node_7 );
     int num_edge_518 = 64 * max_node_518 + min_node_518;
     int num_node_518;
-    if ( edge_num_cuts[ num_edge_518 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_518 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_518 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_518;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_518 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_518 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_6 );
         const Node &n1 = nodes.local_at( num_node_7 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_518 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_518 ] = num_cut_proc;
         edge_cuts[ num_edge_518 ] = num_node_518;
     } else
         num_node_518 = edge_cuts[ num_edge_518 ];
@@ -10030,26 +10030,26 @@ case_111: {
     int max_node_388 = max( num_node_4, num_node_5 );
     int num_edge_388 = 64 * max_node_388 + min_node_388;
     int num_node_388;
-    if ( edge_num_cuts[ num_edge_388 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_388 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_388 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_388;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_388 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_388 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_4 );
         const Node &n1 = nodes.local_at( num_node_5 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_388 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_388 ] = num_cut_proc;
         edge_cuts[ num_edge_388 ] = num_node_388;
     } else
         num_node_388 = edge_cuts[ num_edge_388 ];
@@ -10059,26 +10059,26 @@ case_111: {
     int max_node_512 = max( num_node_7, num_node_0 );
     int num_edge_512 = 64 * max_node_512 + min_node_512;
     int num_node_512;
-    if ( edge_num_cuts[ num_edge_512 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_512 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_512 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_512;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_512 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_512 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_7 );
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_512 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_512 ] = num_cut_proc;
         edge_cuts[ num_edge_512 ] = num_node_512;
     } else
         num_node_512 = edge_cuts[ num_edge_512 ];
@@ -10107,26 +10107,26 @@ case_134: {
     int max_node_388 = max( num_node_4, num_node_5 );
     int num_edge_388 = 64 * max_node_388 + min_node_388;
     int num_node_388;
-    if ( edge_num_cuts[ num_edge_388 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_388 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_388 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_388;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_388 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_388 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_4 );
         const Node &n1 = nodes.local_at( num_node_5 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_388 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_388 ] = num_cut_proc;
         edge_cuts[ num_edge_388 ] = num_node_388;
     } else
         num_node_388 = edge_cuts[ num_edge_388 ];
@@ -10136,26 +10136,26 @@ case_134: {
     int max_node_512 = max( num_node_7, num_node_0 );
     int num_edge_512 = 64 * max_node_512 + min_node_512;
     int num_node_512;
-    if ( edge_num_cuts[ num_edge_512 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_512 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_512 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_512;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_512 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_512 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_7 );
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_512 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_512 ] = num_cut_proc;
         edge_cuts[ num_edge_512 ] = num_node_512;
     } else
         num_node_512 = edge_cuts[ num_edge_512 ];
@@ -10185,26 +10185,26 @@ case_85: {
     int max_node_453 = max( num_node_5, num_node_6 );
     int num_edge_453 = 64 * max_node_453 + min_node_453;
     int num_node_453;
-    if ( edge_num_cuts[ num_edge_453 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_453 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_453 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_453;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_453 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_453 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_5 );
         const Node &n1 = nodes.local_at( num_node_6 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_453 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_453 ] = num_cut_proc;
         edge_cuts[ num_edge_453 ] = num_node_453;
     } else
         num_node_453 = edge_cuts[ num_edge_453 ];
@@ -10213,26 +10213,26 @@ case_85: {
     int max_node_448 = max( num_node_6, num_node_0 );
     int num_edge_448 = 64 * max_node_448 + min_node_448;
     int num_node_448;
-    if ( edge_num_cuts[ num_edge_448 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_448 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_448 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_448;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_448 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_448 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_6 );
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_448 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_448 ] = num_cut_proc;
         edge_cuts[ num_edge_448 ] = num_node_448;
     } else
         num_node_448 = edge_cuts[ num_edge_448 ];
@@ -10264,26 +10264,26 @@ case_84: {
     int max_node_453 = max( num_node_5, num_node_6 );
     int num_edge_453 = 64 * max_node_453 + min_node_453;
     int num_node_453;
-    if ( edge_num_cuts[ num_edge_453 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_453 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_453 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_453;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_453 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_453 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_5 );
         const Node &n1 = nodes.local_at( num_node_6 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_453 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_453 ] = num_cut_proc;
         edge_cuts[ num_edge_453 ] = num_node_453;
     } else
         num_node_453 = edge_cuts[ num_edge_453 ];
@@ -10292,26 +10292,26 @@ case_84: {
     int max_node_448 = max( num_node_6, num_node_0 );
     int num_edge_448 = 64 * max_node_448 + min_node_448;
     int num_node_448;
-    if ( edge_num_cuts[ num_edge_448 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_448 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_448 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_448;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_448 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_448 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_6 );
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_448 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_448 ] = num_cut_proc;
         edge_cuts[ num_edge_448 ] = num_node_448;
     } else
         num_node_448 = edge_cuts[ num_edge_448 ];
@@ -10335,26 +10335,26 @@ case_131: {
     int max_node_453 = max( num_node_5, num_node_6 );
     int num_edge_453 = 64 * max_node_453 + min_node_453;
     int num_node_453;
-    if ( edge_num_cuts[ num_edge_453 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_453 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_453 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_453;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_453 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_453 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_5 );
         const Node &n1 = nodes.local_at( num_node_6 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_453 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_453 ] = num_cut_proc;
         edge_cuts[ num_edge_453 ] = num_node_453;
     } else
         num_node_453 = edge_cuts[ num_edge_453 ];
@@ -10363,26 +10363,26 @@ case_131: {
     int max_node_518 = max( num_node_6, num_node_7 );
     int num_edge_518 = 64 * max_node_518 + min_node_518;
     int num_node_518;
-    if ( edge_num_cuts[ num_edge_518 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_518 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_518 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_518;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_518 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_518 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_6 );
         const Node &n1 = nodes.local_at( num_node_7 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_518 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_518 ] = num_cut_proc;
         edge_cuts[ num_edge_518 ] = num_node_518;
     } else
         num_node_518 = edge_cuts[ num_edge_518 ];
@@ -10406,26 +10406,26 @@ case_118: {
     int max_node_453 = max( num_node_5, num_node_6 );
     int num_edge_453 = 64 * max_node_453 + min_node_453;
     int num_node_453;
-    if ( edge_num_cuts[ num_edge_453 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_453 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_453 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_453;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_453 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_453 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_5 );
         const Node &n1 = nodes.local_at( num_node_6 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_453 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_453 ] = num_cut_proc;
         edge_cuts[ num_edge_453 ] = num_node_453;
     } else
         num_node_453 = edge_cuts[ num_edge_453 ];
@@ -10434,26 +10434,26 @@ case_118: {
     int max_node_518 = max( num_node_6, num_node_7 );
     int num_edge_518 = 64 * max_node_518 + min_node_518;
     int num_node_518;
-    if ( edge_num_cuts[ num_edge_518 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_518 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_518 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_518;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_518 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_518 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_6 );
         const Node &n1 = nodes.local_at( num_node_7 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_518 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_518 ] = num_cut_proc;
         edge_cuts[ num_edge_518 ] = num_node_518;
     } else
         num_node_518 = edge_cuts[ num_edge_518 ];
@@ -10488,26 +10488,26 @@ case_117: {
     int max_node_453 = max( num_node_5, num_node_6 );
     int num_edge_453 = 64 * max_node_453 + min_node_453;
     int num_node_453;
-    if ( edge_num_cuts[ num_edge_453 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_453 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_453 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_453;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_453 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_453 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_5 );
         const Node &n1 = nodes.local_at( num_node_6 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_453 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_453 ] = num_cut_proc;
         edge_cuts[ num_edge_453 ] = num_node_453;
     } else
         num_node_453 = edge_cuts[ num_edge_453 ];
@@ -10517,26 +10517,26 @@ case_117: {
     int max_node_512 = max( num_node_7, num_node_0 );
     int num_edge_512 = 64 * max_node_512 + min_node_512;
     int num_node_512;
-    if ( edge_num_cuts[ num_edge_512 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_512 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_512 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_512;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_512 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_512 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_7 );
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_512 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_512 ] = num_cut_proc;
         edge_cuts[ num_edge_512 ] = num_node_512;
     } else
         num_node_512 = edge_cuts[ num_edge_512 ];
@@ -10562,26 +10562,26 @@ case_132: {
     int max_node_453 = max( num_node_5, num_node_6 );
     int num_edge_453 = 64 * max_node_453 + min_node_453;
     int num_node_453;
-    if ( edge_num_cuts[ num_edge_453 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_453 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_453 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_453;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_453 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_453 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_5 );
         const Node &n1 = nodes.local_at( num_node_6 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_453 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_453 ] = num_cut_proc;
         edge_cuts[ num_edge_453 ] = num_node_453;
     } else
         num_node_453 = edge_cuts[ num_edge_453 ];
@@ -10591,26 +10591,26 @@ case_132: {
     int max_node_512 = max( num_node_7, num_node_0 );
     int num_edge_512 = 64 * max_node_512 + min_node_512;
     int num_node_512;
-    if ( edge_num_cuts[ num_edge_512 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_512 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_512 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_512;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_512 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_512 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_7 );
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_512 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_512 ] = num_cut_proc;
         edge_cuts[ num_edge_512 ] = num_node_512;
     } else
         num_node_512 = edge_cuts[ num_edge_512 ];
@@ -10641,26 +10641,26 @@ case_125: {
     int max_node_518 = max( num_node_6, num_node_7 );
     int num_edge_518 = 64 * max_node_518 + min_node_518;
     int num_node_518;
-    if ( edge_num_cuts[ num_edge_518 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_518 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_518 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_518;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_518 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_518 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_6 );
         const Node &n1 = nodes.local_at( num_node_7 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_518 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_518 ] = num_cut_proc;
         edge_cuts[ num_edge_518 ] = num_node_518;
     } else
         num_node_518 = edge_cuts[ num_edge_518 ];
@@ -10669,26 +10669,26 @@ case_125: {
     int max_node_512 = max( num_node_7, num_node_0 );
     int num_edge_512 = 64 * max_node_512 + min_node_512;
     int num_node_512;
-    if ( edge_num_cuts[ num_edge_512 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_512 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_512 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_512;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_512 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_512 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_7 );
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_512 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_512 ] = num_cut_proc;
         edge_cuts[ num_edge_512 ] = num_node_512;
     } else
         num_node_512 = edge_cuts[ num_edge_512 ];
@@ -10722,26 +10722,26 @@ case_124: {
     int max_node_518 = max( num_node_6, num_node_7 );
     int num_edge_518 = 64 * max_node_518 + min_node_518;
     int num_node_518;
-    if ( edge_num_cuts[ num_edge_518 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_518 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_518 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_518;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_518 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_518 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_6 );
         const Node &n1 = nodes.local_at( num_node_7 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_518 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_518 ] = num_cut_proc;
         edge_cuts[ num_edge_518 ] = num_node_518;
     } else
         num_node_518 = edge_cuts[ num_edge_518 ];
@@ -10750,26 +10750,26 @@ case_124: {
     int max_node_512 = max( num_node_7, num_node_0 );
     int num_edge_512 = 64 * max_node_512 + min_node_512;
     int num_node_512;
-    if ( edge_num_cuts[ num_edge_512 ] != num_cut_proc ) {
+    if ( edge_num_cut_procs[ num_edge_512 ] != num_cut_proc ) {
         int pos_node;
         if ( cou ) { // there's a node that is going to be freed
             int nn = tzcnt( cou );
             cou -= 1 << nn;
             
             num_node_512 = nn;
-            pos_node = --end_nodes;
+            pos_node = ind_nxt_tmp_node++;
             
             repl_node_dsts[ nb_repl_nodes ] = num_node_512;
             repl_node_srcs[ nb_repl_nodes ] = pos_node;
             ++nb_repl_nodes;
         } else {
-            num_node_512 = new_nodes_size;
-            pos_node = new_nodes_size++;
+            num_node_512 = nodes_size;
+            pos_node = nodes_size++;
         }
         const Node &n0 = nodes.local_at( num_node_7 );
         const Node &n1 = nodes.local_at( num_node_0 );
         nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
-        edge_num_cuts[ num_edge_512 ] = num_cut_proc;
+        edge_num_cut_procs[ num_edge_512 ] = num_cut_proc;
         edge_cuts[ num_edge_512 ] = num_node_512;
     } else
         num_node_512 = edge_cuts[ num_edge_512 ];
