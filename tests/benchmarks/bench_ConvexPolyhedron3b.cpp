@@ -92,7 +92,7 @@ int main( int, char ** ) {
         }
     }
 
-    std::size_t nb_cuts = 7; //single_test ? 1 : 64;
+    std::size_t nb_cuts = 64; //single_test ? 1 : 64;
     std::vector<TF> xs, ys, zs, ps;
     std::vector<Pc::Dirac *> ds;
     for( std::size_t n = 0; n < nb_cuts; ++n ) {

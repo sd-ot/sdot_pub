@@ -356,16 +356,16 @@ std::size_t ConvexPolyhedron3<Pc>::plane_cut( std::array<const TF *,dim> cut_dir
                 // while we have nodes to free
                 std::uint64_t moved_nodes = 0;
                 do {
-                    // if the last node is valid, move if to the free room. Else, remove it from cou
+                    // if the last node is outside, remove it from cou. Else, move if to the free room
                     std::uint64_t moved_node = std::uint64_t( 1 ) << --nodes_size;
                     if ( outside_nodes & moved_node ) {
+                        available_nodes -= moved_node;
+                    } else {
                         int n = tzcnt( available_nodes );
                         moved_nodes |= moved_node;
                         repl_node_dsts[ nodes_size ] = n;
                         available_nodes -= std::uint64_t( 1 ) << n;
                         nodes.local_at( n ).get_straight_content_from( nodes.local_at( nodes_size ) );
-                    } else {
-                        available_nodes -= moved_node;
                     }
                 } while ( available_nodes );
 
