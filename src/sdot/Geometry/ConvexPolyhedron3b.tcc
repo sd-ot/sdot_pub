@@ -228,7 +228,7 @@ std::size_t ConvexPolyhedron3<Pc>::plane_cut( std::array<const TF *,dim> cut_dir
         TF cy = cut_dir[ 1 ][ num_cut ];
         TF cz = cut_dir[ 2 ][ num_cut ];
         TF cs = cut_ps[ num_cut ];
-        std::uint64_t ou = 0;
+        std::uint64_t outside_nodes = 0;
         SimdRange<ss>::for_each( nodes_size, [&]( int n, auto s ) {
             using LF = SimdVec<TF,s.val>;
             LF px = LF::load_aligned( &nodes.x + n );
@@ -238,13 +238,11 @@ std::size_t ConvexPolyhedron3<Pc>::plane_cut( std::array<const TF *,dim> cut_dir
             LF bi = px * LF( cx ) + py * LF( cy ) + pz * LF( cz );
             LF::store_aligned( &nodes.d + n, bi - LF( cs ) );
             std::uint64_t lo = bi > LF( cs );
-            ou |= lo << n;
+            outside_nodes |= lo << n;
         } );
-
-        P( binary_repr( ou ) );
         
         // if nothing has changed => go to the next cut
-        if ( ou == 0 )
+        if ( outside_nodes == 0 )
             continue;
 
         // => we're starting a new cut proc (used e.g. for edge_num_cuts)
@@ -267,7 +265,7 @@ std::size_t ConvexPolyhedron3<Pc>::plane_cut( std::array<const TF *,dim> cut_dir
         std::uint8_t last_cut_node;
 
         // copy of `ou` to get usable indices for the new nodes
-        std::uint64_t cou = ou;
+        std::uint64_t available_nodes = outside_nodes;
 
         // handle intersected faces
         auto handle_intersected_face = [&]( unsigned num_face ) {
@@ -279,15 +277,15 @@ std::size_t ConvexPolyhedron3<Pc>::plane_cut( std::array<const TF *,dim> cut_dir
 
             SimdVec<std::uint64_t,8> blo = SimdVec<std::uint64_t,8>::load_aligned( fnodes.data() );
             SimdVec<std::uint64_t,8> bsh = SimdVec<std::uint64_t,8>( 1 ) << blo;
-            SimdVec<std::uint64_t,8> ban = SimdVec<std::uint64_t,8>( ou ) & bsh;
-            int ouf = ban.nz() | ( 1 << nb_fnodes );
-            P( ban, ban.nz(), nb_fnodes, binary_repr( ouf ) );
+            SimdVec<std::uint64_t,8> ban = SimdVec<std::uint64_t,8>( outside_nodes ) & bsh;
+            int msk = 1 << nb_fnodes;
+            int ouf = ( ban.nz() & ( msk - 1 ) ) | msk;
             do {
                 #include "Internal/(ConvexPolyhedron3Lt64_plane_cut_switch.cpp).h"
             } while ( 0 );
         };
         for( int n = 0; n < faces_size; ++n )
-            if ( ou & faces.node_masks[ n ] )
+            if ( outside_nodes & faces.node_masks[ n ] )
                 handle_intersected_face( n );
         //        // outside faces, SIMD version
         //        std::uint64_t ouf = 0;
@@ -321,56 +319,74 @@ std::size_t ConvexPolyhedron3<Pc>::plane_cut( std::array<const TF *,dim> cut_dir
             remove_void_faces();
 
             // make the new one
-            if ( num_cut < 4 ) {
-                int nf = faces_size++;
-                int nb_nodes = 0;
-                std::uint64_t node_mask = 0;
-                for( std::uint8_t i = last_cut_node, c = 0; ; c++ ) {
-                    if ( c == 20 )
-                        ERROR( "..." );
-                    // P( int( last_cut_node ), int( i ) );
-                    if ( nb_nodes >= 16 )
-                        additional_nums.push_back( i );
-                    else
-                        faces.node_lists[ nf ][ nb_nodes ] = i;
-                    ++nb_nodes;
+            int nf = faces_size++;
+            int nb_nodes = 0;
+            std::uint64_t node_mask = 0;
+            for( std::uint8_t i = last_cut_node, c = 0; ; c++ ) {
+                if ( c == 200 )
+                    ERROR( "..." );
+                // P( int( last_cut_node ), int( i ) );
+                if ( nb_nodes >= 16 )
+                    additional_nums.push_back( i );
+                else
+                    faces.node_lists[ nf ][ nb_nodes ] = i;
+                ++nb_nodes;
 
-                    node_mask |= std::uint64_t( 1 ) << i;
+                node_mask |= std::uint64_t( 1 ) << i;
 
-                    std::uint8_t n = prev_cut_nodes[ i ];
-                    if ( n == last_cut_node )
-                        break;
-                    i = n;
-                }
-
-                faces.node_masks[ nf ] = node_mask;
-                faces.normal_xs [ nf ] = cut_dir[ 0 ][ num_cut ];
-                faces.normal_ys [ nf ] = cut_dir[ 1 ][ num_cut ];
-                faces.normal_zs [ nf ] = cut_dir[ 2 ][ num_cut ];
-                faces.nb_nodes  [ nf ] = nb_nodes;
-                faces.cut_ids   [ nf ] = cut_ids[ num_cut ];
+                std::uint8_t n = prev_cut_nodes[ i ];
+                if ( n == last_cut_node )
+                    break;
+                i = n;
             }
+
+            faces.node_masks[ nf ] = node_mask;
+            faces.normal_xs [ nf ] = cut_dir[ 0 ][ num_cut ];
+            faces.normal_ys [ nf ] = cut_dir[ 1 ][ num_cut ];
+            faces.normal_zs [ nf ] = cut_dir[ 2 ][ num_cut ];
+            faces.nb_nodes  [ nf ] = nb_nodes;
+            faces.cut_ids   [ nf ] = cut_ids[ num_cut ];
 
             // repl node data.
             for( int i = 0; i < nb_repl_nodes; ++i )
                 nodes.local_at( repl_node_dsts[ i ] ).get_straight_content_from( nodes.local_at( repl_node_srcs[ i ] ) );
 
             // if we still have nodes to free
-            if ( cou ) {
+            if ( available_nodes ) {
                 // while we have nodes to free
+                std::uint64_t moved_nodes = 0;
                 do {
                     // if the last node is valid, move if to the free room. Else, remove it from cou
-                    if ( ou & ( std::uint64_t( 1 ) << --nodes_size ) ) {
-                        int n = tzcnt( cou );
-                        cou -= std::uint64_t( 1 ) << n;
+                    std::uint64_t moved_node = std::uint64_t( 1 ) << --nodes_size;
+                    if ( outside_nodes & moved_node ) {
+                        int n = tzcnt( available_nodes );
+                        moved_nodes |= moved_node;
+                        repl_node_dsts[ nodes_size ] = n;
+                        available_nodes -= std::uint64_t( 1 ) << n;
                         nodes.local_at( n ).get_straight_content_from( nodes.local_at( nodes_size ) );
                     } else {
-                        cou -= std::uint64_t( 1 ) << nodes_size;
+                        available_nodes -= moved_node;
                     }
-                } while ( cou );
+                } while ( available_nodes );
 
                 // move the nodes
-                TODO;
+                auto move_nodes_in_face = [&]( unsigned num_face ) {
+                    for( int i = 0; i < faces.nb_nodes[ num_face ]; ++i ) {
+                        auto &nn = faces.node_lists[ num_face ][ i ];
+                        std::uint64_t msk = std::uint64_t( 1 ) << nn;
+                        if ( moved_nodes & msk ) {
+                            auto &fm = faces.node_masks[ num_face ];
+                            fm -= msk;
+
+                            nn = repl_node_dsts[ nn ];
+
+                            fm |= std::uint64_t( 1 ) << nn;
+                        }
+                    }
+                };
+                for( int num_face = 0; num_face < faces_size; ++num_face )
+                    if ( moved_nodes & faces.node_masks[ num_face ] )
+                        move_nodes_in_face( num_face );
             }
         } else {
             nodes_size = 0;

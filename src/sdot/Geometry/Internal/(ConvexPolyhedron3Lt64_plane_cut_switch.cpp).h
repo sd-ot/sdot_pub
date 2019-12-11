@@ -521,7 +521,6 @@ case_1: {
 }
 case_2: {
     // n=3 00000001
-    P( 3, "00000001" );
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     int min_node_128 = min( num_node_0, num_node_1 );
@@ -530,9 +529,9 @@ case_2: {
     int num_node_128;
     if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_128 = nn;
@@ -558,9 +557,9 @@ case_2: {
     int num_node_192;
     if ( edge_num_cut_procs[ num_edge_192 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_192 = nn;
@@ -594,7 +593,6 @@ case_2: {
 }
 case_3: {
     // n=3 00000010
-    P( 3, "00000010" );
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     int min_node_128 = min( num_node_0, num_node_1 );
@@ -603,9 +601,9 @@ case_3: {
     int num_node_128;
     if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_128 = nn;
@@ -631,9 +629,9 @@ case_3: {
     int num_node_193;
     if ( edge_num_cut_procs[ num_edge_193 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_193 = nn;
@@ -668,7 +666,6 @@ case_3: {
 }
 case_4: {
     // n=3 00000011
-    P( 3, "00000011" );
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
     int min_node_193 = min( num_node_1, num_node_2 );
@@ -677,9 +674,9 @@ case_4: {
     int num_node_193;
     if ( edge_num_cut_procs[ num_edge_193 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_193 = nn;
@@ -705,9 +702,9 @@ case_4: {
     int num_node_192;
     if ( edge_num_cut_procs[ num_edge_192 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_192 = nn;
@@ -739,7 +736,6 @@ case_4: {
 }
 case_5: {
     // n=3 00000100
-    P( 3, "00000100" );
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
     int min_node_193 = min( num_node_1, num_node_2 );
@@ -748,9 +744,9 @@ case_5: {
     int num_node_193;
     if ( edge_num_cut_procs[ num_edge_193 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_193 = nn;
@@ -776,9 +772,9 @@ case_5: {
     int num_node_192;
     if ( edge_num_cut_procs[ num_edge_192 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_192 = nn;
@@ -812,7 +808,6 @@ case_5: {
 }
 case_6: {
     // n=3 00000101
-    P( 3, "00000101" );
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     int min_node_128 = min( num_node_0, num_node_1 );
@@ -821,9 +816,9 @@ case_6: {
     int num_node_128;
     if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_128 = nn;
@@ -849,9 +844,9 @@ case_6: {
     int num_node_193;
     if ( edge_num_cut_procs[ num_edge_193 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_193 = nn;
@@ -883,7 +878,6 @@ case_6: {
 }
 case_7: {
     // n=3 00000110
-    P( 3, "00000110" );
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     int min_node_128 = min( num_node_0, num_node_1 );
@@ -892,9 +886,9 @@ case_7: {
     int num_node_128;
     if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_128 = nn;
@@ -920,9 +914,9 @@ case_7: {
     int num_node_192;
     if ( edge_num_cut_procs[ num_edge_192 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_192 = nn;
@@ -954,7 +948,6 @@ case_7: {
 }
 case_9: {
     // n=4 00000001
-    P( 4, "00000001" );
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     int min_node_128 = min( num_node_0, num_node_1 );
@@ -963,9 +956,9 @@ case_9: {
     int num_node_128;
     if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_128 = nn;
@@ -991,9 +984,9 @@ case_9: {
     int num_node_256;
     if ( edge_num_cut_procs[ num_edge_256 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_256 = nn;
@@ -1029,7 +1022,6 @@ case_9: {
 }
 case_10: {
     // n=4 00000010
-    P( 4, "00000010" );
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     int min_node_128 = min( num_node_0, num_node_1 );
@@ -1038,9 +1030,9 @@ case_10: {
     int num_node_128;
     if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_128 = nn;
@@ -1066,9 +1058,9 @@ case_10: {
     int num_node_193;
     if ( edge_num_cut_procs[ num_edge_193 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_193 = nn;
@@ -1105,7 +1097,6 @@ case_10: {
 }
 case_11: {
     // n=4 00000011
-    P( 4, "00000011" );
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
     int min_node_193 = min( num_node_1, num_node_2 );
@@ -1114,9 +1105,9 @@ case_11: {
     int num_node_193;
     if ( edge_num_cut_procs[ num_edge_193 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_193 = nn;
@@ -1143,9 +1134,9 @@ case_11: {
     int num_node_256;
     if ( edge_num_cut_procs[ num_edge_256 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_256 = nn;
@@ -1178,7 +1169,6 @@ case_11: {
 }
 case_12: {
     // n=4 00000100
-    P( 4, "00000100" );
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
     int min_node_193 = min( num_node_1, num_node_2 );
@@ -1187,9 +1177,9 @@ case_12: {
     int num_node_193;
     if ( edge_num_cut_procs[ num_edge_193 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_193 = nn;
@@ -1215,9 +1205,9 @@ case_12: {
     int num_node_258;
     if ( edge_num_cut_procs[ num_edge_258 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_258 = nn;
@@ -1254,7 +1244,6 @@ case_12: {
 }
 case_13: {
     // n=4 00000110
-    P( 4, "00000110" );
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     int min_node_128 = min( num_node_0, num_node_1 );
@@ -1263,9 +1252,9 @@ case_13: {
     int num_node_128;
     if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_128 = nn;
@@ -1292,9 +1281,9 @@ case_13: {
     int num_node_258;
     if ( edge_num_cut_procs[ num_edge_258 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_258 = nn;
@@ -1327,7 +1316,6 @@ case_13: {
 }
 case_14: {
     // n=4 00000111
-    P( 4, "00000111" );
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
     int min_node_258 = min( num_node_2, num_node_3 );
@@ -1336,9 +1324,9 @@ case_14: {
     int num_node_258;
     if ( edge_num_cut_procs[ num_edge_258 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_258 = nn;
@@ -1364,9 +1352,9 @@ case_14: {
     int num_node_256;
     if ( edge_num_cut_procs[ num_edge_256 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_256 = nn;
@@ -1400,7 +1388,6 @@ case_14: {
 }
 case_15: {
     // n=4 00001000
-    P( 4, "00001000" );
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
     int min_node_258 = min( num_node_2, num_node_3 );
@@ -1409,9 +1396,9 @@ case_15: {
     int num_node_258;
     if ( edge_num_cut_procs[ num_edge_258 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_258 = nn;
@@ -1437,9 +1424,9 @@ case_15: {
     int num_node_256;
     if ( edge_num_cut_procs[ num_edge_256 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_256 = nn;
@@ -1475,7 +1462,6 @@ case_15: {
 }
 case_16: {
     // n=4 00001001
-    P( 4, "00001001" );
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     int min_node_128 = min( num_node_0, num_node_1 );
@@ -1484,9 +1470,9 @@ case_16: {
     int num_node_128;
     if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_128 = nn;
@@ -1513,9 +1499,9 @@ case_16: {
     int num_node_258;
     if ( edge_num_cut_procs[ num_edge_258 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_258 = nn;
@@ -1548,7 +1534,6 @@ case_16: {
 }
 case_17: {
     // n=4 00001011
-    P( 4, "00001011" );
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
     int min_node_193 = min( num_node_1, num_node_2 );
@@ -1557,9 +1542,9 @@ case_17: {
     int num_node_193;
     if ( edge_num_cut_procs[ num_edge_193 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_193 = nn;
@@ -1585,9 +1570,9 @@ case_17: {
     int num_node_258;
     if ( edge_num_cut_procs[ num_edge_258 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_258 = nn;
@@ -1620,7 +1605,6 @@ case_17: {
 }
 case_18: {
     // n=4 00001100
-    P( 4, "00001100" );
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
     int min_node_193 = min( num_node_1, num_node_2 );
@@ -1629,9 +1613,9 @@ case_18: {
     int num_node_193;
     if ( edge_num_cut_procs[ num_edge_193 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_193 = nn;
@@ -1658,9 +1642,9 @@ case_18: {
     int num_node_256;
     if ( edge_num_cut_procs[ num_edge_256 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_256 = nn;
@@ -1693,7 +1677,6 @@ case_18: {
 }
 case_19: {
     // n=4 00001101
-    P( 4, "00001101" );
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     int min_node_128 = min( num_node_0, num_node_1 );
@@ -1702,9 +1685,9 @@ case_19: {
     int num_node_128;
     if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_128 = nn;
@@ -1730,9 +1713,9 @@ case_19: {
     int num_node_193;
     if ( edge_num_cut_procs[ num_edge_193 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_193 = nn;
@@ -1765,7 +1748,6 @@ case_19: {
 }
 case_20: {
     // n=4 00001110
-    P( 4, "00001110" );
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     int min_node_128 = min( num_node_0, num_node_1 );
@@ -1774,9 +1756,9 @@ case_20: {
     int num_node_128;
     if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_128 = nn;
@@ -1802,9 +1784,9 @@ case_20: {
     int num_node_256;
     if ( edge_num_cut_procs[ num_edge_256 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_256 = nn;
@@ -1837,7 +1819,6 @@ case_20: {
 }
 case_21: {
     // n=5 00000001
-    P( 5, "00000001" );
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     int min_node_128 = min( num_node_0, num_node_1 );
@@ -1846,9 +1827,9 @@ case_21: {
     int num_node_128;
     if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_128 = nn;
@@ -1874,9 +1855,9 @@ case_21: {
     int num_node_320;
     if ( edge_num_cut_procs[ num_edge_320 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_320 = nn;
@@ -1914,7 +1895,6 @@ case_21: {
 }
 case_22: {
     // n=5 00000010
-    P( 5, "00000010" );
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     int min_node_128 = min( num_node_0, num_node_1 );
@@ -1923,9 +1903,9 @@ case_22: {
     int num_node_128;
     if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_128 = nn;
@@ -1951,9 +1931,9 @@ case_22: {
     int num_node_193;
     if ( edge_num_cut_procs[ num_edge_193 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_193 = nn;
@@ -1992,7 +1972,6 @@ case_22: {
 }
 case_23: {
     // n=5 00000011
-    P( 5, "00000011" );
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
     int min_node_193 = min( num_node_1, num_node_2 );
@@ -2001,9 +1980,9 @@ case_23: {
     int num_node_193;
     if ( edge_num_cut_procs[ num_edge_193 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_193 = nn;
@@ -2030,9 +2009,9 @@ case_23: {
     int num_node_320;
     if ( edge_num_cut_procs[ num_edge_320 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_320 = nn;
@@ -2067,7 +2046,6 @@ case_23: {
 }
 case_24: {
     // n=5 00000100
-    P( 5, "00000100" );
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
     int min_node_193 = min( num_node_1, num_node_2 );
@@ -2076,9 +2054,9 @@ case_24: {
     int num_node_193;
     if ( edge_num_cut_procs[ num_edge_193 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_193 = nn;
@@ -2104,9 +2082,9 @@ case_24: {
     int num_node_258;
     if ( edge_num_cut_procs[ num_edge_258 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_258 = nn;
@@ -2146,7 +2124,6 @@ case_24: {
 }
 case_25: {
     // n=5 00000110
-    P( 5, "00000110" );
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     int min_node_128 = min( num_node_0, num_node_1 );
@@ -2155,9 +2132,9 @@ case_25: {
     int num_node_128;
     if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_128 = nn;
@@ -2184,9 +2161,9 @@ case_25: {
     int num_node_258;
     if ( edge_num_cut_procs[ num_edge_258 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_258 = nn;
@@ -2221,7 +2198,6 @@ case_25: {
 }
 case_26: {
     // n=5 00000111
-    P( 5, "00000111" );
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
     int min_node_258 = min( num_node_2, num_node_3 );
@@ -2230,9 +2206,9 @@ case_26: {
     int num_node_258;
     if ( edge_num_cut_procs[ num_edge_258 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_258 = nn;
@@ -2259,9 +2235,9 @@ case_26: {
     int num_node_320;
     if ( edge_num_cut_procs[ num_edge_320 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_320 = nn;
@@ -2296,7 +2272,6 @@ case_26: {
 }
 case_27: {
     // n=5 00001000
-    P( 5, "00001000" );
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
     int min_node_258 = min( num_node_2, num_node_3 );
@@ -2305,9 +2280,9 @@ case_27: {
     int num_node_258;
     if ( edge_num_cut_procs[ num_edge_258 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_258 = nn;
@@ -2333,9 +2308,9 @@ case_27: {
     int num_node_323;
     if ( edge_num_cut_procs[ num_edge_323 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_323 = nn;
@@ -2374,7 +2349,6 @@ case_27: {
 }
 case_28: {
     // n=5 00001100
-    P( 5, "00001100" );
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
     int min_node_193 = min( num_node_1, num_node_2 );
@@ -2383,9 +2357,9 @@ case_28: {
     int num_node_193;
     if ( edge_num_cut_procs[ num_edge_193 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_193 = nn;
@@ -2412,9 +2386,9 @@ case_28: {
     int num_node_323;
     if ( edge_num_cut_procs[ num_edge_323 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_323 = nn;
@@ -2449,7 +2423,6 @@ case_28: {
 }
 case_29: {
     // n=5 00001110
-    P( 5, "00001110" );
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     int min_node_128 = min( num_node_0, num_node_1 );
@@ -2458,9 +2431,9 @@ case_29: {
     int num_node_128;
     if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_128 = nn;
@@ -2487,9 +2460,9 @@ case_29: {
     int num_node_323;
     if ( edge_num_cut_procs[ num_edge_323 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_323 = nn;
@@ -2524,7 +2497,6 @@ case_29: {
 }
 case_30: {
     // n=5 00001111
-    P( 5, "00001111" );
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
     int min_node_323 = min( num_node_3, num_node_4 );
@@ -2533,9 +2505,9 @@ case_30: {
     int num_node_323;
     if ( edge_num_cut_procs[ num_edge_323 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_323 = nn;
@@ -2561,9 +2533,9 @@ case_30: {
     int num_node_320;
     if ( edge_num_cut_procs[ num_edge_320 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_320 = nn;
@@ -2597,7 +2569,6 @@ case_30: {
 }
 case_31: {
     // n=5 00010000
-    P( 5, "00010000" );
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
     int min_node_323 = min( num_node_3, num_node_4 );
@@ -2606,9 +2577,9 @@ case_31: {
     int num_node_323;
     if ( edge_num_cut_procs[ num_edge_323 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_323 = nn;
@@ -2634,9 +2605,9 @@ case_31: {
     int num_node_320;
     if ( edge_num_cut_procs[ num_edge_320 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_320 = nn;
@@ -2674,7 +2645,6 @@ case_31: {
 }
 case_32: {
     // n=5 00010001
-    P( 5, "00010001" );
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     int min_node_128 = min( num_node_0, num_node_1 );
@@ -2683,9 +2653,9 @@ case_32: {
     int num_node_128;
     if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_128 = nn;
@@ -2712,9 +2682,9 @@ case_32: {
     int num_node_323;
     if ( edge_num_cut_procs[ num_edge_323 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_323 = nn;
@@ -2749,7 +2719,6 @@ case_32: {
 }
 case_33: {
     // n=5 00010011
-    P( 5, "00010011" );
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
     int min_node_193 = min( num_node_1, num_node_2 );
@@ -2758,9 +2727,9 @@ case_33: {
     int num_node_193;
     if ( edge_num_cut_procs[ num_edge_193 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_193 = nn;
@@ -2787,9 +2756,9 @@ case_33: {
     int num_node_323;
     if ( edge_num_cut_procs[ num_edge_323 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_323 = nn;
@@ -2823,7 +2792,6 @@ case_33: {
 }
 case_34: {
     // n=5 00010111
-    P( 5, "00010111" );
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
     int min_node_258 = min( num_node_2, num_node_3 );
@@ -2832,9 +2800,9 @@ case_34: {
     int num_node_258;
     if ( edge_num_cut_procs[ num_edge_258 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_258 = nn;
@@ -2860,9 +2828,9 @@ case_34: {
     int num_node_323;
     if ( edge_num_cut_procs[ num_edge_323 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_323 = nn;
@@ -2896,7 +2864,6 @@ case_34: {
 }
 case_35: {
     // n=5 00011000
-    P( 5, "00011000" );
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
     int min_node_258 = min( num_node_2, num_node_3 );
@@ -2905,9 +2872,9 @@ case_35: {
     int num_node_258;
     if ( edge_num_cut_procs[ num_edge_258 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_258 = nn;
@@ -2934,9 +2901,9 @@ case_35: {
     int num_node_320;
     if ( edge_num_cut_procs[ num_edge_320 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_320 = nn;
@@ -2971,7 +2938,6 @@ case_35: {
 }
 case_36: {
     // n=5 00011001
-    P( 5, "00011001" );
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     int min_node_128 = min( num_node_0, num_node_1 );
@@ -2980,9 +2946,9 @@ case_36: {
     int num_node_128;
     if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_128 = nn;
@@ -3009,9 +2975,9 @@ case_36: {
     int num_node_258;
     if ( edge_num_cut_procs[ num_edge_258 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_258 = nn;
@@ -3045,7 +3011,6 @@ case_36: {
 }
 case_37: {
     // n=5 00011011
-    P( 5, "00011011" );
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
     int min_node_193 = min( num_node_1, num_node_2 );
@@ -3054,9 +3019,9 @@ case_37: {
     int num_node_193;
     if ( edge_num_cut_procs[ num_edge_193 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_193 = nn;
@@ -3082,9 +3047,9 @@ case_37: {
     int num_node_258;
     if ( edge_num_cut_procs[ num_edge_258 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_258 = nn;
@@ -3117,7 +3082,6 @@ case_37: {
 }
 case_38: {
     // n=5 00011100
-    P( 5, "00011100" );
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
     int min_node_193 = min( num_node_1, num_node_2 );
@@ -3126,9 +3090,9 @@ case_38: {
     int num_node_193;
     if ( edge_num_cut_procs[ num_edge_193 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_193 = nn;
@@ -3155,9 +3119,9 @@ case_38: {
     int num_node_320;
     if ( edge_num_cut_procs[ num_edge_320 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_320 = nn;
@@ -3191,7 +3155,6 @@ case_38: {
 }
 case_39: {
     // n=5 00011101
-    P( 5, "00011101" );
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     int min_node_128 = min( num_node_0, num_node_1 );
@@ -3200,9 +3163,9 @@ case_39: {
     int num_node_128;
     if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_128 = nn;
@@ -3228,9 +3191,9 @@ case_39: {
     int num_node_193;
     if ( edge_num_cut_procs[ num_edge_193 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_193 = nn;
@@ -3263,7 +3226,6 @@ case_39: {
 }
 case_40: {
     // n=5 00011110
-    P( 5, "00011110" );
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     int min_node_128 = min( num_node_0, num_node_1 );
@@ -3272,9 +3234,9 @@ case_40: {
     int num_node_128;
     if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_128 = nn;
@@ -3300,9 +3262,9 @@ case_40: {
     int num_node_320;
     if ( edge_num_cut_procs[ num_edge_320 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_320 = nn;
@@ -3335,7 +3297,6 @@ case_40: {
 }
 case_41: {
     // n=6 00000001
-    P( 6, "00000001" );
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     int min_node_128 = min( num_node_0, num_node_1 );
@@ -3344,9 +3305,9 @@ case_41: {
     int num_node_128;
     if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_128 = nn;
@@ -3372,9 +3333,9 @@ case_41: {
     int num_node_384;
     if ( edge_num_cut_procs[ num_edge_384 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_384 = nn;
@@ -3414,7 +3375,6 @@ case_41: {
 }
 case_42: {
     // n=6 00000010
-    P( 6, "00000010" );
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     int min_node_128 = min( num_node_0, num_node_1 );
@@ -3423,9 +3383,9 @@ case_42: {
     int num_node_128;
     if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_128 = nn;
@@ -3451,9 +3411,9 @@ case_42: {
     int num_node_193;
     if ( edge_num_cut_procs[ num_edge_193 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_193 = nn;
@@ -3494,7 +3454,6 @@ case_42: {
 }
 case_43: {
     // n=6 00000011
-    P( 6, "00000011" );
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
     int min_node_193 = min( num_node_1, num_node_2 );
@@ -3503,9 +3462,9 @@ case_43: {
     int num_node_193;
     if ( edge_num_cut_procs[ num_edge_193 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_193 = nn;
@@ -3532,9 +3491,9 @@ case_43: {
     int num_node_384;
     if ( edge_num_cut_procs[ num_edge_384 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_384 = nn;
@@ -3571,7 +3530,6 @@ case_43: {
 }
 case_44: {
     // n=6 00000100
-    P( 6, "00000100" );
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
     int min_node_193 = min( num_node_1, num_node_2 );
@@ -3580,9 +3538,9 @@ case_44: {
     int num_node_193;
     if ( edge_num_cut_procs[ num_edge_193 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_193 = nn;
@@ -3608,9 +3566,9 @@ case_44: {
     int num_node_258;
     if ( edge_num_cut_procs[ num_edge_258 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_258 = nn;
@@ -3652,7 +3610,6 @@ case_44: {
 }
 case_45: {
     // n=6 00000110
-    P( 6, "00000110" );
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     int min_node_128 = min( num_node_0, num_node_1 );
@@ -3661,9 +3618,9 @@ case_45: {
     int num_node_128;
     if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_128 = nn;
@@ -3690,9 +3647,9 @@ case_45: {
     int num_node_258;
     if ( edge_num_cut_procs[ num_edge_258 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_258 = nn;
@@ -3729,7 +3686,6 @@ case_45: {
 }
 case_46: {
     // n=6 00000111
-    P( 6, "00000111" );
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
     int min_node_258 = min( num_node_2, num_node_3 );
@@ -3738,9 +3694,9 @@ case_46: {
     int num_node_258;
     if ( edge_num_cut_procs[ num_edge_258 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_258 = nn;
@@ -3767,9 +3723,9 @@ case_46: {
     int num_node_384;
     if ( edge_num_cut_procs[ num_edge_384 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_384 = nn;
@@ -3806,7 +3762,6 @@ case_46: {
 }
 case_47: {
     // n=6 00001000
-    P( 6, "00001000" );
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
     int min_node_258 = min( num_node_2, num_node_3 );
@@ -3815,9 +3770,9 @@ case_47: {
     int num_node_258;
     if ( edge_num_cut_procs[ num_edge_258 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_258 = nn;
@@ -3843,9 +3798,9 @@ case_47: {
     int num_node_323;
     if ( edge_num_cut_procs[ num_edge_323 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_323 = nn;
@@ -3887,7 +3842,6 @@ case_47: {
 }
 case_48: {
     // n=6 00001100
-    P( 6, "00001100" );
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
     int min_node_193 = min( num_node_1, num_node_2 );
@@ -3896,9 +3850,9 @@ case_48: {
     int num_node_193;
     if ( edge_num_cut_procs[ num_edge_193 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_193 = nn;
@@ -3925,9 +3879,9 @@ case_48: {
     int num_node_323;
     if ( edge_num_cut_procs[ num_edge_323 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_323 = nn;
@@ -3964,7 +3918,6 @@ case_48: {
 }
 case_49: {
     // n=6 00001110
-    P( 6, "00001110" );
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     int min_node_128 = min( num_node_0, num_node_1 );
@@ -3973,9 +3926,9 @@ case_49: {
     int num_node_128;
     if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_128 = nn;
@@ -4002,9 +3955,9 @@ case_49: {
     int num_node_323;
     if ( edge_num_cut_procs[ num_edge_323 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_323 = nn;
@@ -4042,7 +3995,6 @@ case_49: {
 }
 case_50: {
     // n=6 00001111
-    P( 6, "00001111" );
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
     int min_node_323 = min( num_node_3, num_node_4 );
@@ -4051,9 +4003,9 @@ case_50: {
     int num_node_323;
     if ( edge_num_cut_procs[ num_edge_323 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_323 = nn;
@@ -4080,9 +4032,9 @@ case_50: {
     int num_node_384;
     if ( edge_num_cut_procs[ num_edge_384 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_384 = nn;
@@ -4118,7 +4070,6 @@ case_50: {
 }
 case_51: {
     // n=6 00010000
-    P( 6, "00010000" );
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
     int min_node_323 = min( num_node_3, num_node_4 );
@@ -4127,9 +4078,9 @@ case_51: {
     int num_node_323;
     if ( edge_num_cut_procs[ num_edge_323 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_323 = nn;
@@ -4155,9 +4106,9 @@ case_51: {
     int num_node_388;
     if ( edge_num_cut_procs[ num_edge_388 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_388 = nn;
@@ -4198,7 +4149,6 @@ case_51: {
 }
 case_52: {
     // n=6 00011000
-    P( 6, "00011000" );
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
     int min_node_258 = min( num_node_2, num_node_3 );
@@ -4207,9 +4157,9 @@ case_52: {
     int num_node_258;
     if ( edge_num_cut_procs[ num_edge_258 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_258 = nn;
@@ -4236,9 +4186,9 @@ case_52: {
     int num_node_388;
     if ( edge_num_cut_procs[ num_edge_388 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_388 = nn;
@@ -4275,7 +4225,6 @@ case_52: {
 }
 case_53: {
     // n=6 00011100
-    P( 6, "00011100" );
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
     int min_node_193 = min( num_node_1, num_node_2 );
@@ -4284,9 +4233,9 @@ case_53: {
     int num_node_193;
     if ( edge_num_cut_procs[ num_edge_193 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_193 = nn;
@@ -4313,9 +4262,9 @@ case_53: {
     int num_node_388;
     if ( edge_num_cut_procs[ num_edge_388 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_388 = nn;
@@ -4352,7 +4301,6 @@ case_53: {
 }
 case_54: {
     // n=6 00011110
-    P( 6, "00011110" );
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     int min_node_128 = min( num_node_0, num_node_1 );
@@ -4361,9 +4309,9 @@ case_54: {
     int num_node_128;
     if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_128 = nn;
@@ -4390,9 +4338,9 @@ case_54: {
     int num_node_388;
     if ( edge_num_cut_procs[ num_edge_388 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_388 = nn;
@@ -4427,7 +4375,6 @@ case_54: {
 }
 case_55: {
     // n=6 00011111
-    P( 6, "00011111" );
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
     int min_node_388 = min( num_node_4, num_node_5 );
@@ -4436,9 +4383,9 @@ case_55: {
     int num_node_388;
     if ( edge_num_cut_procs[ num_edge_388 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_388 = nn;
@@ -4464,9 +4411,9 @@ case_55: {
     int num_node_384;
     if ( edge_num_cut_procs[ num_edge_384 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_384 = nn;
@@ -4500,7 +4447,6 @@ case_55: {
 }
 case_56: {
     // n=6 00100000
-    P( 6, "00100000" );
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
     int min_node_388 = min( num_node_4, num_node_5 );
@@ -4509,9 +4455,9 @@ case_56: {
     int num_node_388;
     if ( edge_num_cut_procs[ num_edge_388 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_388 = nn;
@@ -4537,9 +4483,9 @@ case_56: {
     int num_node_384;
     if ( edge_num_cut_procs[ num_edge_384 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_384 = nn;
@@ -4579,7 +4525,6 @@ case_56: {
 }
 case_57: {
     // n=6 00100001
-    P( 6, "00100001" );
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     int min_node_128 = min( num_node_0, num_node_1 );
@@ -4588,9 +4533,9 @@ case_57: {
     int num_node_128;
     if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_128 = nn;
@@ -4617,9 +4562,9 @@ case_57: {
     int num_node_388;
     if ( edge_num_cut_procs[ num_edge_388 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_388 = nn;
@@ -4656,7 +4601,6 @@ case_57: {
 }
 case_58: {
     // n=6 00100011
-    P( 6, "00100011" );
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
     int min_node_193 = min( num_node_1, num_node_2 );
@@ -4665,9 +4609,9 @@ case_58: {
     int num_node_193;
     if ( edge_num_cut_procs[ num_edge_193 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_193 = nn;
@@ -4694,9 +4638,9 @@ case_58: {
     int num_node_388;
     if ( edge_num_cut_procs[ num_edge_388 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_388 = nn;
@@ -4732,7 +4676,6 @@ case_58: {
 }
 case_59: {
     // n=6 00100111
-    P( 6, "00100111" );
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
     int min_node_258 = min( num_node_2, num_node_3 );
@@ -4741,9 +4684,9 @@ case_59: {
     int num_node_258;
     if ( edge_num_cut_procs[ num_edge_258 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_258 = nn;
@@ -4770,9 +4713,9 @@ case_59: {
     int num_node_388;
     if ( edge_num_cut_procs[ num_edge_388 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_388 = nn;
@@ -4807,7 +4750,6 @@ case_59: {
 }
 case_60: {
     // n=6 00101111
-    P( 6, "00101111" );
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
     int min_node_323 = min( num_node_3, num_node_4 );
@@ -4816,9 +4758,9 @@ case_60: {
     int num_node_323;
     if ( edge_num_cut_procs[ num_edge_323 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_323 = nn;
@@ -4844,9 +4786,9 @@ case_60: {
     int num_node_388;
     if ( edge_num_cut_procs[ num_edge_388 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_388 = nn;
@@ -4880,7 +4822,6 @@ case_60: {
 }
 case_61: {
     // n=6 00110000
-    P( 6, "00110000" );
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
     int min_node_323 = min( num_node_3, num_node_4 );
@@ -4889,9 +4830,9 @@ case_61: {
     int num_node_323;
     if ( edge_num_cut_procs[ num_edge_323 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_323 = nn;
@@ -4918,9 +4859,9 @@ case_61: {
     int num_node_384;
     if ( edge_num_cut_procs[ num_edge_384 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_384 = nn;
@@ -4957,7 +4898,6 @@ case_61: {
 }
 case_62: {
     // n=6 00110001
-    P( 6, "00110001" );
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     int min_node_128 = min( num_node_0, num_node_1 );
@@ -4966,9 +4906,9 @@ case_62: {
     int num_node_128;
     if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_128 = nn;
@@ -4995,9 +4935,9 @@ case_62: {
     int num_node_323;
     if ( edge_num_cut_procs[ num_edge_323 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_323 = nn;
@@ -5033,7 +4973,6 @@ case_62: {
 }
 case_63: {
     // n=6 00110011
-    P( 6, "00110011" );
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
     int min_node_193 = min( num_node_1, num_node_2 );
@@ -5042,9 +4981,9 @@ case_63: {
     int num_node_193;
     if ( edge_num_cut_procs[ num_edge_193 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_193 = nn;
@@ -5071,9 +5010,9 @@ case_63: {
     int num_node_323;
     if ( edge_num_cut_procs[ num_edge_323 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_323 = nn;
@@ -5107,7 +5046,6 @@ case_63: {
 }
 case_64: {
     // n=6 00110111
-    P( 6, "00110111" );
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
     int min_node_258 = min( num_node_2, num_node_3 );
@@ -5116,9 +5054,9 @@ case_64: {
     int num_node_258;
     if ( edge_num_cut_procs[ num_edge_258 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_258 = nn;
@@ -5144,9 +5082,9 @@ case_64: {
     int num_node_323;
     if ( edge_num_cut_procs[ num_edge_323 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_323 = nn;
@@ -5180,7 +5118,6 @@ case_64: {
 }
 case_65: {
     // n=6 00111000
-    P( 6, "00111000" );
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
     int min_node_258 = min( num_node_2, num_node_3 );
@@ -5189,9 +5126,9 @@ case_65: {
     int num_node_258;
     if ( edge_num_cut_procs[ num_edge_258 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_258 = nn;
@@ -5218,9 +5155,9 @@ case_65: {
     int num_node_384;
     if ( edge_num_cut_procs[ num_edge_384 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_384 = nn;
@@ -5256,7 +5193,6 @@ case_65: {
 }
 case_66: {
     // n=6 00111001
-    P( 6, "00111001" );
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     int min_node_128 = min( num_node_0, num_node_1 );
@@ -5265,9 +5201,9 @@ case_66: {
     int num_node_128;
     if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_128 = nn;
@@ -5294,9 +5230,9 @@ case_66: {
     int num_node_258;
     if ( edge_num_cut_procs[ num_edge_258 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_258 = nn;
@@ -5330,7 +5266,6 @@ case_66: {
 }
 case_67: {
     // n=6 00111011
-    P( 6, "00111011" );
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
     int min_node_193 = min( num_node_1, num_node_2 );
@@ -5339,9 +5274,9 @@ case_67: {
     int num_node_193;
     if ( edge_num_cut_procs[ num_edge_193 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_193 = nn;
@@ -5367,9 +5302,9 @@ case_67: {
     int num_node_258;
     if ( edge_num_cut_procs[ num_edge_258 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_258 = nn;
@@ -5402,7 +5337,6 @@ case_67: {
 }
 case_68: {
     // n=6 00111100
-    P( 6, "00111100" );
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
     int min_node_193 = min( num_node_1, num_node_2 );
@@ -5411,9 +5345,9 @@ case_68: {
     int num_node_193;
     if ( edge_num_cut_procs[ num_edge_193 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_193 = nn;
@@ -5440,9 +5374,9 @@ case_68: {
     int num_node_384;
     if ( edge_num_cut_procs[ num_edge_384 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_384 = nn;
@@ -5476,7 +5410,6 @@ case_68: {
 }
 case_69: {
     // n=6 00111101
-    P( 6, "00111101" );
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     int min_node_128 = min( num_node_0, num_node_1 );
@@ -5485,9 +5418,9 @@ case_69: {
     int num_node_128;
     if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_128 = nn;
@@ -5513,9 +5446,9 @@ case_69: {
     int num_node_193;
     if ( edge_num_cut_procs[ num_edge_193 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_193 = nn;
@@ -5548,7 +5481,6 @@ case_69: {
 }
 case_70: {
     // n=6 00111110
-    P( 6, "00111110" );
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     int min_node_128 = min( num_node_0, num_node_1 );
@@ -5557,9 +5489,9 @@ case_70: {
     int num_node_128;
     if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_128 = nn;
@@ -5585,9 +5517,9 @@ case_70: {
     int num_node_384;
     if ( edge_num_cut_procs[ num_edge_384 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_384 = nn;
@@ -5620,7 +5552,6 @@ case_70: {
 }
 case_71: {
     // n=7 00000001
-    P( 7, "00000001" );
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     int min_node_128 = min( num_node_0, num_node_1 );
@@ -5629,9 +5560,9 @@ case_71: {
     int num_node_128;
     if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_128 = nn;
@@ -5657,9 +5588,9 @@ case_71: {
     int num_node_448;
     if ( edge_num_cut_procs[ num_edge_448 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_448 = nn;
@@ -5701,7 +5632,6 @@ case_71: {
 }
 case_72: {
     // n=7 00000010
-    P( 7, "00000010" );
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     int min_node_128 = min( num_node_0, num_node_1 );
@@ -5710,9 +5640,9 @@ case_72: {
     int num_node_128;
     if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_128 = nn;
@@ -5738,9 +5668,9 @@ case_72: {
     int num_node_193;
     if ( edge_num_cut_procs[ num_edge_193 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_193 = nn;
@@ -5783,7 +5713,6 @@ case_72: {
 }
 case_73: {
     // n=7 00000011
-    P( 7, "00000011" );
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
     int min_node_193 = min( num_node_1, num_node_2 );
@@ -5792,9 +5721,9 @@ case_73: {
     int num_node_193;
     if ( edge_num_cut_procs[ num_edge_193 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_193 = nn;
@@ -5821,9 +5750,9 @@ case_73: {
     int num_node_448;
     if ( edge_num_cut_procs[ num_edge_448 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_448 = nn;
@@ -5862,7 +5791,6 @@ case_73: {
 }
 case_74: {
     // n=7 00000100
-    P( 7, "00000100" );
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
     int min_node_193 = min( num_node_1, num_node_2 );
@@ -5871,9 +5799,9 @@ case_74: {
     int num_node_193;
     if ( edge_num_cut_procs[ num_edge_193 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_193 = nn;
@@ -5899,9 +5827,9 @@ case_74: {
     int num_node_258;
     if ( edge_num_cut_procs[ num_edge_258 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_258 = nn;
@@ -5945,7 +5873,6 @@ case_74: {
 }
 case_75: {
     // n=7 00000110
-    P( 7, "00000110" );
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     int min_node_128 = min( num_node_0, num_node_1 );
@@ -5954,9 +5881,9 @@ case_75: {
     int num_node_128;
     if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_128 = nn;
@@ -5983,9 +5910,9 @@ case_75: {
     int num_node_258;
     if ( edge_num_cut_procs[ num_edge_258 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_258 = nn;
@@ -6024,7 +5951,6 @@ case_75: {
 }
 case_76: {
     // n=7 00000111
-    P( 7, "00000111" );
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
     int min_node_258 = min( num_node_2, num_node_3 );
@@ -6033,9 +5959,9 @@ case_76: {
     int num_node_258;
     if ( edge_num_cut_procs[ num_edge_258 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_258 = nn;
@@ -6062,9 +5988,9 @@ case_76: {
     int num_node_448;
     if ( edge_num_cut_procs[ num_edge_448 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_448 = nn;
@@ -6103,7 +6029,6 @@ case_76: {
 }
 case_77: {
     // n=7 00001000
-    P( 7, "00001000" );
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
     int min_node_258 = min( num_node_2, num_node_3 );
@@ -6112,9 +6037,9 @@ case_77: {
     int num_node_258;
     if ( edge_num_cut_procs[ num_edge_258 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_258 = nn;
@@ -6140,9 +6065,9 @@ case_77: {
     int num_node_323;
     if ( edge_num_cut_procs[ num_edge_323 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_323 = nn;
@@ -6187,7 +6112,6 @@ case_77: {
 }
 case_78: {
     // n=7 00001100
-    P( 7, "00001100" );
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
     int min_node_193 = min( num_node_1, num_node_2 );
@@ -6196,9 +6120,9 @@ case_78: {
     int num_node_193;
     if ( edge_num_cut_procs[ num_edge_193 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_193 = nn;
@@ -6225,9 +6149,9 @@ case_78: {
     int num_node_323;
     if ( edge_num_cut_procs[ num_edge_323 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_323 = nn;
@@ -6266,7 +6190,6 @@ case_78: {
 }
 case_79: {
     // n=7 00001110
-    P( 7, "00001110" );
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     int min_node_128 = min( num_node_0, num_node_1 );
@@ -6275,9 +6198,9 @@ case_79: {
     int num_node_128;
     if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_128 = nn;
@@ -6304,9 +6227,9 @@ case_79: {
     int num_node_323;
     if ( edge_num_cut_procs[ num_edge_323 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_323 = nn;
@@ -6346,7 +6269,6 @@ case_79: {
 }
 case_80: {
     // n=7 00001111
-    P( 7, "00001111" );
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
     int min_node_323 = min( num_node_3, num_node_4 );
@@ -6355,9 +6277,9 @@ case_80: {
     int num_node_323;
     if ( edge_num_cut_procs[ num_edge_323 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_323 = nn;
@@ -6384,9 +6306,9 @@ case_80: {
     int num_node_448;
     if ( edge_num_cut_procs[ num_edge_448 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_448 = nn;
@@ -6424,7 +6346,6 @@ case_80: {
 }
 case_81: {
     // n=7 00010000
-    P( 7, "00010000" );
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
     int min_node_323 = min( num_node_3, num_node_4 );
@@ -6433,9 +6354,9 @@ case_81: {
     int num_node_323;
     if ( edge_num_cut_procs[ num_edge_323 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_323 = nn;
@@ -6461,9 +6382,9 @@ case_81: {
     int num_node_388;
     if ( edge_num_cut_procs[ num_edge_388 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_388 = nn;
@@ -6507,7 +6428,6 @@ case_81: {
 }
 case_82: {
     // n=7 00011000
-    P( 7, "00011000" );
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
     int min_node_258 = min( num_node_2, num_node_3 );
@@ -6516,9 +6436,9 @@ case_82: {
     int num_node_258;
     if ( edge_num_cut_procs[ num_edge_258 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_258 = nn;
@@ -6545,9 +6465,9 @@ case_82: {
     int num_node_388;
     if ( edge_num_cut_procs[ num_edge_388 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_388 = nn;
@@ -6586,7 +6506,6 @@ case_82: {
 }
 case_83: {
     // n=7 00011100
-    P( 7, "00011100" );
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
     int min_node_193 = min( num_node_1, num_node_2 );
@@ -6595,9 +6514,9 @@ case_83: {
     int num_node_193;
     if ( edge_num_cut_procs[ num_edge_193 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_193 = nn;
@@ -6624,9 +6543,9 @@ case_83: {
     int num_node_388;
     if ( edge_num_cut_procs[ num_edge_388 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_388 = nn;
@@ -6666,7 +6585,6 @@ case_83: {
 }
 case_84: {
     // n=7 00011110
-    P( 7, "00011110" );
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     int min_node_128 = min( num_node_0, num_node_1 );
@@ -6675,9 +6593,9 @@ case_84: {
     int num_node_128;
     if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_128 = nn;
@@ -6704,9 +6622,9 @@ case_84: {
     int num_node_388;
     if ( edge_num_cut_procs[ num_edge_388 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_388 = nn;
@@ -6744,7 +6662,6 @@ case_84: {
 }
 case_85: {
     // n=7 00011111
-    P( 7, "00011111" );
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
     int min_node_388 = min( num_node_4, num_node_5 );
@@ -6753,9 +6670,9 @@ case_85: {
     int num_node_388;
     if ( edge_num_cut_procs[ num_edge_388 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_388 = nn;
@@ -6782,9 +6699,9 @@ case_85: {
     int num_node_448;
     if ( edge_num_cut_procs[ num_edge_448 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_448 = nn;
@@ -6820,7 +6737,6 @@ case_85: {
 }
 case_86: {
     // n=7 00100000
-    P( 7, "00100000" );
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
     int min_node_388 = min( num_node_4, num_node_5 );
@@ -6829,9 +6745,9 @@ case_86: {
     int num_node_388;
     if ( edge_num_cut_procs[ num_edge_388 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_388 = nn;
@@ -6857,9 +6773,9 @@ case_86: {
     int num_node_453;
     if ( edge_num_cut_procs[ num_edge_453 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_453 = nn;
@@ -6902,7 +6818,6 @@ case_86: {
 }
 case_87: {
     // n=7 00110000
-    P( 7, "00110000" );
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
     int min_node_323 = min( num_node_3, num_node_4 );
@@ -6911,9 +6826,9 @@ case_87: {
     int num_node_323;
     if ( edge_num_cut_procs[ num_edge_323 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_323 = nn;
@@ -6940,9 +6855,9 @@ case_87: {
     int num_node_453;
     if ( edge_num_cut_procs[ num_edge_453 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_453 = nn;
@@ -6981,7 +6896,6 @@ case_87: {
 }
 case_88: {
     // n=7 00111000
-    P( 7, "00111000" );
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
     int min_node_258 = min( num_node_2, num_node_3 );
@@ -6990,9 +6904,9 @@ case_88: {
     int num_node_258;
     if ( edge_num_cut_procs[ num_edge_258 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_258 = nn;
@@ -7019,9 +6933,9 @@ case_88: {
     int num_node_453;
     if ( edge_num_cut_procs[ num_edge_453 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_453 = nn;
@@ -7060,7 +6974,6 @@ case_88: {
 }
 case_89: {
     // n=7 00111100
-    P( 7, "00111100" );
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
     int min_node_193 = min( num_node_1, num_node_2 );
@@ -7069,9 +6982,9 @@ case_89: {
     int num_node_193;
     if ( edge_num_cut_procs[ num_edge_193 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_193 = nn;
@@ -7098,9 +7011,9 @@ case_89: {
     int num_node_453;
     if ( edge_num_cut_procs[ num_edge_453 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_453 = nn;
@@ -7137,7 +7050,6 @@ case_89: {
 }
 case_90: {
     // n=7 00111110
-    P( 7, "00111110" );
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     int min_node_128 = min( num_node_0, num_node_1 );
@@ -7146,9 +7058,9 @@ case_90: {
     int num_node_128;
     if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_128 = nn;
@@ -7175,9 +7087,9 @@ case_90: {
     int num_node_453;
     if ( edge_num_cut_procs[ num_edge_453 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_453 = nn;
@@ -7212,7 +7124,6 @@ case_90: {
 }
 case_91: {
     // n=7 00111111
-    P( 7, "00111111" );
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
     int min_node_453 = min( num_node_5, num_node_6 );
@@ -7221,9 +7132,9 @@ case_91: {
     int num_node_453;
     if ( edge_num_cut_procs[ num_edge_453 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_453 = nn;
@@ -7249,9 +7160,9 @@ case_91: {
     int num_node_448;
     if ( edge_num_cut_procs[ num_edge_448 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_448 = nn;
@@ -7285,7 +7196,6 @@ case_91: {
 }
 case_92: {
     // n=7 01000000
-    P( 7, "01000000" );
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
     int min_node_453 = min( num_node_5, num_node_6 );
@@ -7294,9 +7204,9 @@ case_92: {
     int num_node_453;
     if ( edge_num_cut_procs[ num_edge_453 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_453 = nn;
@@ -7322,9 +7232,9 @@ case_92: {
     int num_node_448;
     if ( edge_num_cut_procs[ num_edge_448 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_448 = nn;
@@ -7366,7 +7276,6 @@ case_92: {
 }
 case_93: {
     // n=7 01000001
-    P( 7, "01000001" );
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     int min_node_128 = min( num_node_0, num_node_1 );
@@ -7375,9 +7284,9 @@ case_93: {
     int num_node_128;
     if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_128 = nn;
@@ -7404,9 +7313,9 @@ case_93: {
     int num_node_453;
     if ( edge_num_cut_procs[ num_edge_453 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_453 = nn;
@@ -7445,7 +7354,6 @@ case_93: {
 }
 case_94: {
     // n=7 01000011
-    P( 7, "01000011" );
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
     int min_node_193 = min( num_node_1, num_node_2 );
@@ -7454,9 +7362,9 @@ case_94: {
     int num_node_193;
     if ( edge_num_cut_procs[ num_edge_193 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_193 = nn;
@@ -7483,9 +7391,9 @@ case_94: {
     int num_node_453;
     if ( edge_num_cut_procs[ num_edge_453 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_453 = nn;
@@ -7523,7 +7431,6 @@ case_94: {
 }
 case_95: {
     // n=7 01000111
-    P( 7, "01000111" );
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
     int min_node_258 = min( num_node_2, num_node_3 );
@@ -7532,9 +7439,9 @@ case_95: {
     int num_node_258;
     if ( edge_num_cut_procs[ num_edge_258 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_258 = nn;
@@ -7561,9 +7468,9 @@ case_95: {
     int num_node_453;
     if ( edge_num_cut_procs[ num_edge_453 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_453 = nn;
@@ -7600,7 +7507,6 @@ case_95: {
 }
 case_96: {
     // n=7 01001111
-    P( 7, "01001111" );
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
     int min_node_323 = min( num_node_3, num_node_4 );
@@ -7609,9 +7515,9 @@ case_96: {
     int num_node_323;
     if ( edge_num_cut_procs[ num_edge_323 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_323 = nn;
@@ -7638,9 +7544,9 @@ case_96: {
     int num_node_453;
     if ( edge_num_cut_procs[ num_edge_453 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_453 = nn;
@@ -7676,7 +7582,6 @@ case_96: {
 }
 case_97: {
     // n=7 01011111
-    P( 7, "01011111" );
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
     int min_node_388 = min( num_node_4, num_node_5 );
@@ -7685,9 +7590,9 @@ case_97: {
     int num_node_388;
     if ( edge_num_cut_procs[ num_edge_388 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_388 = nn;
@@ -7713,9 +7618,9 @@ case_97: {
     int num_node_453;
     if ( edge_num_cut_procs[ num_edge_453 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_453 = nn;
@@ -7749,7 +7654,6 @@ case_97: {
 }
 case_98: {
     // n=7 01100000
-    P( 7, "01100000" );
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
     int min_node_388 = min( num_node_4, num_node_5 );
@@ -7758,9 +7662,9 @@ case_98: {
     int num_node_388;
     if ( edge_num_cut_procs[ num_edge_388 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_388 = nn;
@@ -7787,9 +7691,9 @@ case_98: {
     int num_node_448;
     if ( edge_num_cut_procs[ num_edge_448 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_448 = nn;
@@ -7828,7 +7732,6 @@ case_98: {
 }
 case_99: {
     // n=7 01100001
-    P( 7, "01100001" );
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     int min_node_128 = min( num_node_0, num_node_1 );
@@ -7837,9 +7740,9 @@ case_99: {
     int num_node_128;
     if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_128 = nn;
@@ -7866,9 +7769,9 @@ case_99: {
     int num_node_388;
     if ( edge_num_cut_procs[ num_edge_388 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_388 = nn;
@@ -7906,7 +7809,6 @@ case_99: {
 }
 case_100: {
     // n=7 01100011
-    P( 7, "01100011" );
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
     int min_node_193 = min( num_node_1, num_node_2 );
@@ -7915,9 +7817,9 @@ case_100: {
     int num_node_193;
     if ( edge_num_cut_procs[ num_edge_193 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_193 = nn;
@@ -7944,9 +7846,9 @@ case_100: {
     int num_node_388;
     if ( edge_num_cut_procs[ num_edge_388 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_388 = nn;
@@ -7982,7 +7884,6 @@ case_100: {
 }
 case_101: {
     // n=7 01100111
-    P( 7, "01100111" );
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
     int min_node_258 = min( num_node_2, num_node_3 );
@@ -7991,9 +7892,9 @@ case_101: {
     int num_node_258;
     if ( edge_num_cut_procs[ num_edge_258 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_258 = nn;
@@ -8020,9 +7921,9 @@ case_101: {
     int num_node_388;
     if ( edge_num_cut_procs[ num_edge_388 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_388 = nn;
@@ -8057,7 +7958,6 @@ case_101: {
 }
 case_102: {
     // n=7 01101111
-    P( 7, "01101111" );
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
     int min_node_323 = min( num_node_3, num_node_4 );
@@ -8066,9 +7966,9 @@ case_102: {
     int num_node_323;
     if ( edge_num_cut_procs[ num_edge_323 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_323 = nn;
@@ -8094,9 +7994,9 @@ case_102: {
     int num_node_388;
     if ( edge_num_cut_procs[ num_edge_388 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_388 = nn;
@@ -8130,7 +8030,6 @@ case_102: {
 }
 case_103: {
     // n=7 01110000
-    P( 7, "01110000" );
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
     int min_node_323 = min( num_node_3, num_node_4 );
@@ -8139,9 +8038,9 @@ case_103: {
     int num_node_323;
     if ( edge_num_cut_procs[ num_edge_323 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_323 = nn;
@@ -8168,9 +8067,9 @@ case_103: {
     int num_node_448;
     if ( edge_num_cut_procs[ num_edge_448 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_448 = nn;
@@ -8208,7 +8107,6 @@ case_103: {
 }
 case_104: {
     // n=7 01110001
-    P( 7, "01110001" );
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     int min_node_128 = min( num_node_0, num_node_1 );
@@ -8217,9 +8115,9 @@ case_104: {
     int num_node_128;
     if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_128 = nn;
@@ -8246,9 +8144,9 @@ case_104: {
     int num_node_323;
     if ( edge_num_cut_procs[ num_edge_323 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_323 = nn;
@@ -8284,7 +8182,6 @@ case_104: {
 }
 case_105: {
     // n=7 01110011
-    P( 7, "01110011" );
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
     int min_node_193 = min( num_node_1, num_node_2 );
@@ -8293,9 +8190,9 @@ case_105: {
     int num_node_193;
     if ( edge_num_cut_procs[ num_edge_193 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_193 = nn;
@@ -8322,9 +8219,9 @@ case_105: {
     int num_node_323;
     if ( edge_num_cut_procs[ num_edge_323 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_323 = nn;
@@ -8358,7 +8255,6 @@ case_105: {
 }
 case_106: {
     // n=7 01110111
-    P( 7, "01110111" );
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
     int min_node_258 = min( num_node_2, num_node_3 );
@@ -8367,9 +8263,9 @@ case_106: {
     int num_node_258;
     if ( edge_num_cut_procs[ num_edge_258 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_258 = nn;
@@ -8395,9 +8291,9 @@ case_106: {
     int num_node_323;
     if ( edge_num_cut_procs[ num_edge_323 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_323 = nn;
@@ -8431,7 +8327,6 @@ case_106: {
 }
 case_107: {
     // n=7 01111000
-    P( 7, "01111000" );
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
     int min_node_258 = min( num_node_2, num_node_3 );
@@ -8440,9 +8335,9 @@ case_107: {
     int num_node_258;
     if ( edge_num_cut_procs[ num_edge_258 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_258 = nn;
@@ -8469,9 +8364,9 @@ case_107: {
     int num_node_448;
     if ( edge_num_cut_procs[ num_edge_448 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_448 = nn;
@@ -8507,7 +8402,6 @@ case_107: {
 }
 case_108: {
     // n=7 01111001
-    P( 7, "01111001" );
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     int min_node_128 = min( num_node_0, num_node_1 );
@@ -8516,9 +8410,9 @@ case_108: {
     int num_node_128;
     if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_128 = nn;
@@ -8545,9 +8439,9 @@ case_108: {
     int num_node_258;
     if ( edge_num_cut_procs[ num_edge_258 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_258 = nn;
@@ -8581,7 +8475,6 @@ case_108: {
 }
 case_109: {
     // n=7 01111011
-    P( 7, "01111011" );
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
     int min_node_193 = min( num_node_1, num_node_2 );
@@ -8590,9 +8483,9 @@ case_109: {
     int num_node_193;
     if ( edge_num_cut_procs[ num_edge_193 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_193 = nn;
@@ -8618,9 +8511,9 @@ case_109: {
     int num_node_258;
     if ( edge_num_cut_procs[ num_edge_258 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_258 = nn;
@@ -8653,7 +8546,6 @@ case_109: {
 }
 case_110: {
     // n=7 01111100
-    P( 7, "01111100" );
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
     int min_node_193 = min( num_node_1, num_node_2 );
@@ -8662,9 +8554,9 @@ case_110: {
     int num_node_193;
     if ( edge_num_cut_procs[ num_edge_193 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_193 = nn;
@@ -8691,9 +8583,9 @@ case_110: {
     int num_node_448;
     if ( edge_num_cut_procs[ num_edge_448 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_448 = nn;
@@ -8727,7 +8619,6 @@ case_110: {
 }
 case_111: {
     // n=7 01111101
-    P( 7, "01111101" );
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     int min_node_128 = min( num_node_0, num_node_1 );
@@ -8736,9 +8627,9 @@ case_111: {
     int num_node_128;
     if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_128 = nn;
@@ -8764,9 +8655,9 @@ case_111: {
     int num_node_193;
     if ( edge_num_cut_procs[ num_edge_193 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_193 = nn;
@@ -8799,7 +8690,6 @@ case_111: {
 }
 case_112: {
     // n=7 01111110
-    P( 7, "01111110" );
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     int min_node_128 = min( num_node_0, num_node_1 );
@@ -8808,9 +8698,9 @@ case_112: {
     int num_node_128;
     if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_128 = nn;
@@ -8836,9 +8726,9 @@ case_112: {
     int num_node_448;
     if ( edge_num_cut_procs[ num_edge_448 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_448 = nn;
@@ -8871,7 +8761,6 @@ case_112: {
 }
 case_113: {
     // n=8 00000001
-    P( 8, "00000001" );
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     int min_node_128 = min( num_node_0, num_node_1 );
@@ -8880,9 +8769,9 @@ case_113: {
     int num_node_128;
     if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_128 = nn;
@@ -8908,9 +8797,9 @@ case_113: {
     int num_node_512;
     if ( edge_num_cut_procs[ num_edge_512 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_512 = nn;
@@ -8954,7 +8843,6 @@ case_113: {
 }
 case_114: {
     // n=8 00000010
-    P( 8, "00000010" );
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     int min_node_128 = min( num_node_0, num_node_1 );
@@ -8963,9 +8851,9 @@ case_114: {
     int num_node_128;
     if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_128 = nn;
@@ -8991,9 +8879,9 @@ case_114: {
     int num_node_193;
     if ( edge_num_cut_procs[ num_edge_193 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_193 = nn;
@@ -9038,7 +8926,6 @@ case_114: {
 }
 case_115: {
     // n=8 00000011
-    P( 8, "00000011" );
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
     int min_node_193 = min( num_node_1, num_node_2 );
@@ -9047,9 +8934,9 @@ case_115: {
     int num_node_193;
     if ( edge_num_cut_procs[ num_edge_193 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_193 = nn;
@@ -9076,9 +8963,9 @@ case_115: {
     int num_node_512;
     if ( edge_num_cut_procs[ num_edge_512 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_512 = nn;
@@ -9119,7 +9006,6 @@ case_115: {
 }
 case_116: {
     // n=8 00000100
-    P( 8, "00000100" );
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
     int min_node_193 = min( num_node_1, num_node_2 );
@@ -9128,9 +9014,9 @@ case_116: {
     int num_node_193;
     if ( edge_num_cut_procs[ num_edge_193 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_193 = nn;
@@ -9156,9 +9042,9 @@ case_116: {
     int num_node_258;
     if ( edge_num_cut_procs[ num_edge_258 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_258 = nn;
@@ -9204,7 +9090,6 @@ case_116: {
 }
 case_117: {
     // n=8 00000110
-    P( 8, "00000110" );
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     int min_node_128 = min( num_node_0, num_node_1 );
@@ -9213,9 +9098,9 @@ case_117: {
     int num_node_128;
     if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_128 = nn;
@@ -9242,9 +9127,9 @@ case_117: {
     int num_node_258;
     if ( edge_num_cut_procs[ num_edge_258 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_258 = nn;
@@ -9285,7 +9170,6 @@ case_117: {
 }
 case_118: {
     // n=8 00000111
-    P( 8, "00000111" );
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
     int min_node_258 = min( num_node_2, num_node_3 );
@@ -9294,9 +9178,9 @@ case_118: {
     int num_node_258;
     if ( edge_num_cut_procs[ num_edge_258 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_258 = nn;
@@ -9323,9 +9207,9 @@ case_118: {
     int num_node_512;
     if ( edge_num_cut_procs[ num_edge_512 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_512 = nn;
@@ -9366,7 +9250,6 @@ case_118: {
 }
 case_119: {
     // n=8 00001000
-    P( 8, "00001000" );
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
     int min_node_258 = min( num_node_2, num_node_3 );
@@ -9375,9 +9258,9 @@ case_119: {
     int num_node_258;
     if ( edge_num_cut_procs[ num_edge_258 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_258 = nn;
@@ -9403,9 +9286,9 @@ case_119: {
     int num_node_323;
     if ( edge_num_cut_procs[ num_edge_323 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_323 = nn;
@@ -9452,7 +9335,6 @@ case_119: {
 }
 case_120: {
     // n=8 00001100
-    P( 8, "00001100" );
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
     int min_node_193 = min( num_node_1, num_node_2 );
@@ -9461,9 +9343,9 @@ case_120: {
     int num_node_193;
     if ( edge_num_cut_procs[ num_edge_193 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_193 = nn;
@@ -9490,9 +9372,9 @@ case_120: {
     int num_node_323;
     if ( edge_num_cut_procs[ num_edge_323 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_323 = nn;
@@ -9533,7 +9415,6 @@ case_120: {
 }
 case_121: {
     // n=8 00001110
-    P( 8, "00001110" );
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     int min_node_128 = min( num_node_0, num_node_1 );
@@ -9542,9 +9423,9 @@ case_121: {
     int num_node_128;
     if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_128 = nn;
@@ -9571,9 +9452,9 @@ case_121: {
     int num_node_323;
     if ( edge_num_cut_procs[ num_edge_323 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_323 = nn;
@@ -9615,7 +9496,6 @@ case_121: {
 }
 case_122: {
     // n=8 00001111
-    P( 8, "00001111" );
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
     int min_node_323 = min( num_node_3, num_node_4 );
@@ -9624,9 +9504,9 @@ case_122: {
     int num_node_323;
     if ( edge_num_cut_procs[ num_edge_323 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_323 = nn;
@@ -9653,9 +9533,9 @@ case_122: {
     int num_node_512;
     if ( edge_num_cut_procs[ num_edge_512 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_512 = nn;
@@ -9695,7 +9575,6 @@ case_122: {
 }
 case_123: {
     // n=8 00010000
-    P( 8, "00010000" );
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
     int min_node_323 = min( num_node_3, num_node_4 );
@@ -9704,9 +9583,9 @@ case_123: {
     int num_node_323;
     if ( edge_num_cut_procs[ num_edge_323 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_323 = nn;
@@ -9732,9 +9611,9 @@ case_123: {
     int num_node_388;
     if ( edge_num_cut_procs[ num_edge_388 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_388 = nn;
@@ -9781,7 +9660,6 @@ case_123: {
 }
 case_124: {
     // n=8 00011000
-    P( 8, "00011000" );
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
     int min_node_258 = min( num_node_2, num_node_3 );
@@ -9790,9 +9668,9 @@ case_124: {
     int num_node_258;
     if ( edge_num_cut_procs[ num_edge_258 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_258 = nn;
@@ -9819,9 +9697,9 @@ case_124: {
     int num_node_388;
     if ( edge_num_cut_procs[ num_edge_388 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_388 = nn;
@@ -9862,7 +9740,6 @@ case_124: {
 }
 case_125: {
     // n=8 00011100
-    P( 8, "00011100" );
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
     int min_node_193 = min( num_node_1, num_node_2 );
@@ -9871,9 +9748,9 @@ case_125: {
     int num_node_193;
     if ( edge_num_cut_procs[ num_edge_193 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_193 = nn;
@@ -9900,9 +9777,9 @@ case_125: {
     int num_node_388;
     if ( edge_num_cut_procs[ num_edge_388 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_388 = nn;
@@ -9945,7 +9822,6 @@ case_125: {
 }
 case_126: {
     // n=8 00011110
-    P( 8, "00011110" );
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     int min_node_128 = min( num_node_0, num_node_1 );
@@ -9954,9 +9830,9 @@ case_126: {
     int num_node_128;
     if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_128 = nn;
@@ -9983,9 +9859,9 @@ case_126: {
     int num_node_388;
     if ( edge_num_cut_procs[ num_edge_388 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_388 = nn;
@@ -10026,7 +9902,6 @@ case_126: {
 }
 case_127: {
     // n=8 00011111
-    P( 8, "00011111" );
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
     int min_node_388 = min( num_node_4, num_node_5 );
@@ -10035,9 +9910,9 @@ case_127: {
     int num_node_388;
     if ( edge_num_cut_procs[ num_edge_388 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_388 = nn;
@@ -10064,9 +9939,9 @@ case_127: {
     int num_node_512;
     if ( edge_num_cut_procs[ num_edge_512 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_512 = nn;
@@ -10105,7 +9980,6 @@ case_127: {
 }
 case_128: {
     // n=8 00100000
-    P( 8, "00100000" );
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
     int min_node_388 = min( num_node_4, num_node_5 );
@@ -10114,9 +9988,9 @@ case_128: {
     int num_node_388;
     if ( edge_num_cut_procs[ num_edge_388 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_388 = nn;
@@ -10142,9 +10016,9 @@ case_128: {
     int num_node_453;
     if ( edge_num_cut_procs[ num_edge_453 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_453 = nn;
@@ -10190,7 +10064,6 @@ case_128: {
 }
 case_129: {
     // n=8 00110000
-    P( 8, "00110000" );
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
     int min_node_323 = min( num_node_3, num_node_4 );
@@ -10199,9 +10072,9 @@ case_129: {
     int num_node_323;
     if ( edge_num_cut_procs[ num_edge_323 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_323 = nn;
@@ -10228,9 +10101,9 @@ case_129: {
     int num_node_453;
     if ( edge_num_cut_procs[ num_edge_453 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_453 = nn;
@@ -10271,7 +10144,6 @@ case_129: {
 }
 case_130: {
     // n=8 00111000
-    P( 8, "00111000" );
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
     int min_node_258 = min( num_node_2, num_node_3 );
@@ -10280,9 +10152,9 @@ case_130: {
     int num_node_258;
     if ( edge_num_cut_procs[ num_edge_258 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_258 = nn;
@@ -10309,9 +10181,9 @@ case_130: {
     int num_node_453;
     if ( edge_num_cut_procs[ num_edge_453 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_453 = nn;
@@ -10353,7 +10225,6 @@ case_130: {
 }
 case_131: {
     // n=8 00111100
-    P( 8, "00111100" );
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
     int min_node_193 = min( num_node_1, num_node_2 );
@@ -10362,9 +10233,9 @@ case_131: {
     int num_node_193;
     if ( edge_num_cut_procs[ num_edge_193 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_193 = nn;
@@ -10391,9 +10262,9 @@ case_131: {
     int num_node_453;
     if ( edge_num_cut_procs[ num_edge_453 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_453 = nn;
@@ -10433,7 +10304,6 @@ case_131: {
 }
 case_132: {
     // n=8 00111110
-    P( 8, "00111110" );
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     int min_node_128 = min( num_node_0, num_node_1 );
@@ -10442,9 +10312,9 @@ case_132: {
     int num_node_128;
     if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_128 = nn;
@@ -10471,9 +10341,9 @@ case_132: {
     int num_node_453;
     if ( edge_num_cut_procs[ num_edge_453 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_453 = nn;
@@ -10511,7 +10381,6 @@ case_132: {
 }
 case_133: {
     // n=8 00111111
-    P( 8, "00111111" );
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
     int min_node_453 = min( num_node_5, num_node_6 );
@@ -10520,9 +10389,9 @@ case_133: {
     int num_node_453;
     if ( edge_num_cut_procs[ num_edge_453 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_453 = nn;
@@ -10549,9 +10418,9 @@ case_133: {
     int num_node_512;
     if ( edge_num_cut_procs[ num_edge_512 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_512 = nn;
@@ -10587,7 +10456,6 @@ case_133: {
 }
 case_134: {
     // n=8 01000000
-    P( 8, "01000000" );
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
     int min_node_453 = min( num_node_5, num_node_6 );
@@ -10596,9 +10464,9 @@ case_134: {
     int num_node_453;
     if ( edge_num_cut_procs[ num_edge_453 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_453 = nn;
@@ -10624,9 +10492,9 @@ case_134: {
     int num_node_518;
     if ( edge_num_cut_procs[ num_edge_518 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_518 = nn;
@@ -10671,7 +10539,6 @@ case_134: {
 }
 case_135: {
     // n=8 01100000
-    P( 8, "01100000" );
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
     int min_node_388 = min( num_node_4, num_node_5 );
@@ -10680,9 +10547,9 @@ case_135: {
     int num_node_388;
     if ( edge_num_cut_procs[ num_edge_388 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_388 = nn;
@@ -10709,9 +10576,9 @@ case_135: {
     int num_node_518;
     if ( edge_num_cut_procs[ num_edge_518 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_518 = nn;
@@ -10752,7 +10619,6 @@ case_135: {
 }
 case_136: {
     // n=8 01110000
-    P( 8, "01110000" );
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
     int min_node_323 = min( num_node_3, num_node_4 );
@@ -10761,9 +10627,9 @@ case_136: {
     int num_node_323;
     if ( edge_num_cut_procs[ num_edge_323 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_323 = nn;
@@ -10790,9 +10656,9 @@ case_136: {
     int num_node_518;
     if ( edge_num_cut_procs[ num_edge_518 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_518 = nn;
@@ -10833,7 +10699,6 @@ case_136: {
 }
 case_137: {
     // n=8 01111000
-    P( 8, "01111000" );
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
     int min_node_258 = min( num_node_2, num_node_3 );
@@ -10842,9 +10707,9 @@ case_137: {
     int num_node_258;
     if ( edge_num_cut_procs[ num_edge_258 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_258 = nn;
@@ -10871,9 +10736,9 @@ case_137: {
     int num_node_518;
     if ( edge_num_cut_procs[ num_edge_518 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_518 = nn;
@@ -10912,7 +10777,6 @@ case_137: {
 }
 case_138: {
     // n=8 01111100
-    P( 8, "01111100" );
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
     int min_node_193 = min( num_node_1, num_node_2 );
@@ -10921,9 +10785,9 @@ case_138: {
     int num_node_193;
     if ( edge_num_cut_procs[ num_edge_193 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_193 = nn;
@@ -10950,9 +10814,9 @@ case_138: {
     int num_node_518;
     if ( edge_num_cut_procs[ num_edge_518 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_518 = nn;
@@ -10989,7 +10853,6 @@ case_138: {
 }
 case_139: {
     // n=8 01111110
-    P( 8, "01111110" );
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     int min_node_128 = min( num_node_0, num_node_1 );
@@ -10998,9 +10861,9 @@ case_139: {
     int num_node_128;
     if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_128 = nn;
@@ -11027,9 +10890,9 @@ case_139: {
     int num_node_518;
     if ( edge_num_cut_procs[ num_edge_518 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_518 = nn;
@@ -11064,7 +10927,6 @@ case_139: {
 }
 case_140: {
     // n=8 01111111
-    P( 8, "01111111" );
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
     int num_node_7 = faces.node_lists[ num_face ][ 7 ];
     int min_node_518 = min( num_node_6, num_node_7 );
@@ -11073,9 +10935,9 @@ case_140: {
     int num_node_518;
     if ( edge_num_cut_procs[ num_edge_518 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_518 = nn;
@@ -11101,9 +10963,9 @@ case_140: {
     int num_node_512;
     if ( edge_num_cut_procs[ num_edge_512 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_512 = nn;
@@ -11137,7 +10999,6 @@ case_140: {
 }
 case_141: {
     // n=8 10000000
-    P( 8, "10000000" );
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
     int num_node_7 = faces.node_lists[ num_face ][ 7 ];
     int min_node_518 = min( num_node_6, num_node_7 );
@@ -11146,9 +11007,9 @@ case_141: {
     int num_node_518;
     if ( edge_num_cut_procs[ num_edge_518 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_518 = nn;
@@ -11174,9 +11035,9 @@ case_141: {
     int num_node_512;
     if ( edge_num_cut_procs[ num_edge_512 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_512 = nn;
@@ -11220,7 +11081,6 @@ case_141: {
 }
 case_142: {
     // n=8 10000001
-    P( 8, "10000001" );
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     int min_node_128 = min( num_node_0, num_node_1 );
@@ -11229,9 +11089,9 @@ case_142: {
     int num_node_128;
     if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_128 = nn;
@@ -11258,9 +11118,9 @@ case_142: {
     int num_node_518;
     if ( edge_num_cut_procs[ num_edge_518 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_518 = nn;
@@ -11301,7 +11161,6 @@ case_142: {
 }
 case_143: {
     // n=8 10000011
-    P( 8, "10000011" );
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
     int min_node_193 = min( num_node_1, num_node_2 );
@@ -11310,9 +11169,9 @@ case_143: {
     int num_node_193;
     if ( edge_num_cut_procs[ num_edge_193 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_193 = nn;
@@ -11339,9 +11198,9 @@ case_143: {
     int num_node_518;
     if ( edge_num_cut_procs[ num_edge_518 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_518 = nn;
@@ -11381,7 +11240,6 @@ case_143: {
 }
 case_144: {
     // n=8 10000111
-    P( 8, "10000111" );
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
     int min_node_258 = min( num_node_2, num_node_3 );
@@ -11390,9 +11248,9 @@ case_144: {
     int num_node_258;
     if ( edge_num_cut_procs[ num_edge_258 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_258 = nn;
@@ -11419,9 +11277,9 @@ case_144: {
     int num_node_518;
     if ( edge_num_cut_procs[ num_edge_518 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_518 = nn;
@@ -11460,7 +11318,6 @@ case_144: {
 }
 case_145: {
     // n=8 10001111
-    P( 8, "10001111" );
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
     int min_node_323 = min( num_node_3, num_node_4 );
@@ -11469,9 +11326,9 @@ case_145: {
     int num_node_323;
     if ( edge_num_cut_procs[ num_edge_323 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_323 = nn;
@@ -11498,9 +11355,9 @@ case_145: {
     int num_node_518;
     if ( edge_num_cut_procs[ num_edge_518 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_518 = nn;
@@ -11538,7 +11395,6 @@ case_145: {
 }
 case_146: {
     // n=8 10011111
-    P( 8, "10011111" );
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
     int min_node_388 = min( num_node_4, num_node_5 );
@@ -11547,9 +11403,9 @@ case_146: {
     int num_node_388;
     if ( edge_num_cut_procs[ num_edge_388 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_388 = nn;
@@ -11576,9 +11432,9 @@ case_146: {
     int num_node_518;
     if ( edge_num_cut_procs[ num_edge_518 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_518 = nn;
@@ -11614,7 +11470,6 @@ case_146: {
 }
 case_147: {
     // n=8 10111111
-    P( 8, "10111111" );
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
     int min_node_453 = min( num_node_5, num_node_6 );
@@ -11623,9 +11478,9 @@ case_147: {
     int num_node_453;
     if ( edge_num_cut_procs[ num_edge_453 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_453 = nn;
@@ -11651,9 +11506,9 @@ case_147: {
     int num_node_518;
     if ( edge_num_cut_procs[ num_edge_518 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_518 = nn;
@@ -11687,7 +11542,6 @@ case_147: {
 }
 case_148: {
     // n=8 11000000
-    P( 8, "11000000" );
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
     int min_node_453 = min( num_node_5, num_node_6 );
@@ -11696,9 +11550,9 @@ case_148: {
     int num_node_453;
     if ( edge_num_cut_procs[ num_edge_453 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_453 = nn;
@@ -11725,9 +11579,9 @@ case_148: {
     int num_node_512;
     if ( edge_num_cut_procs[ num_edge_512 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_512 = nn;
@@ -11768,7 +11622,6 @@ case_148: {
 }
 case_149: {
     // n=8 11000001
-    P( 8, "11000001" );
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     int min_node_128 = min( num_node_0, num_node_1 );
@@ -11777,9 +11630,9 @@ case_149: {
     int num_node_128;
     if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_128 = nn;
@@ -11806,9 +11659,9 @@ case_149: {
     int num_node_453;
     if ( edge_num_cut_procs[ num_edge_453 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_453 = nn;
@@ -11848,7 +11701,6 @@ case_149: {
 }
 case_150: {
     // n=8 11000011
-    P( 8, "11000011" );
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
     int min_node_193 = min( num_node_1, num_node_2 );
@@ -11857,9 +11709,9 @@ case_150: {
     int num_node_193;
     if ( edge_num_cut_procs[ num_edge_193 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_193 = nn;
@@ -11886,9 +11738,9 @@ case_150: {
     int num_node_453;
     if ( edge_num_cut_procs[ num_edge_453 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_453 = nn;
@@ -11926,7 +11778,6 @@ case_150: {
 }
 case_151: {
     // n=8 11000111
-    P( 8, "11000111" );
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
     int min_node_258 = min( num_node_2, num_node_3 );
@@ -11935,9 +11786,9 @@ case_151: {
     int num_node_258;
     if ( edge_num_cut_procs[ num_edge_258 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_258 = nn;
@@ -11964,9 +11815,9 @@ case_151: {
     int num_node_453;
     if ( edge_num_cut_procs[ num_edge_453 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_453 = nn;
@@ -12003,7 +11854,6 @@ case_151: {
 }
 case_152: {
     // n=8 11001111
-    P( 8, "11001111" );
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
     int min_node_323 = min( num_node_3, num_node_4 );
@@ -12012,9 +11862,9 @@ case_152: {
     int num_node_323;
     if ( edge_num_cut_procs[ num_edge_323 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_323 = nn;
@@ -12041,9 +11891,9 @@ case_152: {
     int num_node_453;
     if ( edge_num_cut_procs[ num_edge_453 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_453 = nn;
@@ -12079,7 +11929,6 @@ case_152: {
 }
 case_153: {
     // n=8 11011111
-    P( 8, "11011111" );
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
     int min_node_388 = min( num_node_4, num_node_5 );
@@ -12088,9 +11937,9 @@ case_153: {
     int num_node_388;
     if ( edge_num_cut_procs[ num_edge_388 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_388 = nn;
@@ -12116,9 +11965,9 @@ case_153: {
     int num_node_453;
     if ( edge_num_cut_procs[ num_edge_453 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_453 = nn;
@@ -12152,7 +12001,6 @@ case_153: {
 }
 case_154: {
     // n=8 11100000
-    P( 8, "11100000" );
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
     int min_node_388 = min( num_node_4, num_node_5 );
@@ -12161,9 +12009,9 @@ case_154: {
     int num_node_388;
     if ( edge_num_cut_procs[ num_edge_388 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_388 = nn;
@@ -12190,9 +12038,9 @@ case_154: {
     int num_node_512;
     if ( edge_num_cut_procs[ num_edge_512 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_512 = nn;
@@ -12232,7 +12080,6 @@ case_154: {
 }
 case_155: {
     // n=8 11100001
-    P( 8, "11100001" );
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     int min_node_128 = min( num_node_0, num_node_1 );
@@ -12241,9 +12088,9 @@ case_155: {
     int num_node_128;
     if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_128 = nn;
@@ -12270,9 +12117,9 @@ case_155: {
     int num_node_388;
     if ( edge_num_cut_procs[ num_edge_388 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_388 = nn;
@@ -12310,7 +12157,6 @@ case_155: {
 }
 case_156: {
     // n=8 11100011
-    P( 8, "11100011" );
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
     int min_node_193 = min( num_node_1, num_node_2 );
@@ -12319,9 +12165,9 @@ case_156: {
     int num_node_193;
     if ( edge_num_cut_procs[ num_edge_193 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_193 = nn;
@@ -12348,9 +12194,9 @@ case_156: {
     int num_node_388;
     if ( edge_num_cut_procs[ num_edge_388 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_388 = nn;
@@ -12386,7 +12232,6 @@ case_156: {
 }
 case_157: {
     // n=8 11100111
-    P( 8, "11100111" );
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
     int min_node_258 = min( num_node_2, num_node_3 );
@@ -12395,9 +12240,9 @@ case_157: {
     int num_node_258;
     if ( edge_num_cut_procs[ num_edge_258 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_258 = nn;
@@ -12424,9 +12269,9 @@ case_157: {
     int num_node_388;
     if ( edge_num_cut_procs[ num_edge_388 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_388 = nn;
@@ -12461,7 +12306,6 @@ case_157: {
 }
 case_158: {
     // n=8 11101111
-    P( 8, "11101111" );
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
     int min_node_323 = min( num_node_3, num_node_4 );
@@ -12470,9 +12314,9 @@ case_158: {
     int num_node_323;
     if ( edge_num_cut_procs[ num_edge_323 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_323 = nn;
@@ -12498,9 +12342,9 @@ case_158: {
     int num_node_388;
     if ( edge_num_cut_procs[ num_edge_388 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_388 = nn;
@@ -12534,7 +12378,6 @@ case_158: {
 }
 case_159: {
     // n=8 11110000
-    P( 8, "11110000" );
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
     int min_node_323 = min( num_node_3, num_node_4 );
@@ -12543,9 +12386,9 @@ case_159: {
     int num_node_323;
     if ( edge_num_cut_procs[ num_edge_323 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_323 = nn;
@@ -12572,9 +12415,9 @@ case_159: {
     int num_node_512;
     if ( edge_num_cut_procs[ num_edge_512 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_512 = nn;
@@ -12612,7 +12455,6 @@ case_159: {
 }
 case_160: {
     // n=8 11110001
-    P( 8, "11110001" );
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     int min_node_128 = min( num_node_0, num_node_1 );
@@ -12621,9 +12463,9 @@ case_160: {
     int num_node_128;
     if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_128 = nn;
@@ -12650,9 +12492,9 @@ case_160: {
     int num_node_323;
     if ( edge_num_cut_procs[ num_edge_323 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_323 = nn;
@@ -12688,7 +12530,6 @@ case_160: {
 }
 case_161: {
     // n=8 11110011
-    P( 8, "11110011" );
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
     int min_node_193 = min( num_node_1, num_node_2 );
@@ -12697,9 +12538,9 @@ case_161: {
     int num_node_193;
     if ( edge_num_cut_procs[ num_edge_193 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_193 = nn;
@@ -12726,9 +12567,9 @@ case_161: {
     int num_node_323;
     if ( edge_num_cut_procs[ num_edge_323 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_323 = nn;
@@ -12762,7 +12603,6 @@ case_161: {
 }
 case_162: {
     // n=8 11110111
-    P( 8, "11110111" );
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
     int min_node_258 = min( num_node_2, num_node_3 );
@@ -12771,9 +12611,9 @@ case_162: {
     int num_node_258;
     if ( edge_num_cut_procs[ num_edge_258 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_258 = nn;
@@ -12799,9 +12639,9 @@ case_162: {
     int num_node_323;
     if ( edge_num_cut_procs[ num_edge_323 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_323 = nn;
@@ -12835,7 +12675,6 @@ case_162: {
 }
 case_163: {
     // n=8 11111000
-    P( 8, "11111000" );
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
     int min_node_258 = min( num_node_2, num_node_3 );
@@ -12844,9 +12683,9 @@ case_163: {
     int num_node_258;
     if ( edge_num_cut_procs[ num_edge_258 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_258 = nn;
@@ -12873,9 +12712,9 @@ case_163: {
     int num_node_512;
     if ( edge_num_cut_procs[ num_edge_512 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_512 = nn;
@@ -12911,7 +12750,6 @@ case_163: {
 }
 case_164: {
     // n=8 11111001
-    P( 8, "11111001" );
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     int min_node_128 = min( num_node_0, num_node_1 );
@@ -12920,9 +12758,9 @@ case_164: {
     int num_node_128;
     if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_128 = nn;
@@ -12949,9 +12787,9 @@ case_164: {
     int num_node_258;
     if ( edge_num_cut_procs[ num_edge_258 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_258 = nn;
@@ -12985,7 +12823,6 @@ case_164: {
 }
 case_165: {
     // n=8 11111011
-    P( 8, "11111011" );
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
     int min_node_193 = min( num_node_1, num_node_2 );
@@ -12994,9 +12831,9 @@ case_165: {
     int num_node_193;
     if ( edge_num_cut_procs[ num_edge_193 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_193 = nn;
@@ -13022,9 +12859,9 @@ case_165: {
     int num_node_258;
     if ( edge_num_cut_procs[ num_edge_258 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_258 = nn;
@@ -13057,7 +12894,6 @@ case_165: {
 }
 case_166: {
     // n=8 11111100
-    P( 8, "11111100" );
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
     int min_node_193 = min( num_node_1, num_node_2 );
@@ -13066,9 +12902,9 @@ case_166: {
     int num_node_193;
     if ( edge_num_cut_procs[ num_edge_193 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_193 = nn;
@@ -13095,9 +12931,9 @@ case_166: {
     int num_node_512;
     if ( edge_num_cut_procs[ num_edge_512 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_512 = nn;
@@ -13131,7 +12967,6 @@ case_166: {
 }
 case_167: {
     // n=8 11111101
-    P( 8, "11111101" );
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     int min_node_128 = min( num_node_0, num_node_1 );
@@ -13140,9 +12975,9 @@ case_167: {
     int num_node_128;
     if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_128 = nn;
@@ -13168,9 +13003,9 @@ case_167: {
     int num_node_193;
     if ( edge_num_cut_procs[ num_edge_193 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_193 = nn;
@@ -13203,7 +13038,6 @@ case_167: {
 }
 case_168: {
     // n=8 11111110
-    P( 8, "11111110" );
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     int min_node_128 = min( num_node_0, num_node_1 );
@@ -13212,9 +13046,9 @@ case_168: {
     int num_node_128;
     if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_128 = nn;
@@ -13240,9 +13074,9 @@ case_168: {
     int num_node_512;
     if ( edge_num_cut_procs[ num_edge_512 ] != num_cut_proc ) {
         int pos_node;
-        if ( cou ) { // there's a node that is going to be freed
-            int nn = tzcnt( cou );
-            cou -= std::uint64_t( 1 ) << nn;
+        if ( available_nodes ) { // there's a node that is going to be freed
+            int nn = tzcnt( available_nodes );
+            available_nodes -= std::uint64_t( 1 ) << nn;
             
             pos_node = ind_nxt_tmp_node++;
             num_node_512 = nn;

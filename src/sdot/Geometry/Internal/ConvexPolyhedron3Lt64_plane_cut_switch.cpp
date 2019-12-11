@@ -32,7 +32,6 @@ bool make_case( std::ostream &os, int nb_nodes, std::bitset<8> outside_nodes ) {
     }
 
     os << "    // n=" << nb_nodes << " " << outside_nodes << "\n";
-    os << "    P( " << nb_nodes << ", \"" << outside_nodes << "\" );\n";
 
     // if < 64 => num_node. Else, num_edge
     std::set<int> registered_num_nodes;
@@ -64,9 +63,9 @@ bool make_case( std::ostream &os, int nb_nodes, std::bitset<8> outside_nodes ) {
             os << "    int num_node_" << edge << ";\n";
             os << "    if ( edge_num_cut_procs[ num_edge_" << edge << " ] != num_cut_proc ) {\n";
             os << "        int pos_node;\n";
-            os << "        if ( cou ) { // there's a node that is going to be freed\n";
-            os << "            int nn = tzcnt( cou );\n";
-            os << "            cou -= std::uint64_t( 1 ) << nn;\n";
+            os << "        if ( available_nodes ) { // there's a node that is going to be freed\n";
+            os << "            int nn = tzcnt( available_nodes );\n";
+            os << "            available_nodes -= std::uint64_t( 1 ) << nn;\n";
             os << "            \n";
             os << "            pos_node = ind_nxt_tmp_node++;\n";
             os << "            num_node_" << edge << " = nn;\n";

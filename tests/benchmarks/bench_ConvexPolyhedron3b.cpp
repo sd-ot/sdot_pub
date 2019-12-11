@@ -72,7 +72,7 @@ void bench( std::vector<TF> xs, std::vector<TF> ys, std::vector<TF> zs, std::vec
 }
 
 
-int main() {
+int main( int, char ** ) {
     bool single_test = 1;
     bool single_dir = 0; // single_test;
 
@@ -92,7 +92,7 @@ int main() {
         }
     }
 
-    std::size_t nb_cuts = 5; //single_test ? 1 : 64;
+    std::size_t nb_cuts = 7; //single_test ? 1 : 64;
     std::vector<TF> xs, ys, zs, ps;
     std::vector<Pc::Dirac *> ds;
     for( std::size_t n = 0; n < nb_cuts; ++n ) {
@@ -100,7 +100,7 @@ int main() {
         xs.push_back( directions[ th ].x );
         ys.push_back( directions[ th ].y );
         zs.push_back( directions[ th ].z );
-        ps.push_back( 10.0 / ( 11 + n ) + 0.7 * ( n % 2 ) );
+        ps.push_back( 10.0 / ( 11 + n ) + 1.0 * ( n % 2 ) );
         ds.push_back( nullptr );
     }
 
