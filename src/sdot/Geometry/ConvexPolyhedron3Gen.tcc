@@ -93,23 +93,57 @@ void ConvexPolyhedron3Gen<Pc>::plane_cut( std::array<const TF *,dim> cut_dir, co
         new_faces.clear();
         for( const Face &face : faces ) {
             Face new_face;
+
+            // helper
+            auto add_node_between = [&]( int num_node_0, int num_node_1 ) {
+                int min_node_128 = std::min( num_node_0, num_node_1 );
+                int max_node_128 = std::max( num_node_0, num_node_1 );
+                int num_edge_128 = max_node_128 * ( max_node_128 + 1 ) / 2 + min_node_128;
+
+                int num_node_128;
+                if ( num_cut_proc_edge[ num_edge_128 ] != num_cut_proc ) {
+                    const Pt &n0 = nodes[ num_node_0 ].p;
+                    const Pt &n1 = nodes[ num_node_1 ].p;
+                    TF d0 = node_dists[ num_node_0 ];
+                    TF d1 = node_dists[ num_node_1 ];
+
+                    num_node_128 = new_nodes.size();
+                    num_node_edge[ num_edge_128 ] = new_nodes.size();
+                    num_cut_proc_edge[ num_edge_128 ] = num_cut_proc;
+                    new_nodes.push_back( { n0 + d0 / ( d0 - d1 ) * ( n1 - n0 ) } );
+                } else
+                    num_node_128 = num_node_edge[ num_edge_128 ];
+
+                new_face.nodes.push_back( num_node_128 );
+                return num_node_128;
+            };
+
+            // for each inside node
             for( std::size_t i0 = 0; i0 < face.nodes.size(); ++i0 ) {
                 int n0 = face.nodes[ i0 ];
                 if ( node_dists[ n0 ] > 0 )
                     continue;
 
                 int nm = face.nodes[ ( i0 + face.nodes.size() - 1 ) % face.nodes.size() ];
-                if ( node_dists[ nm ] > 0 ) {
-                }
+                if ( node_dists[ nm ] > 0 )
+                    add_node_between( nm, n0 );
 
                 new_face.nodes.push_back( node_repls[ n0 ] );
 
                 int n1 = face.nodes[ ( i0 + 1 ) % face.nodes.size() ];
-                if ( node_dists[ n1 ] > 0 ) {
-                }
+                if ( node_dists[ n1 ] > 0 )
+                    add_node_between( n0, n1 );
             }
+
+            // store
             new_faces.push_back( std::move( new_face ) );
         }
+
+        // new face(s)
+        if ( new_faces.size() ) {
+
+        }
+
 
         //
         std::swap( nodes, new_nodes );
