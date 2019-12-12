@@ -5,11 +5,11 @@
 #include <map>
 using namespace sdot;
 
-//// nsmake cxx_name clang++
-// // nsmake cpp_flag -march=native
-// // nsmake cpp_flag -ffast-math
-// // nsmake cpp_flag -O3
-// // nsmake lib_flag -O3
+// // nsmake cxx_name clang++
+//// nsmake cpp_flag -march=native
+//// nsmake cpp_flag -ffast-math
+//// nsmake cpp_flag -O3
+//// nsmake lib_flag -O3
 
 struct Pc {
     enum { store_the_normals = false };
@@ -64,7 +64,7 @@ void bench( std::vector<TF> xs, std::vector<TF> ys, std::vector<TF> zs, std::vec
         P( dt_set_box );
         P( ( dt_cut_proc - dt_set_box ) / xs.size() );
     }
-    PN( cp );
+    //    PN( cp );
 
     VtkOutput vo;
     cp.display_vtk( vo );
@@ -73,7 +73,7 @@ void bench( std::vector<TF> xs, std::vector<TF> ys, std::vector<TF> zs, std::vec
 
 
 int main( int, char ** ) {
-    bool single_test = 1;
+    bool single_test = 0;
     bool single_dir = 0; // single_test;
 
     std::vector<Pt> directions;
@@ -104,5 +104,5 @@ int main( int, char ** ) {
         ds.push_back( nullptr );
     }
 
-    bench( xs, ys, zs, ps, ds, single_test ? 1 : 2 );
+    bench( xs, ys, zs, ps, ds, single_test ? 1 : 20000 );
 }

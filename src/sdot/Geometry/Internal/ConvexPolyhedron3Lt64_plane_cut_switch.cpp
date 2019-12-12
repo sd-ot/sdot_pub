@@ -209,10 +209,10 @@ int main() {
             continue;
         std::cout << "case_" << iter.second << ": {\n";
         std::cout << iter.first;
-        std::cout << "    break;\n";
+        std::cout << "    return;\n";
         std::cout << "}\n";
     }
     std::cout << "case_0:\n";
-    std::cout << "    TODO; // generic case\n";
-    std::cout << "    break;\n";
+    std::cout << "    // generic case\n";
+    std::cout << "    ;\n";
 }

@@ -4,8 +4,7 @@ all:
 	# ${RUN} tests/Support/test_Simd.cpp
 	# ${RUN} tests/benchmarks/bench_Lgrid_2D_large.cpp
 	${RUN} tests/benchmarks/bench_ConvexPolyhedron3b.cpp
-
-lg:
+	# ${RUN} tests/Geometry/test_ConvexPolyhedron3b.cpp
 
 smurf:
 	${RUN} tests/benchmarks/bench_Lgrid.cpp

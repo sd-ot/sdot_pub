@@ -517,7 +517,7 @@ using std::max;
 goto *dispatch_table[ ouf ];
 case_1: {
     // all_inside
-    break;
+    return;
 }
 case_2: {
     // n=3 00000001
@@ -589,7 +589,7 @@ case_2: {
         ( 1 << num_node_1 ) |
         ( 1 << num_node_2 ) |
         ( 1 << num_node_192 ) ;
-    break;
+    return;
 }
 case_3: {
     // n=3 00000010
@@ -662,7 +662,7 @@ case_3: {
         ( 1 << num_node_128 ) |
         ( 1 << num_node_193 ) |
         ( 1 << num_node_2 ) ;
-    break;
+    return;
 }
 case_4: {
     // n=3 00000011
@@ -732,7 +732,7 @@ case_4: {
         ( 1 << num_node_192 ) |
         ( 1 << num_node_193 ) |
         ( 1 << num_node_2 ) ;
-    break;
+    return;
 }
 case_5: {
     // n=3 00000100
@@ -804,7 +804,7 @@ case_5: {
         ( 1 << num_node_1 ) |
         ( 1 << num_node_193 ) |
         ( 1 << num_node_192 ) ;
-    break;
+    return;
 }
 case_6: {
     // n=3 00000101
@@ -874,7 +874,7 @@ case_6: {
         ( 1 << num_node_128 ) |
         ( 1 << num_node_1 ) |
         ( 1 << num_node_193 ) ;
-    break;
+    return;
 }
 case_7: {
     // n=3 00000110
@@ -944,7 +944,7 @@ case_7: {
         ( 1 << num_node_0 ) |
         ( 1 << num_node_128 ) |
         ( 1 << num_node_192 ) ;
-    break;
+    return;
 }
 case_9: {
     // n=4 00000001
@@ -1018,7 +1018,7 @@ case_9: {
         ( 1 << num_node_2 ) |
         ( 1 << num_node_3 ) |
         ( 1 << num_node_256 ) ;
-    break;
+    return;
 }
 case_10: {
     // n=4 00000010
@@ -1093,7 +1093,7 @@ case_10: {
         ( 1 << num_node_2 ) |
         ( 1 << num_node_3 ) |
         ( 1 << num_node_0 ) ;
-    break;
+    return;
 }
 case_11: {
     // n=4 00000011
@@ -1165,7 +1165,7 @@ case_11: {
         ( 1 << num_node_193 ) |
         ( 1 << num_node_2 ) |
         ( 1 << num_node_3 ) ;
-    break;
+    return;
 }
 case_12: {
     // n=4 00000100
@@ -1240,7 +1240,7 @@ case_12: {
         ( 1 << num_node_193 ) |
         ( 1 << num_node_258 ) |
         ( 1 << num_node_3 ) ;
-    break;
+    return;
 }
 case_13: {
     // n=4 00000110
@@ -1312,7 +1312,7 @@ case_13: {
         ( 1 << num_node_128 ) |
         ( 1 << num_node_258 ) |
         ( 1 << num_node_3 ) ;
-    break;
+    return;
 }
 case_14: {
     // n=4 00000111
@@ -1384,7 +1384,7 @@ case_14: {
         ( 1 << num_node_258 ) |
         ( 1 << num_node_3 ) |
         ( 1 << num_node_256 ) ;
-    break;
+    return;
 }
 case_15: {
     // n=4 00001000
@@ -1458,7 +1458,7 @@ case_15: {
         ( 1 << num_node_2 ) |
         ( 1 << num_node_258 ) |
         ( 1 << num_node_256 ) ;
-    break;
+    return;
 }
 case_16: {
     // n=4 00001001
@@ -1530,7 +1530,7 @@ case_16: {
         ( 1 << num_node_1 ) |
         ( 1 << num_node_2 ) |
         ( 1 << num_node_258 ) ;
-    break;
+    return;
 }
 case_17: {
     // n=4 00001011
@@ -1601,7 +1601,7 @@ case_17: {
         ( 1 << num_node_258 ) |
         ( 1 << num_node_193 ) |
         ( 1 << num_node_2 ) ;
-    break;
+    return;
 }
 case_18: {
     // n=4 00001100
@@ -1673,7 +1673,7 @@ case_18: {
         ( 1 << num_node_1 ) |
         ( 1 << num_node_193 ) |
         ( 1 << num_node_256 ) ;
-    break;
+    return;
 }
 case_19: {
     // n=4 00001101
@@ -1744,7 +1744,7 @@ case_19: {
         ( 1 << num_node_128 ) |
         ( 1 << num_node_1 ) |
         ( 1 << num_node_193 ) ;
-    break;
+    return;
 }
 case_20: {
     // n=4 00001110
@@ -1815,7 +1815,7 @@ case_20: {
         ( 1 << num_node_0 ) |
         ( 1 << num_node_128 ) |
         ( 1 << num_node_256 ) ;
-    break;
+    return;
 }
 case_21: {
     // n=5 00000001
@@ -1891,7 +1891,7 @@ case_21: {
         ( 1 << num_node_3 ) |
         ( 1 << num_node_4 ) |
         ( 1 << num_node_320 ) ;
-    break;
+    return;
 }
 case_22: {
     // n=5 00000010
@@ -1968,7 +1968,7 @@ case_22: {
         ( 1 << num_node_3 ) |
         ( 1 << num_node_4 ) |
         ( 1 << num_node_0 ) ;
-    break;
+    return;
 }
 case_23: {
     // n=5 00000011
@@ -2042,7 +2042,7 @@ case_23: {
         ( 1 << num_node_2 ) |
         ( 1 << num_node_3 ) |
         ( 1 << num_node_4 ) ;
-    break;
+    return;
 }
 case_24: {
     // n=5 00000100
@@ -2120,7 +2120,7 @@ case_24: {
         ( 1 << num_node_258 ) |
         ( 1 << num_node_3 ) |
         ( 1 << num_node_4 ) ;
-    break;
+    return;
 }
 case_25: {
     // n=5 00000110
@@ -2194,7 +2194,7 @@ case_25: {
         ( 1 << num_node_258 ) |
         ( 1 << num_node_3 ) |
         ( 1 << num_node_4 ) ;
-    break;
+    return;
 }
 case_26: {
     // n=5 00000111
@@ -2268,7 +2268,7 @@ case_26: {
         ( 1 << num_node_320 ) |
         ( 1 << num_node_258 ) |
         ( 1 << num_node_3 ) ;
-    break;
+    return;
 }
 case_27: {
     // n=5 00001000
@@ -2345,7 +2345,7 @@ case_27: {
         ( 1 << num_node_258 ) |
         ( 1 << num_node_323 ) |
         ( 1 << num_node_4 ) ;
-    break;
+    return;
 }
 case_28: {
     // n=5 00001100
@@ -2419,7 +2419,7 @@ case_28: {
         ( 1 << num_node_193 ) |
         ( 1 << num_node_323 ) |
         ( 1 << num_node_4 ) ;
-    break;
+    return;
 }
 case_29: {
     // n=5 00001110
@@ -2493,7 +2493,7 @@ case_29: {
         ( 1 << num_node_128 ) |
         ( 1 << num_node_323 ) |
         ( 1 << num_node_4 ) ;
-    break;
+    return;
 }
 case_30: {
     // n=5 00001111
@@ -2565,7 +2565,7 @@ case_30: {
         ( 1 << num_node_323 ) |
         ( 1 << num_node_4 ) |
         ( 1 << num_node_320 ) ;
-    break;
+    return;
 }
 case_31: {
     // n=5 00010000
@@ -2641,7 +2641,7 @@ case_31: {
         ( 1 << num_node_3 ) |
         ( 1 << num_node_323 ) |
         ( 1 << num_node_320 ) ;
-    break;
+    return;
 }
 case_32: {
     // n=5 00010001
@@ -2715,7 +2715,7 @@ case_32: {
         ( 1 << num_node_2 ) |
         ( 1 << num_node_3 ) |
         ( 1 << num_node_323 ) ;
-    break;
+    return;
 }
 case_33: {
     // n=5 00010011
@@ -2788,7 +2788,7 @@ case_33: {
         ( 1 << num_node_193 ) |
         ( 1 << num_node_2 ) |
         ( 1 << num_node_3 ) ;
-    break;
+    return;
 }
 case_34: {
     // n=5 00010111
@@ -2860,7 +2860,7 @@ case_34: {
         ( 1 << num_node_258 ) |
         ( 1 << num_node_3 ) |
         ( 1 << num_node_323 ) ;
-    break;
+    return;
 }
 case_35: {
     // n=5 00011000
@@ -2934,7 +2934,7 @@ case_35: {
         ( 1 << num_node_2 ) |
         ( 1 << num_node_258 ) |
         ( 1 << num_node_320 ) ;
-    break;
+    return;
 }
 case_36: {
     // n=5 00011001
@@ -3007,7 +3007,7 @@ case_36: {
         ( 1 << num_node_1 ) |
         ( 1 << num_node_2 ) |
         ( 1 << num_node_258 ) ;
-    break;
+    return;
 }
 case_37: {
     // n=5 00011011
@@ -3078,7 +3078,7 @@ case_37: {
         ( 1 << num_node_258 ) |
         ( 1 << num_node_193 ) |
         ( 1 << num_node_2 ) ;
-    break;
+    return;
 }
 case_38: {
     // n=5 00011100
@@ -3151,7 +3151,7 @@ case_38: {
         ( 1 << num_node_1 ) |
         ( 1 << num_node_193 ) |
         ( 1 << num_node_320 ) ;
-    break;
+    return;
 }
 case_39: {
     // n=5 00011101
@@ -3222,7 +3222,7 @@ case_39: {
         ( 1 << num_node_128 ) |
         ( 1 << num_node_1 ) |
         ( 1 << num_node_193 ) ;
-    break;
+    return;
 }
 case_40: {
     // n=5 00011110
@@ -3293,7 +3293,7 @@ case_40: {
         ( 1 << num_node_0 ) |
         ( 1 << num_node_128 ) |
         ( 1 << num_node_320 ) ;
-    break;
+    return;
 }
 case_41: {
     // n=6 00000001
@@ -3371,7 +3371,7 @@ case_41: {
         ( 1 << num_node_4 ) |
         ( 1 << num_node_5 ) |
         ( 1 << num_node_384 ) ;
-    break;
+    return;
 }
 case_42: {
     // n=6 00000010
@@ -3450,7 +3450,7 @@ case_42: {
         ( 1 << num_node_4 ) |
         ( 1 << num_node_5 ) |
         ( 1 << num_node_0 ) ;
-    break;
+    return;
 }
 case_43: {
     // n=6 00000011
@@ -3526,7 +3526,7 @@ case_43: {
         ( 1 << num_node_3 ) |
         ( 1 << num_node_4 ) |
         ( 1 << num_node_5 ) ;
-    break;
+    return;
 }
 case_44: {
     // n=6 00000100
@@ -3606,7 +3606,7 @@ case_44: {
         ( 1 << num_node_4 ) |
         ( 1 << num_node_5 ) |
         ( 1 << num_node_0 ) ;
-    break;
+    return;
 }
 case_45: {
     // n=6 00000110
@@ -3682,7 +3682,7 @@ case_45: {
         ( 1 << num_node_3 ) |
         ( 1 << num_node_4 ) |
         ( 1 << num_node_5 ) ;
-    break;
+    return;
 }
 case_46: {
     // n=6 00000111
@@ -3758,7 +3758,7 @@ case_46: {
         ( 1 << num_node_258 ) |
         ( 1 << num_node_3 ) |
         ( 1 << num_node_4 ) ;
-    break;
+    return;
 }
 case_47: {
     // n=6 00001000
@@ -3838,7 +3838,7 @@ case_47: {
         ( 1 << num_node_323 ) |
         ( 1 << num_node_4 ) |
         ( 1 << num_node_5 ) ;
-    break;
+    return;
 }
 case_48: {
     // n=6 00001100
@@ -3914,7 +3914,7 @@ case_48: {
         ( 1 << num_node_323 ) |
         ( 1 << num_node_4 ) |
         ( 1 << num_node_5 ) ;
-    break;
+    return;
 }
 case_49: {
     // n=6 00001110
@@ -3991,7 +3991,7 @@ case_49: {
         ( 1 << num_node_323 ) |
         ( 1 << num_node_4 ) |
         ( 1 << num_node_5 ) ;
-    break;
+    return;
 }
 case_50: {
     // n=6 00001111
@@ -4066,7 +4066,7 @@ case_50: {
         ( 1 << num_node_4 ) |
         ( 1 << num_node_5 ) |
         ( 1 << num_node_384 ) ;
-    break;
+    return;
 }
 case_51: {
     // n=6 00010000
@@ -4145,7 +4145,7 @@ case_51: {
         ( 1 << num_node_323 ) |
         ( 1 << num_node_388 ) |
         ( 1 << num_node_5 ) ;
-    break;
+    return;
 }
 case_52: {
     // n=6 00011000
@@ -4221,7 +4221,7 @@ case_52: {
         ( 1 << num_node_258 ) |
         ( 1 << num_node_388 ) |
         ( 1 << num_node_5 ) ;
-    break;
+    return;
 }
 case_53: {
     // n=6 00011100
@@ -4297,7 +4297,7 @@ case_53: {
         ( 1 << num_node_193 ) |
         ( 1 << num_node_388 ) |
         ( 1 << num_node_5 ) ;
-    break;
+    return;
 }
 case_54: {
     // n=6 00011110
@@ -4371,7 +4371,7 @@ case_54: {
         ( 1 << num_node_128 ) |
         ( 1 << num_node_388 ) |
         ( 1 << num_node_5 ) ;
-    break;
+    return;
 }
 case_55: {
     // n=6 00011111
@@ -4443,7 +4443,7 @@ case_55: {
         ( 1 << num_node_388 ) |
         ( 1 << num_node_5 ) |
         ( 1 << num_node_384 ) ;
-    break;
+    return;
 }
 case_56: {
     // n=6 00100000
@@ -4521,7 +4521,7 @@ case_56: {
         ( 1 << num_node_4 ) |
         ( 1 << num_node_388 ) |
         ( 1 << num_node_384 ) ;
-    break;
+    return;
 }
 case_57: {
     // n=6 00100001
@@ -4597,7 +4597,7 @@ case_57: {
         ( 1 << num_node_3 ) |
         ( 1 << num_node_4 ) |
         ( 1 << num_node_388 ) ;
-    break;
+    return;
 }
 case_58: {
     // n=6 00100011
@@ -4672,7 +4672,7 @@ case_58: {
         ( 1 << num_node_2 ) |
         ( 1 << num_node_3 ) |
         ( 1 << num_node_4 ) ;
-    break;
+    return;
 }
 case_59: {
     // n=6 00100111
@@ -4746,7 +4746,7 @@ case_59: {
         ( 1 << num_node_388 ) |
         ( 1 << num_node_258 ) |
         ( 1 << num_node_3 ) ;
-    break;
+    return;
 }
 case_60: {
     // n=6 00101111
@@ -4818,7 +4818,7 @@ case_60: {
         ( 1 << num_node_323 ) |
         ( 1 << num_node_4 ) |
         ( 1 << num_node_388 ) ;
-    break;
+    return;
 }
 case_61: {
     // n=6 00110000
@@ -4894,7 +4894,7 @@ case_61: {
         ( 1 << num_node_3 ) |
         ( 1 << num_node_323 ) |
         ( 1 << num_node_384 ) ;
-    break;
+    return;
 }
 case_62: {
     // n=6 00110001
@@ -4969,7 +4969,7 @@ case_62: {
         ( 1 << num_node_2 ) |
         ( 1 << num_node_3 ) |
         ( 1 << num_node_323 ) ;
-    break;
+    return;
 }
 case_63: {
     // n=6 00110011
@@ -5042,7 +5042,7 @@ case_63: {
         ( 1 << num_node_193 ) |
         ( 1 << num_node_2 ) |
         ( 1 << num_node_3 ) ;
-    break;
+    return;
 }
 case_64: {
     // n=6 00110111
@@ -5114,7 +5114,7 @@ case_64: {
         ( 1 << num_node_258 ) |
         ( 1 << num_node_3 ) |
         ( 1 << num_node_323 ) ;
-    break;
+    return;
 }
 case_65: {
     // n=6 00111000
@@ -5189,7 +5189,7 @@ case_65: {
         ( 1 << num_node_2 ) |
         ( 1 << num_node_258 ) |
         ( 1 << num_node_384 ) ;
-    break;
+    return;
 }
 case_66: {
     // n=6 00111001
@@ -5262,7 +5262,7 @@ case_66: {
         ( 1 << num_node_1 ) |
         ( 1 << num_node_2 ) |
         ( 1 << num_node_258 ) ;
-    break;
+    return;
 }
 case_67: {
     // n=6 00111011
@@ -5333,7 +5333,7 @@ case_67: {
         ( 1 << num_node_258 ) |
         ( 1 << num_node_193 ) |
         ( 1 << num_node_2 ) ;
-    break;
+    return;
 }
 case_68: {
     // n=6 00111100
@@ -5406,7 +5406,7 @@ case_68: {
         ( 1 << num_node_1 ) |
         ( 1 << num_node_193 ) |
         ( 1 << num_node_384 ) ;
-    break;
+    return;
 }
 case_69: {
     // n=6 00111101
@@ -5477,7 +5477,7 @@ case_69: {
         ( 1 << num_node_128 ) |
         ( 1 << num_node_1 ) |
         ( 1 << num_node_193 ) ;
-    break;
+    return;
 }
 case_70: {
     // n=6 00111110
@@ -5548,7 +5548,7 @@ case_70: {
         ( 1 << num_node_0 ) |
         ( 1 << num_node_128 ) |
         ( 1 << num_node_384 ) ;
-    break;
+    return;
 }
 case_71: {
     // n=7 00000001
@@ -5628,7 +5628,7 @@ case_71: {
         ( 1 << num_node_5 ) |
         ( 1 << num_node_6 ) |
         ( 1 << num_node_448 ) ;
-    break;
+    return;
 }
 case_72: {
     // n=7 00000010
@@ -5709,7 +5709,7 @@ case_72: {
         ( 1 << num_node_5 ) |
         ( 1 << num_node_6 ) |
         ( 1 << num_node_0 ) ;
-    break;
+    return;
 }
 case_73: {
     // n=7 00000011
@@ -5787,7 +5787,7 @@ case_73: {
         ( 1 << num_node_4 ) |
         ( 1 << num_node_5 ) |
         ( 1 << num_node_6 ) ;
-    break;
+    return;
 }
 case_74: {
     // n=7 00000100
@@ -5869,7 +5869,7 @@ case_74: {
         ( 1 << num_node_5 ) |
         ( 1 << num_node_6 ) |
         ( 1 << num_node_0 ) ;
-    break;
+    return;
 }
 case_75: {
     // n=7 00000110
@@ -5947,7 +5947,7 @@ case_75: {
         ( 1 << num_node_4 ) |
         ( 1 << num_node_5 ) |
         ( 1 << num_node_6 ) ;
-    break;
+    return;
 }
 case_76: {
     // n=7 00000111
@@ -6025,7 +6025,7 @@ case_76: {
         ( 1 << num_node_3 ) |
         ( 1 << num_node_4 ) |
         ( 1 << num_node_5 ) ;
-    break;
+    return;
 }
 case_77: {
     // n=7 00001000
@@ -6108,7 +6108,7 @@ case_77: {
         ( 1 << num_node_4 ) |
         ( 1 << num_node_5 ) |
         ( 1 << num_node_6 ) ;
-    break;
+    return;
 }
 case_78: {
     // n=7 00001100
@@ -6186,7 +6186,7 @@ case_78: {
         ( 1 << num_node_4 ) |
         ( 1 << num_node_5 ) |
         ( 1 << num_node_6 ) ;
-    break;
+    return;
 }
 case_79: {
     // n=7 00001110
@@ -6265,7 +6265,7 @@ case_79: {
         ( 1 << num_node_323 ) |
         ( 1 << num_node_4 ) |
         ( 1 << num_node_5 ) ;
-    break;
+    return;
 }
 case_80: {
     // n=7 00001111
@@ -6342,7 +6342,7 @@ case_80: {
         ( 1 << num_node_448 ) |
         ( 1 << num_node_323 ) |
         ( 1 << num_node_4 ) ;
-    break;
+    return;
 }
 case_81: {
     // n=7 00010000
@@ -6424,7 +6424,7 @@ case_81: {
         ( 1 << num_node_388 ) |
         ( 1 << num_node_5 ) |
         ( 1 << num_node_6 ) ;
-    break;
+    return;
 }
 case_82: {
     // n=7 00011000
@@ -6502,7 +6502,7 @@ case_82: {
         ( 1 << num_node_388 ) |
         ( 1 << num_node_5 ) |
         ( 1 << num_node_6 ) ;
-    break;
+    return;
 }
 case_83: {
     // n=7 00011100
@@ -6581,7 +6581,7 @@ case_83: {
         ( 1 << num_node_388 ) |
         ( 1 << num_node_5 ) |
         ( 1 << num_node_6 ) ;
-    break;
+    return;
 }
 case_84: {
     // n=7 00011110
@@ -6658,7 +6658,7 @@ case_84: {
         ( 1 << num_node_388 ) |
         ( 1 << num_node_5 ) |
         ( 1 << num_node_6 ) ;
-    break;
+    return;
 }
 case_85: {
     // n=7 00011111
@@ -6733,7 +6733,7 @@ case_85: {
         ( 1 << num_node_5 ) |
         ( 1 << num_node_6 ) |
         ( 1 << num_node_448 ) ;
-    break;
+    return;
 }
 case_86: {
     // n=7 00100000
@@ -6814,7 +6814,7 @@ case_86: {
         ( 1 << num_node_388 ) |
         ( 1 << num_node_453 ) |
         ( 1 << num_node_6 ) ;
-    break;
+    return;
 }
 case_87: {
     // n=7 00110000
@@ -6892,7 +6892,7 @@ case_87: {
         ( 1 << num_node_323 ) |
         ( 1 << num_node_453 ) |
         ( 1 << num_node_6 ) ;
-    break;
+    return;
 }
 case_88: {
     // n=7 00111000
@@ -6970,7 +6970,7 @@ case_88: {
         ( 1 << num_node_258 ) |
         ( 1 << num_node_453 ) |
         ( 1 << num_node_6 ) ;
-    break;
+    return;
 }
 case_89: {
     // n=7 00111100
@@ -7046,7 +7046,7 @@ case_89: {
         ( 1 << num_node_193 ) |
         ( 1 << num_node_453 ) |
         ( 1 << num_node_6 ) ;
-    break;
+    return;
 }
 case_90: {
     // n=7 00111110
@@ -7120,7 +7120,7 @@ case_90: {
         ( 1 << num_node_128 ) |
         ( 1 << num_node_453 ) |
         ( 1 << num_node_6 ) ;
-    break;
+    return;
 }
 case_91: {
     // n=7 00111111
@@ -7192,7 +7192,7 @@ case_91: {
         ( 1 << num_node_453 ) |
         ( 1 << num_node_6 ) |
         ( 1 << num_node_448 ) ;
-    break;
+    return;
 }
 case_92: {
     // n=7 01000000
@@ -7272,7 +7272,7 @@ case_92: {
         ( 1 << num_node_5 ) |
         ( 1 << num_node_453 ) |
         ( 1 << num_node_448 ) ;
-    break;
+    return;
 }
 case_93: {
     // n=7 01000001
@@ -7350,7 +7350,7 @@ case_93: {
         ( 1 << num_node_4 ) |
         ( 1 << num_node_5 ) |
         ( 1 << num_node_453 ) ;
-    break;
+    return;
 }
 case_94: {
     // n=7 01000011
@@ -7427,7 +7427,7 @@ case_94: {
         ( 1 << num_node_3 ) |
         ( 1 << num_node_4 ) |
         ( 1 << num_node_5 ) ;
-    break;
+    return;
 }
 case_95: {
     // n=7 01000111
@@ -7503,7 +7503,7 @@ case_95: {
         ( 1 << num_node_258 ) |
         ( 1 << num_node_3 ) |
         ( 1 << num_node_4 ) ;
-    break;
+    return;
 }
 case_96: {
     // n=7 01001111
@@ -7578,7 +7578,7 @@ case_96: {
         ( 1 << num_node_4 ) |
         ( 1 << num_node_5 ) |
         ( 1 << num_node_453 ) ;
-    break;
+    return;
 }
 case_97: {
     // n=7 01011111
@@ -7650,7 +7650,7 @@ case_97: {
         ( 1 << num_node_388 ) |
         ( 1 << num_node_5 ) |
         ( 1 << num_node_453 ) ;
-    break;
+    return;
 }
 case_98: {
     // n=7 01100000
@@ -7728,7 +7728,7 @@ case_98: {
         ( 1 << num_node_4 ) |
         ( 1 << num_node_388 ) |
         ( 1 << num_node_448 ) ;
-    break;
+    return;
 }
 case_99: {
     // n=7 01100001
@@ -7805,7 +7805,7 @@ case_99: {
         ( 1 << num_node_3 ) |
         ( 1 << num_node_4 ) |
         ( 1 << num_node_388 ) ;
-    break;
+    return;
 }
 case_100: {
     // n=7 01100011
@@ -7880,7 +7880,7 @@ case_100: {
         ( 1 << num_node_2 ) |
         ( 1 << num_node_3 ) |
         ( 1 << num_node_4 ) ;
-    break;
+    return;
 }
 case_101: {
     // n=7 01100111
@@ -7954,7 +7954,7 @@ case_101: {
         ( 1 << num_node_388 ) |
         ( 1 << num_node_258 ) |
         ( 1 << num_node_3 ) ;
-    break;
+    return;
 }
 case_102: {
     // n=7 01101111
@@ -8026,7 +8026,7 @@ case_102: {
         ( 1 << num_node_323 ) |
         ( 1 << num_node_4 ) |
         ( 1 << num_node_388 ) ;
-    break;
+    return;
 }
 case_103: {
     // n=7 01110000
@@ -8103,7 +8103,7 @@ case_103: {
         ( 1 << num_node_3 ) |
         ( 1 << num_node_323 ) |
         ( 1 << num_node_448 ) ;
-    break;
+    return;
 }
 case_104: {
     // n=7 01110001
@@ -8178,7 +8178,7 @@ case_104: {
         ( 1 << num_node_2 ) |
         ( 1 << num_node_3 ) |
         ( 1 << num_node_323 ) ;
-    break;
+    return;
 }
 case_105: {
     // n=7 01110011
@@ -8251,7 +8251,7 @@ case_105: {
         ( 1 << num_node_193 ) |
         ( 1 << num_node_2 ) |
         ( 1 << num_node_3 ) ;
-    break;
+    return;
 }
 case_106: {
     // n=7 01110111
@@ -8323,7 +8323,7 @@ case_106: {
         ( 1 << num_node_258 ) |
         ( 1 << num_node_3 ) |
         ( 1 << num_node_323 ) ;
-    break;
+    return;
 }
 case_107: {
     // n=7 01111000
@@ -8398,7 +8398,7 @@ case_107: {
         ( 1 << num_node_2 ) |
         ( 1 << num_node_258 ) |
         ( 1 << num_node_448 ) ;
-    break;
+    return;
 }
 case_108: {
     // n=7 01111001
@@ -8471,7 +8471,7 @@ case_108: {
         ( 1 << num_node_1 ) |
         ( 1 << num_node_2 ) |
         ( 1 << num_node_258 ) ;
-    break;
+    return;
 }
 case_109: {
     // n=7 01111011
@@ -8542,7 +8542,7 @@ case_109: {
         ( 1 << num_node_258 ) |
         ( 1 << num_node_193 ) |
         ( 1 << num_node_2 ) ;
-    break;
+    return;
 }
 case_110: {
     // n=7 01111100
@@ -8615,7 +8615,7 @@ case_110: {
         ( 1 << num_node_1 ) |
         ( 1 << num_node_193 ) |
         ( 1 << num_node_448 ) ;
-    break;
+    return;
 }
 case_111: {
     // n=7 01111101
@@ -8686,7 +8686,7 @@ case_111: {
         ( 1 << num_node_128 ) |
         ( 1 << num_node_1 ) |
         ( 1 << num_node_193 ) ;
-    break;
+    return;
 }
 case_112: {
     // n=7 01111110
@@ -8757,7 +8757,7 @@ case_112: {
         ( 1 << num_node_0 ) |
         ( 1 << num_node_128 ) |
         ( 1 << num_node_448 ) ;
-    break;
+    return;
 }
 case_113: {
     // n=8 00000001
@@ -8839,7 +8839,7 @@ case_113: {
         ( 1 << num_node_6 ) |
         ( 1 << num_node_7 ) |
         ( 1 << num_node_512 ) ;
-    break;
+    return;
 }
 case_114: {
     // n=8 00000010
@@ -8922,7 +8922,7 @@ case_114: {
         ( 1 << num_node_6 ) |
         ( 1 << num_node_7 ) |
         ( 1 << num_node_0 ) ;
-    break;
+    return;
 }
 case_115: {
     // n=8 00000011
@@ -9002,7 +9002,7 @@ case_115: {
         ( 1 << num_node_5 ) |
         ( 1 << num_node_6 ) |
         ( 1 << num_node_7 ) ;
-    break;
+    return;
 }
 case_116: {
     // n=8 00000100
@@ -9086,7 +9086,7 @@ case_116: {
         ( 1 << num_node_6 ) |
         ( 1 << num_node_7 ) |
         ( 1 << num_node_0 ) ;
-    break;
+    return;
 }
 case_117: {
     // n=8 00000110
@@ -9166,7 +9166,7 @@ case_117: {
         ( 1 << num_node_5 ) |
         ( 1 << num_node_6 ) |
         ( 1 << num_node_7 ) ;
-    break;
+    return;
 }
 case_118: {
     // n=8 00000111
@@ -9246,7 +9246,7 @@ case_118: {
         ( 1 << num_node_4 ) |
         ( 1 << num_node_5 ) |
         ( 1 << num_node_6 ) ;
-    break;
+    return;
 }
 case_119: {
     // n=8 00001000
@@ -9331,7 +9331,7 @@ case_119: {
         ( 1 << num_node_6 ) |
         ( 1 << num_node_7 ) |
         ( 1 << num_node_0 ) ;
-    break;
+    return;
 }
 case_120: {
     // n=8 00001100
@@ -9411,7 +9411,7 @@ case_120: {
         ( 1 << num_node_5 ) |
         ( 1 << num_node_6 ) |
         ( 1 << num_node_7 ) ;
-    break;
+    return;
 }
 case_121: {
     // n=8 00001110
@@ -9492,7 +9492,7 @@ case_121: {
         ( 1 << num_node_4 ) |
         ( 1 << num_node_5 ) |
         ( 1 << num_node_6 ) ;
-    break;
+    return;
 }
 case_122: {
     // n=8 00001111
@@ -9571,7 +9571,7 @@ case_122: {
         ( 1 << num_node_323 ) |
         ( 1 << num_node_4 ) |
         ( 1 << num_node_5 ) ;
-    break;
+    return;
 }
 case_123: {
     // n=8 00010000
@@ -9656,7 +9656,7 @@ case_123: {
         ( 1 << num_node_5 ) |
         ( 1 << num_node_6 ) |
         ( 1 << num_node_7 ) ;
-    break;
+    return;
 }
 case_124: {
     // n=8 00011000
@@ -9736,7 +9736,7 @@ case_124: {
         ( 1 << num_node_5 ) |
         ( 1 << num_node_6 ) |
         ( 1 << num_node_7 ) ;
-    break;
+    return;
 }
 case_125: {
     // n=8 00011100
@@ -9818,7 +9818,7 @@ case_125: {
         ( 1 << num_node_5 ) |
         ( 1 << num_node_6 ) |
         ( 1 << num_node_7 ) ;
-    break;
+    return;
 }
 case_126: {
     // n=8 00011110
@@ -9898,7 +9898,7 @@ case_126: {
         ( 1 << num_node_5 ) |
         ( 1 << num_node_6 ) |
         ( 1 << num_node_7 ) ;
-    break;
+    return;
 }
 case_127: {
     // n=8 00011111
@@ -9976,7 +9976,7 @@ case_127: {
         ( 1 << num_node_6 ) |
         ( 1 << num_node_7 ) |
         ( 1 << num_node_512 ) ;
-    break;
+    return;
 }
 case_128: {
     // n=8 00100000
@@ -10060,7 +10060,7 @@ case_128: {
         ( 1 << num_node_453 ) |
         ( 1 << num_node_6 ) |
         ( 1 << num_node_7 ) ;
-    break;
+    return;
 }
 case_129: {
     // n=8 00110000
@@ -10140,7 +10140,7 @@ case_129: {
         ( 1 << num_node_453 ) |
         ( 1 << num_node_6 ) |
         ( 1 << num_node_7 ) ;
-    break;
+    return;
 }
 case_130: {
     // n=8 00111000
@@ -10221,7 +10221,7 @@ case_130: {
         ( 1 << num_node_453 ) |
         ( 1 << num_node_6 ) |
         ( 1 << num_node_7 ) ;
-    break;
+    return;
 }
 case_131: {
     // n=8 00111100
@@ -10300,7 +10300,7 @@ case_131: {
         ( 1 << num_node_453 ) |
         ( 1 << num_node_6 ) |
         ( 1 << num_node_7 ) ;
-    break;
+    return;
 }
 case_132: {
     // n=8 00111110
@@ -10377,7 +10377,7 @@ case_132: {
         ( 1 << num_node_453 ) |
         ( 1 << num_node_6 ) |
         ( 1 << num_node_7 ) ;
-    break;
+    return;
 }
 case_133: {
     // n=8 00111111
@@ -10452,7 +10452,7 @@ case_133: {
         ( 1 << num_node_6 ) |
         ( 1 << num_node_7 ) |
         ( 1 << num_node_512 ) ;
-    break;
+    return;
 }
 case_134: {
     // n=8 01000000
@@ -10535,7 +10535,7 @@ case_134: {
         ( 1 << num_node_453 ) |
         ( 1 << num_node_518 ) |
         ( 1 << num_node_7 ) ;
-    break;
+    return;
 }
 case_135: {
     // n=8 01100000
@@ -10615,7 +10615,7 @@ case_135: {
         ( 1 << num_node_388 ) |
         ( 1 << num_node_518 ) |
         ( 1 << num_node_7 ) ;
-    break;
+    return;
 }
 case_136: {
     // n=8 01110000
@@ -10695,7 +10695,7 @@ case_136: {
         ( 1 << num_node_323 ) |
         ( 1 << num_node_518 ) |
         ( 1 << num_node_7 ) ;
-    break;
+    return;
 }
 case_137: {
     // n=8 01111000
@@ -10773,7 +10773,7 @@ case_137: {
         ( 1 << num_node_258 ) |
         ( 1 << num_node_518 ) |
         ( 1 << num_node_7 ) ;
-    break;
+    return;
 }
 case_138: {
     // n=8 01111100
@@ -10849,7 +10849,7 @@ case_138: {
         ( 1 << num_node_193 ) |
         ( 1 << num_node_518 ) |
         ( 1 << num_node_7 ) ;
-    break;
+    return;
 }
 case_139: {
     // n=8 01111110
@@ -10923,7 +10923,7 @@ case_139: {
         ( 1 << num_node_128 ) |
         ( 1 << num_node_518 ) |
         ( 1 << num_node_7 ) ;
-    break;
+    return;
 }
 case_140: {
     // n=8 01111111
@@ -10995,7 +10995,7 @@ case_140: {
         ( 1 << num_node_518 ) |
         ( 1 << num_node_7 ) |
         ( 1 << num_node_512 ) ;
-    break;
+    return;
 }
 case_141: {
     // n=8 10000000
@@ -11077,7 +11077,7 @@ case_141: {
         ( 1 << num_node_6 ) |
         ( 1 << num_node_518 ) |
         ( 1 << num_node_512 ) ;
-    break;
+    return;
 }
 case_142: {
     // n=8 10000001
@@ -11157,7 +11157,7 @@ case_142: {
         ( 1 << num_node_5 ) |
         ( 1 << num_node_6 ) |
         ( 1 << num_node_518 ) ;
-    break;
+    return;
 }
 case_143: {
     // n=8 10000011
@@ -11236,7 +11236,7 @@ case_143: {
         ( 1 << num_node_4 ) |
         ( 1 << num_node_5 ) |
         ( 1 << num_node_6 ) ;
-    break;
+    return;
 }
 case_144: {
     // n=8 10000111
@@ -11314,7 +11314,7 @@ case_144: {
         ( 1 << num_node_3 ) |
         ( 1 << num_node_4 ) |
         ( 1 << num_node_5 ) ;
-    break;
+    return;
 }
 case_145: {
     // n=8 10001111
@@ -11391,7 +11391,7 @@ case_145: {
         ( 1 << num_node_518 ) |
         ( 1 << num_node_323 ) |
         ( 1 << num_node_4 ) ;
-    break;
+    return;
 }
 case_146: {
     // n=8 10011111
@@ -11466,7 +11466,7 @@ case_146: {
         ( 1 << num_node_5 ) |
         ( 1 << num_node_6 ) |
         ( 1 << num_node_518 ) ;
-    break;
+    return;
 }
 case_147: {
     // n=8 10111111
@@ -11538,7 +11538,7 @@ case_147: {
         ( 1 << num_node_453 ) |
         ( 1 << num_node_6 ) |
         ( 1 << num_node_518 ) ;
-    break;
+    return;
 }
 case_148: {
     // n=8 11000000
@@ -11618,7 +11618,7 @@ case_148: {
         ( 1 << num_node_5 ) |
         ( 1 << num_node_453 ) |
         ( 1 << num_node_512 ) ;
-    break;
+    return;
 }
 case_149: {
     // n=8 11000001
@@ -11697,7 +11697,7 @@ case_149: {
         ( 1 << num_node_4 ) |
         ( 1 << num_node_5 ) |
         ( 1 << num_node_453 ) ;
-    break;
+    return;
 }
 case_150: {
     // n=8 11000011
@@ -11774,7 +11774,7 @@ case_150: {
         ( 1 << num_node_3 ) |
         ( 1 << num_node_4 ) |
         ( 1 << num_node_5 ) ;
-    break;
+    return;
 }
 case_151: {
     // n=8 11000111
@@ -11850,7 +11850,7 @@ case_151: {
         ( 1 << num_node_258 ) |
         ( 1 << num_node_3 ) |
         ( 1 << num_node_4 ) ;
-    break;
+    return;
 }
 case_152: {
     // n=8 11001111
@@ -11925,7 +11925,7 @@ case_152: {
         ( 1 << num_node_4 ) |
         ( 1 << num_node_5 ) |
         ( 1 << num_node_453 ) ;
-    break;
+    return;
 }
 case_153: {
     // n=8 11011111
@@ -11997,7 +11997,7 @@ case_153: {
         ( 1 << num_node_388 ) |
         ( 1 << num_node_5 ) |
         ( 1 << num_node_453 ) ;
-    break;
+    return;
 }
 case_154: {
     // n=8 11100000
@@ -12076,7 +12076,7 @@ case_154: {
         ( 1 << num_node_4 ) |
         ( 1 << num_node_388 ) |
         ( 1 << num_node_512 ) ;
-    break;
+    return;
 }
 case_155: {
     // n=8 11100001
@@ -12153,7 +12153,7 @@ case_155: {
         ( 1 << num_node_3 ) |
         ( 1 << num_node_4 ) |
         ( 1 << num_node_388 ) ;
-    break;
+    return;
 }
 case_156: {
     // n=8 11100011
@@ -12228,7 +12228,7 @@ case_156: {
         ( 1 << num_node_2 ) |
         ( 1 << num_node_3 ) |
         ( 1 << num_node_4 ) ;
-    break;
+    return;
 }
 case_157: {
     // n=8 11100111
@@ -12302,7 +12302,7 @@ case_157: {
         ( 1 << num_node_388 ) |
         ( 1 << num_node_258 ) |
         ( 1 << num_node_3 ) ;
-    break;
+    return;
 }
 case_158: {
     // n=8 11101111
@@ -12374,7 +12374,7 @@ case_158: {
         ( 1 << num_node_323 ) |
         ( 1 << num_node_4 ) |
         ( 1 << num_node_388 ) ;
-    break;
+    return;
 }
 case_159: {
     // n=8 11110000
@@ -12451,7 +12451,7 @@ case_159: {
         ( 1 << num_node_3 ) |
         ( 1 << num_node_323 ) |
         ( 1 << num_node_512 ) ;
-    break;
+    return;
 }
 case_160: {
     // n=8 11110001
@@ -12526,7 +12526,7 @@ case_160: {
         ( 1 << num_node_2 ) |
         ( 1 << num_node_3 ) |
         ( 1 << num_node_323 ) ;
-    break;
+    return;
 }
 case_161: {
     // n=8 11110011
@@ -12599,7 +12599,7 @@ case_161: {
         ( 1 << num_node_193 ) |
         ( 1 << num_node_2 ) |
         ( 1 << num_node_3 ) ;
-    break;
+    return;
 }
 case_162: {
     // n=8 11110111
@@ -12671,7 +12671,7 @@ case_162: {
         ( 1 << num_node_258 ) |
         ( 1 << num_node_3 ) |
         ( 1 << num_node_323 ) ;
-    break;
+    return;
 }
 case_163: {
     // n=8 11111000
@@ -12746,7 +12746,7 @@ case_163: {
         ( 1 << num_node_2 ) |
         ( 1 << num_node_258 ) |
         ( 1 << num_node_512 ) ;
-    break;
+    return;
 }
 case_164: {
     // n=8 11111001
@@ -12819,7 +12819,7 @@ case_164: {
         ( 1 << num_node_1 ) |
         ( 1 << num_node_2 ) |
         ( 1 << num_node_258 ) ;
-    break;
+    return;
 }
 case_165: {
     // n=8 11111011
@@ -12890,7 +12890,7 @@ case_165: {
         ( 1 << num_node_258 ) |
         ( 1 << num_node_193 ) |
         ( 1 << num_node_2 ) ;
-    break;
+    return;
 }
 case_166: {
     // n=8 11111100
@@ -12963,7 +12963,7 @@ case_166: {
         ( 1 << num_node_1 ) |
         ( 1 << num_node_193 ) |
         ( 1 << num_node_512 ) ;
-    break;
+    return;
 }
 case_167: {
     // n=8 11111101
@@ -13034,7 +13034,7 @@ case_167: {
         ( 1 << num_node_128 ) |
         ( 1 << num_node_1 ) |
         ( 1 << num_node_193 ) ;
-    break;
+    return;
 }
 case_168: {
     // n=8 11111110
@@ -13105,14 +13105,14 @@ case_168: {
         ( 1 << num_node_0 ) |
         ( 1 << num_node_128 ) |
         ( 1 << num_node_512 ) ;
-    break;
+    return;
 }
 case_8: {
     // remove face
     faces_to_rem[ nb_faces_to_rem++ ] = num_face;
     faces.node_masks[ num_face ] = 0; // to say that this face is free
-    break;
+    return;
 }
 case_0:
-    TODO; // generic case
-    break;
+    // generic case
+    ;

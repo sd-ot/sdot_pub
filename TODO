@@ -30,10 +30,10 @@ int s = c0.plane_cut( ..., nb_cuts );
 if ( s < nb_cuts ) {
   MT64 c1( c0 );
   s = c1.plane_cut( ..., nb_cuts. );
-
 }
 
-
+* Optimisations
+* Gestion des cas > 64, > 16, ...
 
 
 

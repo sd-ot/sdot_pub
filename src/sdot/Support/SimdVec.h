@@ -33,6 +33,7 @@ template<class _TF,int _size=SimdSize<_TF>::value> struct SimdVec {
     SimdVec        operator&    ( const SimdVec &that ) const { SimdVec res; for( int i = 0; i < size; ++i ) res.values[ i ] = values[ i ] & that.values[ i ]; return res; }
 
     std::uint64_t  operator>    ( const SimdVec &that ) const { std::uint64_t res = 0; for( int i = 0; i < size; ++i ) res |= std::uint64_t( values[ i ] > that.values[ i ] ) << i; return res;  }
+    std::uint64_t  neg          () const { std::uint64_t res = 0; for( int i = 0; i < size; ++i ) res |= std::uint64_t( values[ i ] <  0 ) << i; return res; }
     std::uint64_t  nz           () const { std::uint64_t res = 0; for( int i = 0; i < size; ++i ) res |= std::uint64_t( values[ i ] != 0 ) << i; return res; }
 
     const T       *begin        () const { return values; }
@@ -64,6 +65,7 @@ template<class _TF,int _size=SimdSize<_TF>::value> struct SimdVec {
         SimdVec        operator/    ( const SimdVec &that ) const { return values / that.values; }
 
         std::uint64_t  operator>    ( const SimdVec &that ) const { return _mm512_cmp_pd_mask( values, that.values, _CMP_GT_OQ );  }
+        std::uint64_t  neg          () const { return _mm512_movepi64_mask( (__m512i)values ); }
 
         const T       *begin        () const { return reinterpret_cast<const T *>( this ); }
         const T       *end          () const { return begin() + size; }
@@ -94,6 +96,7 @@ template<class _TF,int _size=SimdSize<_TF>::value> struct SimdVec {
         SimdVec        operator<<   ( const SimdVec &that ) const { return _mm512_sllv_epi64( values, that.values ); }
         SimdVec        operator&    ( const SimdVec &that ) const { return _mm512_and_epi64( values, that.values ); }
 
+        std::uint64_t  neg          () const { return _mm512_movepi64_mask( values ); }
         std::uint64_t  nz           () const { return _mm512_cmpneq_epi64_mask( values, _mm512_setzero_si512() ); }
 
         const T       *begin        () const { return reinterpret_cast<const T *>( this ); }
@@ -101,14 +104,6 @@ template<class _TF,int _size=SimdSize<_TF>::value> struct SimdVec {
 
         __m512i        values;
     };
-
-    //            __m128i blo = _mm_load_si128( reinterpret_cast<const __m128i *>( fnodes.data() ) ); // load the 16 indices (in 8 bit)
-    //            __m512i bou = _mm512_set1_epi64( ou );
-    //            __m512i bex = _mm512_cvtepi8_epi64( blo ); // 8 bits to 64 bits indices (first part)
-    //            __m512i bsh = _mm512_sllv_epi64( _mm512_set1_epi64( 1 ), bex ); // load the first 8 indices to 64 bits
-    //            __m512i ban = _mm512_and_epi64( bsh, bou );
-    //            std::uint16_t ouf = ( _mm512_cmpneq_epi64_mask( ban, _mm512_setzero_si512() ) << 3 ) + ( nb_fnodes - 3 );
-
 #endif
 
 #ifdef __AVX2__
@@ -131,6 +126,7 @@ template<class _TF,int _size=SimdSize<_TF>::value> struct SimdVec {
         SimdVec        operator/    ( const SimdVec &that ) const { return values / that.values; }
 
         std::uint64_t  operator>    ( const SimdVec &that ) const { __m256d c = _mm256_cmp_pd( values, that.values, _CMP_GT_OQ ); return _mm256_movemask_pd( c );  }
+        std::uint64_t  neg          () const { return _mm256_movemask_pd( values ); }
 
         const T       *begin        () const { return reinterpret_cast<const T *>( this ); }
         const T       *end          () const { return begin() + size; }
@@ -161,7 +157,8 @@ template<class _TF,int _size=SimdSize<_TF>::value> struct SimdVec {
         SimdVec        operator<<   ( const SimdVec &that ) const { return _mm256_sllv_epi64( values, that.values ); }
         SimdVec        operator&    ( const SimdVec &that ) const { return _mm256_and_si256( values, that.values ); }
 
-        std::uint64_t  nz           () const { return _mm256_movemask_pd( _mm256_xor_si256( _mm256_set1_epi8( -1 ), _mm256_cmpeq_epi64( values, _mm256_setzero_si256() ) ) ); }
+        std::uint64_t  neg          () const { return _mm256_movemask_pd( (__m256d)values ); }
+        std::uint64_t  nz           () const { return _mm256_movemask_pd( (__m256d)_mm256_xor_si256( _mm256_set1_epi8( -1 ), _mm256_cmpeq_epi64( values, _mm256_setzero_si256() ) ) ); }
 
         const T       *begin        () const { return reinterpret_cast<const T *>( this ); }
         const T       *end          () const { return begin() + size; }
