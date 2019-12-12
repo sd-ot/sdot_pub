@@ -43,6 +43,7 @@ public:
 
     std::vector<std::uint64_t> num_cut_proc_edge;
     std::vector<std::uint64_t> num_node_edge;
+    std::vector<int>           prev_cut_node;
     std::uint64_t              num_cut_proc;
     std::vector<TF>            node_dists;
     std::vector<int>           node_repls;

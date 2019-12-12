@@ -55,7 +55,7 @@ template<class Pc>
 void test_sphere( VtkOutput &vo, int &cpt_vo ) {
     using Pt = Point3<double>;
     std::vector<Pt> origs, norms;
-    for( std::size_t i = 0; i < 40; ++i ) {
+    for( std::size_t i = 0; i < 640; ++i ) {
         Pt p;
         for( int d = 0; d < 3; ++d )
             p[ d ] = 2.0 * rand() / RAND_MAX - 1;

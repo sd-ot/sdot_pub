@@ -89,6 +89,10 @@ void ConvexPolyhedron3Gen<Pc>::plane_cut( std::array<const TF *,dim> cut_dir, co
         num_node_edge.resize( nb_edges );
         ++num_cut_proc;
 
+        // linked list(s) for the new face(s)
+        std::size_t old_prev_cut_node_size = new_nodes.size();
+        prev_cut_node.resize( new_nodes.size() );
+
         // faces
         new_faces.clear();
         for( const Face &face : faces ) {
@@ -111,6 +115,7 @@ void ConvexPolyhedron3Gen<Pc>::plane_cut( std::array<const TF *,dim> cut_dir, co
                     num_node_edge[ num_edge_128 ] = new_nodes.size();
                     num_cut_proc_edge[ num_edge_128 ] = num_cut_proc;
                     new_nodes.push_back( { n0 + d0 / ( d0 - d1 ) * ( n1 - n0 ) } );
+                    prev_cut_node.push_back( -1 );
                 } else
                     num_node_128 = num_node_edge[ num_edge_128 ];
 
@@ -118,21 +123,31 @@ void ConvexPolyhedron3Gen<Pc>::plane_cut( std::array<const TF *,dim> cut_dir, co
                 return num_node_128;
             };
 
+            // look up for a node after an outside one
+            std::size_t o0 = 0;
+            while ( ! ( node_dists[ face.nodes[ o0 ] ] > 0 ) )
+                if ( ++o0 == face.nodes.size() )
+                    break;
+            ++o0;
+
             // for each inside node
-            for( std::size_t i0 = 0; i0 < face.nodes.size(); ++i0 ) {
-                int n0 = face.nodes[ i0 ];
+            int prev_out_in;
+            for( std::size_t i0 = o0; i0 < o0 + face.nodes.size(); ++i0 ) {
+                int n0 = face.nodes[ ( i0 + 0 ) % face.nodes.size() ];
                 if ( node_dists[ n0 ] > 0 )
                     continue;
 
-                int nm = face.nodes[ ( i0 + face.nodes.size() - 1 ) % face.nodes.size() ];
+                int nm = face.nodes[ ( i0 - 1 ) % face.nodes.size() ];
                 if ( node_dists[ nm ] > 0 )
-                    add_node_between( nm, n0 );
+                    prev_out_in = add_node_between( nm, n0 );
 
                 new_face.nodes.push_back( node_repls[ n0 ] );
 
                 int n1 = face.nodes[ ( i0 + 1 ) % face.nodes.size() ];
-                if ( node_dists[ n1 ] > 0 )
-                    add_node_between( n0, n1 );
+                if ( node_dists[ n1 ] > 0 ) {
+                    int nn = add_node_between( n0, n1 );
+                    prev_cut_node[ prev_out_in ] = nn;
+                }
             }
 
             // store
@@ -141,7 +156,23 @@ void ConvexPolyhedron3Gen<Pc>::plane_cut( std::array<const TF *,dim> cut_dir, co
 
         // new face(s)
         if ( new_faces.size() ) {
+            for( std::size_t num = old_prev_cut_node_size; num < new_nodes.size(); ++num ) {
+                int nxt = prev_cut_node[ num ];
+                if ( nxt < 0 )
+                    continue;
 
+                Face new_face;
+                new_face.nodes.push_back( num );
+                prev_cut_node[ num ] = -1;
+                do {
+                    new_face.nodes.push_back( nxt );
+                    int old = prev_cut_node[ nxt ];
+                    prev_cut_node[ nxt ] = -1;
+                    nxt = old;
+                } while ( nxt >= 0 );
+
+                new_faces.push_back( std::move( new_face ) );
+            }
         }
 
 

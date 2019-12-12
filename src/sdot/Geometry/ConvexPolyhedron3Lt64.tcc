@@ -254,7 +254,7 @@ std::size_t ConvexPolyhedron3Lt64<Pc>::plane_cut( std::array<const TF *,dim> cut
 
         // linked list of nodes for the new face
         std::uint8_t prev_cut_nodes[ max_nb_nodes ]; // index to the next node
-        std::uint8_t last_cut_node;
+        //std::uint8_t last_cut_node;
 
         // copy of `ou` to get usable indices for the new nodes
         std::uint64_t available_nodes = outside_nodes;
@@ -275,9 +275,9 @@ std::size_t ConvexPolyhedron3Lt64<Pc>::plane_cut( std::array<const TF *,dim> cut
 
             // generic case (several cuts, nb_nodes > 8, etc...)
             std::array<std::uint8_t,2*Lt64FaceBlock::max_nb_nodes_per_face> new_fnode_lists;
-            std::array<std::uint8_t,Lt64FaceBlock::max_nb_nodes_per_face> in_outs, out_ins;
-            int new_nb_fnodes = 0, nb_in_outs = 0, nb_out_ins = 0;
+            std::array<std::uint8_t,3*Lt64FaceBlock::max_nb_nodes_per_cell> prev_cut_node;
             std::uint64_t new_fnode_mask = 0;
+            int new_nb_fnodes = 0;
 
             // helper
             auto add_node_between = [&]( int num_node_0, int num_node_1 ) {
@@ -315,18 +315,27 @@ std::size_t ConvexPolyhedron3Lt64<Pc>::plane_cut( std::array<const TF *,dim> cut
                 return num_node_128;
             };
 
+
+            // look up for a node after an outside one
+            int o0 = 0;
+            while ( ( outside_nodes & ( std::uint64_t( 1 ) << fnodes[ o0 ] ) ) == 0 )
+                if ( ++o0 == nb_fnodes )
+                    break;
+            ++o0;
+
             // remake the face
-            for( int i0 = 0; i0 < nb_fnodes; ++i0 ) {
-                int n0 = fnodes[ i0 ];
+            int prev_out_in;
+            for( int i0 = o0; i0 < o0 + nb_fnodes; ++i0 ) {
+                int n0 = fnodes[ ( i0 + 0 ) % nb_fnodes ];
                 std::uint64_t m0 = std::uint64_t( 1 ) << n0;
                 if ( outside_nodes & m0 )
                     continue;
 
                 // outside (nm) => inside (n0)
-                int nm = fnodes[ ( i0 + nb_fnodes - 1 ) % nb_fnodes ];
+                int nm = fnodes[ ( i0 - 1 ) % nb_fnodes ];
                 std::uint64_t mm = std::uint64_t( 1 ) << nm;
                 if ( outside_nodes & mm )
-                    out_ins[ nb_out_ins++ ] = add_node_between( nm, n0 );
+                    prev_out_in = add_node_between( nm, n0 );
 
                 //
                 new_fnode_lists[ new_nb_fnodes++ ] = n0;
@@ -336,7 +345,7 @@ std::size_t ConvexPolyhedron3Lt64<Pc>::plane_cut( std::array<const TF *,dim> cut
                 int n1 = fnodes[ ( i0 + 1 ) % nb_fnodes ];
                 std::uint64_t m1 = std::uint64_t( 1 ) << n1;
                 if ( outside_nodes & m1 )
-                    in_outs[ nb_in_outs++ ] = add_node_between( n0, n1 );
+                    prev_cut_node[ prev_out_in ] = add_node_between( n0, n1 );
             }
 
             if ( nb_out_ins ) {
