@@ -57,8 +57,8 @@ bool make_case( std::ostream &os, int nb_nodes, std::bitset<8> outside_nodes ) {
         if ( outside_nodes[ n0 ] != outside_nodes[ n1 ] ) {
             int edge = nedge( n0, n1 );
             // num_node_edge => ce que va mettre dans le tableau d'indice des faces. pos_node => là où on colle les données du noeud
-            os << "    int min_node_" << edge << " = min( num_node_" << n0 << ", num_node_" << n1 << " );\n";
-            os << "    int max_node_" << edge << " = max( num_node_" << n0 << ", num_node_" << n1 << " );\n";
+            os << "    int min_node_" << edge << " = std::min( num_node_" << n0 << ", num_node_" << n1 << " );\n";
+            os << "    int max_node_" << edge << " = std::max( num_node_" << n0 << ", num_node_" << n1 << " );\n";
             os << "    int num_edge_" << edge << " = 64 * max_node_" << edge << " + min_node_" << edge << ";\n";
             os << "    int num_node_" << edge << ";\n";
             os << "    if ( edge_num_cut_procs[ num_edge_" << edge << " ] != num_cut_proc ) {\n";
@@ -158,7 +158,7 @@ bool make_case( std::ostream &os, int nb_nodes, std::bitset<8> outside_nodes ) {
     os << "    faces.node_masks[ num_face ] = \n";
     for( std::size_t i = 0; i < new_nodes.size(); ++i ) {
         int o = ( i + best_off ) % new_nodes.size();
-        os << "        ( 1 << num_node_" << new_nodes[ o ] << " )";
+        os << "        ( std::uint64_t( 1 ) << num_node_" << new_nodes[ o ] << " )";
         if ( i + 1 < new_nodes.size() )
             os << " |\n";
         else
@@ -198,8 +198,6 @@ int main() {
     for( unsigned case_num : case_nums )
         std::cout << "    &&case_" << case_num << ",\n";
     std::cout << "};\n";
-    std::cout << "using std::min;\n";
-    std::cout << "using std::max;\n";
     std::cout << "goto *dispatch_table[ ouf ];\n";
 
     // cases code

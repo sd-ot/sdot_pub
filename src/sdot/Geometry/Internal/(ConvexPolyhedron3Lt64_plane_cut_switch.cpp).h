@@ -512,8 +512,6 @@ static void *dispatch_table[] = {
     &&case_168,
     &&case_8,
 };
-using std::min;
-using std::max;
 goto *dispatch_table[ ouf ];
 case_1: {
     // all_inside
@@ -523,8 +521,8 @@ case_2: {
     // n=3 00000001
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
-    int min_node_128 = min( num_node_0, num_node_1 );
-    int max_node_128 = max( num_node_0, num_node_1 );
+    int min_node_128 = std::min( num_node_0, num_node_1 );
+    int max_node_128 = std::max( num_node_0, num_node_1 );
     int num_edge_128 = 64 * max_node_128 + min_node_128;
     int num_node_128;
     if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
@@ -551,8 +549,8 @@ case_2: {
     } else
         num_node_128 = edge_cuts[ num_edge_128 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
-    int min_node_192 = min( num_node_2, num_node_0 );
-    int max_node_192 = max( num_node_2, num_node_0 );
+    int min_node_192 = std::min( num_node_2, num_node_0 );
+    int max_node_192 = std::max( num_node_2, num_node_0 );
     int num_edge_192 = 64 * max_node_192 + min_node_192;
     int num_node_192;
     if ( edge_num_cut_procs[ num_edge_192 ] != num_cut_proc ) {
@@ -585,18 +583,18 @@ case_2: {
     faces.node_lists[ num_face ][ 0 ] = num_node_128;
     faces.node_lists[ num_face ][ 3 ] = num_node_192;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_128 ) |
-        ( 1 << num_node_1 ) |
-        ( 1 << num_node_2 ) |
-        ( 1 << num_node_192 ) ;
+        ( std::uint64_t( 1 ) << num_node_128 ) |
+        ( std::uint64_t( 1 ) << num_node_1 ) |
+        ( std::uint64_t( 1 ) << num_node_2 ) |
+        ( std::uint64_t( 1 ) << num_node_192 ) ;
     return;
 }
 case_3: {
     // n=3 00000010
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
-    int min_node_128 = min( num_node_0, num_node_1 );
-    int max_node_128 = max( num_node_0, num_node_1 );
+    int min_node_128 = std::min( num_node_0, num_node_1 );
+    int max_node_128 = std::max( num_node_0, num_node_1 );
     int num_edge_128 = 64 * max_node_128 + min_node_128;
     int num_node_128;
     if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
@@ -623,8 +621,8 @@ case_3: {
     } else
         num_node_128 = edge_cuts[ num_edge_128 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
-    int min_node_193 = min( num_node_1, num_node_2 );
-    int max_node_193 = max( num_node_1, num_node_2 );
+    int min_node_193 = std::min( num_node_1, num_node_2 );
+    int max_node_193 = std::max( num_node_1, num_node_2 );
     int num_edge_193 = 64 * max_node_193 + min_node_193;
     int num_node_193;
     if ( edge_num_cut_procs[ num_edge_193 ] != num_cut_proc ) {
@@ -658,18 +656,18 @@ case_3: {
     faces.node_lists[ num_face ][ 2 ] = num_node_193;
     faces.node_lists[ num_face ][ 3 ] = num_node_2;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_0 ) |
-        ( 1 << num_node_128 ) |
-        ( 1 << num_node_193 ) |
-        ( 1 << num_node_2 ) ;
+        ( std::uint64_t( 1 ) << num_node_0 ) |
+        ( std::uint64_t( 1 ) << num_node_128 ) |
+        ( std::uint64_t( 1 ) << num_node_193 ) |
+        ( std::uint64_t( 1 ) << num_node_2 ) ;
     return;
 }
 case_4: {
     // n=3 00000011
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
-    int min_node_193 = min( num_node_1, num_node_2 );
-    int max_node_193 = max( num_node_1, num_node_2 );
+    int min_node_193 = std::min( num_node_1, num_node_2 );
+    int max_node_193 = std::max( num_node_1, num_node_2 );
     int num_edge_193 = 64 * max_node_193 + min_node_193;
     int num_node_193;
     if ( edge_num_cut_procs[ num_edge_193 ] != num_cut_proc ) {
@@ -696,8 +694,8 @@ case_4: {
     } else
         num_node_193 = edge_cuts[ num_edge_193 ];
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
-    int min_node_192 = min( num_node_2, num_node_0 );
-    int max_node_192 = max( num_node_2, num_node_0 );
+    int min_node_192 = std::min( num_node_2, num_node_0 );
+    int max_node_192 = std::max( num_node_2, num_node_0 );
     int num_edge_192 = 64 * max_node_192 + min_node_192;
     int num_node_192;
     if ( edge_num_cut_procs[ num_edge_192 ] != num_cut_proc ) {
@@ -729,17 +727,17 @@ case_4: {
     faces.node_lists[ num_face ][ 0 ] = num_node_192;
     faces.node_lists[ num_face ][ 1 ] = num_node_193;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_192 ) |
-        ( 1 << num_node_193 ) |
-        ( 1 << num_node_2 ) ;
+        ( std::uint64_t( 1 ) << num_node_192 ) |
+        ( std::uint64_t( 1 ) << num_node_193 ) |
+        ( std::uint64_t( 1 ) << num_node_2 ) ;
     return;
 }
 case_5: {
     // n=3 00000100
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
-    int min_node_193 = min( num_node_1, num_node_2 );
-    int max_node_193 = max( num_node_1, num_node_2 );
+    int min_node_193 = std::min( num_node_1, num_node_2 );
+    int max_node_193 = std::max( num_node_1, num_node_2 );
     int num_edge_193 = 64 * max_node_193 + min_node_193;
     int num_node_193;
     if ( edge_num_cut_procs[ num_edge_193 ] != num_cut_proc ) {
@@ -766,8 +764,8 @@ case_5: {
     } else
         num_node_193 = edge_cuts[ num_edge_193 ];
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
-    int min_node_192 = min( num_node_2, num_node_0 );
-    int max_node_192 = max( num_node_2, num_node_0 );
+    int min_node_192 = std::min( num_node_2, num_node_0 );
+    int max_node_192 = std::max( num_node_2, num_node_0 );
     int num_edge_192 = 64 * max_node_192 + min_node_192;
     int num_node_192;
     if ( edge_num_cut_procs[ num_edge_192 ] != num_cut_proc ) {
@@ -800,18 +798,18 @@ case_5: {
     faces.node_lists[ num_face ][ 2 ] = num_node_193;
     faces.node_lists[ num_face ][ 3 ] = num_node_192;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_0 ) |
-        ( 1 << num_node_1 ) |
-        ( 1 << num_node_193 ) |
-        ( 1 << num_node_192 ) ;
+        ( std::uint64_t( 1 ) << num_node_0 ) |
+        ( std::uint64_t( 1 ) << num_node_1 ) |
+        ( std::uint64_t( 1 ) << num_node_193 ) |
+        ( std::uint64_t( 1 ) << num_node_192 ) ;
     return;
 }
 case_6: {
     // n=3 00000101
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
-    int min_node_128 = min( num_node_0, num_node_1 );
-    int max_node_128 = max( num_node_0, num_node_1 );
+    int min_node_128 = std::min( num_node_0, num_node_1 );
+    int max_node_128 = std::max( num_node_0, num_node_1 );
     int num_edge_128 = 64 * max_node_128 + min_node_128;
     int num_node_128;
     if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
@@ -838,8 +836,8 @@ case_6: {
     } else
         num_node_128 = edge_cuts[ num_edge_128 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
-    int min_node_193 = min( num_node_1, num_node_2 );
-    int max_node_193 = max( num_node_1, num_node_2 );
+    int min_node_193 = std::min( num_node_1, num_node_2 );
+    int max_node_193 = std::max( num_node_1, num_node_2 );
     int num_edge_193 = 64 * max_node_193 + min_node_193;
     int num_node_193;
     if ( edge_num_cut_procs[ num_edge_193 ] != num_cut_proc ) {
@@ -871,17 +869,17 @@ case_6: {
     faces.node_lists[ num_face ][ 0 ] = num_node_128;
     faces.node_lists[ num_face ][ 2 ] = num_node_193;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_128 ) |
-        ( 1 << num_node_1 ) |
-        ( 1 << num_node_193 ) ;
+        ( std::uint64_t( 1 ) << num_node_128 ) |
+        ( std::uint64_t( 1 ) << num_node_1 ) |
+        ( std::uint64_t( 1 ) << num_node_193 ) ;
     return;
 }
 case_7: {
     // n=3 00000110
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
-    int min_node_128 = min( num_node_0, num_node_1 );
-    int max_node_128 = max( num_node_0, num_node_1 );
+    int min_node_128 = std::min( num_node_0, num_node_1 );
+    int max_node_128 = std::max( num_node_0, num_node_1 );
     int num_edge_128 = 64 * max_node_128 + min_node_128;
     int num_node_128;
     if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
@@ -908,8 +906,8 @@ case_7: {
     } else
         num_node_128 = edge_cuts[ num_edge_128 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
-    int min_node_192 = min( num_node_2, num_node_0 );
-    int max_node_192 = max( num_node_2, num_node_0 );
+    int min_node_192 = std::min( num_node_2, num_node_0 );
+    int max_node_192 = std::max( num_node_2, num_node_0 );
     int num_edge_192 = 64 * max_node_192 + min_node_192;
     int num_node_192;
     if ( edge_num_cut_procs[ num_edge_192 ] != num_cut_proc ) {
@@ -941,17 +939,17 @@ case_7: {
     faces.node_lists[ num_face ][ 1 ] = num_node_128;
     faces.node_lists[ num_face ][ 2 ] = num_node_192;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_0 ) |
-        ( 1 << num_node_128 ) |
-        ( 1 << num_node_192 ) ;
+        ( std::uint64_t( 1 ) << num_node_0 ) |
+        ( std::uint64_t( 1 ) << num_node_128 ) |
+        ( std::uint64_t( 1 ) << num_node_192 ) ;
     return;
 }
 case_9: {
     // n=4 00000001
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
-    int min_node_128 = min( num_node_0, num_node_1 );
-    int max_node_128 = max( num_node_0, num_node_1 );
+    int min_node_128 = std::min( num_node_0, num_node_1 );
+    int max_node_128 = std::max( num_node_0, num_node_1 );
     int num_edge_128 = 64 * max_node_128 + min_node_128;
     int num_node_128;
     if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
@@ -978,8 +976,8 @@ case_9: {
     } else
         num_node_128 = edge_cuts[ num_edge_128 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
-    int min_node_256 = min( num_node_3, num_node_0 );
-    int max_node_256 = max( num_node_3, num_node_0 );
+    int min_node_256 = std::min( num_node_3, num_node_0 );
+    int max_node_256 = std::max( num_node_3, num_node_0 );
     int num_edge_256 = 64 * max_node_256 + min_node_256;
     int num_node_256;
     if ( edge_num_cut_procs[ num_edge_256 ] != num_cut_proc ) {
@@ -1013,19 +1011,19 @@ case_9: {
     faces.node_lists[ num_face ][ 0 ] = num_node_128;
     faces.node_lists[ num_face ][ 4 ] = num_node_256;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_128 ) |
-        ( 1 << num_node_1 ) |
-        ( 1 << num_node_2 ) |
-        ( 1 << num_node_3 ) |
-        ( 1 << num_node_256 ) ;
+        ( std::uint64_t( 1 ) << num_node_128 ) |
+        ( std::uint64_t( 1 ) << num_node_1 ) |
+        ( std::uint64_t( 1 ) << num_node_2 ) |
+        ( std::uint64_t( 1 ) << num_node_3 ) |
+        ( std::uint64_t( 1 ) << num_node_256 ) ;
     return;
 }
 case_10: {
     // n=4 00000010
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
-    int min_node_128 = min( num_node_0, num_node_1 );
-    int max_node_128 = max( num_node_0, num_node_1 );
+    int min_node_128 = std::min( num_node_0, num_node_1 );
+    int max_node_128 = std::max( num_node_0, num_node_1 );
     int num_edge_128 = 64 * max_node_128 + min_node_128;
     int num_node_128;
     if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
@@ -1052,8 +1050,8 @@ case_10: {
     } else
         num_node_128 = edge_cuts[ num_edge_128 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
-    int min_node_193 = min( num_node_1, num_node_2 );
-    int max_node_193 = max( num_node_1, num_node_2 );
+    int min_node_193 = std::min( num_node_1, num_node_2 );
+    int max_node_193 = std::max( num_node_1, num_node_2 );
     int num_edge_193 = 64 * max_node_193 + min_node_193;
     int num_node_193;
     if ( edge_num_cut_procs[ num_edge_193 ] != num_cut_proc ) {
@@ -1088,19 +1086,19 @@ case_10: {
     faces.node_lists[ num_face ][ 1 ] = num_node_193;
     faces.node_lists[ num_face ][ 4 ] = num_node_0;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_128 ) |
-        ( 1 << num_node_193 ) |
-        ( 1 << num_node_2 ) |
-        ( 1 << num_node_3 ) |
-        ( 1 << num_node_0 ) ;
+        ( std::uint64_t( 1 ) << num_node_128 ) |
+        ( std::uint64_t( 1 ) << num_node_193 ) |
+        ( std::uint64_t( 1 ) << num_node_2 ) |
+        ( std::uint64_t( 1 ) << num_node_3 ) |
+        ( std::uint64_t( 1 ) << num_node_0 ) ;
     return;
 }
 case_11: {
     // n=4 00000011
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
-    int min_node_193 = min( num_node_1, num_node_2 );
-    int max_node_193 = max( num_node_1, num_node_2 );
+    int min_node_193 = std::min( num_node_1, num_node_2 );
+    int max_node_193 = std::max( num_node_1, num_node_2 );
     int num_edge_193 = 64 * max_node_193 + min_node_193;
     int num_node_193;
     if ( edge_num_cut_procs[ num_edge_193 ] != num_cut_proc ) {
@@ -1128,8 +1126,8 @@ case_11: {
         num_node_193 = edge_cuts[ num_edge_193 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
-    int min_node_256 = min( num_node_3, num_node_0 );
-    int max_node_256 = max( num_node_3, num_node_0 );
+    int min_node_256 = std::min( num_node_3, num_node_0 );
+    int max_node_256 = std::max( num_node_3, num_node_0 );
     int num_edge_256 = 64 * max_node_256 + min_node_256;
     int num_node_256;
     if ( edge_num_cut_procs[ num_edge_256 ] != num_cut_proc ) {
@@ -1161,18 +1159,18 @@ case_11: {
     faces.node_lists[ num_face ][ 0 ] = num_node_256;
     faces.node_lists[ num_face ][ 1 ] = num_node_193;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_256 ) |
-        ( 1 << num_node_193 ) |
-        ( 1 << num_node_2 ) |
-        ( 1 << num_node_3 ) ;
+        ( std::uint64_t( 1 ) << num_node_256 ) |
+        ( std::uint64_t( 1 ) << num_node_193 ) |
+        ( std::uint64_t( 1 ) << num_node_2 ) |
+        ( std::uint64_t( 1 ) << num_node_3 ) ;
     return;
 }
 case_12: {
     // n=4 00000100
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
-    int min_node_193 = min( num_node_1, num_node_2 );
-    int max_node_193 = max( num_node_1, num_node_2 );
+    int min_node_193 = std::min( num_node_1, num_node_2 );
+    int max_node_193 = std::max( num_node_1, num_node_2 );
     int num_edge_193 = 64 * max_node_193 + min_node_193;
     int num_node_193;
     if ( edge_num_cut_procs[ num_edge_193 ] != num_cut_proc ) {
@@ -1199,8 +1197,8 @@ case_12: {
     } else
         num_node_193 = edge_cuts[ num_edge_193 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
-    int min_node_258 = min( num_node_2, num_node_3 );
-    int max_node_258 = max( num_node_2, num_node_3 );
+    int min_node_258 = std::min( num_node_2, num_node_3 );
+    int max_node_258 = std::max( num_node_2, num_node_3 );
     int num_edge_258 = 64 * max_node_258 + min_node_258;
     int num_node_258;
     if ( edge_num_cut_procs[ num_edge_258 ] != num_cut_proc ) {
@@ -1235,19 +1233,19 @@ case_12: {
     faces.node_lists[ num_face ][ 3 ] = num_node_258;
     faces.node_lists[ num_face ][ 4 ] = num_node_3;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_0 ) |
-        ( 1 << num_node_1 ) |
-        ( 1 << num_node_193 ) |
-        ( 1 << num_node_258 ) |
-        ( 1 << num_node_3 ) ;
+        ( std::uint64_t( 1 ) << num_node_0 ) |
+        ( std::uint64_t( 1 ) << num_node_1 ) |
+        ( std::uint64_t( 1 ) << num_node_193 ) |
+        ( std::uint64_t( 1 ) << num_node_258 ) |
+        ( std::uint64_t( 1 ) << num_node_3 ) ;
     return;
 }
 case_13: {
     // n=4 00000110
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
-    int min_node_128 = min( num_node_0, num_node_1 );
-    int max_node_128 = max( num_node_0, num_node_1 );
+    int min_node_128 = std::min( num_node_0, num_node_1 );
+    int max_node_128 = std::max( num_node_0, num_node_1 );
     int num_edge_128 = 64 * max_node_128 + min_node_128;
     int num_node_128;
     if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
@@ -1275,8 +1273,8 @@ case_13: {
         num_node_128 = edge_cuts[ num_edge_128 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
-    int min_node_258 = min( num_node_2, num_node_3 );
-    int max_node_258 = max( num_node_2, num_node_3 );
+    int min_node_258 = std::min( num_node_2, num_node_3 );
+    int max_node_258 = std::max( num_node_2, num_node_3 );
     int num_edge_258 = 64 * max_node_258 + min_node_258;
     int num_node_258;
     if ( edge_num_cut_procs[ num_edge_258 ] != num_cut_proc ) {
@@ -1308,18 +1306,18 @@ case_13: {
     faces.node_lists[ num_face ][ 1 ] = num_node_128;
     faces.node_lists[ num_face ][ 2 ] = num_node_258;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_0 ) |
-        ( 1 << num_node_128 ) |
-        ( 1 << num_node_258 ) |
-        ( 1 << num_node_3 ) ;
+        ( std::uint64_t( 1 ) << num_node_0 ) |
+        ( std::uint64_t( 1 ) << num_node_128 ) |
+        ( std::uint64_t( 1 ) << num_node_258 ) |
+        ( std::uint64_t( 1 ) << num_node_3 ) ;
     return;
 }
 case_14: {
     // n=4 00000111
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
-    int min_node_258 = min( num_node_2, num_node_3 );
-    int max_node_258 = max( num_node_2, num_node_3 );
+    int min_node_258 = std::min( num_node_2, num_node_3 );
+    int max_node_258 = std::max( num_node_2, num_node_3 );
     int num_edge_258 = 64 * max_node_258 + min_node_258;
     int num_node_258;
     if ( edge_num_cut_procs[ num_edge_258 ] != num_cut_proc ) {
@@ -1346,8 +1344,8 @@ case_14: {
     } else
         num_node_258 = edge_cuts[ num_edge_258 ];
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
-    int min_node_256 = min( num_node_3, num_node_0 );
-    int max_node_256 = max( num_node_3, num_node_0 );
+    int min_node_256 = std::min( num_node_3, num_node_0 );
+    int max_node_256 = std::max( num_node_3, num_node_0 );
     int num_edge_256 = 64 * max_node_256 + min_node_256;
     int num_node_256;
     if ( edge_num_cut_procs[ num_edge_256 ] != num_cut_proc ) {
@@ -1381,17 +1379,17 @@ case_14: {
     faces.node_lists[ num_face ][ 1 ] = num_node_3;
     faces.node_lists[ num_face ][ 2 ] = num_node_256;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_258 ) |
-        ( 1 << num_node_3 ) |
-        ( 1 << num_node_256 ) ;
+        ( std::uint64_t( 1 ) << num_node_258 ) |
+        ( std::uint64_t( 1 ) << num_node_3 ) |
+        ( std::uint64_t( 1 ) << num_node_256 ) ;
     return;
 }
 case_15: {
     // n=4 00001000
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
-    int min_node_258 = min( num_node_2, num_node_3 );
-    int max_node_258 = max( num_node_2, num_node_3 );
+    int min_node_258 = std::min( num_node_2, num_node_3 );
+    int max_node_258 = std::max( num_node_2, num_node_3 );
     int num_edge_258 = 64 * max_node_258 + min_node_258;
     int num_node_258;
     if ( edge_num_cut_procs[ num_edge_258 ] != num_cut_proc ) {
@@ -1418,8 +1416,8 @@ case_15: {
     } else
         num_node_258 = edge_cuts[ num_edge_258 ];
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
-    int min_node_256 = min( num_node_3, num_node_0 );
-    int max_node_256 = max( num_node_3, num_node_0 );
+    int min_node_256 = std::min( num_node_3, num_node_0 );
+    int max_node_256 = std::max( num_node_3, num_node_0 );
     int num_edge_256 = 64 * max_node_256 + min_node_256;
     int num_node_256;
     if ( edge_num_cut_procs[ num_edge_256 ] != num_cut_proc ) {
@@ -1453,19 +1451,19 @@ case_15: {
     faces.node_lists[ num_face ][ 3 ] = num_node_258;
     faces.node_lists[ num_face ][ 4 ] = num_node_256;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_0 ) |
-        ( 1 << num_node_1 ) |
-        ( 1 << num_node_2 ) |
-        ( 1 << num_node_258 ) |
-        ( 1 << num_node_256 ) ;
+        ( std::uint64_t( 1 ) << num_node_0 ) |
+        ( std::uint64_t( 1 ) << num_node_1 ) |
+        ( std::uint64_t( 1 ) << num_node_2 ) |
+        ( std::uint64_t( 1 ) << num_node_258 ) |
+        ( std::uint64_t( 1 ) << num_node_256 ) ;
     return;
 }
 case_16: {
     // n=4 00001001
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
-    int min_node_128 = min( num_node_0, num_node_1 );
-    int max_node_128 = max( num_node_0, num_node_1 );
+    int min_node_128 = std::min( num_node_0, num_node_1 );
+    int max_node_128 = std::max( num_node_0, num_node_1 );
     int num_edge_128 = 64 * max_node_128 + min_node_128;
     int num_node_128;
     if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
@@ -1493,8 +1491,8 @@ case_16: {
         num_node_128 = edge_cuts[ num_edge_128 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
-    int min_node_258 = min( num_node_2, num_node_3 );
-    int max_node_258 = max( num_node_2, num_node_3 );
+    int min_node_258 = std::min( num_node_2, num_node_3 );
+    int max_node_258 = std::max( num_node_2, num_node_3 );
     int num_edge_258 = 64 * max_node_258 + min_node_258;
     int num_node_258;
     if ( edge_num_cut_procs[ num_edge_258 ] != num_cut_proc ) {
@@ -1526,18 +1524,18 @@ case_16: {
     faces.node_lists[ num_face ][ 0 ] = num_node_128;
     faces.node_lists[ num_face ][ 3 ] = num_node_258;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_128 ) |
-        ( 1 << num_node_1 ) |
-        ( 1 << num_node_2 ) |
-        ( 1 << num_node_258 ) ;
+        ( std::uint64_t( 1 ) << num_node_128 ) |
+        ( std::uint64_t( 1 ) << num_node_1 ) |
+        ( std::uint64_t( 1 ) << num_node_2 ) |
+        ( std::uint64_t( 1 ) << num_node_258 ) ;
     return;
 }
 case_17: {
     // n=4 00001011
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
-    int min_node_193 = min( num_node_1, num_node_2 );
-    int max_node_193 = max( num_node_1, num_node_2 );
+    int min_node_193 = std::min( num_node_1, num_node_2 );
+    int max_node_193 = std::max( num_node_1, num_node_2 );
     int num_edge_193 = 64 * max_node_193 + min_node_193;
     int num_node_193;
     if ( edge_num_cut_procs[ num_edge_193 ] != num_cut_proc ) {
@@ -1564,8 +1562,8 @@ case_17: {
     } else
         num_node_193 = edge_cuts[ num_edge_193 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
-    int min_node_258 = min( num_node_2, num_node_3 );
-    int max_node_258 = max( num_node_2, num_node_3 );
+    int min_node_258 = std::min( num_node_2, num_node_3 );
+    int max_node_258 = std::max( num_node_2, num_node_3 );
     int num_edge_258 = 64 * max_node_258 + min_node_258;
     int num_node_258;
     if ( edge_num_cut_procs[ num_edge_258 ] != num_cut_proc ) {
@@ -1598,17 +1596,17 @@ case_17: {
     faces.node_lists[ num_face ][ 0 ] = num_node_258;
     faces.node_lists[ num_face ][ 1 ] = num_node_193;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_258 ) |
-        ( 1 << num_node_193 ) |
-        ( 1 << num_node_2 ) ;
+        ( std::uint64_t( 1 ) << num_node_258 ) |
+        ( std::uint64_t( 1 ) << num_node_193 ) |
+        ( std::uint64_t( 1 ) << num_node_2 ) ;
     return;
 }
 case_18: {
     // n=4 00001100
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
-    int min_node_193 = min( num_node_1, num_node_2 );
-    int max_node_193 = max( num_node_1, num_node_2 );
+    int min_node_193 = std::min( num_node_1, num_node_2 );
+    int max_node_193 = std::max( num_node_1, num_node_2 );
     int num_edge_193 = 64 * max_node_193 + min_node_193;
     int num_node_193;
     if ( edge_num_cut_procs[ num_edge_193 ] != num_cut_proc ) {
@@ -1636,8 +1634,8 @@ case_18: {
         num_node_193 = edge_cuts[ num_edge_193 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
-    int min_node_256 = min( num_node_3, num_node_0 );
-    int max_node_256 = max( num_node_3, num_node_0 );
+    int min_node_256 = std::min( num_node_3, num_node_0 );
+    int max_node_256 = std::max( num_node_3, num_node_0 );
     int num_edge_256 = 64 * max_node_256 + min_node_256;
     int num_node_256;
     if ( edge_num_cut_procs[ num_edge_256 ] != num_cut_proc ) {
@@ -1669,18 +1667,18 @@ case_18: {
     faces.node_lists[ num_face ][ 2 ] = num_node_193;
     faces.node_lists[ num_face ][ 3 ] = num_node_256;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_0 ) |
-        ( 1 << num_node_1 ) |
-        ( 1 << num_node_193 ) |
-        ( 1 << num_node_256 ) ;
+        ( std::uint64_t( 1 ) << num_node_0 ) |
+        ( std::uint64_t( 1 ) << num_node_1 ) |
+        ( std::uint64_t( 1 ) << num_node_193 ) |
+        ( std::uint64_t( 1 ) << num_node_256 ) ;
     return;
 }
 case_19: {
     // n=4 00001101
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
-    int min_node_128 = min( num_node_0, num_node_1 );
-    int max_node_128 = max( num_node_0, num_node_1 );
+    int min_node_128 = std::min( num_node_0, num_node_1 );
+    int max_node_128 = std::max( num_node_0, num_node_1 );
     int num_edge_128 = 64 * max_node_128 + min_node_128;
     int num_node_128;
     if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
@@ -1707,8 +1705,8 @@ case_19: {
     } else
         num_node_128 = edge_cuts[ num_edge_128 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
-    int min_node_193 = min( num_node_1, num_node_2 );
-    int max_node_193 = max( num_node_1, num_node_2 );
+    int min_node_193 = std::min( num_node_1, num_node_2 );
+    int max_node_193 = std::max( num_node_1, num_node_2 );
     int num_edge_193 = 64 * max_node_193 + min_node_193;
     int num_node_193;
     if ( edge_num_cut_procs[ num_edge_193 ] != num_cut_proc ) {
@@ -1741,17 +1739,17 @@ case_19: {
     faces.node_lists[ num_face ][ 0 ] = num_node_128;
     faces.node_lists[ num_face ][ 2 ] = num_node_193;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_128 ) |
-        ( 1 << num_node_1 ) |
-        ( 1 << num_node_193 ) ;
+        ( std::uint64_t( 1 ) << num_node_128 ) |
+        ( std::uint64_t( 1 ) << num_node_1 ) |
+        ( std::uint64_t( 1 ) << num_node_193 ) ;
     return;
 }
 case_20: {
     // n=4 00001110
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
-    int min_node_128 = min( num_node_0, num_node_1 );
-    int max_node_128 = max( num_node_0, num_node_1 );
+    int min_node_128 = std::min( num_node_0, num_node_1 );
+    int max_node_128 = std::max( num_node_0, num_node_1 );
     int num_edge_128 = 64 * max_node_128 + min_node_128;
     int num_node_128;
     if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
@@ -1778,8 +1776,8 @@ case_20: {
     } else
         num_node_128 = edge_cuts[ num_edge_128 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
-    int min_node_256 = min( num_node_3, num_node_0 );
-    int max_node_256 = max( num_node_3, num_node_0 );
+    int min_node_256 = std::min( num_node_3, num_node_0 );
+    int max_node_256 = std::max( num_node_3, num_node_0 );
     int num_edge_256 = 64 * max_node_256 + min_node_256;
     int num_node_256;
     if ( edge_num_cut_procs[ num_edge_256 ] != num_cut_proc ) {
@@ -1812,17 +1810,17 @@ case_20: {
     faces.node_lists[ num_face ][ 1 ] = num_node_128;
     faces.node_lists[ num_face ][ 2 ] = num_node_256;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_0 ) |
-        ( 1 << num_node_128 ) |
-        ( 1 << num_node_256 ) ;
+        ( std::uint64_t( 1 ) << num_node_0 ) |
+        ( std::uint64_t( 1 ) << num_node_128 ) |
+        ( std::uint64_t( 1 ) << num_node_256 ) ;
     return;
 }
 case_21: {
     // n=5 00000001
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
-    int min_node_128 = min( num_node_0, num_node_1 );
-    int max_node_128 = max( num_node_0, num_node_1 );
+    int min_node_128 = std::min( num_node_0, num_node_1 );
+    int max_node_128 = std::max( num_node_0, num_node_1 );
     int num_edge_128 = 64 * max_node_128 + min_node_128;
     int num_node_128;
     if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
@@ -1849,8 +1847,8 @@ case_21: {
     } else
         num_node_128 = edge_cuts[ num_edge_128 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
-    int min_node_320 = min( num_node_4, num_node_0 );
-    int max_node_320 = max( num_node_4, num_node_0 );
+    int min_node_320 = std::min( num_node_4, num_node_0 );
+    int max_node_320 = std::max( num_node_4, num_node_0 );
     int num_edge_320 = 64 * max_node_320 + min_node_320;
     int num_node_320;
     if ( edge_num_cut_procs[ num_edge_320 ] != num_cut_proc ) {
@@ -1885,20 +1883,20 @@ case_21: {
     faces.node_lists[ num_face ][ 0 ] = num_node_128;
     faces.node_lists[ num_face ][ 5 ] = num_node_320;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_128 ) |
-        ( 1 << num_node_1 ) |
-        ( 1 << num_node_2 ) |
-        ( 1 << num_node_3 ) |
-        ( 1 << num_node_4 ) |
-        ( 1 << num_node_320 ) ;
+        ( std::uint64_t( 1 ) << num_node_128 ) |
+        ( std::uint64_t( 1 ) << num_node_1 ) |
+        ( std::uint64_t( 1 ) << num_node_2 ) |
+        ( std::uint64_t( 1 ) << num_node_3 ) |
+        ( std::uint64_t( 1 ) << num_node_4 ) |
+        ( std::uint64_t( 1 ) << num_node_320 ) ;
     return;
 }
 case_22: {
     // n=5 00000010
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
-    int min_node_128 = min( num_node_0, num_node_1 );
-    int max_node_128 = max( num_node_0, num_node_1 );
+    int min_node_128 = std::min( num_node_0, num_node_1 );
+    int max_node_128 = std::max( num_node_0, num_node_1 );
     int num_edge_128 = 64 * max_node_128 + min_node_128;
     int num_node_128;
     if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
@@ -1925,8 +1923,8 @@ case_22: {
     } else
         num_node_128 = edge_cuts[ num_edge_128 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
-    int min_node_193 = min( num_node_1, num_node_2 );
-    int max_node_193 = max( num_node_1, num_node_2 );
+    int min_node_193 = std::min( num_node_1, num_node_2 );
+    int max_node_193 = std::max( num_node_1, num_node_2 );
     int num_edge_193 = 64 * max_node_193 + min_node_193;
     int num_node_193;
     if ( edge_num_cut_procs[ num_edge_193 ] != num_cut_proc ) {
@@ -1962,20 +1960,20 @@ case_22: {
     faces.node_lists[ num_face ][ 1 ] = num_node_193;
     faces.node_lists[ num_face ][ 5 ] = num_node_0;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_128 ) |
-        ( 1 << num_node_193 ) |
-        ( 1 << num_node_2 ) |
-        ( 1 << num_node_3 ) |
-        ( 1 << num_node_4 ) |
-        ( 1 << num_node_0 ) ;
+        ( std::uint64_t( 1 ) << num_node_128 ) |
+        ( std::uint64_t( 1 ) << num_node_193 ) |
+        ( std::uint64_t( 1 ) << num_node_2 ) |
+        ( std::uint64_t( 1 ) << num_node_3 ) |
+        ( std::uint64_t( 1 ) << num_node_4 ) |
+        ( std::uint64_t( 1 ) << num_node_0 ) ;
     return;
 }
 case_23: {
     // n=5 00000011
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
-    int min_node_193 = min( num_node_1, num_node_2 );
-    int max_node_193 = max( num_node_1, num_node_2 );
+    int min_node_193 = std::min( num_node_1, num_node_2 );
+    int max_node_193 = std::max( num_node_1, num_node_2 );
     int num_edge_193 = 64 * max_node_193 + min_node_193;
     int num_node_193;
     if ( edge_num_cut_procs[ num_edge_193 ] != num_cut_proc ) {
@@ -2003,8 +2001,8 @@ case_23: {
         num_node_193 = edge_cuts[ num_edge_193 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
-    int min_node_320 = min( num_node_4, num_node_0 );
-    int max_node_320 = max( num_node_4, num_node_0 );
+    int min_node_320 = std::min( num_node_4, num_node_0 );
+    int max_node_320 = std::max( num_node_4, num_node_0 );
     int num_edge_320 = 64 * max_node_320 + min_node_320;
     int num_node_320;
     if ( edge_num_cut_procs[ num_edge_320 ] != num_cut_proc ) {
@@ -2037,19 +2035,19 @@ case_23: {
     faces.node_lists[ num_face ][ 0 ] = num_node_320;
     faces.node_lists[ num_face ][ 1 ] = num_node_193;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_320 ) |
-        ( 1 << num_node_193 ) |
-        ( 1 << num_node_2 ) |
-        ( 1 << num_node_3 ) |
-        ( 1 << num_node_4 ) ;
+        ( std::uint64_t( 1 ) << num_node_320 ) |
+        ( std::uint64_t( 1 ) << num_node_193 ) |
+        ( std::uint64_t( 1 ) << num_node_2 ) |
+        ( std::uint64_t( 1 ) << num_node_3 ) |
+        ( std::uint64_t( 1 ) << num_node_4 ) ;
     return;
 }
 case_24: {
     // n=5 00000100
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
-    int min_node_193 = min( num_node_1, num_node_2 );
-    int max_node_193 = max( num_node_1, num_node_2 );
+    int min_node_193 = std::min( num_node_1, num_node_2 );
+    int max_node_193 = std::max( num_node_1, num_node_2 );
     int num_edge_193 = 64 * max_node_193 + min_node_193;
     int num_node_193;
     if ( edge_num_cut_procs[ num_edge_193 ] != num_cut_proc ) {
@@ -2076,8 +2074,8 @@ case_24: {
     } else
         num_node_193 = edge_cuts[ num_edge_193 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
-    int min_node_258 = min( num_node_2, num_node_3 );
-    int max_node_258 = max( num_node_2, num_node_3 );
+    int min_node_258 = std::min( num_node_2, num_node_3 );
+    int max_node_258 = std::max( num_node_2, num_node_3 );
     int num_edge_258 = 64 * max_node_258 + min_node_258;
     int num_node_258;
     if ( edge_num_cut_procs[ num_edge_258 ] != num_cut_proc ) {
@@ -2114,20 +2112,20 @@ case_24: {
     faces.node_lists[ num_face ][ 4 ] = num_node_3;
     faces.node_lists[ num_face ][ 5 ] = num_node_4;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_0 ) |
-        ( 1 << num_node_1 ) |
-        ( 1 << num_node_193 ) |
-        ( 1 << num_node_258 ) |
-        ( 1 << num_node_3 ) |
-        ( 1 << num_node_4 ) ;
+        ( std::uint64_t( 1 ) << num_node_0 ) |
+        ( std::uint64_t( 1 ) << num_node_1 ) |
+        ( std::uint64_t( 1 ) << num_node_193 ) |
+        ( std::uint64_t( 1 ) << num_node_258 ) |
+        ( std::uint64_t( 1 ) << num_node_3 ) |
+        ( std::uint64_t( 1 ) << num_node_4 ) ;
     return;
 }
 case_25: {
     // n=5 00000110
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
-    int min_node_128 = min( num_node_0, num_node_1 );
-    int max_node_128 = max( num_node_0, num_node_1 );
+    int min_node_128 = std::min( num_node_0, num_node_1 );
+    int max_node_128 = std::max( num_node_0, num_node_1 );
     int num_edge_128 = 64 * max_node_128 + min_node_128;
     int num_node_128;
     if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
@@ -2155,8 +2153,8 @@ case_25: {
         num_node_128 = edge_cuts[ num_edge_128 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
-    int min_node_258 = min( num_node_2, num_node_3 );
-    int max_node_258 = max( num_node_2, num_node_3 );
+    int min_node_258 = std::min( num_node_2, num_node_3 );
+    int max_node_258 = std::max( num_node_2, num_node_3 );
     int num_edge_258 = 64 * max_node_258 + min_node_258;
     int num_node_258;
     if ( edge_num_cut_procs[ num_edge_258 ] != num_cut_proc ) {
@@ -2189,19 +2187,19 @@ case_25: {
     faces.node_lists[ num_face ][ 1 ] = num_node_128;
     faces.node_lists[ num_face ][ 2 ] = num_node_258;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_0 ) |
-        ( 1 << num_node_128 ) |
-        ( 1 << num_node_258 ) |
-        ( 1 << num_node_3 ) |
-        ( 1 << num_node_4 ) ;
+        ( std::uint64_t( 1 ) << num_node_0 ) |
+        ( std::uint64_t( 1 ) << num_node_128 ) |
+        ( std::uint64_t( 1 ) << num_node_258 ) |
+        ( std::uint64_t( 1 ) << num_node_3 ) |
+        ( std::uint64_t( 1 ) << num_node_4 ) ;
     return;
 }
 case_26: {
     // n=5 00000111
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
-    int min_node_258 = min( num_node_2, num_node_3 );
-    int max_node_258 = max( num_node_2, num_node_3 );
+    int min_node_258 = std::min( num_node_2, num_node_3 );
+    int max_node_258 = std::max( num_node_2, num_node_3 );
     int num_edge_258 = 64 * max_node_258 + min_node_258;
     int num_node_258;
     if ( edge_num_cut_procs[ num_edge_258 ] != num_cut_proc ) {
@@ -2229,8 +2227,8 @@ case_26: {
         num_node_258 = edge_cuts[ num_edge_258 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
-    int min_node_320 = min( num_node_4, num_node_0 );
-    int max_node_320 = max( num_node_4, num_node_0 );
+    int min_node_320 = std::min( num_node_4, num_node_0 );
+    int max_node_320 = std::max( num_node_4, num_node_0 );
     int num_edge_320 = 64 * max_node_320 + min_node_320;
     int num_node_320;
     if ( edge_num_cut_procs[ num_edge_320 ] != num_cut_proc ) {
@@ -2264,18 +2262,18 @@ case_26: {
     faces.node_lists[ num_face ][ 1 ] = num_node_320;
     faces.node_lists[ num_face ][ 2 ] = num_node_258;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_4 ) |
-        ( 1 << num_node_320 ) |
-        ( 1 << num_node_258 ) |
-        ( 1 << num_node_3 ) ;
+        ( std::uint64_t( 1 ) << num_node_4 ) |
+        ( std::uint64_t( 1 ) << num_node_320 ) |
+        ( std::uint64_t( 1 ) << num_node_258 ) |
+        ( std::uint64_t( 1 ) << num_node_3 ) ;
     return;
 }
 case_27: {
     // n=5 00001000
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
-    int min_node_258 = min( num_node_2, num_node_3 );
-    int max_node_258 = max( num_node_2, num_node_3 );
+    int min_node_258 = std::min( num_node_2, num_node_3 );
+    int max_node_258 = std::max( num_node_2, num_node_3 );
     int num_edge_258 = 64 * max_node_258 + min_node_258;
     int num_node_258;
     if ( edge_num_cut_procs[ num_edge_258 ] != num_cut_proc ) {
@@ -2302,8 +2300,8 @@ case_27: {
     } else
         num_node_258 = edge_cuts[ num_edge_258 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
-    int min_node_323 = min( num_node_3, num_node_4 );
-    int max_node_323 = max( num_node_3, num_node_4 );
+    int min_node_323 = std::min( num_node_3, num_node_4 );
+    int max_node_323 = std::max( num_node_3, num_node_4 );
     int num_edge_323 = 64 * max_node_323 + min_node_323;
     int num_node_323;
     if ( edge_num_cut_procs[ num_edge_323 ] != num_cut_proc ) {
@@ -2339,20 +2337,20 @@ case_27: {
     faces.node_lists[ num_face ][ 4 ] = num_node_323;
     faces.node_lists[ num_face ][ 5 ] = num_node_4;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_0 ) |
-        ( 1 << num_node_1 ) |
-        ( 1 << num_node_2 ) |
-        ( 1 << num_node_258 ) |
-        ( 1 << num_node_323 ) |
-        ( 1 << num_node_4 ) ;
+        ( std::uint64_t( 1 ) << num_node_0 ) |
+        ( std::uint64_t( 1 ) << num_node_1 ) |
+        ( std::uint64_t( 1 ) << num_node_2 ) |
+        ( std::uint64_t( 1 ) << num_node_258 ) |
+        ( std::uint64_t( 1 ) << num_node_323 ) |
+        ( std::uint64_t( 1 ) << num_node_4 ) ;
     return;
 }
 case_28: {
     // n=5 00001100
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
-    int min_node_193 = min( num_node_1, num_node_2 );
-    int max_node_193 = max( num_node_1, num_node_2 );
+    int min_node_193 = std::min( num_node_1, num_node_2 );
+    int max_node_193 = std::max( num_node_1, num_node_2 );
     int num_edge_193 = 64 * max_node_193 + min_node_193;
     int num_node_193;
     if ( edge_num_cut_procs[ num_edge_193 ] != num_cut_proc ) {
@@ -2380,8 +2378,8 @@ case_28: {
         num_node_193 = edge_cuts[ num_edge_193 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
-    int min_node_323 = min( num_node_3, num_node_4 );
-    int max_node_323 = max( num_node_3, num_node_4 );
+    int min_node_323 = std::min( num_node_3, num_node_4 );
+    int max_node_323 = std::max( num_node_3, num_node_4 );
     int num_edge_323 = 64 * max_node_323 + min_node_323;
     int num_node_323;
     if ( edge_num_cut_procs[ num_edge_323 ] != num_cut_proc ) {
@@ -2414,19 +2412,19 @@ case_28: {
     faces.node_lists[ num_face ][ 2 ] = num_node_193;
     faces.node_lists[ num_face ][ 3 ] = num_node_323;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_0 ) |
-        ( 1 << num_node_1 ) |
-        ( 1 << num_node_193 ) |
-        ( 1 << num_node_323 ) |
-        ( 1 << num_node_4 ) ;
+        ( std::uint64_t( 1 ) << num_node_0 ) |
+        ( std::uint64_t( 1 ) << num_node_1 ) |
+        ( std::uint64_t( 1 ) << num_node_193 ) |
+        ( std::uint64_t( 1 ) << num_node_323 ) |
+        ( std::uint64_t( 1 ) << num_node_4 ) ;
     return;
 }
 case_29: {
     // n=5 00001110
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
-    int min_node_128 = min( num_node_0, num_node_1 );
-    int max_node_128 = max( num_node_0, num_node_1 );
+    int min_node_128 = std::min( num_node_0, num_node_1 );
+    int max_node_128 = std::max( num_node_0, num_node_1 );
     int num_edge_128 = 64 * max_node_128 + min_node_128;
     int num_node_128;
     if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
@@ -2454,8 +2452,8 @@ case_29: {
         num_node_128 = edge_cuts[ num_edge_128 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
-    int min_node_323 = min( num_node_3, num_node_4 );
-    int max_node_323 = max( num_node_3, num_node_4 );
+    int min_node_323 = std::min( num_node_3, num_node_4 );
+    int max_node_323 = std::max( num_node_3, num_node_4 );
     int num_edge_323 = 64 * max_node_323 + min_node_323;
     int num_node_323;
     if ( edge_num_cut_procs[ num_edge_323 ] != num_cut_proc ) {
@@ -2489,18 +2487,18 @@ case_29: {
     faces.node_lists[ num_face ][ 2 ] = num_node_323;
     faces.node_lists[ num_face ][ 3 ] = num_node_4;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_0 ) |
-        ( 1 << num_node_128 ) |
-        ( 1 << num_node_323 ) |
-        ( 1 << num_node_4 ) ;
+        ( std::uint64_t( 1 ) << num_node_0 ) |
+        ( std::uint64_t( 1 ) << num_node_128 ) |
+        ( std::uint64_t( 1 ) << num_node_323 ) |
+        ( std::uint64_t( 1 ) << num_node_4 ) ;
     return;
 }
 case_30: {
     // n=5 00001111
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
-    int min_node_323 = min( num_node_3, num_node_4 );
-    int max_node_323 = max( num_node_3, num_node_4 );
+    int min_node_323 = std::min( num_node_3, num_node_4 );
+    int max_node_323 = std::max( num_node_3, num_node_4 );
     int num_edge_323 = 64 * max_node_323 + min_node_323;
     int num_node_323;
     if ( edge_num_cut_procs[ num_edge_323 ] != num_cut_proc ) {
@@ -2527,8 +2525,8 @@ case_30: {
     } else
         num_node_323 = edge_cuts[ num_edge_323 ];
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
-    int min_node_320 = min( num_node_4, num_node_0 );
-    int max_node_320 = max( num_node_4, num_node_0 );
+    int min_node_320 = std::min( num_node_4, num_node_0 );
+    int max_node_320 = std::max( num_node_4, num_node_0 );
     int num_edge_320 = 64 * max_node_320 + min_node_320;
     int num_node_320;
     if ( edge_num_cut_procs[ num_edge_320 ] != num_cut_proc ) {
@@ -2562,17 +2560,17 @@ case_30: {
     faces.node_lists[ num_face ][ 1 ] = num_node_4;
     faces.node_lists[ num_face ][ 2 ] = num_node_320;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_323 ) |
-        ( 1 << num_node_4 ) |
-        ( 1 << num_node_320 ) ;
+        ( std::uint64_t( 1 ) << num_node_323 ) |
+        ( std::uint64_t( 1 ) << num_node_4 ) |
+        ( std::uint64_t( 1 ) << num_node_320 ) ;
     return;
 }
 case_31: {
     // n=5 00010000
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
-    int min_node_323 = min( num_node_3, num_node_4 );
-    int max_node_323 = max( num_node_3, num_node_4 );
+    int min_node_323 = std::min( num_node_3, num_node_4 );
+    int max_node_323 = std::max( num_node_3, num_node_4 );
     int num_edge_323 = 64 * max_node_323 + min_node_323;
     int num_node_323;
     if ( edge_num_cut_procs[ num_edge_323 ] != num_cut_proc ) {
@@ -2599,8 +2597,8 @@ case_31: {
     } else
         num_node_323 = edge_cuts[ num_edge_323 ];
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
-    int min_node_320 = min( num_node_4, num_node_0 );
-    int max_node_320 = max( num_node_4, num_node_0 );
+    int min_node_320 = std::min( num_node_4, num_node_0 );
+    int max_node_320 = std::max( num_node_4, num_node_0 );
     int num_edge_320 = 64 * max_node_320 + min_node_320;
     int num_node_320;
     if ( edge_num_cut_procs[ num_edge_320 ] != num_cut_proc ) {
@@ -2635,20 +2633,20 @@ case_31: {
     faces.node_lists[ num_face ][ 4 ] = num_node_323;
     faces.node_lists[ num_face ][ 5 ] = num_node_320;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_0 ) |
-        ( 1 << num_node_1 ) |
-        ( 1 << num_node_2 ) |
-        ( 1 << num_node_3 ) |
-        ( 1 << num_node_323 ) |
-        ( 1 << num_node_320 ) ;
+        ( std::uint64_t( 1 ) << num_node_0 ) |
+        ( std::uint64_t( 1 ) << num_node_1 ) |
+        ( std::uint64_t( 1 ) << num_node_2 ) |
+        ( std::uint64_t( 1 ) << num_node_3 ) |
+        ( std::uint64_t( 1 ) << num_node_323 ) |
+        ( std::uint64_t( 1 ) << num_node_320 ) ;
     return;
 }
 case_32: {
     // n=5 00010001
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
-    int min_node_128 = min( num_node_0, num_node_1 );
-    int max_node_128 = max( num_node_0, num_node_1 );
+    int min_node_128 = std::min( num_node_0, num_node_1 );
+    int max_node_128 = std::max( num_node_0, num_node_1 );
     int num_edge_128 = 64 * max_node_128 + min_node_128;
     int num_node_128;
     if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
@@ -2676,8 +2674,8 @@ case_32: {
         num_node_128 = edge_cuts[ num_edge_128 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
-    int min_node_323 = min( num_node_3, num_node_4 );
-    int max_node_323 = max( num_node_3, num_node_4 );
+    int min_node_323 = std::min( num_node_3, num_node_4 );
+    int max_node_323 = std::max( num_node_3, num_node_4 );
     int num_edge_323 = 64 * max_node_323 + min_node_323;
     int num_node_323;
     if ( edge_num_cut_procs[ num_edge_323 ] != num_cut_proc ) {
@@ -2710,19 +2708,19 @@ case_32: {
     faces.node_lists[ num_face ][ 0 ] = num_node_128;
     faces.node_lists[ num_face ][ 4 ] = num_node_323;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_128 ) |
-        ( 1 << num_node_1 ) |
-        ( 1 << num_node_2 ) |
-        ( 1 << num_node_3 ) |
-        ( 1 << num_node_323 ) ;
+        ( std::uint64_t( 1 ) << num_node_128 ) |
+        ( std::uint64_t( 1 ) << num_node_1 ) |
+        ( std::uint64_t( 1 ) << num_node_2 ) |
+        ( std::uint64_t( 1 ) << num_node_3 ) |
+        ( std::uint64_t( 1 ) << num_node_323 ) ;
     return;
 }
 case_33: {
     // n=5 00010011
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
-    int min_node_193 = min( num_node_1, num_node_2 );
-    int max_node_193 = max( num_node_1, num_node_2 );
+    int min_node_193 = std::min( num_node_1, num_node_2 );
+    int max_node_193 = std::max( num_node_1, num_node_2 );
     int num_edge_193 = 64 * max_node_193 + min_node_193;
     int num_node_193;
     if ( edge_num_cut_procs[ num_edge_193 ] != num_cut_proc ) {
@@ -2750,8 +2748,8 @@ case_33: {
         num_node_193 = edge_cuts[ num_edge_193 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
-    int min_node_323 = min( num_node_3, num_node_4 );
-    int max_node_323 = max( num_node_3, num_node_4 );
+    int min_node_323 = std::min( num_node_3, num_node_4 );
+    int max_node_323 = std::max( num_node_3, num_node_4 );
     int num_edge_323 = 64 * max_node_323 + min_node_323;
     int num_node_323;
     if ( edge_num_cut_procs[ num_edge_323 ] != num_cut_proc ) {
@@ -2784,18 +2782,18 @@ case_33: {
     faces.node_lists[ num_face ][ 0 ] = num_node_323;
     faces.node_lists[ num_face ][ 1 ] = num_node_193;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_323 ) |
-        ( 1 << num_node_193 ) |
-        ( 1 << num_node_2 ) |
-        ( 1 << num_node_3 ) ;
+        ( std::uint64_t( 1 ) << num_node_323 ) |
+        ( std::uint64_t( 1 ) << num_node_193 ) |
+        ( std::uint64_t( 1 ) << num_node_2 ) |
+        ( std::uint64_t( 1 ) << num_node_3 ) ;
     return;
 }
 case_34: {
     // n=5 00010111
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
-    int min_node_258 = min( num_node_2, num_node_3 );
-    int max_node_258 = max( num_node_2, num_node_3 );
+    int min_node_258 = std::min( num_node_2, num_node_3 );
+    int max_node_258 = std::max( num_node_2, num_node_3 );
     int num_edge_258 = 64 * max_node_258 + min_node_258;
     int num_node_258;
     if ( edge_num_cut_procs[ num_edge_258 ] != num_cut_proc ) {
@@ -2822,8 +2820,8 @@ case_34: {
     } else
         num_node_258 = edge_cuts[ num_edge_258 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
-    int min_node_323 = min( num_node_3, num_node_4 );
-    int max_node_323 = max( num_node_3, num_node_4 );
+    int min_node_323 = std::min( num_node_3, num_node_4 );
+    int max_node_323 = std::max( num_node_3, num_node_4 );
     int num_edge_323 = 64 * max_node_323 + min_node_323;
     int num_node_323;
     if ( edge_num_cut_procs[ num_edge_323 ] != num_cut_proc ) {
@@ -2857,17 +2855,17 @@ case_34: {
     faces.node_lists[ num_face ][ 1 ] = num_node_3;
     faces.node_lists[ num_face ][ 2 ] = num_node_323;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_258 ) |
-        ( 1 << num_node_3 ) |
-        ( 1 << num_node_323 ) ;
+        ( std::uint64_t( 1 ) << num_node_258 ) |
+        ( std::uint64_t( 1 ) << num_node_3 ) |
+        ( std::uint64_t( 1 ) << num_node_323 ) ;
     return;
 }
 case_35: {
     // n=5 00011000
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
-    int min_node_258 = min( num_node_2, num_node_3 );
-    int max_node_258 = max( num_node_2, num_node_3 );
+    int min_node_258 = std::min( num_node_2, num_node_3 );
+    int max_node_258 = std::max( num_node_2, num_node_3 );
     int num_edge_258 = 64 * max_node_258 + min_node_258;
     int num_node_258;
     if ( edge_num_cut_procs[ num_edge_258 ] != num_cut_proc ) {
@@ -2895,8 +2893,8 @@ case_35: {
         num_node_258 = edge_cuts[ num_edge_258 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
-    int min_node_320 = min( num_node_4, num_node_0 );
-    int max_node_320 = max( num_node_4, num_node_0 );
+    int min_node_320 = std::min( num_node_4, num_node_0 );
+    int max_node_320 = std::max( num_node_4, num_node_0 );
     int num_edge_320 = 64 * max_node_320 + min_node_320;
     int num_node_320;
     if ( edge_num_cut_procs[ num_edge_320 ] != num_cut_proc ) {
@@ -2929,19 +2927,19 @@ case_35: {
     faces.node_lists[ num_face ][ 3 ] = num_node_258;
     faces.node_lists[ num_face ][ 4 ] = num_node_320;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_0 ) |
-        ( 1 << num_node_1 ) |
-        ( 1 << num_node_2 ) |
-        ( 1 << num_node_258 ) |
-        ( 1 << num_node_320 ) ;
+        ( std::uint64_t( 1 ) << num_node_0 ) |
+        ( std::uint64_t( 1 ) << num_node_1 ) |
+        ( std::uint64_t( 1 ) << num_node_2 ) |
+        ( std::uint64_t( 1 ) << num_node_258 ) |
+        ( std::uint64_t( 1 ) << num_node_320 ) ;
     return;
 }
 case_36: {
     // n=5 00011001
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
-    int min_node_128 = min( num_node_0, num_node_1 );
-    int max_node_128 = max( num_node_0, num_node_1 );
+    int min_node_128 = std::min( num_node_0, num_node_1 );
+    int max_node_128 = std::max( num_node_0, num_node_1 );
     int num_edge_128 = 64 * max_node_128 + min_node_128;
     int num_node_128;
     if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
@@ -2969,8 +2967,8 @@ case_36: {
         num_node_128 = edge_cuts[ num_edge_128 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
-    int min_node_258 = min( num_node_2, num_node_3 );
-    int max_node_258 = max( num_node_2, num_node_3 );
+    int min_node_258 = std::min( num_node_2, num_node_3 );
+    int max_node_258 = std::max( num_node_2, num_node_3 );
     int num_edge_258 = 64 * max_node_258 + min_node_258;
     int num_node_258;
     if ( edge_num_cut_procs[ num_edge_258 ] != num_cut_proc ) {
@@ -3003,18 +3001,18 @@ case_36: {
     faces.node_lists[ num_face ][ 0 ] = num_node_128;
     faces.node_lists[ num_face ][ 3 ] = num_node_258;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_128 ) |
-        ( 1 << num_node_1 ) |
-        ( 1 << num_node_2 ) |
-        ( 1 << num_node_258 ) ;
+        ( std::uint64_t( 1 ) << num_node_128 ) |
+        ( std::uint64_t( 1 ) << num_node_1 ) |
+        ( std::uint64_t( 1 ) << num_node_2 ) |
+        ( std::uint64_t( 1 ) << num_node_258 ) ;
     return;
 }
 case_37: {
     // n=5 00011011
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
-    int min_node_193 = min( num_node_1, num_node_2 );
-    int max_node_193 = max( num_node_1, num_node_2 );
+    int min_node_193 = std::min( num_node_1, num_node_2 );
+    int max_node_193 = std::max( num_node_1, num_node_2 );
     int num_edge_193 = 64 * max_node_193 + min_node_193;
     int num_node_193;
     if ( edge_num_cut_procs[ num_edge_193 ] != num_cut_proc ) {
@@ -3041,8 +3039,8 @@ case_37: {
     } else
         num_node_193 = edge_cuts[ num_edge_193 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
-    int min_node_258 = min( num_node_2, num_node_3 );
-    int max_node_258 = max( num_node_2, num_node_3 );
+    int min_node_258 = std::min( num_node_2, num_node_3 );
+    int max_node_258 = std::max( num_node_2, num_node_3 );
     int num_edge_258 = 64 * max_node_258 + min_node_258;
     int num_node_258;
     if ( edge_num_cut_procs[ num_edge_258 ] != num_cut_proc ) {
@@ -3075,17 +3073,17 @@ case_37: {
     faces.node_lists[ num_face ][ 0 ] = num_node_258;
     faces.node_lists[ num_face ][ 1 ] = num_node_193;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_258 ) |
-        ( 1 << num_node_193 ) |
-        ( 1 << num_node_2 ) ;
+        ( std::uint64_t( 1 ) << num_node_258 ) |
+        ( std::uint64_t( 1 ) << num_node_193 ) |
+        ( std::uint64_t( 1 ) << num_node_2 ) ;
     return;
 }
 case_38: {
     // n=5 00011100
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
-    int min_node_193 = min( num_node_1, num_node_2 );
-    int max_node_193 = max( num_node_1, num_node_2 );
+    int min_node_193 = std::min( num_node_1, num_node_2 );
+    int max_node_193 = std::max( num_node_1, num_node_2 );
     int num_edge_193 = 64 * max_node_193 + min_node_193;
     int num_node_193;
     if ( edge_num_cut_procs[ num_edge_193 ] != num_cut_proc ) {
@@ -3113,8 +3111,8 @@ case_38: {
         num_node_193 = edge_cuts[ num_edge_193 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
-    int min_node_320 = min( num_node_4, num_node_0 );
-    int max_node_320 = max( num_node_4, num_node_0 );
+    int min_node_320 = std::min( num_node_4, num_node_0 );
+    int max_node_320 = std::max( num_node_4, num_node_0 );
     int num_edge_320 = 64 * max_node_320 + min_node_320;
     int num_node_320;
     if ( edge_num_cut_procs[ num_edge_320 ] != num_cut_proc ) {
@@ -3147,18 +3145,18 @@ case_38: {
     faces.node_lists[ num_face ][ 2 ] = num_node_193;
     faces.node_lists[ num_face ][ 3 ] = num_node_320;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_0 ) |
-        ( 1 << num_node_1 ) |
-        ( 1 << num_node_193 ) |
-        ( 1 << num_node_320 ) ;
+        ( std::uint64_t( 1 ) << num_node_0 ) |
+        ( std::uint64_t( 1 ) << num_node_1 ) |
+        ( std::uint64_t( 1 ) << num_node_193 ) |
+        ( std::uint64_t( 1 ) << num_node_320 ) ;
     return;
 }
 case_39: {
     // n=5 00011101
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
-    int min_node_128 = min( num_node_0, num_node_1 );
-    int max_node_128 = max( num_node_0, num_node_1 );
+    int min_node_128 = std::min( num_node_0, num_node_1 );
+    int max_node_128 = std::max( num_node_0, num_node_1 );
     int num_edge_128 = 64 * max_node_128 + min_node_128;
     int num_node_128;
     if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
@@ -3185,8 +3183,8 @@ case_39: {
     } else
         num_node_128 = edge_cuts[ num_edge_128 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
-    int min_node_193 = min( num_node_1, num_node_2 );
-    int max_node_193 = max( num_node_1, num_node_2 );
+    int min_node_193 = std::min( num_node_1, num_node_2 );
+    int max_node_193 = std::max( num_node_1, num_node_2 );
     int num_edge_193 = 64 * max_node_193 + min_node_193;
     int num_node_193;
     if ( edge_num_cut_procs[ num_edge_193 ] != num_cut_proc ) {
@@ -3219,17 +3217,17 @@ case_39: {
     faces.node_lists[ num_face ][ 0 ] = num_node_128;
     faces.node_lists[ num_face ][ 2 ] = num_node_193;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_128 ) |
-        ( 1 << num_node_1 ) |
-        ( 1 << num_node_193 ) ;
+        ( std::uint64_t( 1 ) << num_node_128 ) |
+        ( std::uint64_t( 1 ) << num_node_1 ) |
+        ( std::uint64_t( 1 ) << num_node_193 ) ;
     return;
 }
 case_40: {
     // n=5 00011110
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
-    int min_node_128 = min( num_node_0, num_node_1 );
-    int max_node_128 = max( num_node_0, num_node_1 );
+    int min_node_128 = std::min( num_node_0, num_node_1 );
+    int max_node_128 = std::max( num_node_0, num_node_1 );
     int num_edge_128 = 64 * max_node_128 + min_node_128;
     int num_node_128;
     if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
@@ -3256,8 +3254,8 @@ case_40: {
     } else
         num_node_128 = edge_cuts[ num_edge_128 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
-    int min_node_320 = min( num_node_4, num_node_0 );
-    int max_node_320 = max( num_node_4, num_node_0 );
+    int min_node_320 = std::min( num_node_4, num_node_0 );
+    int max_node_320 = std::max( num_node_4, num_node_0 );
     int num_edge_320 = 64 * max_node_320 + min_node_320;
     int num_node_320;
     if ( edge_num_cut_procs[ num_edge_320 ] != num_cut_proc ) {
@@ -3290,17 +3288,17 @@ case_40: {
     faces.node_lists[ num_face ][ 1 ] = num_node_128;
     faces.node_lists[ num_face ][ 2 ] = num_node_320;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_0 ) |
-        ( 1 << num_node_128 ) |
-        ( 1 << num_node_320 ) ;
+        ( std::uint64_t( 1 ) << num_node_0 ) |
+        ( std::uint64_t( 1 ) << num_node_128 ) |
+        ( std::uint64_t( 1 ) << num_node_320 ) ;
     return;
 }
 case_41: {
     // n=6 00000001
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
-    int min_node_128 = min( num_node_0, num_node_1 );
-    int max_node_128 = max( num_node_0, num_node_1 );
+    int min_node_128 = std::min( num_node_0, num_node_1 );
+    int max_node_128 = std::max( num_node_0, num_node_1 );
     int num_edge_128 = 64 * max_node_128 + min_node_128;
     int num_node_128;
     if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
@@ -3327,8 +3325,8 @@ case_41: {
     } else
         num_node_128 = edge_cuts[ num_edge_128 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
-    int min_node_384 = min( num_node_5, num_node_0 );
-    int max_node_384 = max( num_node_5, num_node_0 );
+    int min_node_384 = std::min( num_node_5, num_node_0 );
+    int max_node_384 = std::max( num_node_5, num_node_0 );
     int num_edge_384 = 64 * max_node_384 + min_node_384;
     int num_node_384;
     if ( edge_num_cut_procs[ num_edge_384 ] != num_cut_proc ) {
@@ -3364,21 +3362,21 @@ case_41: {
     faces.node_lists[ num_face ][ 0 ] = num_node_128;
     faces.node_lists[ num_face ][ 6 ] = num_node_384;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_128 ) |
-        ( 1 << num_node_1 ) |
-        ( 1 << num_node_2 ) |
-        ( 1 << num_node_3 ) |
-        ( 1 << num_node_4 ) |
-        ( 1 << num_node_5 ) |
-        ( 1 << num_node_384 ) ;
+        ( std::uint64_t( 1 ) << num_node_128 ) |
+        ( std::uint64_t( 1 ) << num_node_1 ) |
+        ( std::uint64_t( 1 ) << num_node_2 ) |
+        ( std::uint64_t( 1 ) << num_node_3 ) |
+        ( std::uint64_t( 1 ) << num_node_4 ) |
+        ( std::uint64_t( 1 ) << num_node_5 ) |
+        ( std::uint64_t( 1 ) << num_node_384 ) ;
     return;
 }
 case_42: {
     // n=6 00000010
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
-    int min_node_128 = min( num_node_0, num_node_1 );
-    int max_node_128 = max( num_node_0, num_node_1 );
+    int min_node_128 = std::min( num_node_0, num_node_1 );
+    int max_node_128 = std::max( num_node_0, num_node_1 );
     int num_edge_128 = 64 * max_node_128 + min_node_128;
     int num_node_128;
     if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
@@ -3405,8 +3403,8 @@ case_42: {
     } else
         num_node_128 = edge_cuts[ num_edge_128 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
-    int min_node_193 = min( num_node_1, num_node_2 );
-    int max_node_193 = max( num_node_1, num_node_2 );
+    int min_node_193 = std::min( num_node_1, num_node_2 );
+    int max_node_193 = std::max( num_node_1, num_node_2 );
     int num_edge_193 = 64 * max_node_193 + min_node_193;
     int num_node_193;
     if ( edge_num_cut_procs[ num_edge_193 ] != num_cut_proc ) {
@@ -3443,21 +3441,21 @@ case_42: {
     faces.node_lists[ num_face ][ 1 ] = num_node_193;
     faces.node_lists[ num_face ][ 6 ] = num_node_0;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_128 ) |
-        ( 1 << num_node_193 ) |
-        ( 1 << num_node_2 ) |
-        ( 1 << num_node_3 ) |
-        ( 1 << num_node_4 ) |
-        ( 1 << num_node_5 ) |
-        ( 1 << num_node_0 ) ;
+        ( std::uint64_t( 1 ) << num_node_128 ) |
+        ( std::uint64_t( 1 ) << num_node_193 ) |
+        ( std::uint64_t( 1 ) << num_node_2 ) |
+        ( std::uint64_t( 1 ) << num_node_3 ) |
+        ( std::uint64_t( 1 ) << num_node_4 ) |
+        ( std::uint64_t( 1 ) << num_node_5 ) |
+        ( std::uint64_t( 1 ) << num_node_0 ) ;
     return;
 }
 case_43: {
     // n=6 00000011
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
-    int min_node_193 = min( num_node_1, num_node_2 );
-    int max_node_193 = max( num_node_1, num_node_2 );
+    int min_node_193 = std::min( num_node_1, num_node_2 );
+    int max_node_193 = std::max( num_node_1, num_node_2 );
     int num_edge_193 = 64 * max_node_193 + min_node_193;
     int num_node_193;
     if ( edge_num_cut_procs[ num_edge_193 ] != num_cut_proc ) {
@@ -3485,8 +3483,8 @@ case_43: {
         num_node_193 = edge_cuts[ num_edge_193 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
-    int min_node_384 = min( num_node_5, num_node_0 );
-    int max_node_384 = max( num_node_5, num_node_0 );
+    int min_node_384 = std::min( num_node_5, num_node_0 );
+    int max_node_384 = std::max( num_node_5, num_node_0 );
     int num_edge_384 = 64 * max_node_384 + min_node_384;
     int num_node_384;
     if ( edge_num_cut_procs[ num_edge_384 ] != num_cut_proc ) {
@@ -3520,20 +3518,20 @@ case_43: {
     faces.node_lists[ num_face ][ 0 ] = num_node_384;
     faces.node_lists[ num_face ][ 1 ] = num_node_193;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_384 ) |
-        ( 1 << num_node_193 ) |
-        ( 1 << num_node_2 ) |
-        ( 1 << num_node_3 ) |
-        ( 1 << num_node_4 ) |
-        ( 1 << num_node_5 ) ;
+        ( std::uint64_t( 1 ) << num_node_384 ) |
+        ( std::uint64_t( 1 ) << num_node_193 ) |
+        ( std::uint64_t( 1 ) << num_node_2 ) |
+        ( std::uint64_t( 1 ) << num_node_3 ) |
+        ( std::uint64_t( 1 ) << num_node_4 ) |
+        ( std::uint64_t( 1 ) << num_node_5 ) ;
     return;
 }
 case_44: {
     // n=6 00000100
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
-    int min_node_193 = min( num_node_1, num_node_2 );
-    int max_node_193 = max( num_node_1, num_node_2 );
+    int min_node_193 = std::min( num_node_1, num_node_2 );
+    int max_node_193 = std::max( num_node_1, num_node_2 );
     int num_edge_193 = 64 * max_node_193 + min_node_193;
     int num_node_193;
     if ( edge_num_cut_procs[ num_edge_193 ] != num_cut_proc ) {
@@ -3560,8 +3558,8 @@ case_44: {
     } else
         num_node_193 = edge_cuts[ num_edge_193 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
-    int min_node_258 = min( num_node_2, num_node_3 );
-    int max_node_258 = max( num_node_2, num_node_3 );
+    int min_node_258 = std::min( num_node_2, num_node_3 );
+    int max_node_258 = std::max( num_node_2, num_node_3 );
     int num_edge_258 = 64 * max_node_258 + min_node_258;
     int num_node_258;
     if ( edge_num_cut_procs[ num_edge_258 ] != num_cut_proc ) {
@@ -3599,21 +3597,21 @@ case_44: {
     faces.node_lists[ num_face ][ 2 ] = num_node_258;
     faces.node_lists[ num_face ][ 6 ] = num_node_0;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_1 ) |
-        ( 1 << num_node_193 ) |
-        ( 1 << num_node_258 ) |
-        ( 1 << num_node_3 ) |
-        ( 1 << num_node_4 ) |
-        ( 1 << num_node_5 ) |
-        ( 1 << num_node_0 ) ;
+        ( std::uint64_t( 1 ) << num_node_1 ) |
+        ( std::uint64_t( 1 ) << num_node_193 ) |
+        ( std::uint64_t( 1 ) << num_node_258 ) |
+        ( std::uint64_t( 1 ) << num_node_3 ) |
+        ( std::uint64_t( 1 ) << num_node_4 ) |
+        ( std::uint64_t( 1 ) << num_node_5 ) |
+        ( std::uint64_t( 1 ) << num_node_0 ) ;
     return;
 }
 case_45: {
     // n=6 00000110
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
-    int min_node_128 = min( num_node_0, num_node_1 );
-    int max_node_128 = max( num_node_0, num_node_1 );
+    int min_node_128 = std::min( num_node_0, num_node_1 );
+    int max_node_128 = std::max( num_node_0, num_node_1 );
     int num_edge_128 = 64 * max_node_128 + min_node_128;
     int num_node_128;
     if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
@@ -3641,8 +3639,8 @@ case_45: {
         num_node_128 = edge_cuts[ num_edge_128 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
-    int min_node_258 = min( num_node_2, num_node_3 );
-    int max_node_258 = max( num_node_2, num_node_3 );
+    int min_node_258 = std::min( num_node_2, num_node_3 );
+    int max_node_258 = std::max( num_node_2, num_node_3 );
     int num_edge_258 = 64 * max_node_258 + min_node_258;
     int num_node_258;
     if ( edge_num_cut_procs[ num_edge_258 ] != num_cut_proc ) {
@@ -3676,20 +3674,20 @@ case_45: {
     faces.node_lists[ num_face ][ 1 ] = num_node_128;
     faces.node_lists[ num_face ][ 2 ] = num_node_258;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_0 ) |
-        ( 1 << num_node_128 ) |
-        ( 1 << num_node_258 ) |
-        ( 1 << num_node_3 ) |
-        ( 1 << num_node_4 ) |
-        ( 1 << num_node_5 ) ;
+        ( std::uint64_t( 1 ) << num_node_0 ) |
+        ( std::uint64_t( 1 ) << num_node_128 ) |
+        ( std::uint64_t( 1 ) << num_node_258 ) |
+        ( std::uint64_t( 1 ) << num_node_3 ) |
+        ( std::uint64_t( 1 ) << num_node_4 ) |
+        ( std::uint64_t( 1 ) << num_node_5 ) ;
     return;
 }
 case_46: {
     // n=6 00000111
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
-    int min_node_258 = min( num_node_2, num_node_3 );
-    int max_node_258 = max( num_node_2, num_node_3 );
+    int min_node_258 = std::min( num_node_2, num_node_3 );
+    int max_node_258 = std::max( num_node_2, num_node_3 );
     int num_edge_258 = 64 * max_node_258 + min_node_258;
     int num_node_258;
     if ( edge_num_cut_procs[ num_edge_258 ] != num_cut_proc ) {
@@ -3717,8 +3715,8 @@ case_46: {
         num_node_258 = edge_cuts[ num_edge_258 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
-    int min_node_384 = min( num_node_5, num_node_0 );
-    int max_node_384 = max( num_node_5, num_node_0 );
+    int min_node_384 = std::min( num_node_5, num_node_0 );
+    int max_node_384 = std::max( num_node_5, num_node_0 );
     int num_edge_384 = 64 * max_node_384 + min_node_384;
     int num_node_384;
     if ( edge_num_cut_procs[ num_edge_384 ] != num_cut_proc ) {
@@ -3753,19 +3751,19 @@ case_46: {
     faces.node_lists[ num_face ][ 1 ] = num_node_384;
     faces.node_lists[ num_face ][ 2 ] = num_node_258;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_5 ) |
-        ( 1 << num_node_384 ) |
-        ( 1 << num_node_258 ) |
-        ( 1 << num_node_3 ) |
-        ( 1 << num_node_4 ) ;
+        ( std::uint64_t( 1 ) << num_node_5 ) |
+        ( std::uint64_t( 1 ) << num_node_384 ) |
+        ( std::uint64_t( 1 ) << num_node_258 ) |
+        ( std::uint64_t( 1 ) << num_node_3 ) |
+        ( std::uint64_t( 1 ) << num_node_4 ) ;
     return;
 }
 case_47: {
     // n=6 00001000
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
-    int min_node_258 = min( num_node_2, num_node_3 );
-    int max_node_258 = max( num_node_2, num_node_3 );
+    int min_node_258 = std::min( num_node_2, num_node_3 );
+    int max_node_258 = std::max( num_node_2, num_node_3 );
     int num_edge_258 = 64 * max_node_258 + min_node_258;
     int num_node_258;
     if ( edge_num_cut_procs[ num_edge_258 ] != num_cut_proc ) {
@@ -3792,8 +3790,8 @@ case_47: {
     } else
         num_node_258 = edge_cuts[ num_edge_258 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
-    int min_node_323 = min( num_node_3, num_node_4 );
-    int max_node_323 = max( num_node_3, num_node_4 );
+    int min_node_323 = std::min( num_node_3, num_node_4 );
+    int max_node_323 = std::max( num_node_3, num_node_4 );
     int num_edge_323 = 64 * max_node_323 + min_node_323;
     int num_node_323;
     if ( edge_num_cut_procs[ num_edge_323 ] != num_cut_proc ) {
@@ -3831,21 +3829,21 @@ case_47: {
     faces.node_lists[ num_face ][ 5 ] = num_node_4;
     faces.node_lists[ num_face ][ 6 ] = num_node_5;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_0 ) |
-        ( 1 << num_node_1 ) |
-        ( 1 << num_node_2 ) |
-        ( 1 << num_node_258 ) |
-        ( 1 << num_node_323 ) |
-        ( 1 << num_node_4 ) |
-        ( 1 << num_node_5 ) ;
+        ( std::uint64_t( 1 ) << num_node_0 ) |
+        ( std::uint64_t( 1 ) << num_node_1 ) |
+        ( std::uint64_t( 1 ) << num_node_2 ) |
+        ( std::uint64_t( 1 ) << num_node_258 ) |
+        ( std::uint64_t( 1 ) << num_node_323 ) |
+        ( std::uint64_t( 1 ) << num_node_4 ) |
+        ( std::uint64_t( 1 ) << num_node_5 ) ;
     return;
 }
 case_48: {
     // n=6 00001100
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
-    int min_node_193 = min( num_node_1, num_node_2 );
-    int max_node_193 = max( num_node_1, num_node_2 );
+    int min_node_193 = std::min( num_node_1, num_node_2 );
+    int max_node_193 = std::max( num_node_1, num_node_2 );
     int num_edge_193 = 64 * max_node_193 + min_node_193;
     int num_node_193;
     if ( edge_num_cut_procs[ num_edge_193 ] != num_cut_proc ) {
@@ -3873,8 +3871,8 @@ case_48: {
         num_node_193 = edge_cuts[ num_edge_193 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
-    int min_node_323 = min( num_node_3, num_node_4 );
-    int max_node_323 = max( num_node_3, num_node_4 );
+    int min_node_323 = std::min( num_node_3, num_node_4 );
+    int max_node_323 = std::max( num_node_3, num_node_4 );
     int num_edge_323 = 64 * max_node_323 + min_node_323;
     int num_node_323;
     if ( edge_num_cut_procs[ num_edge_323 ] != num_cut_proc ) {
@@ -3908,20 +3906,20 @@ case_48: {
     faces.node_lists[ num_face ][ 2 ] = num_node_193;
     faces.node_lists[ num_face ][ 3 ] = num_node_323;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_0 ) |
-        ( 1 << num_node_1 ) |
-        ( 1 << num_node_193 ) |
-        ( 1 << num_node_323 ) |
-        ( 1 << num_node_4 ) |
-        ( 1 << num_node_5 ) ;
+        ( std::uint64_t( 1 ) << num_node_0 ) |
+        ( std::uint64_t( 1 ) << num_node_1 ) |
+        ( std::uint64_t( 1 ) << num_node_193 ) |
+        ( std::uint64_t( 1 ) << num_node_323 ) |
+        ( std::uint64_t( 1 ) << num_node_4 ) |
+        ( std::uint64_t( 1 ) << num_node_5 ) ;
     return;
 }
 case_49: {
     // n=6 00001110
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
-    int min_node_128 = min( num_node_0, num_node_1 );
-    int max_node_128 = max( num_node_0, num_node_1 );
+    int min_node_128 = std::min( num_node_0, num_node_1 );
+    int max_node_128 = std::max( num_node_0, num_node_1 );
     int num_edge_128 = 64 * max_node_128 + min_node_128;
     int num_node_128;
     if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
@@ -3949,8 +3947,8 @@ case_49: {
         num_node_128 = edge_cuts[ num_edge_128 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
-    int min_node_323 = min( num_node_3, num_node_4 );
-    int max_node_323 = max( num_node_3, num_node_4 );
+    int min_node_323 = std::min( num_node_3, num_node_4 );
+    int max_node_323 = std::max( num_node_3, num_node_4 );
     int num_edge_323 = 64 * max_node_323 + min_node_323;
     int num_node_323;
     if ( edge_num_cut_procs[ num_edge_323 ] != num_cut_proc ) {
@@ -3986,19 +3984,19 @@ case_49: {
     faces.node_lists[ num_face ][ 3 ] = num_node_4;
     faces.node_lists[ num_face ][ 4 ] = num_node_5;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_0 ) |
-        ( 1 << num_node_128 ) |
-        ( 1 << num_node_323 ) |
-        ( 1 << num_node_4 ) |
-        ( 1 << num_node_5 ) ;
+        ( std::uint64_t( 1 ) << num_node_0 ) |
+        ( std::uint64_t( 1 ) << num_node_128 ) |
+        ( std::uint64_t( 1 ) << num_node_323 ) |
+        ( std::uint64_t( 1 ) << num_node_4 ) |
+        ( std::uint64_t( 1 ) << num_node_5 ) ;
     return;
 }
 case_50: {
     // n=6 00001111
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
-    int min_node_323 = min( num_node_3, num_node_4 );
-    int max_node_323 = max( num_node_3, num_node_4 );
+    int min_node_323 = std::min( num_node_3, num_node_4 );
+    int max_node_323 = std::max( num_node_3, num_node_4 );
     int num_edge_323 = 64 * max_node_323 + min_node_323;
     int num_node_323;
     if ( edge_num_cut_procs[ num_edge_323 ] != num_cut_proc ) {
@@ -4026,8 +4024,8 @@ case_50: {
         num_node_323 = edge_cuts[ num_edge_323 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
-    int min_node_384 = min( num_node_5, num_node_0 );
-    int max_node_384 = max( num_node_5, num_node_0 );
+    int min_node_384 = std::min( num_node_5, num_node_0 );
+    int max_node_384 = std::max( num_node_5, num_node_0 );
     int num_edge_384 = 64 * max_node_384 + min_node_384;
     int num_node_384;
     if ( edge_num_cut_procs[ num_edge_384 ] != num_cut_proc ) {
@@ -4062,18 +4060,18 @@ case_50: {
     faces.node_lists[ num_face ][ 2 ] = num_node_5;
     faces.node_lists[ num_face ][ 3 ] = num_node_384;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_323 ) |
-        ( 1 << num_node_4 ) |
-        ( 1 << num_node_5 ) |
-        ( 1 << num_node_384 ) ;
+        ( std::uint64_t( 1 ) << num_node_323 ) |
+        ( std::uint64_t( 1 ) << num_node_4 ) |
+        ( std::uint64_t( 1 ) << num_node_5 ) |
+        ( std::uint64_t( 1 ) << num_node_384 ) ;
     return;
 }
 case_51: {
     // n=6 00010000
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
-    int min_node_323 = min( num_node_3, num_node_4 );
-    int max_node_323 = max( num_node_3, num_node_4 );
+    int min_node_323 = std::min( num_node_3, num_node_4 );
+    int max_node_323 = std::max( num_node_3, num_node_4 );
     int num_edge_323 = 64 * max_node_323 + min_node_323;
     int num_node_323;
     if ( edge_num_cut_procs[ num_edge_323 ] != num_cut_proc ) {
@@ -4100,8 +4098,8 @@ case_51: {
     } else
         num_node_323 = edge_cuts[ num_edge_323 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
-    int min_node_388 = min( num_node_4, num_node_5 );
-    int max_node_388 = max( num_node_4, num_node_5 );
+    int min_node_388 = std::min( num_node_4, num_node_5 );
+    int max_node_388 = std::max( num_node_4, num_node_5 );
     int num_edge_388 = 64 * max_node_388 + min_node_388;
     int num_node_388;
     if ( edge_num_cut_procs[ num_edge_388 ] != num_cut_proc ) {
@@ -4138,21 +4136,21 @@ case_51: {
     faces.node_lists[ num_face ][ 5 ] = num_node_388;
     faces.node_lists[ num_face ][ 6 ] = num_node_5;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_0 ) |
-        ( 1 << num_node_1 ) |
-        ( 1 << num_node_2 ) |
-        ( 1 << num_node_3 ) |
-        ( 1 << num_node_323 ) |
-        ( 1 << num_node_388 ) |
-        ( 1 << num_node_5 ) ;
+        ( std::uint64_t( 1 ) << num_node_0 ) |
+        ( std::uint64_t( 1 ) << num_node_1 ) |
+        ( std::uint64_t( 1 ) << num_node_2 ) |
+        ( std::uint64_t( 1 ) << num_node_3 ) |
+        ( std::uint64_t( 1 ) << num_node_323 ) |
+        ( std::uint64_t( 1 ) << num_node_388 ) |
+        ( std::uint64_t( 1 ) << num_node_5 ) ;
     return;
 }
 case_52: {
     // n=6 00011000
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
-    int min_node_258 = min( num_node_2, num_node_3 );
-    int max_node_258 = max( num_node_2, num_node_3 );
+    int min_node_258 = std::min( num_node_2, num_node_3 );
+    int max_node_258 = std::max( num_node_2, num_node_3 );
     int num_edge_258 = 64 * max_node_258 + min_node_258;
     int num_node_258;
     if ( edge_num_cut_procs[ num_edge_258 ] != num_cut_proc ) {
@@ -4180,8 +4178,8 @@ case_52: {
         num_node_258 = edge_cuts[ num_edge_258 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
-    int min_node_388 = min( num_node_4, num_node_5 );
-    int max_node_388 = max( num_node_4, num_node_5 );
+    int min_node_388 = std::min( num_node_4, num_node_5 );
+    int max_node_388 = std::max( num_node_4, num_node_5 );
     int num_edge_388 = 64 * max_node_388 + min_node_388;
     int num_node_388;
     if ( edge_num_cut_procs[ num_edge_388 ] != num_cut_proc ) {
@@ -4215,20 +4213,20 @@ case_52: {
     faces.node_lists[ num_face ][ 3 ] = num_node_258;
     faces.node_lists[ num_face ][ 4 ] = num_node_388;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_0 ) |
-        ( 1 << num_node_1 ) |
-        ( 1 << num_node_2 ) |
-        ( 1 << num_node_258 ) |
-        ( 1 << num_node_388 ) |
-        ( 1 << num_node_5 ) ;
+        ( std::uint64_t( 1 ) << num_node_0 ) |
+        ( std::uint64_t( 1 ) << num_node_1 ) |
+        ( std::uint64_t( 1 ) << num_node_2 ) |
+        ( std::uint64_t( 1 ) << num_node_258 ) |
+        ( std::uint64_t( 1 ) << num_node_388 ) |
+        ( std::uint64_t( 1 ) << num_node_5 ) ;
     return;
 }
 case_53: {
     // n=6 00011100
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
-    int min_node_193 = min( num_node_1, num_node_2 );
-    int max_node_193 = max( num_node_1, num_node_2 );
+    int min_node_193 = std::min( num_node_1, num_node_2 );
+    int max_node_193 = std::max( num_node_1, num_node_2 );
     int num_edge_193 = 64 * max_node_193 + min_node_193;
     int num_node_193;
     if ( edge_num_cut_procs[ num_edge_193 ] != num_cut_proc ) {
@@ -4256,8 +4254,8 @@ case_53: {
         num_node_193 = edge_cuts[ num_edge_193 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
-    int min_node_388 = min( num_node_4, num_node_5 );
-    int max_node_388 = max( num_node_4, num_node_5 );
+    int min_node_388 = std::min( num_node_4, num_node_5 );
+    int max_node_388 = std::max( num_node_4, num_node_5 );
     int num_edge_388 = 64 * max_node_388 + min_node_388;
     int num_node_388;
     if ( edge_num_cut_procs[ num_edge_388 ] != num_cut_proc ) {
@@ -4292,19 +4290,19 @@ case_53: {
     faces.node_lists[ num_face ][ 3 ] = num_node_388;
     faces.node_lists[ num_face ][ 4 ] = num_node_5;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_0 ) |
-        ( 1 << num_node_1 ) |
-        ( 1 << num_node_193 ) |
-        ( 1 << num_node_388 ) |
-        ( 1 << num_node_5 ) ;
+        ( std::uint64_t( 1 ) << num_node_0 ) |
+        ( std::uint64_t( 1 ) << num_node_1 ) |
+        ( std::uint64_t( 1 ) << num_node_193 ) |
+        ( std::uint64_t( 1 ) << num_node_388 ) |
+        ( std::uint64_t( 1 ) << num_node_5 ) ;
     return;
 }
 case_54: {
     // n=6 00011110
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
-    int min_node_128 = min( num_node_0, num_node_1 );
-    int max_node_128 = max( num_node_0, num_node_1 );
+    int min_node_128 = std::min( num_node_0, num_node_1 );
+    int max_node_128 = std::max( num_node_0, num_node_1 );
     int num_edge_128 = 64 * max_node_128 + min_node_128;
     int num_node_128;
     if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
@@ -4332,8 +4330,8 @@ case_54: {
         num_node_128 = edge_cuts[ num_edge_128 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
-    int min_node_388 = min( num_node_4, num_node_5 );
-    int max_node_388 = max( num_node_4, num_node_5 );
+    int min_node_388 = std::min( num_node_4, num_node_5 );
+    int max_node_388 = std::max( num_node_4, num_node_5 );
     int num_edge_388 = 64 * max_node_388 + min_node_388;
     int num_node_388;
     if ( edge_num_cut_procs[ num_edge_388 ] != num_cut_proc ) {
@@ -4367,18 +4365,18 @@ case_54: {
     faces.node_lists[ num_face ][ 2 ] = num_node_388;
     faces.node_lists[ num_face ][ 3 ] = num_node_5;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_0 ) |
-        ( 1 << num_node_128 ) |
-        ( 1 << num_node_388 ) |
-        ( 1 << num_node_5 ) ;
+        ( std::uint64_t( 1 ) << num_node_0 ) |
+        ( std::uint64_t( 1 ) << num_node_128 ) |
+        ( std::uint64_t( 1 ) << num_node_388 ) |
+        ( std::uint64_t( 1 ) << num_node_5 ) ;
     return;
 }
 case_55: {
     // n=6 00011111
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
-    int min_node_388 = min( num_node_4, num_node_5 );
-    int max_node_388 = max( num_node_4, num_node_5 );
+    int min_node_388 = std::min( num_node_4, num_node_5 );
+    int max_node_388 = std::max( num_node_4, num_node_5 );
     int num_edge_388 = 64 * max_node_388 + min_node_388;
     int num_node_388;
     if ( edge_num_cut_procs[ num_edge_388 ] != num_cut_proc ) {
@@ -4405,8 +4403,8 @@ case_55: {
     } else
         num_node_388 = edge_cuts[ num_edge_388 ];
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
-    int min_node_384 = min( num_node_5, num_node_0 );
-    int max_node_384 = max( num_node_5, num_node_0 );
+    int min_node_384 = std::min( num_node_5, num_node_0 );
+    int max_node_384 = std::max( num_node_5, num_node_0 );
     int num_edge_384 = 64 * max_node_384 + min_node_384;
     int num_node_384;
     if ( edge_num_cut_procs[ num_edge_384 ] != num_cut_proc ) {
@@ -4440,17 +4438,17 @@ case_55: {
     faces.node_lists[ num_face ][ 1 ] = num_node_5;
     faces.node_lists[ num_face ][ 2 ] = num_node_384;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_388 ) |
-        ( 1 << num_node_5 ) |
-        ( 1 << num_node_384 ) ;
+        ( std::uint64_t( 1 ) << num_node_388 ) |
+        ( std::uint64_t( 1 ) << num_node_5 ) |
+        ( std::uint64_t( 1 ) << num_node_384 ) ;
     return;
 }
 case_56: {
     // n=6 00100000
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
-    int min_node_388 = min( num_node_4, num_node_5 );
-    int max_node_388 = max( num_node_4, num_node_5 );
+    int min_node_388 = std::min( num_node_4, num_node_5 );
+    int max_node_388 = std::max( num_node_4, num_node_5 );
     int num_edge_388 = 64 * max_node_388 + min_node_388;
     int num_node_388;
     if ( edge_num_cut_procs[ num_edge_388 ] != num_cut_proc ) {
@@ -4477,8 +4475,8 @@ case_56: {
     } else
         num_node_388 = edge_cuts[ num_edge_388 ];
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
-    int min_node_384 = min( num_node_5, num_node_0 );
-    int max_node_384 = max( num_node_5, num_node_0 );
+    int min_node_384 = std::min( num_node_5, num_node_0 );
+    int max_node_384 = std::max( num_node_5, num_node_0 );
     int num_edge_384 = 64 * max_node_384 + min_node_384;
     int num_node_384;
     if ( edge_num_cut_procs[ num_edge_384 ] != num_cut_proc ) {
@@ -4514,21 +4512,21 @@ case_56: {
     faces.node_lists[ num_face ][ 5 ] = num_node_388;
     faces.node_lists[ num_face ][ 6 ] = num_node_384;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_0 ) |
-        ( 1 << num_node_1 ) |
-        ( 1 << num_node_2 ) |
-        ( 1 << num_node_3 ) |
-        ( 1 << num_node_4 ) |
-        ( 1 << num_node_388 ) |
-        ( 1 << num_node_384 ) ;
+        ( std::uint64_t( 1 ) << num_node_0 ) |
+        ( std::uint64_t( 1 ) << num_node_1 ) |
+        ( std::uint64_t( 1 ) << num_node_2 ) |
+        ( std::uint64_t( 1 ) << num_node_3 ) |
+        ( std::uint64_t( 1 ) << num_node_4 ) |
+        ( std::uint64_t( 1 ) << num_node_388 ) |
+        ( std::uint64_t( 1 ) << num_node_384 ) ;
     return;
 }
 case_57: {
     // n=6 00100001
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
-    int min_node_128 = min( num_node_0, num_node_1 );
-    int max_node_128 = max( num_node_0, num_node_1 );
+    int min_node_128 = std::min( num_node_0, num_node_1 );
+    int max_node_128 = std::max( num_node_0, num_node_1 );
     int num_edge_128 = 64 * max_node_128 + min_node_128;
     int num_node_128;
     if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
@@ -4556,8 +4554,8 @@ case_57: {
         num_node_128 = edge_cuts[ num_edge_128 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
-    int min_node_388 = min( num_node_4, num_node_5 );
-    int max_node_388 = max( num_node_4, num_node_5 );
+    int min_node_388 = std::min( num_node_4, num_node_5 );
+    int max_node_388 = std::max( num_node_4, num_node_5 );
     int num_edge_388 = 64 * max_node_388 + min_node_388;
     int num_node_388;
     if ( edge_num_cut_procs[ num_edge_388 ] != num_cut_proc ) {
@@ -4591,20 +4589,20 @@ case_57: {
     faces.node_lists[ num_face ][ 0 ] = num_node_128;
     faces.node_lists[ num_face ][ 5 ] = num_node_388;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_128 ) |
-        ( 1 << num_node_1 ) |
-        ( 1 << num_node_2 ) |
-        ( 1 << num_node_3 ) |
-        ( 1 << num_node_4 ) |
-        ( 1 << num_node_388 ) ;
+        ( std::uint64_t( 1 ) << num_node_128 ) |
+        ( std::uint64_t( 1 ) << num_node_1 ) |
+        ( std::uint64_t( 1 ) << num_node_2 ) |
+        ( std::uint64_t( 1 ) << num_node_3 ) |
+        ( std::uint64_t( 1 ) << num_node_4 ) |
+        ( std::uint64_t( 1 ) << num_node_388 ) ;
     return;
 }
 case_58: {
     // n=6 00100011
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
-    int min_node_193 = min( num_node_1, num_node_2 );
-    int max_node_193 = max( num_node_1, num_node_2 );
+    int min_node_193 = std::min( num_node_1, num_node_2 );
+    int max_node_193 = std::max( num_node_1, num_node_2 );
     int num_edge_193 = 64 * max_node_193 + min_node_193;
     int num_node_193;
     if ( edge_num_cut_procs[ num_edge_193 ] != num_cut_proc ) {
@@ -4632,8 +4630,8 @@ case_58: {
         num_node_193 = edge_cuts[ num_edge_193 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
-    int min_node_388 = min( num_node_4, num_node_5 );
-    int max_node_388 = max( num_node_4, num_node_5 );
+    int min_node_388 = std::min( num_node_4, num_node_5 );
+    int max_node_388 = std::max( num_node_4, num_node_5 );
     int num_edge_388 = 64 * max_node_388 + min_node_388;
     int num_node_388;
     if ( edge_num_cut_procs[ num_edge_388 ] != num_cut_proc ) {
@@ -4667,19 +4665,19 @@ case_58: {
     faces.node_lists[ num_face ][ 0 ] = num_node_388;
     faces.node_lists[ num_face ][ 1 ] = num_node_193;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_388 ) |
-        ( 1 << num_node_193 ) |
-        ( 1 << num_node_2 ) |
-        ( 1 << num_node_3 ) |
-        ( 1 << num_node_4 ) ;
+        ( std::uint64_t( 1 ) << num_node_388 ) |
+        ( std::uint64_t( 1 ) << num_node_193 ) |
+        ( std::uint64_t( 1 ) << num_node_2 ) |
+        ( std::uint64_t( 1 ) << num_node_3 ) |
+        ( std::uint64_t( 1 ) << num_node_4 ) ;
     return;
 }
 case_59: {
     // n=6 00100111
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
-    int min_node_258 = min( num_node_2, num_node_3 );
-    int max_node_258 = max( num_node_2, num_node_3 );
+    int min_node_258 = std::min( num_node_2, num_node_3 );
+    int max_node_258 = std::max( num_node_2, num_node_3 );
     int num_edge_258 = 64 * max_node_258 + min_node_258;
     int num_node_258;
     if ( edge_num_cut_procs[ num_edge_258 ] != num_cut_proc ) {
@@ -4707,8 +4705,8 @@ case_59: {
         num_node_258 = edge_cuts[ num_edge_258 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
-    int min_node_388 = min( num_node_4, num_node_5 );
-    int max_node_388 = max( num_node_4, num_node_5 );
+    int min_node_388 = std::min( num_node_4, num_node_5 );
+    int max_node_388 = std::max( num_node_4, num_node_5 );
     int num_edge_388 = 64 * max_node_388 + min_node_388;
     int num_node_388;
     if ( edge_num_cut_procs[ num_edge_388 ] != num_cut_proc ) {
@@ -4742,18 +4740,18 @@ case_59: {
     faces.node_lists[ num_face ][ 1 ] = num_node_388;
     faces.node_lists[ num_face ][ 2 ] = num_node_258;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_4 ) |
-        ( 1 << num_node_388 ) |
-        ( 1 << num_node_258 ) |
-        ( 1 << num_node_3 ) ;
+        ( std::uint64_t( 1 ) << num_node_4 ) |
+        ( std::uint64_t( 1 ) << num_node_388 ) |
+        ( std::uint64_t( 1 ) << num_node_258 ) |
+        ( std::uint64_t( 1 ) << num_node_3 ) ;
     return;
 }
 case_60: {
     // n=6 00101111
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
-    int min_node_323 = min( num_node_3, num_node_4 );
-    int max_node_323 = max( num_node_3, num_node_4 );
+    int min_node_323 = std::min( num_node_3, num_node_4 );
+    int max_node_323 = std::max( num_node_3, num_node_4 );
     int num_edge_323 = 64 * max_node_323 + min_node_323;
     int num_node_323;
     if ( edge_num_cut_procs[ num_edge_323 ] != num_cut_proc ) {
@@ -4780,8 +4778,8 @@ case_60: {
     } else
         num_node_323 = edge_cuts[ num_edge_323 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
-    int min_node_388 = min( num_node_4, num_node_5 );
-    int max_node_388 = max( num_node_4, num_node_5 );
+    int min_node_388 = std::min( num_node_4, num_node_5 );
+    int max_node_388 = std::max( num_node_4, num_node_5 );
     int num_edge_388 = 64 * max_node_388 + min_node_388;
     int num_node_388;
     if ( edge_num_cut_procs[ num_edge_388 ] != num_cut_proc ) {
@@ -4815,17 +4813,17 @@ case_60: {
     faces.node_lists[ num_face ][ 1 ] = num_node_4;
     faces.node_lists[ num_face ][ 2 ] = num_node_388;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_323 ) |
-        ( 1 << num_node_4 ) |
-        ( 1 << num_node_388 ) ;
+        ( std::uint64_t( 1 ) << num_node_323 ) |
+        ( std::uint64_t( 1 ) << num_node_4 ) |
+        ( std::uint64_t( 1 ) << num_node_388 ) ;
     return;
 }
 case_61: {
     // n=6 00110000
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
-    int min_node_323 = min( num_node_3, num_node_4 );
-    int max_node_323 = max( num_node_3, num_node_4 );
+    int min_node_323 = std::min( num_node_3, num_node_4 );
+    int max_node_323 = std::max( num_node_3, num_node_4 );
     int num_edge_323 = 64 * max_node_323 + min_node_323;
     int num_node_323;
     if ( edge_num_cut_procs[ num_edge_323 ] != num_cut_proc ) {
@@ -4853,8 +4851,8 @@ case_61: {
         num_node_323 = edge_cuts[ num_edge_323 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
-    int min_node_384 = min( num_node_5, num_node_0 );
-    int max_node_384 = max( num_node_5, num_node_0 );
+    int min_node_384 = std::min( num_node_5, num_node_0 );
+    int max_node_384 = std::max( num_node_5, num_node_0 );
     int num_edge_384 = 64 * max_node_384 + min_node_384;
     int num_node_384;
     if ( edge_num_cut_procs[ num_edge_384 ] != num_cut_proc ) {
@@ -4888,20 +4886,20 @@ case_61: {
     faces.node_lists[ num_face ][ 4 ] = num_node_323;
     faces.node_lists[ num_face ][ 5 ] = num_node_384;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_0 ) |
-        ( 1 << num_node_1 ) |
-        ( 1 << num_node_2 ) |
-        ( 1 << num_node_3 ) |
-        ( 1 << num_node_323 ) |
-        ( 1 << num_node_384 ) ;
+        ( std::uint64_t( 1 ) << num_node_0 ) |
+        ( std::uint64_t( 1 ) << num_node_1 ) |
+        ( std::uint64_t( 1 ) << num_node_2 ) |
+        ( std::uint64_t( 1 ) << num_node_3 ) |
+        ( std::uint64_t( 1 ) << num_node_323 ) |
+        ( std::uint64_t( 1 ) << num_node_384 ) ;
     return;
 }
 case_62: {
     // n=6 00110001
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
-    int min_node_128 = min( num_node_0, num_node_1 );
-    int max_node_128 = max( num_node_0, num_node_1 );
+    int min_node_128 = std::min( num_node_0, num_node_1 );
+    int max_node_128 = std::max( num_node_0, num_node_1 );
     int num_edge_128 = 64 * max_node_128 + min_node_128;
     int num_node_128;
     if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
@@ -4929,8 +4927,8 @@ case_62: {
         num_node_128 = edge_cuts[ num_edge_128 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
-    int min_node_323 = min( num_node_3, num_node_4 );
-    int max_node_323 = max( num_node_3, num_node_4 );
+    int min_node_323 = std::min( num_node_3, num_node_4 );
+    int max_node_323 = std::max( num_node_3, num_node_4 );
     int num_edge_323 = 64 * max_node_323 + min_node_323;
     int num_node_323;
     if ( edge_num_cut_procs[ num_edge_323 ] != num_cut_proc ) {
@@ -4964,19 +4962,19 @@ case_62: {
     faces.node_lists[ num_face ][ 0 ] = num_node_128;
     faces.node_lists[ num_face ][ 4 ] = num_node_323;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_128 ) |
-        ( 1 << num_node_1 ) |
-        ( 1 << num_node_2 ) |
-        ( 1 << num_node_3 ) |
-        ( 1 << num_node_323 ) ;
+        ( std::uint64_t( 1 ) << num_node_128 ) |
+        ( std::uint64_t( 1 ) << num_node_1 ) |
+        ( std::uint64_t( 1 ) << num_node_2 ) |
+        ( std::uint64_t( 1 ) << num_node_3 ) |
+        ( std::uint64_t( 1 ) << num_node_323 ) ;
     return;
 }
 case_63: {
     // n=6 00110011
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
-    int min_node_193 = min( num_node_1, num_node_2 );
-    int max_node_193 = max( num_node_1, num_node_2 );
+    int min_node_193 = std::min( num_node_1, num_node_2 );
+    int max_node_193 = std::max( num_node_1, num_node_2 );
     int num_edge_193 = 64 * max_node_193 + min_node_193;
     int num_node_193;
     if ( edge_num_cut_procs[ num_edge_193 ] != num_cut_proc ) {
@@ -5004,8 +5002,8 @@ case_63: {
         num_node_193 = edge_cuts[ num_edge_193 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
-    int min_node_323 = min( num_node_3, num_node_4 );
-    int max_node_323 = max( num_node_3, num_node_4 );
+    int min_node_323 = std::min( num_node_3, num_node_4 );
+    int max_node_323 = std::max( num_node_3, num_node_4 );
     int num_edge_323 = 64 * max_node_323 + min_node_323;
     int num_node_323;
     if ( edge_num_cut_procs[ num_edge_323 ] != num_cut_proc ) {
@@ -5038,18 +5036,18 @@ case_63: {
     faces.node_lists[ num_face ][ 0 ] = num_node_323;
     faces.node_lists[ num_face ][ 1 ] = num_node_193;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_323 ) |
-        ( 1 << num_node_193 ) |
-        ( 1 << num_node_2 ) |
-        ( 1 << num_node_3 ) ;
+        ( std::uint64_t( 1 ) << num_node_323 ) |
+        ( std::uint64_t( 1 ) << num_node_193 ) |
+        ( std::uint64_t( 1 ) << num_node_2 ) |
+        ( std::uint64_t( 1 ) << num_node_3 ) ;
     return;
 }
 case_64: {
     // n=6 00110111
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
-    int min_node_258 = min( num_node_2, num_node_3 );
-    int max_node_258 = max( num_node_2, num_node_3 );
+    int min_node_258 = std::min( num_node_2, num_node_3 );
+    int max_node_258 = std::max( num_node_2, num_node_3 );
     int num_edge_258 = 64 * max_node_258 + min_node_258;
     int num_node_258;
     if ( edge_num_cut_procs[ num_edge_258 ] != num_cut_proc ) {
@@ -5076,8 +5074,8 @@ case_64: {
     } else
         num_node_258 = edge_cuts[ num_edge_258 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
-    int min_node_323 = min( num_node_3, num_node_4 );
-    int max_node_323 = max( num_node_3, num_node_4 );
+    int min_node_323 = std::min( num_node_3, num_node_4 );
+    int max_node_323 = std::max( num_node_3, num_node_4 );
     int num_edge_323 = 64 * max_node_323 + min_node_323;
     int num_node_323;
     if ( edge_num_cut_procs[ num_edge_323 ] != num_cut_proc ) {
@@ -5111,17 +5109,17 @@ case_64: {
     faces.node_lists[ num_face ][ 1 ] = num_node_3;
     faces.node_lists[ num_face ][ 2 ] = num_node_323;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_258 ) |
-        ( 1 << num_node_3 ) |
-        ( 1 << num_node_323 ) ;
+        ( std::uint64_t( 1 ) << num_node_258 ) |
+        ( std::uint64_t( 1 ) << num_node_3 ) |
+        ( std::uint64_t( 1 ) << num_node_323 ) ;
     return;
 }
 case_65: {
     // n=6 00111000
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
-    int min_node_258 = min( num_node_2, num_node_3 );
-    int max_node_258 = max( num_node_2, num_node_3 );
+    int min_node_258 = std::min( num_node_2, num_node_3 );
+    int max_node_258 = std::max( num_node_2, num_node_3 );
     int num_edge_258 = 64 * max_node_258 + min_node_258;
     int num_node_258;
     if ( edge_num_cut_procs[ num_edge_258 ] != num_cut_proc ) {
@@ -5149,8 +5147,8 @@ case_65: {
         num_node_258 = edge_cuts[ num_edge_258 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
-    int min_node_384 = min( num_node_5, num_node_0 );
-    int max_node_384 = max( num_node_5, num_node_0 );
+    int min_node_384 = std::min( num_node_5, num_node_0 );
+    int max_node_384 = std::max( num_node_5, num_node_0 );
     int num_edge_384 = 64 * max_node_384 + min_node_384;
     int num_node_384;
     if ( edge_num_cut_procs[ num_edge_384 ] != num_cut_proc ) {
@@ -5184,19 +5182,19 @@ case_65: {
     faces.node_lists[ num_face ][ 3 ] = num_node_258;
     faces.node_lists[ num_face ][ 4 ] = num_node_384;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_0 ) |
-        ( 1 << num_node_1 ) |
-        ( 1 << num_node_2 ) |
-        ( 1 << num_node_258 ) |
-        ( 1 << num_node_384 ) ;
+        ( std::uint64_t( 1 ) << num_node_0 ) |
+        ( std::uint64_t( 1 ) << num_node_1 ) |
+        ( std::uint64_t( 1 ) << num_node_2 ) |
+        ( std::uint64_t( 1 ) << num_node_258 ) |
+        ( std::uint64_t( 1 ) << num_node_384 ) ;
     return;
 }
 case_66: {
     // n=6 00111001
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
-    int min_node_128 = min( num_node_0, num_node_1 );
-    int max_node_128 = max( num_node_0, num_node_1 );
+    int min_node_128 = std::min( num_node_0, num_node_1 );
+    int max_node_128 = std::max( num_node_0, num_node_1 );
     int num_edge_128 = 64 * max_node_128 + min_node_128;
     int num_node_128;
     if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
@@ -5224,8 +5222,8 @@ case_66: {
         num_node_128 = edge_cuts[ num_edge_128 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
-    int min_node_258 = min( num_node_2, num_node_3 );
-    int max_node_258 = max( num_node_2, num_node_3 );
+    int min_node_258 = std::min( num_node_2, num_node_3 );
+    int max_node_258 = std::max( num_node_2, num_node_3 );
     int num_edge_258 = 64 * max_node_258 + min_node_258;
     int num_node_258;
     if ( edge_num_cut_procs[ num_edge_258 ] != num_cut_proc ) {
@@ -5258,18 +5256,18 @@ case_66: {
     faces.node_lists[ num_face ][ 0 ] = num_node_128;
     faces.node_lists[ num_face ][ 3 ] = num_node_258;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_128 ) |
-        ( 1 << num_node_1 ) |
-        ( 1 << num_node_2 ) |
-        ( 1 << num_node_258 ) ;
+        ( std::uint64_t( 1 ) << num_node_128 ) |
+        ( std::uint64_t( 1 ) << num_node_1 ) |
+        ( std::uint64_t( 1 ) << num_node_2 ) |
+        ( std::uint64_t( 1 ) << num_node_258 ) ;
     return;
 }
 case_67: {
     // n=6 00111011
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
-    int min_node_193 = min( num_node_1, num_node_2 );
-    int max_node_193 = max( num_node_1, num_node_2 );
+    int min_node_193 = std::min( num_node_1, num_node_2 );
+    int max_node_193 = std::max( num_node_1, num_node_2 );
     int num_edge_193 = 64 * max_node_193 + min_node_193;
     int num_node_193;
     if ( edge_num_cut_procs[ num_edge_193 ] != num_cut_proc ) {
@@ -5296,8 +5294,8 @@ case_67: {
     } else
         num_node_193 = edge_cuts[ num_edge_193 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
-    int min_node_258 = min( num_node_2, num_node_3 );
-    int max_node_258 = max( num_node_2, num_node_3 );
+    int min_node_258 = std::min( num_node_2, num_node_3 );
+    int max_node_258 = std::max( num_node_2, num_node_3 );
     int num_edge_258 = 64 * max_node_258 + min_node_258;
     int num_node_258;
     if ( edge_num_cut_procs[ num_edge_258 ] != num_cut_proc ) {
@@ -5330,17 +5328,17 @@ case_67: {
     faces.node_lists[ num_face ][ 0 ] = num_node_258;
     faces.node_lists[ num_face ][ 1 ] = num_node_193;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_258 ) |
-        ( 1 << num_node_193 ) |
-        ( 1 << num_node_2 ) ;
+        ( std::uint64_t( 1 ) << num_node_258 ) |
+        ( std::uint64_t( 1 ) << num_node_193 ) |
+        ( std::uint64_t( 1 ) << num_node_2 ) ;
     return;
 }
 case_68: {
     // n=6 00111100
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
-    int min_node_193 = min( num_node_1, num_node_2 );
-    int max_node_193 = max( num_node_1, num_node_2 );
+    int min_node_193 = std::min( num_node_1, num_node_2 );
+    int max_node_193 = std::max( num_node_1, num_node_2 );
     int num_edge_193 = 64 * max_node_193 + min_node_193;
     int num_node_193;
     if ( edge_num_cut_procs[ num_edge_193 ] != num_cut_proc ) {
@@ -5368,8 +5366,8 @@ case_68: {
         num_node_193 = edge_cuts[ num_edge_193 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
-    int min_node_384 = min( num_node_5, num_node_0 );
-    int max_node_384 = max( num_node_5, num_node_0 );
+    int min_node_384 = std::min( num_node_5, num_node_0 );
+    int max_node_384 = std::max( num_node_5, num_node_0 );
     int num_edge_384 = 64 * max_node_384 + min_node_384;
     int num_node_384;
     if ( edge_num_cut_procs[ num_edge_384 ] != num_cut_proc ) {
@@ -5402,18 +5400,18 @@ case_68: {
     faces.node_lists[ num_face ][ 2 ] = num_node_193;
     faces.node_lists[ num_face ][ 3 ] = num_node_384;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_0 ) |
-        ( 1 << num_node_1 ) |
-        ( 1 << num_node_193 ) |
-        ( 1 << num_node_384 ) ;
+        ( std::uint64_t( 1 ) << num_node_0 ) |
+        ( std::uint64_t( 1 ) << num_node_1 ) |
+        ( std::uint64_t( 1 ) << num_node_193 ) |
+        ( std::uint64_t( 1 ) << num_node_384 ) ;
     return;
 }
 case_69: {
     // n=6 00111101
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
-    int min_node_128 = min( num_node_0, num_node_1 );
-    int max_node_128 = max( num_node_0, num_node_1 );
+    int min_node_128 = std::min( num_node_0, num_node_1 );
+    int max_node_128 = std::max( num_node_0, num_node_1 );
     int num_edge_128 = 64 * max_node_128 + min_node_128;
     int num_node_128;
     if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
@@ -5440,8 +5438,8 @@ case_69: {
     } else
         num_node_128 = edge_cuts[ num_edge_128 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
-    int min_node_193 = min( num_node_1, num_node_2 );
-    int max_node_193 = max( num_node_1, num_node_2 );
+    int min_node_193 = std::min( num_node_1, num_node_2 );
+    int max_node_193 = std::max( num_node_1, num_node_2 );
     int num_edge_193 = 64 * max_node_193 + min_node_193;
     int num_node_193;
     if ( edge_num_cut_procs[ num_edge_193 ] != num_cut_proc ) {
@@ -5474,17 +5472,17 @@ case_69: {
     faces.node_lists[ num_face ][ 0 ] = num_node_128;
     faces.node_lists[ num_face ][ 2 ] = num_node_193;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_128 ) |
-        ( 1 << num_node_1 ) |
-        ( 1 << num_node_193 ) ;
+        ( std::uint64_t( 1 ) << num_node_128 ) |
+        ( std::uint64_t( 1 ) << num_node_1 ) |
+        ( std::uint64_t( 1 ) << num_node_193 ) ;
     return;
 }
 case_70: {
     // n=6 00111110
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
-    int min_node_128 = min( num_node_0, num_node_1 );
-    int max_node_128 = max( num_node_0, num_node_1 );
+    int min_node_128 = std::min( num_node_0, num_node_1 );
+    int max_node_128 = std::max( num_node_0, num_node_1 );
     int num_edge_128 = 64 * max_node_128 + min_node_128;
     int num_node_128;
     if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
@@ -5511,8 +5509,8 @@ case_70: {
     } else
         num_node_128 = edge_cuts[ num_edge_128 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
-    int min_node_384 = min( num_node_5, num_node_0 );
-    int max_node_384 = max( num_node_5, num_node_0 );
+    int min_node_384 = std::min( num_node_5, num_node_0 );
+    int max_node_384 = std::max( num_node_5, num_node_0 );
     int num_edge_384 = 64 * max_node_384 + min_node_384;
     int num_node_384;
     if ( edge_num_cut_procs[ num_edge_384 ] != num_cut_proc ) {
@@ -5545,17 +5543,17 @@ case_70: {
     faces.node_lists[ num_face ][ 1 ] = num_node_128;
     faces.node_lists[ num_face ][ 2 ] = num_node_384;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_0 ) |
-        ( 1 << num_node_128 ) |
-        ( 1 << num_node_384 ) ;
+        ( std::uint64_t( 1 ) << num_node_0 ) |
+        ( std::uint64_t( 1 ) << num_node_128 ) |
+        ( std::uint64_t( 1 ) << num_node_384 ) ;
     return;
 }
 case_71: {
     // n=7 00000001
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
-    int min_node_128 = min( num_node_0, num_node_1 );
-    int max_node_128 = max( num_node_0, num_node_1 );
+    int min_node_128 = std::min( num_node_0, num_node_1 );
+    int max_node_128 = std::max( num_node_0, num_node_1 );
     int num_edge_128 = 64 * max_node_128 + min_node_128;
     int num_node_128;
     if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
@@ -5582,8 +5580,8 @@ case_71: {
     } else
         num_node_128 = edge_cuts[ num_edge_128 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
-    int min_node_448 = min( num_node_6, num_node_0 );
-    int max_node_448 = max( num_node_6, num_node_0 );
+    int min_node_448 = std::min( num_node_6, num_node_0 );
+    int max_node_448 = std::max( num_node_6, num_node_0 );
     int num_edge_448 = 64 * max_node_448 + min_node_448;
     int num_node_448;
     if ( edge_num_cut_procs[ num_edge_448 ] != num_cut_proc ) {
@@ -5620,22 +5618,22 @@ case_71: {
     faces.node_lists[ num_face ][ 0 ] = num_node_128;
     faces.node_lists[ num_face ][ 7 ] = num_node_448;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_128 ) |
-        ( 1 << num_node_1 ) |
-        ( 1 << num_node_2 ) |
-        ( 1 << num_node_3 ) |
-        ( 1 << num_node_4 ) |
-        ( 1 << num_node_5 ) |
-        ( 1 << num_node_6 ) |
-        ( 1 << num_node_448 ) ;
+        ( std::uint64_t( 1 ) << num_node_128 ) |
+        ( std::uint64_t( 1 ) << num_node_1 ) |
+        ( std::uint64_t( 1 ) << num_node_2 ) |
+        ( std::uint64_t( 1 ) << num_node_3 ) |
+        ( std::uint64_t( 1 ) << num_node_4 ) |
+        ( std::uint64_t( 1 ) << num_node_5 ) |
+        ( std::uint64_t( 1 ) << num_node_6 ) |
+        ( std::uint64_t( 1 ) << num_node_448 ) ;
     return;
 }
 case_72: {
     // n=7 00000010
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
-    int min_node_128 = min( num_node_0, num_node_1 );
-    int max_node_128 = max( num_node_0, num_node_1 );
+    int min_node_128 = std::min( num_node_0, num_node_1 );
+    int max_node_128 = std::max( num_node_0, num_node_1 );
     int num_edge_128 = 64 * max_node_128 + min_node_128;
     int num_node_128;
     if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
@@ -5662,8 +5660,8 @@ case_72: {
     } else
         num_node_128 = edge_cuts[ num_edge_128 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
-    int min_node_193 = min( num_node_1, num_node_2 );
-    int max_node_193 = max( num_node_1, num_node_2 );
+    int min_node_193 = std::min( num_node_1, num_node_2 );
+    int max_node_193 = std::max( num_node_1, num_node_2 );
     int num_edge_193 = 64 * max_node_193 + min_node_193;
     int num_node_193;
     if ( edge_num_cut_procs[ num_edge_193 ] != num_cut_proc ) {
@@ -5701,22 +5699,22 @@ case_72: {
     faces.node_lists[ num_face ][ 1 ] = num_node_193;
     faces.node_lists[ num_face ][ 7 ] = num_node_0;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_128 ) |
-        ( 1 << num_node_193 ) |
-        ( 1 << num_node_2 ) |
-        ( 1 << num_node_3 ) |
-        ( 1 << num_node_4 ) |
-        ( 1 << num_node_5 ) |
-        ( 1 << num_node_6 ) |
-        ( 1 << num_node_0 ) ;
+        ( std::uint64_t( 1 ) << num_node_128 ) |
+        ( std::uint64_t( 1 ) << num_node_193 ) |
+        ( std::uint64_t( 1 ) << num_node_2 ) |
+        ( std::uint64_t( 1 ) << num_node_3 ) |
+        ( std::uint64_t( 1 ) << num_node_4 ) |
+        ( std::uint64_t( 1 ) << num_node_5 ) |
+        ( std::uint64_t( 1 ) << num_node_6 ) |
+        ( std::uint64_t( 1 ) << num_node_0 ) ;
     return;
 }
 case_73: {
     // n=7 00000011
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
-    int min_node_193 = min( num_node_1, num_node_2 );
-    int max_node_193 = max( num_node_1, num_node_2 );
+    int min_node_193 = std::min( num_node_1, num_node_2 );
+    int max_node_193 = std::max( num_node_1, num_node_2 );
     int num_edge_193 = 64 * max_node_193 + min_node_193;
     int num_node_193;
     if ( edge_num_cut_procs[ num_edge_193 ] != num_cut_proc ) {
@@ -5744,8 +5742,8 @@ case_73: {
         num_node_193 = edge_cuts[ num_edge_193 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
-    int min_node_448 = min( num_node_6, num_node_0 );
-    int max_node_448 = max( num_node_6, num_node_0 );
+    int min_node_448 = std::min( num_node_6, num_node_0 );
+    int max_node_448 = std::max( num_node_6, num_node_0 );
     int num_edge_448 = 64 * max_node_448 + min_node_448;
     int num_node_448;
     if ( edge_num_cut_procs[ num_edge_448 ] != num_cut_proc ) {
@@ -5780,21 +5778,21 @@ case_73: {
     faces.node_lists[ num_face ][ 0 ] = num_node_448;
     faces.node_lists[ num_face ][ 1 ] = num_node_193;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_448 ) |
-        ( 1 << num_node_193 ) |
-        ( 1 << num_node_2 ) |
-        ( 1 << num_node_3 ) |
-        ( 1 << num_node_4 ) |
-        ( 1 << num_node_5 ) |
-        ( 1 << num_node_6 ) ;
+        ( std::uint64_t( 1 ) << num_node_448 ) |
+        ( std::uint64_t( 1 ) << num_node_193 ) |
+        ( std::uint64_t( 1 ) << num_node_2 ) |
+        ( std::uint64_t( 1 ) << num_node_3 ) |
+        ( std::uint64_t( 1 ) << num_node_4 ) |
+        ( std::uint64_t( 1 ) << num_node_5 ) |
+        ( std::uint64_t( 1 ) << num_node_6 ) ;
     return;
 }
 case_74: {
     // n=7 00000100
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
-    int min_node_193 = min( num_node_1, num_node_2 );
-    int max_node_193 = max( num_node_1, num_node_2 );
+    int min_node_193 = std::min( num_node_1, num_node_2 );
+    int max_node_193 = std::max( num_node_1, num_node_2 );
     int num_edge_193 = 64 * max_node_193 + min_node_193;
     int num_node_193;
     if ( edge_num_cut_procs[ num_edge_193 ] != num_cut_proc ) {
@@ -5821,8 +5819,8 @@ case_74: {
     } else
         num_node_193 = edge_cuts[ num_edge_193 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
-    int min_node_258 = min( num_node_2, num_node_3 );
-    int max_node_258 = max( num_node_2, num_node_3 );
+    int min_node_258 = std::min( num_node_2, num_node_3 );
+    int max_node_258 = std::max( num_node_2, num_node_3 );
     int num_edge_258 = 64 * max_node_258 + min_node_258;
     int num_node_258;
     if ( edge_num_cut_procs[ num_edge_258 ] != num_cut_proc ) {
@@ -5861,22 +5859,22 @@ case_74: {
     faces.node_lists[ num_face ][ 2 ] = num_node_258;
     faces.node_lists[ num_face ][ 7 ] = num_node_0;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_1 ) |
-        ( 1 << num_node_193 ) |
-        ( 1 << num_node_258 ) |
-        ( 1 << num_node_3 ) |
-        ( 1 << num_node_4 ) |
-        ( 1 << num_node_5 ) |
-        ( 1 << num_node_6 ) |
-        ( 1 << num_node_0 ) ;
+        ( std::uint64_t( 1 ) << num_node_1 ) |
+        ( std::uint64_t( 1 ) << num_node_193 ) |
+        ( std::uint64_t( 1 ) << num_node_258 ) |
+        ( std::uint64_t( 1 ) << num_node_3 ) |
+        ( std::uint64_t( 1 ) << num_node_4 ) |
+        ( std::uint64_t( 1 ) << num_node_5 ) |
+        ( std::uint64_t( 1 ) << num_node_6 ) |
+        ( std::uint64_t( 1 ) << num_node_0 ) ;
     return;
 }
 case_75: {
     // n=7 00000110
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
-    int min_node_128 = min( num_node_0, num_node_1 );
-    int max_node_128 = max( num_node_0, num_node_1 );
+    int min_node_128 = std::min( num_node_0, num_node_1 );
+    int max_node_128 = std::max( num_node_0, num_node_1 );
     int num_edge_128 = 64 * max_node_128 + min_node_128;
     int num_node_128;
     if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
@@ -5904,8 +5902,8 @@ case_75: {
         num_node_128 = edge_cuts[ num_edge_128 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
-    int min_node_258 = min( num_node_2, num_node_3 );
-    int max_node_258 = max( num_node_2, num_node_3 );
+    int min_node_258 = std::min( num_node_2, num_node_3 );
+    int max_node_258 = std::max( num_node_2, num_node_3 );
     int num_edge_258 = 64 * max_node_258 + min_node_258;
     int num_node_258;
     if ( edge_num_cut_procs[ num_edge_258 ] != num_cut_proc ) {
@@ -5940,21 +5938,21 @@ case_75: {
     faces.node_lists[ num_face ][ 1 ] = num_node_128;
     faces.node_lists[ num_face ][ 2 ] = num_node_258;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_0 ) |
-        ( 1 << num_node_128 ) |
-        ( 1 << num_node_258 ) |
-        ( 1 << num_node_3 ) |
-        ( 1 << num_node_4 ) |
-        ( 1 << num_node_5 ) |
-        ( 1 << num_node_6 ) ;
+        ( std::uint64_t( 1 ) << num_node_0 ) |
+        ( std::uint64_t( 1 ) << num_node_128 ) |
+        ( std::uint64_t( 1 ) << num_node_258 ) |
+        ( std::uint64_t( 1 ) << num_node_3 ) |
+        ( std::uint64_t( 1 ) << num_node_4 ) |
+        ( std::uint64_t( 1 ) << num_node_5 ) |
+        ( std::uint64_t( 1 ) << num_node_6 ) ;
     return;
 }
 case_76: {
     // n=7 00000111
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
-    int min_node_258 = min( num_node_2, num_node_3 );
-    int max_node_258 = max( num_node_2, num_node_3 );
+    int min_node_258 = std::min( num_node_2, num_node_3 );
+    int max_node_258 = std::max( num_node_2, num_node_3 );
     int num_edge_258 = 64 * max_node_258 + min_node_258;
     int num_node_258;
     if ( edge_num_cut_procs[ num_edge_258 ] != num_cut_proc ) {
@@ -5982,8 +5980,8 @@ case_76: {
         num_node_258 = edge_cuts[ num_edge_258 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
-    int min_node_448 = min( num_node_6, num_node_0 );
-    int max_node_448 = max( num_node_6, num_node_0 );
+    int min_node_448 = std::min( num_node_6, num_node_0 );
+    int max_node_448 = std::max( num_node_6, num_node_0 );
     int num_edge_448 = 64 * max_node_448 + min_node_448;
     int num_node_448;
     if ( edge_num_cut_procs[ num_edge_448 ] != num_cut_proc ) {
@@ -6019,20 +6017,20 @@ case_76: {
     faces.node_lists[ num_face ][ 1 ] = num_node_448;
     faces.node_lists[ num_face ][ 2 ] = num_node_258;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_6 ) |
-        ( 1 << num_node_448 ) |
-        ( 1 << num_node_258 ) |
-        ( 1 << num_node_3 ) |
-        ( 1 << num_node_4 ) |
-        ( 1 << num_node_5 ) ;
+        ( std::uint64_t( 1 ) << num_node_6 ) |
+        ( std::uint64_t( 1 ) << num_node_448 ) |
+        ( std::uint64_t( 1 ) << num_node_258 ) |
+        ( std::uint64_t( 1 ) << num_node_3 ) |
+        ( std::uint64_t( 1 ) << num_node_4 ) |
+        ( std::uint64_t( 1 ) << num_node_5 ) ;
     return;
 }
 case_77: {
     // n=7 00001000
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
-    int min_node_258 = min( num_node_2, num_node_3 );
-    int max_node_258 = max( num_node_2, num_node_3 );
+    int min_node_258 = std::min( num_node_2, num_node_3 );
+    int max_node_258 = std::max( num_node_2, num_node_3 );
     int num_edge_258 = 64 * max_node_258 + min_node_258;
     int num_node_258;
     if ( edge_num_cut_procs[ num_edge_258 ] != num_cut_proc ) {
@@ -6059,8 +6057,8 @@ case_77: {
     } else
         num_node_258 = edge_cuts[ num_edge_258 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
-    int min_node_323 = min( num_node_3, num_node_4 );
-    int max_node_323 = max( num_node_3, num_node_4 );
+    int min_node_323 = std::min( num_node_3, num_node_4 );
+    int max_node_323 = std::max( num_node_3, num_node_4 );
     int num_edge_323 = 64 * max_node_323 + min_node_323;
     int num_node_323;
     if ( edge_num_cut_procs[ num_edge_323 ] != num_cut_proc ) {
@@ -6100,22 +6098,22 @@ case_77: {
     faces.node_lists[ num_face ][ 6 ] = num_node_5;
     faces.node_lists[ num_face ][ 7 ] = num_node_6;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_0 ) |
-        ( 1 << num_node_1 ) |
-        ( 1 << num_node_2 ) |
-        ( 1 << num_node_258 ) |
-        ( 1 << num_node_323 ) |
-        ( 1 << num_node_4 ) |
-        ( 1 << num_node_5 ) |
-        ( 1 << num_node_6 ) ;
+        ( std::uint64_t( 1 ) << num_node_0 ) |
+        ( std::uint64_t( 1 ) << num_node_1 ) |
+        ( std::uint64_t( 1 ) << num_node_2 ) |
+        ( std::uint64_t( 1 ) << num_node_258 ) |
+        ( std::uint64_t( 1 ) << num_node_323 ) |
+        ( std::uint64_t( 1 ) << num_node_4 ) |
+        ( std::uint64_t( 1 ) << num_node_5 ) |
+        ( std::uint64_t( 1 ) << num_node_6 ) ;
     return;
 }
 case_78: {
     // n=7 00001100
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
-    int min_node_193 = min( num_node_1, num_node_2 );
-    int max_node_193 = max( num_node_1, num_node_2 );
+    int min_node_193 = std::min( num_node_1, num_node_2 );
+    int max_node_193 = std::max( num_node_1, num_node_2 );
     int num_edge_193 = 64 * max_node_193 + min_node_193;
     int num_node_193;
     if ( edge_num_cut_procs[ num_edge_193 ] != num_cut_proc ) {
@@ -6143,8 +6141,8 @@ case_78: {
         num_node_193 = edge_cuts[ num_edge_193 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
-    int min_node_323 = min( num_node_3, num_node_4 );
-    int max_node_323 = max( num_node_3, num_node_4 );
+    int min_node_323 = std::min( num_node_3, num_node_4 );
+    int max_node_323 = std::max( num_node_3, num_node_4 );
     int num_edge_323 = 64 * max_node_323 + min_node_323;
     int num_node_323;
     if ( edge_num_cut_procs[ num_edge_323 ] != num_cut_proc ) {
@@ -6179,21 +6177,21 @@ case_78: {
     faces.node_lists[ num_face ][ 2 ] = num_node_193;
     faces.node_lists[ num_face ][ 3 ] = num_node_323;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_0 ) |
-        ( 1 << num_node_1 ) |
-        ( 1 << num_node_193 ) |
-        ( 1 << num_node_323 ) |
-        ( 1 << num_node_4 ) |
-        ( 1 << num_node_5 ) |
-        ( 1 << num_node_6 ) ;
+        ( std::uint64_t( 1 ) << num_node_0 ) |
+        ( std::uint64_t( 1 ) << num_node_1 ) |
+        ( std::uint64_t( 1 ) << num_node_193 ) |
+        ( std::uint64_t( 1 ) << num_node_323 ) |
+        ( std::uint64_t( 1 ) << num_node_4 ) |
+        ( std::uint64_t( 1 ) << num_node_5 ) |
+        ( std::uint64_t( 1 ) << num_node_6 ) ;
     return;
 }
 case_79: {
     // n=7 00001110
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
-    int min_node_128 = min( num_node_0, num_node_1 );
-    int max_node_128 = max( num_node_0, num_node_1 );
+    int min_node_128 = std::min( num_node_0, num_node_1 );
+    int max_node_128 = std::max( num_node_0, num_node_1 );
     int num_edge_128 = 64 * max_node_128 + min_node_128;
     int num_node_128;
     if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
@@ -6221,8 +6219,8 @@ case_79: {
         num_node_128 = edge_cuts[ num_edge_128 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
-    int min_node_323 = min( num_node_3, num_node_4 );
-    int max_node_323 = max( num_node_3, num_node_4 );
+    int min_node_323 = std::min( num_node_3, num_node_4 );
+    int max_node_323 = std::max( num_node_3, num_node_4 );
     int num_edge_323 = 64 * max_node_323 + min_node_323;
     int num_node_323;
     if ( edge_num_cut_procs[ num_edge_323 ] != num_cut_proc ) {
@@ -6259,20 +6257,20 @@ case_79: {
     faces.node_lists[ num_face ][ 2 ] = num_node_128;
     faces.node_lists[ num_face ][ 3 ] = num_node_323;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_6 ) |
-        ( 1 << num_node_0 ) |
-        ( 1 << num_node_128 ) |
-        ( 1 << num_node_323 ) |
-        ( 1 << num_node_4 ) |
-        ( 1 << num_node_5 ) ;
+        ( std::uint64_t( 1 ) << num_node_6 ) |
+        ( std::uint64_t( 1 ) << num_node_0 ) |
+        ( std::uint64_t( 1 ) << num_node_128 ) |
+        ( std::uint64_t( 1 ) << num_node_323 ) |
+        ( std::uint64_t( 1 ) << num_node_4 ) |
+        ( std::uint64_t( 1 ) << num_node_5 ) ;
     return;
 }
 case_80: {
     // n=7 00001111
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
-    int min_node_323 = min( num_node_3, num_node_4 );
-    int max_node_323 = max( num_node_3, num_node_4 );
+    int min_node_323 = std::min( num_node_3, num_node_4 );
+    int max_node_323 = std::max( num_node_3, num_node_4 );
     int num_edge_323 = 64 * max_node_323 + min_node_323;
     int num_node_323;
     if ( edge_num_cut_procs[ num_edge_323 ] != num_cut_proc ) {
@@ -6300,8 +6298,8 @@ case_80: {
         num_node_323 = edge_cuts[ num_edge_323 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
-    int min_node_448 = min( num_node_6, num_node_0 );
-    int max_node_448 = max( num_node_6, num_node_0 );
+    int min_node_448 = std::min( num_node_6, num_node_0 );
+    int max_node_448 = std::max( num_node_6, num_node_0 );
     int num_edge_448 = 64 * max_node_448 + min_node_448;
     int num_node_448;
     if ( edge_num_cut_procs[ num_edge_448 ] != num_cut_proc ) {
@@ -6337,19 +6335,19 @@ case_80: {
     faces.node_lists[ num_face ][ 2 ] = num_node_448;
     faces.node_lists[ num_face ][ 3 ] = num_node_323;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_5 ) |
-        ( 1 << num_node_6 ) |
-        ( 1 << num_node_448 ) |
-        ( 1 << num_node_323 ) |
-        ( 1 << num_node_4 ) ;
+        ( std::uint64_t( 1 ) << num_node_5 ) |
+        ( std::uint64_t( 1 ) << num_node_6 ) |
+        ( std::uint64_t( 1 ) << num_node_448 ) |
+        ( std::uint64_t( 1 ) << num_node_323 ) |
+        ( std::uint64_t( 1 ) << num_node_4 ) ;
     return;
 }
 case_81: {
     // n=7 00010000
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
-    int min_node_323 = min( num_node_3, num_node_4 );
-    int max_node_323 = max( num_node_3, num_node_4 );
+    int min_node_323 = std::min( num_node_3, num_node_4 );
+    int max_node_323 = std::max( num_node_3, num_node_4 );
     int num_edge_323 = 64 * max_node_323 + min_node_323;
     int num_node_323;
     if ( edge_num_cut_procs[ num_edge_323 ] != num_cut_proc ) {
@@ -6376,8 +6374,8 @@ case_81: {
     } else
         num_node_323 = edge_cuts[ num_edge_323 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
-    int min_node_388 = min( num_node_4, num_node_5 );
-    int max_node_388 = max( num_node_4, num_node_5 );
+    int min_node_388 = std::min( num_node_4, num_node_5 );
+    int max_node_388 = std::max( num_node_4, num_node_5 );
     int num_edge_388 = 64 * max_node_388 + min_node_388;
     int num_node_388;
     if ( edge_num_cut_procs[ num_edge_388 ] != num_cut_proc ) {
@@ -6416,22 +6414,22 @@ case_81: {
     faces.node_lists[ num_face ][ 6 ] = num_node_5;
     faces.node_lists[ num_face ][ 7 ] = num_node_6;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_0 ) |
-        ( 1 << num_node_1 ) |
-        ( 1 << num_node_2 ) |
-        ( 1 << num_node_3 ) |
-        ( 1 << num_node_323 ) |
-        ( 1 << num_node_388 ) |
-        ( 1 << num_node_5 ) |
-        ( 1 << num_node_6 ) ;
+        ( std::uint64_t( 1 ) << num_node_0 ) |
+        ( std::uint64_t( 1 ) << num_node_1 ) |
+        ( std::uint64_t( 1 ) << num_node_2 ) |
+        ( std::uint64_t( 1 ) << num_node_3 ) |
+        ( std::uint64_t( 1 ) << num_node_323 ) |
+        ( std::uint64_t( 1 ) << num_node_388 ) |
+        ( std::uint64_t( 1 ) << num_node_5 ) |
+        ( std::uint64_t( 1 ) << num_node_6 ) ;
     return;
 }
 case_82: {
     // n=7 00011000
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
-    int min_node_258 = min( num_node_2, num_node_3 );
-    int max_node_258 = max( num_node_2, num_node_3 );
+    int min_node_258 = std::min( num_node_2, num_node_3 );
+    int max_node_258 = std::max( num_node_2, num_node_3 );
     int num_edge_258 = 64 * max_node_258 + min_node_258;
     int num_node_258;
     if ( edge_num_cut_procs[ num_edge_258 ] != num_cut_proc ) {
@@ -6459,8 +6457,8 @@ case_82: {
         num_node_258 = edge_cuts[ num_edge_258 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
-    int min_node_388 = min( num_node_4, num_node_5 );
-    int max_node_388 = max( num_node_4, num_node_5 );
+    int min_node_388 = std::min( num_node_4, num_node_5 );
+    int max_node_388 = std::max( num_node_4, num_node_5 );
     int num_edge_388 = 64 * max_node_388 + min_node_388;
     int num_node_388;
     if ( edge_num_cut_procs[ num_edge_388 ] != num_cut_proc ) {
@@ -6495,21 +6493,21 @@ case_82: {
     faces.node_lists[ num_face ][ 3 ] = num_node_258;
     faces.node_lists[ num_face ][ 4 ] = num_node_388;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_0 ) |
-        ( 1 << num_node_1 ) |
-        ( 1 << num_node_2 ) |
-        ( 1 << num_node_258 ) |
-        ( 1 << num_node_388 ) |
-        ( 1 << num_node_5 ) |
-        ( 1 << num_node_6 ) ;
+        ( std::uint64_t( 1 ) << num_node_0 ) |
+        ( std::uint64_t( 1 ) << num_node_1 ) |
+        ( std::uint64_t( 1 ) << num_node_2 ) |
+        ( std::uint64_t( 1 ) << num_node_258 ) |
+        ( std::uint64_t( 1 ) << num_node_388 ) |
+        ( std::uint64_t( 1 ) << num_node_5 ) |
+        ( std::uint64_t( 1 ) << num_node_6 ) ;
     return;
 }
 case_83: {
     // n=7 00011100
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
-    int min_node_193 = min( num_node_1, num_node_2 );
-    int max_node_193 = max( num_node_1, num_node_2 );
+    int min_node_193 = std::min( num_node_1, num_node_2 );
+    int max_node_193 = std::max( num_node_1, num_node_2 );
     int num_edge_193 = 64 * max_node_193 + min_node_193;
     int num_node_193;
     if ( edge_num_cut_procs[ num_edge_193 ] != num_cut_proc ) {
@@ -6537,8 +6535,8 @@ case_83: {
         num_node_193 = edge_cuts[ num_edge_193 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
-    int min_node_388 = min( num_node_4, num_node_5 );
-    int max_node_388 = max( num_node_4, num_node_5 );
+    int min_node_388 = std::min( num_node_4, num_node_5 );
+    int max_node_388 = std::max( num_node_4, num_node_5 );
     int num_edge_388 = 64 * max_node_388 + min_node_388;
     int num_node_388;
     if ( edge_num_cut_procs[ num_edge_388 ] != num_cut_proc ) {
@@ -6575,20 +6573,20 @@ case_83: {
     faces.node_lists[ num_face ][ 4 ] = num_node_5;
     faces.node_lists[ num_face ][ 5 ] = num_node_6;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_0 ) |
-        ( 1 << num_node_1 ) |
-        ( 1 << num_node_193 ) |
-        ( 1 << num_node_388 ) |
-        ( 1 << num_node_5 ) |
-        ( 1 << num_node_6 ) ;
+        ( std::uint64_t( 1 ) << num_node_0 ) |
+        ( std::uint64_t( 1 ) << num_node_1 ) |
+        ( std::uint64_t( 1 ) << num_node_193 ) |
+        ( std::uint64_t( 1 ) << num_node_388 ) |
+        ( std::uint64_t( 1 ) << num_node_5 ) |
+        ( std::uint64_t( 1 ) << num_node_6 ) ;
     return;
 }
 case_84: {
     // n=7 00011110
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
-    int min_node_128 = min( num_node_0, num_node_1 );
-    int max_node_128 = max( num_node_0, num_node_1 );
+    int min_node_128 = std::min( num_node_0, num_node_1 );
+    int max_node_128 = std::max( num_node_0, num_node_1 );
     int num_edge_128 = 64 * max_node_128 + min_node_128;
     int num_node_128;
     if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
@@ -6616,8 +6614,8 @@ case_84: {
         num_node_128 = edge_cuts[ num_edge_128 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
-    int min_node_388 = min( num_node_4, num_node_5 );
-    int max_node_388 = max( num_node_4, num_node_5 );
+    int min_node_388 = std::min( num_node_4, num_node_5 );
+    int max_node_388 = std::max( num_node_4, num_node_5 );
     int num_edge_388 = 64 * max_node_388 + min_node_388;
     int num_node_388;
     if ( edge_num_cut_procs[ num_edge_388 ] != num_cut_proc ) {
@@ -6653,19 +6651,19 @@ case_84: {
     faces.node_lists[ num_face ][ 3 ] = num_node_5;
     faces.node_lists[ num_face ][ 4 ] = num_node_6;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_0 ) |
-        ( 1 << num_node_128 ) |
-        ( 1 << num_node_388 ) |
-        ( 1 << num_node_5 ) |
-        ( 1 << num_node_6 ) ;
+        ( std::uint64_t( 1 ) << num_node_0 ) |
+        ( std::uint64_t( 1 ) << num_node_128 ) |
+        ( std::uint64_t( 1 ) << num_node_388 ) |
+        ( std::uint64_t( 1 ) << num_node_5 ) |
+        ( std::uint64_t( 1 ) << num_node_6 ) ;
     return;
 }
 case_85: {
     // n=7 00011111
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
-    int min_node_388 = min( num_node_4, num_node_5 );
-    int max_node_388 = max( num_node_4, num_node_5 );
+    int min_node_388 = std::min( num_node_4, num_node_5 );
+    int max_node_388 = std::max( num_node_4, num_node_5 );
     int num_edge_388 = 64 * max_node_388 + min_node_388;
     int num_node_388;
     if ( edge_num_cut_procs[ num_edge_388 ] != num_cut_proc ) {
@@ -6693,8 +6691,8 @@ case_85: {
         num_node_388 = edge_cuts[ num_edge_388 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
-    int min_node_448 = min( num_node_6, num_node_0 );
-    int max_node_448 = max( num_node_6, num_node_0 );
+    int min_node_448 = std::min( num_node_6, num_node_0 );
+    int max_node_448 = std::max( num_node_6, num_node_0 );
     int num_edge_448 = 64 * max_node_448 + min_node_448;
     int num_node_448;
     if ( edge_num_cut_procs[ num_edge_448 ] != num_cut_proc ) {
@@ -6729,18 +6727,18 @@ case_85: {
     faces.node_lists[ num_face ][ 2 ] = num_node_6;
     faces.node_lists[ num_face ][ 3 ] = num_node_448;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_388 ) |
-        ( 1 << num_node_5 ) |
-        ( 1 << num_node_6 ) |
-        ( 1 << num_node_448 ) ;
+        ( std::uint64_t( 1 ) << num_node_388 ) |
+        ( std::uint64_t( 1 ) << num_node_5 ) |
+        ( std::uint64_t( 1 ) << num_node_6 ) |
+        ( std::uint64_t( 1 ) << num_node_448 ) ;
     return;
 }
 case_86: {
     // n=7 00100000
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
-    int min_node_388 = min( num_node_4, num_node_5 );
-    int max_node_388 = max( num_node_4, num_node_5 );
+    int min_node_388 = std::min( num_node_4, num_node_5 );
+    int max_node_388 = std::max( num_node_4, num_node_5 );
     int num_edge_388 = 64 * max_node_388 + min_node_388;
     int num_node_388;
     if ( edge_num_cut_procs[ num_edge_388 ] != num_cut_proc ) {
@@ -6767,8 +6765,8 @@ case_86: {
     } else
         num_node_388 = edge_cuts[ num_edge_388 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
-    int min_node_453 = min( num_node_5, num_node_6 );
-    int max_node_453 = max( num_node_5, num_node_6 );
+    int min_node_453 = std::min( num_node_5, num_node_6 );
+    int max_node_453 = std::max( num_node_5, num_node_6 );
     int num_edge_453 = 64 * max_node_453 + min_node_453;
     int num_node_453;
     if ( edge_num_cut_procs[ num_edge_453 ] != num_cut_proc ) {
@@ -6806,22 +6804,22 @@ case_86: {
     faces.node_lists[ num_face ][ 6 ] = num_node_453;
     faces.node_lists[ num_face ][ 7 ] = num_node_6;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_0 ) |
-        ( 1 << num_node_1 ) |
-        ( 1 << num_node_2 ) |
-        ( 1 << num_node_3 ) |
-        ( 1 << num_node_4 ) |
-        ( 1 << num_node_388 ) |
-        ( 1 << num_node_453 ) |
-        ( 1 << num_node_6 ) ;
+        ( std::uint64_t( 1 ) << num_node_0 ) |
+        ( std::uint64_t( 1 ) << num_node_1 ) |
+        ( std::uint64_t( 1 ) << num_node_2 ) |
+        ( std::uint64_t( 1 ) << num_node_3 ) |
+        ( std::uint64_t( 1 ) << num_node_4 ) |
+        ( std::uint64_t( 1 ) << num_node_388 ) |
+        ( std::uint64_t( 1 ) << num_node_453 ) |
+        ( std::uint64_t( 1 ) << num_node_6 ) ;
     return;
 }
 case_87: {
     // n=7 00110000
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
-    int min_node_323 = min( num_node_3, num_node_4 );
-    int max_node_323 = max( num_node_3, num_node_4 );
+    int min_node_323 = std::min( num_node_3, num_node_4 );
+    int max_node_323 = std::max( num_node_3, num_node_4 );
     int num_edge_323 = 64 * max_node_323 + min_node_323;
     int num_node_323;
     if ( edge_num_cut_procs[ num_edge_323 ] != num_cut_proc ) {
@@ -6849,8 +6847,8 @@ case_87: {
         num_node_323 = edge_cuts[ num_edge_323 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
-    int min_node_453 = min( num_node_5, num_node_6 );
-    int max_node_453 = max( num_node_5, num_node_6 );
+    int min_node_453 = std::min( num_node_5, num_node_6 );
+    int max_node_453 = std::max( num_node_5, num_node_6 );
     int num_edge_453 = 64 * max_node_453 + min_node_453;
     int num_node_453;
     if ( edge_num_cut_procs[ num_edge_453 ] != num_cut_proc ) {
@@ -6885,21 +6883,21 @@ case_87: {
     faces.node_lists[ num_face ][ 4 ] = num_node_323;
     faces.node_lists[ num_face ][ 5 ] = num_node_453;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_0 ) |
-        ( 1 << num_node_1 ) |
-        ( 1 << num_node_2 ) |
-        ( 1 << num_node_3 ) |
-        ( 1 << num_node_323 ) |
-        ( 1 << num_node_453 ) |
-        ( 1 << num_node_6 ) ;
+        ( std::uint64_t( 1 ) << num_node_0 ) |
+        ( std::uint64_t( 1 ) << num_node_1 ) |
+        ( std::uint64_t( 1 ) << num_node_2 ) |
+        ( std::uint64_t( 1 ) << num_node_3 ) |
+        ( std::uint64_t( 1 ) << num_node_323 ) |
+        ( std::uint64_t( 1 ) << num_node_453 ) |
+        ( std::uint64_t( 1 ) << num_node_6 ) ;
     return;
 }
 case_88: {
     // n=7 00111000
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
-    int min_node_258 = min( num_node_2, num_node_3 );
-    int max_node_258 = max( num_node_2, num_node_3 );
+    int min_node_258 = std::min( num_node_2, num_node_3 );
+    int max_node_258 = std::max( num_node_2, num_node_3 );
     int num_edge_258 = 64 * max_node_258 + min_node_258;
     int num_node_258;
     if ( edge_num_cut_procs[ num_edge_258 ] != num_cut_proc ) {
@@ -6927,8 +6925,8 @@ case_88: {
         num_node_258 = edge_cuts[ num_edge_258 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
-    int min_node_453 = min( num_node_5, num_node_6 );
-    int max_node_453 = max( num_node_5, num_node_6 );
+    int min_node_453 = std::min( num_node_5, num_node_6 );
+    int max_node_453 = std::max( num_node_5, num_node_6 );
     int num_edge_453 = 64 * max_node_453 + min_node_453;
     int num_node_453;
     if ( edge_num_cut_procs[ num_edge_453 ] != num_cut_proc ) {
@@ -6964,20 +6962,20 @@ case_88: {
     faces.node_lists[ num_face ][ 4 ] = num_node_453;
     faces.node_lists[ num_face ][ 5 ] = num_node_6;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_0 ) |
-        ( 1 << num_node_1 ) |
-        ( 1 << num_node_2 ) |
-        ( 1 << num_node_258 ) |
-        ( 1 << num_node_453 ) |
-        ( 1 << num_node_6 ) ;
+        ( std::uint64_t( 1 ) << num_node_0 ) |
+        ( std::uint64_t( 1 ) << num_node_1 ) |
+        ( std::uint64_t( 1 ) << num_node_2 ) |
+        ( std::uint64_t( 1 ) << num_node_258 ) |
+        ( std::uint64_t( 1 ) << num_node_453 ) |
+        ( std::uint64_t( 1 ) << num_node_6 ) ;
     return;
 }
 case_89: {
     // n=7 00111100
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
-    int min_node_193 = min( num_node_1, num_node_2 );
-    int max_node_193 = max( num_node_1, num_node_2 );
+    int min_node_193 = std::min( num_node_1, num_node_2 );
+    int max_node_193 = std::max( num_node_1, num_node_2 );
     int num_edge_193 = 64 * max_node_193 + min_node_193;
     int num_node_193;
     if ( edge_num_cut_procs[ num_edge_193 ] != num_cut_proc ) {
@@ -7005,8 +7003,8 @@ case_89: {
         num_node_193 = edge_cuts[ num_edge_193 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
-    int min_node_453 = min( num_node_5, num_node_6 );
-    int max_node_453 = max( num_node_5, num_node_6 );
+    int min_node_453 = std::min( num_node_5, num_node_6 );
+    int max_node_453 = std::max( num_node_5, num_node_6 );
     int num_edge_453 = 64 * max_node_453 + min_node_453;
     int num_node_453;
     if ( edge_num_cut_procs[ num_edge_453 ] != num_cut_proc ) {
@@ -7041,19 +7039,19 @@ case_89: {
     faces.node_lists[ num_face ][ 3 ] = num_node_453;
     faces.node_lists[ num_face ][ 4 ] = num_node_6;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_0 ) |
-        ( 1 << num_node_1 ) |
-        ( 1 << num_node_193 ) |
-        ( 1 << num_node_453 ) |
-        ( 1 << num_node_6 ) ;
+        ( std::uint64_t( 1 ) << num_node_0 ) |
+        ( std::uint64_t( 1 ) << num_node_1 ) |
+        ( std::uint64_t( 1 ) << num_node_193 ) |
+        ( std::uint64_t( 1 ) << num_node_453 ) |
+        ( std::uint64_t( 1 ) << num_node_6 ) ;
     return;
 }
 case_90: {
     // n=7 00111110
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
-    int min_node_128 = min( num_node_0, num_node_1 );
-    int max_node_128 = max( num_node_0, num_node_1 );
+    int min_node_128 = std::min( num_node_0, num_node_1 );
+    int max_node_128 = std::max( num_node_0, num_node_1 );
     int num_edge_128 = 64 * max_node_128 + min_node_128;
     int num_node_128;
     if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
@@ -7081,8 +7079,8 @@ case_90: {
         num_node_128 = edge_cuts[ num_edge_128 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
-    int min_node_453 = min( num_node_5, num_node_6 );
-    int max_node_453 = max( num_node_5, num_node_6 );
+    int min_node_453 = std::min( num_node_5, num_node_6 );
+    int max_node_453 = std::max( num_node_5, num_node_6 );
     int num_edge_453 = 64 * max_node_453 + min_node_453;
     int num_node_453;
     if ( edge_num_cut_procs[ num_edge_453 ] != num_cut_proc ) {
@@ -7116,18 +7114,18 @@ case_90: {
     faces.node_lists[ num_face ][ 2 ] = num_node_453;
     faces.node_lists[ num_face ][ 3 ] = num_node_6;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_0 ) |
-        ( 1 << num_node_128 ) |
-        ( 1 << num_node_453 ) |
-        ( 1 << num_node_6 ) ;
+        ( std::uint64_t( 1 ) << num_node_0 ) |
+        ( std::uint64_t( 1 ) << num_node_128 ) |
+        ( std::uint64_t( 1 ) << num_node_453 ) |
+        ( std::uint64_t( 1 ) << num_node_6 ) ;
     return;
 }
 case_91: {
     // n=7 00111111
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
-    int min_node_453 = min( num_node_5, num_node_6 );
-    int max_node_453 = max( num_node_5, num_node_6 );
+    int min_node_453 = std::min( num_node_5, num_node_6 );
+    int max_node_453 = std::max( num_node_5, num_node_6 );
     int num_edge_453 = 64 * max_node_453 + min_node_453;
     int num_node_453;
     if ( edge_num_cut_procs[ num_edge_453 ] != num_cut_proc ) {
@@ -7154,8 +7152,8 @@ case_91: {
     } else
         num_node_453 = edge_cuts[ num_edge_453 ];
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
-    int min_node_448 = min( num_node_6, num_node_0 );
-    int max_node_448 = max( num_node_6, num_node_0 );
+    int min_node_448 = std::min( num_node_6, num_node_0 );
+    int max_node_448 = std::max( num_node_6, num_node_0 );
     int num_edge_448 = 64 * max_node_448 + min_node_448;
     int num_node_448;
     if ( edge_num_cut_procs[ num_edge_448 ] != num_cut_proc ) {
@@ -7189,17 +7187,17 @@ case_91: {
     faces.node_lists[ num_face ][ 1 ] = num_node_6;
     faces.node_lists[ num_face ][ 2 ] = num_node_448;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_453 ) |
-        ( 1 << num_node_6 ) |
-        ( 1 << num_node_448 ) ;
+        ( std::uint64_t( 1 ) << num_node_453 ) |
+        ( std::uint64_t( 1 ) << num_node_6 ) |
+        ( std::uint64_t( 1 ) << num_node_448 ) ;
     return;
 }
 case_92: {
     // n=7 01000000
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
-    int min_node_453 = min( num_node_5, num_node_6 );
-    int max_node_453 = max( num_node_5, num_node_6 );
+    int min_node_453 = std::min( num_node_5, num_node_6 );
+    int max_node_453 = std::max( num_node_5, num_node_6 );
     int num_edge_453 = 64 * max_node_453 + min_node_453;
     int num_node_453;
     if ( edge_num_cut_procs[ num_edge_453 ] != num_cut_proc ) {
@@ -7226,8 +7224,8 @@ case_92: {
     } else
         num_node_453 = edge_cuts[ num_edge_453 ];
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
-    int min_node_448 = min( num_node_6, num_node_0 );
-    int max_node_448 = max( num_node_6, num_node_0 );
+    int min_node_448 = std::min( num_node_6, num_node_0 );
+    int max_node_448 = std::max( num_node_6, num_node_0 );
     int num_edge_448 = 64 * max_node_448 + min_node_448;
     int num_node_448;
     if ( edge_num_cut_procs[ num_edge_448 ] != num_cut_proc ) {
@@ -7264,22 +7262,22 @@ case_92: {
     faces.node_lists[ num_face ][ 6 ] = num_node_453;
     faces.node_lists[ num_face ][ 7 ] = num_node_448;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_0 ) |
-        ( 1 << num_node_1 ) |
-        ( 1 << num_node_2 ) |
-        ( 1 << num_node_3 ) |
-        ( 1 << num_node_4 ) |
-        ( 1 << num_node_5 ) |
-        ( 1 << num_node_453 ) |
-        ( 1 << num_node_448 ) ;
+        ( std::uint64_t( 1 ) << num_node_0 ) |
+        ( std::uint64_t( 1 ) << num_node_1 ) |
+        ( std::uint64_t( 1 ) << num_node_2 ) |
+        ( std::uint64_t( 1 ) << num_node_3 ) |
+        ( std::uint64_t( 1 ) << num_node_4 ) |
+        ( std::uint64_t( 1 ) << num_node_5 ) |
+        ( std::uint64_t( 1 ) << num_node_453 ) |
+        ( std::uint64_t( 1 ) << num_node_448 ) ;
     return;
 }
 case_93: {
     // n=7 01000001
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
-    int min_node_128 = min( num_node_0, num_node_1 );
-    int max_node_128 = max( num_node_0, num_node_1 );
+    int min_node_128 = std::min( num_node_0, num_node_1 );
+    int max_node_128 = std::max( num_node_0, num_node_1 );
     int num_edge_128 = 64 * max_node_128 + min_node_128;
     int num_node_128;
     if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
@@ -7307,8 +7305,8 @@ case_93: {
         num_node_128 = edge_cuts[ num_edge_128 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
-    int min_node_453 = min( num_node_5, num_node_6 );
-    int max_node_453 = max( num_node_5, num_node_6 );
+    int min_node_453 = std::min( num_node_5, num_node_6 );
+    int max_node_453 = std::max( num_node_5, num_node_6 );
     int num_edge_453 = 64 * max_node_453 + min_node_453;
     int num_node_453;
     if ( edge_num_cut_procs[ num_edge_453 ] != num_cut_proc ) {
@@ -7343,21 +7341,21 @@ case_93: {
     faces.node_lists[ num_face ][ 0 ] = num_node_128;
     faces.node_lists[ num_face ][ 6 ] = num_node_453;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_128 ) |
-        ( 1 << num_node_1 ) |
-        ( 1 << num_node_2 ) |
-        ( 1 << num_node_3 ) |
-        ( 1 << num_node_4 ) |
-        ( 1 << num_node_5 ) |
-        ( 1 << num_node_453 ) ;
+        ( std::uint64_t( 1 ) << num_node_128 ) |
+        ( std::uint64_t( 1 ) << num_node_1 ) |
+        ( std::uint64_t( 1 ) << num_node_2 ) |
+        ( std::uint64_t( 1 ) << num_node_3 ) |
+        ( std::uint64_t( 1 ) << num_node_4 ) |
+        ( std::uint64_t( 1 ) << num_node_5 ) |
+        ( std::uint64_t( 1 ) << num_node_453 ) ;
     return;
 }
 case_94: {
     // n=7 01000011
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
-    int min_node_193 = min( num_node_1, num_node_2 );
-    int max_node_193 = max( num_node_1, num_node_2 );
+    int min_node_193 = std::min( num_node_1, num_node_2 );
+    int max_node_193 = std::max( num_node_1, num_node_2 );
     int num_edge_193 = 64 * max_node_193 + min_node_193;
     int num_node_193;
     if ( edge_num_cut_procs[ num_edge_193 ] != num_cut_proc ) {
@@ -7385,8 +7383,8 @@ case_94: {
         num_node_193 = edge_cuts[ num_edge_193 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
-    int min_node_453 = min( num_node_5, num_node_6 );
-    int max_node_453 = max( num_node_5, num_node_6 );
+    int min_node_453 = std::min( num_node_5, num_node_6 );
+    int max_node_453 = std::max( num_node_5, num_node_6 );
     int num_edge_453 = 64 * max_node_453 + min_node_453;
     int num_node_453;
     if ( edge_num_cut_procs[ num_edge_453 ] != num_cut_proc ) {
@@ -7421,20 +7419,20 @@ case_94: {
     faces.node_lists[ num_face ][ 0 ] = num_node_453;
     faces.node_lists[ num_face ][ 1 ] = num_node_193;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_453 ) |
-        ( 1 << num_node_193 ) |
-        ( 1 << num_node_2 ) |
-        ( 1 << num_node_3 ) |
-        ( 1 << num_node_4 ) |
-        ( 1 << num_node_5 ) ;
+        ( std::uint64_t( 1 ) << num_node_453 ) |
+        ( std::uint64_t( 1 ) << num_node_193 ) |
+        ( std::uint64_t( 1 ) << num_node_2 ) |
+        ( std::uint64_t( 1 ) << num_node_3 ) |
+        ( std::uint64_t( 1 ) << num_node_4 ) |
+        ( std::uint64_t( 1 ) << num_node_5 ) ;
     return;
 }
 case_95: {
     // n=7 01000111
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
-    int min_node_258 = min( num_node_2, num_node_3 );
-    int max_node_258 = max( num_node_2, num_node_3 );
+    int min_node_258 = std::min( num_node_2, num_node_3 );
+    int max_node_258 = std::max( num_node_2, num_node_3 );
     int num_edge_258 = 64 * max_node_258 + min_node_258;
     int num_node_258;
     if ( edge_num_cut_procs[ num_edge_258 ] != num_cut_proc ) {
@@ -7462,8 +7460,8 @@ case_95: {
         num_node_258 = edge_cuts[ num_edge_258 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
-    int min_node_453 = min( num_node_5, num_node_6 );
-    int max_node_453 = max( num_node_5, num_node_6 );
+    int min_node_453 = std::min( num_node_5, num_node_6 );
+    int max_node_453 = std::max( num_node_5, num_node_6 );
     int num_edge_453 = 64 * max_node_453 + min_node_453;
     int num_node_453;
     if ( edge_num_cut_procs[ num_edge_453 ] != num_cut_proc ) {
@@ -7498,19 +7496,19 @@ case_95: {
     faces.node_lists[ num_face ][ 1 ] = num_node_453;
     faces.node_lists[ num_face ][ 2 ] = num_node_258;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_5 ) |
-        ( 1 << num_node_453 ) |
-        ( 1 << num_node_258 ) |
-        ( 1 << num_node_3 ) |
-        ( 1 << num_node_4 ) ;
+        ( std::uint64_t( 1 ) << num_node_5 ) |
+        ( std::uint64_t( 1 ) << num_node_453 ) |
+        ( std::uint64_t( 1 ) << num_node_258 ) |
+        ( std::uint64_t( 1 ) << num_node_3 ) |
+        ( std::uint64_t( 1 ) << num_node_4 ) ;
     return;
 }
 case_96: {
     // n=7 01001111
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
-    int min_node_323 = min( num_node_3, num_node_4 );
-    int max_node_323 = max( num_node_3, num_node_4 );
+    int min_node_323 = std::min( num_node_3, num_node_4 );
+    int max_node_323 = std::max( num_node_3, num_node_4 );
     int num_edge_323 = 64 * max_node_323 + min_node_323;
     int num_node_323;
     if ( edge_num_cut_procs[ num_edge_323 ] != num_cut_proc ) {
@@ -7538,8 +7536,8 @@ case_96: {
         num_node_323 = edge_cuts[ num_edge_323 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
-    int min_node_453 = min( num_node_5, num_node_6 );
-    int max_node_453 = max( num_node_5, num_node_6 );
+    int min_node_453 = std::min( num_node_5, num_node_6 );
+    int max_node_453 = std::max( num_node_5, num_node_6 );
     int num_edge_453 = 64 * max_node_453 + min_node_453;
     int num_node_453;
     if ( edge_num_cut_procs[ num_edge_453 ] != num_cut_proc ) {
@@ -7574,18 +7572,18 @@ case_96: {
     faces.node_lists[ num_face ][ 2 ] = num_node_5;
     faces.node_lists[ num_face ][ 3 ] = num_node_453;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_323 ) |
-        ( 1 << num_node_4 ) |
-        ( 1 << num_node_5 ) |
-        ( 1 << num_node_453 ) ;
+        ( std::uint64_t( 1 ) << num_node_323 ) |
+        ( std::uint64_t( 1 ) << num_node_4 ) |
+        ( std::uint64_t( 1 ) << num_node_5 ) |
+        ( std::uint64_t( 1 ) << num_node_453 ) ;
     return;
 }
 case_97: {
     // n=7 01011111
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
-    int min_node_388 = min( num_node_4, num_node_5 );
-    int max_node_388 = max( num_node_4, num_node_5 );
+    int min_node_388 = std::min( num_node_4, num_node_5 );
+    int max_node_388 = std::max( num_node_4, num_node_5 );
     int num_edge_388 = 64 * max_node_388 + min_node_388;
     int num_node_388;
     if ( edge_num_cut_procs[ num_edge_388 ] != num_cut_proc ) {
@@ -7612,8 +7610,8 @@ case_97: {
     } else
         num_node_388 = edge_cuts[ num_edge_388 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
-    int min_node_453 = min( num_node_5, num_node_6 );
-    int max_node_453 = max( num_node_5, num_node_6 );
+    int min_node_453 = std::min( num_node_5, num_node_6 );
+    int max_node_453 = std::max( num_node_5, num_node_6 );
     int num_edge_453 = 64 * max_node_453 + min_node_453;
     int num_node_453;
     if ( edge_num_cut_procs[ num_edge_453 ] != num_cut_proc ) {
@@ -7647,17 +7645,17 @@ case_97: {
     faces.node_lists[ num_face ][ 1 ] = num_node_5;
     faces.node_lists[ num_face ][ 2 ] = num_node_453;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_388 ) |
-        ( 1 << num_node_5 ) |
-        ( 1 << num_node_453 ) ;
+        ( std::uint64_t( 1 ) << num_node_388 ) |
+        ( std::uint64_t( 1 ) << num_node_5 ) |
+        ( std::uint64_t( 1 ) << num_node_453 ) ;
     return;
 }
 case_98: {
     // n=7 01100000
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
-    int min_node_388 = min( num_node_4, num_node_5 );
-    int max_node_388 = max( num_node_4, num_node_5 );
+    int min_node_388 = std::min( num_node_4, num_node_5 );
+    int max_node_388 = std::max( num_node_4, num_node_5 );
     int num_edge_388 = 64 * max_node_388 + min_node_388;
     int num_node_388;
     if ( edge_num_cut_procs[ num_edge_388 ] != num_cut_proc ) {
@@ -7685,8 +7683,8 @@ case_98: {
         num_node_388 = edge_cuts[ num_edge_388 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
-    int min_node_448 = min( num_node_6, num_node_0 );
-    int max_node_448 = max( num_node_6, num_node_0 );
+    int min_node_448 = std::min( num_node_6, num_node_0 );
+    int max_node_448 = std::max( num_node_6, num_node_0 );
     int num_edge_448 = 64 * max_node_448 + min_node_448;
     int num_node_448;
     if ( edge_num_cut_procs[ num_edge_448 ] != num_cut_proc ) {
@@ -7721,21 +7719,21 @@ case_98: {
     faces.node_lists[ num_face ][ 5 ] = num_node_388;
     faces.node_lists[ num_face ][ 6 ] = num_node_448;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_0 ) |
-        ( 1 << num_node_1 ) |
-        ( 1 << num_node_2 ) |
-        ( 1 << num_node_3 ) |
-        ( 1 << num_node_4 ) |
-        ( 1 << num_node_388 ) |
-        ( 1 << num_node_448 ) ;
+        ( std::uint64_t( 1 ) << num_node_0 ) |
+        ( std::uint64_t( 1 ) << num_node_1 ) |
+        ( std::uint64_t( 1 ) << num_node_2 ) |
+        ( std::uint64_t( 1 ) << num_node_3 ) |
+        ( std::uint64_t( 1 ) << num_node_4 ) |
+        ( std::uint64_t( 1 ) << num_node_388 ) |
+        ( std::uint64_t( 1 ) << num_node_448 ) ;
     return;
 }
 case_99: {
     // n=7 01100001
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
-    int min_node_128 = min( num_node_0, num_node_1 );
-    int max_node_128 = max( num_node_0, num_node_1 );
+    int min_node_128 = std::min( num_node_0, num_node_1 );
+    int max_node_128 = std::max( num_node_0, num_node_1 );
     int num_edge_128 = 64 * max_node_128 + min_node_128;
     int num_node_128;
     if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
@@ -7763,8 +7761,8 @@ case_99: {
         num_node_128 = edge_cuts[ num_edge_128 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
-    int min_node_388 = min( num_node_4, num_node_5 );
-    int max_node_388 = max( num_node_4, num_node_5 );
+    int min_node_388 = std::min( num_node_4, num_node_5 );
+    int max_node_388 = std::max( num_node_4, num_node_5 );
     int num_edge_388 = 64 * max_node_388 + min_node_388;
     int num_node_388;
     if ( edge_num_cut_procs[ num_edge_388 ] != num_cut_proc ) {
@@ -7799,20 +7797,20 @@ case_99: {
     faces.node_lists[ num_face ][ 0 ] = num_node_128;
     faces.node_lists[ num_face ][ 5 ] = num_node_388;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_128 ) |
-        ( 1 << num_node_1 ) |
-        ( 1 << num_node_2 ) |
-        ( 1 << num_node_3 ) |
-        ( 1 << num_node_4 ) |
-        ( 1 << num_node_388 ) ;
+        ( std::uint64_t( 1 ) << num_node_128 ) |
+        ( std::uint64_t( 1 ) << num_node_1 ) |
+        ( std::uint64_t( 1 ) << num_node_2 ) |
+        ( std::uint64_t( 1 ) << num_node_3 ) |
+        ( std::uint64_t( 1 ) << num_node_4 ) |
+        ( std::uint64_t( 1 ) << num_node_388 ) ;
     return;
 }
 case_100: {
     // n=7 01100011
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
-    int min_node_193 = min( num_node_1, num_node_2 );
-    int max_node_193 = max( num_node_1, num_node_2 );
+    int min_node_193 = std::min( num_node_1, num_node_2 );
+    int max_node_193 = std::max( num_node_1, num_node_2 );
     int num_edge_193 = 64 * max_node_193 + min_node_193;
     int num_node_193;
     if ( edge_num_cut_procs[ num_edge_193 ] != num_cut_proc ) {
@@ -7840,8 +7838,8 @@ case_100: {
         num_node_193 = edge_cuts[ num_edge_193 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
-    int min_node_388 = min( num_node_4, num_node_5 );
-    int max_node_388 = max( num_node_4, num_node_5 );
+    int min_node_388 = std::min( num_node_4, num_node_5 );
+    int max_node_388 = std::max( num_node_4, num_node_5 );
     int num_edge_388 = 64 * max_node_388 + min_node_388;
     int num_node_388;
     if ( edge_num_cut_procs[ num_edge_388 ] != num_cut_proc ) {
@@ -7875,19 +7873,19 @@ case_100: {
     faces.node_lists[ num_face ][ 0 ] = num_node_388;
     faces.node_lists[ num_face ][ 1 ] = num_node_193;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_388 ) |
-        ( 1 << num_node_193 ) |
-        ( 1 << num_node_2 ) |
-        ( 1 << num_node_3 ) |
-        ( 1 << num_node_4 ) ;
+        ( std::uint64_t( 1 ) << num_node_388 ) |
+        ( std::uint64_t( 1 ) << num_node_193 ) |
+        ( std::uint64_t( 1 ) << num_node_2 ) |
+        ( std::uint64_t( 1 ) << num_node_3 ) |
+        ( std::uint64_t( 1 ) << num_node_4 ) ;
     return;
 }
 case_101: {
     // n=7 01100111
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
-    int min_node_258 = min( num_node_2, num_node_3 );
-    int max_node_258 = max( num_node_2, num_node_3 );
+    int min_node_258 = std::min( num_node_2, num_node_3 );
+    int max_node_258 = std::max( num_node_2, num_node_3 );
     int num_edge_258 = 64 * max_node_258 + min_node_258;
     int num_node_258;
     if ( edge_num_cut_procs[ num_edge_258 ] != num_cut_proc ) {
@@ -7915,8 +7913,8 @@ case_101: {
         num_node_258 = edge_cuts[ num_edge_258 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
-    int min_node_388 = min( num_node_4, num_node_5 );
-    int max_node_388 = max( num_node_4, num_node_5 );
+    int min_node_388 = std::min( num_node_4, num_node_5 );
+    int max_node_388 = std::max( num_node_4, num_node_5 );
     int num_edge_388 = 64 * max_node_388 + min_node_388;
     int num_node_388;
     if ( edge_num_cut_procs[ num_edge_388 ] != num_cut_proc ) {
@@ -7950,18 +7948,18 @@ case_101: {
     faces.node_lists[ num_face ][ 1 ] = num_node_388;
     faces.node_lists[ num_face ][ 2 ] = num_node_258;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_4 ) |
-        ( 1 << num_node_388 ) |
-        ( 1 << num_node_258 ) |
-        ( 1 << num_node_3 ) ;
+        ( std::uint64_t( 1 ) << num_node_4 ) |
+        ( std::uint64_t( 1 ) << num_node_388 ) |
+        ( std::uint64_t( 1 ) << num_node_258 ) |
+        ( std::uint64_t( 1 ) << num_node_3 ) ;
     return;
 }
 case_102: {
     // n=7 01101111
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
-    int min_node_323 = min( num_node_3, num_node_4 );
-    int max_node_323 = max( num_node_3, num_node_4 );
+    int min_node_323 = std::min( num_node_3, num_node_4 );
+    int max_node_323 = std::max( num_node_3, num_node_4 );
     int num_edge_323 = 64 * max_node_323 + min_node_323;
     int num_node_323;
     if ( edge_num_cut_procs[ num_edge_323 ] != num_cut_proc ) {
@@ -7988,8 +7986,8 @@ case_102: {
     } else
         num_node_323 = edge_cuts[ num_edge_323 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
-    int min_node_388 = min( num_node_4, num_node_5 );
-    int max_node_388 = max( num_node_4, num_node_5 );
+    int min_node_388 = std::min( num_node_4, num_node_5 );
+    int max_node_388 = std::max( num_node_4, num_node_5 );
     int num_edge_388 = 64 * max_node_388 + min_node_388;
     int num_node_388;
     if ( edge_num_cut_procs[ num_edge_388 ] != num_cut_proc ) {
@@ -8023,17 +8021,17 @@ case_102: {
     faces.node_lists[ num_face ][ 1 ] = num_node_4;
     faces.node_lists[ num_face ][ 2 ] = num_node_388;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_323 ) |
-        ( 1 << num_node_4 ) |
-        ( 1 << num_node_388 ) ;
+        ( std::uint64_t( 1 ) << num_node_323 ) |
+        ( std::uint64_t( 1 ) << num_node_4 ) |
+        ( std::uint64_t( 1 ) << num_node_388 ) ;
     return;
 }
 case_103: {
     // n=7 01110000
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
-    int min_node_323 = min( num_node_3, num_node_4 );
-    int max_node_323 = max( num_node_3, num_node_4 );
+    int min_node_323 = std::min( num_node_3, num_node_4 );
+    int max_node_323 = std::max( num_node_3, num_node_4 );
     int num_edge_323 = 64 * max_node_323 + min_node_323;
     int num_node_323;
     if ( edge_num_cut_procs[ num_edge_323 ] != num_cut_proc ) {
@@ -8061,8 +8059,8 @@ case_103: {
         num_node_323 = edge_cuts[ num_edge_323 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
-    int min_node_448 = min( num_node_6, num_node_0 );
-    int max_node_448 = max( num_node_6, num_node_0 );
+    int min_node_448 = std::min( num_node_6, num_node_0 );
+    int max_node_448 = std::max( num_node_6, num_node_0 );
     int num_edge_448 = 64 * max_node_448 + min_node_448;
     int num_node_448;
     if ( edge_num_cut_procs[ num_edge_448 ] != num_cut_proc ) {
@@ -8097,20 +8095,20 @@ case_103: {
     faces.node_lists[ num_face ][ 4 ] = num_node_323;
     faces.node_lists[ num_face ][ 5 ] = num_node_448;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_0 ) |
-        ( 1 << num_node_1 ) |
-        ( 1 << num_node_2 ) |
-        ( 1 << num_node_3 ) |
-        ( 1 << num_node_323 ) |
-        ( 1 << num_node_448 ) ;
+        ( std::uint64_t( 1 ) << num_node_0 ) |
+        ( std::uint64_t( 1 ) << num_node_1 ) |
+        ( std::uint64_t( 1 ) << num_node_2 ) |
+        ( std::uint64_t( 1 ) << num_node_3 ) |
+        ( std::uint64_t( 1 ) << num_node_323 ) |
+        ( std::uint64_t( 1 ) << num_node_448 ) ;
     return;
 }
 case_104: {
     // n=7 01110001
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
-    int min_node_128 = min( num_node_0, num_node_1 );
-    int max_node_128 = max( num_node_0, num_node_1 );
+    int min_node_128 = std::min( num_node_0, num_node_1 );
+    int max_node_128 = std::max( num_node_0, num_node_1 );
     int num_edge_128 = 64 * max_node_128 + min_node_128;
     int num_node_128;
     if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
@@ -8138,8 +8136,8 @@ case_104: {
         num_node_128 = edge_cuts[ num_edge_128 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
-    int min_node_323 = min( num_node_3, num_node_4 );
-    int max_node_323 = max( num_node_3, num_node_4 );
+    int min_node_323 = std::min( num_node_3, num_node_4 );
+    int max_node_323 = std::max( num_node_3, num_node_4 );
     int num_edge_323 = 64 * max_node_323 + min_node_323;
     int num_node_323;
     if ( edge_num_cut_procs[ num_edge_323 ] != num_cut_proc ) {
@@ -8173,19 +8171,19 @@ case_104: {
     faces.node_lists[ num_face ][ 0 ] = num_node_128;
     faces.node_lists[ num_face ][ 4 ] = num_node_323;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_128 ) |
-        ( 1 << num_node_1 ) |
-        ( 1 << num_node_2 ) |
-        ( 1 << num_node_3 ) |
-        ( 1 << num_node_323 ) ;
+        ( std::uint64_t( 1 ) << num_node_128 ) |
+        ( std::uint64_t( 1 ) << num_node_1 ) |
+        ( std::uint64_t( 1 ) << num_node_2 ) |
+        ( std::uint64_t( 1 ) << num_node_3 ) |
+        ( std::uint64_t( 1 ) << num_node_323 ) ;
     return;
 }
 case_105: {
     // n=7 01110011
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
-    int min_node_193 = min( num_node_1, num_node_2 );
-    int max_node_193 = max( num_node_1, num_node_2 );
+    int min_node_193 = std::min( num_node_1, num_node_2 );
+    int max_node_193 = std::max( num_node_1, num_node_2 );
     int num_edge_193 = 64 * max_node_193 + min_node_193;
     int num_node_193;
     if ( edge_num_cut_procs[ num_edge_193 ] != num_cut_proc ) {
@@ -8213,8 +8211,8 @@ case_105: {
         num_node_193 = edge_cuts[ num_edge_193 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
-    int min_node_323 = min( num_node_3, num_node_4 );
-    int max_node_323 = max( num_node_3, num_node_4 );
+    int min_node_323 = std::min( num_node_3, num_node_4 );
+    int max_node_323 = std::max( num_node_3, num_node_4 );
     int num_edge_323 = 64 * max_node_323 + min_node_323;
     int num_node_323;
     if ( edge_num_cut_procs[ num_edge_323 ] != num_cut_proc ) {
@@ -8247,18 +8245,18 @@ case_105: {
     faces.node_lists[ num_face ][ 0 ] = num_node_323;
     faces.node_lists[ num_face ][ 1 ] = num_node_193;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_323 ) |
-        ( 1 << num_node_193 ) |
-        ( 1 << num_node_2 ) |
-        ( 1 << num_node_3 ) ;
+        ( std::uint64_t( 1 ) << num_node_323 ) |
+        ( std::uint64_t( 1 ) << num_node_193 ) |
+        ( std::uint64_t( 1 ) << num_node_2 ) |
+        ( std::uint64_t( 1 ) << num_node_3 ) ;
     return;
 }
 case_106: {
     // n=7 01110111
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
-    int min_node_258 = min( num_node_2, num_node_3 );
-    int max_node_258 = max( num_node_2, num_node_3 );
+    int min_node_258 = std::min( num_node_2, num_node_3 );
+    int max_node_258 = std::max( num_node_2, num_node_3 );
     int num_edge_258 = 64 * max_node_258 + min_node_258;
     int num_node_258;
     if ( edge_num_cut_procs[ num_edge_258 ] != num_cut_proc ) {
@@ -8285,8 +8283,8 @@ case_106: {
     } else
         num_node_258 = edge_cuts[ num_edge_258 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
-    int min_node_323 = min( num_node_3, num_node_4 );
-    int max_node_323 = max( num_node_3, num_node_4 );
+    int min_node_323 = std::min( num_node_3, num_node_4 );
+    int max_node_323 = std::max( num_node_3, num_node_4 );
     int num_edge_323 = 64 * max_node_323 + min_node_323;
     int num_node_323;
     if ( edge_num_cut_procs[ num_edge_323 ] != num_cut_proc ) {
@@ -8320,17 +8318,17 @@ case_106: {
     faces.node_lists[ num_face ][ 1 ] = num_node_3;
     faces.node_lists[ num_face ][ 2 ] = num_node_323;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_258 ) |
-        ( 1 << num_node_3 ) |
-        ( 1 << num_node_323 ) ;
+        ( std::uint64_t( 1 ) << num_node_258 ) |
+        ( std::uint64_t( 1 ) << num_node_3 ) |
+        ( std::uint64_t( 1 ) << num_node_323 ) ;
     return;
 }
 case_107: {
     // n=7 01111000
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
-    int min_node_258 = min( num_node_2, num_node_3 );
-    int max_node_258 = max( num_node_2, num_node_3 );
+    int min_node_258 = std::min( num_node_2, num_node_3 );
+    int max_node_258 = std::max( num_node_2, num_node_3 );
     int num_edge_258 = 64 * max_node_258 + min_node_258;
     int num_node_258;
     if ( edge_num_cut_procs[ num_edge_258 ] != num_cut_proc ) {
@@ -8358,8 +8356,8 @@ case_107: {
         num_node_258 = edge_cuts[ num_edge_258 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
-    int min_node_448 = min( num_node_6, num_node_0 );
-    int max_node_448 = max( num_node_6, num_node_0 );
+    int min_node_448 = std::min( num_node_6, num_node_0 );
+    int max_node_448 = std::max( num_node_6, num_node_0 );
     int num_edge_448 = 64 * max_node_448 + min_node_448;
     int num_node_448;
     if ( edge_num_cut_procs[ num_edge_448 ] != num_cut_proc ) {
@@ -8393,19 +8391,19 @@ case_107: {
     faces.node_lists[ num_face ][ 3 ] = num_node_258;
     faces.node_lists[ num_face ][ 4 ] = num_node_448;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_0 ) |
-        ( 1 << num_node_1 ) |
-        ( 1 << num_node_2 ) |
-        ( 1 << num_node_258 ) |
-        ( 1 << num_node_448 ) ;
+        ( std::uint64_t( 1 ) << num_node_0 ) |
+        ( std::uint64_t( 1 ) << num_node_1 ) |
+        ( std::uint64_t( 1 ) << num_node_2 ) |
+        ( std::uint64_t( 1 ) << num_node_258 ) |
+        ( std::uint64_t( 1 ) << num_node_448 ) ;
     return;
 }
 case_108: {
     // n=7 01111001
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
-    int min_node_128 = min( num_node_0, num_node_1 );
-    int max_node_128 = max( num_node_0, num_node_1 );
+    int min_node_128 = std::min( num_node_0, num_node_1 );
+    int max_node_128 = std::max( num_node_0, num_node_1 );
     int num_edge_128 = 64 * max_node_128 + min_node_128;
     int num_node_128;
     if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
@@ -8433,8 +8431,8 @@ case_108: {
         num_node_128 = edge_cuts[ num_edge_128 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
-    int min_node_258 = min( num_node_2, num_node_3 );
-    int max_node_258 = max( num_node_2, num_node_3 );
+    int min_node_258 = std::min( num_node_2, num_node_3 );
+    int max_node_258 = std::max( num_node_2, num_node_3 );
     int num_edge_258 = 64 * max_node_258 + min_node_258;
     int num_node_258;
     if ( edge_num_cut_procs[ num_edge_258 ] != num_cut_proc ) {
@@ -8467,18 +8465,18 @@ case_108: {
     faces.node_lists[ num_face ][ 0 ] = num_node_128;
     faces.node_lists[ num_face ][ 3 ] = num_node_258;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_128 ) |
-        ( 1 << num_node_1 ) |
-        ( 1 << num_node_2 ) |
-        ( 1 << num_node_258 ) ;
+        ( std::uint64_t( 1 ) << num_node_128 ) |
+        ( std::uint64_t( 1 ) << num_node_1 ) |
+        ( std::uint64_t( 1 ) << num_node_2 ) |
+        ( std::uint64_t( 1 ) << num_node_258 ) ;
     return;
 }
 case_109: {
     // n=7 01111011
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
-    int min_node_193 = min( num_node_1, num_node_2 );
-    int max_node_193 = max( num_node_1, num_node_2 );
+    int min_node_193 = std::min( num_node_1, num_node_2 );
+    int max_node_193 = std::max( num_node_1, num_node_2 );
     int num_edge_193 = 64 * max_node_193 + min_node_193;
     int num_node_193;
     if ( edge_num_cut_procs[ num_edge_193 ] != num_cut_proc ) {
@@ -8505,8 +8503,8 @@ case_109: {
     } else
         num_node_193 = edge_cuts[ num_edge_193 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
-    int min_node_258 = min( num_node_2, num_node_3 );
-    int max_node_258 = max( num_node_2, num_node_3 );
+    int min_node_258 = std::min( num_node_2, num_node_3 );
+    int max_node_258 = std::max( num_node_2, num_node_3 );
     int num_edge_258 = 64 * max_node_258 + min_node_258;
     int num_node_258;
     if ( edge_num_cut_procs[ num_edge_258 ] != num_cut_proc ) {
@@ -8539,17 +8537,17 @@ case_109: {
     faces.node_lists[ num_face ][ 0 ] = num_node_258;
     faces.node_lists[ num_face ][ 1 ] = num_node_193;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_258 ) |
-        ( 1 << num_node_193 ) |
-        ( 1 << num_node_2 ) ;
+        ( std::uint64_t( 1 ) << num_node_258 ) |
+        ( std::uint64_t( 1 ) << num_node_193 ) |
+        ( std::uint64_t( 1 ) << num_node_2 ) ;
     return;
 }
 case_110: {
     // n=7 01111100
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
-    int min_node_193 = min( num_node_1, num_node_2 );
-    int max_node_193 = max( num_node_1, num_node_2 );
+    int min_node_193 = std::min( num_node_1, num_node_2 );
+    int max_node_193 = std::max( num_node_1, num_node_2 );
     int num_edge_193 = 64 * max_node_193 + min_node_193;
     int num_node_193;
     if ( edge_num_cut_procs[ num_edge_193 ] != num_cut_proc ) {
@@ -8577,8 +8575,8 @@ case_110: {
         num_node_193 = edge_cuts[ num_edge_193 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
-    int min_node_448 = min( num_node_6, num_node_0 );
-    int max_node_448 = max( num_node_6, num_node_0 );
+    int min_node_448 = std::min( num_node_6, num_node_0 );
+    int max_node_448 = std::max( num_node_6, num_node_0 );
     int num_edge_448 = 64 * max_node_448 + min_node_448;
     int num_node_448;
     if ( edge_num_cut_procs[ num_edge_448 ] != num_cut_proc ) {
@@ -8611,18 +8609,18 @@ case_110: {
     faces.node_lists[ num_face ][ 2 ] = num_node_193;
     faces.node_lists[ num_face ][ 3 ] = num_node_448;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_0 ) |
-        ( 1 << num_node_1 ) |
-        ( 1 << num_node_193 ) |
-        ( 1 << num_node_448 ) ;
+        ( std::uint64_t( 1 ) << num_node_0 ) |
+        ( std::uint64_t( 1 ) << num_node_1 ) |
+        ( std::uint64_t( 1 ) << num_node_193 ) |
+        ( std::uint64_t( 1 ) << num_node_448 ) ;
     return;
 }
 case_111: {
     // n=7 01111101
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
-    int min_node_128 = min( num_node_0, num_node_1 );
-    int max_node_128 = max( num_node_0, num_node_1 );
+    int min_node_128 = std::min( num_node_0, num_node_1 );
+    int max_node_128 = std::max( num_node_0, num_node_1 );
     int num_edge_128 = 64 * max_node_128 + min_node_128;
     int num_node_128;
     if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
@@ -8649,8 +8647,8 @@ case_111: {
     } else
         num_node_128 = edge_cuts[ num_edge_128 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
-    int min_node_193 = min( num_node_1, num_node_2 );
-    int max_node_193 = max( num_node_1, num_node_2 );
+    int min_node_193 = std::min( num_node_1, num_node_2 );
+    int max_node_193 = std::max( num_node_1, num_node_2 );
     int num_edge_193 = 64 * max_node_193 + min_node_193;
     int num_node_193;
     if ( edge_num_cut_procs[ num_edge_193 ] != num_cut_proc ) {
@@ -8683,17 +8681,17 @@ case_111: {
     faces.node_lists[ num_face ][ 0 ] = num_node_128;
     faces.node_lists[ num_face ][ 2 ] = num_node_193;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_128 ) |
-        ( 1 << num_node_1 ) |
-        ( 1 << num_node_193 ) ;
+        ( std::uint64_t( 1 ) << num_node_128 ) |
+        ( std::uint64_t( 1 ) << num_node_1 ) |
+        ( std::uint64_t( 1 ) << num_node_193 ) ;
     return;
 }
 case_112: {
     // n=7 01111110
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
-    int min_node_128 = min( num_node_0, num_node_1 );
-    int max_node_128 = max( num_node_0, num_node_1 );
+    int min_node_128 = std::min( num_node_0, num_node_1 );
+    int max_node_128 = std::max( num_node_0, num_node_1 );
     int num_edge_128 = 64 * max_node_128 + min_node_128;
     int num_node_128;
     if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
@@ -8720,8 +8718,8 @@ case_112: {
     } else
         num_node_128 = edge_cuts[ num_edge_128 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
-    int min_node_448 = min( num_node_6, num_node_0 );
-    int max_node_448 = max( num_node_6, num_node_0 );
+    int min_node_448 = std::min( num_node_6, num_node_0 );
+    int max_node_448 = std::max( num_node_6, num_node_0 );
     int num_edge_448 = 64 * max_node_448 + min_node_448;
     int num_node_448;
     if ( edge_num_cut_procs[ num_edge_448 ] != num_cut_proc ) {
@@ -8754,17 +8752,17 @@ case_112: {
     faces.node_lists[ num_face ][ 1 ] = num_node_128;
     faces.node_lists[ num_face ][ 2 ] = num_node_448;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_0 ) |
-        ( 1 << num_node_128 ) |
-        ( 1 << num_node_448 ) ;
+        ( std::uint64_t( 1 ) << num_node_0 ) |
+        ( std::uint64_t( 1 ) << num_node_128 ) |
+        ( std::uint64_t( 1 ) << num_node_448 ) ;
     return;
 }
 case_113: {
     // n=8 00000001
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
-    int min_node_128 = min( num_node_0, num_node_1 );
-    int max_node_128 = max( num_node_0, num_node_1 );
+    int min_node_128 = std::min( num_node_0, num_node_1 );
+    int max_node_128 = std::max( num_node_0, num_node_1 );
     int num_edge_128 = 64 * max_node_128 + min_node_128;
     int num_node_128;
     if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
@@ -8791,8 +8789,8 @@ case_113: {
     } else
         num_node_128 = edge_cuts[ num_edge_128 ];
     int num_node_7 = faces.node_lists[ num_face ][ 7 ];
-    int min_node_512 = min( num_node_7, num_node_0 );
-    int max_node_512 = max( num_node_7, num_node_0 );
+    int min_node_512 = std::min( num_node_7, num_node_0 );
+    int max_node_512 = std::max( num_node_7, num_node_0 );
     int num_edge_512 = 64 * max_node_512 + min_node_512;
     int num_node_512;
     if ( edge_num_cut_procs[ num_edge_512 ] != num_cut_proc ) {
@@ -8830,23 +8828,23 @@ case_113: {
     faces.node_lists[ num_face ][ 0 ] = num_node_128;
     faces.node_lists[ num_face ][ 8 ] = num_node_512;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_128 ) |
-        ( 1 << num_node_1 ) |
-        ( 1 << num_node_2 ) |
-        ( 1 << num_node_3 ) |
-        ( 1 << num_node_4 ) |
-        ( 1 << num_node_5 ) |
-        ( 1 << num_node_6 ) |
-        ( 1 << num_node_7 ) |
-        ( 1 << num_node_512 ) ;
+        ( std::uint64_t( 1 ) << num_node_128 ) |
+        ( std::uint64_t( 1 ) << num_node_1 ) |
+        ( std::uint64_t( 1 ) << num_node_2 ) |
+        ( std::uint64_t( 1 ) << num_node_3 ) |
+        ( std::uint64_t( 1 ) << num_node_4 ) |
+        ( std::uint64_t( 1 ) << num_node_5 ) |
+        ( std::uint64_t( 1 ) << num_node_6 ) |
+        ( std::uint64_t( 1 ) << num_node_7 ) |
+        ( std::uint64_t( 1 ) << num_node_512 ) ;
     return;
 }
 case_114: {
     // n=8 00000010
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
-    int min_node_128 = min( num_node_0, num_node_1 );
-    int max_node_128 = max( num_node_0, num_node_1 );
+    int min_node_128 = std::min( num_node_0, num_node_1 );
+    int max_node_128 = std::max( num_node_0, num_node_1 );
     int num_edge_128 = 64 * max_node_128 + min_node_128;
     int num_node_128;
     if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
@@ -8873,8 +8871,8 @@ case_114: {
     } else
         num_node_128 = edge_cuts[ num_edge_128 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
-    int min_node_193 = min( num_node_1, num_node_2 );
-    int max_node_193 = max( num_node_1, num_node_2 );
+    int min_node_193 = std::min( num_node_1, num_node_2 );
+    int max_node_193 = std::max( num_node_1, num_node_2 );
     int num_edge_193 = 64 * max_node_193 + min_node_193;
     int num_node_193;
     if ( edge_num_cut_procs[ num_edge_193 ] != num_cut_proc ) {
@@ -8913,23 +8911,23 @@ case_114: {
     faces.node_lists[ num_face ][ 1 ] = num_node_193;
     faces.node_lists[ num_face ][ 8 ] = num_node_0;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_128 ) |
-        ( 1 << num_node_193 ) |
-        ( 1 << num_node_2 ) |
-        ( 1 << num_node_3 ) |
-        ( 1 << num_node_4 ) |
-        ( 1 << num_node_5 ) |
-        ( 1 << num_node_6 ) |
-        ( 1 << num_node_7 ) |
-        ( 1 << num_node_0 ) ;
+        ( std::uint64_t( 1 ) << num_node_128 ) |
+        ( std::uint64_t( 1 ) << num_node_193 ) |
+        ( std::uint64_t( 1 ) << num_node_2 ) |
+        ( std::uint64_t( 1 ) << num_node_3 ) |
+        ( std::uint64_t( 1 ) << num_node_4 ) |
+        ( std::uint64_t( 1 ) << num_node_5 ) |
+        ( std::uint64_t( 1 ) << num_node_6 ) |
+        ( std::uint64_t( 1 ) << num_node_7 ) |
+        ( std::uint64_t( 1 ) << num_node_0 ) ;
     return;
 }
 case_115: {
     // n=8 00000011
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
-    int min_node_193 = min( num_node_1, num_node_2 );
-    int max_node_193 = max( num_node_1, num_node_2 );
+    int min_node_193 = std::min( num_node_1, num_node_2 );
+    int max_node_193 = std::max( num_node_1, num_node_2 );
     int num_edge_193 = 64 * max_node_193 + min_node_193;
     int num_node_193;
     if ( edge_num_cut_procs[ num_edge_193 ] != num_cut_proc ) {
@@ -8957,8 +8955,8 @@ case_115: {
         num_node_193 = edge_cuts[ num_edge_193 ];
     int num_node_7 = faces.node_lists[ num_face ][ 7 ];
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
-    int min_node_512 = min( num_node_7, num_node_0 );
-    int max_node_512 = max( num_node_7, num_node_0 );
+    int min_node_512 = std::min( num_node_7, num_node_0 );
+    int max_node_512 = std::max( num_node_7, num_node_0 );
     int num_edge_512 = 64 * max_node_512 + min_node_512;
     int num_node_512;
     if ( edge_num_cut_procs[ num_edge_512 ] != num_cut_proc ) {
@@ -8994,22 +8992,22 @@ case_115: {
     faces.node_lists[ num_face ][ 0 ] = num_node_512;
     faces.node_lists[ num_face ][ 1 ] = num_node_193;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_512 ) |
-        ( 1 << num_node_193 ) |
-        ( 1 << num_node_2 ) |
-        ( 1 << num_node_3 ) |
-        ( 1 << num_node_4 ) |
-        ( 1 << num_node_5 ) |
-        ( 1 << num_node_6 ) |
-        ( 1 << num_node_7 ) ;
+        ( std::uint64_t( 1 ) << num_node_512 ) |
+        ( std::uint64_t( 1 ) << num_node_193 ) |
+        ( std::uint64_t( 1 ) << num_node_2 ) |
+        ( std::uint64_t( 1 ) << num_node_3 ) |
+        ( std::uint64_t( 1 ) << num_node_4 ) |
+        ( std::uint64_t( 1 ) << num_node_5 ) |
+        ( std::uint64_t( 1 ) << num_node_6 ) |
+        ( std::uint64_t( 1 ) << num_node_7 ) ;
     return;
 }
 case_116: {
     // n=8 00000100
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
-    int min_node_193 = min( num_node_1, num_node_2 );
-    int max_node_193 = max( num_node_1, num_node_2 );
+    int min_node_193 = std::min( num_node_1, num_node_2 );
+    int max_node_193 = std::max( num_node_1, num_node_2 );
     int num_edge_193 = 64 * max_node_193 + min_node_193;
     int num_node_193;
     if ( edge_num_cut_procs[ num_edge_193 ] != num_cut_proc ) {
@@ -9036,8 +9034,8 @@ case_116: {
     } else
         num_node_193 = edge_cuts[ num_edge_193 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
-    int min_node_258 = min( num_node_2, num_node_3 );
-    int max_node_258 = max( num_node_2, num_node_3 );
+    int min_node_258 = std::min( num_node_2, num_node_3 );
+    int max_node_258 = std::max( num_node_2, num_node_3 );
     int num_edge_258 = 64 * max_node_258 + min_node_258;
     int num_node_258;
     if ( edge_num_cut_procs[ num_edge_258 ] != num_cut_proc ) {
@@ -9077,23 +9075,23 @@ case_116: {
     faces.node_lists[ num_face ][ 2 ] = num_node_258;
     faces.node_lists[ num_face ][ 8 ] = num_node_0;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_1 ) |
-        ( 1 << num_node_193 ) |
-        ( 1 << num_node_258 ) |
-        ( 1 << num_node_3 ) |
-        ( 1 << num_node_4 ) |
-        ( 1 << num_node_5 ) |
-        ( 1 << num_node_6 ) |
-        ( 1 << num_node_7 ) |
-        ( 1 << num_node_0 ) ;
+        ( std::uint64_t( 1 ) << num_node_1 ) |
+        ( std::uint64_t( 1 ) << num_node_193 ) |
+        ( std::uint64_t( 1 ) << num_node_258 ) |
+        ( std::uint64_t( 1 ) << num_node_3 ) |
+        ( std::uint64_t( 1 ) << num_node_4 ) |
+        ( std::uint64_t( 1 ) << num_node_5 ) |
+        ( std::uint64_t( 1 ) << num_node_6 ) |
+        ( std::uint64_t( 1 ) << num_node_7 ) |
+        ( std::uint64_t( 1 ) << num_node_0 ) ;
     return;
 }
 case_117: {
     // n=8 00000110
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
-    int min_node_128 = min( num_node_0, num_node_1 );
-    int max_node_128 = max( num_node_0, num_node_1 );
+    int min_node_128 = std::min( num_node_0, num_node_1 );
+    int max_node_128 = std::max( num_node_0, num_node_1 );
     int num_edge_128 = 64 * max_node_128 + min_node_128;
     int num_node_128;
     if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
@@ -9121,8 +9119,8 @@ case_117: {
         num_node_128 = edge_cuts[ num_edge_128 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
-    int min_node_258 = min( num_node_2, num_node_3 );
-    int max_node_258 = max( num_node_2, num_node_3 );
+    int min_node_258 = std::min( num_node_2, num_node_3 );
+    int max_node_258 = std::max( num_node_2, num_node_3 );
     int num_edge_258 = 64 * max_node_258 + min_node_258;
     int num_node_258;
     if ( edge_num_cut_procs[ num_edge_258 ] != num_cut_proc ) {
@@ -9158,22 +9156,22 @@ case_117: {
     faces.node_lists[ num_face ][ 1 ] = num_node_128;
     faces.node_lists[ num_face ][ 2 ] = num_node_258;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_0 ) |
-        ( 1 << num_node_128 ) |
-        ( 1 << num_node_258 ) |
-        ( 1 << num_node_3 ) |
-        ( 1 << num_node_4 ) |
-        ( 1 << num_node_5 ) |
-        ( 1 << num_node_6 ) |
-        ( 1 << num_node_7 ) ;
+        ( std::uint64_t( 1 ) << num_node_0 ) |
+        ( std::uint64_t( 1 ) << num_node_128 ) |
+        ( std::uint64_t( 1 ) << num_node_258 ) |
+        ( std::uint64_t( 1 ) << num_node_3 ) |
+        ( std::uint64_t( 1 ) << num_node_4 ) |
+        ( std::uint64_t( 1 ) << num_node_5 ) |
+        ( std::uint64_t( 1 ) << num_node_6 ) |
+        ( std::uint64_t( 1 ) << num_node_7 ) ;
     return;
 }
 case_118: {
     // n=8 00000111
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
-    int min_node_258 = min( num_node_2, num_node_3 );
-    int max_node_258 = max( num_node_2, num_node_3 );
+    int min_node_258 = std::min( num_node_2, num_node_3 );
+    int max_node_258 = std::max( num_node_2, num_node_3 );
     int num_edge_258 = 64 * max_node_258 + min_node_258;
     int num_node_258;
     if ( edge_num_cut_procs[ num_edge_258 ] != num_cut_proc ) {
@@ -9201,8 +9199,8 @@ case_118: {
         num_node_258 = edge_cuts[ num_edge_258 ];
     int num_node_7 = faces.node_lists[ num_face ][ 7 ];
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
-    int min_node_512 = min( num_node_7, num_node_0 );
-    int max_node_512 = max( num_node_7, num_node_0 );
+    int min_node_512 = std::min( num_node_7, num_node_0 );
+    int max_node_512 = std::max( num_node_7, num_node_0 );
     int num_edge_512 = 64 * max_node_512 + min_node_512;
     int num_node_512;
     if ( edge_num_cut_procs[ num_edge_512 ] != num_cut_proc ) {
@@ -9239,21 +9237,21 @@ case_118: {
     faces.node_lists[ num_face ][ 1 ] = num_node_512;
     faces.node_lists[ num_face ][ 2 ] = num_node_258;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_7 ) |
-        ( 1 << num_node_512 ) |
-        ( 1 << num_node_258 ) |
-        ( 1 << num_node_3 ) |
-        ( 1 << num_node_4 ) |
-        ( 1 << num_node_5 ) |
-        ( 1 << num_node_6 ) ;
+        ( std::uint64_t( 1 ) << num_node_7 ) |
+        ( std::uint64_t( 1 ) << num_node_512 ) |
+        ( std::uint64_t( 1 ) << num_node_258 ) |
+        ( std::uint64_t( 1 ) << num_node_3 ) |
+        ( std::uint64_t( 1 ) << num_node_4 ) |
+        ( std::uint64_t( 1 ) << num_node_5 ) |
+        ( std::uint64_t( 1 ) << num_node_6 ) ;
     return;
 }
 case_119: {
     // n=8 00001000
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
-    int min_node_258 = min( num_node_2, num_node_3 );
-    int max_node_258 = max( num_node_2, num_node_3 );
+    int min_node_258 = std::min( num_node_2, num_node_3 );
+    int max_node_258 = std::max( num_node_2, num_node_3 );
     int num_edge_258 = 64 * max_node_258 + min_node_258;
     int num_node_258;
     if ( edge_num_cut_procs[ num_edge_258 ] != num_cut_proc ) {
@@ -9280,8 +9278,8 @@ case_119: {
     } else
         num_node_258 = edge_cuts[ num_edge_258 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
-    int min_node_323 = min( num_node_3, num_node_4 );
-    int max_node_323 = max( num_node_3, num_node_4 );
+    int min_node_323 = std::min( num_node_3, num_node_4 );
+    int max_node_323 = std::max( num_node_3, num_node_4 );
     int num_edge_323 = 64 * max_node_323 + min_node_323;
     int num_node_323;
     if ( edge_num_cut_procs[ num_edge_323 ] != num_cut_proc ) {
@@ -9322,23 +9320,23 @@ case_119: {
     faces.node_lists[ num_face ][ 3 ] = num_node_323;
     faces.node_lists[ num_face ][ 8 ] = num_node_0;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_1 ) |
-        ( 1 << num_node_2 ) |
-        ( 1 << num_node_258 ) |
-        ( 1 << num_node_323 ) |
-        ( 1 << num_node_4 ) |
-        ( 1 << num_node_5 ) |
-        ( 1 << num_node_6 ) |
-        ( 1 << num_node_7 ) |
-        ( 1 << num_node_0 ) ;
+        ( std::uint64_t( 1 ) << num_node_1 ) |
+        ( std::uint64_t( 1 ) << num_node_2 ) |
+        ( std::uint64_t( 1 ) << num_node_258 ) |
+        ( std::uint64_t( 1 ) << num_node_323 ) |
+        ( std::uint64_t( 1 ) << num_node_4 ) |
+        ( std::uint64_t( 1 ) << num_node_5 ) |
+        ( std::uint64_t( 1 ) << num_node_6 ) |
+        ( std::uint64_t( 1 ) << num_node_7 ) |
+        ( std::uint64_t( 1 ) << num_node_0 ) ;
     return;
 }
 case_120: {
     // n=8 00001100
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
-    int min_node_193 = min( num_node_1, num_node_2 );
-    int max_node_193 = max( num_node_1, num_node_2 );
+    int min_node_193 = std::min( num_node_1, num_node_2 );
+    int max_node_193 = std::max( num_node_1, num_node_2 );
     int num_edge_193 = 64 * max_node_193 + min_node_193;
     int num_node_193;
     if ( edge_num_cut_procs[ num_edge_193 ] != num_cut_proc ) {
@@ -9366,8 +9364,8 @@ case_120: {
         num_node_193 = edge_cuts[ num_edge_193 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
-    int min_node_323 = min( num_node_3, num_node_4 );
-    int max_node_323 = max( num_node_3, num_node_4 );
+    int min_node_323 = std::min( num_node_3, num_node_4 );
+    int max_node_323 = std::max( num_node_3, num_node_4 );
     int num_edge_323 = 64 * max_node_323 + min_node_323;
     int num_node_323;
     if ( edge_num_cut_procs[ num_edge_323 ] != num_cut_proc ) {
@@ -9403,22 +9401,22 @@ case_120: {
     faces.node_lists[ num_face ][ 2 ] = num_node_193;
     faces.node_lists[ num_face ][ 3 ] = num_node_323;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_0 ) |
-        ( 1 << num_node_1 ) |
-        ( 1 << num_node_193 ) |
-        ( 1 << num_node_323 ) |
-        ( 1 << num_node_4 ) |
-        ( 1 << num_node_5 ) |
-        ( 1 << num_node_6 ) |
-        ( 1 << num_node_7 ) ;
+        ( std::uint64_t( 1 ) << num_node_0 ) |
+        ( std::uint64_t( 1 ) << num_node_1 ) |
+        ( std::uint64_t( 1 ) << num_node_193 ) |
+        ( std::uint64_t( 1 ) << num_node_323 ) |
+        ( std::uint64_t( 1 ) << num_node_4 ) |
+        ( std::uint64_t( 1 ) << num_node_5 ) |
+        ( std::uint64_t( 1 ) << num_node_6 ) |
+        ( std::uint64_t( 1 ) << num_node_7 ) ;
     return;
 }
 case_121: {
     // n=8 00001110
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
-    int min_node_128 = min( num_node_0, num_node_1 );
-    int max_node_128 = max( num_node_0, num_node_1 );
+    int min_node_128 = std::min( num_node_0, num_node_1 );
+    int max_node_128 = std::max( num_node_0, num_node_1 );
     int num_edge_128 = 64 * max_node_128 + min_node_128;
     int num_node_128;
     if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
@@ -9446,8 +9444,8 @@ case_121: {
         num_node_128 = edge_cuts[ num_edge_128 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
-    int min_node_323 = min( num_node_3, num_node_4 );
-    int max_node_323 = max( num_node_3, num_node_4 );
+    int min_node_323 = std::min( num_node_3, num_node_4 );
+    int max_node_323 = std::max( num_node_3, num_node_4 );
     int num_edge_323 = 64 * max_node_323 + min_node_323;
     int num_node_323;
     if ( edge_num_cut_procs[ num_edge_323 ] != num_cut_proc ) {
@@ -9485,21 +9483,21 @@ case_121: {
     faces.node_lists[ num_face ][ 2 ] = num_node_128;
     faces.node_lists[ num_face ][ 3 ] = num_node_323;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_7 ) |
-        ( 1 << num_node_0 ) |
-        ( 1 << num_node_128 ) |
-        ( 1 << num_node_323 ) |
-        ( 1 << num_node_4 ) |
-        ( 1 << num_node_5 ) |
-        ( 1 << num_node_6 ) ;
+        ( std::uint64_t( 1 ) << num_node_7 ) |
+        ( std::uint64_t( 1 ) << num_node_0 ) |
+        ( std::uint64_t( 1 ) << num_node_128 ) |
+        ( std::uint64_t( 1 ) << num_node_323 ) |
+        ( std::uint64_t( 1 ) << num_node_4 ) |
+        ( std::uint64_t( 1 ) << num_node_5 ) |
+        ( std::uint64_t( 1 ) << num_node_6 ) ;
     return;
 }
 case_122: {
     // n=8 00001111
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
-    int min_node_323 = min( num_node_3, num_node_4 );
-    int max_node_323 = max( num_node_3, num_node_4 );
+    int min_node_323 = std::min( num_node_3, num_node_4 );
+    int max_node_323 = std::max( num_node_3, num_node_4 );
     int num_edge_323 = 64 * max_node_323 + min_node_323;
     int num_node_323;
     if ( edge_num_cut_procs[ num_edge_323 ] != num_cut_proc ) {
@@ -9527,8 +9525,8 @@ case_122: {
         num_node_323 = edge_cuts[ num_edge_323 ];
     int num_node_7 = faces.node_lists[ num_face ][ 7 ];
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
-    int min_node_512 = min( num_node_7, num_node_0 );
-    int max_node_512 = max( num_node_7, num_node_0 );
+    int min_node_512 = std::min( num_node_7, num_node_0 );
+    int max_node_512 = std::max( num_node_7, num_node_0 );
     int num_edge_512 = 64 * max_node_512 + min_node_512;
     int num_node_512;
     if ( edge_num_cut_procs[ num_edge_512 ] != num_cut_proc ) {
@@ -9565,20 +9563,20 @@ case_122: {
     faces.node_lists[ num_face ][ 2 ] = num_node_512;
     faces.node_lists[ num_face ][ 3 ] = num_node_323;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_6 ) |
-        ( 1 << num_node_7 ) |
-        ( 1 << num_node_512 ) |
-        ( 1 << num_node_323 ) |
-        ( 1 << num_node_4 ) |
-        ( 1 << num_node_5 ) ;
+        ( std::uint64_t( 1 ) << num_node_6 ) |
+        ( std::uint64_t( 1 ) << num_node_7 ) |
+        ( std::uint64_t( 1 ) << num_node_512 ) |
+        ( std::uint64_t( 1 ) << num_node_323 ) |
+        ( std::uint64_t( 1 ) << num_node_4 ) |
+        ( std::uint64_t( 1 ) << num_node_5 ) ;
     return;
 }
 case_123: {
     // n=8 00010000
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
-    int min_node_323 = min( num_node_3, num_node_4 );
-    int max_node_323 = max( num_node_3, num_node_4 );
+    int min_node_323 = std::min( num_node_3, num_node_4 );
+    int max_node_323 = std::max( num_node_3, num_node_4 );
     int num_edge_323 = 64 * max_node_323 + min_node_323;
     int num_node_323;
     if ( edge_num_cut_procs[ num_edge_323 ] != num_cut_proc ) {
@@ -9605,8 +9603,8 @@ case_123: {
     } else
         num_node_323 = edge_cuts[ num_edge_323 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
-    int min_node_388 = min( num_node_4, num_node_5 );
-    int max_node_388 = max( num_node_4, num_node_5 );
+    int min_node_388 = std::min( num_node_4, num_node_5 );
+    int max_node_388 = std::max( num_node_4, num_node_5 );
     int num_edge_388 = 64 * max_node_388 + min_node_388;
     int num_node_388;
     if ( edge_num_cut_procs[ num_edge_388 ] != num_cut_proc ) {
@@ -9647,23 +9645,23 @@ case_123: {
     faces.node_lists[ num_face ][ 7 ] = num_node_6;
     faces.node_lists[ num_face ][ 8 ] = num_node_7;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_0 ) |
-        ( 1 << num_node_1 ) |
-        ( 1 << num_node_2 ) |
-        ( 1 << num_node_3 ) |
-        ( 1 << num_node_323 ) |
-        ( 1 << num_node_388 ) |
-        ( 1 << num_node_5 ) |
-        ( 1 << num_node_6 ) |
-        ( 1 << num_node_7 ) ;
+        ( std::uint64_t( 1 ) << num_node_0 ) |
+        ( std::uint64_t( 1 ) << num_node_1 ) |
+        ( std::uint64_t( 1 ) << num_node_2 ) |
+        ( std::uint64_t( 1 ) << num_node_3 ) |
+        ( std::uint64_t( 1 ) << num_node_323 ) |
+        ( std::uint64_t( 1 ) << num_node_388 ) |
+        ( std::uint64_t( 1 ) << num_node_5 ) |
+        ( std::uint64_t( 1 ) << num_node_6 ) |
+        ( std::uint64_t( 1 ) << num_node_7 ) ;
     return;
 }
 case_124: {
     // n=8 00011000
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
-    int min_node_258 = min( num_node_2, num_node_3 );
-    int max_node_258 = max( num_node_2, num_node_3 );
+    int min_node_258 = std::min( num_node_2, num_node_3 );
+    int max_node_258 = std::max( num_node_2, num_node_3 );
     int num_edge_258 = 64 * max_node_258 + min_node_258;
     int num_node_258;
     if ( edge_num_cut_procs[ num_edge_258 ] != num_cut_proc ) {
@@ -9691,8 +9689,8 @@ case_124: {
         num_node_258 = edge_cuts[ num_edge_258 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
-    int min_node_388 = min( num_node_4, num_node_5 );
-    int max_node_388 = max( num_node_4, num_node_5 );
+    int min_node_388 = std::min( num_node_4, num_node_5 );
+    int max_node_388 = std::max( num_node_4, num_node_5 );
     int num_edge_388 = 64 * max_node_388 + min_node_388;
     int num_node_388;
     if ( edge_num_cut_procs[ num_edge_388 ] != num_cut_proc ) {
@@ -9728,22 +9726,22 @@ case_124: {
     faces.node_lists[ num_face ][ 3 ] = num_node_258;
     faces.node_lists[ num_face ][ 4 ] = num_node_388;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_0 ) |
-        ( 1 << num_node_1 ) |
-        ( 1 << num_node_2 ) |
-        ( 1 << num_node_258 ) |
-        ( 1 << num_node_388 ) |
-        ( 1 << num_node_5 ) |
-        ( 1 << num_node_6 ) |
-        ( 1 << num_node_7 ) ;
+        ( std::uint64_t( 1 ) << num_node_0 ) |
+        ( std::uint64_t( 1 ) << num_node_1 ) |
+        ( std::uint64_t( 1 ) << num_node_2 ) |
+        ( std::uint64_t( 1 ) << num_node_258 ) |
+        ( std::uint64_t( 1 ) << num_node_388 ) |
+        ( std::uint64_t( 1 ) << num_node_5 ) |
+        ( std::uint64_t( 1 ) << num_node_6 ) |
+        ( std::uint64_t( 1 ) << num_node_7 ) ;
     return;
 }
 case_125: {
     // n=8 00011100
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
-    int min_node_193 = min( num_node_1, num_node_2 );
-    int max_node_193 = max( num_node_1, num_node_2 );
+    int min_node_193 = std::min( num_node_1, num_node_2 );
+    int max_node_193 = std::max( num_node_1, num_node_2 );
     int num_edge_193 = 64 * max_node_193 + min_node_193;
     int num_node_193;
     if ( edge_num_cut_procs[ num_edge_193 ] != num_cut_proc ) {
@@ -9771,8 +9769,8 @@ case_125: {
         num_node_193 = edge_cuts[ num_edge_193 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
-    int min_node_388 = min( num_node_4, num_node_5 );
-    int max_node_388 = max( num_node_4, num_node_5 );
+    int min_node_388 = std::min( num_node_4, num_node_5 );
+    int max_node_388 = std::max( num_node_4, num_node_5 );
     int num_edge_388 = 64 * max_node_388 + min_node_388;
     int num_node_388;
     if ( edge_num_cut_procs[ num_edge_388 ] != num_cut_proc ) {
@@ -9811,21 +9809,21 @@ case_125: {
     faces.node_lists[ num_face ][ 5 ] = num_node_6;
     faces.node_lists[ num_face ][ 6 ] = num_node_7;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_0 ) |
-        ( 1 << num_node_1 ) |
-        ( 1 << num_node_193 ) |
-        ( 1 << num_node_388 ) |
-        ( 1 << num_node_5 ) |
-        ( 1 << num_node_6 ) |
-        ( 1 << num_node_7 ) ;
+        ( std::uint64_t( 1 ) << num_node_0 ) |
+        ( std::uint64_t( 1 ) << num_node_1 ) |
+        ( std::uint64_t( 1 ) << num_node_193 ) |
+        ( std::uint64_t( 1 ) << num_node_388 ) |
+        ( std::uint64_t( 1 ) << num_node_5 ) |
+        ( std::uint64_t( 1 ) << num_node_6 ) |
+        ( std::uint64_t( 1 ) << num_node_7 ) ;
     return;
 }
 case_126: {
     // n=8 00011110
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
-    int min_node_128 = min( num_node_0, num_node_1 );
-    int max_node_128 = max( num_node_0, num_node_1 );
+    int min_node_128 = std::min( num_node_0, num_node_1 );
+    int max_node_128 = std::max( num_node_0, num_node_1 );
     int num_edge_128 = 64 * max_node_128 + min_node_128;
     int num_node_128;
     if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
@@ -9853,8 +9851,8 @@ case_126: {
         num_node_128 = edge_cuts[ num_edge_128 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
-    int min_node_388 = min( num_node_4, num_node_5 );
-    int max_node_388 = max( num_node_4, num_node_5 );
+    int min_node_388 = std::min( num_node_4, num_node_5 );
+    int max_node_388 = std::max( num_node_4, num_node_5 );
     int num_edge_388 = 64 * max_node_388 + min_node_388;
     int num_node_388;
     if ( edge_num_cut_procs[ num_edge_388 ] != num_cut_proc ) {
@@ -9892,20 +9890,20 @@ case_126: {
     faces.node_lists[ num_face ][ 4 ] = num_node_6;
     faces.node_lists[ num_face ][ 5 ] = num_node_7;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_0 ) |
-        ( 1 << num_node_128 ) |
-        ( 1 << num_node_388 ) |
-        ( 1 << num_node_5 ) |
-        ( 1 << num_node_6 ) |
-        ( 1 << num_node_7 ) ;
+        ( std::uint64_t( 1 ) << num_node_0 ) |
+        ( std::uint64_t( 1 ) << num_node_128 ) |
+        ( std::uint64_t( 1 ) << num_node_388 ) |
+        ( std::uint64_t( 1 ) << num_node_5 ) |
+        ( std::uint64_t( 1 ) << num_node_6 ) |
+        ( std::uint64_t( 1 ) << num_node_7 ) ;
     return;
 }
 case_127: {
     // n=8 00011111
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
-    int min_node_388 = min( num_node_4, num_node_5 );
-    int max_node_388 = max( num_node_4, num_node_5 );
+    int min_node_388 = std::min( num_node_4, num_node_5 );
+    int max_node_388 = std::max( num_node_4, num_node_5 );
     int num_edge_388 = 64 * max_node_388 + min_node_388;
     int num_node_388;
     if ( edge_num_cut_procs[ num_edge_388 ] != num_cut_proc ) {
@@ -9933,8 +9931,8 @@ case_127: {
         num_node_388 = edge_cuts[ num_edge_388 ];
     int num_node_7 = faces.node_lists[ num_face ][ 7 ];
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
-    int min_node_512 = min( num_node_7, num_node_0 );
-    int max_node_512 = max( num_node_7, num_node_0 );
+    int min_node_512 = std::min( num_node_7, num_node_0 );
+    int max_node_512 = std::max( num_node_7, num_node_0 );
     int num_edge_512 = 64 * max_node_512 + min_node_512;
     int num_node_512;
     if ( edge_num_cut_procs[ num_edge_512 ] != num_cut_proc ) {
@@ -9971,19 +9969,19 @@ case_127: {
     faces.node_lists[ num_face ][ 3 ] = num_node_7;
     faces.node_lists[ num_face ][ 4 ] = num_node_512;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_388 ) |
-        ( 1 << num_node_5 ) |
-        ( 1 << num_node_6 ) |
-        ( 1 << num_node_7 ) |
-        ( 1 << num_node_512 ) ;
+        ( std::uint64_t( 1 ) << num_node_388 ) |
+        ( std::uint64_t( 1 ) << num_node_5 ) |
+        ( std::uint64_t( 1 ) << num_node_6 ) |
+        ( std::uint64_t( 1 ) << num_node_7 ) |
+        ( std::uint64_t( 1 ) << num_node_512 ) ;
     return;
 }
 case_128: {
     // n=8 00100000
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
-    int min_node_388 = min( num_node_4, num_node_5 );
-    int max_node_388 = max( num_node_4, num_node_5 );
+    int min_node_388 = std::min( num_node_4, num_node_5 );
+    int max_node_388 = std::max( num_node_4, num_node_5 );
     int num_edge_388 = 64 * max_node_388 + min_node_388;
     int num_node_388;
     if ( edge_num_cut_procs[ num_edge_388 ] != num_cut_proc ) {
@@ -10010,8 +10008,8 @@ case_128: {
     } else
         num_node_388 = edge_cuts[ num_edge_388 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
-    int min_node_453 = min( num_node_5, num_node_6 );
-    int max_node_453 = max( num_node_5, num_node_6 );
+    int min_node_453 = std::min( num_node_5, num_node_6 );
+    int max_node_453 = std::max( num_node_5, num_node_6 );
     int num_edge_453 = 64 * max_node_453 + min_node_453;
     int num_node_453;
     if ( edge_num_cut_procs[ num_edge_453 ] != num_cut_proc ) {
@@ -10051,23 +10049,23 @@ case_128: {
     faces.node_lists[ num_face ][ 7 ] = num_node_6;
     faces.node_lists[ num_face ][ 8 ] = num_node_7;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_0 ) |
-        ( 1 << num_node_1 ) |
-        ( 1 << num_node_2 ) |
-        ( 1 << num_node_3 ) |
-        ( 1 << num_node_4 ) |
-        ( 1 << num_node_388 ) |
-        ( 1 << num_node_453 ) |
-        ( 1 << num_node_6 ) |
-        ( 1 << num_node_7 ) ;
+        ( std::uint64_t( 1 ) << num_node_0 ) |
+        ( std::uint64_t( 1 ) << num_node_1 ) |
+        ( std::uint64_t( 1 ) << num_node_2 ) |
+        ( std::uint64_t( 1 ) << num_node_3 ) |
+        ( std::uint64_t( 1 ) << num_node_4 ) |
+        ( std::uint64_t( 1 ) << num_node_388 ) |
+        ( std::uint64_t( 1 ) << num_node_453 ) |
+        ( std::uint64_t( 1 ) << num_node_6 ) |
+        ( std::uint64_t( 1 ) << num_node_7 ) ;
     return;
 }
 case_129: {
     // n=8 00110000
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
-    int min_node_323 = min( num_node_3, num_node_4 );
-    int max_node_323 = max( num_node_3, num_node_4 );
+    int min_node_323 = std::min( num_node_3, num_node_4 );
+    int max_node_323 = std::max( num_node_3, num_node_4 );
     int num_edge_323 = 64 * max_node_323 + min_node_323;
     int num_node_323;
     if ( edge_num_cut_procs[ num_edge_323 ] != num_cut_proc ) {
@@ -10095,8 +10093,8 @@ case_129: {
         num_node_323 = edge_cuts[ num_edge_323 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
-    int min_node_453 = min( num_node_5, num_node_6 );
-    int max_node_453 = max( num_node_5, num_node_6 );
+    int min_node_453 = std::min( num_node_5, num_node_6 );
+    int max_node_453 = std::max( num_node_5, num_node_6 );
     int num_edge_453 = 64 * max_node_453 + min_node_453;
     int num_node_453;
     if ( edge_num_cut_procs[ num_edge_453 ] != num_cut_proc ) {
@@ -10132,22 +10130,22 @@ case_129: {
     faces.node_lists[ num_face ][ 4 ] = num_node_323;
     faces.node_lists[ num_face ][ 5 ] = num_node_453;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_0 ) |
-        ( 1 << num_node_1 ) |
-        ( 1 << num_node_2 ) |
-        ( 1 << num_node_3 ) |
-        ( 1 << num_node_323 ) |
-        ( 1 << num_node_453 ) |
-        ( 1 << num_node_6 ) |
-        ( 1 << num_node_7 ) ;
+        ( std::uint64_t( 1 ) << num_node_0 ) |
+        ( std::uint64_t( 1 ) << num_node_1 ) |
+        ( std::uint64_t( 1 ) << num_node_2 ) |
+        ( std::uint64_t( 1 ) << num_node_3 ) |
+        ( std::uint64_t( 1 ) << num_node_323 ) |
+        ( std::uint64_t( 1 ) << num_node_453 ) |
+        ( std::uint64_t( 1 ) << num_node_6 ) |
+        ( std::uint64_t( 1 ) << num_node_7 ) ;
     return;
 }
 case_130: {
     // n=8 00111000
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
-    int min_node_258 = min( num_node_2, num_node_3 );
-    int max_node_258 = max( num_node_2, num_node_3 );
+    int min_node_258 = std::min( num_node_2, num_node_3 );
+    int max_node_258 = std::max( num_node_2, num_node_3 );
     int num_edge_258 = 64 * max_node_258 + min_node_258;
     int num_node_258;
     if ( edge_num_cut_procs[ num_edge_258 ] != num_cut_proc ) {
@@ -10175,8 +10173,8 @@ case_130: {
         num_node_258 = edge_cuts[ num_edge_258 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
-    int min_node_453 = min( num_node_5, num_node_6 );
-    int max_node_453 = max( num_node_5, num_node_6 );
+    int min_node_453 = std::min( num_node_5, num_node_6 );
+    int max_node_453 = std::max( num_node_5, num_node_6 );
     int num_edge_453 = 64 * max_node_453 + min_node_453;
     int num_node_453;
     if ( edge_num_cut_procs[ num_edge_453 ] != num_cut_proc ) {
@@ -10214,21 +10212,21 @@ case_130: {
     faces.node_lists[ num_face ][ 5 ] = num_node_6;
     faces.node_lists[ num_face ][ 6 ] = num_node_7;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_0 ) |
-        ( 1 << num_node_1 ) |
-        ( 1 << num_node_2 ) |
-        ( 1 << num_node_258 ) |
-        ( 1 << num_node_453 ) |
-        ( 1 << num_node_6 ) |
-        ( 1 << num_node_7 ) ;
+        ( std::uint64_t( 1 ) << num_node_0 ) |
+        ( std::uint64_t( 1 ) << num_node_1 ) |
+        ( std::uint64_t( 1 ) << num_node_2 ) |
+        ( std::uint64_t( 1 ) << num_node_258 ) |
+        ( std::uint64_t( 1 ) << num_node_453 ) |
+        ( std::uint64_t( 1 ) << num_node_6 ) |
+        ( std::uint64_t( 1 ) << num_node_7 ) ;
     return;
 }
 case_131: {
     // n=8 00111100
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
-    int min_node_193 = min( num_node_1, num_node_2 );
-    int max_node_193 = max( num_node_1, num_node_2 );
+    int min_node_193 = std::min( num_node_1, num_node_2 );
+    int max_node_193 = std::max( num_node_1, num_node_2 );
     int num_edge_193 = 64 * max_node_193 + min_node_193;
     int num_node_193;
     if ( edge_num_cut_procs[ num_edge_193 ] != num_cut_proc ) {
@@ -10256,8 +10254,8 @@ case_131: {
         num_node_193 = edge_cuts[ num_edge_193 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
-    int min_node_453 = min( num_node_5, num_node_6 );
-    int max_node_453 = max( num_node_5, num_node_6 );
+    int min_node_453 = std::min( num_node_5, num_node_6 );
+    int max_node_453 = std::max( num_node_5, num_node_6 );
     int num_edge_453 = 64 * max_node_453 + min_node_453;
     int num_node_453;
     if ( edge_num_cut_procs[ num_edge_453 ] != num_cut_proc ) {
@@ -10294,20 +10292,20 @@ case_131: {
     faces.node_lists[ num_face ][ 4 ] = num_node_6;
     faces.node_lists[ num_face ][ 5 ] = num_node_7;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_0 ) |
-        ( 1 << num_node_1 ) |
-        ( 1 << num_node_193 ) |
-        ( 1 << num_node_453 ) |
-        ( 1 << num_node_6 ) |
-        ( 1 << num_node_7 ) ;
+        ( std::uint64_t( 1 ) << num_node_0 ) |
+        ( std::uint64_t( 1 ) << num_node_1 ) |
+        ( std::uint64_t( 1 ) << num_node_193 ) |
+        ( std::uint64_t( 1 ) << num_node_453 ) |
+        ( std::uint64_t( 1 ) << num_node_6 ) |
+        ( std::uint64_t( 1 ) << num_node_7 ) ;
     return;
 }
 case_132: {
     // n=8 00111110
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
-    int min_node_128 = min( num_node_0, num_node_1 );
-    int max_node_128 = max( num_node_0, num_node_1 );
+    int min_node_128 = std::min( num_node_0, num_node_1 );
+    int max_node_128 = std::max( num_node_0, num_node_1 );
     int num_edge_128 = 64 * max_node_128 + min_node_128;
     int num_node_128;
     if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
@@ -10335,8 +10333,8 @@ case_132: {
         num_node_128 = edge_cuts[ num_edge_128 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
-    int min_node_453 = min( num_node_5, num_node_6 );
-    int max_node_453 = max( num_node_5, num_node_6 );
+    int min_node_453 = std::min( num_node_5, num_node_6 );
+    int max_node_453 = std::max( num_node_5, num_node_6 );
     int num_edge_453 = 64 * max_node_453 + min_node_453;
     int num_node_453;
     if ( edge_num_cut_procs[ num_edge_453 ] != num_cut_proc ) {
@@ -10372,19 +10370,19 @@ case_132: {
     faces.node_lists[ num_face ][ 3 ] = num_node_6;
     faces.node_lists[ num_face ][ 4 ] = num_node_7;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_0 ) |
-        ( 1 << num_node_128 ) |
-        ( 1 << num_node_453 ) |
-        ( 1 << num_node_6 ) |
-        ( 1 << num_node_7 ) ;
+        ( std::uint64_t( 1 ) << num_node_0 ) |
+        ( std::uint64_t( 1 ) << num_node_128 ) |
+        ( std::uint64_t( 1 ) << num_node_453 ) |
+        ( std::uint64_t( 1 ) << num_node_6 ) |
+        ( std::uint64_t( 1 ) << num_node_7 ) ;
     return;
 }
 case_133: {
     // n=8 00111111
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
-    int min_node_453 = min( num_node_5, num_node_6 );
-    int max_node_453 = max( num_node_5, num_node_6 );
+    int min_node_453 = std::min( num_node_5, num_node_6 );
+    int max_node_453 = std::max( num_node_5, num_node_6 );
     int num_edge_453 = 64 * max_node_453 + min_node_453;
     int num_node_453;
     if ( edge_num_cut_procs[ num_edge_453 ] != num_cut_proc ) {
@@ -10412,8 +10410,8 @@ case_133: {
         num_node_453 = edge_cuts[ num_edge_453 ];
     int num_node_7 = faces.node_lists[ num_face ][ 7 ];
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
-    int min_node_512 = min( num_node_7, num_node_0 );
-    int max_node_512 = max( num_node_7, num_node_0 );
+    int min_node_512 = std::min( num_node_7, num_node_0 );
+    int max_node_512 = std::max( num_node_7, num_node_0 );
     int num_edge_512 = 64 * max_node_512 + min_node_512;
     int num_node_512;
     if ( edge_num_cut_procs[ num_edge_512 ] != num_cut_proc ) {
@@ -10448,18 +10446,18 @@ case_133: {
     faces.node_lists[ num_face ][ 2 ] = num_node_7;
     faces.node_lists[ num_face ][ 3 ] = num_node_512;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_453 ) |
-        ( 1 << num_node_6 ) |
-        ( 1 << num_node_7 ) |
-        ( 1 << num_node_512 ) ;
+        ( std::uint64_t( 1 ) << num_node_453 ) |
+        ( std::uint64_t( 1 ) << num_node_6 ) |
+        ( std::uint64_t( 1 ) << num_node_7 ) |
+        ( std::uint64_t( 1 ) << num_node_512 ) ;
     return;
 }
 case_134: {
     // n=8 01000000
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
-    int min_node_453 = min( num_node_5, num_node_6 );
-    int max_node_453 = max( num_node_5, num_node_6 );
+    int min_node_453 = std::min( num_node_5, num_node_6 );
+    int max_node_453 = std::max( num_node_5, num_node_6 );
     int num_edge_453 = 64 * max_node_453 + min_node_453;
     int num_node_453;
     if ( edge_num_cut_procs[ num_edge_453 ] != num_cut_proc ) {
@@ -10486,8 +10484,8 @@ case_134: {
     } else
         num_node_453 = edge_cuts[ num_edge_453 ];
     int num_node_7 = faces.node_lists[ num_face ][ 7 ];
-    int min_node_518 = min( num_node_6, num_node_7 );
-    int max_node_518 = max( num_node_6, num_node_7 );
+    int min_node_518 = std::min( num_node_6, num_node_7 );
+    int max_node_518 = std::max( num_node_6, num_node_7 );
     int num_edge_518 = 64 * max_node_518 + min_node_518;
     int num_node_518;
     if ( edge_num_cut_procs[ num_edge_518 ] != num_cut_proc ) {
@@ -10526,23 +10524,23 @@ case_134: {
     faces.node_lists[ num_face ][ 7 ] = num_node_518;
     faces.node_lists[ num_face ][ 8 ] = num_node_7;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_0 ) |
-        ( 1 << num_node_1 ) |
-        ( 1 << num_node_2 ) |
-        ( 1 << num_node_3 ) |
-        ( 1 << num_node_4 ) |
-        ( 1 << num_node_5 ) |
-        ( 1 << num_node_453 ) |
-        ( 1 << num_node_518 ) |
-        ( 1 << num_node_7 ) ;
+        ( std::uint64_t( 1 ) << num_node_0 ) |
+        ( std::uint64_t( 1 ) << num_node_1 ) |
+        ( std::uint64_t( 1 ) << num_node_2 ) |
+        ( std::uint64_t( 1 ) << num_node_3 ) |
+        ( std::uint64_t( 1 ) << num_node_4 ) |
+        ( std::uint64_t( 1 ) << num_node_5 ) |
+        ( std::uint64_t( 1 ) << num_node_453 ) |
+        ( std::uint64_t( 1 ) << num_node_518 ) |
+        ( std::uint64_t( 1 ) << num_node_7 ) ;
     return;
 }
 case_135: {
     // n=8 01100000
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
-    int min_node_388 = min( num_node_4, num_node_5 );
-    int max_node_388 = max( num_node_4, num_node_5 );
+    int min_node_388 = std::min( num_node_4, num_node_5 );
+    int max_node_388 = std::max( num_node_4, num_node_5 );
     int num_edge_388 = 64 * max_node_388 + min_node_388;
     int num_node_388;
     if ( edge_num_cut_procs[ num_edge_388 ] != num_cut_proc ) {
@@ -10570,8 +10568,8 @@ case_135: {
         num_node_388 = edge_cuts[ num_edge_388 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
     int num_node_7 = faces.node_lists[ num_face ][ 7 ];
-    int min_node_518 = min( num_node_6, num_node_7 );
-    int max_node_518 = max( num_node_6, num_node_7 );
+    int min_node_518 = std::min( num_node_6, num_node_7 );
+    int max_node_518 = std::max( num_node_6, num_node_7 );
     int num_edge_518 = 64 * max_node_518 + min_node_518;
     int num_node_518;
     if ( edge_num_cut_procs[ num_edge_518 ] != num_cut_proc ) {
@@ -10607,22 +10605,22 @@ case_135: {
     faces.node_lists[ num_face ][ 5 ] = num_node_388;
     faces.node_lists[ num_face ][ 6 ] = num_node_518;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_0 ) |
-        ( 1 << num_node_1 ) |
-        ( 1 << num_node_2 ) |
-        ( 1 << num_node_3 ) |
-        ( 1 << num_node_4 ) |
-        ( 1 << num_node_388 ) |
-        ( 1 << num_node_518 ) |
-        ( 1 << num_node_7 ) ;
+        ( std::uint64_t( 1 ) << num_node_0 ) |
+        ( std::uint64_t( 1 ) << num_node_1 ) |
+        ( std::uint64_t( 1 ) << num_node_2 ) |
+        ( std::uint64_t( 1 ) << num_node_3 ) |
+        ( std::uint64_t( 1 ) << num_node_4 ) |
+        ( std::uint64_t( 1 ) << num_node_388 ) |
+        ( std::uint64_t( 1 ) << num_node_518 ) |
+        ( std::uint64_t( 1 ) << num_node_7 ) ;
     return;
 }
 case_136: {
     // n=8 01110000
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
-    int min_node_323 = min( num_node_3, num_node_4 );
-    int max_node_323 = max( num_node_3, num_node_4 );
+    int min_node_323 = std::min( num_node_3, num_node_4 );
+    int max_node_323 = std::max( num_node_3, num_node_4 );
     int num_edge_323 = 64 * max_node_323 + min_node_323;
     int num_node_323;
     if ( edge_num_cut_procs[ num_edge_323 ] != num_cut_proc ) {
@@ -10650,8 +10648,8 @@ case_136: {
         num_node_323 = edge_cuts[ num_edge_323 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
     int num_node_7 = faces.node_lists[ num_face ][ 7 ];
-    int min_node_518 = min( num_node_6, num_node_7 );
-    int max_node_518 = max( num_node_6, num_node_7 );
+    int min_node_518 = std::min( num_node_6, num_node_7 );
+    int max_node_518 = std::max( num_node_6, num_node_7 );
     int num_edge_518 = 64 * max_node_518 + min_node_518;
     int num_node_518;
     if ( edge_num_cut_procs[ num_edge_518 ] != num_cut_proc ) {
@@ -10688,21 +10686,21 @@ case_136: {
     faces.node_lists[ num_face ][ 5 ] = num_node_518;
     faces.node_lists[ num_face ][ 6 ] = num_node_7;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_0 ) |
-        ( 1 << num_node_1 ) |
-        ( 1 << num_node_2 ) |
-        ( 1 << num_node_3 ) |
-        ( 1 << num_node_323 ) |
-        ( 1 << num_node_518 ) |
-        ( 1 << num_node_7 ) ;
+        ( std::uint64_t( 1 ) << num_node_0 ) |
+        ( std::uint64_t( 1 ) << num_node_1 ) |
+        ( std::uint64_t( 1 ) << num_node_2 ) |
+        ( std::uint64_t( 1 ) << num_node_3 ) |
+        ( std::uint64_t( 1 ) << num_node_323 ) |
+        ( std::uint64_t( 1 ) << num_node_518 ) |
+        ( std::uint64_t( 1 ) << num_node_7 ) ;
     return;
 }
 case_137: {
     // n=8 01111000
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
-    int min_node_258 = min( num_node_2, num_node_3 );
-    int max_node_258 = max( num_node_2, num_node_3 );
+    int min_node_258 = std::min( num_node_2, num_node_3 );
+    int max_node_258 = std::max( num_node_2, num_node_3 );
     int num_edge_258 = 64 * max_node_258 + min_node_258;
     int num_node_258;
     if ( edge_num_cut_procs[ num_edge_258 ] != num_cut_proc ) {
@@ -10730,8 +10728,8 @@ case_137: {
         num_node_258 = edge_cuts[ num_edge_258 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
     int num_node_7 = faces.node_lists[ num_face ][ 7 ];
-    int min_node_518 = min( num_node_6, num_node_7 );
-    int max_node_518 = max( num_node_6, num_node_7 );
+    int min_node_518 = std::min( num_node_6, num_node_7 );
+    int max_node_518 = std::max( num_node_6, num_node_7 );
     int num_edge_518 = 64 * max_node_518 + min_node_518;
     int num_node_518;
     if ( edge_num_cut_procs[ num_edge_518 ] != num_cut_proc ) {
@@ -10767,20 +10765,20 @@ case_137: {
     faces.node_lists[ num_face ][ 4 ] = num_node_518;
     faces.node_lists[ num_face ][ 5 ] = num_node_7;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_0 ) |
-        ( 1 << num_node_1 ) |
-        ( 1 << num_node_2 ) |
-        ( 1 << num_node_258 ) |
-        ( 1 << num_node_518 ) |
-        ( 1 << num_node_7 ) ;
+        ( std::uint64_t( 1 ) << num_node_0 ) |
+        ( std::uint64_t( 1 ) << num_node_1 ) |
+        ( std::uint64_t( 1 ) << num_node_2 ) |
+        ( std::uint64_t( 1 ) << num_node_258 ) |
+        ( std::uint64_t( 1 ) << num_node_518 ) |
+        ( std::uint64_t( 1 ) << num_node_7 ) ;
     return;
 }
 case_138: {
     // n=8 01111100
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
-    int min_node_193 = min( num_node_1, num_node_2 );
-    int max_node_193 = max( num_node_1, num_node_2 );
+    int min_node_193 = std::min( num_node_1, num_node_2 );
+    int max_node_193 = std::max( num_node_1, num_node_2 );
     int num_edge_193 = 64 * max_node_193 + min_node_193;
     int num_node_193;
     if ( edge_num_cut_procs[ num_edge_193 ] != num_cut_proc ) {
@@ -10808,8 +10806,8 @@ case_138: {
         num_node_193 = edge_cuts[ num_edge_193 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
     int num_node_7 = faces.node_lists[ num_face ][ 7 ];
-    int min_node_518 = min( num_node_6, num_node_7 );
-    int max_node_518 = max( num_node_6, num_node_7 );
+    int min_node_518 = std::min( num_node_6, num_node_7 );
+    int max_node_518 = std::max( num_node_6, num_node_7 );
     int num_edge_518 = 64 * max_node_518 + min_node_518;
     int num_node_518;
     if ( edge_num_cut_procs[ num_edge_518 ] != num_cut_proc ) {
@@ -10844,19 +10842,19 @@ case_138: {
     faces.node_lists[ num_face ][ 3 ] = num_node_518;
     faces.node_lists[ num_face ][ 4 ] = num_node_7;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_0 ) |
-        ( 1 << num_node_1 ) |
-        ( 1 << num_node_193 ) |
-        ( 1 << num_node_518 ) |
-        ( 1 << num_node_7 ) ;
+        ( std::uint64_t( 1 ) << num_node_0 ) |
+        ( std::uint64_t( 1 ) << num_node_1 ) |
+        ( std::uint64_t( 1 ) << num_node_193 ) |
+        ( std::uint64_t( 1 ) << num_node_518 ) |
+        ( std::uint64_t( 1 ) << num_node_7 ) ;
     return;
 }
 case_139: {
     // n=8 01111110
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
-    int min_node_128 = min( num_node_0, num_node_1 );
-    int max_node_128 = max( num_node_0, num_node_1 );
+    int min_node_128 = std::min( num_node_0, num_node_1 );
+    int max_node_128 = std::max( num_node_0, num_node_1 );
     int num_edge_128 = 64 * max_node_128 + min_node_128;
     int num_node_128;
     if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
@@ -10884,8 +10882,8 @@ case_139: {
         num_node_128 = edge_cuts[ num_edge_128 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
     int num_node_7 = faces.node_lists[ num_face ][ 7 ];
-    int min_node_518 = min( num_node_6, num_node_7 );
-    int max_node_518 = max( num_node_6, num_node_7 );
+    int min_node_518 = std::min( num_node_6, num_node_7 );
+    int max_node_518 = std::max( num_node_6, num_node_7 );
     int num_edge_518 = 64 * max_node_518 + min_node_518;
     int num_node_518;
     if ( edge_num_cut_procs[ num_edge_518 ] != num_cut_proc ) {
@@ -10919,18 +10917,18 @@ case_139: {
     faces.node_lists[ num_face ][ 2 ] = num_node_518;
     faces.node_lists[ num_face ][ 3 ] = num_node_7;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_0 ) |
-        ( 1 << num_node_128 ) |
-        ( 1 << num_node_518 ) |
-        ( 1 << num_node_7 ) ;
+        ( std::uint64_t( 1 ) << num_node_0 ) |
+        ( std::uint64_t( 1 ) << num_node_128 ) |
+        ( std::uint64_t( 1 ) << num_node_518 ) |
+        ( std::uint64_t( 1 ) << num_node_7 ) ;
     return;
 }
 case_140: {
     // n=8 01111111
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
     int num_node_7 = faces.node_lists[ num_face ][ 7 ];
-    int min_node_518 = min( num_node_6, num_node_7 );
-    int max_node_518 = max( num_node_6, num_node_7 );
+    int min_node_518 = std::min( num_node_6, num_node_7 );
+    int max_node_518 = std::max( num_node_6, num_node_7 );
     int num_edge_518 = 64 * max_node_518 + min_node_518;
     int num_node_518;
     if ( edge_num_cut_procs[ num_edge_518 ] != num_cut_proc ) {
@@ -10957,8 +10955,8 @@ case_140: {
     } else
         num_node_518 = edge_cuts[ num_edge_518 ];
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
-    int min_node_512 = min( num_node_7, num_node_0 );
-    int max_node_512 = max( num_node_7, num_node_0 );
+    int min_node_512 = std::min( num_node_7, num_node_0 );
+    int max_node_512 = std::max( num_node_7, num_node_0 );
     int num_edge_512 = 64 * max_node_512 + min_node_512;
     int num_node_512;
     if ( edge_num_cut_procs[ num_edge_512 ] != num_cut_proc ) {
@@ -10992,17 +10990,17 @@ case_140: {
     faces.node_lists[ num_face ][ 1 ] = num_node_7;
     faces.node_lists[ num_face ][ 2 ] = num_node_512;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_518 ) |
-        ( 1 << num_node_7 ) |
-        ( 1 << num_node_512 ) ;
+        ( std::uint64_t( 1 ) << num_node_518 ) |
+        ( std::uint64_t( 1 ) << num_node_7 ) |
+        ( std::uint64_t( 1 ) << num_node_512 ) ;
     return;
 }
 case_141: {
     // n=8 10000000
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
     int num_node_7 = faces.node_lists[ num_face ][ 7 ];
-    int min_node_518 = min( num_node_6, num_node_7 );
-    int max_node_518 = max( num_node_6, num_node_7 );
+    int min_node_518 = std::min( num_node_6, num_node_7 );
+    int max_node_518 = std::max( num_node_6, num_node_7 );
     int num_edge_518 = 64 * max_node_518 + min_node_518;
     int num_node_518;
     if ( edge_num_cut_procs[ num_edge_518 ] != num_cut_proc ) {
@@ -11029,8 +11027,8 @@ case_141: {
     } else
         num_node_518 = edge_cuts[ num_edge_518 ];
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
-    int min_node_512 = min( num_node_7, num_node_0 );
-    int max_node_512 = max( num_node_7, num_node_0 );
+    int min_node_512 = std::min( num_node_7, num_node_0 );
+    int max_node_512 = std::max( num_node_7, num_node_0 );
     int num_edge_512 = 64 * max_node_512 + min_node_512;
     int num_node_512;
     if ( edge_num_cut_procs[ num_edge_512 ] != num_cut_proc ) {
@@ -11068,23 +11066,23 @@ case_141: {
     faces.node_lists[ num_face ][ 7 ] = num_node_518;
     faces.node_lists[ num_face ][ 8 ] = num_node_512;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_0 ) |
-        ( 1 << num_node_1 ) |
-        ( 1 << num_node_2 ) |
-        ( 1 << num_node_3 ) |
-        ( 1 << num_node_4 ) |
-        ( 1 << num_node_5 ) |
-        ( 1 << num_node_6 ) |
-        ( 1 << num_node_518 ) |
-        ( 1 << num_node_512 ) ;
+        ( std::uint64_t( 1 ) << num_node_0 ) |
+        ( std::uint64_t( 1 ) << num_node_1 ) |
+        ( std::uint64_t( 1 ) << num_node_2 ) |
+        ( std::uint64_t( 1 ) << num_node_3 ) |
+        ( std::uint64_t( 1 ) << num_node_4 ) |
+        ( std::uint64_t( 1 ) << num_node_5 ) |
+        ( std::uint64_t( 1 ) << num_node_6 ) |
+        ( std::uint64_t( 1 ) << num_node_518 ) |
+        ( std::uint64_t( 1 ) << num_node_512 ) ;
     return;
 }
 case_142: {
     // n=8 10000001
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
-    int min_node_128 = min( num_node_0, num_node_1 );
-    int max_node_128 = max( num_node_0, num_node_1 );
+    int min_node_128 = std::min( num_node_0, num_node_1 );
+    int max_node_128 = std::max( num_node_0, num_node_1 );
     int num_edge_128 = 64 * max_node_128 + min_node_128;
     int num_node_128;
     if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
@@ -11112,8 +11110,8 @@ case_142: {
         num_node_128 = edge_cuts[ num_edge_128 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
     int num_node_7 = faces.node_lists[ num_face ][ 7 ];
-    int min_node_518 = min( num_node_6, num_node_7 );
-    int max_node_518 = max( num_node_6, num_node_7 );
+    int min_node_518 = std::min( num_node_6, num_node_7 );
+    int max_node_518 = std::max( num_node_6, num_node_7 );
     int num_edge_518 = 64 * max_node_518 + min_node_518;
     int num_node_518;
     if ( edge_num_cut_procs[ num_edge_518 ] != num_cut_proc ) {
@@ -11149,22 +11147,22 @@ case_142: {
     faces.node_lists[ num_face ][ 0 ] = num_node_128;
     faces.node_lists[ num_face ][ 7 ] = num_node_518;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_128 ) |
-        ( 1 << num_node_1 ) |
-        ( 1 << num_node_2 ) |
-        ( 1 << num_node_3 ) |
-        ( 1 << num_node_4 ) |
-        ( 1 << num_node_5 ) |
-        ( 1 << num_node_6 ) |
-        ( 1 << num_node_518 ) ;
+        ( std::uint64_t( 1 ) << num_node_128 ) |
+        ( std::uint64_t( 1 ) << num_node_1 ) |
+        ( std::uint64_t( 1 ) << num_node_2 ) |
+        ( std::uint64_t( 1 ) << num_node_3 ) |
+        ( std::uint64_t( 1 ) << num_node_4 ) |
+        ( std::uint64_t( 1 ) << num_node_5 ) |
+        ( std::uint64_t( 1 ) << num_node_6 ) |
+        ( std::uint64_t( 1 ) << num_node_518 ) ;
     return;
 }
 case_143: {
     // n=8 10000011
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
-    int min_node_193 = min( num_node_1, num_node_2 );
-    int max_node_193 = max( num_node_1, num_node_2 );
+    int min_node_193 = std::min( num_node_1, num_node_2 );
+    int max_node_193 = std::max( num_node_1, num_node_2 );
     int num_edge_193 = 64 * max_node_193 + min_node_193;
     int num_node_193;
     if ( edge_num_cut_procs[ num_edge_193 ] != num_cut_proc ) {
@@ -11192,8 +11190,8 @@ case_143: {
         num_node_193 = edge_cuts[ num_edge_193 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
     int num_node_7 = faces.node_lists[ num_face ][ 7 ];
-    int min_node_518 = min( num_node_6, num_node_7 );
-    int max_node_518 = max( num_node_6, num_node_7 );
+    int min_node_518 = std::min( num_node_6, num_node_7 );
+    int max_node_518 = std::max( num_node_6, num_node_7 );
     int num_edge_518 = 64 * max_node_518 + min_node_518;
     int num_node_518;
     if ( edge_num_cut_procs[ num_edge_518 ] != num_cut_proc ) {
@@ -11229,21 +11227,21 @@ case_143: {
     faces.node_lists[ num_face ][ 0 ] = num_node_518;
     faces.node_lists[ num_face ][ 1 ] = num_node_193;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_518 ) |
-        ( 1 << num_node_193 ) |
-        ( 1 << num_node_2 ) |
-        ( 1 << num_node_3 ) |
-        ( 1 << num_node_4 ) |
-        ( 1 << num_node_5 ) |
-        ( 1 << num_node_6 ) ;
+        ( std::uint64_t( 1 ) << num_node_518 ) |
+        ( std::uint64_t( 1 ) << num_node_193 ) |
+        ( std::uint64_t( 1 ) << num_node_2 ) |
+        ( std::uint64_t( 1 ) << num_node_3 ) |
+        ( std::uint64_t( 1 ) << num_node_4 ) |
+        ( std::uint64_t( 1 ) << num_node_5 ) |
+        ( std::uint64_t( 1 ) << num_node_6 ) ;
     return;
 }
 case_144: {
     // n=8 10000111
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
-    int min_node_258 = min( num_node_2, num_node_3 );
-    int max_node_258 = max( num_node_2, num_node_3 );
+    int min_node_258 = std::min( num_node_2, num_node_3 );
+    int max_node_258 = std::max( num_node_2, num_node_3 );
     int num_edge_258 = 64 * max_node_258 + min_node_258;
     int num_node_258;
     if ( edge_num_cut_procs[ num_edge_258 ] != num_cut_proc ) {
@@ -11271,8 +11269,8 @@ case_144: {
         num_node_258 = edge_cuts[ num_edge_258 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
     int num_node_7 = faces.node_lists[ num_face ][ 7 ];
-    int min_node_518 = min( num_node_6, num_node_7 );
-    int max_node_518 = max( num_node_6, num_node_7 );
+    int min_node_518 = std::min( num_node_6, num_node_7 );
+    int max_node_518 = std::max( num_node_6, num_node_7 );
     int num_edge_518 = 64 * max_node_518 + min_node_518;
     int num_node_518;
     if ( edge_num_cut_procs[ num_edge_518 ] != num_cut_proc ) {
@@ -11308,20 +11306,20 @@ case_144: {
     faces.node_lists[ num_face ][ 1 ] = num_node_518;
     faces.node_lists[ num_face ][ 2 ] = num_node_258;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_6 ) |
-        ( 1 << num_node_518 ) |
-        ( 1 << num_node_258 ) |
-        ( 1 << num_node_3 ) |
-        ( 1 << num_node_4 ) |
-        ( 1 << num_node_5 ) ;
+        ( std::uint64_t( 1 ) << num_node_6 ) |
+        ( std::uint64_t( 1 ) << num_node_518 ) |
+        ( std::uint64_t( 1 ) << num_node_258 ) |
+        ( std::uint64_t( 1 ) << num_node_3 ) |
+        ( std::uint64_t( 1 ) << num_node_4 ) |
+        ( std::uint64_t( 1 ) << num_node_5 ) ;
     return;
 }
 case_145: {
     // n=8 10001111
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
-    int min_node_323 = min( num_node_3, num_node_4 );
-    int max_node_323 = max( num_node_3, num_node_4 );
+    int min_node_323 = std::min( num_node_3, num_node_4 );
+    int max_node_323 = std::max( num_node_3, num_node_4 );
     int num_edge_323 = 64 * max_node_323 + min_node_323;
     int num_node_323;
     if ( edge_num_cut_procs[ num_edge_323 ] != num_cut_proc ) {
@@ -11349,8 +11347,8 @@ case_145: {
         num_node_323 = edge_cuts[ num_edge_323 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
     int num_node_7 = faces.node_lists[ num_face ][ 7 ];
-    int min_node_518 = min( num_node_6, num_node_7 );
-    int max_node_518 = max( num_node_6, num_node_7 );
+    int min_node_518 = std::min( num_node_6, num_node_7 );
+    int max_node_518 = std::max( num_node_6, num_node_7 );
     int num_edge_518 = 64 * max_node_518 + min_node_518;
     int num_node_518;
     if ( edge_num_cut_procs[ num_edge_518 ] != num_cut_proc ) {
@@ -11386,19 +11384,19 @@ case_145: {
     faces.node_lists[ num_face ][ 2 ] = num_node_518;
     faces.node_lists[ num_face ][ 3 ] = num_node_323;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_5 ) |
-        ( 1 << num_node_6 ) |
-        ( 1 << num_node_518 ) |
-        ( 1 << num_node_323 ) |
-        ( 1 << num_node_4 ) ;
+        ( std::uint64_t( 1 ) << num_node_5 ) |
+        ( std::uint64_t( 1 ) << num_node_6 ) |
+        ( std::uint64_t( 1 ) << num_node_518 ) |
+        ( std::uint64_t( 1 ) << num_node_323 ) |
+        ( std::uint64_t( 1 ) << num_node_4 ) ;
     return;
 }
 case_146: {
     // n=8 10011111
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
-    int min_node_388 = min( num_node_4, num_node_5 );
-    int max_node_388 = max( num_node_4, num_node_5 );
+    int min_node_388 = std::min( num_node_4, num_node_5 );
+    int max_node_388 = std::max( num_node_4, num_node_5 );
     int num_edge_388 = 64 * max_node_388 + min_node_388;
     int num_node_388;
     if ( edge_num_cut_procs[ num_edge_388 ] != num_cut_proc ) {
@@ -11426,8 +11424,8 @@ case_146: {
         num_node_388 = edge_cuts[ num_edge_388 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
     int num_node_7 = faces.node_lists[ num_face ][ 7 ];
-    int min_node_518 = min( num_node_6, num_node_7 );
-    int max_node_518 = max( num_node_6, num_node_7 );
+    int min_node_518 = std::min( num_node_6, num_node_7 );
+    int max_node_518 = std::max( num_node_6, num_node_7 );
     int num_edge_518 = 64 * max_node_518 + min_node_518;
     int num_node_518;
     if ( edge_num_cut_procs[ num_edge_518 ] != num_cut_proc ) {
@@ -11462,18 +11460,18 @@ case_146: {
     faces.node_lists[ num_face ][ 2 ] = num_node_6;
     faces.node_lists[ num_face ][ 3 ] = num_node_518;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_388 ) |
-        ( 1 << num_node_5 ) |
-        ( 1 << num_node_6 ) |
-        ( 1 << num_node_518 ) ;
+        ( std::uint64_t( 1 ) << num_node_388 ) |
+        ( std::uint64_t( 1 ) << num_node_5 ) |
+        ( std::uint64_t( 1 ) << num_node_6 ) |
+        ( std::uint64_t( 1 ) << num_node_518 ) ;
     return;
 }
 case_147: {
     // n=8 10111111
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
-    int min_node_453 = min( num_node_5, num_node_6 );
-    int max_node_453 = max( num_node_5, num_node_6 );
+    int min_node_453 = std::min( num_node_5, num_node_6 );
+    int max_node_453 = std::max( num_node_5, num_node_6 );
     int num_edge_453 = 64 * max_node_453 + min_node_453;
     int num_node_453;
     if ( edge_num_cut_procs[ num_edge_453 ] != num_cut_proc ) {
@@ -11500,8 +11498,8 @@ case_147: {
     } else
         num_node_453 = edge_cuts[ num_edge_453 ];
     int num_node_7 = faces.node_lists[ num_face ][ 7 ];
-    int min_node_518 = min( num_node_6, num_node_7 );
-    int max_node_518 = max( num_node_6, num_node_7 );
+    int min_node_518 = std::min( num_node_6, num_node_7 );
+    int max_node_518 = std::max( num_node_6, num_node_7 );
     int num_edge_518 = 64 * max_node_518 + min_node_518;
     int num_node_518;
     if ( edge_num_cut_procs[ num_edge_518 ] != num_cut_proc ) {
@@ -11535,17 +11533,17 @@ case_147: {
     faces.node_lists[ num_face ][ 1 ] = num_node_6;
     faces.node_lists[ num_face ][ 2 ] = num_node_518;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_453 ) |
-        ( 1 << num_node_6 ) |
-        ( 1 << num_node_518 ) ;
+        ( std::uint64_t( 1 ) << num_node_453 ) |
+        ( std::uint64_t( 1 ) << num_node_6 ) |
+        ( std::uint64_t( 1 ) << num_node_518 ) ;
     return;
 }
 case_148: {
     // n=8 11000000
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
-    int min_node_453 = min( num_node_5, num_node_6 );
-    int max_node_453 = max( num_node_5, num_node_6 );
+    int min_node_453 = std::min( num_node_5, num_node_6 );
+    int max_node_453 = std::max( num_node_5, num_node_6 );
     int num_edge_453 = 64 * max_node_453 + min_node_453;
     int num_node_453;
     if ( edge_num_cut_procs[ num_edge_453 ] != num_cut_proc ) {
@@ -11573,8 +11571,8 @@ case_148: {
         num_node_453 = edge_cuts[ num_edge_453 ];
     int num_node_7 = faces.node_lists[ num_face ][ 7 ];
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
-    int min_node_512 = min( num_node_7, num_node_0 );
-    int max_node_512 = max( num_node_7, num_node_0 );
+    int min_node_512 = std::min( num_node_7, num_node_0 );
+    int max_node_512 = std::max( num_node_7, num_node_0 );
     int num_edge_512 = 64 * max_node_512 + min_node_512;
     int num_node_512;
     if ( edge_num_cut_procs[ num_edge_512 ] != num_cut_proc ) {
@@ -11610,22 +11608,22 @@ case_148: {
     faces.node_lists[ num_face ][ 6 ] = num_node_453;
     faces.node_lists[ num_face ][ 7 ] = num_node_512;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_0 ) |
-        ( 1 << num_node_1 ) |
-        ( 1 << num_node_2 ) |
-        ( 1 << num_node_3 ) |
-        ( 1 << num_node_4 ) |
-        ( 1 << num_node_5 ) |
-        ( 1 << num_node_453 ) |
-        ( 1 << num_node_512 ) ;
+        ( std::uint64_t( 1 ) << num_node_0 ) |
+        ( std::uint64_t( 1 ) << num_node_1 ) |
+        ( std::uint64_t( 1 ) << num_node_2 ) |
+        ( std::uint64_t( 1 ) << num_node_3 ) |
+        ( std::uint64_t( 1 ) << num_node_4 ) |
+        ( std::uint64_t( 1 ) << num_node_5 ) |
+        ( std::uint64_t( 1 ) << num_node_453 ) |
+        ( std::uint64_t( 1 ) << num_node_512 ) ;
     return;
 }
 case_149: {
     // n=8 11000001
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
-    int min_node_128 = min( num_node_0, num_node_1 );
-    int max_node_128 = max( num_node_0, num_node_1 );
+    int min_node_128 = std::min( num_node_0, num_node_1 );
+    int max_node_128 = std::max( num_node_0, num_node_1 );
     int num_edge_128 = 64 * max_node_128 + min_node_128;
     int num_node_128;
     if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
@@ -11653,8 +11651,8 @@ case_149: {
         num_node_128 = edge_cuts[ num_edge_128 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
-    int min_node_453 = min( num_node_5, num_node_6 );
-    int max_node_453 = max( num_node_5, num_node_6 );
+    int min_node_453 = std::min( num_node_5, num_node_6 );
+    int max_node_453 = std::max( num_node_5, num_node_6 );
     int num_edge_453 = 64 * max_node_453 + min_node_453;
     int num_node_453;
     if ( edge_num_cut_procs[ num_edge_453 ] != num_cut_proc ) {
@@ -11690,21 +11688,21 @@ case_149: {
     faces.node_lists[ num_face ][ 0 ] = num_node_128;
     faces.node_lists[ num_face ][ 6 ] = num_node_453;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_128 ) |
-        ( 1 << num_node_1 ) |
-        ( 1 << num_node_2 ) |
-        ( 1 << num_node_3 ) |
-        ( 1 << num_node_4 ) |
-        ( 1 << num_node_5 ) |
-        ( 1 << num_node_453 ) ;
+        ( std::uint64_t( 1 ) << num_node_128 ) |
+        ( std::uint64_t( 1 ) << num_node_1 ) |
+        ( std::uint64_t( 1 ) << num_node_2 ) |
+        ( std::uint64_t( 1 ) << num_node_3 ) |
+        ( std::uint64_t( 1 ) << num_node_4 ) |
+        ( std::uint64_t( 1 ) << num_node_5 ) |
+        ( std::uint64_t( 1 ) << num_node_453 ) ;
     return;
 }
 case_150: {
     // n=8 11000011
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
-    int min_node_193 = min( num_node_1, num_node_2 );
-    int max_node_193 = max( num_node_1, num_node_2 );
+    int min_node_193 = std::min( num_node_1, num_node_2 );
+    int max_node_193 = std::max( num_node_1, num_node_2 );
     int num_edge_193 = 64 * max_node_193 + min_node_193;
     int num_node_193;
     if ( edge_num_cut_procs[ num_edge_193 ] != num_cut_proc ) {
@@ -11732,8 +11730,8 @@ case_150: {
         num_node_193 = edge_cuts[ num_edge_193 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
-    int min_node_453 = min( num_node_5, num_node_6 );
-    int max_node_453 = max( num_node_5, num_node_6 );
+    int min_node_453 = std::min( num_node_5, num_node_6 );
+    int max_node_453 = std::max( num_node_5, num_node_6 );
     int num_edge_453 = 64 * max_node_453 + min_node_453;
     int num_node_453;
     if ( edge_num_cut_procs[ num_edge_453 ] != num_cut_proc ) {
@@ -11768,20 +11766,20 @@ case_150: {
     faces.node_lists[ num_face ][ 0 ] = num_node_453;
     faces.node_lists[ num_face ][ 1 ] = num_node_193;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_453 ) |
-        ( 1 << num_node_193 ) |
-        ( 1 << num_node_2 ) |
-        ( 1 << num_node_3 ) |
-        ( 1 << num_node_4 ) |
-        ( 1 << num_node_5 ) ;
+        ( std::uint64_t( 1 ) << num_node_453 ) |
+        ( std::uint64_t( 1 ) << num_node_193 ) |
+        ( std::uint64_t( 1 ) << num_node_2 ) |
+        ( std::uint64_t( 1 ) << num_node_3 ) |
+        ( std::uint64_t( 1 ) << num_node_4 ) |
+        ( std::uint64_t( 1 ) << num_node_5 ) ;
     return;
 }
 case_151: {
     // n=8 11000111
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
-    int min_node_258 = min( num_node_2, num_node_3 );
-    int max_node_258 = max( num_node_2, num_node_3 );
+    int min_node_258 = std::min( num_node_2, num_node_3 );
+    int max_node_258 = std::max( num_node_2, num_node_3 );
     int num_edge_258 = 64 * max_node_258 + min_node_258;
     int num_node_258;
     if ( edge_num_cut_procs[ num_edge_258 ] != num_cut_proc ) {
@@ -11809,8 +11807,8 @@ case_151: {
         num_node_258 = edge_cuts[ num_edge_258 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
-    int min_node_453 = min( num_node_5, num_node_6 );
-    int max_node_453 = max( num_node_5, num_node_6 );
+    int min_node_453 = std::min( num_node_5, num_node_6 );
+    int max_node_453 = std::max( num_node_5, num_node_6 );
     int num_edge_453 = 64 * max_node_453 + min_node_453;
     int num_node_453;
     if ( edge_num_cut_procs[ num_edge_453 ] != num_cut_proc ) {
@@ -11845,19 +11843,19 @@ case_151: {
     faces.node_lists[ num_face ][ 1 ] = num_node_453;
     faces.node_lists[ num_face ][ 2 ] = num_node_258;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_5 ) |
-        ( 1 << num_node_453 ) |
-        ( 1 << num_node_258 ) |
-        ( 1 << num_node_3 ) |
-        ( 1 << num_node_4 ) ;
+        ( std::uint64_t( 1 ) << num_node_5 ) |
+        ( std::uint64_t( 1 ) << num_node_453 ) |
+        ( std::uint64_t( 1 ) << num_node_258 ) |
+        ( std::uint64_t( 1 ) << num_node_3 ) |
+        ( std::uint64_t( 1 ) << num_node_4 ) ;
     return;
 }
 case_152: {
     // n=8 11001111
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
-    int min_node_323 = min( num_node_3, num_node_4 );
-    int max_node_323 = max( num_node_3, num_node_4 );
+    int min_node_323 = std::min( num_node_3, num_node_4 );
+    int max_node_323 = std::max( num_node_3, num_node_4 );
     int num_edge_323 = 64 * max_node_323 + min_node_323;
     int num_node_323;
     if ( edge_num_cut_procs[ num_edge_323 ] != num_cut_proc ) {
@@ -11885,8 +11883,8 @@ case_152: {
         num_node_323 = edge_cuts[ num_edge_323 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
-    int min_node_453 = min( num_node_5, num_node_6 );
-    int max_node_453 = max( num_node_5, num_node_6 );
+    int min_node_453 = std::min( num_node_5, num_node_6 );
+    int max_node_453 = std::max( num_node_5, num_node_6 );
     int num_edge_453 = 64 * max_node_453 + min_node_453;
     int num_node_453;
     if ( edge_num_cut_procs[ num_edge_453 ] != num_cut_proc ) {
@@ -11921,18 +11919,18 @@ case_152: {
     faces.node_lists[ num_face ][ 2 ] = num_node_5;
     faces.node_lists[ num_face ][ 3 ] = num_node_453;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_323 ) |
-        ( 1 << num_node_4 ) |
-        ( 1 << num_node_5 ) |
-        ( 1 << num_node_453 ) ;
+        ( std::uint64_t( 1 ) << num_node_323 ) |
+        ( std::uint64_t( 1 ) << num_node_4 ) |
+        ( std::uint64_t( 1 ) << num_node_5 ) |
+        ( std::uint64_t( 1 ) << num_node_453 ) ;
     return;
 }
 case_153: {
     // n=8 11011111
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
-    int min_node_388 = min( num_node_4, num_node_5 );
-    int max_node_388 = max( num_node_4, num_node_5 );
+    int min_node_388 = std::min( num_node_4, num_node_5 );
+    int max_node_388 = std::max( num_node_4, num_node_5 );
     int num_edge_388 = 64 * max_node_388 + min_node_388;
     int num_node_388;
     if ( edge_num_cut_procs[ num_edge_388 ] != num_cut_proc ) {
@@ -11959,8 +11957,8 @@ case_153: {
     } else
         num_node_388 = edge_cuts[ num_edge_388 ];
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
-    int min_node_453 = min( num_node_5, num_node_6 );
-    int max_node_453 = max( num_node_5, num_node_6 );
+    int min_node_453 = std::min( num_node_5, num_node_6 );
+    int max_node_453 = std::max( num_node_5, num_node_6 );
     int num_edge_453 = 64 * max_node_453 + min_node_453;
     int num_node_453;
     if ( edge_num_cut_procs[ num_edge_453 ] != num_cut_proc ) {
@@ -11994,17 +11992,17 @@ case_153: {
     faces.node_lists[ num_face ][ 1 ] = num_node_5;
     faces.node_lists[ num_face ][ 2 ] = num_node_453;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_388 ) |
-        ( 1 << num_node_5 ) |
-        ( 1 << num_node_453 ) ;
+        ( std::uint64_t( 1 ) << num_node_388 ) |
+        ( std::uint64_t( 1 ) << num_node_5 ) |
+        ( std::uint64_t( 1 ) << num_node_453 ) ;
     return;
 }
 case_154: {
     // n=8 11100000
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
-    int min_node_388 = min( num_node_4, num_node_5 );
-    int max_node_388 = max( num_node_4, num_node_5 );
+    int min_node_388 = std::min( num_node_4, num_node_5 );
+    int max_node_388 = std::max( num_node_4, num_node_5 );
     int num_edge_388 = 64 * max_node_388 + min_node_388;
     int num_node_388;
     if ( edge_num_cut_procs[ num_edge_388 ] != num_cut_proc ) {
@@ -12032,8 +12030,8 @@ case_154: {
         num_node_388 = edge_cuts[ num_edge_388 ];
     int num_node_7 = faces.node_lists[ num_face ][ 7 ];
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
-    int min_node_512 = min( num_node_7, num_node_0 );
-    int max_node_512 = max( num_node_7, num_node_0 );
+    int min_node_512 = std::min( num_node_7, num_node_0 );
+    int max_node_512 = std::max( num_node_7, num_node_0 );
     int num_edge_512 = 64 * max_node_512 + min_node_512;
     int num_node_512;
     if ( edge_num_cut_procs[ num_edge_512 ] != num_cut_proc ) {
@@ -12069,21 +12067,21 @@ case_154: {
     faces.node_lists[ num_face ][ 5 ] = num_node_388;
     faces.node_lists[ num_face ][ 6 ] = num_node_512;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_0 ) |
-        ( 1 << num_node_1 ) |
-        ( 1 << num_node_2 ) |
-        ( 1 << num_node_3 ) |
-        ( 1 << num_node_4 ) |
-        ( 1 << num_node_388 ) |
-        ( 1 << num_node_512 ) ;
+        ( std::uint64_t( 1 ) << num_node_0 ) |
+        ( std::uint64_t( 1 ) << num_node_1 ) |
+        ( std::uint64_t( 1 ) << num_node_2 ) |
+        ( std::uint64_t( 1 ) << num_node_3 ) |
+        ( std::uint64_t( 1 ) << num_node_4 ) |
+        ( std::uint64_t( 1 ) << num_node_388 ) |
+        ( std::uint64_t( 1 ) << num_node_512 ) ;
     return;
 }
 case_155: {
     // n=8 11100001
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
-    int min_node_128 = min( num_node_0, num_node_1 );
-    int max_node_128 = max( num_node_0, num_node_1 );
+    int min_node_128 = std::min( num_node_0, num_node_1 );
+    int max_node_128 = std::max( num_node_0, num_node_1 );
     int num_edge_128 = 64 * max_node_128 + min_node_128;
     int num_node_128;
     if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
@@ -12111,8 +12109,8 @@ case_155: {
         num_node_128 = edge_cuts[ num_edge_128 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
-    int min_node_388 = min( num_node_4, num_node_5 );
-    int max_node_388 = max( num_node_4, num_node_5 );
+    int min_node_388 = std::min( num_node_4, num_node_5 );
+    int max_node_388 = std::max( num_node_4, num_node_5 );
     int num_edge_388 = 64 * max_node_388 + min_node_388;
     int num_node_388;
     if ( edge_num_cut_procs[ num_edge_388 ] != num_cut_proc ) {
@@ -12147,20 +12145,20 @@ case_155: {
     faces.node_lists[ num_face ][ 0 ] = num_node_128;
     faces.node_lists[ num_face ][ 5 ] = num_node_388;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_128 ) |
-        ( 1 << num_node_1 ) |
-        ( 1 << num_node_2 ) |
-        ( 1 << num_node_3 ) |
-        ( 1 << num_node_4 ) |
-        ( 1 << num_node_388 ) ;
+        ( std::uint64_t( 1 ) << num_node_128 ) |
+        ( std::uint64_t( 1 ) << num_node_1 ) |
+        ( std::uint64_t( 1 ) << num_node_2 ) |
+        ( std::uint64_t( 1 ) << num_node_3 ) |
+        ( std::uint64_t( 1 ) << num_node_4 ) |
+        ( std::uint64_t( 1 ) << num_node_388 ) ;
     return;
 }
 case_156: {
     // n=8 11100011
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
-    int min_node_193 = min( num_node_1, num_node_2 );
-    int max_node_193 = max( num_node_1, num_node_2 );
+    int min_node_193 = std::min( num_node_1, num_node_2 );
+    int max_node_193 = std::max( num_node_1, num_node_2 );
     int num_edge_193 = 64 * max_node_193 + min_node_193;
     int num_node_193;
     if ( edge_num_cut_procs[ num_edge_193 ] != num_cut_proc ) {
@@ -12188,8 +12186,8 @@ case_156: {
         num_node_193 = edge_cuts[ num_edge_193 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
-    int min_node_388 = min( num_node_4, num_node_5 );
-    int max_node_388 = max( num_node_4, num_node_5 );
+    int min_node_388 = std::min( num_node_4, num_node_5 );
+    int max_node_388 = std::max( num_node_4, num_node_5 );
     int num_edge_388 = 64 * max_node_388 + min_node_388;
     int num_node_388;
     if ( edge_num_cut_procs[ num_edge_388 ] != num_cut_proc ) {
@@ -12223,19 +12221,19 @@ case_156: {
     faces.node_lists[ num_face ][ 0 ] = num_node_388;
     faces.node_lists[ num_face ][ 1 ] = num_node_193;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_388 ) |
-        ( 1 << num_node_193 ) |
-        ( 1 << num_node_2 ) |
-        ( 1 << num_node_3 ) |
-        ( 1 << num_node_4 ) ;
+        ( std::uint64_t( 1 ) << num_node_388 ) |
+        ( std::uint64_t( 1 ) << num_node_193 ) |
+        ( std::uint64_t( 1 ) << num_node_2 ) |
+        ( std::uint64_t( 1 ) << num_node_3 ) |
+        ( std::uint64_t( 1 ) << num_node_4 ) ;
     return;
 }
 case_157: {
     // n=8 11100111
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
-    int min_node_258 = min( num_node_2, num_node_3 );
-    int max_node_258 = max( num_node_2, num_node_3 );
+    int min_node_258 = std::min( num_node_2, num_node_3 );
+    int max_node_258 = std::max( num_node_2, num_node_3 );
     int num_edge_258 = 64 * max_node_258 + min_node_258;
     int num_node_258;
     if ( edge_num_cut_procs[ num_edge_258 ] != num_cut_proc ) {
@@ -12263,8 +12261,8 @@ case_157: {
         num_node_258 = edge_cuts[ num_edge_258 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
-    int min_node_388 = min( num_node_4, num_node_5 );
-    int max_node_388 = max( num_node_4, num_node_5 );
+    int min_node_388 = std::min( num_node_4, num_node_5 );
+    int max_node_388 = std::max( num_node_4, num_node_5 );
     int num_edge_388 = 64 * max_node_388 + min_node_388;
     int num_node_388;
     if ( edge_num_cut_procs[ num_edge_388 ] != num_cut_proc ) {
@@ -12298,18 +12296,18 @@ case_157: {
     faces.node_lists[ num_face ][ 1 ] = num_node_388;
     faces.node_lists[ num_face ][ 2 ] = num_node_258;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_4 ) |
-        ( 1 << num_node_388 ) |
-        ( 1 << num_node_258 ) |
-        ( 1 << num_node_3 ) ;
+        ( std::uint64_t( 1 ) << num_node_4 ) |
+        ( std::uint64_t( 1 ) << num_node_388 ) |
+        ( std::uint64_t( 1 ) << num_node_258 ) |
+        ( std::uint64_t( 1 ) << num_node_3 ) ;
     return;
 }
 case_158: {
     // n=8 11101111
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
-    int min_node_323 = min( num_node_3, num_node_4 );
-    int max_node_323 = max( num_node_3, num_node_4 );
+    int min_node_323 = std::min( num_node_3, num_node_4 );
+    int max_node_323 = std::max( num_node_3, num_node_4 );
     int num_edge_323 = 64 * max_node_323 + min_node_323;
     int num_node_323;
     if ( edge_num_cut_procs[ num_edge_323 ] != num_cut_proc ) {
@@ -12336,8 +12334,8 @@ case_158: {
     } else
         num_node_323 = edge_cuts[ num_edge_323 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
-    int min_node_388 = min( num_node_4, num_node_5 );
-    int max_node_388 = max( num_node_4, num_node_5 );
+    int min_node_388 = std::min( num_node_4, num_node_5 );
+    int max_node_388 = std::max( num_node_4, num_node_5 );
     int num_edge_388 = 64 * max_node_388 + min_node_388;
     int num_node_388;
     if ( edge_num_cut_procs[ num_edge_388 ] != num_cut_proc ) {
@@ -12371,17 +12369,17 @@ case_158: {
     faces.node_lists[ num_face ][ 1 ] = num_node_4;
     faces.node_lists[ num_face ][ 2 ] = num_node_388;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_323 ) |
-        ( 1 << num_node_4 ) |
-        ( 1 << num_node_388 ) ;
+        ( std::uint64_t( 1 ) << num_node_323 ) |
+        ( std::uint64_t( 1 ) << num_node_4 ) |
+        ( std::uint64_t( 1 ) << num_node_388 ) ;
     return;
 }
 case_159: {
     // n=8 11110000
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
-    int min_node_323 = min( num_node_3, num_node_4 );
-    int max_node_323 = max( num_node_3, num_node_4 );
+    int min_node_323 = std::min( num_node_3, num_node_4 );
+    int max_node_323 = std::max( num_node_3, num_node_4 );
     int num_edge_323 = 64 * max_node_323 + min_node_323;
     int num_node_323;
     if ( edge_num_cut_procs[ num_edge_323 ] != num_cut_proc ) {
@@ -12409,8 +12407,8 @@ case_159: {
         num_node_323 = edge_cuts[ num_edge_323 ];
     int num_node_7 = faces.node_lists[ num_face ][ 7 ];
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
-    int min_node_512 = min( num_node_7, num_node_0 );
-    int max_node_512 = max( num_node_7, num_node_0 );
+    int min_node_512 = std::min( num_node_7, num_node_0 );
+    int max_node_512 = std::max( num_node_7, num_node_0 );
     int num_edge_512 = 64 * max_node_512 + min_node_512;
     int num_node_512;
     if ( edge_num_cut_procs[ num_edge_512 ] != num_cut_proc ) {
@@ -12445,20 +12443,20 @@ case_159: {
     faces.node_lists[ num_face ][ 4 ] = num_node_323;
     faces.node_lists[ num_face ][ 5 ] = num_node_512;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_0 ) |
-        ( 1 << num_node_1 ) |
-        ( 1 << num_node_2 ) |
-        ( 1 << num_node_3 ) |
-        ( 1 << num_node_323 ) |
-        ( 1 << num_node_512 ) ;
+        ( std::uint64_t( 1 ) << num_node_0 ) |
+        ( std::uint64_t( 1 ) << num_node_1 ) |
+        ( std::uint64_t( 1 ) << num_node_2 ) |
+        ( std::uint64_t( 1 ) << num_node_3 ) |
+        ( std::uint64_t( 1 ) << num_node_323 ) |
+        ( std::uint64_t( 1 ) << num_node_512 ) ;
     return;
 }
 case_160: {
     // n=8 11110001
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
-    int min_node_128 = min( num_node_0, num_node_1 );
-    int max_node_128 = max( num_node_0, num_node_1 );
+    int min_node_128 = std::min( num_node_0, num_node_1 );
+    int max_node_128 = std::max( num_node_0, num_node_1 );
     int num_edge_128 = 64 * max_node_128 + min_node_128;
     int num_node_128;
     if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
@@ -12486,8 +12484,8 @@ case_160: {
         num_node_128 = edge_cuts[ num_edge_128 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
-    int min_node_323 = min( num_node_3, num_node_4 );
-    int max_node_323 = max( num_node_3, num_node_4 );
+    int min_node_323 = std::min( num_node_3, num_node_4 );
+    int max_node_323 = std::max( num_node_3, num_node_4 );
     int num_edge_323 = 64 * max_node_323 + min_node_323;
     int num_node_323;
     if ( edge_num_cut_procs[ num_edge_323 ] != num_cut_proc ) {
@@ -12521,19 +12519,19 @@ case_160: {
     faces.node_lists[ num_face ][ 0 ] = num_node_128;
     faces.node_lists[ num_face ][ 4 ] = num_node_323;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_128 ) |
-        ( 1 << num_node_1 ) |
-        ( 1 << num_node_2 ) |
-        ( 1 << num_node_3 ) |
-        ( 1 << num_node_323 ) ;
+        ( std::uint64_t( 1 ) << num_node_128 ) |
+        ( std::uint64_t( 1 ) << num_node_1 ) |
+        ( std::uint64_t( 1 ) << num_node_2 ) |
+        ( std::uint64_t( 1 ) << num_node_3 ) |
+        ( std::uint64_t( 1 ) << num_node_323 ) ;
     return;
 }
 case_161: {
     // n=8 11110011
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
-    int min_node_193 = min( num_node_1, num_node_2 );
-    int max_node_193 = max( num_node_1, num_node_2 );
+    int min_node_193 = std::min( num_node_1, num_node_2 );
+    int max_node_193 = std::max( num_node_1, num_node_2 );
     int num_edge_193 = 64 * max_node_193 + min_node_193;
     int num_node_193;
     if ( edge_num_cut_procs[ num_edge_193 ] != num_cut_proc ) {
@@ -12561,8 +12559,8 @@ case_161: {
         num_node_193 = edge_cuts[ num_edge_193 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
-    int min_node_323 = min( num_node_3, num_node_4 );
-    int max_node_323 = max( num_node_3, num_node_4 );
+    int min_node_323 = std::min( num_node_3, num_node_4 );
+    int max_node_323 = std::max( num_node_3, num_node_4 );
     int num_edge_323 = 64 * max_node_323 + min_node_323;
     int num_node_323;
     if ( edge_num_cut_procs[ num_edge_323 ] != num_cut_proc ) {
@@ -12595,18 +12593,18 @@ case_161: {
     faces.node_lists[ num_face ][ 0 ] = num_node_323;
     faces.node_lists[ num_face ][ 1 ] = num_node_193;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_323 ) |
-        ( 1 << num_node_193 ) |
-        ( 1 << num_node_2 ) |
-        ( 1 << num_node_3 ) ;
+        ( std::uint64_t( 1 ) << num_node_323 ) |
+        ( std::uint64_t( 1 ) << num_node_193 ) |
+        ( std::uint64_t( 1 ) << num_node_2 ) |
+        ( std::uint64_t( 1 ) << num_node_3 ) ;
     return;
 }
 case_162: {
     // n=8 11110111
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
-    int min_node_258 = min( num_node_2, num_node_3 );
-    int max_node_258 = max( num_node_2, num_node_3 );
+    int min_node_258 = std::min( num_node_2, num_node_3 );
+    int max_node_258 = std::max( num_node_2, num_node_3 );
     int num_edge_258 = 64 * max_node_258 + min_node_258;
     int num_node_258;
     if ( edge_num_cut_procs[ num_edge_258 ] != num_cut_proc ) {
@@ -12633,8 +12631,8 @@ case_162: {
     } else
         num_node_258 = edge_cuts[ num_edge_258 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
-    int min_node_323 = min( num_node_3, num_node_4 );
-    int max_node_323 = max( num_node_3, num_node_4 );
+    int min_node_323 = std::min( num_node_3, num_node_4 );
+    int max_node_323 = std::max( num_node_3, num_node_4 );
     int num_edge_323 = 64 * max_node_323 + min_node_323;
     int num_node_323;
     if ( edge_num_cut_procs[ num_edge_323 ] != num_cut_proc ) {
@@ -12668,17 +12666,17 @@ case_162: {
     faces.node_lists[ num_face ][ 1 ] = num_node_3;
     faces.node_lists[ num_face ][ 2 ] = num_node_323;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_258 ) |
-        ( 1 << num_node_3 ) |
-        ( 1 << num_node_323 ) ;
+        ( std::uint64_t( 1 ) << num_node_258 ) |
+        ( std::uint64_t( 1 ) << num_node_3 ) |
+        ( std::uint64_t( 1 ) << num_node_323 ) ;
     return;
 }
 case_163: {
     // n=8 11111000
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
-    int min_node_258 = min( num_node_2, num_node_3 );
-    int max_node_258 = max( num_node_2, num_node_3 );
+    int min_node_258 = std::min( num_node_2, num_node_3 );
+    int max_node_258 = std::max( num_node_2, num_node_3 );
     int num_edge_258 = 64 * max_node_258 + min_node_258;
     int num_node_258;
     if ( edge_num_cut_procs[ num_edge_258 ] != num_cut_proc ) {
@@ -12706,8 +12704,8 @@ case_163: {
         num_node_258 = edge_cuts[ num_edge_258 ];
     int num_node_7 = faces.node_lists[ num_face ][ 7 ];
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
-    int min_node_512 = min( num_node_7, num_node_0 );
-    int max_node_512 = max( num_node_7, num_node_0 );
+    int min_node_512 = std::min( num_node_7, num_node_0 );
+    int max_node_512 = std::max( num_node_7, num_node_0 );
     int num_edge_512 = 64 * max_node_512 + min_node_512;
     int num_node_512;
     if ( edge_num_cut_procs[ num_edge_512 ] != num_cut_proc ) {
@@ -12741,19 +12739,19 @@ case_163: {
     faces.node_lists[ num_face ][ 3 ] = num_node_258;
     faces.node_lists[ num_face ][ 4 ] = num_node_512;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_0 ) |
-        ( 1 << num_node_1 ) |
-        ( 1 << num_node_2 ) |
-        ( 1 << num_node_258 ) |
-        ( 1 << num_node_512 ) ;
+        ( std::uint64_t( 1 ) << num_node_0 ) |
+        ( std::uint64_t( 1 ) << num_node_1 ) |
+        ( std::uint64_t( 1 ) << num_node_2 ) |
+        ( std::uint64_t( 1 ) << num_node_258 ) |
+        ( std::uint64_t( 1 ) << num_node_512 ) ;
     return;
 }
 case_164: {
     // n=8 11111001
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
-    int min_node_128 = min( num_node_0, num_node_1 );
-    int max_node_128 = max( num_node_0, num_node_1 );
+    int min_node_128 = std::min( num_node_0, num_node_1 );
+    int max_node_128 = std::max( num_node_0, num_node_1 );
     int num_edge_128 = 64 * max_node_128 + min_node_128;
     int num_node_128;
     if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
@@ -12781,8 +12779,8 @@ case_164: {
         num_node_128 = edge_cuts[ num_edge_128 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
-    int min_node_258 = min( num_node_2, num_node_3 );
-    int max_node_258 = max( num_node_2, num_node_3 );
+    int min_node_258 = std::min( num_node_2, num_node_3 );
+    int max_node_258 = std::max( num_node_2, num_node_3 );
     int num_edge_258 = 64 * max_node_258 + min_node_258;
     int num_node_258;
     if ( edge_num_cut_procs[ num_edge_258 ] != num_cut_proc ) {
@@ -12815,18 +12813,18 @@ case_164: {
     faces.node_lists[ num_face ][ 0 ] = num_node_128;
     faces.node_lists[ num_face ][ 3 ] = num_node_258;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_128 ) |
-        ( 1 << num_node_1 ) |
-        ( 1 << num_node_2 ) |
-        ( 1 << num_node_258 ) ;
+        ( std::uint64_t( 1 ) << num_node_128 ) |
+        ( std::uint64_t( 1 ) << num_node_1 ) |
+        ( std::uint64_t( 1 ) << num_node_2 ) |
+        ( std::uint64_t( 1 ) << num_node_258 ) ;
     return;
 }
 case_165: {
     // n=8 11111011
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
-    int min_node_193 = min( num_node_1, num_node_2 );
-    int max_node_193 = max( num_node_1, num_node_2 );
+    int min_node_193 = std::min( num_node_1, num_node_2 );
+    int max_node_193 = std::max( num_node_1, num_node_2 );
     int num_edge_193 = 64 * max_node_193 + min_node_193;
     int num_node_193;
     if ( edge_num_cut_procs[ num_edge_193 ] != num_cut_proc ) {
@@ -12853,8 +12851,8 @@ case_165: {
     } else
         num_node_193 = edge_cuts[ num_edge_193 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
-    int min_node_258 = min( num_node_2, num_node_3 );
-    int max_node_258 = max( num_node_2, num_node_3 );
+    int min_node_258 = std::min( num_node_2, num_node_3 );
+    int max_node_258 = std::max( num_node_2, num_node_3 );
     int num_edge_258 = 64 * max_node_258 + min_node_258;
     int num_node_258;
     if ( edge_num_cut_procs[ num_edge_258 ] != num_cut_proc ) {
@@ -12887,17 +12885,17 @@ case_165: {
     faces.node_lists[ num_face ][ 0 ] = num_node_258;
     faces.node_lists[ num_face ][ 1 ] = num_node_193;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_258 ) |
-        ( 1 << num_node_193 ) |
-        ( 1 << num_node_2 ) ;
+        ( std::uint64_t( 1 ) << num_node_258 ) |
+        ( std::uint64_t( 1 ) << num_node_193 ) |
+        ( std::uint64_t( 1 ) << num_node_2 ) ;
     return;
 }
 case_166: {
     // n=8 11111100
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
-    int min_node_193 = min( num_node_1, num_node_2 );
-    int max_node_193 = max( num_node_1, num_node_2 );
+    int min_node_193 = std::min( num_node_1, num_node_2 );
+    int max_node_193 = std::max( num_node_1, num_node_2 );
     int num_edge_193 = 64 * max_node_193 + min_node_193;
     int num_node_193;
     if ( edge_num_cut_procs[ num_edge_193 ] != num_cut_proc ) {
@@ -12925,8 +12923,8 @@ case_166: {
         num_node_193 = edge_cuts[ num_edge_193 ];
     int num_node_7 = faces.node_lists[ num_face ][ 7 ];
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
-    int min_node_512 = min( num_node_7, num_node_0 );
-    int max_node_512 = max( num_node_7, num_node_0 );
+    int min_node_512 = std::min( num_node_7, num_node_0 );
+    int max_node_512 = std::max( num_node_7, num_node_0 );
     int num_edge_512 = 64 * max_node_512 + min_node_512;
     int num_node_512;
     if ( edge_num_cut_procs[ num_edge_512 ] != num_cut_proc ) {
@@ -12959,18 +12957,18 @@ case_166: {
     faces.node_lists[ num_face ][ 2 ] = num_node_193;
     faces.node_lists[ num_face ][ 3 ] = num_node_512;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_0 ) |
-        ( 1 << num_node_1 ) |
-        ( 1 << num_node_193 ) |
-        ( 1 << num_node_512 ) ;
+        ( std::uint64_t( 1 ) << num_node_0 ) |
+        ( std::uint64_t( 1 ) << num_node_1 ) |
+        ( std::uint64_t( 1 ) << num_node_193 ) |
+        ( std::uint64_t( 1 ) << num_node_512 ) ;
     return;
 }
 case_167: {
     // n=8 11111101
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
-    int min_node_128 = min( num_node_0, num_node_1 );
-    int max_node_128 = max( num_node_0, num_node_1 );
+    int min_node_128 = std::min( num_node_0, num_node_1 );
+    int max_node_128 = std::max( num_node_0, num_node_1 );
     int num_edge_128 = 64 * max_node_128 + min_node_128;
     int num_node_128;
     if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
@@ -12997,8 +12995,8 @@ case_167: {
     } else
         num_node_128 = edge_cuts[ num_edge_128 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
-    int min_node_193 = min( num_node_1, num_node_2 );
-    int max_node_193 = max( num_node_1, num_node_2 );
+    int min_node_193 = std::min( num_node_1, num_node_2 );
+    int max_node_193 = std::max( num_node_1, num_node_2 );
     int num_edge_193 = 64 * max_node_193 + min_node_193;
     int num_node_193;
     if ( edge_num_cut_procs[ num_edge_193 ] != num_cut_proc ) {
@@ -13031,17 +13029,17 @@ case_167: {
     faces.node_lists[ num_face ][ 0 ] = num_node_128;
     faces.node_lists[ num_face ][ 2 ] = num_node_193;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_128 ) |
-        ( 1 << num_node_1 ) |
-        ( 1 << num_node_193 ) ;
+        ( std::uint64_t( 1 ) << num_node_128 ) |
+        ( std::uint64_t( 1 ) << num_node_1 ) |
+        ( std::uint64_t( 1 ) << num_node_193 ) ;
     return;
 }
 case_168: {
     // n=8 11111110
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
-    int min_node_128 = min( num_node_0, num_node_1 );
-    int max_node_128 = max( num_node_0, num_node_1 );
+    int min_node_128 = std::min( num_node_0, num_node_1 );
+    int max_node_128 = std::max( num_node_0, num_node_1 );
     int num_edge_128 = 64 * max_node_128 + min_node_128;
     int num_node_128;
     if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
@@ -13068,8 +13066,8 @@ case_168: {
     } else
         num_node_128 = edge_cuts[ num_edge_128 ];
     int num_node_7 = faces.node_lists[ num_face ][ 7 ];
-    int min_node_512 = min( num_node_7, num_node_0 );
-    int max_node_512 = max( num_node_7, num_node_0 );
+    int min_node_512 = std::min( num_node_7, num_node_0 );
+    int max_node_512 = std::max( num_node_7, num_node_0 );
     int num_edge_512 = 64 * max_node_512 + min_node_512;
     int num_node_512;
     if ( edge_num_cut_procs[ num_edge_512 ] != num_cut_proc ) {
@@ -13102,9 +13100,9 @@ case_168: {
     faces.node_lists[ num_face ][ 1 ] = num_node_128;
     faces.node_lists[ num_face ][ 2 ] = num_node_512;
     faces.node_masks[ num_face ] = 
-        ( 1 << num_node_0 ) |
-        ( 1 << num_node_128 ) |
-        ( 1 << num_node_512 ) ;
+        ( std::uint64_t( 1 ) << num_node_0 ) |
+        ( std::uint64_t( 1 ) << num_node_128 ) |
+        ( std::uint64_t( 1 ) << num_node_512 ) ;
     return;
 }
 case_8: {

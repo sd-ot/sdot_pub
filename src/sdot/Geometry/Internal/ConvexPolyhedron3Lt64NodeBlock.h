@@ -14,7 +14,7 @@ public:
     using       TF                       = typename Carac::TF;
     using       Pt                       = Point3<TF>;
     enum {      nb                       = 64 }; ///< nb items
-    enum {      bs                       = 2 * nb }; ///< block size
+    enum {      bs                       = 4 * nb }; ///< block size. 1 (old size) + 2 (max nb additionnal nodes: 3 edges per node...) + 1 (tmp nodes, to be moved afterwards)
 
     // shortcuts
     using       Node                     = ConvexPolyhedron3Lt64NodeBlock;

@@ -4,8 +4,9 @@
     },
     "python.pythonPath": "/home/leclerc/.miniconda3/bin/python",
     "files.watcherExclude": {
-        "ext/**": true,
-        "vtk/**": true
+        "**/ext/**": true,
+        "**/ooc/**": true,
+        "**/vtk/**": true
     },
     "spellright.language": [
         "en_US"

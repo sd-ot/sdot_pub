@@ -1,4 +1,4 @@
-#include "../../src/sdot/Geometry/ConvexPolyhedron3b.h"
+#include "../../src/sdot/Geometry/ConvexPolyhedron3Gen.h"
 #include "../../src/sdot/Support/ASSERT.h"
 #include "../../src/sdot/Support/P.h"
 using namespace sdot;
@@ -6,13 +6,20 @@ using namespace sdot;
 
 template<class Pc,class Pts>
 void test_cuts( Pts origs, Pts norms, VtkOutput &vo, int &cpt_vo ) {
-    using Cp = ConvexPolyhedron3<Pc>;
+    using Cp = ConvexPolyhedron3Lt64<Pc>;
+    using Cq = ConvexPolyhedron3Gen<Pc>;
     using TF = typename Cp::TF;
     using CI = typename Cp::CI;
     using Pt = typename Cp::Pt;
 
+    // offset for display
+    Pt off{ 1.5 * int( cpt_vo % 8 ), 1.5 * int( cpt_vo / 8 ), 0.0 };
+    ++cpt_vo;
+
     // initial cell
     Cp lc;
+    Cq ld;
+
     lc = typename Cp::Box{ { -2.0 }, { 2.0 } };
 
     // cuts
@@ -30,21 +37,25 @@ void test_cuts( Pts origs, Pts norms, VtkOutput &vo, int &cpt_vo ) {
         cut_id.push_back( nullptr );
     }
 
-    lc.plane_cut( { cut_dx.data(), cut_dy.data(), cut_dz.data() }, cut_ps.data(), cut_id.data(), cut_dx.size() );
-    PN( lc );
-
-    // display
-    Pt off{ 1.5 * int( cpt_vo % 8 ), 1.5 * int( cpt_vo / 8 ), 0.0 };
-    lc.display_vtk( vo, { TF( cpt_vo ) }, off );
-    ++cpt_vo;
-
+    std::size_t res = lc.plane_cut( { cut_dx.data(), cut_dy.data(), cut_dz.data() }, cut_ps.data(), cut_id.data(), cut_dx.size() );
+    //    PN( lc );
+    //    PN( lc.valid() );
+    //    PN( cut_dx.size(), res );
+    if ( res < cut_dx.size() ) {
+        ++res;
+        ld = lc;
+        ld.plane_cut( { cut_dx.data() + res, cut_dy.data() + res, cut_dz.data() + res }, cut_ps.data() + res, cut_id.data() + res, cut_dx.size() - res );
+        ld.display_vtk( vo, { TF( cpt_vo - 1 ) }, off );
+    } else {
+        lc.display_vtk( vo, { TF( cpt_vo - 1 ) }, off );
+    }
 }
 
 template<class Pc>
 void test_sphere( VtkOutput &vo, int &cpt_vo ) {
     using Pt = Point3<double>;
     std::vector<Pt> origs, norms;
-    for( std::size_t i = 0; i < 14; ++i ) {
+    for( std::size_t i = 0; i < 40; ++i ) {
         Pt p;
         for( int d = 0; d < 3; ++d )
             p[ d ] = 2.0 * rand() / RAND_MAX - 1;

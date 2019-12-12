@@ -19,7 +19,7 @@ class ZGrid {
 public:
     static constexpr std::size_t    dim                    = Pc::dim;         ///<
     using                           CP2                    = ConvexPolyhedron2<Pc>;
-    using                           CP3                    = ConvexPolyhedron3<Pc>;
+    using                           CP3                    = ConvexPolyhedron3Lt64<Pc>;
     using                           CP                     = typename std::conditional<dim==3,CP3,CP2>::type;
 
     using                           TF                     = typename CP::TF; ///< floating point type

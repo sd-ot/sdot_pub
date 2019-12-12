@@ -293,7 +293,7 @@ void ConvexPolyhedron3<Pc>::for_each_node( const F &f ) const {
 }
 
 template<class Pc>
-typename ConvexPolyhedron3<Pc>::TI ConvexPolyhedron3<Pc>::nb_nodes() const {
+typename ConvexPolyhedron3Lt64<Pc>::TI ConvexPolyhedron3Lt64<Pc>::nb_nodes() const {
     return nodes_size;
 }
 
@@ -303,12 +303,12 @@ bool ConvexPolyhedron3<Pc>::empty() const {
 }
 
 template<class Pc>
-const typename ConvexPolyhedron3<Pc>::Node &ConvexPolyhedron3<Pc>::node( TI index ) const {
+const typename ConvexPolyhedron3Lt64<Pc>::Node &ConvexPolyhedron3<Pc>::node( TI index ) const {
     return nodes->global_at( index );
 }
 
 template<class Pc>
-typename ConvexPolyhedron3<Pc>::Node &ConvexPolyhedron3<Pc>::node( TI index ) {
+typename ConvexPolyhedron3Lt64<Pc>::Node &ConvexPolyhedron3<Pc>::node( TI index ) {
     return nodes->global_at( index );
 }
 
@@ -344,7 +344,7 @@ void ConvexPolyhedron3<Pc>::set_nb_nodes( TI new_size ) {
 }
 
 template<class Pc>
-typename ConvexPolyhedron3<Pc>::Node *ConvexPolyhedron3<Pc>::new_node( Pt pos ) {
+typename ConvexPolyhedron3Lt64<Pc>::Node *ConvexPolyhedron3<Pc>::new_node( Pt pos ) {
     TI n = nb_nodes();
     set_nb_nodes( n + 1 );
 
@@ -705,7 +705,7 @@ void ConvexPolyhedron3<Pc>::plane_cut( std::array<const TF *,dim> cut_dir, const
 }
 
 template<class Pc>
-typename ConvexPolyhedron3<Pc>::TF ConvexPolyhedron3<Pc>::integral() const {
+typename ConvexPolyhedron3Lt64<Pc>::TF ConvexPolyhedron3<Pc>::integral() const {
     TF res;
     if ( faces.empty() ) {
         res = sphere_radius > 0 ? 4 * M_PI / 3 * std::pow( sphere_radius, 3 ) : 0;

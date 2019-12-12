@@ -17,7 +17,7 @@ public:
     using                  TI                         = typename Pc::TI;
 
     using                  CP2                        = ConvexPolyhedron2<Pc>;
-    using                  CP3                        = ConvexPolyhedron3<Pc>;
+    using                  CP3                        = ConvexPolyhedron3Lt64<Pc>;
     using                  CP                         = typename std::conditional<dim==3,CP3,CP2>::type;
     using                  Pt                         = typename CP::Pt;
 

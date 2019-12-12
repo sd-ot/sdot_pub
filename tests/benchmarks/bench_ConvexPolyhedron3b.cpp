@@ -1,4 +1,4 @@
-#include "../../src/sdot/Geometry/ConvexPolyhedron3b.h"
+#include "../../src/sdot/Geometry/ConvexPolyhedron3Lt64.h"
 #include "../../src/sdot/Support/ASSERT.h"
 #include "../../src/sdot/Support/Time.h"
 #include "../../src/sdot/Support/P.h"
@@ -24,7 +24,7 @@ struct Pc {
     };
 };
 
-using Cp = ConvexPolyhedron3<Pc>;
+using Cp = ConvexPolyhedron3Lt64<Pc>;
 using TF = Cp::TF;
 using Pt = Cp::Pt;
 
@@ -104,5 +104,5 @@ int main( int, char ** ) {
         ds.push_back( nullptr );
     }
 
-    bench( xs, ys, zs, ps, ds, single_test ? 1 : 20000 );
+    bench( xs, ys, zs, ps, ds, single_test ? 1 : 200000 );
 }

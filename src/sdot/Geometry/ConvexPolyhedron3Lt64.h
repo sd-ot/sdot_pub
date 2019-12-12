@@ -1,9 +1,12 @@
-#ifndef SDOT_CONVEX_POLYHEDRON_3_H
-#define SDOT_CONVEX_POLYHEDRON_3_H
+#ifndef SDOT_CONVEX_POLYHEDRON_3_LT64_H
+#define SDOT_CONVEX_POLYHEDRON_3_LT64_H
 
 #include "Internal/ConvexPolyhedron3Lt64Face.h"
 #include "ConvexPolyhedron.h"
+#include "../Support/VtkOutput.h"
+#include "../Support/N.h"
 #include <functional>
+#include <vector>
 
 namespace sdot {
 
@@ -16,7 +19,7 @@ namespace sdot {
   Beware: ball_cuts must be done AFTER the plane_cuts.
 */
 template<class Pc>
-class alignas( 64 ) ConvexPolyhedron3 : public ConvexPolyhedron {
+class alignas( 64 ) ConvexPolyhedron3Lt64 : public ConvexPolyhedron {
 public:
     using                                Dirac                     = typename Pc::Dirac; ///<
     using                                TF                        = typename Pc::TF;    ///< floating point type
@@ -35,23 +38,23 @@ public:
     using                                Node                      = Lt64NodeBlock;
 
     // types for the ctor
-    struct                               Box                       { Box( Pt p0, Pt p1, CI cut_id = nullptr ); ConvexPolyhedron3 cp; };
+    struct                               Box                       { Box( Pt p0, Pt p1, CI cut_id = nullptr ); ConvexPolyhedron3Lt64 cp; };
 
-    /**/                                 ConvexPolyhedron3         ( Pt p0, Pt p1, CI cut_id );
-    /**/                                 ConvexPolyhedron3         ();
-    /**/                                ~ConvexPolyhedron3         ();
+    /**/                                 ConvexPolyhedron3Lt64     ( Pt p0, Pt p1, CI cut_id );
+    /**/                                 ConvexPolyhedron3Lt64     ();
+    /**/                                ~ConvexPolyhedron3Lt64     ();
 
-    ConvexPolyhedron3&                   operator=                 ( const ConvexPolyhedron3 &that );
-    ConvexPolyhedron3&                   operator=                 ( const Box &that );
+    ConvexPolyhedron3Lt64&               operator=                 ( const ConvexPolyhedron3Lt64 &that );
+    ConvexPolyhedron3Lt64&               operator=                 ( const Box &that );
 
     // information
     void                                 write_to_stream           ( std::ostream &os, bool debug = false ) const;
     void                                 display_vtk               ( VtkOutput &vo, const std::vector<TF> &cell_values = {}, Pt offset = TF( 0 ), bool display_both_sides = true ) const;
     TI                                   nb_nodes                  () const;
-    TI                                   nb_edges                  () const;
     void                                 check                     () const;
 
     bool                                 empty                     () const;
+    bool                                 valid                     () const;
 
     const Node&                          node                      ( TI index ) const;
     Node&                                node                      ( TI index );
@@ -63,10 +66,6 @@ public:
     // geometric modifications
     template<int flags> std::size_t      plane_cut                 ( std::array<const TF *,dim> cut_dir, const TF *cut_ps, const CI *cut_id, std::size_t nb_cuts, N<flags> ); ///< return the stop cut. @see ConvexPolyhedron for the flags
     std::size_t                          plane_cut                 ( std::array<const TF *,dim> cut_dir, const TF *cut_ps, const CI *cut_id, std::size_t nb_cuts ); ///< return the stop cut (if < nb_cuts, it means that we have to use another ConvexPolyhedron class)
-    void                                 ball_cut                  ( Pt center, TF radius, CI cut_id = {} ); ///< beware: only one sphere cut is authorized, and it must be done after all the plane cuts.
-
-    //
-    TF                                   integral                  () const;
 
 private:
     friend class                         ConvexPolyhedron3Lt64Face<Pc>;
@@ -85,8 +84,7 @@ private:
     Pt                                   sphere_center;
     CI                                   sphere_cut_id;
 
-    std::vector<Pt>                      additional_nodes;                   ///< used if nodes_size > 64 (meaning that we have to use another ConvexPolyhedron class)
-    std::vector<std::uint8_t>            additional_nums;                    ///< used if some face have more than 16 nodes (meaning that we have to use another ConvexPolyhedron class)
+    std::vector<std::uint8_t>            additional_nums;                    ///< used if at least 1 face has more than 16 nodes (meaning that we have to use another ConvexPolyhedron class)
 
     std::uint64_t                        edge_num_cut_procs[ max_nb_edges ]; ///< to be compared to this->num_cut_proc
     std::uint8_t                         edge_cuts         [ max_nb_edges ]; ///< num node for each possible edge
@@ -96,6 +94,6 @@ private:
 
 } // namespace sdot
 
-#include "ConvexPolyhedron3b.tcc"
+#include "ConvexPolyhedron3Lt64.tcc"
 
-#endif // SDOT_CONVEX_POLYHEDRON_3_H
+#endif // SDOT_CONVEX_POLYHEDRON_3_LT64_H

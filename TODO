@@ -34,8 +34,10 @@ if ( s < nb_cuts ) {
 
 * Optimisations
 * Gestion des cas > 64, > 16, ...
+  Quel est le nombre max de noeuds qu'on peut créer à partir de 64 noeuds ?
+   => chaque noeuds est exactement à 3 autres noeuds. Max nb edges avec coupe = 3 * nb_noeud_dehors.
+  Max nb noeuds à la fin = ( 64 - nb_noeud_dehors ) + 3 * nb_noeud_dehors = 64 + 2 * nb_noeud_dehors
 
-
-
+  Prop: 
 
 

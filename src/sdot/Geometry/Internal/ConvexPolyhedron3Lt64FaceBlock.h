@@ -27,6 +27,7 @@ public:
     TF                   normal_xs [ bs ];     ///< per face
     TF                   normal_ys [ bs ];     ///< per face
     TF                   normal_zs [ bs ];     ///< per face
+    int                  off_in_ans[ bs ];     ///< per face. Offset in additional_nums. Used for nodes >= max_nb_nodes_per_face
     int                  nb_nodes  [ bs ];     ///< per face
     CI                   cut_ids   [ bs ];     ///< per face
 };

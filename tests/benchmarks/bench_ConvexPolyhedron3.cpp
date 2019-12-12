@@ -26,7 +26,7 @@ struct Pc {
     };
 };
 
-using Cp = ConvexPolyhedron3<Pc>;
+using Cp = ConvexPolyhedron3Lt64<Pc>;
 using TF = Cp::TF;
 using Pt = Cp::Pt;
 

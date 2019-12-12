@@ -1,4 +1,3 @@
-//#include "../Support/Display/generic_ostream_output.h"
 #include "../Support/Display/binary_repr.h"
 #include "../Support/aligned_memory.h"
 #include "../Support/bit_handling.h"
@@ -8,27 +7,21 @@
 #include "../Support/TODO.h"
 #include "../Support/pi.h"
 #include "../Support/P.h"
-#include "ConvexPolyhedron3b.h"
+#include "ConvexPolyhedron3Lt64.h"
 #include <cstring>
 #include <iomanip>
 #include <bitset>
 #include <map>
 #include <set>
 
-//#define _USE_MATH_DEFINES
-//#include <math.h>
-
-// #include "Internal/(convex_polyhedron_plane_cut_simd_switch.cpp).h"
-
 namespace sdot {
 
-
 template<class Pc>
-ConvexPolyhedron3<Pc>::Box::Box( Pt p0, Pt p1, CI cut_id ) : cp( p0, p1, cut_id ) {
+ConvexPolyhedron3Lt64<Pc>::Box::Box( Pt p0, Pt p1, CI cut_id ) : cp( p0, p1, cut_id ) {
 }
 
 template<class Pc>
-ConvexPolyhedron3<Pc>::ConvexPolyhedron3( Pt p0, Pt p1, CI cut_id ) : ConvexPolyhedron3() {
+ConvexPolyhedron3Lt64<Pc>::ConvexPolyhedron3Lt64( Pt p0, Pt p1, CI cut_id ) : ConvexPolyhedron3Lt64() {
     // sizes
     nodes_size = 8;
     faces_size = 6;
@@ -81,7 +74,7 @@ ConvexPolyhedron3<Pc>::ConvexPolyhedron3( Pt p0, Pt p1, CI cut_id ) : ConvexPoly
 }
 
 template<class Pc>
-ConvexPolyhedron3<Pc>::ConvexPolyhedron3() {
+ConvexPolyhedron3Lt64<Pc>::ConvexPolyhedron3Lt64() {
     sphere_radius = 0;
     num_cut_proc  = 0;
     nodes_size    = 0;
@@ -98,11 +91,11 @@ ConvexPolyhedron3<Pc>::ConvexPolyhedron3() {
 
 
 template<class Pc>
-ConvexPolyhedron3<Pc>::~ConvexPolyhedron3() {
+ConvexPolyhedron3Lt64<Pc>::~ConvexPolyhedron3Lt64() {
 }
 
 template<class Pc>
-ConvexPolyhedron3<Pc> &ConvexPolyhedron3<Pc>::operator=( const ConvexPolyhedron3 &that ) {
+ConvexPolyhedron3Lt64<Pc> &ConvexPolyhedron3Lt64<Pc>::operator=( const ConvexPolyhedron3Lt64 &that ) {
     nodes_size = that.nodes_size;
     faces_size = that.faces_size;
 
@@ -122,7 +115,7 @@ ConvexPolyhedron3<Pc> &ConvexPolyhedron3<Pc>::operator=( const ConvexPolyhedron3
 }
 
 template<class Pc>
-ConvexPolyhedron3<Pc> &ConvexPolyhedron3<Pc>::operator=( const Box &that ) {
+ConvexPolyhedron3Lt64<Pc> &ConvexPolyhedron3Lt64<Pc>::operator=( const Box &that ) {
     constexpr unsigned _nodes_size = 8;
     constexpr unsigned _faces_size = 6;
 
@@ -145,7 +138,7 @@ ConvexPolyhedron3<Pc> &ConvexPolyhedron3<Pc>::operator=( const Box &that ) {
 }
 
 template<class Pc>
-void ConvexPolyhedron3<Pc>::write_to_stream( std::ostream &os, bool /*debug*/ ) const {
+void ConvexPolyhedron3Lt64<Pc>::write_to_stream( std::ostream &os, bool /*debug*/ ) const {
     os << "Nodes:";
     for_each_node( [&]( const auto &node ) {
         os << "\n  " << node.x << " " << node.y << " " << node.z;
@@ -162,7 +155,7 @@ void ConvexPolyhedron3<Pc>::write_to_stream( std::ostream &os, bool /*debug*/ ) 
 }
 
 template<class Pc>
-void ConvexPolyhedron3<Pc>::display_vtk( VtkOutput &vo, const std::vector<TF> &cell_values, Pt offset, bool /*display_both_sides*/ ) const {
+void ConvexPolyhedron3Lt64<Pc>::display_vtk( VtkOutput &vo, const std::vector<TF> &cell_values, Pt offset, bool /*display_both_sides*/ ) const {
     std::vector<VtkOutput::Pt> pts;
     pts.reserve( 16 );
     for_each_face( [&]( const Face &face ) {
@@ -179,47 +172,46 @@ void ConvexPolyhedron3<Pc>::display_vtk( VtkOutput &vo, const std::vector<TF> &c
 }
 
 template<class Pc>
-typename ConvexPolyhedron3<Pc>::TI ConvexPolyhedron3<Pc>::nb_nodes() const {
+typename ConvexPolyhedron3Lt64<Pc>::TI ConvexPolyhedron3Lt64<Pc>::nb_nodes() const {
     return nodes_size;
 }
 
 template<class Pc>
-bool ConvexPolyhedron3<Pc>::empty() const {
+bool ConvexPolyhedron3Lt64<Pc>::empty() const {
     return nodes_size == 0;
 }
 
 template<class Pc>
-const typename ConvexPolyhedron3<Pc>::Node &ConvexPolyhedron3<Pc>::node( TI index ) const {
+const typename ConvexPolyhedron3Lt64<Pc>::Node &ConvexPolyhedron3Lt64<Pc>::node( TI index ) const {
     return nodes.local_at( index );
 }
 
 template<class Pc>
-typename ConvexPolyhedron3<Pc>::Node &ConvexPolyhedron3<Pc>::node( TI index ) {
+typename ConvexPolyhedron3Lt64<Pc>::Node &ConvexPolyhedron3Lt64<Pc>::node( TI index ) {
     return nodes.local_at( index );
 }
 
 template<class Pc>
-void ConvexPolyhedron3<Pc>::for_each_boundary_item( const std::function<void( const BoundaryItem &boundary_item )> &f ) const {
+void ConvexPolyhedron3Lt64<Pc>::for_each_boundary_item( const std::function<void( const BoundaryItem &boundary_item )> &f ) const {
     for_each_face( f );
 }
 
 template<class Pc>
-void ConvexPolyhedron3<Pc>::for_each_face( const std::function<void( const Face & )> &f ) const {
+void ConvexPolyhedron3Lt64<Pc>::for_each_face( const std::function<void( const Face & )> &f ) const {
     for( int num_face = 0; num_face < faces_size; ++num_face )
         f( { num_face, this } );
 }
 
 template<class Pc>
-void ConvexPolyhedron3<Pc>::for_each_node( const std::function<void( const Node & )> &f ) const {
+void ConvexPolyhedron3Lt64<Pc>::for_each_node( const std::function<void( const Node & )> &f ) const {
     for( int num_node = 0; num_node < nodes_size; ++num_node )
         f( nodes.local_at( num_node ) );
 }
 
 
 template<class Pc> template<int flags>
-std::size_t ConvexPolyhedron3<Pc>::plane_cut( std::array<const TF *,dim> cut_dir, const TF *cut_ps, const CI *cut_ids, std::size_t nb_cuts, N<flags> ) {
+std::size_t ConvexPolyhedron3Lt64<Pc>::plane_cut( std::array<const TF *,dim> cut_dir, const TF *cut_ps, const CI *cut_ids, std::size_t nb_cuts, N<flags> ) {
     constexpr int ss = SimdSize<TF>::value;
-    additional_nodes.clear();
     additional_nums.clear();
 
     for( std::size_t num_cut = 0; num_cut < nb_cuts; ++num_cut ) {
@@ -258,7 +250,7 @@ std::size_t ConvexPolyhedron3<Pc>::plane_cut( std::array<const TF *,dim> cut_dir
         int nb_faces_to_rem = 0;
 
         // where to put the next temporary node
-        int ind_nxt_tmp_node = max_nb_nodes;
+        int ind_nxt_tmp_node = 3 * max_nb_nodes;
 
         // linked list of nodes for the new face
         std::uint8_t prev_cut_nodes[ max_nb_nodes ]; // index to the next node
@@ -271,6 +263,7 @@ std::size_t ConvexPolyhedron3<Pc>::plane_cut( std::array<const TF *,dim> cut_dir
         auto handle_intersected_face = [&]( unsigned num_face ) {
             const auto &fnodes = faces.node_lists[ num_face ];
             int nb_fnodes = faces.nb_nodes[ num_face ];
+
             // case handled by generated codes (makes a return if handled)
             if ( nb_fnodes <= 8 ) {
                 SimdVec<std::uint64_t,8> blo = SimdVec<std::uint64_t,8>::load_aligned( fnodes.data() );
@@ -280,7 +273,93 @@ std::size_t ConvexPolyhedron3<Pc>::plane_cut( std::array<const TF *,dim> cut_dir
                 #include "Internal/(ConvexPolyhedron3Lt64_plane_cut_switch.cpp).h"
             }
 
-            TODO;
+            // generic case (several cuts, nb_nodes > 8, etc...)
+            std::array<std::uint8_t,2*Lt64FaceBlock::max_nb_nodes_per_face> new_fnode_lists;
+            std::array<std::uint8_t,Lt64FaceBlock::max_nb_nodes_per_face> in_outs, out_ins;
+            int new_nb_fnodes = 0, nb_in_outs = 0, nb_out_ins = 0;
+            std::uint64_t new_fnode_mask = 0;
+
+            // helper
+            auto add_node_between = [&]( int num_node_0, int num_node_1 ) {
+                int min_node_128 = std::min( num_node_0, num_node_1 );
+                int max_node_128 = std::max( num_node_0, num_node_1 );
+                int num_edge_128 = 64 * max_node_128 + min_node_128;
+
+                int num_node_128;
+                if ( edge_num_cut_procs[ num_edge_128 ] != num_cut_proc ) {
+                    int pos_node;
+                    if ( available_nodes ) { // there's a node that is going to be freed
+                        int nn = tzcnt( available_nodes );
+                        available_nodes -= std::uint64_t( 1 ) << nn;
+
+                        pos_node = ind_nxt_tmp_node++;
+                        num_node_128 = nn;
+
+                        repl_node_dsts[ nb_repl_nodes ] = num_node_128;
+                        repl_node_srcs[ nb_repl_nodes ] = pos_node;
+                        ++nb_repl_nodes;
+                    } else {
+                        num_node_128 = nodes_size;
+                        pos_node = nodes_size++;
+                    }
+                    const Node &n0 = nodes.local_at( num_node_0 );
+                    const Node &n1 = nodes.local_at( num_node_1 );
+                    nodes.local_at( pos_node ).set_pos( n0.pos() + n0.d / ( n0.d - n1.d ) * ( n1.pos() - n0.pos() ) );
+                    edge_num_cut_procs[ num_edge_128 ] = num_cut_proc;
+                    edge_cuts[ num_edge_128 ] = num_node_128;
+                } else
+                    num_node_128 = edge_cuts[ num_edge_128 ];
+
+                new_fnode_lists[ new_nb_fnodes++ ] = num_node_128;
+                new_fnode_mask |= std::uint64_t( 1 ) << num_node_128;
+                return num_node_128;
+            };
+
+            // remake the face
+            for( int i0 = 0; i0 < nb_fnodes; ++i0 ) {
+                int n0 = fnodes[ i0 ];
+                std::uint64_t m0 = std::uint64_t( 1 ) << n0;
+                if ( outside_nodes & m0 )
+                    continue;
+
+                // outside (nm) => inside (n0)
+                int nm = fnodes[ ( i0 + nb_fnodes - 1 ) % nb_fnodes ];
+                std::uint64_t mm = std::uint64_t( 1 ) << nm;
+                if ( outside_nodes & mm )
+                    out_ins[ nb_out_ins++ ] = add_node_between( nm, n0 );
+
+                //
+                new_fnode_lists[ new_nb_fnodes++ ] = n0;
+                new_fnode_mask |= m0;
+
+                // inside (n0) => outside (n1)
+                int n1 = fnodes[ ( i0 + 1 ) % nb_fnodes ];
+                std::uint64_t m1 = std::uint64_t( 1 ) << n1;
+                if ( outside_nodes & m1 )
+                    in_outs[ nb_in_outs++ ] = add_node_between( n0, n1 );
+            }
+
+            if ( nb_out_ins ) {
+                if ( nb_out_ins > 1 )
+                    TODO;
+                prev_cut_nodes[ out_ins[ 0 ] ] = in_outs[ 0 ];
+                last_cut_node = out_ins[ 0 ];
+            }
+
+            // save the face
+            if ( new_nb_fnodes <= Lt64FaceBlock::max_nb_nodes_per_face ) {
+                for( int i = 0; i < new_nb_fnodes; ++i )
+                    faces.node_lists[ num_face ][ i ] = new_fnode_lists[ i ];
+            } else {
+                for( int i = 0; i < Lt64FaceBlock::max_nb_nodes_per_face; ++i )
+                    faces.node_lists[ num_face ][ i ] = new_fnode_lists[ i ];
+
+                faces.off_in_ans[ num_face ] = additional_nums.size();
+                for( int i = Lt64FaceBlock::max_nb_nodes_per_face; i < new_nb_fnodes; ++i )
+                    additional_nums.push_back( new_fnode_lists[ i ] );
+            }
+            faces.node_masks[ num_face ] = new_fnode_mask;
+            faces.nb_nodes[ num_face ] = new_nb_fnodes;
         };
         for( int n = 0; n < faces_size; ++n )
             if ( outside_nodes & faces.node_masks[ n ] )
@@ -313,16 +392,18 @@ std::size_t ConvexPolyhedron3<Pc>::plane_cut( std::array<const TF *,dim> cut_dir
         };
         remove_void_faces();
 
-        // if non void
+        // if cell is not void
         if ( faces_size ) {
             // make the new face
             int nf = faces_size++;
             int nb_nodes = 0;
             std::uint64_t node_mask = 0;
             for( std::uint8_t i = last_cut_node, c = 0; ; c++ ) {
-                if ( nb_nodes >= 16 )
+                if ( nb_nodes >= 16 ) {
+                    if ( nb_nodes == 16 )
+                        faces.off_in_ans[ nf ] = additional_nums.size();
                     additional_nums.push_back( i );
-                else
+                } else
                     faces.node_lists[ nf ][ nb_nodes ] = i;
                 ++nb_nodes;
 
@@ -384,27 +465,34 @@ std::size_t ConvexPolyhedron3<Pc>::plane_cut( std::array<const TF *,dim> cut_dir
                     if ( moved_nodes & faces.node_masks[ num_face ] )
                         move_nodes_in_face( num_face );
             }
+
+            // if it does not fit
+            if ( nodes_size > 64 || additional_nums.size() )
+                return num_cut;
         } else {
             nodes_size = 0;
         }
-
-        // if it does not fit
-        if ( additional_nums.size() || additional_nodes.size() )
-            return num_cut;
     }
 
     return nb_cuts;
 }
 
 template<class Pc>
-std::size_t ConvexPolyhedron3<Pc>::plane_cut( std::array<const TF *,dim> cut_dir, const TF *cut_ps, const CI *cut_id, std::size_t nb_cuts ) {
+std::size_t ConvexPolyhedron3Lt64<Pc>::plane_cut( std::array<const TF *,dim> cut_dir, const TF *cut_ps, const CI *cut_id, std::size_t nb_cuts ) {
     return plane_cut( cut_dir, cut_ps, cut_id, nb_cuts, N<0>() );
 }
 
 template<class Pc>
-typename ConvexPolyhedron3<Pc>::TF ConvexPolyhedron3<Pc>::integral() const {
-    TODO;
-    return 0;
+bool ConvexPolyhedron3Lt64<Pc>::valid() const {
+    for( int num_face = 0; num_face < faces_size; ++num_face ) {
+        using M = std::uint64_t;
+        M msk = 0;
+        for( int nif = 0; nif < faces.nb_nodes[ num_face ]; ++nif )
+            msk |= M( 1 ) << faces.node_lists[ num_face ][ nif ];
+        if ( msk != faces.node_masks[ num_face ] )
+            ERROR( "..." );
+    }
+    return true;
 }
 
 } // namespace sdot
