@@ -30,7 +30,8 @@ public:
     void                        for_each_boundary_item( const std::function<void( const BoundaryItem &boundary_item )> &f ) const;
     void                        for_each_node         ( const std::function<void( const Pt &p )> &f ) const;
 
-    template<int flags> void    plane_cut             ( std::array<const TF *,Pc::dim> cut_dir, const TF *cut_ps, const CI *cut_id, std::size_t nb_cuts, N<flags> ); ///< return the stop cut. @see ConvexPolyhedron for the flags
+    template                    <int flags,class Fu>
+    void                        plane_cut             ( std::array<const TF *,Pc::dim> cut_dir, const TF *cut_ps, const CI *cut_id, std::size_t nb_cuts, N<flags>, const Fu &fu ); ///< return the stop cut. @see ConvexPolyhedron for the flags
     void                        plane_cut             ( std::array<const TF *,Pc::dim> cut_dir, const TF *cut_ps, const CI *cut_id, std::size_t nb_cuts ); ///< return the stop cut (if < nb_cuts, it means that we have to use another ConvexPolyhedron class)
 
     std::vector<std::uint64_t>  num_cut_proc_edge;

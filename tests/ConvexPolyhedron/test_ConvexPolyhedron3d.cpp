@@ -6,14 +6,18 @@
 using namespace sdot;
 
 template<class Cp>
-void cut_and_disp( Cp &cp, std::array<const double *,3> cn, double *cd, std::size_t nb_cuts ) {
-    cp.plane_cut( cn, cd, cd, nb_cuts, N<0>(), [&]( auto &cp ) {
-
+void cut_and_disp( Cp &cp, std::array<const double *,3> cn, const double *cd, const double *ci, std::size_t nb_cuts ) {
+    bool direct = true;
+    cp.plane_cut( cn, cd, ci, nb_cuts, N<0>(), [&]( auto &cp, auto cn, auto cd, auto ci, std::size_t nb_cuts ) {
+        cut_and_disp( cp, cn, cd, ci, nb_cuts );
+        direct = false;
     } );
 
-    VtkOutput vo;
-    display_vtk( vo, cp );
-    vo.save( "vtk/pd.vtk" );
+    if ( direct ) {
+        VtkOutput vo;
+        display_vtk( vo, cp );
+        vo.save( "vtk/pd.vtk" );
+    }
 }
 
 template<class Cp>
@@ -33,7 +37,7 @@ void test_sphere() {
         cs.push_back( 1.0 );
     }
 
-    cut_and_disp( cp, { cx.data(), cy.data(), cz.data() }, cs.data(), cx.size() );
+    cut_and_disp( cp, { cx.data(), cy.data(), cz.data() }, cs.data(), cs.data(), cx.size() );
 }
 
 int main() {

@@ -1,7 +1,7 @@
 #ifndef CONVEXPOLYHEDRON3GEN_H
 #define CONVEXPOLYHEDRON3GEN_H
 
-#include "ConvexPolyhedron3DLt64.h"
+#include "ConvexPolyhedron3dLt64.h"
 
 namespace sdot {
 
