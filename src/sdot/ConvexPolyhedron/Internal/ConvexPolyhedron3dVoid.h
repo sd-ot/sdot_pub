@@ -12,7 +12,7 @@ namespace sdot {
 /**
 */
 template<class Pc>
-class ConvexPolyhedron<Pc,void> {
+class ConvexPolyhedron<Pc,3,void> {
 public:
     using                       TF                    = typename Pc::TF;    ///< floating point type
     using                       CI                    = typename Pc::CI;    ///< cut info
@@ -38,9 +38,6 @@ public:
     template<int flags> void    plane_cut             ( std::array<const TF *,Pc::dim> cut_dir, const TF *cut_ps, const CI *cut_id, std::size_t nb_cuts, N<flags> ); ///< return the stop cut. @see ConvexPolyhedron for the flags
     void                        plane_cut             ( std::array<const TF *,Pc::dim> cut_dir, const TF *cut_ps, const CI *cut_id, std::size_t nb_cuts ); ///< return the stop cut (if < nb_cuts, it means that we have to use another ConvexPolyhedron class)
 
-    template<int d> static void construct_rec         ( std::vector<Face> &faces, std::vector<Node> &nodes, Pt pmin, Pt pmax, CI cut_id, N<d> );
-    static void                 construct_rec         ( std::vector<Face> &faces, std::vector<Node> &nodes, Pt pmin, Pt pmax, CI cut_id, N<0> );
-
     std::vector<std::uint64_t>  num_cut_proc_edge;
     std::vector<std::uint64_t>  num_node_edge;
     std::vector<int>            prev_cut_node;
@@ -55,4 +52,4 @@ public:
 
 } // namespace sdot
 
-#include "ConvexPolyhedronVoid.tcc"
+#include "ConvexPolyhedron3dVoid.tcc"

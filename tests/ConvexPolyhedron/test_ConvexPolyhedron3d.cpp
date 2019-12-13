@@ -6,7 +6,10 @@ using namespace sdot;
 
 template<class Cp>
 void test_3d_lt64() {
-    Cp cp;
+    using Pt = typename Cp::Pt;
+
+    Cp cp( Pt( 0.0 ), Pt( 1.0 ) );
+    P( cp );
 }
 
 int main() {

@@ -14,7 +14,7 @@ void test_3d_lt64() {
 
 int main() {
     struct Pc {
-        enum { dim = 3 };
+        enum { dim = 4 };
         using  CI  = int;
         using  TF  = double;
     };

@@ -12,11 +12,11 @@ namespace sdot {
 ///  Opt => optimisation. void means "generic case".
 ///
 ///  This version is generic, and far from optimized.
-template<class Pc,class Opt=void>
+template<class Pc,int dim=Pc::dim,class Opt=void>
 class ConvexPolyhedron;
 
 } // namespace sdot
 
-#include "Internal/ConvexPolyhedronVoid.h"
+#include "Internal/ConvexPolyhedron3dVoid.h"
 
 // specializations
