@@ -7,21 +7,42 @@
 #include "../Support/TODO.h"
 #include "../Support/pi.h"
 #include "../Support/P.h"
-#include "ConvexPolyhedron3Lt64.h"
+#include "ConvexPolyhedron3DLt64.h"
 #include <cstring>
 #include <iomanip>
 #include <bitset>
 #include <map>
 #include <set>
 
+//template<class Pc>
+//ConvexPolyhedron<Pc,void> &ConvexPolyhedron<Pc,void>::operator=( const ConvexPolyhedron3DLt64<Pc> &cp ) {
+//    nodes.clear();
+//    faces.clear();
+
+//    cp.for_each_node( [&]( const auto &node ) {
+//        nodes.push_back( { node.pos() } );
+//    } );
+
+//    cp.for_each_face( [&]( const auto &face ) {
+//        Face new_face;
+//        new_face.nodes.reserve( face.nb_nodes() );
+//        face.for_each_node_index_sec( [&]( int num_node ) {
+//            new_face.nodes.push_back( num_node );
+//        } );
+//        faces.push_back( std::move( new_face ) );
+//    } );
+
+//    return *this;
+//}
+
 namespace sdot {
 
 template<class Pc>
-ConvexPolyhedron3Lt64<Pc>::Box::Box( Pt p0, Pt p1, CI cut_id ) : cp( p0, p1, cut_id ) {
+ConvexPolyhedron3DLt64<Pc>::Box::Box( Pt p0, Pt p1, CI cut_id ) : cp( p0, p1, cut_id ) {
 }
 
 template<class Pc>
-ConvexPolyhedron3Lt64<Pc>::ConvexPolyhedron3Lt64( Pt p0, Pt p1, CI cut_id ) : ConvexPolyhedron3Lt64() {
+ConvexPolyhedron3DLt64<Pc>::ConvexPolyhedron3DLt64( Pt p0, Pt p1, CI cut_id ) : ConvexPolyhedron3DLt64() {
     // sizes
     nodes_size = 8;
     faces_size = 6;
@@ -48,10 +69,10 @@ ConvexPolyhedron3Lt64<Pc>::ConvexPolyhedron3Lt64( Pt p0, Pt p1, CI cut_id ) : Co
     };
 
     // faces
-    auto add_face = [&]( TI index, int n0, int n1, int n2, int n3, Pt normal ) {
+    auto add_face = [&]( int index, int n0, int n1, int n2, int n3, Pt normal ) {
         constexpr std::uint64_t m = 1;
 
-        faces.node_masks[ index ] = ( m << n0 ) | ( m << n1 ) | ( m << n2 ) | ( m << n3 ) ;
+        faces.node_masks[ index ] = ( m << n0 ) | ( m << n1 ) | ( m << n2 ) | ( m << n3 );
         faces.normal_xs [ index ] = normal[ 0 ];
         faces.normal_ys [ index ] = normal[ 1 ];
         faces.normal_zs [ index ] = normal[ 2 ];
@@ -74,7 +95,7 @@ ConvexPolyhedron3Lt64<Pc>::ConvexPolyhedron3Lt64( Pt p0, Pt p1, CI cut_id ) : Co
 }
 
 template<class Pc>
-ConvexPolyhedron3Lt64<Pc>::ConvexPolyhedron3Lt64() {
+ConvexPolyhedron3DLt64<Pc>::ConvexPolyhedron3DLt64() {
     sphere_radius = 0;
     num_cut_proc  = 0;
     nodes_size    = 0;
@@ -91,11 +112,7 @@ ConvexPolyhedron3Lt64<Pc>::ConvexPolyhedron3Lt64() {
 
 
 template<class Pc>
-ConvexPolyhedron3Lt64<Pc>::~ConvexPolyhedron3Lt64() {
-}
-
-template<class Pc>
-ConvexPolyhedron3Lt64<Pc> &ConvexPolyhedron3Lt64<Pc>::operator=( const ConvexPolyhedron3Lt64 &that ) {
+ConvexPolyhedron3DLt64<Pc> &ConvexPolyhedron3DLt64<Pc>::operator=( const ConvexPolyhedron3DLt64 &that ) {
     nodes_size = that.nodes_size;
     faces_size = that.faces_size;
 
@@ -115,7 +132,7 @@ ConvexPolyhedron3Lt64<Pc> &ConvexPolyhedron3Lt64<Pc>::operator=( const ConvexPol
 }
 
 template<class Pc>
-ConvexPolyhedron3Lt64<Pc> &ConvexPolyhedron3Lt64<Pc>::operator=( const Box &that ) {
+ConvexPolyhedron3DLt64<Pc> &ConvexPolyhedron3DLt64<Pc>::operator=( const Box &that ) {
     constexpr unsigned _nodes_size = 8;
     constexpr unsigned _faces_size = 6;
 
@@ -138,7 +155,7 @@ ConvexPolyhedron3Lt64<Pc> &ConvexPolyhedron3Lt64<Pc>::operator=( const Box &that
 }
 
 template<class Pc>
-void ConvexPolyhedron3Lt64<Pc>::write_to_stream( std::ostream &os, bool /*debug*/ ) const {
+void ConvexPolyhedron3DLt64<Pc>::write_to_stream( std::ostream &os, bool /*debug*/ ) const {
     os << "Nodes:";
     for_each_node( [&]( const auto &node ) {
         os << "\n  " << node.x << " " << node.y << " " << node.z;
@@ -155,7 +172,7 @@ void ConvexPolyhedron3Lt64<Pc>::write_to_stream( std::ostream &os, bool /*debug*
 }
 
 template<class Pc>
-void ConvexPolyhedron3Lt64<Pc>::display_vtk( VtkOutput &vo, const std::vector<TF> &cell_values, Pt offset, bool /*display_both_sides*/ ) const {
+void ConvexPolyhedron3DLt64<Pc>::display_vtk( VtkOutput &vo, const std::vector<TF> &cell_values, Pt offset, bool /*display_both_sides*/ ) const {
     std::vector<VtkOutput::Pt> pts;
     pts.reserve( 16 );
     for_each_face( [&]( const Face &face ) {
@@ -172,45 +189,45 @@ void ConvexPolyhedron3Lt64<Pc>::display_vtk( VtkOutput &vo, const std::vector<TF
 }
 
 template<class Pc>
-typename ConvexPolyhedron3Lt64<Pc>::TI ConvexPolyhedron3Lt64<Pc>::nb_nodes() const {
+typename ConvexPolyhedron3DLt64<Pc>::TI ConvexPolyhedron3DLt64<Pc>::nb_nodes() const {
     return nodes_size;
 }
 
 template<class Pc>
-bool ConvexPolyhedron3Lt64<Pc>::empty() const {
+bool ConvexPolyhedron3DLt64<Pc>::empty() const {
     return nodes_size == 0;
 }
 
 template<class Pc>
-const typename ConvexPolyhedron3Lt64<Pc>::Node &ConvexPolyhedron3Lt64<Pc>::node( TI index ) const {
+const typename ConvexPolyhedron3DLt64<Pc>::Node &ConvexPolyhedron3DLt64<Pc>::node( TI index ) const {
     return nodes.local_at( index );
 }
 
 template<class Pc>
-typename ConvexPolyhedron3Lt64<Pc>::Node &ConvexPolyhedron3Lt64<Pc>::node( TI index ) {
+typename ConvexPolyhedron3DLt64<Pc>::Node &ConvexPolyhedron3DLt64<Pc>::node( TI index ) {
     return nodes.local_at( index );
 }
 
 template<class Pc>
-void ConvexPolyhedron3Lt64<Pc>::for_each_boundary_item( const std::function<void( const BoundaryItem &boundary_item )> &f ) const {
+void ConvexPolyhedron3DLt64<Pc>::for_each_boundary_item( const std::function<void( const BoundaryItem &boundary_item )> &f ) const {
     for_each_face( f );
 }
 
 template<class Pc>
-void ConvexPolyhedron3Lt64<Pc>::for_each_face( const std::function<void( const Face & )> &f ) const {
+void ConvexPolyhedron3DLt64<Pc>::for_each_face( const std::function<void( const Face & )> &f ) const {
     for( int num_face = 0; num_face < faces_size; ++num_face )
         f( { num_face, this } );
 }
 
 template<class Pc>
-void ConvexPolyhedron3Lt64<Pc>::for_each_node( const std::function<void( const Node & )> &f ) const {
+void ConvexPolyhedron3DLt64<Pc>::for_each_node( const std::function<void( const Node & )> &f ) const {
     for( int num_node = 0; num_node < nodes_size; ++num_node )
         f( nodes.local_at( num_node ) );
 }
 
 
 template<class Pc> template<int flags>
-std::size_t ConvexPolyhedron3Lt64<Pc>::plane_cut( std::array<const TF *,dim> cut_dir, const TF *cut_ps, const CI *cut_ids, std::size_t nb_cuts, N<flags> ) {
+std::size_t ConvexPolyhedron3DLt64<Pc>::plane_cut( std::array<const TF *,dim> cut_dir, const TF *cut_ps, const CI *cut_ids, std::size_t nb_cuts, N<flags> ) {
     constexpr int ss = SimdSize<TF>::value;
     additional_nums.clear();
 
@@ -501,12 +518,12 @@ std::size_t ConvexPolyhedron3Lt64<Pc>::plane_cut( std::array<const TF *,dim> cut
 }
 
 template<class Pc>
-std::size_t ConvexPolyhedron3Lt64<Pc>::plane_cut( std::array<const TF *,dim> cut_dir, const TF *cut_ps, const CI *cut_id, std::size_t nb_cuts ) {
+std::size_t ConvexPolyhedron3DLt64<Pc>::plane_cut( std::array<const TF *,dim> cut_dir, const TF *cut_ps, const CI *cut_id, std::size_t nb_cuts ) {
     return plane_cut( cut_dir, cut_ps, cut_id, nb_cuts, N<0>() );
 }
 
 template<class Pc>
-bool ConvexPolyhedron3Lt64<Pc>::valid() const {
+bool ConvexPolyhedron3DLt64<Pc>::valid() const {
     for( int num_face = 0; num_face < faces_size; ++num_face ) {
         using M = std::uint64_t;
         M msk = 0;

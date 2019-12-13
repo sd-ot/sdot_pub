@@ -1,9 +1,9 @@
-#include "../src/sdot/Geometry/ConvexPolyhedron2.h"
+#include "../src/sdot/ConvexPolyhedron/ConvexPolyhedron2D.h"
 #include "../src/sdot/Support/StaticRange.h"
+#include "../src/sdot/Support/VtkOutput.h"
 #include "../src/sdot/Support/ASSERT.h"
 #include "../src/sdot/Support/Time.h"
 #include "../src/sdot/Support/P.h"
-#include "../src/sdot/VtkOutput.h"
 #include <map>
 using namespace sdot;
 
@@ -116,7 +116,7 @@ int main() {
         using  CI                = std::size_t;
 
     };
-    using Cp = ConvexPolyhedron2<Pc>;
+    using Cp = ConvexPolyhedron2D<Pc>;
     test_regular_cuts<Cp>();
     // test_measure<Cp>();
 }

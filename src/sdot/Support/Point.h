@@ -187,12 +187,12 @@ inline Point<TF,dim> normalized( Point<TF,dim> p, TF a = 1e-40 ) {
 
 template<class TF>
 inline Point<TF,3> cross_prod( Point<TF,3> a, Point<TF,3> b ) {
-    return { a.y * b.z - a.z * b.y, a.z * b.x - a.x * b.z, a.x * b.y - a.y * b.x };
+    return { a[ 1 ] * b[ 2 ] - a[ 2 ] * b[ 1 ], a[ 2 ] * b[ 0 ] - a[ 0 ] * b[ 2 ], a[ 0 ] * b[ 1 ] - a[ 1 ] * b[ 0 ] };
 }
 
 template<class TF>
 Point<TF,2> rot90( Point<TF,2> p ) {
-    return { - p.y, p.x };
+    return { - p[ 1 ], p[ 0 ] };
 }
 
 template<class TF>
@@ -214,15 +214,15 @@ inline Point<TF,dim> ortho_with_normalized( Point<TF,dim> D, Point<TF,dim> N ) {
 template<class TF>
 inline Point<TF,3> transformation( const std::array<TF,9> &trans, Point<TF,3> p ) {
     return {
-        trans[ 0 ] * p.x + trans[ 1 ] * p.y + trans[ 2 ] * p.z,
-        trans[ 3 ] * p.x + trans[ 4 ] * p.y + trans[ 5 ] * p.z,
-        trans[ 6 ] * p.x + trans[ 7 ] * p.y + trans[ 8 ] * p.z
+        trans[ 0 ] * p[ 0 ] + trans[ 1 ] * p[ 1 ] + trans[ 2 ] * p.z,
+        trans[ 3 ] * p[ 0 ] + trans[ 4 ] * p[ 1 ] + trans[ 5 ] * p.z,
+        trans[ 6 ] * p[ 0 ] + trans[ 7 ] * p[ 1 ] + trans[ 8 ] * p.z
     };
 }
 
 template<class TF>
 inline Point<TF,2> transformation( const std::array<TF,4> &trans, Point<TF,2> p ) {
-    return { trans[ 0 ] * p.x + trans[ 1 ] * p.y, trans[ 2 ] * p.x + trans[ 3 ] * p.y };
+    return { trans[ 0 ] * p[ 0 ] + trans[ 1 ] * p[ 1 ], trans[ 2 ] * p[ 0 ] + trans[ 3 ] * p[ 1 ] };
 }
 
 template<class TF,int dim>

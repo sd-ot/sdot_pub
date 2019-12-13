@@ -1,15 +1,15 @@
-#include "../ConvexPolyhedron2.h"
+#include "../ConvexPolyhedron2D.h"
 
 namespace sdot {
 
 template<class Pc> template<int flags,class T,int s>
-void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cut_dir, const TF *cut_ps, const CI *cut_id, std::size_t nb_cuts, N<flags>, S<T>, N<s> ) {
+void ConvexPolyhedron2D<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cut_dir, const TF *cut_ps, const CI *cut_id, std::size_t nb_cuts, N<flags>, S<T>, N<s> ) {
     for( std::size_t i = 0; i < nb_cuts; ++i )
         plane_cut_gen( cut_dir[ 0 ][ i ], cut_dir[ 1 ][ i ], cut_ps[ i ], cut_id[ i ], N<flags>() );
 }
 
 template<class Pc> template<int flags>
-void ConvexPolyhedron2<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cut_dir, const TF *cut_ps, const CI *cut_id, std::size_t nb_cuts, N<flags>, S<double>, N<8> ) {
+void ConvexPolyhedron2D<Pc>::plane_cut_simd_switch( std::array<const TF *,dim> cut_dir, const TF *cut_ps, const CI *cut_id, std::size_t nb_cuts, N<flags>, S<double>, N<8> ) {
     #ifdef __AVX512F__
     // outsize list
     TF *x = &nodes->x;

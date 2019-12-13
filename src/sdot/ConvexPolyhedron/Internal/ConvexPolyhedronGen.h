@@ -1,7 +1,7 @@
 #ifndef CONVEXPOLYHEDRON3GEN_H
 #define CONVEXPOLYHEDRON3GEN_H
 
-#include "ConvexPolyhedron3Lt64.h"
+#include "ConvexPolyhedron3DLt64.h"
 
 namespace sdot {
 
@@ -25,7 +25,7 @@ public:
 
     /**/                       ConvexPolyhedronGen   ();
 
-    ConvexPolyhedronGen&       operator=             ( const ConvexPolyhedron3Lt64<Pc> &cp );
+    ConvexPolyhedronGen&       operator=             ( const ConvexPolyhedron3DLt64<Pc> &cp );
 
     void                       display_vtk           ( VtkOutput &vo, const std::vector<TF> &cell_values = {}, Pt offset = TF( 0 ), bool display_both_sides = true ) const;
     std::size_t                nb_nodes              () const { return nodes.size(); }

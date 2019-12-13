@@ -1,66 +1,121 @@
-#include "ConvexPolyhedronGen.h"
-#include "../Support/TODO.h"
+#include "ConvexPolyhedronVoid.h"
+#include "../../Support/TODO.h"
+#include "../../Support/P.h"
 
 namespace sdot {
 
 template<class Pc>
-ConvexPolyhedronGen<Pc>::ConvexPolyhedronGen() {
+ConvexPolyhedron<Pc,void>::ConvexPolyhedron( Pt pmin, Pt pmax, CI cut_id ) : ConvexPolyhedron() {
+    construct_rec( faces, nodes, pmin, pmax, cut_id, N<dim>() );
+}
+
+template<class Pc>
+ConvexPolyhedron<Pc,void>::ConvexPolyhedron() {
     num_cut_proc = 0;
 }
 
-template<class Pc>
-ConvexPolyhedronGen<Pc> &ConvexPolyhedronGen<Pc>::operator=( const ConvexPolyhedron3Lt64<Pc> &cp ) {
-    nodes.clear();
-    faces.clear();
+template<class Pc> template<int d>
+void ConvexPolyhedron<Pc,void>::construct_rec( std::vector<Face> &faces, std::vector<Node> &nodes, Pt pmin, Pt pmax, CI cut_id, N<d> ) {
+    // d - 1
+    std::vector<Face> s_faces;
+    std::vector<Node> s_nodes;
+    construct_rec( s_faces, s_nodes, pmin, pmax, cut_id, N<d-1>() );
 
-    cp.for_each_node( [&]( const auto &node ) {
-        nodes.push_back( { node.pos() } );
+    // make the nodes
+    for( std::size_t i = 0; i < s_nodes.size(); ++i ) {
+        s_nodes[ i ].p[ d - 1 ] = pmin[ d - 1 ];
+        nodes.push_back( { .p = s_nodes[ i ].p } );
+    }
+    for( std::size_t i = s_nodes.size(); i--; ) {
+        s_nodes[ i ].p[ d - 1 ] = pmax[ d - 1 ];
+        nodes.push_back( { .p = s_nodes[ i ].p } );
+    }
+
+    // faces
+    Face face;
+    face.normal = TF( 0 );
+    face.cut_id = cut_id;
+
+    face.normal[ d - 1 ] = -1;
+    for( std::size_t i = 0; i < s_nodes.size(); ++i )
+        face.nodes.push_back( i );
+    faces.push_back( std::move( face ) );
+
+    face.nodes.clear();
+    face.normal[ d - 1 ] = +1;
+    for( std::size_t i = 0; i < s_nodes.size(); ++i )
+        face.nodes.push_back( s_nodes.size() + i );
+    faces.push_back( std::move( face ) );
+
+    for( const Face &s_face : s_faces ) {
+        face.nodes.clear();
+        face.normal = s_face.normal;
+
+        if ( faces.size() % 2 ) {
+            for( int n : s_face.nodes )
+                face.nodes.push_back( n );
+            for( std::size_t i = s_face.nodes.size(); i--; )
+                face.nodes.push_back( nodes.size() - 1 - s_face.nodes[ i ] );
+        } else {
+            for( std::size_t i = s_face.nodes.size(); i--; )
+                face.nodes.push_back( nodes.size() - 1 - s_face.nodes[ i ] );
+            for( int n : s_face.nodes )
+                face.nodes.push_back( n );
+        }
+
+        faces.push_back( std::move( face ) );
+    }
+}
+
+template<class Pc>
+void ConvexPolyhedron<Pc,void>::construct_rec( std::vector<Face> &, std::vector<Node> &nodes, Pt, Pt, CI, N<0> ) {
+    nodes.emplace_back();
+}
+
+template<class Pc>
+void ConvexPolyhedron<Pc,void>::write_to_stream( std::ostream &os ) const {
+    os << "Nodes:";
+    for_each_node( [&]( const Pt &p ) {
+        os << "\n ";
+        for( TF v : p )
+            os << " " << v;
     } );
 
-    cp.for_each_face( [&]( const auto &face ) {
-        Face new_face;
-        new_face.nodes.reserve( face.nb_nodes() );
-        face.for_each_node_index_sec( [&]( int num_node ) {
-            new_face.nodes.push_back( num_node );
+    os << "\nFaces:";
+    for_each_face( [&]( const auto &face ) {
+        os << "\n ";
+        face.for_each_node_index( [&]( int index ) {
+            os << " " << index;
         } );
-        faces.push_back( std::move( new_face ) );
+
+        os << " normal:";
+        for( TF v : face.normal )
+            os << " " << v;
+
+        // P( face.normal, cross_prod( nodes[ face.nodes[ 3 ] ].p - nodes[ face.nodes[ 0 ] ].p, nodes[ face.nodes[ 1 ] ].p - nodes[ face.nodes[ 0 ] ].p ) );
     } );
 
-    return *this;
 }
 
 template<class Pc>
-void ConvexPolyhedronGen<Pc>::display_vtk( VtkOutput &vo, const std::vector<TF> &cell_values, Pt offset, bool /*display_both_sides*/ ) const {
-    std::vector<VtkOutput::Pt> pts;
-    pts.reserve( 16 );
-    for_each_face( [&]( const Face &face ) {
-        pts.clear();
-        for( int n : face.nodes )
-            pts.push_back( nodes[ n ].pos() + offset );
-        vo.add_polygon( pts, cell_values );
-    } );
-}
-
-
-template<class Pc>
-void ConvexPolyhedronGen<Pc>::for_each_boundary_item( const std::function<void( const BoundaryItem &boundary_item )> &/*f*/ ) const {
+void ConvexPolyhedron<Pc,void>::for_each_boundary_item( const std::function<void( const BoundaryItem &boundary_item )> &/*f*/ ) const {
     TODO;
 }
 
 template<class Pc>
-void ConvexPolyhedronGen<Pc>::for_each_face( const std::function<void( const Face &face )> &f ) const {
+void ConvexPolyhedron<Pc,void>::for_each_face( const std::function<void( const Face &face )> &f ) const {
     for( const Face &face : faces )
         f( face );
 }
 
 template<class Pc>
-void ConvexPolyhedronGen<Pc>::for_each_node( const std::function<void( const Pt &p )> &f ) const {
+void ConvexPolyhedron<Pc,void>::for_each_node( const std::function<void( const Pt &p )> &f ) const {
     for( const Node &node : nodes )
         f( node.p );
 }
 
 template<class Pc> template<int flags>
-void ConvexPolyhedronGen<Pc>::plane_cut( std::array<const TF *,Pc::dim> cut_dir, const TF *cut_ps, const CI *cut_id, std::size_t nb_cuts, N<flags> ) {
+void ConvexPolyhedron<Pc,void>::plane_cut( std::array<const TF *,Pc::dim> cut_dir, const TF *cut_ps, const CI *cut_id, std::size_t nb_cuts, N<flags> ) {
     for( std::size_t num_cut = 0; num_cut < nb_cuts; ++num_cut ) {
         // node_dists
         new_nodes.clear();
@@ -186,7 +241,7 @@ void ConvexPolyhedronGen<Pc>::plane_cut( std::array<const TF *,Pc::dim> cut_dir,
 }
 
 template<class Pc>
-void ConvexPolyhedronGen<Pc>::plane_cut( std::array<const TF *,Pc::dim> cut_dir, const TF *cut_ps, const CI *cut_id, std::size_t nb_cuts ) {
+void ConvexPolyhedron<Pc,void>::plane_cut( std::array<const TF *,Pc::dim> cut_dir, const TF *cut_ps, const CI *cut_id, std::size_t nb_cuts ) {
     plane_cut( cut_dir, cut_ps, cut_id, nb_cuts, N<0>() );
 }
 

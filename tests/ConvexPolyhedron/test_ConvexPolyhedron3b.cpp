@@ -1,4 +1,4 @@
-#include "../../src/sdot/Geometry/ConvexPolyhedronGen.h"
+#include "../../src/sdot/ConvexPolyhedron/ConvexPolyhedronGen.h"
 #include "../../src/sdot/Support/ASSERT.h"
 #include "../../src/sdot/Support/P.h"
 using namespace sdot;
@@ -6,7 +6,7 @@ using namespace sdot;
 
 template<class Pc,class Pts>
 void test_cuts( Pts origs, Pts norms, VtkOutput &vo, int &cpt_vo ) {
-    using Cp = ConvexPolyhedron3Lt64<Pc>;
+    using Cp = ConvexPolyhedron3DLt64<Pc>;
     using Cq = ConvexPolyhedronGen<Pc>;
     using TF = typename Cp::TF;
     using CI = typename Cp::CI;
