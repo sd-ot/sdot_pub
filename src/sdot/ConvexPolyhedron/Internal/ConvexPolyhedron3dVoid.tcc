@@ -66,7 +66,7 @@ void ConvexPolyhedron<Pc,3,void>::for_each_node( const std::function<void( const
 }
 
 template<class Pc> template<int flags,class Fu>
-void ConvexPolyhedron<Pc,3,void>::plane_cut( std::array<const TF *,Pc::dim> cut_dir, const TF *cut_ps, const CI *cut_id, std::size_t nb_cuts, N<flags>, const Fu & ) {
+void ConvexPolyhedron<Pc,3,void>::plane_cut( std::array<const TF *,Pc::dim> cut_dir, const TF *cut_ps, const CI *cut_id, std::size_t nb_cuts, N<flags>, const Fu &fu ) {
     for( std::size_t num_cut = 0; num_cut < nb_cuts; ++num_cut ) {
         // node_dists
         new_nodes.clear();
@@ -88,7 +88,7 @@ void ConvexPolyhedron<Pc,3,void>::plane_cut( std::array<const TF *,Pc::dim> cut_
 
         // no cut ?
         if ( all_inside )
-            return;
+            continue;
 
         // we need this to determine if we already have created a node on an edge*
         std::size_t nb_edges = nb_nodes() * ( nb_nodes() + 1 ) / 2;
@@ -188,11 +188,13 @@ void ConvexPolyhedron<Pc,3,void>::plane_cut( std::array<const TF *,Pc::dim> cut_
         std::swap( nodes, new_nodes );
         std::swap( faces, new_faces );
     }
+
+    fu( *this );
 }
 
 template<class Pc>
 void ConvexPolyhedron<Pc,3,void>::plane_cut( std::array<const TF *,Pc::dim> cut_dir, const TF *cut_ps, const CI *cut_id, std::size_t nb_cuts ) {
-    plane_cut( cut_dir, cut_ps, cut_id, nb_cuts, N<0>(), []() {} );
+    plane_cut( cut_dir, cut_ps, cut_id, nb_cuts, N<0>(), []( ConvexPolyhedron & ) {} );
 }
 
 

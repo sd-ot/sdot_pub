@@ -23,38 +23,44 @@ public:
 
     using                              Lt64NodeBlock         = ConvexPolyhedron3Lt64NodeBlock<Pc>;
     using                              Lt64FaceBlock         = ConvexPolyhedron3Lt64FaceBlock<Pc>;
-    using                              BoundaryItem          = ConvexPolyhedron3Lt64Face<Pc>;
-    using                              Face                  = ConvexPolyhedron3Lt64Face<Pc>;
+    using                              BoundaryItem          = ConvexPolyhedron3Lt64Face<Pc,ConvexPolyhedron<Pc,3,ConvexPolyhedronOpt::Lt64>>;
+    using                              Face                  = ConvexPolyhedron3Lt64Face<Pc,ConvexPolyhedron<Pc,3,ConvexPolyhedronOpt::Lt64>>;
     using                              Node                  = Lt64NodeBlock;
     static constexpr int               dim                   = 3;
+
+    struct                             Box                   { ConvexPolyhedron cp; };
 
     /**/                               ConvexPolyhedron      ( Pt p0, Pt p1, CI cut_id = {} );
     /**/                               ConvexPolyhedron      ();
 
     ConvexPolyhedron&                  operator=             ( const ConvexPolyhedron &that );
+    ConvexPolyhedron&                  operator=             ( const Box &that );
 
     // information
     void                               write_to_stream       ( std::ostream &os ) const;
-    int                                nb_nodes              () const;
+    std::size_t                        nb_nodes              () const;
     void                               check                 () const;
 
     bool                               empty                 () const;
     bool                               valid                 () const;
 
-    Pt                                 node                  ( int index ) const;
+    Pt                                 node                  ( std::size_t index ) const;
 
     void                               for_each_boundary_item( const std::function<void( const BoundaryItem &boundary_item )> &f ) const;
-    void                               for_each_node         ( const std::function<void( Pt &p )> &f ) const;
+    void                               for_each_node         ( const std::function<void( Pt )> &f ) const;
 
     // geometric modifications
-    template<int flags> std::size_t    plane_cut             ( std::array<const TF *,dim> cut_dir, const TF *cut_ps, const CI *cut_id, std::size_t nb_cuts, N<flags> ); ///< return the stop cut. @see ConvexPolyhedron for the flags
-    std::size_t                        plane_cut             ( std::array<const TF *,dim> cut_dir, const TF *cut_ps, const CI *cut_id, std::size_t nb_cuts ); ///< return the stop cut (if < nb_cuts, it means that we have to use another ConvexPolyhedron class)
+    template                           <int flags,class Fu>
+    void                               plane_cut             ( std::array<const TF *,dim> cut_dir, const TF *cut_ps, const CI *cut_id, std::size_t nb_cuts, N<flags>, const Fu &fu ); ///< return the stop cut. @see ConvexPolyhedron for the flags
+    void                               plane_cut             ( std::array<const TF *,dim> cut_dir, const TF *cut_ps, const CI *cut_id, std::size_t nb_cuts ); ///< return the stop cut (if < nb_cuts, it means that we have to use another ConvexPolyhedron class)
 
 private:
-    friend class                       ConvexPolyhedron3Lt64Face<Pc>;
-    static constexpr int               max_nb_nodes = 64;
-    static constexpr int               max_nb_edges = max_nb_nodes * max_nb_nodes;
-    static constexpr int               max_nb_faces = ConvexPolyhedron3Lt64FaceBlock<Pc>::max_nb_faces_per_cell;
+    friend class                       ConvexPolyhedron3Lt64Face<Pc,ConvexPolyhedron<Pc,3,ConvexPolyhedronOpt::Lt64>>;
+    static constexpr int               max_nb_nodes          = 64;
+    static constexpr int               max_nb_edges          = max_nb_nodes * max_nb_nodes;
+    static constexpr int               max_nb_faces          = ConvexPolyhedron3Lt64FaceBlock<Pc>::max_nb_faces_per_cell;
+
+    void                               update_cp_gen         ();
 
     // aligned structures
     ConvexPolyhedron3Lt64NodeBlock<Pc> nodes;                ///<
@@ -73,8 +79,10 @@ private:
     std::uint8_t                       edge_cuts         [ max_nb_edges ]; ///< num node for each possible edge
 
     std::uint64_t                      num_cut_proc;
+
+    ConvexPolyhedron<Pc,3>             cp_gen;               ///< used if dat does not fit
 };
 
 } // namespace sdot
 
-#include "ConvexPolyhedron.tcc"
+#include "ConvexPolyhedron3dLt64.tcc"

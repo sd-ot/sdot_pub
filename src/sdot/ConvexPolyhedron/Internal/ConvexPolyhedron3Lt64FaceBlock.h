@@ -8,7 +8,7 @@ namespace sdot {
 /**
   Data layout:
 */
-template<class Carac>
+template<class Pc>
 class alignas( 64 ) ConvexPolyhedron3Lt64FaceBlock {
 public:
     static constexpr int max_nb_faces_per_cell = 256;
@@ -16,9 +16,9 @@ public:
     static constexpr int max_nb_nodes_per_cell = 64;
     using                NodeList              = std::array<std::uint8_t,max_nb_nodes_per_face>;
     using                NodeMask              = std::uint64_t;
-    using                CI                    = typename Carac::Dirac *;
+    using                CI                    = typename Pc::CI;
     static constexpr int bs                    = max_nb_faces_per_cell;
-    using                TF                    = typename Carac::TF;
+    using                TF                    = typename Pc::TF;
 
     void                 cpy                   ( int dst, int src );
 
@@ -33,8 +33,8 @@ public:
 };
 
 // --------------------------------------------------------------------------------------------
-template<class Carac>
-void ConvexPolyhedron3Lt64FaceBlock<Carac>::cpy( int dst, int src ) {
+template<class Pc>
+void ConvexPolyhedron3Lt64FaceBlock<Pc>::cpy( int dst, int src ) {
     node_masks[ dst ] = node_masks[ src ];
     node_lists[ dst ] = node_lists[ src ];
     normal_xs [ dst ] = normal_xs [ src ];
