@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../../Support/Point2.h"
+#include "../../Support/Point.h"
 #include "PaddedType.h"
 
 namespace sdot {
@@ -13,7 +13,7 @@ class alignas(32) ConvexPolyhedron2NodeBlock {
 public:
     using       Node                     = ConvexPolyhedron2NodeBlock;
     using       PCI                      = PaddedType<CI,bs,sizeof(TF),(sizeof(CI )>sizeof(TF))>;
-    using       Pt                       = Point2<TF>;
+    using       Pt                       = Point<TF,2>;
 
     Pt          pos                      () const { return { x, y }; }
     Pt          dir                      () const { return { dir_x, dir_y }; }

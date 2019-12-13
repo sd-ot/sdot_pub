@@ -38,7 +38,7 @@ struct Pc {
 };
 
 template<class Dirac>
-void make_divs( std::vector<Dirac> &diracs, int n, Point2<double> mi, Point2<double> dl ) {
+void make_divs( std::vector<Dirac> &diracs, int n, Point<double,2> mi, Point<double,2> dl ) {
     if ( n ) {
         #define PD( U, V ) make_divs( diracs, n - 1, { mi[ 0 ] + U * dl[ 0 ], mi[ 1 ] + V * dl[ 1 ] }, 0.5 * dl )
         PD( 0.0, 0.0 );

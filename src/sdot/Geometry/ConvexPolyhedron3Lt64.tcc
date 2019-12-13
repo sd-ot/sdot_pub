@@ -37,14 +37,14 @@ ConvexPolyhedron3Lt64<Pc>::ConvexPolyhedron3Lt64( Pt p0, Pt p1, CI cut_id ) : Co
     };
 
     Node *n[ 8 ] = {
-        set_node( 0, p0.x, p0.y, p0.z ),
-        set_node( 1, p1.x, p0.y, p0.z ),
-        set_node( 2, p0.x, p1.y, p0.z ),
-        set_node( 3, p1.x, p1.y, p0.z ),
-        set_node( 4, p0.x, p0.y, p1.z ),
-        set_node( 5, p1.x, p0.y, p1.z ),
-        set_node( 6, p0.x, p1.y, p1.z ),
-        set_node( 7, p1.x, p1.y, p1.z )
+        set_node( 0, p0[ 0 ], p0[ 1 ], p0[ 2 ] ),
+        set_node( 1, p1[ 0 ], p0[ 1 ], p0[ 2 ] ),
+        set_node( 2, p0[ 0 ], p1[ 1 ], p0[ 2 ] ),
+        set_node( 3, p1[ 0 ], p1[ 1 ], p0[ 2 ] ),
+        set_node( 4, p0[ 0 ], p0[ 1 ], p1[ 2 ] ),
+        set_node( 5, p1[ 0 ], p0[ 1 ], p1[ 2 ] ),
+        set_node( 6, p0[ 0 ], p1[ 1 ], p1[ 2 ] ),
+        set_node( 7, p1[ 0 ], p1[ 1 ], p1[ 2 ] )
     };
 
     // faces
@@ -52,9 +52,9 @@ ConvexPolyhedron3Lt64<Pc>::ConvexPolyhedron3Lt64( Pt p0, Pt p1, CI cut_id ) : Co
         constexpr std::uint64_t m = 1;
 
         faces.node_masks[ index ] = ( m << n0 ) | ( m << n1 ) | ( m << n2 ) | ( m << n3 ) ;
-        faces.normal_xs [ index ] = normal.x;
-        faces.normal_ys [ index ] = normal.y;
-        faces.normal_zs [ index ] = normal.z;
+        faces.normal_xs [ index ] = normal[ 0 ];
+        faces.normal_ys [ index ] = normal[ 1 ];
+        faces.normal_zs [ index ] = normal[ 2 ];
         faces.nb_nodes  [ index ] = 4;
         faces.cut_ids   [ index ] = cut_id;
 

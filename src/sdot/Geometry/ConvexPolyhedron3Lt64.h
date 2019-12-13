@@ -25,7 +25,7 @@ public:
     using                                TF                        = typename Pc::TF;    ///< floating point type
     using                                TI                        = typename Pc::TI;    ///< index type
     using                                CI                        = Dirac *;            ///< cut info
-    using                                Pt                        = Point3<TF>;         ///< point type
+    using                                Pt                        = Point<TF,3>;        ///< point type
 
     static constexpr bool                store_the_normals         = Pc::store_the_normals;
     static constexpr bool                allow_ball_cut            = Pc::allow_ball_cut;

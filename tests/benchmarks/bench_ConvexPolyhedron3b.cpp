@@ -14,6 +14,7 @@ using namespace sdot;
 struct Pc {
     enum { store_the_normals = false };
     enum { allow_ball_cut    = false };
+    enum { dim               = 3 };
     using  TF                = double;
     using  TI                = std::size_t;
     using  Pt                = Point3<TF>;

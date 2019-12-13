@@ -35,7 +35,7 @@ public:
     using                                Dirac                     = typename Pc::Dirac; ///<
     using                                TF                        = typename Pc::TF;    ///< floating point type
     using                                TI                        = typename Pc::TI;    ///< index type
-    using                                Pt                        = Point2<TF>;         ///< point type
+    using                                Pt                        = Point<TF,2>;         ///< point type
     using                                CI                        = Dirac *;            ///< cut info
 
     static constexpr bool                store_the_normals         = Pc::store_the_normals; ///< used to test if a point is inside

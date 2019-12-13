@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../../Support/Point3.h"
+#include "../../Support/Point.h"
 
 namespace sdot {
 
@@ -12,7 +12,7 @@ class ConvexPolyhedron3Lt64NodeBlock {
 public:
     // common types
     using       TF                       = typename Carac::TF;
-    using       Pt                       = Point3<TF>;
+    using       Pt                       = Point<TF,3>;
     enum {      nb                       = 64 }; ///< nb items
     enum {      bs                       = 4 * nb }; ///< block size. 1 (old size) + 2 (max nb additionnal nodes: 3 edges per node...) + 1 (tmp nodes, to be moved afterwards)
 
@@ -20,7 +20,7 @@ public:
     using       Node                     = ConvexPolyhedron3Lt64NodeBlock;
 
     // methods
-    void        set_pos                  ( Pt p ) { x = p.x; y = p.y; z = p.z; }
+    void        set_pos                  ( Pt p ) { x = p[ 0 ]; y = p[ 1 ]; z = p[ 2 ]; }
     Pt          pos                      () const { return { x, y, z }; }
 
     const Node& local_at                 ( int index ) const { return *reinterpret_cast<const Node *>( &x + index ); }

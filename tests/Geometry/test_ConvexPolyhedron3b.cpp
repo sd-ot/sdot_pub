@@ -1,4 +1,4 @@
-#include "../../src/sdot/Geometry/ConvexPolyhedron3Gen.h"
+#include "../../src/sdot/Geometry/ConvexPolyhedronGen.h"
 #include "../../src/sdot/Support/ASSERT.h"
 #include "../../src/sdot/Support/P.h"
 using namespace sdot;
@@ -7,7 +7,7 @@ using namespace sdot;
 template<class Pc,class Pts>
 void test_cuts( Pts origs, Pts norms, VtkOutput &vo, int &cpt_vo ) {
     using Cp = ConvexPolyhedron3Lt64<Pc>;
-    using Cq = ConvexPolyhedron3Gen<Pc>;
+    using Cq = ConvexPolyhedronGen<Pc>;
     using TF = typename Cp::TF;
     using CI = typename Cp::CI;
     using Pt = typename Cp::Pt;
@@ -30,9 +30,9 @@ void test_cuts( Pts origs, Pts norms, VtkOutput &vo, int &cpt_vo ) {
     std::vector<CI> cut_id;
     for( std::size_t i = 0; i < origs.size(); ++i ) {
         Pt N = normalized( norms[ i ] );
-        cut_dx.push_back( N.x );
-        cut_dy.push_back( N.y );
-        cut_dz.push_back( N.z );
+        cut_dx.push_back( N[ 0 ] );
+        cut_dy.push_back( N[ 1 ] );
+        cut_dz.push_back( N[ 2 ] );
         cut_ps.push_back( dot( origs[ i ], N ) );
         cut_id.push_back( nullptr );
     }
@@ -53,7 +53,7 @@ void test_cuts( Pts origs, Pts norms, VtkOutput &vo, int &cpt_vo ) {
 
 template<class Pc>
 void test_sphere( VtkOutput &vo, int &cpt_vo ) {
-    using Pt = Point3<double>;
+    using Pt = Point<double,3>;
     std::vector<Pt> origs, norms;
     for( std::size_t i = 0; i < 640; ++i ) {
         Pt p;
@@ -71,11 +71,10 @@ int main() {
     struct Pc {
         enum { store_the_normals = false };
         enum { allow_ball_cut    = false };
+        enum { dim               = 3 };
         using  TF                = double;
         using  TI                = std::size_t;
-        using  Pt                = Point3<TF>;
-        struct Dirac             { TF weight; Pt pos; };
-
+        struct Dirac             { TF weight; Point<TF,3> pos; };
     };
     int cpt_vo = 0;
     VtkOutput vo( { "smurf" } );

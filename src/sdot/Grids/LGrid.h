@@ -97,8 +97,8 @@ private:
 
     void                           read_ooc_for                ( TI off );
 
-    template<int a_n0,int f> void  cut_lc                      ( CP &lc, Point2<TF> c0, TF w0, Cell *dell, N<a_n0>, TI n0, N<f> ) const;
-    template<int a_n0,int f> void  cut_lc                      ( CP &lc, Point3<TF> c0, TF w0, Cell *dell, N<a_n0>, TI n0, N<f> ) const;
+    template<int a_n0,int f> void  cut_lc                      ( CP &lc, Point<TF,2> c0, TF w0, Cell *dell, N<a_n0>, TI n0, N<f> ) const;
+    template<int a_n0,int f> void  cut_lc                      ( CP &lc, Point<TF,3> c0, TF w0, Cell *dell, N<a_n0>, TI n0, N<f> ) const;
 
     // buffers
     std::vector<TZ>                znodes_keys;                ///< buffer for some zcoords

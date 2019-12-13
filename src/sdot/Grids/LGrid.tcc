@@ -566,7 +566,7 @@ void LGrid<Pc>::make_zind_limits( std::vector<TI> &zind_indices, std::vector<TZ>
 
 
 template<class Pc> template<int avoid_n0,int flags>
-void LGrid<Pc>::cut_lc( CP &lc, Point2<TF> c0, TF w0, Cell *dell, N<avoid_n0>, TI n0, N<flags> ) const {
+void LGrid<Pc>::cut_lc( CP &lc, Point<TF,2> c0, TF w0, Cell *dell, N<avoid_n0>, TI n0, N<flags> ) const {
     struct alignas( 64 ) Cut {
         TF     dx[ 128 ];
         TF     dy[ 128 ];
@@ -630,7 +630,7 @@ void LGrid<Pc>::cut_lc( CP &lc, Point2<TF> c0, TF w0, Cell *dell, N<avoid_n0>, T
 }
 
 template<class Pc> template<int avoid_n0,int flags>
-void LGrid<Pc>::cut_lc( CP &lc, Point3<TF> c0, TF w0, Cell *dell, N<avoid_n0>, TI n0, N<flags> ) const {
+void LGrid<Pc>::cut_lc( CP &lc, Point<TF,3> c0, TF w0, Cell *dell, N<avoid_n0>, TI n0, N<flags> ) const {
     struct alignas( 64 ) Cut {
         TF     dx[ 128 ];
         TF     dy[ 128 ];

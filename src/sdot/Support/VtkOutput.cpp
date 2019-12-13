@@ -26,20 +26,20 @@ void VtkOutput::save( std::ostream &os ) const {
 
     // POINTS
     os << "POINTS " << _nb_vtk_points() << " float\n";
-    for( Point pt : points )
-        os << pt.p.x << " " << pt.p.y << " " << pt.p.z << "\n";
+    for( SinglePoint pt : single_points )
+        os << pt.p[ 0 ] << " " << pt.p[ 1 ] << " " << pt.p[ 2 ] << "\n";
     for( const Line &li : lines )
         for( Pt pt : li.p )
-            os << pt.x << " " << pt.y << " " << pt.z << "\n";
+            os << pt[ 0 ] << " " << pt[ 1 ] << " " << pt[ 2 ] << "\n";
     for( const Polygon &li : polygons )
         for( Pt pt : li.p )
-            os << pt.x << " " << pt.y << " " << pt.z << "\n";
+            os << pt[ 0 ] << " " << pt[ 1 ] << " " << pt[ 2 ] << "\n";
 
     // CELL
     os << "CELLS " << _nb_vtk_cells() << " " << _nb_vtk_cell_items() << "\n";
-    for( size_t i = 0; i < points.size(); ++i )
+    for( size_t i = 0; i < single_points.size(); ++i )
         os << "1 " << i << "\n";
-    size_t o = points.size();
+    size_t o = single_points.size();
     for( const Line &li : lines ) {
         os << li.p.size();
         for( size_t i = 0; i < li.p.size(); ++i )
@@ -55,7 +55,7 @@ void VtkOutput::save( std::ostream &os ) const {
 
     // CELL_TYPES
     os << "CELL_TYPES " << _nb_vtk_cells() << "\n";
-    for( size_t i = 0; i < points.size(); ++i )
+    for( size_t i = 0; i < single_points.size(); ++i )
         os << "1\n";
     for( size_t i = 0; i < lines.size(); ++i )
         os << "4\n";
@@ -79,7 +79,7 @@ void VtkOutput::save( std::ostream &os ) const {
 
 
 void VtkOutput::add_point( Pt p, const std::vector<TF> &cell_values ) {
-    points.push_back( { p } );
+    single_points.push_back( { p } );
     for( std::size_t i = 0; i < cell_fields.size(); ++i )
         cell_fields[ i ].v_points.push_back( i < cell_values.size() ? cell_values[ i ] : TF( 0 ) );
 }
@@ -92,7 +92,7 @@ void VtkOutput::append( const VtkOutput &vo ) {
         append( cell_fields[ i ].v_points, vo.cell_fields[ i ].v_polygons );
     }
     append( lines   , vo.lines    );
-    append( points  , vo.points   );
+    append( single_points  , vo.single_points   );
     append( polygons, vo.polygons );
 }
 
@@ -163,7 +163,7 @@ void VtkOutput::add_lines( const std::vector<Pt> &p, const std::vector<TF> &cell
 
 
 std::size_t VtkOutput::_nb_vtk_cell_items() const {
-    size_t res = 2 * points.size();
+    size_t res = 2 * single_points.size();
     for( const Line &li : lines )
         res += 1 + li.p.size();
     for( const Polygon &po : polygons )
@@ -173,7 +173,7 @@ std::size_t VtkOutput::_nb_vtk_cell_items() const {
 
 
 std::size_t VtkOutput::_nb_vtk_points() const {
-    size_t res = points.size();
+    size_t res = single_points.size();
     for( const Line &li : lines )
         res += li.p.size();
     for( const Polygon &po : polygons )
@@ -183,7 +183,7 @@ std::size_t VtkOutput::_nb_vtk_points() const {
 
 
 std::size_t VtkOutput::_nb_vtk_cells() const {
-    return points.size() + lines.size() + polygons.size();
+    return single_points.size() + lines.size() + polygons.size();
 }
 
 } // namespace sdot

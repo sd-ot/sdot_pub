@@ -1,15 +1,15 @@
-#include "ConvexPolyhedron3Gen.h"
+#include "ConvexPolyhedronGen.h"
 #include "../Support/TODO.h"
 
 namespace sdot {
 
 template<class Pc>
-ConvexPolyhedron3Gen<Pc>::ConvexPolyhedron3Gen() {
+ConvexPolyhedronGen<Pc>::ConvexPolyhedronGen() {
     num_cut_proc = 0;
 }
 
 template<class Pc>
-ConvexPolyhedron3Gen<Pc> &ConvexPolyhedron3Gen<Pc>::operator=( const ConvexPolyhedron3Lt64<Pc> &cp ) {
+ConvexPolyhedronGen<Pc> &ConvexPolyhedronGen<Pc>::operator=( const ConvexPolyhedron3Lt64<Pc> &cp ) {
     nodes.clear();
     faces.clear();
 
@@ -30,7 +30,7 @@ ConvexPolyhedron3Gen<Pc> &ConvexPolyhedron3Gen<Pc>::operator=( const ConvexPolyh
 }
 
 template<class Pc>
-void ConvexPolyhedron3Gen<Pc>::display_vtk( VtkOutput &vo, const std::vector<TF> &cell_values, Pt offset, bool /*display_both_sides*/ ) const {
+void ConvexPolyhedronGen<Pc>::display_vtk( VtkOutput &vo, const std::vector<TF> &cell_values, Pt offset, bool /*display_both_sides*/ ) const {
     std::vector<VtkOutput::Pt> pts;
     pts.reserve( 16 );
     for_each_face( [&]( const Face &face ) {
@@ -43,23 +43,24 @@ void ConvexPolyhedron3Gen<Pc>::display_vtk( VtkOutput &vo, const std::vector<TF>
 
 
 template<class Pc>
-void ConvexPolyhedron3Gen<Pc>::for_each_boundary_item( const std::function<void( const BoundaryItem &boundary_item )> &/*f*/ ) const {
+void ConvexPolyhedronGen<Pc>::for_each_boundary_item( const std::function<void( const BoundaryItem &boundary_item )> &/*f*/ ) const {
     TODO;
 }
 
 template<class Pc>
-void ConvexPolyhedron3Gen<Pc>::for_each_face( const std::function<void( const Face &face )> &f ) const {
+void ConvexPolyhedronGen<Pc>::for_each_face( const std::function<void( const Face &face )> &f ) const {
     for( const Face &face : faces )
         f( face );
 }
 
 template<class Pc>
-void ConvexPolyhedron3Gen<Pc>::for_each_node( const std::function<void( const Node &node )> &f ) const {
-    TODO;
+void ConvexPolyhedronGen<Pc>::for_each_node( const std::function<void( const Pt &p )> &f ) const {
+    for( const Node &node : nodes )
+        f( node.p );
 }
 
 template<class Pc> template<int flags>
-void ConvexPolyhedron3Gen<Pc>::plane_cut( std::array<const TF *,dim> cut_dir, const TF *cut_ps, const CI *cut_id, std::size_t nb_cuts, N<flags> ) {
+void ConvexPolyhedronGen<Pc>::plane_cut( std::array<const TF *,Pc::dim> cut_dir, const TF *cut_ps, const CI *cut_id, std::size_t nb_cuts, N<flags> ) {
     for( std::size_t num_cut = 0; num_cut < nb_cuts; ++num_cut ) {
         // node_dists
         new_nodes.clear();
@@ -67,9 +68,9 @@ void ConvexPolyhedron3Gen<Pc>::plane_cut( std::array<const TF *,dim> cut_dir, co
         node_repls.resize( nb_nodes() );
         node_dists.resize( nb_nodes() );
         for( std::size_t i = 0; i < nb_nodes(); ++i ) {
-            TF ps = nodes[ i ].p[ 0 ] * cut_dir[ 0 ][ num_cut ] +
-                    nodes[ i ].p[ 1 ] * cut_dir[ 1 ][ num_cut ] +
-                    nodes[ i ].p[ 2 ] * cut_dir[ 2 ][ num_cut ] ;
+            TF ps = 0;
+            for( int d = 0; d < Pc::dim; ++d )
+                ps += nodes[ i ].p[ d ] * cut_dir[ d ][ num_cut ];
             node_dists[ i ] = ps - cut_ps[ num_cut ];
             node_repls[ i ] = new_nodes.size();
 
@@ -97,6 +98,7 @@ void ConvexPolyhedron3Gen<Pc>::plane_cut( std::array<const TF *,dim> cut_dir, co
         new_faces.clear();
         for( const Face &face : faces ) {
             Face new_face;
+            new_face.cut_id = face.cut_id;
 
             // helper
             auto add_node_between = [&]( int num_node_0, int num_node_1 ) {
@@ -162,6 +164,7 @@ void ConvexPolyhedron3Gen<Pc>::plane_cut( std::array<const TF *,dim> cut_dir, co
                     continue;
 
                 Face new_face;
+                new_face.cut_id = cut_id[ num ];
                 new_face.nodes.push_back( num );
                 prev_cut_node[ num ] = -1;
                 do {
@@ -183,7 +186,7 @@ void ConvexPolyhedron3Gen<Pc>::plane_cut( std::array<const TF *,dim> cut_dir, co
 }
 
 template<class Pc>
-void ConvexPolyhedron3Gen<Pc>::plane_cut( std::array<const TF *,dim> cut_dir, const TF *cut_ps, const CI *cut_id, std::size_t nb_cuts ) {
+void ConvexPolyhedronGen<Pc>::plane_cut( std::array<const TF *,Pc::dim> cut_dir, const TF *cut_ps, const CI *cut_id, std::size_t nb_cuts ) {
     plane_cut( cut_dir, cut_ps, cut_id, nb_cuts, N<0>() );
 }
 

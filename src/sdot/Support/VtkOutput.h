@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Point2.h"
+#include "Point.h"
 #include <vector>
 #include <deque>
 
@@ -12,7 +12,7 @@ namespace sdot {
 class VtkOutput {
 public:
     using                    TF                = double;
-    using                    Pt                = Point3<TF>;
+    using                    Pt                = Point<TF,3>;
 
     /**/                     VtkOutput         ( const std::vector<std::string> &cell_fields_names = {} );
 
@@ -33,16 +33,16 @@ private:
     struct                   Field             { std::string name; std::vector<TF> v_polygons, v_points, v_lines; };
 
     struct                   Polygon           { std::vector<Pt> p; };
-    struct                   Point             { Pt              p; };
+    struct                   SinglePoint       { Pt              p; };
     struct                   Line              { std::vector<Pt> p; };
 
     std::size_t              _nb_vtk_cell_items() const;
     std::size_t              _nb_vtk_points    () const;
     std::size_t              _nb_vtk_cells     () const;
 
+    std::deque<SinglePoint>  single_points;
     std::vector<Field>       cell_fields;
     std::deque<Polygon>      polygons;
-    std::deque<Point>        points;
     std::deque<Line>         lines;
 };
 

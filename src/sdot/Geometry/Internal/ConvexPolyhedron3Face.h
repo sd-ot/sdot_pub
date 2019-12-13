@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../../Support/Point3.h"
+#include "../../Support/Point.h"
 #include "../../Support/TODO.h"
 #include <functional>
 #include "Simplex.h"
@@ -22,7 +22,7 @@ public:
     using       CI             = typename Carac::Dirac *;
     using       TF             = typename Carac::TF;
     using       TI             = typename Carac::TI;
-    using       Pt             = Point3<TF>;
+    using       Pt             = Point<TF,3>;
 
     void        foreach_simplex( const std::function<void( const Simplex<TF,3,2> &simplex )> &f ) const;
     void        foreach_edge   ( const std::function<void( const Edge &edge )> &f ) const;
