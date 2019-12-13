@@ -27,7 +27,6 @@ ConvexPolyhedron<Pc,3,void>::ConvexPolyhedron( Pt pmin, Pt pmax, CI cut_id ) : C
     };
 }
 
-
 template<class Pc>
 ConvexPolyhedron<Pc,3,void>::ConvexPolyhedron() {
     num_cut_proc = 0;
@@ -36,35 +35,28 @@ ConvexPolyhedron<Pc,3,void>::ConvexPolyhedron() {
 template<class Pc>
 void ConvexPolyhedron<Pc,3,void>::write_to_stream( std::ostream &os ) const {
     os << "Nodes:";
-    for_each_node( [&]( const Pt &p ) {
+    for( const Node &node : nodes ) {
         os << "\n ";
-        for( TF v : p )
+        for( TF v : node.p )
             os << " " << v;
-    } );
+    }
 
     os << "\nFaces:";
-    for_each_face( [&]( const auto &face ) {
+    for( const Face &face : faces ) {
         os << "\n ";
-        face.for_each_node_index( [&]( int index ) {
+        for( int index : face.nodes )
             os << " " << index;
-        } );
 
         os << " normal:";
         for( TF v : face.normal )
             os << " " << v;
-    } );
-
+    }
 }
 
 template<class Pc>
-void ConvexPolyhedron<Pc,3,void>::for_each_boundary_item( const std::function<void( const BoundaryItem &boundary_item )> &/*f*/ ) const {
-    TODO;
-}
-
-template<class Pc>
-void ConvexPolyhedron<Pc,3,void>::for_each_face( const std::function<void( const Face &face )> &f ) const {
+void ConvexPolyhedron<Pc,3,void>::for_each_boundary_item( const std::function<void( const BoundaryItem &boundary_item )> &f ) const {
     for( const Face &face : faces )
-        f( face );
+        f( { .cp = this, .face = &face } );
 }
 
 template<class Pc>
@@ -141,9 +133,8 @@ void ConvexPolyhedron<Pc,3,void>::plane_cut( std::array<const TF *,Pc::dim> cut_
 
             // look up for a node after an outside one
             std::size_t o0 = 0;
-            while ( ! ( node_dists[ face.nodes[ o0 ] ] > 0 ) )
-                if ( ++o0 == face.nodes.size() )
-                    break;
+            while ( o0 < face.nodes.size() && ! ( node_dists[ face.nodes[ o0 ] ] > 0 ) )
+                ++o0;
             ++o0;
 
             // for each inside node
@@ -178,7 +169,7 @@ void ConvexPolyhedron<Pc,3,void>::plane_cut( std::array<const TF *,Pc::dim> cut_
                     continue;
 
                 Face new_face;
-                new_face.cut_id = cut_id[ num ];
+                new_face.cut_id = cut_id[ num_cut ];
                 new_face.nodes.push_back( num );
                 prev_cut_node[ num ] = -1;
                 do {
@@ -204,5 +195,11 @@ void ConvexPolyhedron<Pc,3,void>::plane_cut( std::array<const TF *,Pc::dim> cut_
     plane_cut( cut_dir, cut_ps, cut_id, nb_cuts, N<0>() );
 }
 
+
+template<class Pc>
+void ConvexPolyhedron<Pc,3,void>::BoundaryItem::for_each_node( const std::function<void(Pt)> &f ) const {
+    for( int n : face->nodes )
+        f( cp->nodes[ n ].p );
+}
 
 } // namespace sdot

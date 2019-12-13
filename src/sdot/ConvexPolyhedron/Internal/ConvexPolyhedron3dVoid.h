@@ -1,11 +1,7 @@
 #pragma once
 
-#include "../../Support/Point.h"
-#include "../../Support/N.h"
-#include <functional>
-#include <vector>
-
 #include "../ConvexPolyhedron.h"
+#include <vector>
 
 namespace sdot {
 
@@ -17,11 +13,11 @@ public:
     using                       TF                    = typename Pc::TF;    ///< floating point type
     using                       CI                    = typename Pc::CI;    ///< cut info
     using                       Pt                    = Point<TF,Pc::dim>;  ///< point type
-
-    struct                      BoundaryItem          {};
-    struct                      Node                  { Pt pos() const { return p; } Pt p; };
-    struct                      Face                  { void for_each_node_index( const std::function<void(int)> &f ) const { for( int n : nodes ) f( n ); } std::vector<int> nodes; CI cut_id; Pt normal; };
     static constexpr int        dim                   = Pc::dim;
+
+    struct                      Node                  { Pt pos() const { return p; } Pt p; };
+    struct                      Face                  { std::vector<int> nodes; CI cut_id; Pt normal; };
+    struct                      BoundaryItem          { const ConvexPolyhedron *cp; const Face *face; void for_each_node( const std::function<void(Pt)> &f ) const; };
 
     /**/                        ConvexPolyhedron      ( Pt pmin, Pt pmax, CI cut_id = {} ); ///< make a box
     /**/                        ConvexPolyhedron      ();
@@ -32,7 +28,6 @@ public:
     Pt                          node                  ( int index ) const { return nodes[ index ].p; }
 
     void                        for_each_boundary_item( const std::function<void( const BoundaryItem &boundary_item )> &f ) const;
-    void                        for_each_face         ( const std::function<void( const Face &face )> &f ) const;
     void                        for_each_node         ( const std::function<void( const Pt &p )> &f ) const;
 
     template<int flags> void    plane_cut             ( std::array<const TF *,Pc::dim> cut_dir, const TF *cut_ps, const CI *cut_id, std::size_t nb_cuts, N<flags> ); ///< return the stop cut. @see ConvexPolyhedron for the flags

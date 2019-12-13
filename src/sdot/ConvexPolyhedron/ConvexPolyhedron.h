@@ -1,6 +1,9 @@
 #pragma once
 
 #include "Internal/ConvexPolyhedronFlags.h"
+#include "../Support/Point.h"
+#include "../Support/N.h"
+#include <functional>
 
 namespace sdot {
 
