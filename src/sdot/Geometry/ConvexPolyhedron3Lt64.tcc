@@ -253,11 +253,11 @@ std::size_t ConvexPolyhedron3Lt64<Pc>::plane_cut( std::array<const TF *,dim> cut
         int ind_nxt_tmp_node = 3 * max_nb_nodes;
 
         // linked list of nodes for the new face
-        std::uint8_t prev_cut_nodes[ max_nb_nodes ]; // index to the next node
-        //std::uint8_t last_cut_node;
+        int prev_cut_nodes[ 3 * max_nb_nodes ]; // index to the next node
 
-        // copy of `ou` to get usable indices for the new nodes
+        // copy of `outside_nodes` to get usable indices for the new nodes
         std::uint64_t available_nodes = outside_nodes;
+        int old_nodes_size = nodes_size;
 
         // handle intersected faces
         auto handle_intersected_face = [&]( unsigned num_face ) {
@@ -275,7 +275,6 @@ std::size_t ConvexPolyhedron3Lt64<Pc>::plane_cut( std::array<const TF *,dim> cut
 
             // generic case (several cuts, nb_nodes > 8, etc...)
             std::array<std::uint8_t,2*Lt64FaceBlock::max_nb_nodes_per_face> new_fnode_lists;
-            std::array<std::uint8_t,3*Lt64FaceBlock::max_nb_nodes_per_cell> prev_cut_node;
             std::uint64_t new_fnode_mask = 0;
             int new_nb_fnodes = 0;
 
@@ -345,14 +344,7 @@ std::size_t ConvexPolyhedron3Lt64<Pc>::plane_cut( std::array<const TF *,dim> cut
                 int n1 = fnodes[ ( i0 + 1 ) % nb_fnodes ];
                 std::uint64_t m1 = std::uint64_t( 1 ) << n1;
                 if ( outside_nodes & m1 )
-                    prev_cut_node[ prev_out_in ] = add_node_between( n0, n1 );
-            }
-
-            if ( nb_out_ins ) {
-                if ( nb_out_ins > 1 )
-                    TODO;
-                prev_cut_nodes[ out_ins[ 0 ] ] = in_outs[ 0 ];
-                last_cut_node = out_ins[ 0 ];
+                    prev_cut_nodes[ prev_out_in ] = add_node_between( n0, n1 );
             }
 
             // save the face
@@ -403,45 +395,67 @@ std::size_t ConvexPolyhedron3Lt64<Pc>::plane_cut( std::array<const TF *,dim> cut
 
         // if cell is not void
         if ( faces_size ) {
-            // make the new face
-            int nf = faces_size++;
-            int nb_nodes = 0;
-            std::uint64_t node_mask = 0;
-            for( std::uint8_t i = last_cut_node, c = 0; ; c++ ) {
-                if ( nb_nodes >= 16 ) {
-                    if ( nb_nodes == 16 )
-                        faces.off_in_ans[ nf ] = additional_nums.size();
-                    additional_nums.push_back( i );
-                } else
-                    faces.node_lists[ nf ][ nb_nodes ] = i;
-                ++nb_nodes;
+            // make the new face(s)
+            auto try_new_face_from = [&]( int num ) {
+                int nxt = prev_cut_nodes[ num ];
+                if ( nxt < 0 )
+                    return;
 
-                node_mask |= std::uint64_t( 1 ) << i;
+                // prepare a new face
+                std::uint64_t node_mask = 0;
+                int nf = faces_size++;
+                int nb_nodes = 0;
 
-                std::uint8_t n = prev_cut_nodes[ i ];
-                if ( n == last_cut_node )
-                    break;
-                i = n;
-            }
+                // first node
+                faces.node_lists[ nf ][ nb_nodes++ ] = num;
+                node_mask |= std::uint64_t( 1 ) << num;
+                prev_cut_nodes[ num ] = -1;
 
-            faces.node_masks[ nf ] = node_mask;
-            faces.normal_xs [ nf ] = cut_dir[ 0 ][ num_cut ];
-            faces.normal_ys [ nf ] = cut_dir[ 1 ][ num_cut ];
-            faces.normal_zs [ nf ] = cut_dir[ 2 ][ num_cut ];
-            faces.nb_nodes  [ nf ] = nb_nodes;
-            faces.cut_ids   [ nf ] = cut_ids[ num_cut ];
+                // following ones
+                do {
+                    if ( nb_nodes >= 16 ) {
+                        if ( nb_nodes == 16 )
+                            faces.off_in_ans[ nf ] = additional_nums.size();
+                        additional_nums.push_back( nxt );
+                    } else
+                        faces.node_lists[ nf ][ nb_nodes ] = nxt;
+                    ++nb_nodes;
 
-            // repl node data
+                    node_mask |= std::uint64_t( 1 ) << nxt;
+
+                    int old = prev_cut_nodes[ nxt ];
+                    prev_cut_nodes[ nxt ] = -1;
+                    nxt = old;
+                } while ( nxt >= 0 );
+
+                // store
+                faces.node_masks[ nf ] = node_mask;
+                faces.normal_xs [ nf ] = cut_dir[ 0 ][ num_cut ];
+                faces.normal_ys [ nf ] = cut_dir[ 1 ][ num_cut ];
+                faces.normal_zs [ nf ] = cut_dir[ 2 ][ num_cut ];
+                faces.nb_nodes  [ nf ] = nb_nodes;
+                faces.cut_ids   [ nf ] = cut_ids[ num_cut ];
+            };
+            for_each_nz_bit( outside_nodes - available_nodes, [&]( int num ) {
+                try_new_face_from( num );
+            } );
+            for( int num = old_nodes_size; num < nodes_size; ++num )
+                try_new_face_from( num );
+
+
+            // move nodes that have to be moved
             for( int i = 0; i < nb_repl_nodes; ++i )
                 nodes.local_at( repl_node_dsts[ i ] ).get_straight_content_from( nodes.local_at( repl_node_srcs[ i ] ) );
 
-            // if we have nodes to free
+            // free unused nodes
             if ( available_nodes ) {
-                // while we have nodes to free
+                // move them, updating `repl_node_dsts`
                 std::uint64_t moved_nodes = 0;
                 do {
+                    --nodes_size;
+
                     // if the last node is outside, remove it from cou. Else, move if to the free room
-                    std::uint64_t moved_node = std::uint64_t( 1 ) << --nodes_size;
+                    std::uint64_t moved_node = std::uint64_t( 1 ) << nodes_size;
                     if ( outside_nodes & moved_node ) {
                         available_nodes -= moved_node;
                     } else {
@@ -453,7 +467,7 @@ std::size_t ConvexPolyhedron3Lt64<Pc>::plane_cut( std::array<const TF *,dim> cut
                     }
                 } while ( available_nodes );
 
-                // move the nodes
+                // helper to move the nodes from a given face
                 auto move_nodes_in_face = [&]( unsigned num_face ) {
                     auto fm = faces.node_masks[ num_face ];
 
@@ -475,7 +489,7 @@ std::size_t ConvexPolyhedron3Lt64<Pc>::plane_cut( std::array<const TF *,dim> cut
                         move_nodes_in_face( num_face );
             }
 
-            // if it does not fit
+            // return num_cut != nb_cuts if it does not fit in this
             if ( nodes_size > 64 || additional_nums.size() )
                 return num_cut;
         } else {

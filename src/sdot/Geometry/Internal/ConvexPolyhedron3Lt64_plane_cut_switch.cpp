@@ -120,7 +120,6 @@ bool make_case( std::ostream &os, int nb_nodes, std::bitset<8> outside_nodes ) {
 
     // register nodes for the new face
     os << "    prev_cut_nodes[ num_node_" << out_ins[ 0 ] << " ] = num_node_" << in_outs[ 0 ] << ";\n";
-    os << "    last_cut_node = num_node_" << out_ins[ 0 ] << ";\n";
 
 
     // nb nodes

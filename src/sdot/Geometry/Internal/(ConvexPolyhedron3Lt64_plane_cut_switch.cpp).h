@@ -577,7 +577,6 @@ case_2: {
     } else
         num_node_192 = edge_cuts[ num_edge_192 ];
     prev_cut_nodes[ num_node_128 ] = num_node_192;
-    last_cut_node = num_node_128;
     // 128,1,2,192
     faces.nb_nodes[ num_face ] = 4;
     faces.node_lists[ num_face ][ 0 ] = num_node_128;
@@ -649,7 +648,6 @@ case_3: {
     } else
         num_node_193 = edge_cuts[ num_edge_193 ];
     prev_cut_nodes[ num_node_193 ] = num_node_128;
-    last_cut_node = num_node_193;
     // 0,128,193,2
     faces.nb_nodes[ num_face ] = 4;
     faces.node_lists[ num_face ][ 1 ] = num_node_128;
@@ -722,7 +720,6 @@ case_4: {
     } else
         num_node_192 = edge_cuts[ num_edge_192 ];
     prev_cut_nodes[ num_node_193 ] = num_node_192;
-    last_cut_node = num_node_193;
     // 193,2,192
     faces.node_lists[ num_face ][ 0 ] = num_node_192;
     faces.node_lists[ num_face ][ 1 ] = num_node_193;
@@ -792,7 +789,6 @@ case_5: {
     } else
         num_node_192 = edge_cuts[ num_edge_192 ];
     prev_cut_nodes[ num_node_192 ] = num_node_193;
-    last_cut_node = num_node_192;
     // 192,0,1,193
     faces.nb_nodes[ num_face ] = 4;
     faces.node_lists[ num_face ][ 2 ] = num_node_193;
@@ -864,7 +860,6 @@ case_6: {
     } else
         num_node_193 = edge_cuts[ num_edge_193 ];
     prev_cut_nodes[ num_node_128 ] = num_node_193;
-    last_cut_node = num_node_128;
     // 128,1,193
     faces.node_lists[ num_face ][ 0 ] = num_node_128;
     faces.node_lists[ num_face ][ 2 ] = num_node_193;
@@ -934,7 +929,6 @@ case_7: {
     } else
         num_node_192 = edge_cuts[ num_edge_192 ];
     prev_cut_nodes[ num_node_192 ] = num_node_128;
-    last_cut_node = num_node_192;
     // 192,0,128
     faces.node_lists[ num_face ][ 1 ] = num_node_128;
     faces.node_lists[ num_face ][ 2 ] = num_node_192;
@@ -1004,7 +998,6 @@ case_9: {
     } else
         num_node_256 = edge_cuts[ num_edge_256 ];
     prev_cut_nodes[ num_node_128 ] = num_node_256;
-    last_cut_node = num_node_128;
     // 128,1,2,3,256
     faces.nb_nodes[ num_face ] = 5;
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
@@ -1078,7 +1071,6 @@ case_10: {
     } else
         num_node_193 = edge_cuts[ num_edge_193 ];
     prev_cut_nodes[ num_node_193 ] = num_node_128;
-    last_cut_node = num_node_193;
     // 0,128,193,2,3
     faces.nb_nodes[ num_face ] = 5;
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
@@ -1154,7 +1146,6 @@ case_11: {
     } else
         num_node_256 = edge_cuts[ num_edge_256 ];
     prev_cut_nodes[ num_node_193 ] = num_node_256;
-    last_cut_node = num_node_193;
     // 193,2,3,256
     faces.node_lists[ num_face ][ 0 ] = num_node_256;
     faces.node_lists[ num_face ][ 1 ] = num_node_193;
@@ -1225,7 +1216,6 @@ case_12: {
     } else
         num_node_258 = edge_cuts[ num_edge_258 ];
     prev_cut_nodes[ num_node_258 ] = num_node_193;
-    last_cut_node = num_node_258;
     // 0,1,193,258,3
     faces.nb_nodes[ num_face ] = 5;
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
@@ -1301,7 +1291,6 @@ case_13: {
     } else
         num_node_258 = edge_cuts[ num_edge_258 ];
     prev_cut_nodes[ num_node_258 ] = num_node_128;
-    last_cut_node = num_node_258;
     // 0,128,258,3
     faces.node_lists[ num_face ][ 1 ] = num_node_128;
     faces.node_lists[ num_face ][ 2 ] = num_node_258;
@@ -1372,7 +1361,6 @@ case_14: {
     } else
         num_node_256 = edge_cuts[ num_edge_256 ];
     prev_cut_nodes[ num_node_258 ] = num_node_256;
-    last_cut_node = num_node_258;
     // 258,3,256
     faces.nb_nodes[ num_face ] = 3;
     faces.node_lists[ num_face ][ 0 ] = num_node_258;
@@ -1444,7 +1432,6 @@ case_15: {
     } else
         num_node_256 = edge_cuts[ num_edge_256 ];
     prev_cut_nodes[ num_node_256 ] = num_node_258;
-    last_cut_node = num_node_256;
     // 256,0,1,2,258
     faces.nb_nodes[ num_face ] = 5;
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
@@ -1519,7 +1506,6 @@ case_16: {
     } else
         num_node_258 = edge_cuts[ num_edge_258 ];
     prev_cut_nodes[ num_node_128 ] = num_node_258;
-    last_cut_node = num_node_128;
     // 128,1,2,258
     faces.node_lists[ num_face ][ 0 ] = num_node_128;
     faces.node_lists[ num_face ][ 3 ] = num_node_258;
@@ -1590,7 +1576,6 @@ case_17: {
     } else
         num_node_258 = edge_cuts[ num_edge_258 ];
     prev_cut_nodes[ num_node_193 ] = num_node_258;
-    last_cut_node = num_node_193;
     // 193,2,258
     faces.nb_nodes[ num_face ] = 3;
     faces.node_lists[ num_face ][ 0 ] = num_node_258;
@@ -1662,7 +1647,6 @@ case_18: {
     } else
         num_node_256 = edge_cuts[ num_edge_256 ];
     prev_cut_nodes[ num_node_256 ] = num_node_193;
-    last_cut_node = num_node_256;
     // 256,0,1,193
     faces.node_lists[ num_face ][ 2 ] = num_node_193;
     faces.node_lists[ num_face ][ 3 ] = num_node_256;
@@ -1733,7 +1717,6 @@ case_19: {
     } else
         num_node_193 = edge_cuts[ num_edge_193 ];
     prev_cut_nodes[ num_node_128 ] = num_node_193;
-    last_cut_node = num_node_128;
     // 128,1,193
     faces.nb_nodes[ num_face ] = 3;
     faces.node_lists[ num_face ][ 0 ] = num_node_128;
@@ -1804,7 +1787,6 @@ case_20: {
     } else
         num_node_256 = edge_cuts[ num_edge_256 ];
     prev_cut_nodes[ num_node_256 ] = num_node_128;
-    last_cut_node = num_node_256;
     // 256,0,128
     faces.nb_nodes[ num_face ] = 3;
     faces.node_lists[ num_face ][ 1 ] = num_node_128;
@@ -1875,7 +1857,6 @@ case_21: {
     } else
         num_node_320 = edge_cuts[ num_edge_320 ];
     prev_cut_nodes[ num_node_128 ] = num_node_320;
-    last_cut_node = num_node_128;
     // 128,1,2,3,4,320
     faces.nb_nodes[ num_face ] = 6;
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
@@ -1951,7 +1932,6 @@ case_22: {
     } else
         num_node_193 = edge_cuts[ num_edge_193 ];
     prev_cut_nodes[ num_node_193 ] = num_node_128;
-    last_cut_node = num_node_193;
     // 0,128,193,2,3,4
     faces.nb_nodes[ num_face ] = 6;
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
@@ -2029,7 +2009,6 @@ case_23: {
     } else
         num_node_320 = edge_cuts[ num_edge_320 ];
     prev_cut_nodes[ num_node_193 ] = num_node_320;
-    last_cut_node = num_node_193;
     // 193,2,3,4,320
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
     faces.node_lists[ num_face ][ 0 ] = num_node_320;
@@ -2102,7 +2081,6 @@ case_24: {
     } else
         num_node_258 = edge_cuts[ num_edge_258 ];
     prev_cut_nodes[ num_node_258 ] = num_node_193;
-    last_cut_node = num_node_258;
     // 0,1,193,258,3,4
     faces.nb_nodes[ num_face ] = 6;
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
@@ -2181,7 +2159,6 @@ case_25: {
     } else
         num_node_258 = edge_cuts[ num_edge_258 ];
     prev_cut_nodes[ num_node_258 ] = num_node_128;
-    last_cut_node = num_node_258;
     // 0,128,258,3,4
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
     faces.node_lists[ num_face ][ 1 ] = num_node_128;
@@ -2255,7 +2232,6 @@ case_26: {
     } else
         num_node_320 = edge_cuts[ num_edge_320 ];
     prev_cut_nodes[ num_node_258 ] = num_node_320;
-    last_cut_node = num_node_258;
     // 258,3,4,320
     faces.nb_nodes[ num_face ] = 4;
     faces.node_lists[ num_face ][ 0 ] = num_node_4;
@@ -2328,7 +2304,6 @@ case_27: {
     } else
         num_node_323 = edge_cuts[ num_edge_323 ];
     prev_cut_nodes[ num_node_323 ] = num_node_258;
-    last_cut_node = num_node_323;
     // 0,1,2,258,323,4
     faces.nb_nodes[ num_face ] = 6;
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
@@ -2406,7 +2381,6 @@ case_28: {
     } else
         num_node_323 = edge_cuts[ num_edge_323 ];
     prev_cut_nodes[ num_node_323 ] = num_node_193;
-    last_cut_node = num_node_323;
     // 0,1,193,323,4
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
     faces.node_lists[ num_face ][ 2 ] = num_node_193;
@@ -2480,7 +2454,6 @@ case_29: {
     } else
         num_node_323 = edge_cuts[ num_edge_323 ];
     prev_cut_nodes[ num_node_323 ] = num_node_128;
-    last_cut_node = num_node_323;
     // 0,128,323,4
     faces.nb_nodes[ num_face ] = 4;
     faces.node_lists[ num_face ][ 1 ] = num_node_128;
@@ -2553,7 +2526,6 @@ case_30: {
     } else
         num_node_320 = edge_cuts[ num_edge_320 ];
     prev_cut_nodes[ num_node_323 ] = num_node_320;
-    last_cut_node = num_node_323;
     // 323,4,320
     faces.nb_nodes[ num_face ] = 3;
     faces.node_lists[ num_face ][ 0 ] = num_node_323;
@@ -2625,7 +2597,6 @@ case_31: {
     } else
         num_node_320 = edge_cuts[ num_edge_320 ];
     prev_cut_nodes[ num_node_320 ] = num_node_323;
-    last_cut_node = num_node_320;
     // 320,0,1,2,3,323
     faces.nb_nodes[ num_face ] = 6;
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
@@ -2702,7 +2673,6 @@ case_32: {
     } else
         num_node_323 = edge_cuts[ num_edge_323 ];
     prev_cut_nodes[ num_node_128 ] = num_node_323;
-    last_cut_node = num_node_128;
     // 128,1,2,3,323
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
     faces.node_lists[ num_face ][ 0 ] = num_node_128;
@@ -2776,7 +2746,6 @@ case_33: {
     } else
         num_node_323 = edge_cuts[ num_edge_323 ];
     prev_cut_nodes[ num_node_193 ] = num_node_323;
-    last_cut_node = num_node_193;
     // 193,2,3,323
     faces.nb_nodes[ num_face ] = 4;
     faces.node_lists[ num_face ][ 0 ] = num_node_323;
@@ -2848,7 +2817,6 @@ case_34: {
     } else
         num_node_323 = edge_cuts[ num_edge_323 ];
     prev_cut_nodes[ num_node_258 ] = num_node_323;
-    last_cut_node = num_node_258;
     // 258,3,323
     faces.nb_nodes[ num_face ] = 3;
     faces.node_lists[ num_face ][ 0 ] = num_node_258;
@@ -2921,7 +2889,6 @@ case_35: {
     } else
         num_node_320 = edge_cuts[ num_edge_320 ];
     prev_cut_nodes[ num_node_320 ] = num_node_258;
-    last_cut_node = num_node_320;
     // 320,0,1,2,258
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     faces.node_lists[ num_face ][ 3 ] = num_node_258;
@@ -2995,7 +2962,6 @@ case_36: {
     } else
         num_node_258 = edge_cuts[ num_edge_258 ];
     prev_cut_nodes[ num_node_128 ] = num_node_258;
-    last_cut_node = num_node_128;
     // 128,1,2,258
     faces.nb_nodes[ num_face ] = 4;
     faces.node_lists[ num_face ][ 0 ] = num_node_128;
@@ -3067,7 +3033,6 @@ case_37: {
     } else
         num_node_258 = edge_cuts[ num_edge_258 ];
     prev_cut_nodes[ num_node_193 ] = num_node_258;
-    last_cut_node = num_node_193;
     // 193,2,258
     faces.nb_nodes[ num_face ] = 3;
     faces.node_lists[ num_face ][ 0 ] = num_node_258;
@@ -3139,7 +3104,6 @@ case_38: {
     } else
         num_node_320 = edge_cuts[ num_edge_320 ];
     prev_cut_nodes[ num_node_320 ] = num_node_193;
-    last_cut_node = num_node_320;
     // 320,0,1,193
     faces.nb_nodes[ num_face ] = 4;
     faces.node_lists[ num_face ][ 2 ] = num_node_193;
@@ -3211,7 +3175,6 @@ case_39: {
     } else
         num_node_193 = edge_cuts[ num_edge_193 ];
     prev_cut_nodes[ num_node_128 ] = num_node_193;
-    last_cut_node = num_node_128;
     // 128,1,193
     faces.nb_nodes[ num_face ] = 3;
     faces.node_lists[ num_face ][ 0 ] = num_node_128;
@@ -3282,7 +3245,6 @@ case_40: {
     } else
         num_node_320 = edge_cuts[ num_edge_320 ];
     prev_cut_nodes[ num_node_320 ] = num_node_128;
-    last_cut_node = num_node_320;
     // 320,0,128
     faces.nb_nodes[ num_face ] = 3;
     faces.node_lists[ num_face ][ 1 ] = num_node_128;
@@ -3353,7 +3315,6 @@ case_41: {
     } else
         num_node_384 = edge_cuts[ num_edge_384 ];
     prev_cut_nodes[ num_node_128 ] = num_node_384;
-    last_cut_node = num_node_128;
     // 128,1,2,3,4,5,384
     faces.nb_nodes[ num_face ] = 7;
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
@@ -3431,7 +3392,6 @@ case_42: {
     } else
         num_node_193 = edge_cuts[ num_edge_193 ];
     prev_cut_nodes[ num_node_193 ] = num_node_128;
-    last_cut_node = num_node_193;
     // 0,128,193,2,3,4,5
     faces.nb_nodes[ num_face ] = 7;
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
@@ -3511,7 +3471,6 @@ case_43: {
     } else
         num_node_384 = edge_cuts[ num_edge_384 ];
     prev_cut_nodes[ num_node_193 ] = num_node_384;
-    last_cut_node = num_node_193;
     // 193,2,3,4,5,384
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
@@ -3586,7 +3545,6 @@ case_44: {
     } else
         num_node_258 = edge_cuts[ num_edge_258 ];
     prev_cut_nodes[ num_node_258 ] = num_node_193;
-    last_cut_node = num_node_258;
     // 0,1,193,258,3,4,5
     faces.nb_nodes[ num_face ] = 7;
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
@@ -3667,7 +3625,6 @@ case_45: {
     } else
         num_node_258 = edge_cuts[ num_edge_258 ];
     prev_cut_nodes[ num_node_258 ] = num_node_128;
-    last_cut_node = num_node_258;
     // 0,128,258,3,4,5
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
@@ -3743,7 +3700,6 @@ case_46: {
     } else
         num_node_384 = edge_cuts[ num_edge_384 ];
     prev_cut_nodes[ num_node_258 ] = num_node_384;
-    last_cut_node = num_node_258;
     // 258,3,4,5,384
     faces.nb_nodes[ num_face ] = 5;
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
@@ -3818,7 +3774,6 @@ case_47: {
     } else
         num_node_323 = edge_cuts[ num_edge_323 ];
     prev_cut_nodes[ num_node_323 ] = num_node_258;
-    last_cut_node = num_node_323;
     // 0,1,2,258,323,4,5
     faces.nb_nodes[ num_face ] = 7;
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
@@ -3899,7 +3854,6 @@ case_48: {
     } else
         num_node_323 = edge_cuts[ num_edge_323 ];
     prev_cut_nodes[ num_node_323 ] = num_node_193;
-    last_cut_node = num_node_323;
     // 0,1,193,323,4,5
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
@@ -3975,7 +3929,6 @@ case_49: {
     } else
         num_node_323 = edge_cuts[ num_edge_323 ];
     prev_cut_nodes[ num_node_323 ] = num_node_128;
-    last_cut_node = num_node_323;
     // 0,128,323,4,5
     faces.nb_nodes[ num_face ] = 5;
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
@@ -4052,7 +4005,6 @@ case_50: {
     } else
         num_node_384 = edge_cuts[ num_edge_384 ];
     prev_cut_nodes[ num_node_323 ] = num_node_384;
-    last_cut_node = num_node_323;
     // 323,4,5,384
     faces.nb_nodes[ num_face ] = 4;
     faces.node_lists[ num_face ][ 0 ] = num_node_323;
@@ -4126,7 +4078,6 @@ case_51: {
     } else
         num_node_388 = edge_cuts[ num_edge_388 ];
     prev_cut_nodes[ num_node_388 ] = num_node_323;
-    last_cut_node = num_node_388;
     // 0,1,2,3,323,388,5
     faces.nb_nodes[ num_face ] = 7;
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
@@ -4206,7 +4157,6 @@ case_52: {
     } else
         num_node_388 = edge_cuts[ num_edge_388 ];
     prev_cut_nodes[ num_node_388 ] = num_node_258;
-    last_cut_node = num_node_388;
     // 0,1,2,258,388,5
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
@@ -4282,7 +4232,6 @@ case_53: {
     } else
         num_node_388 = edge_cuts[ num_edge_388 ];
     prev_cut_nodes[ num_node_388 ] = num_node_193;
-    last_cut_node = num_node_388;
     // 0,1,193,388,5
     faces.nb_nodes[ num_face ] = 5;
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
@@ -4358,7 +4307,6 @@ case_54: {
     } else
         num_node_388 = edge_cuts[ num_edge_388 ];
     prev_cut_nodes[ num_node_388 ] = num_node_128;
-    last_cut_node = num_node_388;
     // 0,128,388,5
     faces.nb_nodes[ num_face ] = 4;
     faces.node_lists[ num_face ][ 1 ] = num_node_128;
@@ -4431,7 +4379,6 @@ case_55: {
     } else
         num_node_384 = edge_cuts[ num_edge_384 ];
     prev_cut_nodes[ num_node_388 ] = num_node_384;
-    last_cut_node = num_node_388;
     // 388,5,384
     faces.nb_nodes[ num_face ] = 3;
     faces.node_lists[ num_face ][ 0 ] = num_node_388;
@@ -4503,7 +4450,6 @@ case_56: {
     } else
         num_node_384 = edge_cuts[ num_edge_384 ];
     prev_cut_nodes[ num_node_384 ] = num_node_388;
-    last_cut_node = num_node_384;
     // 384,0,1,2,3,4,388
     faces.nb_nodes[ num_face ] = 7;
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
@@ -4582,7 +4528,6 @@ case_57: {
     } else
         num_node_388 = edge_cuts[ num_edge_388 ];
     prev_cut_nodes[ num_node_128 ] = num_node_388;
-    last_cut_node = num_node_128;
     // 128,1,2,3,4,388
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
@@ -4658,7 +4603,6 @@ case_58: {
     } else
         num_node_388 = edge_cuts[ num_edge_388 ];
     prev_cut_nodes[ num_node_193 ] = num_node_388;
-    last_cut_node = num_node_193;
     // 193,2,3,4,388
     faces.nb_nodes[ num_face ] = 5;
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
@@ -4733,7 +4677,6 @@ case_59: {
     } else
         num_node_388 = edge_cuts[ num_edge_388 ];
     prev_cut_nodes[ num_node_258 ] = num_node_388;
-    last_cut_node = num_node_258;
     // 258,3,4,388
     faces.nb_nodes[ num_face ] = 4;
     faces.node_lists[ num_face ][ 0 ] = num_node_4;
@@ -4806,7 +4749,6 @@ case_60: {
     } else
         num_node_388 = edge_cuts[ num_edge_388 ];
     prev_cut_nodes[ num_node_323 ] = num_node_388;
-    last_cut_node = num_node_323;
     // 323,4,388
     faces.nb_nodes[ num_face ] = 3;
     faces.node_lists[ num_face ][ 0 ] = num_node_323;
@@ -4879,7 +4821,6 @@ case_61: {
     } else
         num_node_384 = edge_cuts[ num_edge_384 ];
     prev_cut_nodes[ num_node_384 ] = num_node_323;
-    last_cut_node = num_node_384;
     // 384,0,1,2,3,323
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
@@ -4955,7 +4896,6 @@ case_62: {
     } else
         num_node_323 = edge_cuts[ num_edge_323 ];
     prev_cut_nodes[ num_node_128 ] = num_node_323;
-    last_cut_node = num_node_128;
     // 128,1,2,3,323
     faces.nb_nodes[ num_face ] = 5;
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
@@ -5030,7 +4970,6 @@ case_63: {
     } else
         num_node_323 = edge_cuts[ num_edge_323 ];
     prev_cut_nodes[ num_node_193 ] = num_node_323;
-    last_cut_node = num_node_193;
     // 193,2,3,323
     faces.nb_nodes[ num_face ] = 4;
     faces.node_lists[ num_face ][ 0 ] = num_node_323;
@@ -5102,7 +5041,6 @@ case_64: {
     } else
         num_node_323 = edge_cuts[ num_edge_323 ];
     prev_cut_nodes[ num_node_258 ] = num_node_323;
-    last_cut_node = num_node_258;
     // 258,3,323
     faces.nb_nodes[ num_face ] = 3;
     faces.node_lists[ num_face ][ 0 ] = num_node_258;
@@ -5175,7 +5113,6 @@ case_65: {
     } else
         num_node_384 = edge_cuts[ num_edge_384 ];
     prev_cut_nodes[ num_node_384 ] = num_node_258;
-    last_cut_node = num_node_384;
     // 384,0,1,2,258
     faces.nb_nodes[ num_face ] = 5;
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
@@ -5250,7 +5187,6 @@ case_66: {
     } else
         num_node_258 = edge_cuts[ num_edge_258 ];
     prev_cut_nodes[ num_node_128 ] = num_node_258;
-    last_cut_node = num_node_128;
     // 128,1,2,258
     faces.nb_nodes[ num_face ] = 4;
     faces.node_lists[ num_face ][ 0 ] = num_node_128;
@@ -5322,7 +5258,6 @@ case_67: {
     } else
         num_node_258 = edge_cuts[ num_edge_258 ];
     prev_cut_nodes[ num_node_193 ] = num_node_258;
-    last_cut_node = num_node_193;
     // 193,2,258
     faces.nb_nodes[ num_face ] = 3;
     faces.node_lists[ num_face ][ 0 ] = num_node_258;
@@ -5394,7 +5329,6 @@ case_68: {
     } else
         num_node_384 = edge_cuts[ num_edge_384 ];
     prev_cut_nodes[ num_node_384 ] = num_node_193;
-    last_cut_node = num_node_384;
     // 384,0,1,193
     faces.nb_nodes[ num_face ] = 4;
     faces.node_lists[ num_face ][ 2 ] = num_node_193;
@@ -5466,7 +5400,6 @@ case_69: {
     } else
         num_node_193 = edge_cuts[ num_edge_193 ];
     prev_cut_nodes[ num_node_128 ] = num_node_193;
-    last_cut_node = num_node_128;
     // 128,1,193
     faces.nb_nodes[ num_face ] = 3;
     faces.node_lists[ num_face ][ 0 ] = num_node_128;
@@ -5537,7 +5470,6 @@ case_70: {
     } else
         num_node_384 = edge_cuts[ num_edge_384 ];
     prev_cut_nodes[ num_node_384 ] = num_node_128;
-    last_cut_node = num_node_384;
     // 384,0,128
     faces.nb_nodes[ num_face ] = 3;
     faces.node_lists[ num_face ][ 1 ] = num_node_128;
@@ -5608,7 +5540,6 @@ case_71: {
     } else
         num_node_448 = edge_cuts[ num_edge_448 ];
     prev_cut_nodes[ num_node_128 ] = num_node_448;
-    last_cut_node = num_node_128;
     // 128,1,2,3,4,5,6,448
     faces.nb_nodes[ num_face ] = 8;
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
@@ -5688,7 +5619,6 @@ case_72: {
     } else
         num_node_193 = edge_cuts[ num_edge_193 ];
     prev_cut_nodes[ num_node_193 ] = num_node_128;
-    last_cut_node = num_node_193;
     // 0,128,193,2,3,4,5,6
     faces.nb_nodes[ num_face ] = 8;
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
@@ -5770,7 +5700,6 @@ case_73: {
     } else
         num_node_448 = edge_cuts[ num_edge_448 ];
     prev_cut_nodes[ num_node_193 ] = num_node_448;
-    last_cut_node = num_node_193;
     // 193,2,3,4,5,6,448
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
@@ -5847,7 +5776,6 @@ case_74: {
     } else
         num_node_258 = edge_cuts[ num_edge_258 ];
     prev_cut_nodes[ num_node_258 ] = num_node_193;
-    last_cut_node = num_node_258;
     // 0,1,193,258,3,4,5,6
     faces.nb_nodes[ num_face ] = 8;
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
@@ -5930,7 +5858,6 @@ case_75: {
     } else
         num_node_258 = edge_cuts[ num_edge_258 ];
     prev_cut_nodes[ num_node_258 ] = num_node_128;
-    last_cut_node = num_node_258;
     // 0,128,258,3,4,5,6
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
@@ -6008,7 +5935,6 @@ case_76: {
     } else
         num_node_448 = edge_cuts[ num_edge_448 ];
     prev_cut_nodes[ num_node_258 ] = num_node_448;
-    last_cut_node = num_node_258;
     // 258,3,4,5,6,448
     faces.nb_nodes[ num_face ] = 6;
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
@@ -6085,7 +6011,6 @@ case_77: {
     } else
         num_node_323 = edge_cuts[ num_edge_323 ];
     prev_cut_nodes[ num_node_323 ] = num_node_258;
-    last_cut_node = num_node_323;
     // 0,1,2,258,323,4,5,6
     faces.nb_nodes[ num_face ] = 8;
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
@@ -6169,7 +6094,6 @@ case_78: {
     } else
         num_node_323 = edge_cuts[ num_edge_323 ];
     prev_cut_nodes[ num_node_323 ] = num_node_193;
-    last_cut_node = num_node_323;
     // 0,1,193,323,4,5,6
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
@@ -6247,7 +6171,6 @@ case_79: {
     } else
         num_node_323 = edge_cuts[ num_edge_323 ];
     prev_cut_nodes[ num_node_323 ] = num_node_128;
-    last_cut_node = num_node_323;
     // 0,128,323,4,5,6
     faces.nb_nodes[ num_face ] = 6;
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
@@ -6326,7 +6249,6 @@ case_80: {
     } else
         num_node_448 = edge_cuts[ num_edge_448 ];
     prev_cut_nodes[ num_node_323 ] = num_node_448;
-    last_cut_node = num_node_323;
     // 323,4,5,6,448
     faces.nb_nodes[ num_face ] = 5;
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
@@ -6402,7 +6324,6 @@ case_81: {
     } else
         num_node_388 = edge_cuts[ num_edge_388 ];
     prev_cut_nodes[ num_node_388 ] = num_node_323;
-    last_cut_node = num_node_388;
     // 0,1,2,3,323,388,5,6
     faces.nb_nodes[ num_face ] = 8;
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
@@ -6485,7 +6406,6 @@ case_82: {
     } else
         num_node_388 = edge_cuts[ num_edge_388 ];
     prev_cut_nodes[ num_node_388 ] = num_node_258;
-    last_cut_node = num_node_388;
     // 0,1,2,258,388,5,6
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
@@ -6563,7 +6483,6 @@ case_83: {
     } else
         num_node_388 = edge_cuts[ num_edge_388 ];
     prev_cut_nodes[ num_node_388 ] = num_node_193;
-    last_cut_node = num_node_388;
     // 0,1,193,388,5,6
     faces.nb_nodes[ num_face ] = 6;
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
@@ -6642,7 +6561,6 @@ case_84: {
     } else
         num_node_388 = edge_cuts[ num_edge_388 ];
     prev_cut_nodes[ num_node_388 ] = num_node_128;
-    last_cut_node = num_node_388;
     // 0,128,388,5,6
     faces.nb_nodes[ num_face ] = 5;
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
@@ -6719,7 +6637,6 @@ case_85: {
     } else
         num_node_448 = edge_cuts[ num_edge_448 ];
     prev_cut_nodes[ num_node_388 ] = num_node_448;
-    last_cut_node = num_node_388;
     // 388,5,6,448
     faces.nb_nodes[ num_face ] = 4;
     faces.node_lists[ num_face ][ 0 ] = num_node_388;
@@ -6793,7 +6710,6 @@ case_86: {
     } else
         num_node_453 = edge_cuts[ num_edge_453 ];
     prev_cut_nodes[ num_node_453 ] = num_node_388;
-    last_cut_node = num_node_453;
     // 0,1,2,3,4,388,453,6
     faces.nb_nodes[ num_face ] = 8;
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
@@ -6875,7 +6791,6 @@ case_87: {
     } else
         num_node_453 = edge_cuts[ num_edge_453 ];
     prev_cut_nodes[ num_node_453 ] = num_node_323;
-    last_cut_node = num_node_453;
     // 0,1,2,3,323,453,6
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
@@ -6953,7 +6868,6 @@ case_88: {
     } else
         num_node_453 = edge_cuts[ num_edge_453 ];
     prev_cut_nodes[ num_node_453 ] = num_node_258;
-    last_cut_node = num_node_453;
     // 0,1,2,258,453,6
     faces.nb_nodes[ num_face ] = 6;
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
@@ -7031,7 +6945,6 @@ case_89: {
     } else
         num_node_453 = edge_cuts[ num_edge_453 ];
     prev_cut_nodes[ num_node_453 ] = num_node_193;
-    last_cut_node = num_node_453;
     // 0,1,193,453,6
     faces.nb_nodes[ num_face ] = 5;
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
@@ -7107,7 +7020,6 @@ case_90: {
     } else
         num_node_453 = edge_cuts[ num_edge_453 ];
     prev_cut_nodes[ num_node_453 ] = num_node_128;
-    last_cut_node = num_node_453;
     // 0,128,453,6
     faces.nb_nodes[ num_face ] = 4;
     faces.node_lists[ num_face ][ 1 ] = num_node_128;
@@ -7180,7 +7092,6 @@ case_91: {
     } else
         num_node_448 = edge_cuts[ num_edge_448 ];
     prev_cut_nodes[ num_node_453 ] = num_node_448;
-    last_cut_node = num_node_453;
     // 453,6,448
     faces.nb_nodes[ num_face ] = 3;
     faces.node_lists[ num_face ][ 0 ] = num_node_453;
@@ -7252,7 +7163,6 @@ case_92: {
     } else
         num_node_448 = edge_cuts[ num_edge_448 ];
     prev_cut_nodes[ num_node_448 ] = num_node_453;
-    last_cut_node = num_node_448;
     // 448,0,1,2,3,4,5,453
     faces.nb_nodes[ num_face ] = 8;
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
@@ -7333,7 +7243,6 @@ case_93: {
     } else
         num_node_453 = edge_cuts[ num_edge_453 ];
     prev_cut_nodes[ num_node_128 ] = num_node_453;
-    last_cut_node = num_node_128;
     // 128,1,2,3,4,5,453
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
@@ -7411,7 +7320,6 @@ case_94: {
     } else
         num_node_453 = edge_cuts[ num_edge_453 ];
     prev_cut_nodes[ num_node_193 ] = num_node_453;
-    last_cut_node = num_node_193;
     // 193,2,3,4,5,453
     faces.nb_nodes[ num_face ] = 6;
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
@@ -7488,7 +7396,6 @@ case_95: {
     } else
         num_node_453 = edge_cuts[ num_edge_453 ];
     prev_cut_nodes[ num_node_258 ] = num_node_453;
-    last_cut_node = num_node_258;
     // 258,3,4,5,453
     faces.nb_nodes[ num_face ] = 5;
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
@@ -7564,7 +7471,6 @@ case_96: {
     } else
         num_node_453 = edge_cuts[ num_edge_453 ];
     prev_cut_nodes[ num_node_323 ] = num_node_453;
-    last_cut_node = num_node_323;
     // 323,4,5,453
     faces.nb_nodes[ num_face ] = 4;
     faces.node_lists[ num_face ][ 0 ] = num_node_323;
@@ -7638,7 +7544,6 @@ case_97: {
     } else
         num_node_453 = edge_cuts[ num_edge_453 ];
     prev_cut_nodes[ num_node_388 ] = num_node_453;
-    last_cut_node = num_node_388;
     // 388,5,453
     faces.nb_nodes[ num_face ] = 3;
     faces.node_lists[ num_face ][ 0 ] = num_node_388;
@@ -7711,7 +7616,6 @@ case_98: {
     } else
         num_node_448 = edge_cuts[ num_edge_448 ];
     prev_cut_nodes[ num_node_448 ] = num_node_388;
-    last_cut_node = num_node_448;
     // 448,0,1,2,3,4,388
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
@@ -7789,7 +7693,6 @@ case_99: {
     } else
         num_node_388 = edge_cuts[ num_edge_388 ];
     prev_cut_nodes[ num_node_128 ] = num_node_388;
-    last_cut_node = num_node_128;
     // 128,1,2,3,4,388
     faces.nb_nodes[ num_face ] = 6;
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
@@ -7866,7 +7769,6 @@ case_100: {
     } else
         num_node_388 = edge_cuts[ num_edge_388 ];
     prev_cut_nodes[ num_node_193 ] = num_node_388;
-    last_cut_node = num_node_193;
     // 193,2,3,4,388
     faces.nb_nodes[ num_face ] = 5;
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
@@ -7941,7 +7843,6 @@ case_101: {
     } else
         num_node_388 = edge_cuts[ num_edge_388 ];
     prev_cut_nodes[ num_node_258 ] = num_node_388;
-    last_cut_node = num_node_258;
     // 258,3,4,388
     faces.nb_nodes[ num_face ] = 4;
     faces.node_lists[ num_face ][ 0 ] = num_node_4;
@@ -8014,7 +7915,6 @@ case_102: {
     } else
         num_node_388 = edge_cuts[ num_edge_388 ];
     prev_cut_nodes[ num_node_323 ] = num_node_388;
-    last_cut_node = num_node_323;
     // 323,4,388
     faces.nb_nodes[ num_face ] = 3;
     faces.node_lists[ num_face ][ 0 ] = num_node_323;
@@ -8087,7 +7987,6 @@ case_103: {
     } else
         num_node_448 = edge_cuts[ num_edge_448 ];
     prev_cut_nodes[ num_node_448 ] = num_node_323;
-    last_cut_node = num_node_448;
     // 448,0,1,2,3,323
     faces.nb_nodes[ num_face ] = 6;
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
@@ -8164,7 +8063,6 @@ case_104: {
     } else
         num_node_323 = edge_cuts[ num_edge_323 ];
     prev_cut_nodes[ num_node_128 ] = num_node_323;
-    last_cut_node = num_node_128;
     // 128,1,2,3,323
     faces.nb_nodes[ num_face ] = 5;
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
@@ -8239,7 +8137,6 @@ case_105: {
     } else
         num_node_323 = edge_cuts[ num_edge_323 ];
     prev_cut_nodes[ num_node_193 ] = num_node_323;
-    last_cut_node = num_node_193;
     // 193,2,3,323
     faces.nb_nodes[ num_face ] = 4;
     faces.node_lists[ num_face ][ 0 ] = num_node_323;
@@ -8311,7 +8208,6 @@ case_106: {
     } else
         num_node_323 = edge_cuts[ num_edge_323 ];
     prev_cut_nodes[ num_node_258 ] = num_node_323;
-    last_cut_node = num_node_258;
     // 258,3,323
     faces.nb_nodes[ num_face ] = 3;
     faces.node_lists[ num_face ][ 0 ] = num_node_258;
@@ -8384,7 +8280,6 @@ case_107: {
     } else
         num_node_448 = edge_cuts[ num_edge_448 ];
     prev_cut_nodes[ num_node_448 ] = num_node_258;
-    last_cut_node = num_node_448;
     // 448,0,1,2,258
     faces.nb_nodes[ num_face ] = 5;
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
@@ -8459,7 +8354,6 @@ case_108: {
     } else
         num_node_258 = edge_cuts[ num_edge_258 ];
     prev_cut_nodes[ num_node_128 ] = num_node_258;
-    last_cut_node = num_node_128;
     // 128,1,2,258
     faces.nb_nodes[ num_face ] = 4;
     faces.node_lists[ num_face ][ 0 ] = num_node_128;
@@ -8531,7 +8425,6 @@ case_109: {
     } else
         num_node_258 = edge_cuts[ num_edge_258 ];
     prev_cut_nodes[ num_node_193 ] = num_node_258;
-    last_cut_node = num_node_193;
     // 193,2,258
     faces.nb_nodes[ num_face ] = 3;
     faces.node_lists[ num_face ][ 0 ] = num_node_258;
@@ -8603,7 +8496,6 @@ case_110: {
     } else
         num_node_448 = edge_cuts[ num_edge_448 ];
     prev_cut_nodes[ num_node_448 ] = num_node_193;
-    last_cut_node = num_node_448;
     // 448,0,1,193
     faces.nb_nodes[ num_face ] = 4;
     faces.node_lists[ num_face ][ 2 ] = num_node_193;
@@ -8675,7 +8567,6 @@ case_111: {
     } else
         num_node_193 = edge_cuts[ num_edge_193 ];
     prev_cut_nodes[ num_node_128 ] = num_node_193;
-    last_cut_node = num_node_128;
     // 128,1,193
     faces.nb_nodes[ num_face ] = 3;
     faces.node_lists[ num_face ][ 0 ] = num_node_128;
@@ -8746,7 +8637,6 @@ case_112: {
     } else
         num_node_448 = edge_cuts[ num_edge_448 ];
     prev_cut_nodes[ num_node_448 ] = num_node_128;
-    last_cut_node = num_node_448;
     // 448,0,128
     faces.nb_nodes[ num_face ] = 3;
     faces.node_lists[ num_face ][ 1 ] = num_node_128;
@@ -8817,7 +8707,6 @@ case_113: {
     } else
         num_node_512 = edge_cuts[ num_edge_512 ];
     prev_cut_nodes[ num_node_128 ] = num_node_512;
-    last_cut_node = num_node_128;
     // 128,1,2,3,4,5,6,7,512
     faces.nb_nodes[ num_face ] = 9;
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
@@ -8899,7 +8788,6 @@ case_114: {
     } else
         num_node_193 = edge_cuts[ num_edge_193 ];
     prev_cut_nodes[ num_node_193 ] = num_node_128;
-    last_cut_node = num_node_193;
     // 0,128,193,2,3,4,5,6,7
     faces.nb_nodes[ num_face ] = 9;
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
@@ -8983,7 +8871,6 @@ case_115: {
     } else
         num_node_512 = edge_cuts[ num_edge_512 ];
     prev_cut_nodes[ num_node_193 ] = num_node_512;
-    last_cut_node = num_node_193;
     // 193,2,3,4,5,6,7,512
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
@@ -9062,7 +8949,6 @@ case_116: {
     } else
         num_node_258 = edge_cuts[ num_edge_258 ];
     prev_cut_nodes[ num_node_258 ] = num_node_193;
-    last_cut_node = num_node_258;
     // 0,1,193,258,3,4,5,6,7
     faces.nb_nodes[ num_face ] = 9;
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
@@ -9147,7 +9033,6 @@ case_117: {
     } else
         num_node_258 = edge_cuts[ num_edge_258 ];
     prev_cut_nodes[ num_node_258 ] = num_node_128;
-    last_cut_node = num_node_258;
     // 0,128,258,3,4,5,6,7
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
@@ -9227,7 +9112,6 @@ case_118: {
     } else
         num_node_512 = edge_cuts[ num_edge_512 ];
     prev_cut_nodes[ num_node_258 ] = num_node_512;
-    last_cut_node = num_node_258;
     // 258,3,4,5,6,7,512
     faces.nb_nodes[ num_face ] = 7;
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
@@ -9306,7 +9190,6 @@ case_119: {
     } else
         num_node_323 = edge_cuts[ num_edge_323 ];
     prev_cut_nodes[ num_node_323 ] = num_node_258;
-    last_cut_node = num_node_323;
     // 0,1,2,258,323,4,5,6,7
     faces.nb_nodes[ num_face ] = 9;
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
@@ -9392,7 +9275,6 @@ case_120: {
     } else
         num_node_323 = edge_cuts[ num_edge_323 ];
     prev_cut_nodes[ num_node_323 ] = num_node_193;
-    last_cut_node = num_node_323;
     // 0,1,193,323,4,5,6,7
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
@@ -9472,7 +9354,6 @@ case_121: {
     } else
         num_node_323 = edge_cuts[ num_edge_323 ];
     prev_cut_nodes[ num_node_323 ] = num_node_128;
-    last_cut_node = num_node_323;
     // 0,128,323,4,5,6,7
     faces.nb_nodes[ num_face ] = 7;
     int num_node_7 = faces.node_lists[ num_face ][ 7 ];
@@ -9553,7 +9434,6 @@ case_122: {
     } else
         num_node_512 = edge_cuts[ num_edge_512 ];
     prev_cut_nodes[ num_node_323 ] = num_node_512;
-    last_cut_node = num_node_323;
     // 323,4,5,6,7,512
     faces.nb_nodes[ num_face ] = 6;
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
@@ -9631,7 +9511,6 @@ case_123: {
     } else
         num_node_388 = edge_cuts[ num_edge_388 ];
     prev_cut_nodes[ num_node_388 ] = num_node_323;
-    last_cut_node = num_node_388;
     // 0,1,2,3,323,388,5,6,7
     faces.nb_nodes[ num_face ] = 9;
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
@@ -9717,7 +9596,6 @@ case_124: {
     } else
         num_node_388 = edge_cuts[ num_edge_388 ];
     prev_cut_nodes[ num_node_388 ] = num_node_258;
-    last_cut_node = num_node_388;
     // 0,1,2,258,388,5,6,7
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
@@ -9797,7 +9675,6 @@ case_125: {
     } else
         num_node_388 = edge_cuts[ num_edge_388 ];
     prev_cut_nodes[ num_node_388 ] = num_node_193;
-    last_cut_node = num_node_388;
     // 0,1,193,388,5,6,7
     faces.nb_nodes[ num_face ] = 7;
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
@@ -9879,7 +9756,6 @@ case_126: {
     } else
         num_node_388 = edge_cuts[ num_edge_388 ];
     prev_cut_nodes[ num_node_388 ] = num_node_128;
-    last_cut_node = num_node_388;
     // 0,128,388,5,6,7
     faces.nb_nodes[ num_face ] = 6;
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
@@ -9959,7 +9835,6 @@ case_127: {
     } else
         num_node_512 = edge_cuts[ num_edge_512 ];
     prev_cut_nodes[ num_node_388 ] = num_node_512;
-    last_cut_node = num_node_388;
     // 388,5,6,7,512
     faces.nb_nodes[ num_face ] = 5;
     int num_node_6 = faces.node_lists[ num_face ][ 6 ];
@@ -10036,7 +9911,6 @@ case_128: {
     } else
         num_node_453 = edge_cuts[ num_edge_453 ];
     prev_cut_nodes[ num_node_453 ] = num_node_388;
-    last_cut_node = num_node_453;
     // 0,1,2,3,4,388,453,6,7
     faces.nb_nodes[ num_face ] = 9;
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
@@ -10121,7 +9995,6 @@ case_129: {
     } else
         num_node_453 = edge_cuts[ num_edge_453 ];
     prev_cut_nodes[ num_node_453 ] = num_node_323;
-    last_cut_node = num_node_453;
     // 0,1,2,3,323,453,6,7
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
@@ -10201,7 +10074,6 @@ case_130: {
     } else
         num_node_453 = edge_cuts[ num_edge_453 ];
     prev_cut_nodes[ num_node_453 ] = num_node_258;
-    last_cut_node = num_node_453;
     // 0,1,2,258,453,6,7
     faces.nb_nodes[ num_face ] = 7;
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
@@ -10282,7 +10154,6 @@ case_131: {
     } else
         num_node_453 = edge_cuts[ num_edge_453 ];
     prev_cut_nodes[ num_node_453 ] = num_node_193;
-    last_cut_node = num_node_453;
     // 0,1,193,453,6,7
     faces.nb_nodes[ num_face ] = 6;
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
@@ -10361,7 +10232,6 @@ case_132: {
     } else
         num_node_453 = edge_cuts[ num_edge_453 ];
     prev_cut_nodes[ num_node_453 ] = num_node_128;
-    last_cut_node = num_node_453;
     // 0,128,453,6,7
     faces.nb_nodes[ num_face ] = 5;
     int num_node_7 = faces.node_lists[ num_face ][ 7 ];
@@ -10438,7 +10308,6 @@ case_133: {
     } else
         num_node_512 = edge_cuts[ num_edge_512 ];
     prev_cut_nodes[ num_node_453 ] = num_node_512;
-    last_cut_node = num_node_453;
     // 453,6,7,512
     faces.nb_nodes[ num_face ] = 4;
     faces.node_lists[ num_face ][ 0 ] = num_node_453;
@@ -10512,7 +10381,6 @@ case_134: {
     } else
         num_node_518 = edge_cuts[ num_edge_518 ];
     prev_cut_nodes[ num_node_518 ] = num_node_453;
-    last_cut_node = num_node_518;
     // 0,1,2,3,4,5,453,518,7
     faces.nb_nodes[ num_face ] = 9;
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
@@ -10596,7 +10464,6 @@ case_135: {
     } else
         num_node_518 = edge_cuts[ num_edge_518 ];
     prev_cut_nodes[ num_node_518 ] = num_node_388;
-    last_cut_node = num_node_518;
     // 0,1,2,3,4,388,518,7
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
@@ -10676,7 +10543,6 @@ case_136: {
     } else
         num_node_518 = edge_cuts[ num_edge_518 ];
     prev_cut_nodes[ num_node_518 ] = num_node_323;
-    last_cut_node = num_node_518;
     // 0,1,2,3,323,518,7
     faces.nb_nodes[ num_face ] = 7;
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
@@ -10756,7 +10622,6 @@ case_137: {
     } else
         num_node_518 = edge_cuts[ num_edge_518 ];
     prev_cut_nodes[ num_node_518 ] = num_node_258;
-    last_cut_node = num_node_518;
     // 0,1,2,258,518,7
     faces.nb_nodes[ num_face ] = 6;
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
@@ -10834,7 +10699,6 @@ case_138: {
     } else
         num_node_518 = edge_cuts[ num_edge_518 ];
     prev_cut_nodes[ num_node_518 ] = num_node_193;
-    last_cut_node = num_node_518;
     // 0,1,193,518,7
     faces.nb_nodes[ num_face ] = 5;
     int num_node_0 = faces.node_lists[ num_face ][ 0 ];
@@ -10910,7 +10774,6 @@ case_139: {
     } else
         num_node_518 = edge_cuts[ num_edge_518 ];
     prev_cut_nodes[ num_node_518 ] = num_node_128;
-    last_cut_node = num_node_518;
     // 0,128,518,7
     faces.nb_nodes[ num_face ] = 4;
     faces.node_lists[ num_face ][ 1 ] = num_node_128;
@@ -10983,7 +10846,6 @@ case_140: {
     } else
         num_node_512 = edge_cuts[ num_edge_512 ];
     prev_cut_nodes[ num_node_518 ] = num_node_512;
-    last_cut_node = num_node_518;
     // 518,7,512
     faces.nb_nodes[ num_face ] = 3;
     faces.node_lists[ num_face ][ 0 ] = num_node_518;
@@ -11055,7 +10917,6 @@ case_141: {
     } else
         num_node_512 = edge_cuts[ num_edge_512 ];
     prev_cut_nodes[ num_node_512 ] = num_node_518;
-    last_cut_node = num_node_512;
     // 512,0,1,2,3,4,5,6,518
     faces.nb_nodes[ num_face ] = 9;
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
@@ -11138,7 +10999,6 @@ case_142: {
     } else
         num_node_518 = edge_cuts[ num_edge_518 ];
     prev_cut_nodes[ num_node_128 ] = num_node_518;
-    last_cut_node = num_node_128;
     // 128,1,2,3,4,5,6,518
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
@@ -11218,7 +11078,6 @@ case_143: {
     } else
         num_node_518 = edge_cuts[ num_edge_518 ];
     prev_cut_nodes[ num_node_193 ] = num_node_518;
-    last_cut_node = num_node_193;
     // 193,2,3,4,5,6,518
     faces.nb_nodes[ num_face ] = 7;
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
@@ -11297,7 +11156,6 @@ case_144: {
     } else
         num_node_518 = edge_cuts[ num_edge_518 ];
     prev_cut_nodes[ num_node_258 ] = num_node_518;
-    last_cut_node = num_node_258;
     // 258,3,4,5,6,518
     faces.nb_nodes[ num_face ] = 6;
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
@@ -11375,7 +11233,6 @@ case_145: {
     } else
         num_node_518 = edge_cuts[ num_edge_518 ];
     prev_cut_nodes[ num_node_323 ] = num_node_518;
-    last_cut_node = num_node_323;
     // 323,4,5,6,518
     faces.nb_nodes[ num_face ] = 5;
     int num_node_5 = faces.node_lists[ num_face ][ 5 ];
@@ -11452,7 +11309,6 @@ case_146: {
     } else
         num_node_518 = edge_cuts[ num_edge_518 ];
     prev_cut_nodes[ num_node_388 ] = num_node_518;
-    last_cut_node = num_node_388;
     // 388,5,6,518
     faces.nb_nodes[ num_face ] = 4;
     faces.node_lists[ num_face ][ 0 ] = num_node_388;
@@ -11526,7 +11382,6 @@ case_147: {
     } else
         num_node_518 = edge_cuts[ num_edge_518 ];
     prev_cut_nodes[ num_node_453 ] = num_node_518;
-    last_cut_node = num_node_453;
     // 453,6,518
     faces.nb_nodes[ num_face ] = 3;
     faces.node_lists[ num_face ][ 0 ] = num_node_453;
@@ -11599,7 +11454,6 @@ case_148: {
     } else
         num_node_512 = edge_cuts[ num_edge_512 ];
     prev_cut_nodes[ num_node_512 ] = num_node_453;
-    last_cut_node = num_node_512;
     // 512,0,1,2,3,4,5,453
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
@@ -11679,7 +11533,6 @@ case_149: {
     } else
         num_node_453 = edge_cuts[ num_edge_453 ];
     prev_cut_nodes[ num_node_128 ] = num_node_453;
-    last_cut_node = num_node_128;
     // 128,1,2,3,4,5,453
     faces.nb_nodes[ num_face ] = 7;
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
@@ -11758,7 +11611,6 @@ case_150: {
     } else
         num_node_453 = edge_cuts[ num_edge_453 ];
     prev_cut_nodes[ num_node_193 ] = num_node_453;
-    last_cut_node = num_node_193;
     // 193,2,3,4,5,453
     faces.nb_nodes[ num_face ] = 6;
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
@@ -11835,7 +11687,6 @@ case_151: {
     } else
         num_node_453 = edge_cuts[ num_edge_453 ];
     prev_cut_nodes[ num_node_258 ] = num_node_453;
-    last_cut_node = num_node_258;
     // 258,3,4,5,453
     faces.nb_nodes[ num_face ] = 5;
     int num_node_4 = faces.node_lists[ num_face ][ 4 ];
@@ -11911,7 +11762,6 @@ case_152: {
     } else
         num_node_453 = edge_cuts[ num_edge_453 ];
     prev_cut_nodes[ num_node_323 ] = num_node_453;
-    last_cut_node = num_node_323;
     // 323,4,5,453
     faces.nb_nodes[ num_face ] = 4;
     faces.node_lists[ num_face ][ 0 ] = num_node_323;
@@ -11985,7 +11835,6 @@ case_153: {
     } else
         num_node_453 = edge_cuts[ num_edge_453 ];
     prev_cut_nodes[ num_node_388 ] = num_node_453;
-    last_cut_node = num_node_388;
     // 388,5,453
     faces.nb_nodes[ num_face ] = 3;
     faces.node_lists[ num_face ][ 0 ] = num_node_388;
@@ -12058,7 +11907,6 @@ case_154: {
     } else
         num_node_512 = edge_cuts[ num_edge_512 ];
     prev_cut_nodes[ num_node_512 ] = num_node_388;
-    last_cut_node = num_node_512;
     // 512,0,1,2,3,4,388
     faces.nb_nodes[ num_face ] = 7;
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
@@ -12137,7 +11985,6 @@ case_155: {
     } else
         num_node_388 = edge_cuts[ num_edge_388 ];
     prev_cut_nodes[ num_node_128 ] = num_node_388;
-    last_cut_node = num_node_128;
     // 128,1,2,3,4,388
     faces.nb_nodes[ num_face ] = 6;
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
@@ -12214,7 +12061,6 @@ case_156: {
     } else
         num_node_388 = edge_cuts[ num_edge_388 ];
     prev_cut_nodes[ num_node_193 ] = num_node_388;
-    last_cut_node = num_node_193;
     // 193,2,3,4,388
     faces.nb_nodes[ num_face ] = 5;
     int num_node_3 = faces.node_lists[ num_face ][ 3 ];
@@ -12289,7 +12135,6 @@ case_157: {
     } else
         num_node_388 = edge_cuts[ num_edge_388 ];
     prev_cut_nodes[ num_node_258 ] = num_node_388;
-    last_cut_node = num_node_258;
     // 258,3,4,388
     faces.nb_nodes[ num_face ] = 4;
     faces.node_lists[ num_face ][ 0 ] = num_node_4;
@@ -12362,7 +12207,6 @@ case_158: {
     } else
         num_node_388 = edge_cuts[ num_edge_388 ];
     prev_cut_nodes[ num_node_323 ] = num_node_388;
-    last_cut_node = num_node_323;
     // 323,4,388
     faces.nb_nodes[ num_face ] = 3;
     faces.node_lists[ num_face ][ 0 ] = num_node_323;
@@ -12435,7 +12279,6 @@ case_159: {
     } else
         num_node_512 = edge_cuts[ num_edge_512 ];
     prev_cut_nodes[ num_node_512 ] = num_node_323;
-    last_cut_node = num_node_512;
     // 512,0,1,2,3,323
     faces.nb_nodes[ num_face ] = 6;
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
@@ -12512,7 +12355,6 @@ case_160: {
     } else
         num_node_323 = edge_cuts[ num_edge_323 ];
     prev_cut_nodes[ num_node_128 ] = num_node_323;
-    last_cut_node = num_node_128;
     // 128,1,2,3,323
     faces.nb_nodes[ num_face ] = 5;
     int num_node_2 = faces.node_lists[ num_face ][ 2 ];
@@ -12587,7 +12429,6 @@ case_161: {
     } else
         num_node_323 = edge_cuts[ num_edge_323 ];
     prev_cut_nodes[ num_node_193 ] = num_node_323;
-    last_cut_node = num_node_193;
     // 193,2,3,323
     faces.nb_nodes[ num_face ] = 4;
     faces.node_lists[ num_face ][ 0 ] = num_node_323;
@@ -12659,7 +12500,6 @@ case_162: {
     } else
         num_node_323 = edge_cuts[ num_edge_323 ];
     prev_cut_nodes[ num_node_258 ] = num_node_323;
-    last_cut_node = num_node_258;
     // 258,3,323
     faces.nb_nodes[ num_face ] = 3;
     faces.node_lists[ num_face ][ 0 ] = num_node_258;
@@ -12732,7 +12572,6 @@ case_163: {
     } else
         num_node_512 = edge_cuts[ num_edge_512 ];
     prev_cut_nodes[ num_node_512 ] = num_node_258;
-    last_cut_node = num_node_512;
     // 512,0,1,2,258
     faces.nb_nodes[ num_face ] = 5;
     int num_node_1 = faces.node_lists[ num_face ][ 1 ];
@@ -12807,7 +12646,6 @@ case_164: {
     } else
         num_node_258 = edge_cuts[ num_edge_258 ];
     prev_cut_nodes[ num_node_128 ] = num_node_258;
-    last_cut_node = num_node_128;
     // 128,1,2,258
     faces.nb_nodes[ num_face ] = 4;
     faces.node_lists[ num_face ][ 0 ] = num_node_128;
@@ -12879,7 +12717,6 @@ case_165: {
     } else
         num_node_258 = edge_cuts[ num_edge_258 ];
     prev_cut_nodes[ num_node_193 ] = num_node_258;
-    last_cut_node = num_node_193;
     // 193,2,258
     faces.nb_nodes[ num_face ] = 3;
     faces.node_lists[ num_face ][ 0 ] = num_node_258;
@@ -12951,7 +12788,6 @@ case_166: {
     } else
         num_node_512 = edge_cuts[ num_edge_512 ];
     prev_cut_nodes[ num_node_512 ] = num_node_193;
-    last_cut_node = num_node_512;
     // 512,0,1,193
     faces.nb_nodes[ num_face ] = 4;
     faces.node_lists[ num_face ][ 2 ] = num_node_193;
@@ -13023,7 +12859,6 @@ case_167: {
     } else
         num_node_193 = edge_cuts[ num_edge_193 ];
     prev_cut_nodes[ num_node_128 ] = num_node_193;
-    last_cut_node = num_node_128;
     // 128,1,193
     faces.nb_nodes[ num_face ] = 3;
     faces.node_lists[ num_face ][ 0 ] = num_node_128;
@@ -13094,7 +12929,6 @@ case_168: {
     } else
         num_node_512 = edge_cuts[ num_edge_512 ];
     prev_cut_nodes[ num_node_512 ] = num_node_128;
-    last_cut_node = num_node_512;
     // 512,0,128
     faces.nb_nodes[ num_face ] = 3;
     faces.node_lists[ num_face ][ 1 ] = num_node_128;
