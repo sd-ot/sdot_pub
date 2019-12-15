@@ -1,12 +1,11 @@
 #pragma once
 
-#include "ConvexPolyhedron3dLt64Face.h"
+#include "ConvexPolyhedron3dLt64_Face.h"
+#include "ConvexPolyhedronOpt.h"
 #include "../ConvexPolyhedron.h"
 #include <vector>
 
 namespace sdot {
-
-namespace ConvexPolyhedronOpt { struct Lt64 {}; }
 
 /**
   Pc must contain
@@ -23,8 +22,7 @@ public:
 
     using                              Lt64NodeBlock         = ConvexPolyhedron3Lt64NodeBlock<Pc>;
     using                              Lt64FaceBlock         = ConvexPolyhedron3Lt64FaceBlock<Pc>;
-    using                              BoundaryItem          = ConvexPolyhedron3Lt64Face<Pc,ConvexPolyhedron<Pc,3,ConvexPolyhedronOpt::Lt64>>;
-    using                              Face                  = ConvexPolyhedron3Lt64Face<Pc,ConvexPolyhedron<Pc,3,ConvexPolyhedronOpt::Lt64>>;
+    using                              Bound                 = ConvexPolyhedron3Lt64_Face<Pc,ConvexPolyhedron<Pc,3,ConvexPolyhedronOpt::Lt64>>;
     using                              Node                  = Lt64NodeBlock;
     static constexpr int               dim                   = 3;
 
@@ -46,16 +44,16 @@ public:
 
     Pt                                 node                  ( std::size_t index ) const;
 
-    void                               for_each_boundary_item( const std::function<void( const BoundaryItem &boundary_item )> &f ) const;
+    void                               for_each_bound        ( const std::function<void( const Bound &boundary_item )> &f ) const;
     void                               for_each_node         ( const std::function<void( Pt )> &f ) const;
 
     // geometric modifications
     template                           <int flags,class Fu>
-    void                               plane_cut             ( std::array<const TF *,dim> cut_dir, const TF *cut_ps, const CI *cut_id, std::size_t nb_cuts, N<flags>, const Fu &fu ); ///< return the stop cut. @see ConvexPolyhedron for the flags
-    void                               plane_cut             ( std::array<const TF *,dim> cut_dir, const TF *cut_ps, const CI *cut_id, std::size_t nb_cuts ); ///< return the stop cut (if < nb_cuts, it means that we have to use another ConvexPolyhedron class)
+    void                               plane_cut             ( std::array<const TF *,dim> cut_dir, const TF *cut_ps, const CI *cut_id, std::size_t nb_cuts, N<flags>, const Fu &fu ); ///<
+    void                               plane_cut             ( std::array<const TF *,dim> cut_dir, const TF *cut_ps, const CI *cut_id, std::size_t nb_cuts ); ///<
 
 private:
-    friend class                       ConvexPolyhedron3Lt64Face<Pc,ConvexPolyhedron<Pc,3,ConvexPolyhedronOpt::Lt64>>;
+    friend class                       ConvexPolyhedron3Lt64_Face<Pc,ConvexPolyhedron<Pc,3,ConvexPolyhedronOpt::Lt64>>;
     static constexpr int               max_nb_nodes          = 64;
     static constexpr int               max_nb_edges          = max_nb_nodes * max_nb_nodes;
     static constexpr int               max_nb_faces          = ConvexPolyhedron3Lt64FaceBlock<Pc>::max_nb_faces_per_cell;
@@ -68,10 +66,6 @@ private:
 
     int                                nodes_size;
     int                                faces_size;
-
-    TF                                 sphere_radius;
-    Pt                                 sphere_center;
-    CI                                 sphere_cut_id;
 
     std::vector<std::uint8_t>          additional_nums;      ///< used if at least 1 face has more than 16 nodes (meaning that we have to use another ConvexPolyhedron class)
 

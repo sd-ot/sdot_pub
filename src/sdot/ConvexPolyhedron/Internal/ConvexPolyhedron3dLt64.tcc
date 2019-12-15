@@ -1,5 +1,4 @@
 #include "../../Support/Display/binary_repr.h"
-#include "../../Support/aligned_memory.h"
 #include "../../Support/bit_handling.h"
 #include "../../Support/SimdRange.h"
 #include "../../Support/SimdVec.h"
@@ -69,7 +68,6 @@ ConvexPolyhedron<Pc,3,ConvexPolyhedronOpt::Lt64>::ConvexPolyhedron( Pt p0, Pt p1
 
 template<class Pc>
 ConvexPolyhedron<Pc,3,ConvexPolyhedronOpt::Lt64>::ConvexPolyhedron() {
-    sphere_radius = 0;
     num_cut_proc  = 0;
     nodes_size    = 0;
     faces_size    = 0;
@@ -160,7 +158,7 @@ typename ConvexPolyhedron<Pc,3,ConvexPolyhedronOpt::Lt64>::Pt ConvexPolyhedron<P
 }
 
 template<class Pc>
-void ConvexPolyhedron<Pc,3,ConvexPolyhedronOpt::Lt64>::for_each_boundary_item( const std::function<void( const BoundaryItem &boundary_item )> &f ) const {
+void ConvexPolyhedron<Pc,3,ConvexPolyhedronOpt::Lt64>::for_each_bound( const std::function<void( const Bound &boundary_item )> &f ) const {
     for( int num_face = 0; num_face < faces_size; ++num_face )
         f( { num_face, this } );
 }
@@ -233,7 +231,7 @@ void ConvexPolyhedron<Pc,3,ConvexPolyhedronOpt::Lt64>::plane_cut( std::array<con
                 SimdVec<std::uint64_t,8> bsh = SimdVec<std::uint64_t,8>( 1 ) << blo;
                 SimdVec<std::uint64_t,8> ban = SimdVec<std::uint64_t,8>( outside_nodes ) & bsh;
                 int msk = 1 << nb_fnodes, ouf = ( ban.nz() & ( msk - 1 ) ) | msk;
-                #include "(ConvexPolyhedron3Lt64_plane_cut_switch.cpp).h"
+                #include "(ConvexPolyhedron3dLt64_plane_cut_switch.cpp).h"
             }
 
             // generic case (several cuts, nb_nodes > 8, etc...)
@@ -474,9 +472,8 @@ void ConvexPolyhedron<Pc,3,ConvexPolyhedronOpt::Lt64>::plane_cut( std::array<con
 
 template<class Pc>
 void ConvexPolyhedron<Pc,3,ConvexPolyhedronOpt::Lt64>::plane_cut( std::array<const TF *,dim> cut_dir, const TF *cut_ps, const CI *cut_id, std::size_t nb_cuts ) {
-    return plane_cut( cut_dir, cut_ps, cut_id, nb_cuts, N<0>(), [&]( auto &cp ) {
-        using IS = std::is_same<decltype(cp),ConvexPolyhedron<Pc,3,ConvexPolyhedronOpt::Lt64>>;
-        ASSERT( IS::value, "" );
+    return plane_cut( cut_dir, cut_ps, cut_id, nb_cuts, N<0>(), [&]( auto &/*cp*/ ) {
+        // ERROR( "ConvexPolyhedron<Pc,3,ConvexPolyhedronOpt::Lt64> is not generic enough for this cut list. You need call plane_cut with a callback" );
     } );
 }
 
@@ -489,7 +486,7 @@ void ConvexPolyhedron<Pc,3,ConvexPolyhedronOpt::Lt64>::update_cp_gen() {
         cp_gen.nodes.push_back( { p } );
     } );
 
-    for_each_boundary_item( [&]( const auto &face ) {
+    for_each_bound( [&]( const auto &face ) {
         typename ConvexPolyhedron<Pc,3>::Face new_face;
         new_face.cut_id = face.cut_id();
         new_face.normal = face.normal();

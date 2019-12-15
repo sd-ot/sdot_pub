@@ -1,7 +1,7 @@
 #pragma once
 
-#include "ConvexPolyhedron3Lt64NodeBlock.h"
-#include "ConvexPolyhedron3Lt64FaceBlock.h"
+#include "ConvexPolyhedron3dLt64_NodeBlock.h"
+#include "ConvexPolyhedron3dLt64_FaceBlock.h"
 #include <functional>
 
 namespace sdot {
@@ -10,7 +10,7 @@ namespace sdot {
   Data layout:
 */
 template<class Pc,class Cp>
-class alignas( 64 ) ConvexPolyhedron3Lt64Face {
+class alignas( 64 ) ConvexPolyhedron3Lt64_Face {
 public:
     using     Node                   = ConvexPolyhedron3Lt64NodeBlock<Pc>;
     using     Pt                     = typename Cp::Pt;
@@ -30,7 +30,7 @@ public:
 };
 
 template<class Pc,class Cp>
-void ConvexPolyhedron3Lt64Face<Pc,Cp>::for_each_node_index_sec( const std::function<void(int)> &f ) const {
+void ConvexPolyhedron3Lt64_Face<Pc,Cp>::for_each_node_index_sec( const std::function<void(int)> &f ) const {
     constexpr int mn = ConvexPolyhedron3Lt64FaceBlock<Pc>::max_nb_nodes_per_face;
     if ( nb_nodes() <= mn )
         return for_each_node_index( f );
@@ -42,13 +42,13 @@ void ConvexPolyhedron3Lt64Face<Pc,Cp>::for_each_node_index_sec( const std::funct
 }
 
 template<class Pc,class Cp>
-void ConvexPolyhedron3Lt64Face<Pc,Cp>::for_each_node_index( const std::function<void(int)> &f ) const {
+void ConvexPolyhedron3Lt64_Face<Pc,Cp>::for_each_node_index( const std::function<void(int)> &f ) const {
     for( int i = 0; i < nb_nodes(); ++i )
         f( cp->faces.node_lists[ num_face ][ i ] );
 }
 
 template<class Pc,class Cp>
-void ConvexPolyhedron3Lt64Face<Pc,Cp>::for_each_node( const std::function<void( Pt )> &f ) const {
+void ConvexPolyhedron3Lt64_Face<Pc,Cp>::for_each_node( const std::function<void( Pt )> &f ) const {
     for( int num_node = 0; num_node < nb_nodes(); ++num_node )
         f( cp->node( cp->faces.node_lists[ num_face ][ num_node ] ) );
 }

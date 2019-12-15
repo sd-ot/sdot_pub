@@ -34,3 +34,5 @@ if ( s < nb_cuts ) {
 
 * Cas tests
 * ré-ecriture de la version 2D
+
+Prop: on appelle fu sur le type final. Lorsque c'est le même type qu'initialement.

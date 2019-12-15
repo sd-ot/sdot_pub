@@ -15,7 +15,7 @@ template<class Pc,class Opt>
 void display_vtk( VtkOutput &vo, const ConvexPolyhedron<Pc,3,Opt> &cp, const DisplayVtkConvexPolyhedronParams &params ) {
     std::vector<VtkOutput::Pt> pts;
     pts.reserve( 16 );
-    cp.for_each_boundary_item( [&]( const auto &face ) {
+    cp.for_each_bound( [&]( const auto &face ) {
         pts.clear();
         face.for_each_node( [&]( auto p ) {
             pts.push_back( p + params.offset );

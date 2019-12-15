@@ -54,7 +54,7 @@ void ConvexPolyhedron<Pc,3,void>::write_to_stream( std::ostream &os ) const {
 }
 
 template<class Pc>
-void ConvexPolyhedron<Pc,3,void>::for_each_boundary_item( const std::function<void( const BoundaryItem &boundary_item )> &f ) const {
+void ConvexPolyhedron<Pc,3,void>::for_each_bound( const std::function<void( const Bound & )> &f ) const {
     for( const Face &face : faces )
         f( { .cp = this, .face = &face } );
 }
@@ -199,7 +199,7 @@ void ConvexPolyhedron<Pc,3,void>::plane_cut( std::array<const TF *,Pc::dim> cut_
 
 
 template<class Pc>
-void ConvexPolyhedron<Pc,3,void>::BoundaryItem::for_each_node( const std::function<void(Pt)> &f ) const {
+void ConvexPolyhedron<Pc,3,void>::Bound::for_each_node( const std::function<void(Pt)> &f ) const {
     for( int n : face->nodes )
         f( cp->nodes[ n ].p );
 }

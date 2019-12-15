@@ -17,7 +17,7 @@ public:
 
     struct                      Node                  { Pt pos() const { return p; } Pt p; };
     struct                      Face                  { std::vector<int> nodes; CI cut_id; Pt normal; };
-    struct                      BoundaryItem          { const ConvexPolyhedron *cp; const Face *face; void for_each_node( const std::function<void(Pt)> &f ) const; };
+    struct                      Bound                 { const ConvexPolyhedron *cp; const Face *face; void for_each_node( const std::function<void(Pt)> &f ) const; };
 
     /**/                        ConvexPolyhedron      ( Pt pmin, Pt pmax, CI cut_id = {} ); ///< make a box
     /**/                        ConvexPolyhedron      ();
@@ -27,12 +27,12 @@ public:
     bool                        empty                 () const { return faces.empty(); }
     Pt                          node                  ( int index ) const { return nodes[ index ].p; }
 
-    void                        for_each_boundary_item( const std::function<void( const BoundaryItem &boundary_item )> &f ) const;
+    void                        for_each_bound        ( const std::function<void( const Bound &boundary_item )> &f ) const;
     void                        for_each_node         ( const std::function<void( const Pt &p )> &f ) const;
 
     template                    <int flags,class Fu>
-    void                        plane_cut             ( std::array<const TF *,Pc::dim> cut_dir, const TF *cut_ps, const CI *cut_id, std::size_t nb_cuts, N<flags>, const Fu &fu ); ///< return the stop cut. @see ConvexPolyhedron for the flags
-    void                        plane_cut             ( std::array<const TF *,Pc::dim> cut_dir, const TF *cut_ps, const CI *cut_id, std::size_t nb_cuts ); ///< return the stop cut (if < nb_cuts, it means that we have to use another ConvexPolyhedron class)
+    void                        plane_cut             ( std::array<const TF *,Pc::dim> cut_dir, const TF *cut_ps, const CI *cut_id, std::size_t nb_cuts, N<flags>, const Fu &fu ); ///< @see ConvexPolyhedron for the flags
+    void                        plane_cut             ( std::array<const TF *,Pc::dim> cut_dir, const TF *cut_ps, const CI *cut_id, std::size_t nb_cuts ); ///<
 
     std::vector<std::uint64_t>  num_cut_proc_edge;
     std::vector<std::uint64_t>  num_node_edge;
