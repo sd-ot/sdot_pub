@@ -20,6 +20,7 @@ class ConvexPolyhedron;
 
 } // namespace sdot
 
+#include "Internal/ConvexPolyhedron2dVoid.h"
 #include "Internal/ConvexPolyhedron2dLt64.h"
 
 #include "Internal/ConvexPolyhedron3dVoid.h"

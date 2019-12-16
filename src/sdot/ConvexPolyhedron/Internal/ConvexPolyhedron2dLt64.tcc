@@ -5,8 +5,8 @@
 #include "../../Support/Simplex.h"
 #include "../../Support/ASSERT.h"
 #include "../../Support/TODO.h"
-#include "../../Support/P.h"
 #include "ConvexPolyhedron2dLt64.h"
+#include "ConvexPolyhedron2dVoid.h"
 #include <cstring>
 
 namespace sdot {
@@ -87,11 +87,7 @@ typename ConvexPolyhedron<Pc,2,ConvexPolyhedronOpt::Lt64>::Pt ConvexPolyhedron<P
 }
 
 template<class Pc> template<int flags,class Fu>
-void ConvexPolyhedron<Pc,2,ConvexPolyhedronOpt::Lt64>::plane_cut( std::array<const TF *,dim> cut_dir, const TF *cut_ps, const CI *cut_id, std::size_t nb_cuts, N<flags>, const Fu &fu ) {
-    //    constexpr int ss = SimdSize<TF>::value;
-    // Prop: on fait une version <= 8 noeuds, ou on stocke tout dans des registres pour le plane cut.
-    // Si ça dépasse, on teste avec <= 64
-
+void ConvexPolyhedron<Pc,2,ConvexPolyhedronOpt::Lt64>::plane_cut( std::array<const TF *,dim> cut_dir, const TF *cut_ps, const CI *cut_ids, std::size_t nb_cuts, N<flags>, const Fu &fu ) {
     // max 8 nodes version (we store coords in registers)
     std::size_t num_cut = 0;
     if ( nodes_size <= 8 ) {
@@ -103,66 +99,126 @@ void ConvexPolyhedron<Pc,2,ConvexPolyhedronOpt::Lt64>::plane_cut( std::array<con
         LF py = LF::load_aligned( nodes.ys );
         LC pc = LC::load_aligned( nodes.cut_ids );
 
-        for( ; num_cut < nb_cuts; ++num_cut ) {
+        // to save what has been done with the registers
+        auto store_regs = [&]() {
+            LF::store_aligned( nodes.xs, px );
+            LF::store_aligned( nodes.ys, py );
+            LC::store_aligned( nodes.cut_ids, pc );
+        };
+
+        for( ; ; ++num_cut ) {
+            if ( num_cut == nb_cuts ) {
+                store_regs();
+                return fu( *this );
+            }
+
             // get distance and outside bit for each node
+            std::uint16_t nmsk = 1 << nodes_size;
             TF cx = cut_dir[ 0 ][ num_cut ];
             TF cy = cut_dir[ 1 ][ num_cut ];
             TF cs = cut_ps[ num_cut ];
 
             LF bi = px * LF( cx ) + py * LF( cy );
-            std::uint16_t outside_nodes = bi > LF( cs );
+            std::uint16_t outside_nodes = ( bi > LF( cs ) ) & ( nmsk - 1 );
 
             // if nothing has changed => go to the next cut
             if ( outside_nodes == 0 )
                 continue;
 
             //
-            std::uint16_t nmsk = 1 << nodes_size;
-            std::uint16_t case_code = ( outside_nodes & ( nmsk - 1 ) ) | nmsk;
+            std::uint16_t case_code = outside_nodes | nmsk;
             LF di = bi - LF( cs );
 
-            //
+            // generated code (that may return or break)
             #include "(ConvexPolyhedron2dLT64_plane_cut_switch.cpp).h"
+        }
+    }
 
-            TODO;
+    // => more than 8 nodes, but less than 65
+    for( ; ; ++num_cut ) {
+        if ( num_cut == nb_cuts )
+            return fu( *this );
+
+        TF cx = cut_dir[ 0 ][ num_cut ];
+        TF cy = cut_dir[ 1 ][ num_cut ];
+        TF cs = cut_ps[ num_cut ];
+
+
+        // get distance and outside bit for each node
+        std::uint64_t outside_nodes = 0;
+        alignas( 64 ) TF distances[ 64 ];
+        constexpr int ss = SimdSize<TF>::value;
+        SimdRange<ss>::for_each( nodes_size, [&]( int n, auto s ) {
+            using LF = SimdVec<TF,s.val>;
+
+            LF px = LF::load_aligned( nodes.xs + n );
+            LF py = LF::load_aligned( nodes.ys + n );
+            LF bi = px * LF( cx ) + py * LF( cy );
+
+            LF::store_aligned( distances + n, bi - LF( cs ) );
+            std::uint64_t lo = bi > LF( cs );
+            outside_nodes |= lo << n;
+        } );
+
+        // if nothing has changed => go to the next cut
+        if ( outside_nodes == 0 )
+            continue;
+
+        // make a new edge set, in tmp storage
+        std::bitset<64> outside_vec = outside_nodes;
+        int new_nodes_size = 0;
+        CI new_cut_ids[ 128 ];
+        TF new_xs[ 128 ];
+        TF new_ys[ 128 ];
+
+        for( int n0 = 0, nm = nodes_size - 1; n0 < nodes_size; nm = n0++ ) {
+            if ( outside_vec[ n0 ] )
+                continue;
+
+            if ( outside_vec[ nm ] ) {
+                TF m = distances[ n0 ] / ( distances[ nm ] - distances[ n0 ] );
+                new_xs[ new_nodes_size ] = nodes.xs[ n0 ] - m * ( nodes.xs[ nm ] - nodes.xs[ n0 ] );
+                new_ys[ new_nodes_size ] = nodes.ys[ n0 ] - m * ( nodes.ys[ nm ] - nodes.ys[ n0 ] );
+                new_cut_ids[ new_nodes_size ] = nodes.cut_ids[ nm ];
+                ++new_nodes_size;
+            }
+
+            new_cut_ids[ new_nodes_size ] = nodes.cut_ids[ n0 ];
+            new_xs[ new_nodes_size ] = nodes.xs[ n0 ];
+            new_ys[ new_nodes_size ] = nodes.ys[ n0 ];
+            ++new_nodes_size;
+
+            int n1 = ( n0 + 1 ) % nodes_size;
+            if ( outside_vec[ n1 ] ) {
+                TF m = distances[ n0 ] / ( distances[ n1 ] - distances[ n0 ] );
+                new_xs[ new_nodes_size ] = nodes.xs[ n0 ] - m * ( nodes.xs[ n1 ] - nodes.xs[ n0 ] );
+                new_ys[ new_nodes_size ] = nodes.ys[ n0 ] - m * ( nodes.ys[ n1 ] - nodes.ys[ n0 ] );
+                new_cut_ids[ new_nodes_size ] = cut_ids[ num_cut ];
+                ++new_nodes_size;
+            }
         }
 
-        // save from registers
-        LF::store_aligned( nodes.xs, px );
-        LF::store_aligned( nodes.ys, py );
-        LC::store_aligned( nodes.cut_ids, pc );
+        if ( new_nodes_size > 64 ) {
+            // update cp_gen
+            cp_gen.nodes.resize( new_nodes_size );
+            for( int i = 0; i < new_nodes_size; ++i )
+                cp_gen.nodes[ i ] = { .p = { new_xs[ i ], new_ys[ i ] }, .cut_id = new_cut_ids[ i ] };
+
+            // make the plane_cut on cp_gen
+            ++num_cut;
+            for( int d = 0; d < dim; ++d )
+                cut_dir[ d ] += num_cut;
+            cut_ps  += num_cut;
+            cut_ids += num_cut;
+            nb_cuts -= num_cut;
+            return cp_gen.plane_cut( cut_dir, cut_ps, cut_ids, nb_cuts, N<flags>(), fu );
+        }
+
+        std::memcpy( nodes.cut_ids, new_cut_ids, sizeof( CI ) * new_nodes_size );
+        std::memcpy( nodes.xs, new_xs, sizeof( TF ) * new_nodes_size );
+        std::memcpy( nodes.ys, new_ys, sizeof( TF ) * new_nodes_size );
+        nodes_size = new_nodes_size;
     }
-
-    // => data does not fit in registers
-    for( ; num_cut < nb_cuts; ++num_cut ) {
-        TODO;
-        //        // get distance and outside bit for each node
-        //        TF cx = cut_dir[ 0 ][ num_cut ];
-        //        TF cy = cut_dir[ 1 ][ num_cut ];
-        //        TF cs = cut_ps[ num_cut ];
-        //        std::uint64_t outside_nodes = 0;
-        //        SimdRange<ss>::for_each( nodes_size, [&]( int n, auto s ) {
-        //            using LF = SimdVec<TF,s.val>;
-        //            using LC = SimdVec<CI,s.val>;
-        //            LF px = LF::load_aligned( nodes.xs + n );
-        //            LF py = LF::load_aligned( nodes.ys + n );
-        //            LC pc = LC::load_aligned( nodes.ys + n );
-
-        //            LF bi = px * LF( cx ) + py * LF( cy );
-        //            LF::store_aligned( nodes.ds + n, bi - LF( cs ) );
-        //            std::uint64_t lo = bi > LF( cs );
-        //            outside_nodes |= lo << n;
-        //        } );
-
-        //        // if nothing has changed => go to the next cut
-        //        if ( outside_nodes == 0 )
-        //            continue;
-
-        //        //
-        //        #include "(ConvexPolyhedron2dLt64_plane_cut_switch.cpp).h"
-    }
-
-    fu( *this );
 }
 
 template<class Pc>

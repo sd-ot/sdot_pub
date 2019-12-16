@@ -128,7 +128,7 @@ struct Mod {
         // helper
         auto disp_c = [&]( const Op &op ) {
             if ( op.dir > 0 )
-                code << "(long long)cut_id[ num_cut ]";
+                code << "(long long)cut_ids[ num_cut ]";
             else
                 code << "(long long)pc[ " << op.i0 << " ]";
         };
@@ -264,7 +264,7 @@ struct Mod {
             if ( op.i1 >= 0 ) {
                 code << "    TF nx_" << i << " = " << x( op.i0 ) << " - m_" << op.i0 << "_" << op.i1 << " * ( " << x( op.i1 ) << " - " << x( op.i0 ) << " );\n";
                 code << "    TF ny_" << i << " = " << y( op.i0 ) << " - m_" << op.i0 << "_" << op.i1 << " * ( " << y( op.i1 ) << " - " << y( op.i0 ) << " );\n";
-                code << "    TF nc_" << i << " = cut_id[ num_cut ];\n";
+                code << "    TF nc_" << i << " = cut_ids[ num_cut ];\n";
             } else if ( op.i0 != int( i ) ) {
                 code << "    TF nx_" << i << " = " << x( op.i0 ) << ";\n";
                 code << "    TF ny_" << i << " = " << y( op.i0 ) << ";\n";
@@ -324,7 +324,6 @@ struct Mod {
         write_code_scalar( code, simd_size, 0 );
     }
 
-
     std::size_t old_size;
     std::vector<Op> ops;
 };
@@ -343,7 +342,8 @@ bool get_code( std::ostringstream &code, int nodes_size, std::bitset<8> outside,
     if ( nodes_size <= 2 || nb_outside == nodes_size ) {
         if ( nodes_size )
             code << "    nodes_size = 0;\n";
-        code << "    break;\n";
+        code << "    fu( *this );\n";
+        code << "    return;\n";
         return true;
     }
 
@@ -380,10 +380,12 @@ bool get_code( std::ostringstream &code, int nodes_size, std::bitset<8> outside,
     mod.write_code( code, simd_size );
 
     //
-    if ( int( mod.ops.size() ) <= simd_size )
-        code << "    continue;\n";
-    else
+    if ( int( mod.ops.size() ) > simd_size ) {
+        code << "    store_regs();\n";
+        code << "    ++num_cut;\n";
         code << "    break;\n";
+    } else
+        code << "    continue;\n";
     return true;
 }
 
@@ -427,8 +429,8 @@ void generate( int simd_size = 8 ) {
         std::cout << "}\n";
     }
     std::cout << "case_0:\n";
-    std::cout << "    // generic case\n";
-    std::cout << "    ;\n";
+    std::cout << "    store_regs();\n";
+    std::cout << "    break; // handled in the next loop\n";
 }
 
 int main() {

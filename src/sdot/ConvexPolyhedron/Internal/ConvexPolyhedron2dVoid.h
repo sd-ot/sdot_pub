@@ -1,27 +1,24 @@
-#ifndef SDOT_CONVEX_POLYHEDRON_2_LT64_H
-#define SDOT_CONVEX_POLYHEDRON_2_LT64_H
+#ifndef SDOT_CONVEX_POLYHEDRON_2_Void_H
+#define SDOT_CONVEX_POLYHEDRON_2_Void_H
 
-#include "ConvexPolyhedron2dLt64_NodeBlock.h"
-#include "ConvexPolyhedronOpt.h"
 #include "../ConvexPolyhedron.h"
 #include <functional>
+#include <vector>
 
 namespace sdot {
 
 /**
 */
 template<class Pc>
-class ConvexPolyhedron<Pc,2,ConvexPolyhedronOpt::Lt64> {
+class ConvexPolyhedron<Pc,2,void> {
 public:
     using                             TF                        = typename Pc::TF; ///< floating point type
     using                             CI                        = typename Pc::CI; ///< cut info
     using                             Pt                        = Point<TF,2>;     ///< point type
-
     static constexpr int              dim                       = 2;
-    static constexpr int              bs                        = 64;
 
-    using                             NodeBlock                 = ConvexPolyhedron2dLt64_NodeBlock<TF,CI,bs,true>;
     struct                            Bound                     { std::array<Pt,2> points; CI cut_id; template<class TL> void foreach_simplex( const TL &f ) const; };
+    struct                            Node                      { Pt p, n; CI cut_id; TF d; bool outside() const { return d > 0; } };
 
     /**/                              ConvexPolyhedron          ( Pt pmin, Pt pmax, CI cut_id = {} ); ///< make a box
     /**/                              ConvexPolyhedron          ();
@@ -37,18 +34,15 @@ public:
     Pt                                node                      ( int index ) const;
 
     // geometric modifications
-    template<int flags,class Fu> void plane_cut                 ( std::array<const TF *,dim> cut_dir, const TF *cut_ps, const CI *cut_ids, std::size_t nb_cuts, N<flags>, const Fu &fu ); ///<
-    void                              plane_cut                 ( std::array<const TF *,dim> cut_dir, const TF *cut_ps, const CI *cut_ids, std::size_t nb_cuts ); ///<
+    template<int flags,class Fu> void plane_cut                 ( std::array<const TF *,dim> cut_dir, const TF *cut_ps, const CI *cut_id, std::size_t nb_cuts, N<flags>, const Fu &fu ); ///<
+    void                              plane_cut                 ( std::array<const TF *,dim> cut_dir, const TF *cut_ps, const CI *cut_id, std::size_t nb_cuts ); ///<
 
-private:
-    NodeBlock                         nodes;                    ///< aligned data
-    int                               nodes_size;               ///< nb nodes
-
-    ConvexPolyhedron<Pc,2>            cp_gen;                   ///<
+    std::vector<Node>                 nodes;                    ///<
+    std::vector<Node>                 new_nodes;                ///<
 };
 
 } // namespace sdot
 
-#include "ConvexPolyhedron2dLt64.tcc"
+#include "ConvexPolyhedron2dVoid.tcc"
 
-#endif // SDOT_CONVEX_POLYHEDRON_2_LT64_H
+#endif // SDOT_CONVEX_POLYHEDRON_2_Void_H
