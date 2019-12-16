@@ -17,6 +17,8 @@ template<class TS,class US,int ns> struct SimdVecAggregate {
     static void          store_aligned   ( T *data, const TS &vec ) { for( int i = 0; i < ns; ++i ) US::store_aligned( data + i * US::size, vec.vecs[ i ] ); }
     template             <class GF>
     static TS            load_aligned    ( const GF *data ) { TS res; for( int i = 0; i < ns; ++i ) res.vecs[ i ] = US::load_aligned( data + i * US::size ); return res; }
+    template             <class Int>
+    static TS            from_int8s      ( Int val ) { TS res; for( int i = 0; i < ns; ++i, val >>= US::size ) res.vecs[ i ] = US::from_int8s( val ); return res; }
 
     static TS            iota            () { TS res; US l = US::iota(); for( int i = 0; i < ns; ++i ) { res.vecs[ i ] = l; l = l + US::size; } return res; }
 

@@ -6,6 +6,7 @@
 #include "../../Support/ASSERT.h"
 #include "../../Support/TODO.h"
 #include "ConvexPolyhedron2dLt64.h"
+#include <cstring>
 
 namespace sdot {
 
@@ -118,7 +119,10 @@ void ConvexPolyhedron<Pc,2,ConvexPolyhedronOpt::Lt64>::plane_cut( std::array<con
             std::uint16_t case_code = outside_nodes | ( 1 << nodes_size );
             LF di = bi - LF( cs );
 
-            #include "(ConvexPolyhedron2dLt64_plane_cut_switch.cpp).h"
+            //
+            #include "(ConvexPolyhedron2dLT64_plane_cut_switch.cpp).h"
+
+            TODO;
         }
 
         // save from registers
@@ -127,7 +131,8 @@ void ConvexPolyhedron<Pc,2,ConvexPolyhedronOpt::Lt64>::plane_cut( std::array<con
         LC::store_aligned( nodes.cut_ids, pc );
     }
 
-    for( std::size_t num_cut = 0; num_cut < nb_cuts; ++num_cut ) {
+    // => data does not fit in registers
+    for( ; num_cut < nb_cuts; ++num_cut ) {
         TODO;
         //        // get distance and outside bit for each node
         //        TF cx = cut_dir[ 0 ][ num_cut ];
@@ -154,6 +159,8 @@ void ConvexPolyhedron<Pc,2,ConvexPolyhedronOpt::Lt64>::plane_cut( std::array<con
         //        //
         //        #include "(ConvexPolyhedron2dLt64_plane_cut_switch.cpp).h"
     }
+
+    fu( *this );
 }
 
 template<class Pc>

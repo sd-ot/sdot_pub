@@ -1,8 +1,8 @@
 #ifndef SDOT_SIMPLEX_H
 #define SDOT_SIMPLEX_H
 
-#include "../../Support/Point.h"
 #include <functional>
+#include "Point.h"
 
 namespace sdot {
 
