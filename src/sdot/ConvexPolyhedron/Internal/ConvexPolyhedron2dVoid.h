@@ -17,8 +17,8 @@ public:
     using                             Pt                        = Point<TF,2>;     ///< point type
     static constexpr int              dim                       = 2;
 
-    struct                            Bound                     { std::array<Pt,2> points; CI cut_id; template<class TL> void foreach_simplex( const TL &f ) const; };
     struct                            Node                      { Pt p, n; CI cut_id; TF d; bool outside() const { return d > 0; } };
+    struct                            Bound                     { const Node *n0, *n1; CI cut_id() const; template<class TL> void for_each_simplex( const TL &f ) const; };
 
     /**/                              ConvexPolyhedron          ( Pt pmin, Pt pmax, CI cut_id = {} ); ///< make a box
     /**/                              ConvexPolyhedron          ();

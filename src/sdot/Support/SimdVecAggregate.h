@@ -20,6 +20,8 @@ template<class TS,class US,int ns> struct SimdVecAggregate {
     template             <class Int>
     static TS            from_int8s      ( Int val ) { TS res; for( int i = 0; i < ns; ++i, val >>= US::size ) res.vecs[ i ] = US::from_int8s( val ); return res; }
 
+    T&                   operator[]      ( int n ) { return reinterpret_cast<T *>( vecs )[ n ]; }
+
     static TS            iota            () { TS res; US l = US::iota(); for( int i = 0; i < ns; ++i ) { res.vecs[ i ] = l; l = l + US::size; } return res; }
 
     TS                   operator+       ( const TS &that ) const { TS res; for( int i = 0; i < ns; ++i ) res.vecs[ i ] = vecs[ i ] + that.vecs[ i ]; return res; }

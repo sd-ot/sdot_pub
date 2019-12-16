@@ -58,7 +58,7 @@ TEST_CASE( "simd aggregate std::uint64_t 16" ) {
     using SV = SimdVec<std::uint64_t,16>;
     SV s = SV::iota();
 
-    int cpt = 0;
+    std::uint64_t cpt = 0;
     for( auto v : s )
         CHECK( v == cpt++ );
 
@@ -66,3 +66,17 @@ TEST_CASE( "simd aggregate std::uint64_t 16" ) {
     for( auto v : ( s << SV( 1 ) ) )
         CHECK( v == 2 * cpt++ );
 }
+
+
+
+TEMPLATE_TEST_CASE( "simd ctor several vars", "", std::uint32_t, std::uint64_t, float, double, long double ) {
+    SimdVec<TestType,2> a( 1, 2 );
+    CHECK( a[ 0 ] == 1 );
+    CHECK( a[ 1 ] == 2 );
+
+    alignas( 16 ) TestType v[] = { 10, 20 };
+    SimdVec<TestType,2> b = SimdVec<TestType,2>::load_aligned( v );
+    CHECK( b[ 0 ] == 10 );
+    CHECK( b[ 1 ] == 20 );
+}
+

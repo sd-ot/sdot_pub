@@ -21,7 +21,7 @@ public:
     static constexpr int              bs                        = 64;
 
     using                             NodeBlock                 = ConvexPolyhedron2dLt64_NodeBlock<TF,CI,bs,true>;
-    struct                            Bound                     { std::array<Pt,2> points; CI cut_id; template<class TL> void foreach_simplex( const TL &f ) const; };
+    struct                            Bound                     { const NodeBlock *nodes; int n0, n1; CI cut_id() const; template<class TL> void for_each_simplex( const TL &f ) const; };
 
     /**/                              ConvexPolyhedron          ( Pt pmin, Pt pmax, CI cut_id = {} ); ///< make a box
     /**/                              ConvexPolyhedron          ();

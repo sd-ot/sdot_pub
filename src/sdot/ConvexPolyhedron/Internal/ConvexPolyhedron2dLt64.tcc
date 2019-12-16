@@ -61,8 +61,9 @@ void ConvexPolyhedron<Pc,2,ConvexPolyhedronOpt::Lt64>::write_to_stream( std::ost
 }
 
 template<class Pc> template<class F>
-void ConvexPolyhedron<Pc,2,ConvexPolyhedronOpt::Lt64>::for_each_bound( const F &/*f*/ ) const {
-    TODO;
+void ConvexPolyhedron<Pc,2,ConvexPolyhedronOpt::Lt64>::for_each_bound( const F &f ) const {
+    for( int n0 = nodes_size - 1, n1 = 0; n1 < nodes_size; n0 = n1++ )
+        f( Bound{ .nodes = &nodes, .n0 = n0, .n1 = n1 } );
 }
 
 template<class Pc> template<class F>
@@ -227,9 +228,13 @@ void ConvexPolyhedron<Pc,2,ConvexPolyhedronOpt::Lt64>::plane_cut( std::array<con
 }
 
 template<class Pc> template<class TL>
-void ConvexPolyhedron<Pc,2,ConvexPolyhedronOpt::Lt64>::Bound::foreach_simplex( const TL &/*f*/ ) const {
-    // f( Simplex<TF,2,1>{ points[ 0 ], points[ 1 ] } );
-    TODO;
+void ConvexPolyhedron<Pc,2,ConvexPolyhedronOpt::Lt64>::Bound::for_each_simplex( const TL &f ) const {
+    f( Simplex<TF,2,1>{ Pt{ nodes->xs[ n0 ], nodes->ys[ n0 ] }, Pt{ nodes->xs[ n1 ], nodes->ys[ n1 ] } } );
+}
+
+template<class Pc>
+typename Pc::CI ConvexPolyhedron<Pc,2,ConvexPolyhedronOpt::Lt64>::Bound::cut_id() const {
+    return nodes->cut_ids[ n0 ];
 }
 
 } // namespace sdot

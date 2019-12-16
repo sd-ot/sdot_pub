@@ -88,7 +88,7 @@ void generate( std::size_t nb_diracs ) {
         m.lock();
         cp.for_each_boundary_item( [&]( const typename CP::BoundaryItem &face ) {
             if ( face.cut_id > &dirac ) {
-                face.foreach_simplex( [&]( const auto &simplex ) {
+                face.for_each_simplex( [&]( const auto &simplex ) {
                     total_area += simplex.mass();
                     sas.push_back( { simplex, total_area } );
                 } );

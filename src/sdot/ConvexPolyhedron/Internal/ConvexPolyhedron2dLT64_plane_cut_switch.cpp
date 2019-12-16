@@ -26,8 +26,10 @@ struct Op {
         return i0 != i;
     }
 
+    bool going_inside() const { return dir < 0; }
+
     int i0;  ///<
-    int i1;  ///< -1 means we take the values only from i0
+    int i1;  ///< -1 means we take the values only from i0. if != -1, it is the outside node (and i0 is inside)
     int dir; ///< 1 -> going out, -1 -> going in, 0 -> staying inside
 };
 
@@ -245,40 +247,96 @@ struct Mod {
         code << "    pc = _mm512_permutex2var_epi64( pc, idx_0, inter_c );\n";
     }
 
-    void write_code_scalar( std::ostream &code, int simd_size, std::size_t beg = 0 ) {
+    void write_code_scalar( std::ostream &code, int simd_size ) {
+        auto s = [&]( std::string res, std::string a, std::string b ) { return a != b ? "SimdVec<TF,2> " + res + "( " + a + ", " + b + " );\n" : "SimdVec<TF,2> " + res + "( " + a + " );\n"; };
         auto x = [&]( int i ) { return i < simd_size ? "px[ " + std::to_string( i ) + " ]" : "nodes.xs[ "      + std::to_string( i ) + " ]"; };
         auto y = [&]( int i ) { return i < simd_size ? "py[ " + std::to_string( i ) + " ]" : "nodes.ys[ "      + std::to_string( i ) + " ]"; };
         auto c = [&]( int i ) { return i < simd_size ? "pc[ " + std::to_string( i ) + " ]" : "nodes.cut_ids[ " + std::to_string( i ) + " ]"; };
 
-        // ratios
-        for( std::size_t i = beg; i < ops.size(); ++i ) {
+        //
+        for( std::size_t i = 0; i < ops.size(); ++i ) {
             const Op &op = ops[ i ];
-            if ( op.i1 >= 0 ) {
-                code << "    TF m_" << op.i0 << "_" << op.i1 << " = d_" << op.i0 << " / ( d_" << op.i1 << " - d_" << op.i0 << " );\n";
-            }
-        }
-
-        // coordinates
-        for( std::size_t i = beg; i < ops.size(); ++i ) {
-            const Op &op = ops[ i ];
-            if ( op.i1 >= 0 ) {
-                code << "    TF nx_" << i << " = " << x( op.i0 ) << " - m_" << op.i0 << "_" << op.i1 << " * ( " << x( op.i1 ) << " - " << x( op.i0 ) << " );\n";
-                code << "    TF ny_" << i << " = " << y( op.i0 ) << " - m_" << op.i0 << "_" << op.i1 << " * ( " << y( op.i1 ) << " - " << y( op.i0 ) << " );\n";
-                code << "    TF nc_" << i << " = cut_ids[ num_cut ];\n";
-            } else if ( op.i0 != int( i ) ) {
+            if ( op.i1 < 0 && op.i0 != int( i ) ) {
                 code << "    TF nx_" << i << " = " << x( op.i0 ) << ";\n";
                 code << "    TF ny_" << i << " = " << y( op.i0 ) << ";\n";
                 code << "    TF nc_" << i << " = " << c( op.i0 ) << ";\n";
             }
         }
 
-        // save
-        for( std::size_t i = beg; i < ops.size(); ++i ) {
+        // get op ratios
+        std::vector<int> op_ratios;
+        for( std::size_t i = 0; i < ops.size(); ++i ) {
             const Op &op = ops[ i ];
-            if ( op.i1 >= 0 || op.i0 != int( i ) ) {
-                code << "    " << x( i ) << " = nx_" << i << ";\n";
-                code << "    " << y( i ) << " = ny_" << i << ";\n";
-                code << "    " << c( i ) << " = nc_" << i << ";\n";
+            if ( op.i1 >= 0 )
+                op_ratios.push_back( i );
+        }
+
+        if ( op_ratios.size() == 2 ) {
+            // ratio, SIMD version
+            const Op &o0 = ops[ op_ratios[ 0 ] ];
+            const Op &o1 = ops[ op_ratios[ 1 ] ];
+
+            code << "    " << s( "dm0", "d_" + std::to_string( o0.i0 ), "d_" + std::to_string( o1.i0 ) );
+            code << "    " << s( "dm1", "d_" + std::to_string( o0.i1 ), "d_" + std::to_string( o1.i1 ) );
+            code << "    SimdVec<TF,2> m = dm0 / ( dm1 - dm0 );\n";
+            // coordinates, cut_ids
+            code << "    " << s( "dx0", "x_" + std::to_string( o0.i0 ), "x_" + std::to_string( o1.i0 ) );
+            code << "    " << s( "dx1", "x_" + std::to_string( o0.i1 ), "x_" + std::to_string( o1.i1 ) );
+            code << "    " << s( "dy0", "y_" + std::to_string( o0.i0 ), "y_" + std::to_string( o1.i0 ) );
+            code << "    " << s( "dy1", "y_" + std::to_string( o0.i1 ), "y_" + std::to_string( o1.i1 ) );
+
+            code << "    SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );\n";
+            code << "    SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );\n";
+
+            code << "    TF nc_" << op_ratios[ 0 ] << " = " << ( o0.going_inside() ? c( o0.i0 /*the outside node*/ ) : "cut_ids[ num_cut ]" ) << ";\n";
+            code << "    TF nc_" << op_ratios[ 1 ] << " = " << ( o1.going_inside() ? c( o1.i0 /*the outside node*/ ) : "cut_ids[ num_cut ]" ) << ";\n";
+
+            // save
+            for( std::size_t i = 0; i < ops.size(); ++i ) {
+                const Op &op = ops[ i ];
+                if ( op.i1 < 0 && op.i0 != int( i ) ) {
+                    code << "    " << x( i ) << " = nx_" << i << ";\n";
+                    code << "    " << y( i ) << " = ny_" << i << ";\n";
+                    code << "    " << c( i ) << " = nc_" << i << ";\n";
+                }
+            }
+
+            for( std::size_t i = 0; i < 2; ++i ) {
+                code << "    " << x( op_ratios[ i ] ) << " = dxm[ " << i << " ];\n";
+                code << "    " << y( op_ratios[ i ] ) << " = dym[ " << i << " ];\n";
+                code << "    " << c( op_ratios[ i ] ) << " = nc_" << op_ratios[ i ] << ";\n";
+            }
+        } else {
+            // ratio, scalar version
+            for( std::size_t i = 0; i < ops.size(); ++i ) {
+                const Op &op = ops[ i ];
+                if ( op.i1 >= 0 ) {
+                    code << "    TF m_" << op.i0 << "_" << op.i1 << " = d_" << op.i0 << " / ( d_" << op.i1 << " - d_" << op.i0 << " );\n";
+                }
+            }
+
+            // coordinates, cut_ids
+            for( std::size_t i = 0; i < ops.size(); ++i ) {
+                const Op &op = ops[ i ];
+                if ( op.i1 >= 0 ) {
+                    code << "    TF nx_" << i << " = " << x( op.i0 ) << " - m_" << op.i0 << "_" << op.i1 << " * ( " << x( op.i1 ) << " - " << x( op.i0 ) << " );\n";
+                    code << "    TF ny_" << i << " = " << y( op.i0 ) << " - m_" << op.i0 << "_" << op.i1 << " * ( " << y( op.i1 ) << " - " << y( op.i0 ) << " );\n";
+                    code << "    TF nc_" << i << " = " << ( op.going_inside() ? c( op.i0 /*the outside node*/ ) : "cut_ids[ num_cut ]" ) << ";\n";
+                } else if ( op.i0 != int( i ) ) {
+                    code << "    TF nx_" << i << " = " << x( op.i0 ) << ";\n";
+                    code << "    TF ny_" << i << " = " << y( op.i0 ) << ";\n";
+                    code << "    TF nc_" << i << " = " << c( op.i0 ) << ";\n";
+                }
+            }
+
+            // save
+            for( std::size_t i = 0; i < ops.size(); ++i ) {
+                const Op &op = ops[ i ];
+                if ( op.i1 >= 0 || op.i0 != int( i ) ) {
+                    code << "    " << x( i ) << " = nx_" << i << ";\n";
+                    code << "    " << y( i ) << " = ny_" << i << ";\n";
+                    code << "    " << c( i ) << " = nc_" << i << ";\n";
+                }
             }
         }
     }
@@ -321,7 +379,7 @@ struct Mod {
         // bulk
         //        write_code_mm128( code, simd_size );
         //        write_code_scalar( code, simd_size );
-        write_code_scalar( code, simd_size, 0 );
+        write_code_scalar( code, simd_size );
     }
 
     std::size_t old_size;
@@ -329,7 +387,7 @@ struct Mod {
 };
 
 
-bool get_code( std::ostringstream &code, int nodes_size, std::bitset<8> outside, int simd_size ) {
+bool get_code( std::ostringstream &code, int nb_nodes, std::bitset<8> outside, int simd_size ) {
     const int nb_outside = outside.count();
 
     // nothing to change
@@ -339,8 +397,8 @@ bool get_code( std::ostringstream &code, int nodes_size, std::bitset<8> outside,
     }
 
     // totally outside
-    if ( nodes_size <= 2 || nb_outside == nodes_size ) {
-        if ( nodes_size )
+    if ( nb_nodes <= 2 || nb_outside == nb_nodes ) {
+        if ( nb_nodes )
             code << "    nodes_size = 0;\n";
         code << "    fu( *this );\n";
         code << "    return;\n";
@@ -349,10 +407,10 @@ bool get_code( std::ostringstream &code, int nodes_size, std::bitset<8> outside,
 
     // get list of modifications
     Mod mod;
-    mod.old_size = nodes_size;
-    for( int i = 0; i < nodes_size; ++i ) {
-        int h = ( i + nodes_size - 1 ) % nodes_size;
-        int j = ( i              + 1 ) % nodes_size;
+    mod.old_size = nb_nodes;
+    for( int i = 0; i < nb_nodes; ++i ) {
+        int h = ( i + nb_nodes - 1 ) % nb_nodes;
+        int j = ( i            + 1 ) % nb_nodes;
 
         // inside point => we keep it
         if ( outside[ i ] == 0 ) {
@@ -376,7 +434,7 @@ bool get_code( std::ostringstream &code, int nodes_size, std::bitset<8> outside,
         return false;
 
     // write code
-    code << "    // size=" << nodes_size << " outside=" << outside << " mod=" << mod << "\n";
+    code << "    // size=" << nb_nodes << " outside=" << outside << " mod=" << mod << "\n";
     mod.write_code( code, simd_size );
 
     //
@@ -397,7 +455,7 @@ void generate( int simd_size = 8 ) {
 
     // make the cases
     for( int nb_nodes = 0; nb_nodes <= simd_size; ++nb_nodes ) {
-        for( int outside_case = 0; outside_case < ( 1 << simd_size ); ++outside_case ) {
+        for( int outside_case = 0; outside_case < ( 1 << nb_nodes ); ++outside_case ) {
             std::ostringstream code;
             if ( get_code( code, nb_nodes, outside_case, simd_size ) ) {
                 // get number

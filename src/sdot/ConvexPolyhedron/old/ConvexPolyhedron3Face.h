@@ -24,7 +24,7 @@ public:
     using       TI             = typename Carac::TI;
     using       Pt             = Point<TF,3>;
 
-    void        foreach_simplex( const std::function<void( const Simplex<TF,3,2> &simplex )> &f ) const;
+    void        for_each_simplex( const std::function<void( const Simplex<TF,3,2> &simplex )> &f ) const;
     void        foreach_edge   ( const std::function<void( const Edge &edge )> &f ) const;
     void        foreach_node   ( const std::function<void( const Node &node )> &f ) const;
     const Node *first_node     () const;
@@ -45,7 +45,7 @@ public:
 
 // -------------------------------------------------------------------------------------------------------------------------
 template<class Carac>
-void ConvexPolyhedron3Face<Carac>::foreach_simplex( const std::function<void( const Simplex<TF,3,2> &simplex )> &f ) const {
+void ConvexPolyhedron3Face<Carac>::for_each_simplex( const std::function<void( const Simplex<TF,3,2> &simplex )> &f ) const {
     if ( Edge e = first_edge ) {
         Node *n0 = e.n0();
         while ( true ) {

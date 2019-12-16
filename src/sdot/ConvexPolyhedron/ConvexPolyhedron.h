@@ -10,7 +10,7 @@ namespace sdot {
 ///  Pc must contain
 ///    - CI => cut info
 ///    - TF (double, ...) => floating point type
-///    - dim => ...
+///    - dim => ... (if not specified in template args)
 ///
 ///  Opt => optimisation. void means "generic case".
 ///
