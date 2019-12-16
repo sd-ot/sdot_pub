@@ -13,7 +13,7 @@ void test_disc( VtkOutput &vo, double off ) {
 
     srand( 0 );
     std::vector<TF> cx, cy, cs;
-    for( std::size_t n = 0; n < 1; ++n ) {
+    for( std::size_t n = 0; n < 8; ++n ) {
         double t = 2.0 * M_PI * rand() / RAND_MAX;
         cx.push_back( std::cos( t ) );
         cy.push_back( std::sin( t ) );

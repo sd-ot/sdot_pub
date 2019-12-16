@@ -18791,7 +18791,7 @@ case_694: {
     nodes.xs[ 8 ] = nx_8;
     nodes.ys[ 8 ] = ny_8;
     nodes.cut_ids[ 8 ] = nc_8;
-    continue;
+    break;
 }
 case_695: {
     // size=8 outside=00000010 mod=[ 1, 0 ],[ 1, 2 ],2,3,4,5,6,7,0
@@ -18825,7 +18825,7 @@ case_695: {
     nodes.xs[ 8 ] = nx_8;
     nodes.ys[ 8 ] = ny_8;
     nodes.cut_ids[ 8 ] = nc_8;
-    continue;
+    break;
 }
 case_696: {
     // size=8 outside=00000011 mod=[ 0, 7 ],[ 1, 2 ],2,3,4,5,6,7
@@ -18897,7 +18897,7 @@ case_697: {
     nodes.xs[ 8 ] = nx_8;
     nodes.ys[ 8 ] = ny_8;
     nodes.cut_ids[ 8 ] = nc_8;
-    continue;
+    break;
 }
 case_698: {
     // size=8 outside=00000110 mod=0,[ 1, 0 ],[ 2, 3 ],3,4,5,6,7
@@ -19012,7 +19012,7 @@ case_700: {
     nodes.xs[ 8 ] = nx_8;
     nodes.ys[ 8 ] = ny_8;
     nodes.cut_ids[ 8 ] = nc_8;
-    continue;
+    break;
 }
 case_701: {
     // size=8 outside=00001100 mod=0,1,[ 2, 1 ],[ 3, 4 ],4,5,6,7
@@ -19176,7 +19176,7 @@ case_704: {
     nodes.xs[ 8 ] = nx_8;
     nodes.ys[ 8 ] = ny_8;
     nodes.cut_ids[ 8 ] = nc_8;
-    continue;
+    break;
 }
 case_705: {
     // size=8 outside=00011000 mod=0,1,2,[ 3, 2 ],[ 4, 5 ],5,6,7
@@ -19395,7 +19395,7 @@ case_709: {
     nodes.xs[ 8 ] = nx_8;
     nodes.ys[ 8 ] = ny_8;
     nodes.cut_ids[ 8 ] = nc_8;
-    continue;
+    break;
 }
 case_710: {
     // size=8 outside=00110000 mod=0,1,2,3,[ 4, 3 ],[ 5, 6 ],6,7
@@ -19631,7 +19631,7 @@ case_715: {
     nodes.xs[ 8 ] = nx_8;
     nodes.ys[ 8 ] = ny_8;
     nodes.cut_ids[ 8 ] = nc_8;
-    continue;
+    break;
 }
 case_716: {
     // size=8 outside=01100000 mod=0,1,2,3,4,[ 5, 4 ],[ 6, 7 ],7
@@ -19871,7 +19871,7 @@ case_722: {
     nodes.xs[ 8 ] = nx_8;
     nodes.ys[ 8 ] = ny_8;
     nodes.cut_ids[ 8 ] = nc_8;
-    continue;
+    break;
 }
 case_723: {
     // size=8 outside=10000001 mod=[ 0, 1 ],1,2,3,4,5,6,[ 7, 6 ]
@@ -20767,16 +20767,13 @@ case_749: {
 }
 case_2: {
     break;
-    continue;
 }
 case_1: {
-    continue;
     continue;
 }
 case_3: {
     nodes_size = 0;
     break;
-    continue;
 }
 case_0:
     // generic case

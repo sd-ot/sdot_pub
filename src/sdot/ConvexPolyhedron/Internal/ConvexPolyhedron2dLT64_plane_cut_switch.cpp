@@ -378,6 +378,12 @@ bool get_code( std::ostringstream &code, int nodes_size, std::bitset<8> outside,
     // write code
     code << "    // size=" << nodes_size << " outside=" << outside << " mod=" << mod << "\n";
     mod.write_code( code, simd_size );
+
+    //
+    if ( int( mod.ops.size() ) <= simd_size )
+        code << "    continue;\n";
+    else
+        code << "    break;\n";
     return true;
 }
 
@@ -418,7 +424,6 @@ void generate( int simd_size = 8 ) {
             continue;
         std::cout << "case_" << iter.second << ": {\n";
         std::cout << iter.first;
-        std::cout << "    continue;\n";
         std::cout << "}\n";
     }
     std::cout << "case_0:\n";

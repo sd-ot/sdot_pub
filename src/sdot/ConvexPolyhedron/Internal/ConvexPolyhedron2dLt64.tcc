@@ -5,6 +5,7 @@
 #include "../../Support/Simplex.h"
 #include "../../Support/ASSERT.h"
 #include "../../Support/TODO.h"
+#include "../../Support/P.h"
 #include "ConvexPolyhedron2dLt64.h"
 #include <cstring>
 
@@ -116,7 +117,8 @@ void ConvexPolyhedron<Pc,2,ConvexPolyhedronOpt::Lt64>::plane_cut( std::array<con
                 continue;
 
             //
-            std::uint16_t case_code = outside_nodes | ( 1 << nodes_size );
+            std::uint16_t nmsk = 1 << nodes_size;
+            std::uint16_t case_code = ( outside_nodes & ( nmsk - 1 ) ) | nmsk;
             LF di = bi - LF( cs );
 
             //
