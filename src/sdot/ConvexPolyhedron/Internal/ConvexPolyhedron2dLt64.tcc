@@ -92,49 +92,14 @@ void ConvexPolyhedron<Pc,2,ConvexPolyhedronOpt::Lt64>::plane_cut( std::array<con
     // max 8 nodes version (we store coords in registers)
     std::size_t num_cut = 0;
     if ( nodes_size <= 8 ) {
-        // #include "(ConvexPolyhedron2dLT64_plane_cut_switch.cpp).h"
-
-
-        using LF = SimdVec<TF,8>;
-        using LC = SimdVec<CI,8>;
-
-        // load in registers
-        LF px = LF::load_aligned( nodes.xs );
-        LF py = LF::load_aligned( nodes.ys );
-        LC pc = LC::load_aligned( nodes.cut_ids );
-
-        // to save what has been done with the registers
-        auto store_regs = [&]() {
-            LF::store_aligned( nodes.xs, px );
-            LF::store_aligned( nodes.ys, py );
-            LC::store_aligned( nodes.cut_ids, pc );
-        };
-
-        for( ; ; ++num_cut ) {
-            if ( num_cut == nb_cuts ) {
-                store_regs();
-                return fu( *this );
-            }
-
-            // get distance and outside bit for each node
-            std::uint16_t nmsk = 1 << nodes_size;
-            TF cx = cut_dir[ 0 ][ num_cut ];
-            TF cy = cut_dir[ 1 ][ num_cut ];
-            CI ci = cut_ids[ num_cut ];
-            TF cs = cut_ps[ num_cut ];
-
-            LF bi = px * LF( cx ) + py * LF( cy );
-            std::uint16_t outside_nodes = ( bi > LF( cs ) ) & ( nmsk - 1 );
-            std::uint16_t case_code = outside_nodes | nmsk;
-            LF di = bi - LF( cs );
-
-            // if nothing has changed => go to the next cut
-            if ( outside_nodes == 0 )
-                continue;
-
-            // generated code (that may return or break)
-            #include "(ConvexPolyhedron2dLT64_plane_cut_switch.cpp).h"
-        }
+        #include "(ConvexPolyhedron2dLT64_plane_cut_switch.cpp 'AVX2').h"
+        //        #if defined(__AVX512F__)
+        //            #include "(ConvexPolyhedron2dLT64_plane_cut_switch.cpp AVX512).h"
+        //        #elif defined(__AVX2__)
+        //            #include "(ConvexPolyhedron2dLT64_plane_cut_switch.cpp AVX2).h"
+        //        #elif defined(__SSE2__)
+        //            #include "(ConvexPolyhedron2dLT64_plane_cut_switch.cpp SSE2).h"
+        //        #endif
     }
 
     // => more than 8 nodes, but less than 65
