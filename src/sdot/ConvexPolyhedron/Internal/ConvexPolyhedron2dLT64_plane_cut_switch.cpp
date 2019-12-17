@@ -3,6 +3,7 @@
 #include "../../Support/ASSERT.h"
 #include "../../Support/TODO.h"
 #include <iostream>
+#include <fstream>
 #include <sstream>
 #include <vector>
 #include <cmath>
@@ -21,6 +22,9 @@ struct Op {
     std::size_t outside_node   () const { return dir > 0 ? i0 : i1; }
     std::size_t inside_node    () const { return dir > 0 ? i1 : i0; }
 
+    std::size_t n0             () const { return sw ? i1 : i0; }
+    std::size_t n1             () const { return sw ? i0 : i1; }
+
     int         dir;           ///< -1 => going outside. 0 => single node. +1 => going inside.
     std::size_t i0;            ///<
     std::size_t i1;            ///<
@@ -37,23 +41,154 @@ void Op::write_to_stream( std::ostream &os ) const {
 struct Mod {
     std::vector<std::size_t> split_indices  () { std::vector<std::size_t> res; for( std::size_t i = 0; i < ops.size(); ++i ) if ( ops[ i ].split() ) res.push_back( i ); return res; }
     void                     rotate         ( std::size_t off ) { std::vector<Op> nops( ops.size() ); for( std::size_t i = 0; i < ops.size(); ++i ) nops[ i ] = ops[ ( i + off ) % ops.size() ]; ops = nops; }
-    double                   score          ();
+    double                   score          ( std::string variant, int simd_size, int nb_regs );
+    void                     write          ( std::ostream &os, std::string variant, int simd_size, int nb_regs, std::string sp = "        " );
     void                     sw             ( std::uint64_t val ) { std::vector<std::size_t> si = split_indices(); for( std::size_t i = 0; i < si.size(); ++i ) ops[ si[ i ] ].sw = val & ( std::uint64_t( 1 ) << i ); }
 
     std::vector<Op>          ops;
 };
 
 
-double Mod::score() {
-    double res = 0;
-    for( std::size_t i = 0; i < ops.size(); ++i ) {
-        if ( ops[ i ].single() && ops[ i ].inside_node() != i )
-            res += 1.0;
-    }
+double Mod::score( std::string variant, int simd_size, int nb_regs ) {
+    std::ofstream fout( "/home/leclerc/sdot_pub/tmp.cpp" );
+    fout << "#include <sdot/Support/SimdVec.h>\n";
+    fout << "#include <iostream>\n";
+    fout << "#include <fstream>\n";
+    fout << "#include <chrono>\n";
+    fout << "\n";
+    fout << "//// nsmake cxx_name clang++\n";
+    fout << "//// nsmake cpp_flag -march=native\n";
+    fout << "//// nsmake cpp_flag -ffast-math\n";
+    fout << "//// nsmake cpp_flag -O3\n";
+    fout << "\n";
+    fout << "using CI = std::uint64_t;\n";
+    fout << "using TF = double;\n";
+    fout << "\n";
+    fout << "void __attribute__ ((noinline)) cut_proc( std::size_t nb_reps, TF *xs, TF *ys, TF *di, CI *cs ) {\n";
+    fout << "    using namespace sdot;\n";
+    fout << "    using VF = SimdVec<TF,4>;\n";
+    fout << "    using VC = SimdVec<CI,4>;\n";
+    fout << "\n";
+    fout << "    VF px_0 = VF::load_aligned( xs + 0 );\n";
+    fout << "    VF py_0 = VF::load_aligned( ys + 0 );\n";
+    fout << "    //VC pc_0 = VC::load_aligned( cs + 0 );\n";
+    fout << "    VF px_1 = VF::load_aligned( xs + 4 );\n";
+    fout << "    VF py_1 = VF::load_aligned( ys + 4 );\n";
+    fout << "    //VC pc_1 = VC::load_aligned( cs + 4 );\n";
+    fout << "\n";
+    fout << "    for( std::size_t rep = 0; rep < nb_reps; ++rep ) {\n";
+    fout << "        VF di_0 = VF::load_aligned( di + 0 ) + VF( rep );\n";
+    fout << "        VF di_1 = VF::load_aligned( di + 4 ) + VF( rep );\n";
+    fout << "\n";
+    write( fout, variant, simd_size, nb_regs, "        " );
+    fout << "    }\n";
+    fout << "\n";
+    fout << "    VF::store_aligned( xs + 0, px_0 );\n";
+    fout << "    VF::store_aligned( ys + 0, py_0 );\n";
+    fout << "    VF::store_aligned( xs + 4, px_1 );\n";
+    fout << "    VF::store_aligned( ys + 4, py_1 );\n";
+    fout << "}\n";
+    fout << "\n";
+    fout << "int main( int /*argc*/, char **argv ) {\n";
+    fout << "    alignas( 64 ) TF xs[] = { 0, 1, 2, 3, 4, 5, 6, 7 };\n";
+    fout << "    alignas( 64 ) TF ys[] = { 0, 1, 2, 3, 4, 5, 6, 7 };\n";
+    fout << "    alignas( 64 ) TF di[] = { 0, 1, 2, 3, 4, 5, 6, 7 };\n";
+    fout << "    alignas( 64 ) CI cs[] = { 0, 1, 2, 3, 4, 5, 6, 7 };\n";
+    fout << "\n";
+    fout << "    auto t0 = std::chrono::high_resolution_clock::now();\n";
+    fout << "    cut_proc( 200000000, xs, ys, di, cs );\n";
+    fout << "    auto t1 = std::chrono::high_resolution_clock::now();\n";
+    fout << "    std::ofstream fout( argv[ 1 ] );\n";
+    fout << "    fout << std::chrono::duration_cast<std::chrono::microseconds>( t1 - t0 ).count() / 1e6 << std::endl;\n";
+    fout << "}\n";
+    fout.close();
+
+    system( "cd /home/leclerc/sdot_pub && clang++ -O3 -march=native -ffast-math -I/home/leclerc/sdot_pub/src/ -o tmp.exe tmp.cpp && ./tmp.exe tmp.dat" );
+    std::ifstream fin( "/home/leclerc/sdot_pub/tmp.dat" );
+    double res;
+    fin >> res;
+
+    std::cerr << "// " << ops << " => " << res << "\n";
+
+    //    double res = 0;
+    //    for( std::size_t i = 0; i < ops.size(); ++i ) {
+    //        if ( ops[ i ].single() && ops[ i ].inside_node() != i )
+    //            res += 1.0;
+    //    }
+
     return res;
 }
 
-bool get_code( std::ostringstream &os, std::size_t nb_nodes, std::bitset<8> outside, int simd_size, int nb_regs ) {
+void Mod::write( std::ostream &os, std::string variant, int simd_size, int nb_regs, std::string sp ) {
+    auto d = [&]( std::string b, int n ) { return b + "_" + std::to_string( n / simd_size ) + "[ " + std::to_string( n % simd_size ) + " ]"; };
+    std::vector<std::size_t> si = split_indices();
+
+    if ( si.size() == 2 ) {
+        // gather => 2
+        for( std::string pr : { "di", "px", "py" } ) {
+            os << sp << "SimdVec<TF,2> " << pr << "_a( " << d( pr, ops[ si[ 0 ] ].n0() ) << ", " << d( pr, ops[ si[ 1 ] ].n0() ) << " );\n";
+            os << sp << "SimdVec<TF,2> " << pr << "_b( " << d( pr, ops[ si[ 0 ] ].n1() ) << ", " << d( pr, ops[ si[ 1 ] ].n1() ) << " );\n";
+        }
+
+        // dm_s = ...
+        os << sp << "SimdVec<TF,2> dm_s = di_a / ( di_b - di_a );\n";
+        os << sp << "SimdVec<TF,2> nx_s = px_a - dm_s * ( px_b - px_a );\n";
+        os << sp << "SimdVec<TF,2> ny_s = py_a - dm_s * ( py_b - py_a );\n";
+
+        // nx_... = ...
+        for( std::size_t n = 0; n < ops.size(); ++n ) {
+            const Op &op = ops[ n ];
+            if ( op.split() == false && op.inside_node() != n ) {
+                os << sp << "TF nx_" << n << " = " << d( "px", op.inside_node() ) << ";\n";
+                os << sp << "TF ny_" << n << " = " << d( "py", op.inside_node() ) << ";\n";
+            }
+        }
+
+        // px_... = ...
+        os << sp << d( "px", si[ 0 ] ) << " = nx_s[ " << 0 << " ];\n";
+        os << sp << d( "px", si[ 1 ] ) << " = nx_s[ " << 1 << " ];\n";
+        os << sp << d( "py", si[ 0 ] ) << " = ny_s[ " << 0 << " ];\n";
+        os << sp << d( "py", si[ 1 ] ) << " = ny_s[ " << 1 << " ];\n";
+
+        for( std::size_t n = 0; n < ops.size(); ++n ) {
+            const Op &op = ops[ n ];
+            if ( op.split() == false && op.inside_node() != n ) {
+                os << sp << d( "px", n ) << " = nx_" << n << ";\n";
+                os << sp << d( "py", n ) << " = ny_" << n << ";\n";
+            }
+        }
+    } else {
+        // dm_... = ...
+        for( std::size_t n = 0; n < ops.size(); ++n ) {
+            const Op &op = ops[ n ];
+            if ( op.split() )
+                os << sp << "TF dm_" << n << " = " << d( "di", op.n0() ) << " / ( " << d( "di", op.n1() ) << " - " << d( "di", op.n0() ) << " );\n";
+        }
+
+        // nx_... = ...
+        for( std::size_t n = 0; n < ops.size(); ++n ) {
+            const Op &op = ops[ n ];
+            if ( op.split() ) {
+                os << sp << "TF nx_" << n << " = " << d( "px", op.n0() ) << " - dm_" << n << " * ( " << d( "px", op.n1() ) << " - " << d( "px", op.n0() ) << " );\n";
+                os << sp << "TF ny_" << n << " = " << d( "py", op.n0() ) << " - dm_" << n << " * ( " << d( "py", op.n1() ) << " - " << d( "py", op.n0() ) << " );\n";
+            } else if ( op.inside_node() != n ) {
+                os << sp << "TF nx_" << n << " = " << d( "px", op.inside_node() ) << ";\n";
+                os << sp << "TF ny_" << n << " = " << d( "py", op.inside_node() ) << ";\n";
+            }
+        }
+
+        // px_... = ...
+        for( std::size_t n = 0; n < ops.size(); ++n ) {
+            const Op &op = ops[ n ];
+            if ( op.split() || op.inside_node() != n ) {
+                os << sp << d( "px", n ) << " = nx_" << n << ";\n";
+                os << sp << d( "py", n ) << " = ny_" << n << ";\n";
+            }
+        }
+    }
+}
+
+bool get_code( std::ostringstream &os, std::string variant, std::size_t nb_nodes, std::bitset<8> outside, int simd_size, int nb_regs ) {
     // make a ref Mod
     Mod ref_mod;
     for( std::size_t i = 0; i < nb_nodes; ++i ) {
@@ -103,7 +238,7 @@ bool get_code( std::ostringstream &os, std::size_t nb_nodes, std::bitset<8> outs
             mod.sw( sw_val );
             mod.rotate( ro );
 
-            double score = mod.score();
+            double score = mod.score( variant, simd_size, nb_regs );
             if ( best_score > score ) {
                 best_score = score;
                 best_mod = mod;
@@ -111,8 +246,11 @@ bool get_code( std::ostringstream &os, std::size_t nb_nodes, std::bitset<8> outs
         }
     }
 
-    //
+    // write the code
     os << "        // nb_nodes:" << nb_nodes << " outside:" << outside << " ops:" << best_mod.ops << "\n";
+    if ( nb_nodes != best_mod.ops.size() )
+        os << "        nodes_size = " << best_mod.ops.size() << ";\n";
+    best_mod.write( os, variant, simd_size, nb_regs );
 
     return true;
 }
@@ -182,7 +320,7 @@ void generate( std::ostream &os, std::string variant ) {
     for( std::size_t nb_nodes = 3; nb_nodes <= nb_regs * simd_size; ++nb_nodes ) {
         for( int outside_case = 0; outside_case < ( 1 << nb_nodes ); ++outside_case ) {
             std::ostringstream code;
-            if ( get_code( code, nb_nodes, outside_case, simd_size, nb_regs ) ) {
+            if ( get_code( code, variant, nb_nodes, outside_case, simd_size, nb_regs ) ) {
                 // get number
                 auto iter = code_map.find( code.str() );
                 if ( iter == code_map.end() )

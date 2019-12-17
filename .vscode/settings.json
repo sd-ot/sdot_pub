@@ -8,6 +8,10 @@
         "**/ooc/**": true,
         "**/vtk/**": true
     },
+    "C_Cpp.default.defines": [ 
+        "${default}",
+        "LOC_PARSE=1"
+    ],
     "spellright.language": [
         "en_US"
     ],
