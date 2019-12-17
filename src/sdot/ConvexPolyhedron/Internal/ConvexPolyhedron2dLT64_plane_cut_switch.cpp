@@ -21,12 +21,18 @@ struct Op {
     }
 
     double cost( int i ) const {
-        if ( i1 >= 0 )
+        if ( split() )
             return 1e-2 * ( i0 != i && i1 != i );
         return i0 != i;
     }
 
-    bool going_inside() const { return dir < 0; }
+    bool going_inside() const {
+        return dir < 0;
+    }
+
+    bool split() const {
+        return i1 >= 0;
+    }
 
     int i0;  ///<
     int i1;  ///< -1 means we take the values only from i0. if != -1, it is the outside node (and i0 is inside)
@@ -52,6 +58,13 @@ struct Mod {
             }
         }
 
+        //        for( std::size_t i = 0; i < ops.size(); ++i ) {
+        //            if ( ops[ i ].split() && ops[ ( i + 1 ) % ops.size() ].split() ) {
+        //                best_offset = i;
+        //                break;
+        //            }
+        //        }
+
         std::vector<Op> new_ops;
         for( std::size_t i = 0; i < ops.size(); ++i )
             new_ops.push_back( ops[ ( i + best_offset ) % ops.size() ] );
@@ -65,187 +78,187 @@ struct Mod {
         return res;
     }
 
-    //    void write_code_mm256xy( std::ostream &code, int simd_size, int nb_regs ) {
+    //    //    void write_code_mm256xy( std::ostream &code, int simd_size, int nb_regs ) {
+    //    //        // get op indices for each type of operation
+    //    //        std::vector<std::size_t> permutation_indices, interpolation_indices;
+    //    //        for( std::size_t i = 0; i < std::min( ops.size(), std::size_t( nb_regs * simd_size ) ); ++i ) {
+    //    //            if ( ops[ i ].i1 >= 0 )
+    //    //                interpolation_indices.push_back( i );
+    //    //            else
+    //    //                permutation_indices.push_back( i );
+    //    //        }
+
+    //    //        // make `idx_0` and `idy_0` (for _mm512_permutex2var_pd)
+    //    //        std::uint64_t idx_0 = 0, idy_0 = 0;
+    //    //        for( std::size_t i = 0; i < interpolation_indices.size(); ++i ) {
+    //    //            idx_0 += ( std::uint64_t( 8 + 2 * i ) << 8 * interpolation_indices[ i ] );
+    //    //            idy_0 += ( std::uint64_t( 9 + 2 * i ) << 8 * interpolation_indices[ i ] );
+    //    //        }
+    //    //        for( std::size_t i : permutation_indices ) {
+    //    //            idx_0 += std::uint64_t( ops[ i ].i0 ) << 8 * i;
+    //    //            idy_0 += std::uint64_t( ops[ i ].i0 ) << 8 * i;
+    //    //        }
+    //    //        code << "    __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x" << std::hex << idx_0 << "ul ) );\n";
+    //    //        code << "    __m512i idy_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x" << std::hex << idy_0 << "ul ) );\n";
+    //    //        if ( nb_regs > 1 )
+    //    //            TODO;
+
+    //    //        if ( interpolation_indices.size() == 2 ) {
+    //    //            auto set_pd = [&]( std::string out, std::string x, std::string y, int i0, int i1 ) {
+    //    //                if ( i0 == i1 && x == y )
+    //    //                    code << "    __m256d " << out << " = _mm256_set1_pd( " << x << "_" << i0 << " );\n";
+    //    //                else if ( x == y )
+    //    //                    code << "    __m256d " << out << " = _mm256_set_pd( " << y << "_" << i1 << ", " << x << "_" << i1 << ", " << y << "_" << i0 << ", " << x << "_" << i0 << " );\n";
+    //    //                else
+    //    //                    code << "    __m256d " << out << " = _mm256_set_pd( " << y << "_" << i1 << ", " << x << "_" << i1 << ", " << y << "_" << i0 << ", " << x << "_" << i0 << " );\n";
+    //    //            };
+
+    //    //            std::size_t it_0 = interpolation_indices[ 0 ];
+    //    //            std::size_t it_1 = interpolation_indices[ 1 ];
+    //    //            const Op &op_0 = ops[ it_0 ];
+    //    //            const Op &op_1 = ops[ it_1 ];
+
+    //    //            set_pd( "d_i0", "d", "d", op_0.i0, op_1.i0 );
+    //    //            set_pd( "z_i0", "x", "y", op_0.i0, op_1.i0 );
+
+    //    //            set_pd( "d_i1", "d", "d", op_0.i1, op_1.i1 );
+    //    //            set_pd( "z_i1", "x", "y", op_0.i1, op_1.i1 );
+
+    //    //            code << "    __m256d m = _mm256_div_pd( d_i0, _mm256_sub_pd( d_i1, d_i0 ) );\n";
+    //    //            code << "    __m512d inter_z = _mm512_castpd256_pd512( _mm256_sub_pd( z_i0, _mm256_mul_pd( m, _mm256_sub_pd( z_i1, z_i0 ) ) ) );\n";
+    //    //        } else {
+    //    //            ASSERT( interpolation_indices.size() == 1, "weird" );
+    //    //            std::size_t it_0 = interpolation_indices[ 0 ];
+    //    //            const Op &op_0 = ops[ it_0 ];
+
+    //    //            code << "    TF m = d_" << op_0.i0 << " / ( d_" << op_0.i1 << " - d_" << op_0.i0 << " ); // 1\n";
+    //    //            code << "    __m512d inter_z = _mm512_castpd128_pd512( _mm_set_pd( y_" << op_0.i0 << " - m * ( y_" << op_0.i1 << " - y_" << op_0.i0 << " ), x_" << op_0.i0 << " - m * ( x_" << op_0.i1 << " - x_" << op_0.i0 << " ) ) );\n";
+    //    //        }
+
+    //    //        code << "    px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_z );\n";
+    //    //        code << "    py_0 = _mm512_permutex2var_pd( py_0, idy_0, inter_z );\n";
+    //    //    }
+
+    //    void write_code_mm128( std::ostream &code, int simd_size, bool inplace = false ) {
+    //        // helper
+    //        auto disp_c = [&]( const Op &op ) {
+    //            if ( op.dir > 0 )
+    //                code << "(long long)cut_ids[ num_cut ]";
+    //            else
+    //                code << "(long long)pc[ " << op.i0 << " ]";
+    //        };
+
     //        // get op indices for each type of operation
     //        std::vector<std::size_t> permutation_indices, interpolation_indices;
-    //        for( std::size_t i = 0; i < std::min( ops.size(), std::size_t( nb_regs * simd_size ) ); ++i ) {
+    //        for( std::size_t i = 0; i < std::min( ops.size(), std::size_t( simd_size ) ); ++i ) {
     //            if ( ops[ i ].i1 >= 0 )
     //                interpolation_indices.push_back( i );
     //            else
     //                permutation_indices.push_back( i );
     //        }
 
-    //        // make `idx_0` and `idy_0` (for _mm512_permutex2var_pd)
-    //        std::uint64_t idx_0 = 0, idy_0 = 0;
-    //        for( std::size_t i = 0; i < interpolation_indices.size(); ++i ) {
-    //            idx_0 += ( std::uint64_t( 8 + 2 * i ) << 8 * interpolation_indices[ i ] );
-    //            idy_0 += ( std::uint64_t( 9 + 2 * i ) << 8 * interpolation_indices[ i ] );
-    //        }
-    //        for( std::size_t i : permutation_indices ) {
-    //            idx_0 += std::uint64_t( ops[ i ].i0 ) << 8 * i;
-    //            idy_0 += std::uint64_t( ops[ i ].i0 ) << 8 * i;
-    //        }
-    //        code << "    __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x" << std::hex << idx_0 << "ul ) );\n";
-    //        code << "    __m512i idy_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x" << std::hex << idy_0 << "ul ) );\n";
-    //        if ( nb_regs > 1 )
-    //            TODO;
-
     //        if ( interpolation_indices.size() == 2 ) {
-    //            auto set_pd = [&]( std::string out, std::string x, std::string y, int i0, int i1 ) {
-    //                if ( i0 == i1 && x == y )
-    //                    code << "    __m256d " << out << " = _mm256_set1_pd( " << x << "_" << i0 << " );\n";
-    //                else if ( x == y )
-    //                    code << "    __m256d " << out << " = _mm256_set_pd( " << y << "_" << i1 << ", " << x << "_" << i1 << ", " << y << "_" << i0 << ", " << x << "_" << i0 << " );\n";
-    //                else
-    //                    code << "    __m256d " << out << " = _mm256_set_pd( " << y << "_" << i1 << ", " << x << "_" << i1 << ", " << y << "_" << i0 << ", " << x << "_" << i0 << " );\n";
-    //            };
+    //            if ( inplace ) {
+    //                std::size_t it_0 = interpolation_indices[ 0 ];
+    //                std::size_t it_1 = interpolation_indices[ 1 ];
 
-    //            std::size_t it_0 = interpolation_indices[ 0 ];
-    //            std::size_t it_1 = interpolation_indices[ 1 ];
-    //            const Op &op_0 = ops[ it_0 ];
-    //            const Op &op_1 = ops[ it_1 ];
+    //                int op0_i0 = ops[ it_0 ].i0, op0_i1 = ops[ it_0 ].i1;
+    //                int op1_i0 = ops[ it_1 ].i0, op1_i1 = ops[ it_1 ].i1;
+    //                if ( op0_i0 == op1_i0 )
+    //                    std::swap( op0_i0, op0_i1 );
 
-    //            set_pd( "d_i0", "d", "d", op_0.i0, op_1.i0 );
-    //            set_pd( "z_i0", "x", "y", op_0.i0, op_1.i0 );
+    //                // make a `idx_0` (for _mm512_permutex2var_pd)
+    //                std::uint64_t idx_0 = 0;
+    //                idx_0 += std::uint64_t( op0_i0 + 8 ) << 8 * it_0;
+    //                idx_0 += std::uint64_t( op1_i0 + 8 ) << 8 * it_1;
+    //                for( std::size_t i : permutation_indices )
+    //                    idx_0 += std::uint64_t( ops[ i ].i0 ) << 8 * i;
+    //                code << "    __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x" << std::hex << idx_0 << "ul ) );\n";
 
-    //            set_pd( "d_i1", "d", "d", op_0.i1, op_1.i1 );
-    //            set_pd( "z_i1", "x", "y", op_0.i1, op_1.i1 );
+    //                // gather values (send i1 values to respective i0 positions)
+    //                std::uint64_t idx_j = 0;
+    //                idx_j += std::uint64_t( op0_i1 ) << 8 * op0_i0;
+    //                idx_j += std::uint64_t( op1_i1 ) << 8 * op1_i0;
+    //                code << "    __m512i idx_j = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x" << std::hex << idx_j << "ul ) );\n";
 
-    //            code << "    __m256d m = _mm256_div_pd( d_i0, _mm256_sub_pd( d_i1, d_i0 ) );\n";
-    //            code << "    __m512d inter_z = _mm512_castpd256_pd512( _mm256_sub_pd( z_i0, _mm256_mul_pd( m, _mm256_sub_pd( z_i1, z_i0 ) ) ) );\n";
+    //                code << "    __m512d di_j = _mm512_permutex2var_pd( di_0, idx_j, di_0 );\n";
+    //                code << "    __m512d px_j = _mm512_permutex2var_pd( px_0, idx_j, px_0 );\n";
+    //                code << "    __m512d py_j = _mm512_permutex2var_pd( py_0, idx_j, py_0 );\n";
+
+    //                int mask = 0;
+    //                mask += 1 << op0_i0;
+    //                mask += 1 << op1_i0;
+
+    //                // code << "         __m512d m = _mm512_div_pd( di_0, _mm512_sub_pd( di_j, di_0 ) );\n";
+    //                code << "    __m512d m = _mm512_maskz_div_pd( " << std::dec << mask << ", di_0, _mm512_sub_pd( di_j, di_0 ) );\n";
+    //                code << "    __m512d inter_x = _mm512_sub_pd( px_0, _mm512_mul_pd( m, _mm512_sub_pd( px_j, px_0 ) ) );\n";
+    //                code << "    __m512d inter_y = _mm512_sub_pd( py_0, _mm512_mul_pd( m, _mm512_sub_pd( py_j, py_0 ) ) );\n";
+    //            } else {
+    //                // make a `idx_0` (for _mm512_permutex2var_pd)
+    //                std::uint64_t idx_0 = 0;
+    //                for( std::size_t i = 0; i < interpolation_indices.size(); ++i )
+    //                    idx_0 += std::uint64_t( 8 + i ) << 8 * interpolation_indices[ i ];
+    //                for( std::size_t i : permutation_indices )
+    //                    idx_0 += std::uint64_t( ops[ i ].i0 ) << 8 * i;
+    //                code << "    __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x" << std::hex << idx_0 << std::dec << "ul ) );\n";
+
+    //                // gather values
+    //                auto set_pd = [&]( std::string out, std::string inp, int i0, int i1 ) {
+    //                    if ( i0 != i1 )
+    //                        code << "    __m128d " << out << " = _mm_set_pd( " << inp << "_" << i1 << ", " << inp << "_" << i0 << " );\n";
+    //                    else
+    //                        code << "    __m128d " << out << " = _mm_set1_pd( " << inp << "_" << i0 << " );\n";
+    //                };
+
+    //                std::size_t it_0 = interpolation_indices[ 0 ];
+    //                std::size_t it_1 = interpolation_indices[ 1 ];
+    //                const Op &op_0 = ops[ it_0 ];
+    //                const Op &op_1 = ops[ it_1 ];
+
+    //                set_pd( "d_i0", "d", op_0.i0, op_1.i0 );
+    //                set_pd( "x_i0", "x", op_0.i0, op_1.i0 );
+    //                set_pd( "y_i0", "y", op_0.i0, op_1.i0 );
+
+    //                set_pd( "d_i1", "d", op_0.i1, op_1.i1 );
+    //                set_pd( "x_i1", "x", op_0.i1, op_1.i1 );
+    //                set_pd( "y_i1", "y", op_0.i1, op_1.i1 );
+
+    //                code << "    __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );\n";
+    //                code << "    __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );\n";
+    //                code << "    __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );\n";
+
+    //                code << "    __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( ";
+    //                disp_c( op_1 );
+    //                code << ", ";
+    //                disp_c( op_0 );
+    //                code << " ) );\n";
+    //            }
     //        } else {
+    //            // make a `idx_0` (for _mm512_permutex2var_pd)
+    //            std::uint64_t idx_0 = 0;
+    //            for( std::size_t i = 0; i < interpolation_indices.size(); ++i )
+    //                idx_0 += ( std::uint64_t( 8 + i ) << 8 * interpolation_indices[ i ] );
+    //            for( std::size_t i : permutation_indices )
+    //                idx_0 += std::uint64_t( ops[ i ].i0 ) << 8 * i;
+    //            code << "    __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x" << std::hex << idx_0 << std::dec << "ul ) );\n";
+
+    //            // compute the new values
     //            ASSERT( interpolation_indices.size() == 1, "weird" );
     //            std::size_t it_0 = interpolation_indices[ 0 ];
     //            const Op &op_0 = ops[ it_0 ];
 
     //            code << "    TF m = d_" << op_0.i0 << " / ( d_" << op_0.i1 << " - d_" << op_0.i0 << " ); // 1\n";
-    //            code << "    __m512d inter_z = _mm512_castpd128_pd512( _mm_set_pd( y_" << op_0.i0 << " - m * ( y_" << op_0.i1 << " - y_" << op_0.i0 << " ), x_" << op_0.i0 << " - m * ( x_" << op_0.i1 << " - x_" << op_0.i0 << " ) ) );\n";
+    //            code << "    __m512d inter_x = _mm512_set1_pd( x_" << op_0.i0 << " - m * ( x_" << op_0.i1 << " - x_" << op_0.i0 << " ) );\n";
+    //            code << "    __m512d inter_y = _mm512_set1_pd( y_" << op_0.i0 << " - m * ( y_" << op_0.i1 << " - y_" << op_0.i0 << " ) );\n";
+    //            code << "    __m512i inter_c = _mm512_set1_epi64( ";
+    //            disp_c( op_0 );
+    //            code << " );\n";
     //        }
 
-    //        code << "    px_0 = _mm512_permutex2var_pd( px_0, idx_0, inter_z );\n";
-    //        code << "    py_0 = _mm512_permutex2var_pd( py_0, idy_0, inter_z );\n";
+    //        code << "    px = px.permute( px, idx_0, inter_x );\n";
+    //        code << "    py = _mm512_permutex2var_pd( py, idx_0, inter_y );\n";
+    //        code << "    pc = _mm512_permutex2var_epi64( pc, idx_0, inter_c );\n";
     //    }
-
-    void write_code_mm128( std::ostream &code, int simd_size, bool inplace = false ) {
-        // helper
-        auto disp_c = [&]( const Op &op ) {
-            if ( op.dir > 0 )
-                code << "(long long)cut_ids[ num_cut ]";
-            else
-                code << "(long long)pc[ " << op.i0 << " ]";
-        };
-
-        // get op indices for each type of operation
-        std::vector<std::size_t> permutation_indices, interpolation_indices;
-        for( std::size_t i = 0; i < std::min( ops.size(), std::size_t( simd_size ) ); ++i ) {
-            if ( ops[ i ].i1 >= 0 )
-                interpolation_indices.push_back( i );
-            else
-                permutation_indices.push_back( i );
-        }
-
-        if ( interpolation_indices.size() == 2 ) {
-            if ( inplace ) {
-                std::size_t it_0 = interpolation_indices[ 0 ];
-                std::size_t it_1 = interpolation_indices[ 1 ];
-
-                int op0_i0 = ops[ it_0 ].i0, op0_i1 = ops[ it_0 ].i1;
-                int op1_i0 = ops[ it_1 ].i0, op1_i1 = ops[ it_1 ].i1;
-                if ( op0_i0 == op1_i0 )
-                    std::swap( op0_i0, op0_i1 );
-
-                // make a `idx_0` (for _mm512_permutex2var_pd)
-                std::uint64_t idx_0 = 0;
-                idx_0 += std::uint64_t( op0_i0 + 8 ) << 8 * it_0;
-                idx_0 += std::uint64_t( op1_i0 + 8 ) << 8 * it_1;
-                for( std::size_t i : permutation_indices )
-                    idx_0 += std::uint64_t( ops[ i ].i0 ) << 8 * i;
-                code << "    __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x" << std::hex << idx_0 << "ul ) );\n";
-
-                // gather values (send i1 values to respective i0 positions)
-                std::uint64_t idx_j = 0;
-                idx_j += std::uint64_t( op0_i1 ) << 8 * op0_i0;
-                idx_j += std::uint64_t( op1_i1 ) << 8 * op1_i0;
-                code << "    __m512i idx_j = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x" << std::hex << idx_j << "ul ) );\n";
-
-                code << "    __m512d di_j = _mm512_permutex2var_pd( di_0, idx_j, di_0 );\n";
-                code << "    __m512d px_j = _mm512_permutex2var_pd( px_0, idx_j, px_0 );\n";
-                code << "    __m512d py_j = _mm512_permutex2var_pd( py_0, idx_j, py_0 );\n";
-
-                int mask = 0;
-                mask += 1 << op0_i0;
-                mask += 1 << op1_i0;
-
-                // code << "         __m512d m = _mm512_div_pd( di_0, _mm512_sub_pd( di_j, di_0 ) );\n";
-                code << "    __m512d m = _mm512_maskz_div_pd( " << std::dec << mask << ", di_0, _mm512_sub_pd( di_j, di_0 ) );\n";
-                code << "    __m512d inter_x = _mm512_sub_pd( px_0, _mm512_mul_pd( m, _mm512_sub_pd( px_j, px_0 ) ) );\n";
-                code << "    __m512d inter_y = _mm512_sub_pd( py_0, _mm512_mul_pd( m, _mm512_sub_pd( py_j, py_0 ) ) );\n";
-            } else {
-                // make a `idx_0` (for _mm512_permutex2var_pd)
-                std::uint64_t idx_0 = 0;
-                for( std::size_t i = 0; i < interpolation_indices.size(); ++i )
-                    idx_0 += std::uint64_t( 8 + i ) << 8 * interpolation_indices[ i ];
-                for( std::size_t i : permutation_indices )
-                    idx_0 += std::uint64_t( ops[ i ].i0 ) << 8 * i;
-                code << "    __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x" << std::hex << idx_0 << std::dec << "ul ) );\n";
-
-                // gather values
-                auto set_pd = [&]( std::string out, std::string inp, int i0, int i1 ) {
-                    if ( i0 != i1 )
-                        code << "    __m128d " << out << " = _mm_set_pd( " << inp << "_" << i1 << ", " << inp << "_" << i0 << " );\n";
-                    else
-                        code << "    __m128d " << out << " = _mm_set1_pd( " << inp << "_" << i0 << " );\n";
-                };
-
-                std::size_t it_0 = interpolation_indices[ 0 ];
-                std::size_t it_1 = interpolation_indices[ 1 ];
-                const Op &op_0 = ops[ it_0 ];
-                const Op &op_1 = ops[ it_1 ];
-
-                set_pd( "d_i0", "d", op_0.i0, op_1.i0 );
-                set_pd( "x_i0", "x", op_0.i0, op_1.i0 );
-                set_pd( "y_i0", "y", op_0.i0, op_1.i0 );
-
-                set_pd( "d_i1", "d", op_0.i1, op_1.i1 );
-                set_pd( "x_i1", "x", op_0.i1, op_1.i1 );
-                set_pd( "y_i1", "y", op_0.i1, op_1.i1 );
-
-                code << "    __m128d m = _mm_div_pd( d_i0, _mm_sub_pd( d_i1, d_i0 ) );\n";
-                code << "    __m512d inter_x = _mm512_castpd128_pd512( _mm_sub_pd( x_i0, _mm_mul_pd( m, _mm_sub_pd( x_i1, x_i0 ) ) ) );\n";
-                code << "    __m512d inter_y = _mm512_castpd128_pd512( _mm_sub_pd( y_i0, _mm_mul_pd( m, _mm_sub_pd( y_i1, y_i0 ) ) ) );\n";
-
-                code << "    __m512i inter_c = _mm512_castsi128_si512( _mm_set_epi64x( ";
-                disp_c( op_1 );
-                code << ", ";
-                disp_c( op_0 );
-                code << " ) );\n";
-            }
-        } else {
-            // make a `idx_0` (for _mm512_permutex2var_pd)
-            std::uint64_t idx_0 = 0;
-            for( std::size_t i = 0; i < interpolation_indices.size(); ++i )
-                idx_0 += ( std::uint64_t( 8 + i ) << 8 * interpolation_indices[ i ] );
-            for( std::size_t i : permutation_indices )
-                idx_0 += std::uint64_t( ops[ i ].i0 ) << 8 * i;
-            code << "    __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x" << std::hex << idx_0 << std::dec << "ul ) );\n";
-
-            // compute the new values
-            ASSERT( interpolation_indices.size() == 1, "weird" );
-            std::size_t it_0 = interpolation_indices[ 0 ];
-            const Op &op_0 = ops[ it_0 ];
-
-            code << "    TF m = d_" << op_0.i0 << " / ( d_" << op_0.i1 << " - d_" << op_0.i0 << " ); // 1\n";
-            code << "    __m512d inter_x = _mm512_set1_pd( x_" << op_0.i0 << " - m * ( x_" << op_0.i1 << " - x_" << op_0.i0 << " ) );\n";
-            code << "    __m512d inter_y = _mm512_set1_pd( y_" << op_0.i0 << " - m * ( y_" << op_0.i1 << " - y_" << op_0.i0 << " ) );\n";
-            code << "    __m512i inter_c = _mm512_set1_epi64( ";
-            disp_c( op_0 );
-            code << " );\n";
-        }
-
-        code << "    px = px.permute( px, idx_0, inter_x );\n";
-        code << "    py = _mm512_permutex2var_pd( py, idx_0, inter_y );\n";
-        code << "    pc = _mm512_permutex2var_epi64( pc, idx_0, inter_c );\n";
-    }
 
     void write_code_scalar( std::ostream &code, int simd_size ) {
         auto s = [&]( std::string res, std::string a, std::string b ) { return a != b ? "SimdVec<TF,2> " + res + "( " + a + ", " + b + " );\n" : "SimdVec<TF,2> " + res + "( " + a + " );\n"; };
@@ -288,8 +301,6 @@ struct Mod {
             code << "    SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );\n";
             code << "    SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );\n";
 
-            //            code << "    TF nc_" << op_ratios[ 0 ] << " = " << ( o0.going_inside() ? c( o0.i0 /*the outside node*/ ) : "cut_ids[ num_cut ]" ) << ";\n";
-            //            code << "    TF nc_" << op_ratios[ 1 ] << " = " << ( o1.going_inside() ? c( o1.i0 /*the outside node*/ ) : "cut_ids[ num_cut ]" ) << ";\n";
             code << "    TF nc_" << op_ratios[ 0 ] << " = " << ( o0.going_inside() ? c( o0.i0 /*the outside node*/ ) : "ci" ) << ";\n";
             code << "    TF nc_" << op_ratios[ 1 ] << " = " << ( o1.going_inside() ? c( o1.i0 /*the outside node*/ ) : "ci" ) << ";\n";
 
