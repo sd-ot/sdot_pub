@@ -92,6 +92,9 @@ void ConvexPolyhedron<Pc,2,ConvexPolyhedronOpt::Lt64>::plane_cut( std::array<con
     // max 8 nodes version (we store coords in registers)
     std::size_t num_cut = 0;
     if ( nodes_size <= 8 ) {
+        // #include "(ConvexPolyhedron2dLT64_plane_cut_switch.cpp).h"
+
+
         using LF = SimdVec<TF,8>;
         using LC = SimdVec<CI,8>;
 
@@ -122,14 +125,12 @@ void ConvexPolyhedron<Pc,2,ConvexPolyhedronOpt::Lt64>::plane_cut( std::array<con
 
             LF bi = px * LF( cx ) + py * LF( cy );
             std::uint16_t outside_nodes = ( bi > LF( cs ) ) & ( nmsk - 1 );
+            std::uint16_t case_code = outside_nodes | nmsk;
+            LF di = bi - LF( cs );
 
             // if nothing has changed => go to the next cut
             if ( outside_nodes == 0 )
                 continue;
-
-            //
-            std::uint16_t case_code = outside_nodes | nmsk;
-            LF di = bi - LF( cs );
 
             // generated code (that may return or break)
             #include "(ConvexPolyhedron2dLT64_plane_cut_switch.cpp).h"

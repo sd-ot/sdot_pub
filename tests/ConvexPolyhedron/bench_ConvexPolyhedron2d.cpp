@@ -5,10 +5,10 @@
 #include "../../src/sdot/Support/P.h"
 using namespace sdot;
 
-//// nsmake cpp_flag -march=skylake
+// // nsmake cpp_flag -march=skylake
 
 //// nsmake cxx_name clang++
-// // nsmake cpp_flag -march=native
+//// nsmake cpp_flag -march=native
 //// nsmake cpp_flag -ffast-math
 //// nsmake cpp_flag -O3
 
@@ -62,6 +62,7 @@ void bench( std::size_t nb_reps ) {
     double dt_cut_proc = 1.0 * ( t1 - t0 ) / nb_reps;
     double nb_cycles_per_cut = ( dt_cut_proc - dt_set_box ) / xs.size();
 
+    P( cp );
     P( ti1 - ti0, nb_cycles_per_cut );
 }
 

@@ -37,6 +37,7 @@ struct Op {
     int i0;  ///<
     int i1;  ///< -1 means we take the values only from i0. if != -1, it is the outside node (and i0 is inside)
     int dir; ///< 1 -> going out, -1 -> going in, 0 -> staying inside
+    int num;
 };
 
 /**
@@ -286,25 +287,54 @@ struct Mod {
 
         if ( op_ratios.size() == 2 ) {
             // ratio, SIMD version
-            const Op &o0 = ops[ op_ratios[ 0 ] ];
-            const Op &o1 = ops[ op_ratios[ 1 ] ];
+            Op &o0 = ops[ op_ratios[ 0 ] ];
+            Op &o1 = ops[ op_ratios[ 1 ] ];
+            o0.num = 0;
+            o1.num = 1;
 
-            code << "    " << s( "dm0", "d_" + std::to_string( o0.i0 ), "d_" + std::to_string( o1.i0 ) );
-            code << "    " << s( "dm1", "d_" + std::to_string( o0.i1 ), "d_" + std::to_string( o1.i1 ) );
-            code << "    SimdVec<TF,2> m = dm0 / ( dm1 - dm0 );\n";
+            code << "    " << s( "inter_m0", "d_" + std::to_string( o0.i0 ), "d_" + std::to_string( o1.i0 ) );
+            code << "    " << s( "inter_m1", "d_" + std::to_string( o0.i1 ), "d_" + std::to_string( o1.i1 ) );
+            code << "    SimdVec<TF,2> inter_m = inter_m0 / ( inter_m1 - inter_m0 );\n";
             // coordinates, cut_ids
-            code << "    " << s( "dx0", "x_" + std::to_string( o0.i0 ), "x_" + std::to_string( o1.i0 ) );
-            code << "    " << s( "dx1", "x_" + std::to_string( o0.i1 ), "x_" + std::to_string( o1.i1 ) );
-            code << "    " << s( "dy0", "y_" + std::to_string( o0.i0 ), "y_" + std::to_string( o1.i0 ) );
-            code << "    " << s( "dy1", "y_" + std::to_string( o0.i1 ), "y_" + std::to_string( o1.i1 ) );
+            code << "    " << s( "inter_x0", "x_" + std::to_string( o0.i0 ), "x_" + std::to_string( o1.i0 ) );
+            code << "    " << s( "inter_x1", "x_" + std::to_string( o0.i1 ), "x_" + std::to_string( o1.i1 ) );
+            code << "    " << s( "inter_y0", "y_" + std::to_string( o0.i0 ), "y_" + std::to_string( o1.i0 ) );
+            code << "    " << s( "inter_y1", "y_" + std::to_string( o0.i1 ), "y_" + std::to_string( o1.i1 ) );
 
-            code << "    SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );\n";
-            code << "    SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );\n";
+            code << "    SimdVec<TF,2> inter_x = inter_x0 - inter_m * ( inter_x1 - inter_x0 );\n";
+            code << "    SimdVec<TF,2> inter_y = inter_y0 - inter_m * ( inter_y1 - inter_y0 );\n";
 
+            // save
+            // AVX512
+            code << "    #ifdef __AVX512F__\n";
+
+            // get op indices for each type of operation
+            std::vector<std::size_t> permutation_indices, interpolation_indices;
+            for( std::size_t i = 0; i < std::min( ops.size(), std::size_t( simd_size ) ); ++i ) {
+                if ( ops[ i ].i1 >= 0 )
+                    interpolation_indices.push_back( i );
+                else
+                    permutation_indices.push_back( i );
+            }
+
+            std::uint64_t idx_0 = 0;
+            for( std::size_t i = 0; i < interpolation_indices.size(); ++i )
+                idx_0 += std::uint64_t( 8 + i ) << 8 * interpolation_indices[ i ];
+            for( std::size_t i : permutation_indices )
+                idx_0 += std::uint64_t( ops[ i ].i0 ) << 8 * i;
+            code << "    __m512i idx_0 = _mm512_cvtepu8_epi64( _mm_cvtsi64_si128( 0x" << std::hex << idx_0 << std::dec << "ul ) );\n";
+
+            code << "    __m128i inter_c = _mm_set_epi64x( " << ( o0.going_inside() ? c( o0.i0 /*the outside node*/ ) : "ci" ) << ", " << ( o1.going_inside() ? c( o1.i0 /*the outside node*/ ) : "ci" ) << " );\n";
+
+            code << "    px.values = _mm512_permutex2var_pd   ( px.values, idx_0, _mm512_castpd128_pd512( inter_x.values ) );\n";
+            code << "    py.values = _mm512_permutex2var_pd   ( py.values, idx_0, _mm512_castpd128_pd512( inter_y.values ) );\n";
+            code << "    pc.values = _mm512_permutex2var_epi64( pc.values, idx_0, _mm512_castsi128_si512( inter_c ) );\n";
+
+            // generic version
+            code << "    #else // __AVX512F__\n";
             code << "    TF nc_" << op_ratios[ 0 ] << " = " << ( o0.going_inside() ? c( o0.i0 /*the outside node*/ ) : "ci" ) << ";\n";
             code << "    TF nc_" << op_ratios[ 1 ] << " = " << ( o1.going_inside() ? c( o1.i0 /*the outside node*/ ) : "ci" ) << ";\n";
 
-            // save
             for( std::size_t i = 0; i < ops.size(); ++i ) {
                 const Op &op = ops[ i ];
                 if ( op.i1 < 0 && op.i0 != int( i ) ) {
@@ -315,10 +345,11 @@ struct Mod {
             }
 
             for( std::size_t i = 0; i < 2; ++i ) {
-                code << "    " << x( op_ratios[ i ] ) << " = dxm[ " << i << " ];\n";
-                code << "    " << y( op_ratios[ i ] ) << " = dym[ " << i << " ];\n";
+                code << "    " << x( op_ratios[ i ] ) << " = inter_xm[ " << i << " ];\n";
+                code << "    " << y( op_ratios[ i ] ) << " = inter_ym[ " << i << " ];\n";
                 code << "    " << c( op_ratios[ i ] ) << " = nc_" << op_ratios[ i ] << ";\n";
             }
+            code << "    #endif // no __AVX512F__\n";
         } else {
             // ratio, scalar version
             for( std::size_t i = 0; i < ops.size(); ++i ) {

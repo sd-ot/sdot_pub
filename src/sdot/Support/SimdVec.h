@@ -229,6 +229,7 @@ template<class _TF,int _size=SimdSize<_TF>::value> struct SimdVec {
         using          T            = double;
 
         /**/           SimdVec      ( __m512d values ) : values( values ) {}
+        /**/           SimdVec      ( T a, T b, T c, T d, T e, T f, T g, T h ) { values = _mm512_set_pd( h, g, f, e, d, c, b, a ); }
         /**/           SimdVec      ( T value ) { values = _mm512_set1_pd( value ); }
         /**/           SimdVec      () {}
 
