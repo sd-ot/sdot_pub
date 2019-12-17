@@ -76,8 +76,16 @@ bool get_code( std::ostringstream &os, std::size_t nb_nodes, std::bitset<8> outs
 
     // everything is outside
     if ( ref_mod.ops.empty() ) {
+        os << "        // everything is outside\n";
         os << "        nodes_size = 0;\n";
         os << "        return fu( *this );\n";
+        return true;
+    }
+
+    // everything is inside
+    if ( ref_mod.split_indices().empty() ) {
+        os << "        // everything is inside\n";
+        os << "        continue;\n";
         return true;
     }
 
@@ -171,7 +179,7 @@ void generate( std::ostream &os, std::string variant ) {
     case_nums.resize( 1 << ( nb_regs * simd_size + 1 ), 0 );
     code_map[ "" ] = 0;
 
-    for( std::size_t nb_nodes = 0; nb_nodes <= nb_regs * simd_size; ++nb_nodes ) {
+    for( std::size_t nb_nodes = 3; nb_nodes <= nb_regs * simd_size; ++nb_nodes ) {
         for( int outside_case = 0; outside_case < ( 1 << nb_nodes ); ++outside_case ) {
             std::ostringstream code;
             if ( get_code( code, nb_nodes, outside_case, simd_size, nb_regs ) ) {
