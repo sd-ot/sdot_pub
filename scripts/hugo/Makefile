@@ -6,7 +6,8 @@ all:
 	# ${RUN} tests/benchmarks/bench_ConvexPolyhedron3b.cpp
 	# ${RUN} tests/ConvexPolyhedron/test_ConvexPolyhedron3d.cpp
 	# ${RUN} tests/ConvexPolyhedron/test_ConvexPolyhedron2d.cpp
-	${RUN} tests/ConvexPolyhedron/bench_ConvexPolyhedron2d.cpp
+	${RUN} tests/ConvexPolyhedron/bench_ConvexPolyhedron2d.cpp 800000
+	# valgrind --tool=callgrind --dump-instr=yes --collect-jumps=yes /home/leclerc/.nsmake/build/bench_ConvexPolyhedron2d.exe 80000
 
 smurf:
 	${RUN} tests/benchmarks/bench_Lgrid.cpp

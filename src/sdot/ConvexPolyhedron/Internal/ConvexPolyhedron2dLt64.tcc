@@ -117,6 +117,7 @@ void ConvexPolyhedron<Pc,2,ConvexPolyhedronOpt::Lt64>::plane_cut( std::array<con
             std::uint16_t nmsk = 1 << nodes_size;
             TF cx = cut_dir[ 0 ][ num_cut ];
             TF cy = cut_dir[ 1 ][ num_cut ];
+            CI ci = cut_ids[ num_cut ];
             TF cs = cut_ps[ num_cut ];
 
             LF bi = px * LF( cx ) + py * LF( cy );

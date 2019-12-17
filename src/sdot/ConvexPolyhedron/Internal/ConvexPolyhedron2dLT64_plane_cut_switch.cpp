@@ -288,8 +288,10 @@ struct Mod {
             code << "    SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );\n";
             code << "    SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );\n";
 
-            code << "    TF nc_" << op_ratios[ 0 ] << " = " << ( o0.going_inside() ? c( o0.i0 /*the outside node*/ ) : "cut_ids[ num_cut ]" ) << ";\n";
-            code << "    TF nc_" << op_ratios[ 1 ] << " = " << ( o1.going_inside() ? c( o1.i0 /*the outside node*/ ) : "cut_ids[ num_cut ]" ) << ";\n";
+            //            code << "    TF nc_" << op_ratios[ 0 ] << " = " << ( o0.going_inside() ? c( o0.i0 /*the outside node*/ ) : "cut_ids[ num_cut ]" ) << ";\n";
+            //            code << "    TF nc_" << op_ratios[ 1 ] << " = " << ( o1.going_inside() ? c( o1.i0 /*the outside node*/ ) : "cut_ids[ num_cut ]" ) << ";\n";
+            code << "    TF nc_" << op_ratios[ 0 ] << " = " << ( o0.going_inside() ? c( o0.i0 /*the outside node*/ ) : "ci" ) << ";\n";
+            code << "    TF nc_" << op_ratios[ 1 ] << " = " << ( o1.going_inside() ? c( o1.i0 /*the outside node*/ ) : "ci" ) << ";\n";
 
             // save
             for( std::size_t i = 0; i < ops.size(); ++i ) {
@@ -380,6 +382,7 @@ struct Mod {
         //        write_code_mm128( code, simd_size );
         //        write_code_scalar( code, simd_size );
         write_code_scalar( code, simd_size );
+        //code << "  *(int *)0 = 0;\n";
     }
 
     std::size_t old_size;

@@ -36,3 +36,57 @@ if ( s < nb_cuts ) {
 * ré-ecriture de la version 2D
 
 Prop: on appelle fu sur le type final. Lorsque c'est le même type qu'initialement.
+
+
+__m256 _mm256_set_m128 (__m128 hi, __m128 lo) => ...
+_mm256_unpackhi_pd(__m256d a, __m256d b) => récupère les 64 bits haut (index impairs)
+__m256d _mm256_blend_pd (__m256d a, __m256d b, const int imm8)
+
+__m256d _mm256_permute_pd      ( __m256d a, int imm8 ) => switch entre indices pair/impair. vpermilpd
+__m256d _mm256_permute2f128_pd ( __m256d a, __m256d b, int imm8) => 
+__m256d _mm256_permute4x64_pd  (__m256d a, const int imm8) => prend les double qu'on veut
+
+__m256i _mm256_srli_si256 (__m256i a, const int imm8) pour déplacer des octets (et on peut mettre des 0)
+
+__m256d _mm256_insertf128_pd( __m256d a, __m128d b, int imm8 ) => pourrait
+__m256i _mm256_insert_epi64 (__m256i a, __int64 i, const int index) => mettre 64 bits
+__m512d _mm512_insertf64x2  ( __m512d a, __m128d b, int imm8 )
+__m512d _mm512_insertf64x4  ( __m512d a, __m256d b, int imm8 )
+   => on pourrait mettre les x et les y des coupes dans des m128, puis 
+      * les coller avec _insert_
+      * ou l'étendre
+          Ex: // size=5 outside=00000100 mod=3,4,0,1,[ 2, 1 ],[ 2, 3 ], 
+          Ex: // size=5 outside=00000100 mod=0,1,[ 2, 1 ],[ 2, 3 ],3,4,
+            _mm256_set_m128 pour 0,1 et [2,1],[2,3]
+        En 256:
+          =>  pour la première partie
+          => 
+
+
+   => pour le reste, en 
+
+
+
+En 512,  
+  __m512d _mm512_permutex2var_pd (__m512d a, __m512i idx, __m512d b) => on prend ce qu'on veut de a et b 
+
+
+Prop: partant d'un graph de 
+   0  1  2  3
+   |  \
+   x     y
+
+Le top serait de simuler le temps d'exécution
+
+Point de départ:
+    SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
+    SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
+    px => 0 1 2 3  4 5 6 7
+    py => 0 1 2 3  4 5 6 7
+Il faut ensuite les coller dans px et py
+    Ex: // size=5 outside=00000100 mod=0,1,[ 2, 1 ],[ 2, 3 ],3,4,
+        => 
+
+Prop: on calcule une borne de temps à partir de _mm25 6_extract_epi64
+
+

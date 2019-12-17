@@ -28,7 +28,7 @@ void __attribute__ ((noinline)) cut_proc( Cp &cp, const Box &box, std::vector<TF
     cp.plane_cut( { xs.data(), ys.data() }, ps.data(), ds.data(), xs.size() );
 }
 
-void bench( std::size_t nb_reps = 800000 ) {
+void bench( std::size_t nb_reps ) {
     std::size_t nb_cuts = 120;
     std::vector<TF> xs, ys, ps, ds;
     for( std::size_t n = 0; n < nb_cuts; ++n ) {
@@ -63,6 +63,6 @@ void bench( std::size_t nb_reps = 800000 ) {
     P( ti1 - ti0, nb_cycles_per_cut );
 }
 
-int main() {
-    bench();
+int main( int argc, char **argv ) {
+    bench( argc > 1 ? atoi( argv[ 1 ] ) : 800000 );
 }

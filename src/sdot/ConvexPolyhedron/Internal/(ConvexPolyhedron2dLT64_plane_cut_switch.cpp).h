@@ -54,7 +54,7 @@ case_3: {
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
     TF nc_0 = pc[ 0 ];
-    TF nc_3 = cut_ids[ num_cut ];
+    TF nc_3 = ci;
     px[ 0 ] = dxm[ 0 ];
     py[ 0 ] = dym[ 0 ];
     pc[ 0 ] = nc_0;
@@ -87,7 +87,7 @@ case_4: {
     SimdVec<TF,2> dy1( y_0, y_2 );
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
-    TF nc_1 = cut_ids[ num_cut ];
+    TF nc_1 = ci;
     TF nc_2 = pc[ 1 ];
     px[ 3 ] = nx_3;
     py[ 3 ] = ny_3;
@@ -120,7 +120,7 @@ case_5: {
     SimdVec<TF,2> dy1( y_2 );
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
-    TF nc_0 = cut_ids[ num_cut ];
+    TF nc_0 = ci;
     TF nc_1 = pc[ 1 ];
     px[ 0 ] = dxm[ 0 ];
     py[ 0 ] = dym[ 0 ];
@@ -151,7 +151,7 @@ case_6: {
     SimdVec<TF,2> dy1( y_1, y_0 );
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
-    TF nc_2 = cut_ids[ num_cut ];
+    TF nc_2 = ci;
     TF nc_3 = pc[ 2 ];
     px[ 2 ] = dxm[ 0 ];
     py[ 2 ] = dym[ 0 ];
@@ -182,7 +182,7 @@ case_7: {
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
     TF nc_0 = pc[ 0 ];
-    TF nc_2 = cut_ids[ num_cut ];
+    TF nc_2 = ci;
     px[ 0 ] = dxm[ 0 ];
     py[ 0 ] = dym[ 0 ];
     pc[ 0 ] = nc_0;
@@ -211,7 +211,7 @@ case_8: {
     SimdVec<TF,2> dy1( y_0 );
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
-    TF nc_1 = cut_ids[ num_cut ];
+    TF nc_1 = ci;
     TF nc_2 = pc[ 2 ];
     px[ 1 ] = dxm[ 0 ];
     py[ 1 ] = dym[ 0 ];
@@ -243,7 +243,7 @@ case_9: {
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
     TF nc_0 = pc[ 0 ];
-    TF nc_4 = cut_ids[ num_cut ];
+    TF nc_4 = ci;
     px[ 0 ] = dxm[ 0 ];
     py[ 0 ] = dym[ 0 ];
     pc[ 0 ] = nc_0;
@@ -276,7 +276,7 @@ case_10: {
     SimdVec<TF,2> dy1( y_0, y_2 );
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
-    TF nc_0 = cut_ids[ num_cut ];
+    TF nc_0 = ci;
     TF nc_1 = pc[ 1 ];
     px[ 4 ] = nx_4;
     py[ 4 ] = ny_4;
@@ -312,7 +312,7 @@ case_11: {
     SimdVec<TF,2> dy1( y_3, y_2 );
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
-    TF nc_0 = cut_ids[ num_cut ];
+    TF nc_0 = ci;
     TF nc_1 = pc[ 1 ];
     px[ 0 ] = dxm[ 0 ];
     py[ 0 ] = dym[ 0 ];
@@ -346,7 +346,7 @@ case_12: {
     SimdVec<TF,2> dy1( y_1, y_3 );
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
-    TF nc_2 = cut_ids[ num_cut ];
+    TF nc_2 = ci;
     TF nc_3 = pc[ 2 ];
     px[ 4 ] = nx_4;
     py[ 4 ] = ny_4;
@@ -382,7 +382,7 @@ case_13: {
     SimdVec<TF,2> dy1( y_0, y_3 );
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
-    TF nc_1 = cut_ids[ num_cut ];
+    TF nc_1 = ci;
     TF nc_2 = pc[ 2 ];
     px[ 1 ] = dxm[ 0 ];
     py[ 1 ] = dym[ 0 ];
@@ -416,7 +416,7 @@ case_14: {
     SimdVec<TF,2> dy1( y_3 );
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
-    TF nc_0 = cut_ids[ num_cut ];
+    TF nc_0 = ci;
     TF nc_1 = pc[ 2 ];
     px[ 2 ] = nx_2;
     py[ 2 ] = ny_2;
@@ -450,7 +450,7 @@ case_15: {
     SimdVec<TF,2> dy1( y_2, y_0 );
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
-    TF nc_3 = cut_ids[ num_cut ];
+    TF nc_3 = ci;
     TF nc_4 = pc[ 3 ];
     px[ 3 ] = dxm[ 0 ];
     py[ 3 ] = dym[ 0 ];
@@ -484,7 +484,7 @@ case_16: {
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
     TF nc_0 = pc[ 0 ];
-    TF nc_3 = cut_ids[ num_cut ];
+    TF nc_3 = ci;
     px[ 0 ] = dxm[ 0 ];
     py[ 0 ] = dym[ 0 ];
     pc[ 0 ] = nc_0;
@@ -514,7 +514,7 @@ case_17: {
     SimdVec<TF,2> dy1( y_2 );
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
-    TF nc_0 = cut_ids[ num_cut ];
+    TF nc_0 = ci;
     TF nc_1 = pc[ 1 ];
     px[ 0 ] = dxm[ 0 ];
     py[ 0 ] = dym[ 0 ];
@@ -547,7 +547,7 @@ case_18: {
     SimdVec<TF,2> dy1( y_1, y_0 );
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
-    TF nc_2 = cut_ids[ num_cut ];
+    TF nc_2 = ci;
     TF nc_3 = pc[ 3 ];
     px[ 2 ] = dxm[ 0 ];
     py[ 2 ] = dym[ 0 ];
@@ -579,7 +579,7 @@ case_19: {
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
     TF nc_0 = pc[ 0 ];
-    TF nc_2 = cut_ids[ num_cut ];
+    TF nc_2 = ci;
     px[ 0 ] = dxm[ 0 ];
     py[ 0 ] = dym[ 0 ];
     pc[ 0 ] = nc_0;
@@ -609,7 +609,7 @@ case_20: {
     SimdVec<TF,2> dy1( y_0 );
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
-    TF nc_1 = cut_ids[ num_cut ];
+    TF nc_1 = ci;
     TF nc_2 = pc[ 3 ];
     px[ 1 ] = dxm[ 0 ];
     py[ 1 ] = dym[ 0 ];
@@ -641,7 +641,7 @@ case_21: {
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
     TF nc_0 = pc[ 0 ];
-    TF nc_5 = cut_ids[ num_cut ];
+    TF nc_5 = ci;
     px[ 0 ] = dxm[ 0 ];
     py[ 0 ] = dym[ 0 ];
     pc[ 0 ] = nc_0;
@@ -674,7 +674,7 @@ case_22: {
     SimdVec<TF,2> dy1( y_0, y_2 );
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
-    TF nc_0 = cut_ids[ num_cut ];
+    TF nc_0 = ci;
     TF nc_1 = pc[ 1 ];
     px[ 5 ] = nx_5;
     py[ 5 ] = ny_5;
@@ -710,7 +710,7 @@ case_23: {
     SimdVec<TF,2> dy1( y_4, y_2 );
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
-    TF nc_0 = cut_ids[ num_cut ];
+    TF nc_0 = ci;
     TF nc_1 = pc[ 1 ];
     px[ 0 ] = dxm[ 0 ];
     py[ 0 ] = dym[ 0 ];
@@ -747,7 +747,7 @@ case_24: {
     SimdVec<TF,2> dy1( y_1, y_3 );
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
-    TF nc_2 = cut_ids[ num_cut ];
+    TF nc_2 = ci;
     TF nc_3 = pc[ 2 ];
     px[ 4 ] = nx_4;
     py[ 4 ] = ny_4;
@@ -786,7 +786,7 @@ case_25: {
     SimdVec<TF,2> dy1( y_0, y_3 );
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
-    TF nc_1 = cut_ids[ num_cut ];
+    TF nc_1 = ci;
     TF nc_2 = pc[ 2 ];
     px[ 1 ] = dxm[ 0 ];
     py[ 1 ] = dym[ 0 ];
@@ -823,7 +823,7 @@ case_26: {
     SimdVec<TF,2> dy1( y_4, y_3 );
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
-    TF nc_1 = cut_ids[ num_cut ];
+    TF nc_1 = ci;
     TF nc_2 = pc[ 2 ];
     px[ 0 ] = nx_0;
     py[ 0 ] = ny_0;
@@ -860,7 +860,7 @@ case_27: {
     SimdVec<TF,2> dy1( y_2, y_4 );
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
-    TF nc_3 = cut_ids[ num_cut ];
+    TF nc_3 = ci;
     TF nc_4 = pc[ 3 ];
     px[ 5 ] = nx_5;
     py[ 5 ] = ny_5;
@@ -896,7 +896,7 @@ case_28: {
     SimdVec<TF,2> dy1( y_1, y_4 );
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
-    TF nc_2 = cut_ids[ num_cut ];
+    TF nc_2 = ci;
     TF nc_3 = pc[ 3 ];
     px[ 2 ] = dxm[ 0 ];
     py[ 2 ] = dym[ 0 ];
@@ -933,7 +933,7 @@ case_29: {
     SimdVec<TF,2> dy1( y_0, y_4 );
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
-    TF nc_1 = cut_ids[ num_cut ];
+    TF nc_1 = ci;
     TF nc_2 = pc[ 3 ];
     px[ 3 ] = nx_3;
     py[ 3 ] = ny_3;
@@ -970,7 +970,7 @@ case_30: {
     SimdVec<TF,2> dy1( y_4 );
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
-    TF nc_0 = cut_ids[ num_cut ];
+    TF nc_0 = ci;
     TF nc_1 = pc[ 3 ];
     px[ 2 ] = nx_2;
     py[ 2 ] = ny_2;
@@ -1004,7 +1004,7 @@ case_31: {
     SimdVec<TF,2> dy1( y_3, y_0 );
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
-    TF nc_4 = cut_ids[ num_cut ];
+    TF nc_4 = ci;
     TF nc_5 = pc[ 4 ];
     px[ 4 ] = dxm[ 0 ];
     py[ 4 ] = dym[ 0 ];
@@ -1038,7 +1038,7 @@ case_32: {
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
     TF nc_0 = pc[ 0 ];
-    TF nc_4 = cut_ids[ num_cut ];
+    TF nc_4 = ci;
     px[ 0 ] = dxm[ 0 ];
     py[ 0 ] = dym[ 0 ];
     pc[ 0 ] = nc_0;
@@ -1071,7 +1071,7 @@ case_33: {
     SimdVec<TF,2> dy1( y_3, y_2 );
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
-    TF nc_0 = cut_ids[ num_cut ];
+    TF nc_0 = ci;
     TF nc_1 = pc[ 1 ];
     px[ 0 ] = dxm[ 0 ];
     py[ 0 ] = dym[ 0 ];
@@ -1105,7 +1105,7 @@ case_34: {
     SimdVec<TF,2> dy1( y_3 );
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
-    TF nc_1 = cut_ids[ num_cut ];
+    TF nc_1 = ci;
     TF nc_2 = pc[ 2 ];
     px[ 0 ] = nx_0;
     py[ 0 ] = ny_0;
@@ -1141,7 +1141,7 @@ case_35: {
     SimdVec<TF,2> dy1( y_2, y_0 );
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
-    TF nc_3 = cut_ids[ num_cut ];
+    TF nc_3 = ci;
     TF nc_4 = pc[ 4 ];
     px[ 3 ] = dxm[ 0 ];
     py[ 3 ] = dym[ 0 ];
@@ -1176,7 +1176,7 @@ case_36: {
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
     TF nc_0 = pc[ 0 ];
-    TF nc_3 = cut_ids[ num_cut ];
+    TF nc_3 = ci;
     px[ 0 ] = dxm[ 0 ];
     py[ 0 ] = dym[ 0 ];
     pc[ 0 ] = nc_0;
@@ -1206,7 +1206,7 @@ case_37: {
     SimdVec<TF,2> dy1( y_2 );
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
-    TF nc_0 = cut_ids[ num_cut ];
+    TF nc_0 = ci;
     TF nc_1 = pc[ 1 ];
     px[ 0 ] = dxm[ 0 ];
     py[ 0 ] = dym[ 0 ];
@@ -1240,7 +1240,7 @@ case_38: {
     SimdVec<TF,2> dy1( y_1, y_0 );
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
-    TF nc_2 = cut_ids[ num_cut ];
+    TF nc_2 = ci;
     TF nc_3 = pc[ 4 ];
     px[ 2 ] = dxm[ 0 ];
     py[ 2 ] = dym[ 0 ];
@@ -1272,7 +1272,7 @@ case_39: {
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
     TF nc_0 = pc[ 0 ];
-    TF nc_2 = cut_ids[ num_cut ];
+    TF nc_2 = ci;
     px[ 0 ] = dxm[ 0 ];
     py[ 0 ] = dym[ 0 ];
     pc[ 0 ] = nc_0;
@@ -1302,7 +1302,7 @@ case_40: {
     SimdVec<TF,2> dy1( y_0 );
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
-    TF nc_1 = cut_ids[ num_cut ];
+    TF nc_1 = ci;
     TF nc_2 = pc[ 4 ];
     px[ 1 ] = dxm[ 0 ];
     py[ 1 ] = dym[ 0 ];
@@ -1334,7 +1334,7 @@ case_41: {
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
     TF nc_0 = pc[ 0 ];
-    TF nc_6 = cut_ids[ num_cut ];
+    TF nc_6 = ci;
     px[ 0 ] = dxm[ 0 ];
     py[ 0 ] = dym[ 0 ];
     pc[ 0 ] = nc_0;
@@ -1367,7 +1367,7 @@ case_42: {
     SimdVec<TF,2> dy1( y_0, y_2 );
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
-    TF nc_0 = cut_ids[ num_cut ];
+    TF nc_0 = ci;
     TF nc_1 = pc[ 1 ];
     px[ 6 ] = nx_6;
     py[ 6 ] = ny_6;
@@ -1403,7 +1403,7 @@ case_43: {
     SimdVec<TF,2> dy1( y_5, y_2 );
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
-    TF nc_0 = cut_ids[ num_cut ];
+    TF nc_0 = ci;
     TF nc_1 = pc[ 1 ];
     px[ 0 ] = dxm[ 0 ];
     py[ 0 ] = dym[ 0 ];
@@ -1440,7 +1440,7 @@ case_44: {
     SimdVec<TF,2> dy1( y_1, y_3 );
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
-    TF nc_1 = cut_ids[ num_cut ];
+    TF nc_1 = ci;
     TF nc_2 = pc[ 2 ];
     px[ 0 ] = nx_0;
     py[ 0 ] = ny_0;
@@ -1479,7 +1479,7 @@ case_45: {
     SimdVec<TF,2> dy1( y_0, y_3 );
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
-    TF nc_1 = cut_ids[ num_cut ];
+    TF nc_1 = ci;
     TF nc_2 = pc[ 2 ];
     px[ 1 ] = dxm[ 0 ];
     py[ 1 ] = dym[ 0 ];
@@ -1516,7 +1516,7 @@ case_46: {
     SimdVec<TF,2> dy1( y_5, y_3 );
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
-    TF nc_1 = cut_ids[ num_cut ];
+    TF nc_1 = ci;
     TF nc_2 = pc[ 2 ];
     px[ 0 ] = nx_0;
     py[ 0 ] = ny_0;
@@ -1556,7 +1556,7 @@ case_47: {
     SimdVec<TF,2> dy1( y_2, y_4 );
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
-    TF nc_3 = cut_ids[ num_cut ];
+    TF nc_3 = ci;
     TF nc_4 = pc[ 3 ];
     px[ 5 ] = nx_5;
     py[ 5 ] = ny_5;
@@ -1595,7 +1595,7 @@ case_48: {
     SimdVec<TF,2> dy1( y_1, y_4 );
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
-    TF nc_2 = cut_ids[ num_cut ];
+    TF nc_2 = ci;
     TF nc_3 = pc[ 3 ];
     px[ 2 ] = dxm[ 0 ];
     py[ 2 ] = dym[ 0 ];
@@ -1635,7 +1635,7 @@ case_49: {
     SimdVec<TF,2> dy1( y_0, y_4 );
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
-    TF nc_1 = cut_ids[ num_cut ];
+    TF nc_1 = ci;
     TF nc_2 = pc[ 3 ];
     px[ 3 ] = nx_3;
     py[ 3 ] = ny_3;
@@ -1681,7 +1681,7 @@ case_50: {
     SimdVec<TF,2> dy1( y_5, y_4 );
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
-    TF nc_0 = cut_ids[ num_cut ];
+    TF nc_0 = ci;
     TF nc_1 = pc[ 3 ];
     px[ 2 ] = nx_2;
     py[ 2 ] = ny_2;
@@ -1721,7 +1721,7 @@ case_51: {
     SimdVec<TF,2> dy1( y_3, y_5 );
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
-    TF nc_4 = cut_ids[ num_cut ];
+    TF nc_4 = ci;
     TF nc_5 = pc[ 4 ];
     px[ 6 ] = nx_6;
     py[ 6 ] = ny_6;
@@ -1757,7 +1757,7 @@ case_52: {
     SimdVec<TF,2> dy1( y_2, y_5 );
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
-    TF nc_3 = cut_ids[ num_cut ];
+    TF nc_3 = ci;
     TF nc_4 = pc[ 4 ];
     px[ 3 ] = dxm[ 0 ];
     py[ 3 ] = dym[ 0 ];
@@ -1794,7 +1794,7 @@ case_53: {
     SimdVec<TF,2> dy1( y_1, y_5 );
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
-    TF nc_2 = cut_ids[ num_cut ];
+    TF nc_2 = ci;
     TF nc_3 = pc[ 4 ];
     px[ 4 ] = nx_4;
     py[ 4 ] = ny_4;
@@ -1834,7 +1834,7 @@ case_54: {
     SimdVec<TF,2> dy1( y_0, y_5 );
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
-    TF nc_1 = cut_ids[ num_cut ];
+    TF nc_1 = ci;
     TF nc_2 = pc[ 4 ];
     px[ 3 ] = nx_3;
     py[ 3 ] = ny_3;
@@ -1871,7 +1871,7 @@ case_55: {
     SimdVec<TF,2> dy1( y_5 );
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
-    TF nc_0 = cut_ids[ num_cut ];
+    TF nc_0 = ci;
     TF nc_1 = pc[ 4 ];
     px[ 2 ] = nx_2;
     py[ 2 ] = ny_2;
@@ -1905,7 +1905,7 @@ case_56: {
     SimdVec<TF,2> dy1( y_4, y_0 );
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
-    TF nc_5 = cut_ids[ num_cut ];
+    TF nc_5 = ci;
     TF nc_6 = pc[ 5 ];
     px[ 5 ] = dxm[ 0 ];
     py[ 5 ] = dym[ 0 ];
@@ -1939,7 +1939,7 @@ case_57: {
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
     TF nc_0 = pc[ 0 ];
-    TF nc_5 = cut_ids[ num_cut ];
+    TF nc_5 = ci;
     px[ 0 ] = dxm[ 0 ];
     py[ 0 ] = dym[ 0 ];
     pc[ 0 ] = nc_0;
@@ -1972,7 +1972,7 @@ case_58: {
     SimdVec<TF,2> dy1( y_4, y_2 );
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
-    TF nc_0 = cut_ids[ num_cut ];
+    TF nc_0 = ci;
     TF nc_1 = pc[ 1 ];
     px[ 0 ] = dxm[ 0 ];
     py[ 0 ] = dym[ 0 ];
@@ -2009,7 +2009,7 @@ case_59: {
     SimdVec<TF,2> dy1( y_4, y_3 );
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
-    TF nc_1 = cut_ids[ num_cut ];
+    TF nc_1 = ci;
     TF nc_2 = pc[ 2 ];
     px[ 0 ] = nx_0;
     py[ 0 ] = ny_0;
@@ -2047,7 +2047,7 @@ case_60: {
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
     TF nc_0 = pc[ 3 ];
-    TF nc_2 = cut_ids[ num_cut ];
+    TF nc_2 = ci;
     px[ 1 ] = nx_1;
     py[ 1 ] = ny_1;
     pc[ 1 ] = nc_1;
@@ -2082,7 +2082,7 @@ case_61: {
     SimdVec<TF,2> dy1( y_3, y_0 );
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
-    TF nc_4 = cut_ids[ num_cut ];
+    TF nc_4 = ci;
     TF nc_5 = pc[ 5 ];
     px[ 4 ] = dxm[ 0 ];
     py[ 4 ] = dym[ 0 ];
@@ -2117,7 +2117,7 @@ case_62: {
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
     TF nc_0 = pc[ 0 ];
-    TF nc_4 = cut_ids[ num_cut ];
+    TF nc_4 = ci;
     px[ 0 ] = dxm[ 0 ];
     py[ 0 ] = dym[ 0 ];
     pc[ 0 ] = nc_0;
@@ -2150,7 +2150,7 @@ case_63: {
     SimdVec<TF,2> dy1( y_3, y_2 );
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
-    TF nc_0 = cut_ids[ num_cut ];
+    TF nc_0 = ci;
     TF nc_1 = pc[ 1 ];
     px[ 0 ] = dxm[ 0 ];
     py[ 0 ] = dym[ 0 ];
@@ -2184,7 +2184,7 @@ case_64: {
     SimdVec<TF,2> dy1( y_3 );
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
-    TF nc_1 = cut_ids[ num_cut ];
+    TF nc_1 = ci;
     TF nc_2 = pc[ 2 ];
     px[ 0 ] = nx_0;
     py[ 0 ] = ny_0;
@@ -2221,7 +2221,7 @@ case_65: {
     SimdVec<TF,2> dy1( y_2, y_0 );
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
-    TF nc_3 = cut_ids[ num_cut ];
+    TF nc_3 = ci;
     TF nc_4 = pc[ 5 ];
     px[ 3 ] = dxm[ 0 ];
     py[ 3 ] = dym[ 0 ];
@@ -2256,7 +2256,7 @@ case_66: {
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
     TF nc_0 = pc[ 0 ];
-    TF nc_3 = cut_ids[ num_cut ];
+    TF nc_3 = ci;
     px[ 0 ] = dxm[ 0 ];
     py[ 0 ] = dym[ 0 ];
     pc[ 0 ] = nc_0;
@@ -2286,7 +2286,7 @@ case_67: {
     SimdVec<TF,2> dy1( y_2 );
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
-    TF nc_0 = cut_ids[ num_cut ];
+    TF nc_0 = ci;
     TF nc_1 = pc[ 1 ];
     px[ 0 ] = dxm[ 0 ];
     py[ 0 ] = dym[ 0 ];
@@ -2320,7 +2320,7 @@ case_68: {
     SimdVec<TF,2> dy1( y_1, y_0 );
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
-    TF nc_2 = cut_ids[ num_cut ];
+    TF nc_2 = ci;
     TF nc_3 = pc[ 5 ];
     px[ 2 ] = dxm[ 0 ];
     py[ 2 ] = dym[ 0 ];
@@ -2352,7 +2352,7 @@ case_69: {
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
     TF nc_0 = pc[ 0 ];
-    TF nc_2 = cut_ids[ num_cut ];
+    TF nc_2 = ci;
     px[ 0 ] = dxm[ 0 ];
     py[ 0 ] = dym[ 0 ];
     pc[ 0 ] = nc_0;
@@ -2382,7 +2382,7 @@ case_70: {
     SimdVec<TF,2> dy1( y_0 );
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
-    TF nc_1 = cut_ids[ num_cut ];
+    TF nc_1 = ci;
     TF nc_2 = pc[ 5 ];
     px[ 1 ] = dxm[ 0 ];
     py[ 1 ] = dym[ 0 ];
@@ -2414,7 +2414,7 @@ case_71: {
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
     TF nc_0 = pc[ 0 ];
-    TF nc_7 = cut_ids[ num_cut ];
+    TF nc_7 = ci;
     px[ 0 ] = dxm[ 0 ];
     py[ 0 ] = dym[ 0 ];
     pc[ 0 ] = nc_0;
@@ -2447,7 +2447,7 @@ case_72: {
     SimdVec<TF,2> dy1( y_0, y_2 );
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
-    TF nc_0 = cut_ids[ num_cut ];
+    TF nc_0 = ci;
     TF nc_1 = pc[ 1 ];
     px[ 7 ] = nx_7;
     py[ 7 ] = ny_7;
@@ -2483,7 +2483,7 @@ case_73: {
     SimdVec<TF,2> dy1( y_6, y_2 );
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
-    TF nc_0 = cut_ids[ num_cut ];
+    TF nc_0 = ci;
     TF nc_1 = pc[ 1 ];
     px[ 0 ] = dxm[ 0 ];
     py[ 0 ] = dym[ 0 ];
@@ -2520,7 +2520,7 @@ case_74: {
     SimdVec<TF,2> dy1( y_1, y_3 );
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
-    TF nc_1 = cut_ids[ num_cut ];
+    TF nc_1 = ci;
     TF nc_2 = pc[ 2 ];
     px[ 0 ] = nx_0;
     py[ 0 ] = ny_0;
@@ -2559,7 +2559,7 @@ case_75: {
     SimdVec<TF,2> dy1( y_0, y_3 );
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
-    TF nc_1 = cut_ids[ num_cut ];
+    TF nc_1 = ci;
     TF nc_2 = pc[ 2 ];
     px[ 1 ] = dxm[ 0 ];
     py[ 1 ] = dym[ 0 ];
@@ -2596,7 +2596,7 @@ case_76: {
     SimdVec<TF,2> dy1( y_6, y_3 );
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
-    TF nc_1 = cut_ids[ num_cut ];
+    TF nc_1 = ci;
     TF nc_2 = pc[ 2 ];
     px[ 0 ] = nx_0;
     py[ 0 ] = ny_0;
@@ -2639,7 +2639,7 @@ case_77: {
     SimdVec<TF,2> dy1( y_2, y_4 );
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
-    TF nc_3 = cut_ids[ num_cut ];
+    TF nc_3 = ci;
     TF nc_4 = pc[ 3 ];
     px[ 5 ] = nx_5;
     py[ 5 ] = ny_5;
@@ -2681,7 +2681,7 @@ case_78: {
     SimdVec<TF,2> dy1( y_1, y_4 );
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
-    TF nc_2 = cut_ids[ num_cut ];
+    TF nc_2 = ci;
     TF nc_3 = pc[ 3 ];
     px[ 2 ] = dxm[ 0 ];
     py[ 2 ] = dym[ 0 ];
@@ -2721,7 +2721,7 @@ case_79: {
     SimdVec<TF,2> dy1( y_0, y_4 );
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
-    TF nc_2 = cut_ids[ num_cut ];
+    TF nc_2 = ci;
     TF nc_3 = pc[ 3 ];
     px[ 0 ] = nx_0;
     py[ 0 ] = ny_0;
@@ -2767,7 +2767,7 @@ case_80: {
     SimdVec<TF,2> dy1( y_6, y_4 );
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
-    TF nc_2 = cut_ids[ num_cut ];
+    TF nc_2 = ci;
     TF nc_3 = pc[ 3 ];
     px[ 0 ] = nx_0;
     py[ 0 ] = ny_0;
@@ -2810,7 +2810,7 @@ case_81: {
     SimdVec<TF,2> dy1( y_3, y_5 );
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
-    TF nc_4 = cut_ids[ num_cut ];
+    TF nc_4 = ci;
     TF nc_5 = pc[ 4 ];
     px[ 6 ] = nx_6;
     py[ 6 ] = ny_6;
@@ -2849,7 +2849,7 @@ case_82: {
     SimdVec<TF,2> dy1( y_2, y_5 );
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
-    TF nc_3 = cut_ids[ num_cut ];
+    TF nc_3 = ci;
     TF nc_4 = pc[ 4 ];
     px[ 3 ] = dxm[ 0 ];
     py[ 3 ] = dym[ 0 ];
@@ -2889,7 +2889,7 @@ case_83: {
     SimdVec<TF,2> dy1( y_1, y_5 );
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
-    TF nc_2 = cut_ids[ num_cut ];
+    TF nc_2 = ci;
     TF nc_3 = pc[ 4 ];
     px[ 4 ] = nx_4;
     py[ 4 ] = ny_4;
@@ -2935,7 +2935,7 @@ case_84: {
     SimdVec<TF,2> dy1( y_0, y_5 );
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
-    TF nc_1 = cut_ids[ num_cut ];
+    TF nc_1 = ci;
     TF nc_2 = pc[ 4 ];
     px[ 3 ] = nx_3;
     py[ 3 ] = ny_3;
@@ -2981,7 +2981,7 @@ case_85: {
     SimdVec<TF,2> dy1( y_6, y_5 );
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
-    TF nc_0 = cut_ids[ num_cut ];
+    TF nc_0 = ci;
     TF nc_1 = pc[ 4 ];
     px[ 2 ] = nx_2;
     py[ 2 ] = ny_2;
@@ -3021,7 +3021,7 @@ case_86: {
     SimdVec<TF,2> dy1( y_4, y_6 );
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
-    TF nc_5 = cut_ids[ num_cut ];
+    TF nc_5 = ci;
     TF nc_6 = pc[ 5 ];
     px[ 7 ] = nx_7;
     py[ 7 ] = ny_7;
@@ -3057,7 +3057,7 @@ case_87: {
     SimdVec<TF,2> dy1( y_3, y_6 );
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
-    TF nc_4 = cut_ids[ num_cut ];
+    TF nc_4 = ci;
     TF nc_5 = pc[ 5 ];
     px[ 4 ] = dxm[ 0 ];
     py[ 4 ] = dym[ 0 ];
@@ -3094,7 +3094,7 @@ case_88: {
     SimdVec<TF,2> dy1( y_2, y_6 );
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
-    TF nc_3 = cut_ids[ num_cut ];
+    TF nc_3 = ci;
     TF nc_4 = pc[ 5 ];
     px[ 5 ] = nx_5;
     py[ 5 ] = ny_5;
@@ -3134,7 +3134,7 @@ case_89: {
     SimdVec<TF,2> dy1( y_1, y_6 );
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
-    TF nc_2 = cut_ids[ num_cut ];
+    TF nc_2 = ci;
     TF nc_3 = pc[ 5 ];
     px[ 4 ] = nx_4;
     py[ 4 ] = ny_4;
@@ -3174,7 +3174,7 @@ case_90: {
     SimdVec<TF,2> dy1( y_0, y_6 );
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
-    TF nc_1 = cut_ids[ num_cut ];
+    TF nc_1 = ci;
     TF nc_2 = pc[ 5 ];
     px[ 3 ] = nx_3;
     py[ 3 ] = ny_3;
@@ -3211,7 +3211,7 @@ case_91: {
     SimdVec<TF,2> dy1( y_6 );
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
-    TF nc_0 = cut_ids[ num_cut ];
+    TF nc_0 = ci;
     TF nc_1 = pc[ 5 ];
     px[ 2 ] = nx_2;
     py[ 2 ] = ny_2;
@@ -3245,7 +3245,7 @@ case_92: {
     SimdVec<TF,2> dy1( y_5, y_0 );
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
-    TF nc_6 = cut_ids[ num_cut ];
+    TF nc_6 = ci;
     TF nc_7 = pc[ 6 ];
     px[ 6 ] = dxm[ 0 ];
     py[ 6 ] = dym[ 0 ];
@@ -3279,7 +3279,7 @@ case_93: {
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
     TF nc_0 = pc[ 0 ];
-    TF nc_6 = cut_ids[ num_cut ];
+    TF nc_6 = ci;
     px[ 0 ] = dxm[ 0 ];
     py[ 0 ] = dym[ 0 ];
     pc[ 0 ] = nc_0;
@@ -3312,7 +3312,7 @@ case_94: {
     SimdVec<TF,2> dy1( y_5, y_2 );
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
-    TF nc_0 = cut_ids[ num_cut ];
+    TF nc_0 = ci;
     TF nc_1 = pc[ 1 ];
     px[ 0 ] = dxm[ 0 ];
     py[ 0 ] = dym[ 0 ];
@@ -3349,7 +3349,7 @@ case_95: {
     SimdVec<TF,2> dy1( y_5, y_3 );
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
-    TF nc_1 = cut_ids[ num_cut ];
+    TF nc_1 = ci;
     TF nc_2 = pc[ 2 ];
     px[ 0 ] = nx_0;
     py[ 0 ] = ny_0;
@@ -3392,7 +3392,7 @@ case_96: {
     SimdVec<TF,2> dy1( y_5, y_4 );
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
-    TF nc_2 = cut_ids[ num_cut ];
+    TF nc_2 = ci;
     TF nc_3 = pc[ 3 ];
     px[ 0 ] = nx_0;
     py[ 0 ] = ny_0;
@@ -3433,7 +3433,7 @@ case_97: {
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
     TF nc_0 = pc[ 4 ];
-    TF nc_2 = cut_ids[ num_cut ];
+    TF nc_2 = ci;
     px[ 1 ] = nx_1;
     py[ 1 ] = ny_1;
     pc[ 1 ] = nc_1;
@@ -3468,7 +3468,7 @@ case_98: {
     SimdVec<TF,2> dy1( y_4, y_0 );
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
-    TF nc_5 = cut_ids[ num_cut ];
+    TF nc_5 = ci;
     TF nc_6 = pc[ 6 ];
     px[ 5 ] = dxm[ 0 ];
     py[ 5 ] = dym[ 0 ];
@@ -3503,7 +3503,7 @@ case_99: {
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
     TF nc_0 = pc[ 0 ];
-    TF nc_5 = cut_ids[ num_cut ];
+    TF nc_5 = ci;
     px[ 0 ] = dxm[ 0 ];
     py[ 0 ] = dym[ 0 ];
     pc[ 0 ] = nc_0;
@@ -3536,7 +3536,7 @@ case_100: {
     SimdVec<TF,2> dy1( y_4, y_2 );
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
-    TF nc_0 = cut_ids[ num_cut ];
+    TF nc_0 = ci;
     TF nc_1 = pc[ 1 ];
     px[ 0 ] = dxm[ 0 ];
     py[ 0 ] = dym[ 0 ];
@@ -3573,7 +3573,7 @@ case_101: {
     SimdVec<TF,2> dy1( y_4, y_3 );
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
-    TF nc_1 = cut_ids[ num_cut ];
+    TF nc_1 = ci;
     TF nc_2 = pc[ 2 ];
     px[ 0 ] = nx_0;
     py[ 0 ] = ny_0;
@@ -3611,7 +3611,7 @@ case_102: {
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
     TF nc_0 = pc[ 3 ];
-    TF nc_2 = cut_ids[ num_cut ];
+    TF nc_2 = ci;
     px[ 1 ] = nx_1;
     py[ 1 ] = ny_1;
     pc[ 1 ] = nc_1;
@@ -3647,7 +3647,7 @@ case_103: {
     SimdVec<TF,2> dy1( y_3, y_0 );
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
-    TF nc_4 = cut_ids[ num_cut ];
+    TF nc_4 = ci;
     TF nc_5 = pc[ 6 ];
     px[ 4 ] = dxm[ 0 ];
     py[ 4 ] = dym[ 0 ];
@@ -3682,7 +3682,7 @@ case_104: {
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
     TF nc_0 = pc[ 0 ];
-    TF nc_4 = cut_ids[ num_cut ];
+    TF nc_4 = ci;
     px[ 0 ] = dxm[ 0 ];
     py[ 0 ] = dym[ 0 ];
     pc[ 0 ] = nc_0;
@@ -3715,7 +3715,7 @@ case_105: {
     SimdVec<TF,2> dy1( y_3, y_2 );
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
-    TF nc_0 = cut_ids[ num_cut ];
+    TF nc_0 = ci;
     TF nc_1 = pc[ 1 ];
     px[ 0 ] = dxm[ 0 ];
     py[ 0 ] = dym[ 0 ];
@@ -3749,7 +3749,7 @@ case_106: {
     SimdVec<TF,2> dy1( y_3 );
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
-    TF nc_1 = cut_ids[ num_cut ];
+    TF nc_1 = ci;
     TF nc_2 = pc[ 2 ];
     px[ 0 ] = nx_0;
     py[ 0 ] = ny_0;
@@ -3786,7 +3786,7 @@ case_107: {
     SimdVec<TF,2> dy1( y_2, y_0 );
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
-    TF nc_3 = cut_ids[ num_cut ];
+    TF nc_3 = ci;
     TF nc_4 = pc[ 6 ];
     px[ 3 ] = dxm[ 0 ];
     py[ 3 ] = dym[ 0 ];
@@ -3821,7 +3821,7 @@ case_108: {
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
     TF nc_0 = pc[ 0 ];
-    TF nc_3 = cut_ids[ num_cut ];
+    TF nc_3 = ci;
     px[ 0 ] = dxm[ 0 ];
     py[ 0 ] = dym[ 0 ];
     pc[ 0 ] = nc_0;
@@ -3851,7 +3851,7 @@ case_109: {
     SimdVec<TF,2> dy1( y_2 );
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
-    TF nc_0 = cut_ids[ num_cut ];
+    TF nc_0 = ci;
     TF nc_1 = pc[ 1 ];
     px[ 0 ] = dxm[ 0 ];
     py[ 0 ] = dym[ 0 ];
@@ -3885,7 +3885,7 @@ case_110: {
     SimdVec<TF,2> dy1( y_1, y_0 );
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
-    TF nc_2 = cut_ids[ num_cut ];
+    TF nc_2 = ci;
     TF nc_3 = pc[ 6 ];
     px[ 2 ] = dxm[ 0 ];
     py[ 2 ] = dym[ 0 ];
@@ -3917,7 +3917,7 @@ case_111: {
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
     TF nc_0 = pc[ 0 ];
-    TF nc_2 = cut_ids[ num_cut ];
+    TF nc_2 = ci;
     px[ 0 ] = dxm[ 0 ];
     py[ 0 ] = dym[ 0 ];
     pc[ 0 ] = nc_0;
@@ -3947,7 +3947,7 @@ case_112: {
     SimdVec<TF,2> dy1( y_0 );
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
-    TF nc_1 = cut_ids[ num_cut ];
+    TF nc_1 = ci;
     TF nc_2 = pc[ 6 ];
     px[ 1 ] = dxm[ 0 ];
     py[ 1 ] = dym[ 0 ];
@@ -3979,7 +3979,7 @@ case_113: {
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
     TF nc_0 = pc[ 0 ];
-    TF nc_8 = cut_ids[ num_cut ];
+    TF nc_8 = ci;
     px[ 0 ] = dxm[ 0 ];
     py[ 0 ] = dym[ 0 ];
     pc[ 0 ] = nc_0;
@@ -4014,7 +4014,7 @@ case_114: {
     SimdVec<TF,2> dy1( y_0, y_2 );
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
-    TF nc_0 = cut_ids[ num_cut ];
+    TF nc_0 = ci;
     TF nc_1 = pc[ 1 ];
     nodes.xs[ 8 ] = nx_8;
     nodes.ys[ 8 ] = ny_8;
@@ -4052,7 +4052,7 @@ case_115: {
     SimdVec<TF,2> dy1( y_7, y_2 );
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
-    TF nc_0 = cut_ids[ num_cut ];
+    TF nc_0 = ci;
     TF nc_1 = pc[ 1 ];
     px[ 0 ] = dxm[ 0 ];
     py[ 0 ] = dym[ 0 ];
@@ -4091,7 +4091,7 @@ case_116: {
     SimdVec<TF,2> dy1( y_1, y_3 );
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
-    TF nc_1 = cut_ids[ num_cut ];
+    TF nc_1 = ci;
     TF nc_2 = pc[ 2 ];
     px[ 0 ] = nx_0;
     py[ 0 ] = ny_0;
@@ -4132,7 +4132,7 @@ case_117: {
     SimdVec<TF,2> dy1( y_0, y_3 );
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
-    TF nc_1 = cut_ids[ num_cut ];
+    TF nc_1 = ci;
     TF nc_2 = pc[ 2 ];
     px[ 1 ] = dxm[ 0 ];
     py[ 1 ] = dym[ 0 ];
@@ -4169,7 +4169,7 @@ case_118: {
     SimdVec<TF,2> dy1( y_7, y_3 );
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
-    TF nc_1 = cut_ids[ num_cut ];
+    TF nc_1 = ci;
     TF nc_2 = pc[ 2 ];
     px[ 0 ] = nx_0;
     py[ 0 ] = ny_0;
@@ -4214,7 +4214,7 @@ case_119: {
     SimdVec<TF,2> dy1( y_2, y_4 );
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
-    TF nc_2 = cut_ids[ num_cut ];
+    TF nc_2 = ci;
     TF nc_3 = pc[ 3 ];
     px[ 0 ] = nx_0;
     py[ 0 ] = ny_0;
@@ -4258,7 +4258,7 @@ case_120: {
     SimdVec<TF,2> dy1( y_1, y_4 );
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
-    TF nc_2 = cut_ids[ num_cut ];
+    TF nc_2 = ci;
     TF nc_3 = pc[ 3 ];
     px[ 2 ] = dxm[ 0 ];
     py[ 2 ] = dym[ 0 ];
@@ -4298,7 +4298,7 @@ case_121: {
     SimdVec<TF,2> dy1( y_0, y_4 );
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
-    TF nc_2 = cut_ids[ num_cut ];
+    TF nc_2 = ci;
     TF nc_3 = pc[ 3 ];
     px[ 0 ] = nx_0;
     py[ 0 ] = ny_0;
@@ -4344,7 +4344,7 @@ case_122: {
     SimdVec<TF,2> dy1( y_7, y_4 );
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
-    TF nc_2 = cut_ids[ num_cut ];
+    TF nc_2 = ci;
     TF nc_3 = pc[ 3 ];
     px[ 0 ] = nx_0;
     py[ 0 ] = ny_0;
@@ -4392,7 +4392,7 @@ case_123: {
     SimdVec<TF,2> dy1( y_3, y_5 );
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
-    TF nc_4 = cut_ids[ num_cut ];
+    TF nc_4 = ci;
     TF nc_5 = pc[ 4 ];
     px[ 6 ] = nx_6;
     py[ 6 ] = ny_6;
@@ -4436,7 +4436,7 @@ case_124: {
     SimdVec<TF,2> dy1( y_2, y_5 );
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
-    TF nc_3 = cut_ids[ num_cut ];
+    TF nc_3 = ci;
     TF nc_4 = pc[ 4 ];
     px[ 3 ] = dxm[ 0 ];
     py[ 3 ] = dym[ 0 ];
@@ -4479,7 +4479,7 @@ case_125: {
     SimdVec<TF,2> dy1( y_1, y_5 );
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
-    TF nc_2 = cut_ids[ num_cut ];
+    TF nc_2 = ci;
     TF nc_3 = pc[ 4 ];
     px[ 4 ] = nx_4;
     py[ 4 ] = ny_4;
@@ -4531,7 +4531,7 @@ case_126: {
     SimdVec<TF,2> dy1( y_0, y_5 );
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
-    TF nc_1 = cut_ids[ num_cut ];
+    TF nc_1 = ci;
     TF nc_2 = pc[ 4 ];
     px[ 3 ] = nx_3;
     py[ 3 ] = ny_3;
@@ -4583,7 +4583,7 @@ case_127: {
     SimdVec<TF,2> dy1( y_7, y_5 );
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
-    TF nc_0 = cut_ids[ num_cut ];
+    TF nc_0 = ci;
     TF nc_1 = pc[ 4 ];
     px[ 2 ] = nx_2;
     py[ 2 ] = ny_2;
@@ -4631,7 +4631,7 @@ case_128: {
     SimdVec<TF,2> dy1( y_4, y_6 );
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
-    TF nc_5 = cut_ids[ num_cut ];
+    TF nc_5 = ci;
     TF nc_6 = pc[ 5 ];
     px[ 7 ] = nx_7;
     py[ 7 ] = ny_7;
@@ -4672,7 +4672,7 @@ case_129: {
     SimdVec<TF,2> dy1( y_3, y_6 );
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
-    TF nc_4 = cut_ids[ num_cut ];
+    TF nc_4 = ci;
     TF nc_5 = pc[ 5 ];
     px[ 4 ] = dxm[ 0 ];
     py[ 4 ] = dym[ 0 ];
@@ -4712,7 +4712,7 @@ case_130: {
     SimdVec<TF,2> dy1( y_2, y_6 );
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
-    TF nc_3 = cut_ids[ num_cut ];
+    TF nc_3 = ci;
     TF nc_4 = pc[ 5 ];
     px[ 5 ] = nx_5;
     py[ 5 ] = ny_5;
@@ -4758,7 +4758,7 @@ case_131: {
     SimdVec<TF,2> dy1( y_1, y_6 );
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
-    TF nc_2 = cut_ids[ num_cut ];
+    TF nc_2 = ci;
     TF nc_3 = pc[ 5 ];
     px[ 4 ] = nx_4;
     py[ 4 ] = ny_4;
@@ -4804,7 +4804,7 @@ case_132: {
     SimdVec<TF,2> dy1( y_0, y_6 );
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
-    TF nc_1 = cut_ids[ num_cut ];
+    TF nc_1 = ci;
     TF nc_2 = pc[ 5 ];
     px[ 3 ] = nx_3;
     py[ 3 ] = ny_3;
@@ -4850,7 +4850,7 @@ case_133: {
     SimdVec<TF,2> dy1( y_7, y_6 );
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
-    TF nc_0 = cut_ids[ num_cut ];
+    TF nc_0 = ci;
     TF nc_1 = pc[ 5 ];
     px[ 2 ] = nx_2;
     py[ 2 ] = ny_2;
@@ -4890,7 +4890,7 @@ case_134: {
     SimdVec<TF,2> dy1( y_5, y_7 );
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
-    TF nc_6 = cut_ids[ num_cut ];
+    TF nc_6 = ci;
     TF nc_7 = pc[ 6 ];
     nodes.xs[ 8 ] = nx_8;
     nodes.ys[ 8 ] = ny_8;
@@ -4928,7 +4928,7 @@ case_135: {
     SimdVec<TF,2> dy1( y_4, y_7 );
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
-    TF nc_5 = cut_ids[ num_cut ];
+    TF nc_5 = ci;
     TF nc_6 = pc[ 6 ];
     px[ 5 ] = dxm[ 0 ];
     py[ 5 ] = dym[ 0 ];
@@ -4965,7 +4965,7 @@ case_136: {
     SimdVec<TF,2> dy1( y_3, y_7 );
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
-    TF nc_4 = cut_ids[ num_cut ];
+    TF nc_4 = ci;
     TF nc_5 = pc[ 6 ];
     px[ 6 ] = nx_6;
     py[ 6 ] = ny_6;
@@ -5005,7 +5005,7 @@ case_137: {
     SimdVec<TF,2> dy1( y_2, y_7 );
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
-    TF nc_3 = cut_ids[ num_cut ];
+    TF nc_3 = ci;
     TF nc_4 = pc[ 6 ];
     px[ 5 ] = nx_5;
     py[ 5 ] = ny_5;
@@ -5045,7 +5045,7 @@ case_138: {
     SimdVec<TF,2> dy1( y_1, y_7 );
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
-    TF nc_2 = cut_ids[ num_cut ];
+    TF nc_2 = ci;
     TF nc_3 = pc[ 6 ];
     px[ 4 ] = nx_4;
     py[ 4 ] = ny_4;
@@ -5085,7 +5085,7 @@ case_139: {
     SimdVec<TF,2> dy1( y_0, y_7 );
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
-    TF nc_1 = cut_ids[ num_cut ];
+    TF nc_1 = ci;
     TF nc_2 = pc[ 6 ];
     px[ 3 ] = nx_3;
     py[ 3 ] = ny_3;
@@ -5122,7 +5122,7 @@ case_140: {
     SimdVec<TF,2> dy1( y_7 );
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
-    TF nc_0 = cut_ids[ num_cut ];
+    TF nc_0 = ci;
     TF nc_1 = pc[ 6 ];
     px[ 2 ] = nx_2;
     py[ 2 ] = ny_2;
@@ -5156,7 +5156,7 @@ case_141: {
     SimdVec<TF,2> dy1( y_6, y_0 );
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
-    TF nc_7 = cut_ids[ num_cut ];
+    TF nc_7 = ci;
     TF nc_8 = pc[ 7 ];
     px[ 7 ] = dxm[ 0 ];
     py[ 7 ] = dym[ 0 ];
@@ -5192,7 +5192,7 @@ case_142: {
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
     TF nc_0 = pc[ 0 ];
-    TF nc_7 = cut_ids[ num_cut ];
+    TF nc_7 = ci;
     px[ 0 ] = dxm[ 0 ];
     py[ 0 ] = dym[ 0 ];
     pc[ 0 ] = nc_0;
@@ -5225,7 +5225,7 @@ case_143: {
     SimdVec<TF,2> dy1( y_6, y_2 );
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
-    TF nc_0 = cut_ids[ num_cut ];
+    TF nc_0 = ci;
     TF nc_1 = pc[ 1 ];
     px[ 0 ] = dxm[ 0 ];
     py[ 0 ] = dym[ 0 ];
@@ -5262,7 +5262,7 @@ case_144: {
     SimdVec<TF,2> dy1( y_6, y_3 );
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
-    TF nc_1 = cut_ids[ num_cut ];
+    TF nc_1 = ci;
     TF nc_2 = pc[ 2 ];
     px[ 0 ] = nx_0;
     py[ 0 ] = ny_0;
@@ -5305,7 +5305,7 @@ case_145: {
     SimdVec<TF,2> dy1( y_6, y_4 );
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
-    TF nc_2 = cut_ids[ num_cut ];
+    TF nc_2 = ci;
     TF nc_3 = pc[ 3 ];
     px[ 0 ] = nx_0;
     py[ 0 ] = ny_0;
@@ -5352,7 +5352,7 @@ case_146: {
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
     TF nc_0 = pc[ 4 ];
-    TF nc_3 = cut_ids[ num_cut ];
+    TF nc_3 = ci;
     px[ 1 ] = nx_1;
     py[ 1 ] = ny_1;
     pc[ 1 ] = nc_1;
@@ -5392,7 +5392,7 @@ case_147: {
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
     TF nc_0 = pc[ 5 ];
-    TF nc_2 = cut_ids[ num_cut ];
+    TF nc_2 = ci;
     px[ 1 ] = nx_1;
     py[ 1 ] = ny_1;
     pc[ 1 ] = nc_1;
@@ -5427,7 +5427,7 @@ case_148: {
     SimdVec<TF,2> dy1( y_5, y_0 );
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
-    TF nc_6 = cut_ids[ num_cut ];
+    TF nc_6 = ci;
     TF nc_7 = pc[ 7 ];
     px[ 6 ] = dxm[ 0 ];
     py[ 6 ] = dym[ 0 ];
@@ -5462,7 +5462,7 @@ case_149: {
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
     TF nc_0 = pc[ 0 ];
-    TF nc_6 = cut_ids[ num_cut ];
+    TF nc_6 = ci;
     px[ 0 ] = dxm[ 0 ];
     py[ 0 ] = dym[ 0 ];
     pc[ 0 ] = nc_0;
@@ -5495,7 +5495,7 @@ case_150: {
     SimdVec<TF,2> dy1( y_5, y_2 );
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
-    TF nc_0 = cut_ids[ num_cut ];
+    TF nc_0 = ci;
     TF nc_1 = pc[ 1 ];
     px[ 0 ] = dxm[ 0 ];
     py[ 0 ] = dym[ 0 ];
@@ -5532,7 +5532,7 @@ case_151: {
     SimdVec<TF,2> dy1( y_5, y_3 );
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
-    TF nc_1 = cut_ids[ num_cut ];
+    TF nc_1 = ci;
     TF nc_2 = pc[ 2 ];
     px[ 0 ] = nx_0;
     py[ 0 ] = ny_0;
@@ -5575,7 +5575,7 @@ case_152: {
     SimdVec<TF,2> dy1( y_5, y_4 );
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
-    TF nc_2 = cut_ids[ num_cut ];
+    TF nc_2 = ci;
     TF nc_3 = pc[ 3 ];
     px[ 0 ] = nx_0;
     py[ 0 ] = ny_0;
@@ -5616,7 +5616,7 @@ case_153: {
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
     TF nc_0 = pc[ 4 ];
-    TF nc_2 = cut_ids[ num_cut ];
+    TF nc_2 = ci;
     px[ 1 ] = nx_1;
     py[ 1 ] = ny_1;
     pc[ 1 ] = nc_1;
@@ -5652,7 +5652,7 @@ case_154: {
     SimdVec<TF,2> dy1( y_4, y_0 );
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
-    TF nc_5 = cut_ids[ num_cut ];
+    TF nc_5 = ci;
     TF nc_6 = pc[ 7 ];
     px[ 5 ] = dxm[ 0 ];
     py[ 5 ] = dym[ 0 ];
@@ -5687,7 +5687,7 @@ case_155: {
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
     TF nc_0 = pc[ 0 ];
-    TF nc_5 = cut_ids[ num_cut ];
+    TF nc_5 = ci;
     px[ 0 ] = dxm[ 0 ];
     py[ 0 ] = dym[ 0 ];
     pc[ 0 ] = nc_0;
@@ -5720,7 +5720,7 @@ case_156: {
     SimdVec<TF,2> dy1( y_4, y_2 );
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
-    TF nc_0 = cut_ids[ num_cut ];
+    TF nc_0 = ci;
     TF nc_1 = pc[ 1 ];
     px[ 0 ] = dxm[ 0 ];
     py[ 0 ] = dym[ 0 ];
@@ -5757,7 +5757,7 @@ case_157: {
     SimdVec<TF,2> dy1( y_4, y_3 );
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
-    TF nc_1 = cut_ids[ num_cut ];
+    TF nc_1 = ci;
     TF nc_2 = pc[ 2 ];
     px[ 0 ] = nx_0;
     py[ 0 ] = ny_0;
@@ -5795,7 +5795,7 @@ case_158: {
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
     TF nc_0 = pc[ 3 ];
-    TF nc_2 = cut_ids[ num_cut ];
+    TF nc_2 = ci;
     px[ 1 ] = nx_1;
     py[ 1 ] = ny_1;
     pc[ 1 ] = nc_1;
@@ -5831,7 +5831,7 @@ case_159: {
     SimdVec<TF,2> dy1( y_3, y_0 );
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
-    TF nc_4 = cut_ids[ num_cut ];
+    TF nc_4 = ci;
     TF nc_5 = pc[ 7 ];
     px[ 4 ] = dxm[ 0 ];
     py[ 4 ] = dym[ 0 ];
@@ -5866,7 +5866,7 @@ case_160: {
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
     TF nc_0 = pc[ 0 ];
-    TF nc_4 = cut_ids[ num_cut ];
+    TF nc_4 = ci;
     px[ 0 ] = dxm[ 0 ];
     py[ 0 ] = dym[ 0 ];
     pc[ 0 ] = nc_0;
@@ -5899,7 +5899,7 @@ case_161: {
     SimdVec<TF,2> dy1( y_3, y_2 );
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
-    TF nc_0 = cut_ids[ num_cut ];
+    TF nc_0 = ci;
     TF nc_1 = pc[ 1 ];
     px[ 0 ] = dxm[ 0 ];
     py[ 0 ] = dym[ 0 ];
@@ -5933,7 +5933,7 @@ case_162: {
     SimdVec<TF,2> dy1( y_3 );
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
-    TF nc_1 = cut_ids[ num_cut ];
+    TF nc_1 = ci;
     TF nc_2 = pc[ 2 ];
     px[ 0 ] = nx_0;
     py[ 0 ] = ny_0;
@@ -5970,7 +5970,7 @@ case_163: {
     SimdVec<TF,2> dy1( y_2, y_0 );
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
-    TF nc_3 = cut_ids[ num_cut ];
+    TF nc_3 = ci;
     TF nc_4 = pc[ 7 ];
     px[ 3 ] = dxm[ 0 ];
     py[ 3 ] = dym[ 0 ];
@@ -6005,7 +6005,7 @@ case_164: {
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
     TF nc_0 = pc[ 0 ];
-    TF nc_3 = cut_ids[ num_cut ];
+    TF nc_3 = ci;
     px[ 0 ] = dxm[ 0 ];
     py[ 0 ] = dym[ 0 ];
     pc[ 0 ] = nc_0;
@@ -6035,7 +6035,7 @@ case_165: {
     SimdVec<TF,2> dy1( y_2 );
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
-    TF nc_0 = cut_ids[ num_cut ];
+    TF nc_0 = ci;
     TF nc_1 = pc[ 1 ];
     px[ 0 ] = dxm[ 0 ];
     py[ 0 ] = dym[ 0 ];
@@ -6069,7 +6069,7 @@ case_166: {
     SimdVec<TF,2> dy1( y_1, y_0 );
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
-    TF nc_2 = cut_ids[ num_cut ];
+    TF nc_2 = ci;
     TF nc_3 = pc[ 7 ];
     px[ 2 ] = dxm[ 0 ];
     py[ 2 ] = dym[ 0 ];
@@ -6101,7 +6101,7 @@ case_167: {
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
     TF nc_0 = pc[ 0 ];
-    TF nc_2 = cut_ids[ num_cut ];
+    TF nc_2 = ci;
     px[ 0 ] = dxm[ 0 ];
     py[ 0 ] = dym[ 0 ];
     pc[ 0 ] = nc_0;
@@ -6131,7 +6131,7 @@ case_168: {
     SimdVec<TF,2> dy1( y_0 );
     SimdVec<TF,2> dxm = dx0 - m * ( dx1 - dx0 );
     SimdVec<TF,2> dym = dy0 - m * ( dy1 - dy0 );
-    TF nc_1 = cut_ids[ num_cut ];
+    TF nc_1 = ci;
     TF nc_2 = pc[ 7 ];
     px[ 1 ] = dxm[ 0 ];
     py[ 1 ] = dym[ 0 ];
