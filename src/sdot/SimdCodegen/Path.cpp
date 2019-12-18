@@ -4,6 +4,8 @@ Path::Path( std::vector<Instruction *> instructions ) : instructions( instructio
 }
 
 void Path::write_to_stream( std::ostream &os ) const {
-    for( std::size_t i = 0; i < instructions.size(); ++i )
-        instructions[ i ]->write_to_stream( os << "\n" );
+    for( std::size_t i = 0; i < instructions.size(); ++i ) {
+        instructions[ i ]->write_to_stream( os );
+        os << "\n";
+    }
 }

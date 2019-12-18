@@ -6,6 +6,8 @@
 int main( int /*argc*/, char **/*argv*/ ) {
     SimdCodegen sc( 4 );
 
-    P( sc.best_path_for( { -1, -1, -1, -1,  0, 1, -1, -1 } ) );
-    P( sc.best_path_for( { -1, -1, -1, -1,  2, 3, -1, -1 } ) );
+    Reg i4( 4, "i" ), o2( 2, "o" );
+    PN( sc.best_path_for( o2, { { i4, 0 }, { i4, 1 } } ) );
+    PN( sc.best_path_for( o2, { { i4, 2 }, { i4, 3 } } ) );
+    PN( sc.best_path_for( o2, { { i4, 0 }, { i4, 2 } } ) );
 }

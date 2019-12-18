@@ -1,11 +1,16 @@
-#ifndef LANE_H
-#define LANE_H
+#pragma once
 
+#include "Reg.h"
 
-class Lane
-{
+/**
+*/
+class Lane {
 public:
-    Lane();
+    /**/ Lane           ( Reg reg, int lane );
+
+    void write_to_stream( std::ostream &os ) const;
+
+    Reg  reg;
+    int  lane;
 };
 
-#endif // LANE_H

@@ -1,11 +1,16 @@
-#ifndef REG_H
-#define REG_H
+#pragma once
 
+#include <ostream>
+#include <array>
 
-class Reg
-{
+class Reg {
 public:
-    Reg();
+    /**/        Reg            ( int size, std::string id );
+
+    void        write_to_stream( std::ostream &os ) const;
+    bool        operator==     ( const Reg &that ) const;
+
+    int         size;
+    std::string id;
 };
 
-#endif // REG_H
