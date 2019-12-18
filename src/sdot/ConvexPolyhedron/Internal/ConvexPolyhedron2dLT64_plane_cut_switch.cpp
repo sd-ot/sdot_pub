@@ -50,71 +50,73 @@ struct Mod {
 
 
 double Mod::score( std::string variant, int simd_size, int nb_regs ) {
-    std::ofstream fout( "/home/leclerc/sdot_pub/tmp.cpp" );
-    fout << "#include <sdot/Support/SimdVec.h>\n";
-    fout << "#include <iostream>\n";
-    fout << "#include <fstream>\n";
-    fout << "#include <chrono>\n";
-    fout << "\n";
-    fout << "//// nsmake cxx_name clang++\n";
-    fout << "//// nsmake cpp_flag -march=native\n";
-    fout << "//// nsmake cpp_flag -ffast-math\n";
-    fout << "//// nsmake cpp_flag -O3\n";
-    fout << "\n";
-    fout << "using CI = std::uint64_t;\n";
-    fout << "using TF = double;\n";
-    fout << "\n";
-    fout << "void __attribute__ ((noinline)) cut_proc( std::size_t nb_reps, TF *xs, TF *ys, TF *di, CI *cs ) {\n";
-    fout << "    using namespace sdot;\n";
-    fout << "    using VF = SimdVec<TF,4>;\n";
-    fout << "    using VC = SimdVec<CI,4>;\n";
-    fout << "\n";
-    fout << "    VF px_0 = VF::load_aligned( xs + 0 );\n";
-    fout << "    VF py_0 = VF::load_aligned( ys + 0 );\n";
-    fout << "    //VC pc_0 = VC::load_aligned( cs + 0 );\n";
-    fout << "    VF px_1 = VF::load_aligned( xs + 4 );\n";
-    fout << "    VF py_1 = VF::load_aligned( ys + 4 );\n";
-    fout << "    //VC pc_1 = VC::load_aligned( cs + 4 );\n";
-    fout << "\n";
-    fout << "    for( std::size_t rep = 0; rep < nb_reps; ++rep ) {\n";
-    fout << "        VF di_0 = VF::load_aligned( di + 0 ) + VF( rep );\n";
-    fout << "        VF di_1 = VF::load_aligned( di + 4 ) + VF( rep );\n";
-    fout << "\n";
-    write( fout, variant, simd_size, nb_regs, "        " );
-    fout << "    }\n";
-    fout << "\n";
-    fout << "    VF::store_aligned( xs + 0, px_0 );\n";
-    fout << "    VF::store_aligned( ys + 0, py_0 );\n";
-    fout << "    VF::store_aligned( xs + 4, px_1 );\n";
-    fout << "    VF::store_aligned( ys + 4, py_1 );\n";
-    fout << "}\n";
-    fout << "\n";
-    fout << "int main( int /*argc*/, char **argv ) {\n";
-    fout << "    alignas( 64 ) TF xs[] = { 0, 1, 2, 3, 4, 5, 6, 7 };\n";
-    fout << "    alignas( 64 ) TF ys[] = { 0, 1, 2, 3, 4, 5, 6, 7 };\n";
-    fout << "    alignas( 64 ) TF di[] = { 0, 1, 2, 3, 4, 5, 6, 7 };\n";
-    fout << "    alignas( 64 ) CI cs[] = { 0, 1, 2, 3, 4, 5, 6, 7 };\n";
-    fout << "\n";
-    fout << "    auto t0 = std::chrono::high_resolution_clock::now();\n";
-    fout << "    cut_proc( 200000000, xs, ys, di, cs );\n";
-    fout << "    auto t1 = std::chrono::high_resolution_clock::now();\n";
-    fout << "    std::ofstream fout( argv[ 1 ] );\n";
-    fout << "    fout << std::chrono::duration_cast<std::chrono::microseconds>( t1 - t0 ).count() / 1e6 << std::endl;\n";
-    fout << "}\n";
-    fout.close();
+    //    std::ofstream fout( "/home/leclerc/sdot_pub/tmp.cpp" );
+    //    fout << "#include <sdot/Support/SimdVec.h>\n";
+    //    fout << "#include <iostream>\n";
+    //    fout << "#include <fstream>\n";
+    //    fout << "#include <chrono>\n";
+    //    fout << "\n";
+    //    fout << "//// nsmake cxx_name clang++\n";
+    //    fout << "//// nsmake cpp_flag -march=native\n";
+    //    fout << "//// nsmake cpp_flag -ffast-math\n";
+    //    fout << "//// nsmake cpp_flag -O3\n";
+    //    fout << "\n";
+    //    fout << "using CI = std::uint64_t;\n";
+    //    fout << "using TF = double;\n";
+    //    fout << "\n";
+    //    fout << "void __attribute__ ((noinline)) cut_proc( std::size_t nb_reps, TF *xs, TF *ys, TF *di, CI *cs ) {\n";
+    //    fout << "    using namespace sdot;\n";
+    //    fout << "    using VF = SimdVec<TF,4>;\n";
+    //    fout << "    using VC = SimdVec<CI,4>;\n";
+    //    fout << "\n";
+    //    fout << "    VF px_0 = VF::load_aligned( xs + 0 );\n";
+    //    fout << "    VF py_0 = VF::load_aligned( ys + 0 );\n";
+    //    fout << "    VC pc_0 = VC::load_aligned( cs + 0 );\n";
+    //    fout << "    VF px_1 = VF::load_aligned( xs + 4 );\n";
+    //    fout << "    VF py_1 = VF::load_aligned( ys + 4 );\n";
+    //    fout << "    VC pc_1 = VC::load_aligned( cs + 4 );\n";
+    //    fout << "\n";
+    //    fout << "    VF di_0 = VF::load_aligned( di + 0 );\n";
+    //    fout << "    VF di_1 = VF::load_aligned( di + 4 );\n";
+    //    fout << "    for( std::size_t rep = 0; rep < nb_reps; ++rep ) {\n";
+    //    fout << "\n";
+    //    write( fout, variant, simd_size, nb_regs, "        " );
+    //    fout << "    }\n";
+    //    fout << "\n";
+    //    fout << "    VF::store_aligned( xs + 0, px_0 );\n";
+    //    fout << "    VF::store_aligned( xs + 4, px_1 );\n";
+    //    fout << "    VF::store_aligned( cs + 4, pc_1 );\n";
+    //    fout << "    VF::store_aligned( ys + 0, py_0 );\n";
+    //    fout << "    VF::store_aligned( ys + 4, py_1 );\n";
+    //    fout << "    VF::store_aligned( cs + 4, pc_1 );\n";
+    //    fout << "}\n";
+    //    fout << "\n";
+    //    fout << "int main( int /*argc*/, char **argv ) {\n";
+    //    fout << "    alignas( 64 ) TF xs[] = { 0, 1, 2, 3, 4, 5, 6, 7 };\n";
+    //    fout << "    alignas( 64 ) TF ys[] = { 0, 1, 2, 3, 4, 5, 6, 7 };\n";
+    //    fout << "    alignas( 64 ) TF di[] = { 0, 1, 2, 3, 4, 5, 6, 7 };\n";
+    //    fout << "    alignas( 64 ) CI cs[] = { 0, 1, 2, 3, 4, 5, 6, 7 };\n";
+    //    fout << "\n";
+    //    fout << "    auto t0 = std::chrono::high_resolution_clock::now();\n";
+    //    fout << "    cut_proc( 200000000, xs, ys, di, cs );\n";
+    //    fout << "    auto t1 = std::chrono::high_resolution_clock::now();\n";
+    //    fout << "    std::ofstream fout( argv[ 1 ] );\n";
+    //    fout << "    fout << std::chrono::duration_cast<std::chrono::microseconds>( t1 - t0 ).count() / 1e6 << std::endl;\n";
+    //    fout << "}\n";
+    //    fout.close();
 
-    system( "cd /home/leclerc/sdot_pub && clang++ -O3 -march=native -ffast-math -I/home/leclerc/sdot_pub/src/ -o tmp.exe tmp.cpp && ./tmp.exe tmp.dat" );
-    std::ifstream fin( "/home/leclerc/sdot_pub/tmp.dat" );
-    double res;
-    fin >> res;
+    //    system( "cd /home/leclerc/sdot_pub && clang++ -O3 -march=native -ffast-math -I/home/leclerc/sdot_pub/src/ -o tmp.exe tmp.cpp && ./tmp.exe tmp.dat" );
+    //    std::ifstream fin( "/home/leclerc/sdot_pub/tmp.dat" );
+    //    double res;
+    //    fin >> res;
 
-    std::cerr << "// " << ops << " => " << res << "\n";
+    //    std::cerr << "// " << ops << " => " << res << "\n";
 
-    //    double res = 0;
-    //    for( std::size_t i = 0; i < ops.size(); ++i ) {
-    //        if ( ops[ i ].single() && ops[ i ].inside_node() != i )
-    //            res += 1.0;
-    //    }
+    double res = 0;
+    for( std::size_t i = 0; i < ops.size(); ++i ) {
+        if ( ops[ i ].single() && ops[ i ].inside_node() != i )
+            res += 1.0;
+    }
 
     return res;
 }

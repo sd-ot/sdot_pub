@@ -7,7 +7,7 @@
 //// nsmake cpp_flag -ffast-math
 //// nsmake cpp_flag -O3
 
-using CI = std::uint64_t;
+using CI = double; // std::uint64_t;
 using TF = double;
 
 void __attribute__ ((noinline)) cut_proc( std::size_t nb_reps, TF *xs, TF *ys, TF *di, CI *cs ) {
@@ -42,14 +42,27 @@ void __attribute__ ((noinline)) cut_proc( std::size_t nb_reps, TF *xs, TF *ys, T
         //        py_0[ 0 ] = ny_s[ 0 ];
         //        py_0[ 1 ] = ny_s[ 1 ];
 
-        TF dm_0 = di_1[ 0 ] / ( di_0[ 0 ] - di_1[ 0 ] );
-        TF dm_1 = di_0[ 1 ] / ( di_0[ 2 ] - di_0[ 1 ] );
-        TF nx_0 = px_1[ 0 ] - dm_0 * ( px_0[ 0 ] - px_1[ 0 ] );
-        TF ny_0 = py_1[ 0 ] - dm_0 * ( py_0[ 0 ] - py_1[ 0 ] );
-        TF nx_1 = px_0[ 1 ] - dm_1 * ( px_0[ 2 ] - px_0[ 1 ] );
-        TF ny_1 = py_0[ 1 ] - dm_1 * ( py_0[ 2 ] - py_0[ 1 ] );
-        px_0[ 0 ] = nx_0;
-        py_0[ 0 ] = ny_0;
+        // 0.755269
+        constexpr int a0 = 0, a1 = 3;
+        constexpr int b0 = 2, b1 = 3;
+
+        // nb_nodes:4 outside:00000111 ops:[2,3],3,[3,0]
+
+        SimdVec<TF,2> di_a( di_0[ a0 ], di_0[ a1 ] );
+        SimdVec<TF,2> di_b( di_0[ b0 ], di_0[ b1 ] );
+        SimdVec<TF,2> px_a( px_0[ a0 ], px_0[ a1 ] );
+        SimdVec<TF,2> px_b( px_0[ b0 ], px_0[ b1 ] );
+        SimdVec<TF,2> py_a( py_0[ a0 ], py_0[ a1 ] );
+        SimdVec<TF,2> py_b( py_0[ b0 ], py_0[ b1 ] );
+        SimdVec<TF,2> dm_s = di_a / ( di_b - di_a );
+        SimdVec<TF,2> nx_s = px_a - dm_s * ( px_b - px_a );
+        SimdVec<TF,2> ny_s = py_a - dm_s * ( py_b - py_a );
+        TF nx_1 = px_0[ 3 ];
+        TF ny_1 = py_0[ 3 ];
+        px_0[ 0 ] = nx_s[ 0 ];
+        px_0[ 2 ] = nx_s[ 1 ];
+        py_0[ 0 ] = ny_s[ 0 ];
+        py_0[ 2 ] = ny_s[ 1 ];
         px_0[ 1 ] = nx_1;
         py_0[ 1 ] = ny_1;
     }
