@@ -20,3 +20,4 @@ err
 *.bin
 ooc/
 tmp.*
+.tmp*

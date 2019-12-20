@@ -39,3 +39,10 @@ struct Instruction256Perm : public Instruction {
     std::array<int,4> nums;
 };
 
+///
+struct Instruction256DupEven : public Instruction {
+    /**/              Instruction256DupEven( Reg out, Reg inp ) : out( out ), inp( inp ) {}
+    virtual void      write_to_stream   ( std::ostream &os ) override { os << "_m256 " << out << " = _mm256_movedup_pd( " << inp << " );"; }
+    Reg               out, inp;
+};
+

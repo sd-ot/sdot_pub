@@ -11,8 +11,8 @@ Path SimdCodegen::best_path_for( Reg out, std::vector<Lane> inp ) {
 
         // in the same register ?
         if ( inp[ 0 ].reg == inp[ 1 ].reg ) {
-            if ( r0 == 0 && r1 == 1 )
-                return { { new Instruction256DupEven( out, inp[ 0 ].reg ) } };
+            if ( r0 == 0 && r1 == 0 )
+                return { { new Instruction256DupEven( { 4, "tmp" }, inp[ 0 ].reg ), new Instruction256Cast128( out, { 4, "tmp" } ) } };
             if ( r0 == 0 && r1 == 1 )
                 return { { new Instruction256Cast128( out, inp[ 0 ].reg ) } };
             if ( r0 == 0 && r1 == 2 )
