@@ -89,4 +89,5 @@ Il faut ensuite les coller dans px et py
 
 Prop: on calcule une borne de temps à partir de _mm25 6_extract_epi64
 
-
+Prop: on propose un set de graph, et on cherche celui qui produit le meilleur code.
+  => 

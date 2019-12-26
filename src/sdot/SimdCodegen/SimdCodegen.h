@@ -1,17 +1,19 @@
 #pragma once
 
-#include "Path.h"
-#include "Lane.h"
+#include "SimdGraph.h"
+#include <map>
 
 /**
 */
 class SimdCodegen {
 public:
-    /**/ SimdCodegen  ( int simd_size = 4 );
+    /**/                            SimdCodegen    ();
 
-    Path best_path_for( Reg out, std::vector<Lane> res );
+    void                            add_possibility( const SimdGraph &gr );
+    void                            write_code     ( std::ostream &os );
 
-    int  simd_size;
+private:
+    std::map<std::string,SimdGraph> gr_map;
 };
 
 
