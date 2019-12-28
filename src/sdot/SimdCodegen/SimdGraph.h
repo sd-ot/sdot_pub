@@ -11,6 +11,8 @@ public:
     /**/                  SimdGraph         ( const SimdGraph &that );
     /**/                  SimdGraph         ();
 
+    void                  operator=         ( const SimdGraph &that );
+
     void                  for_each_child    ( const std::function<void(SimdOp *)> &f, const std::vector<SimdOp *> &targets, bool postfix = false ) const;
 
     void                  add_target        ( SimdOp *target );

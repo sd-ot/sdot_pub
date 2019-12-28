@@ -1,8 +1,21 @@
 #include "../Support/Display/DotOut.h"
+#include "../Support/TODO.h"
 #include "SimdGraph.h"
 #include <fstream>
 
-SimdGraph::SimdGraph( const SimdGraph &that ) : cur_op_id( that.cur_op_id ) {
+SimdGraph::SimdGraph( const SimdGraph &that ) {
+   operator=( that );
+}
+
+SimdGraph::SimdGraph() {
+    cur_op_id = 0;
+}
+
+void SimdGraph::operator=( const SimdGraph &that ) {
+    this->cur_op_id = that.cur_op_id;
+
+    pool.clear();
+
     for( const SimdOp &op : that.pool ) {
         pool.push_back( { op.name, op.children, op.op_id } );
         op.repl = &pool.back();
@@ -14,10 +27,6 @@ SimdGraph::SimdGraph( const SimdGraph &that ) : cur_op_id( that.cur_op_id ) {
     for( SimdOp &op : pool )
         for( SimdOp *&ch : op.children )
             ch = ch->repl;
-}
-
-SimdGraph::SimdGraph() {
-    cur_op_id = 0;
 }
 
 void SimdGraph::for_each_child( const std::function<void(SimdOp *)> &f, const std::vector<SimdOp *> &targets, bool postfix ) const {

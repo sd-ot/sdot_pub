@@ -7,13 +7,13 @@
 */
 class SimdCodegen {
 public:
-    /**/                            SimdCodegen    ();
+    /**/                   SimdCodegen    ();
 
-    void                            add_possibility( const SimdGraph &gr );
-    void                            write_code     ( std::ostream &os );
+    void                   add_possibility( const SimdGraph &gr );
+    void                   write_code     ( std::ostream &os );
 
 private:
-    std::map<std::string,SimdGraph> gr_map;
+    std::vector<SimdGraph> gr_map;
 };
 
 
