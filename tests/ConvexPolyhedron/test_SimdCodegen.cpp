@@ -57,11 +57,8 @@ void make_graph( SimdCodegen &sc, OptParm &opt_parm, const Mod &mod ) {
     SimdOp *di_a = gr.make_op( "AGG", { gr.get_op( di_0, n0 ), gr.get_op( di_0, n1 ) } );
     SimdOp *di_b = gr.make_op( "AGG", { gr.get_op( di_0, n2 ), gr.get_op( di_0, n3 ) } );
 
-    bool sub = opt_parm.get_value( 2 );
-    SimdOp *di_m = gr.make_op( "DIV", { di_a, gr.make_op( sub ? "SUB" : "ADD", { di_b, di_a } ) } );
-
-    SimdOp *diff = sub ? gr.make_op( "SUB", { px_a, px_b } ) : gr.make_op( "SUB", { px_b, px_a } );
-    SimdOp *adds = gr.make_op( "ADD", { px_a, gr.make_op( "MUL", { di_m, diff } ) } );
+    SimdOp *di_m = gr.make_op( "DIV", { di_a, gr.make_op( "SUB", { di_b, di_a } ) } );
+    SimdOp *adds = gr.make_op( "ADD", { px_a, gr.make_op( "MUL", { di_m, gr.make_op( "SUB", { px_b, px_a } ) } ) } );
 
     SimdOp *resg = gr.make_op( "AGG", {
         gr.get_op( px_0, 2 ),

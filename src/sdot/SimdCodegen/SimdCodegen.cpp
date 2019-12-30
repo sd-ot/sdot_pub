@@ -54,7 +54,7 @@ void SimdCodegen::write_code( std::ostream &os ) {
         // fout << "     auto t1 = std::chrono::high_resolution_clock::now();\n";
         // fout << "     dt.push_back( std::chrono::duration_cast<std::chrono::microseconds>( t1 - t0 ).count() / 1e6 );\n";
         fout << "        dt.push_back( t1 - t0 );\n";
-        fout << "        std::cout << \"px: \" << px_0[ 0 ] << std::endl;\n";
+        fout << "        std::cout << \"px: \" << px_0[ 0 ] << \" \" << px_0[ 1 ] << \" \" << px_0[ 2 ] << \" \" << px_0[ 3 ] << std::endl;\n";
         if ( cpt )
             fout << "        std::cout << ( dt.back() - dt[ 0 ] ) / " << nb_reps << " << std::endl;\n";
         else
