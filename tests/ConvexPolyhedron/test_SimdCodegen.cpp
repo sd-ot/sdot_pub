@@ -25,6 +25,7 @@ struct Op {
 };
 
 struct Mod {
+    void                     write_to_stream( std::ostream &os ) const { os << ops; }
     std::vector<std::size_t> split_indices  () const { std::vector<std::size_t> res; for( std::size_t i = 0; i < ops.size(); ++i ) if ( ops[ i ].split() ) res.push_back( i ); return res; }
     void                     rotate         ( std::size_t off ) { std::vector<Op> nops( ops.size() ); for( std::size_t i = 0; i < ops.size(); ++i ) nops[ i ] = ops[ ( i + off ) % ops.size() ]; ops = nops; }
     void                     sw             ( std::uint64_t val ) { std::vector<std::size_t> si = split_indices(); for( std::size_t i = 0; i < si.size(); ++i ) ops[ si[ i ] ].sw = val & ( std::uint64_t( 1 ) << i ); }
@@ -43,7 +44,7 @@ void make_graph( SimdCodegen &sc, OptParm &opt_parm, const Mod &mod ) {
     int n0 = mod.ops[ sp_ind[ 0 ] ].n0(), n1 = mod.ops[ sp_ind[ 0 ] ].n1();
     int n2 = mod.ops[ sp_ind[ 1 ] ].n0(), n3 = mod.ops[ sp_ind[ 1 ] ].n1();
 
-    bool switch_cuts = 0; // opt_parm.get_value( 2 );
+    bool switch_cuts = opt_parm.get_value( 2 );
     if ( switch_cuts ) {
         std::swap( n0, n2 );
         std::swap( n1, n3 );
@@ -52,22 +53,27 @@ void make_graph( SimdCodegen &sc, OptParm &opt_parm, const Mod &mod ) {
     SimdOp *px_0 = gr.make_op( "REG px_0 d 4", {} );
     SimdOp *di_0 = gr.make_op( "REG di_0 d 4", {} );
 
-    SimdOp *px_a = gr.make_op( "AGG", { gr.get_op( px_0, n0 ), gr.get_op( px_0, n1 ) } );
-    SimdOp *px_b = gr.make_op( "AGG", { gr.get_op( px_0, n2 ), gr.get_op( px_0, n3 ) } );
-    SimdOp *di_a = gr.make_op( "AGG", { gr.get_op( di_0, n0 ), gr.get_op( di_0, n1 ) } );
-    SimdOp *di_b = gr.make_op( "AGG", { gr.get_op( di_0, n2 ), gr.get_op( di_0, n3 ) } );
+    SimdOp *px_a = gr.make_op( "AGG", { gr.get_op( px_0, n0 ), gr.get_op( px_0, n2 ) } );
+    SimdOp *px_b = gr.make_op( "AGG", { gr.get_op( px_0, n1 ), gr.get_op( px_0, n3 ) } );
+    SimdOp *di_a = gr.make_op( "AGG", { gr.get_op( di_0, n0 ), gr.get_op( di_0, n2 ) } );
+    SimdOp *di_b = gr.make_op( "AGG", { gr.get_op( di_0, n1 ), gr.get_op( di_0, n3 ) } );
 
     SimdOp *di_m = gr.make_op( "DIV", { di_a, gr.make_op( "SUB", { di_b, di_a } ) } );
-    SimdOp *adds = gr.make_op( "ADD", { px_a, gr.make_op( "MUL", { di_m, gr.make_op( "SUB", { px_b, px_a } ) } ) } );
+    SimdOp *adds = gr.make_op( "ADD", { px_a, gr.make_op( "MUL", { di_m, gr.make_op( "SUB", { px_a, px_b } ) } ) } );
 
-    SimdOp *resg = gr.make_op( "AGG", {
-        gr.get_op( px_0, 2 ),
-        gr.get_op( px_0, 3 ),
-        gr.get_op( adds, switch_cuts ),
-        gr.get_op( adds, 1 - switch_cuts )
-    } );
+    std::vector<SimdOp *> r_ch;
+    int num_in_adds = switch_cuts;
+    for( const Op &op : mod.ops ) {
+        if ( op.single() ) {
+            r_ch.push_back( gr.get_op( px_0, op.i0 ) );
+        } else {
+            r_ch.push_back( gr.get_op( adds, num_in_adds ) );
+            num_in_adds ^= 1;
+        }
+    }
 
-    gr.add_target( gr.make_op( "SET px_0", { resg } ) );
+    gr.add_target( gr.make_op( "SET px_0", { gr.make_op( "AGG", r_ch ) } ) );
+    gr.set_msg( va_string( "mod={}, swith_cuts={}", mod, switch_cuts ) );
     //    gr.write_code( std::cout, "    " );
     //    gr.display();
 

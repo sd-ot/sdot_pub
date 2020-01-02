@@ -13,6 +13,7 @@ SimdGraph::SimdGraph() {
 
 void SimdGraph::operator=( const SimdGraph &that ) {
     this->cur_op_id = that.cur_op_id;
+    this->msg = that.msg;
 
     pool.clear();
 
@@ -38,6 +39,10 @@ void SimdGraph::for_each_child( const std::function<void(SimdOp *)> &f, const st
 
 void SimdGraph::add_target( SimdOp *target ) {
     targets.push_back( target );
+}
+
+void SimdGraph::set_msg( std::string msg ) {
+    this->msg = msg;
 }
 
 void SimdGraph::write_code( std::ostream &os, std::string sp ) {
