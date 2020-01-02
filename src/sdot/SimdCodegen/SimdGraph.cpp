@@ -46,6 +46,9 @@ void SimdGraph::set_msg( std::string msg ) {
 }
 
 void SimdGraph::write_code( std::ostream &os, std::string sp ) {
+    if ( msg.size() )
+        os << sp << "// " << msg << "\n";
+
     // update parents
     std::vector<SimdOp *> front;
     update_parents( &front );

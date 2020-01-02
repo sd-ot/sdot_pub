@@ -15,6 +15,7 @@ template<class _TF,int _size=SimdSize<_TF>::value> struct SimdVec {
     enum {         size         = _size };
     using          T           = _TF;
 
+    /**/           SimdVec      ( T a, T b, T c, T d ) { values[ 0 ] = a; values[ 1 ] = b; values[ 2 ] = c; values[ 3 ] = d; }
     /**/           SimdVec      ( T a, T b ) { values[ 0 ] = a; values[ 1 ] = b; }
     /**/           SimdVec      ( T value ) { for( int i = 0; i < size; ++i ) values[ i ] = value; }
     /**/           SimdVec      () {}
