@@ -90,4 +90,10 @@ Il faut ensuite les coller dans px et py
 Prop: on calcule une borne de temps à partir de _mm25 6_extract_epi64
 
 Prop: on propose un set de graph, et on cherche celui qui produit le meilleur code.
-  => .
+  => 
+
+Pourquoi faire de l'assembleur ?
+  => pour faire un saut avec un shift
+  => pour s'assurer que tout est dans les registres (?)
+
+Rq: ça serait bien d'avoir une version C++ pour le cas général. Ça permettra aussi de faire des bench.

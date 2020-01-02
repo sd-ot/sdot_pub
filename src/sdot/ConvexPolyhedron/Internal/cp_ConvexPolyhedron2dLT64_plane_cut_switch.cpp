@@ -43,7 +43,7 @@ struct Op {
 /**
   Operations
 */
-struct Mod {
+struct Cp2Lt64CutList {
     void write_to_stream( std::ostream &os ) const {
         os << ops;
     }
@@ -451,7 +451,7 @@ bool get_code( std::ostringstream &code, int nb_nodes, std::bitset<8> outside, i
     }
 
     // get list of modifications
-    Mod mod;
+    Cp2Lt64CutList mod;
     mod.old_size = nb_nodes;
     for( int i = 0; i < nb_nodes; ++i ) {
         int h = ( i + nb_nodes - 1 ) % nb_nodes;

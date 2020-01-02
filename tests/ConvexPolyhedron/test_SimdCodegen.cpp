@@ -1,4 +1,3 @@
-#include "../../src/sdot/Support/Benchmark.h"
 #include "../../src/sdot/Support/SimdVec.h"
 #include "../../src/sdot/Support/P.h"
 #include <stdio.h>
