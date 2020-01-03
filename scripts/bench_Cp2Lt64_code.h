@@ -34,20 +34,21 @@ void bench_Cp2Lt64_code( std::vector<TFunc *> funcs, int nodes_size, const char 
         py[ i ] = 0;
         cut_x[ i ] = 1;
         cut_y[ i ] = 0;
+        cut_s[ i ] = 2;
     }
 
     // the "fully outside" case is used to reinitialize px. Reinitialization is counted as overhead
-    double overhead = 1e40;
-    for( int i = 0; i < cut_n; ++i )
-        cut_s[ i ] = 2;
-    for( std::size_t rep = 0; rep < 1000; ++rep )
-        overhead = std::min( overhead, _timing( funcs[ 0 ], px, py, nodes_size, cut_x, cut_y, cut_s, cut_n / 2 ) );
+    //    double overhead = 1e40;
+    //    for( int i = 0; i < cut_n; ++i )
+    //    for( std::size_t rep = 0; rep < 100; ++rep )
+    //        overhead = std::min( overhead, _timing( funcs[ 0 ], px, py, nodes_size, cut_x, cut_y, cut_s, cut_n / 2 ) );
+    double overhead = 0;
 
     // get timings (with reinitialization before each step)
     std::vector<double> timings( funcs.size(), 1e40 );
     for( int i = 1; i < cut_n; i += 2 )
         cut_s[ i ] = 0;
-    for( std::size_t rep = 0; rep < 1000; ++rep )
+    for( std::size_t rep = 0; rep < 5000; ++rep )
         for( std::size_t num_func = 0; num_func < funcs.size(); ++num_func )
             timings[ num_func ] = std::min( timings[ num_func ], _timing( funcs[ num_func ], px, py, nodes_size, cut_x, cut_y, cut_s, cut_n ) );
 

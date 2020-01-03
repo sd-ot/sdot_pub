@@ -52,7 +52,7 @@ SimdGraph make_graph( OptParm &opt_parm, const Cp2Lt64CutList &mod, std::vector<
     }
 
     for( std::size_t i = 0; i < r_ch.size(); ++i ) {
-        while ( r_ch[ i ].size() < simd_size )
+        while ( int( r_ch[ i ].size() ) < simd_size )
             r_ch[ i ].push_back( r_ch[ i ].back() );
         gr.add_target( gr.make_op( "SET px_" + std::to_string( i ), { gr.make_op( "AGG", r_ch[ i ] ) } ) );
     }
@@ -64,12 +64,12 @@ SimdGraph make_graph( OptParm &opt_parm, const Cp2Lt64CutList &mod, std::vector<
     return gr;
 }
 
-bool make_code( SimdGraph &res, unsigned case_code, int simd_size, int max_nb_nodes ) {
+bool make_code( SimdGraph &res, unsigned case_code, int simd_size, int max_nb_nodes, std::string float_type, std::string simd_type ) {
     std::vector<bool> outside;
     for( unsigned cp = case_code; cp; cp /= 2 )
         outside.push_back( cp & 1 );
     outside.pop_back();
-    P( simd_size, outside );
+    P( simd_type, outside );
 
     // make a ref Mod
     Cp2Lt64CutList ref_mod;
@@ -126,8 +126,8 @@ bool make_code( SimdGraph &res, unsigned case_code, int simd_size, int max_nb_no
     fout << "#include \"scripts/bench_Cp2Lt64_code.h\"\n";
     fout << "\n";
     fout << "using namespace sdot;\n";
-    fout << "using TF = double;\n";
-    fout << "using TC = std::uint64_t;\n";
+    fout << "using TF = " << float_type << ";\n";
+    fout << "using TC = void *;\n";
     fout << "using VF = SimdVec<TF," << simd_size << ">;\n";
     fout << "\n";
     for( std::size_t num_graph = 0; num_graph < graphs.size(); ++num_graph ) {
@@ -136,7 +136,7 @@ bool make_code( SimdGraph &res, unsigned case_code, int simd_size, int max_nb_no
 
         // load px, py, pi, ...
         for( char c : std::string( "xy" ) )
-            for( std::size_t i = 0; i < max_nb_nodes + 1 /*we may have to create a new point*/; i += simd_size )
+            for( int i = 0; i < max_nb_nodes + 1 /*we may have to create a new point*/; i += simd_size )
                 fout << "    SimdVec<TF," << simd_size << "> p" << c << "_" << i / simd_size << " = SimdVec<TF," << simd_size << ">::load_aligned( p" << c << " + " << i << " );\n";
 
         // loop over the cuts
@@ -149,14 +149,14 @@ bool make_code( SimdGraph &res, unsigned case_code, int simd_size, int max_nb_no
         fout << "        VF cy = cut_y[ num_cut ];\n";
         fout << "        VF cs = cut_s[ num_cut ];\n";
         fout << "        \n";
-        for( std::size_t i = 0; i < max_nb_nodes; i += simd_size )
+        for( int i = 0; i < max_nb_nodes; i += simd_size )
             fout << "        VF bi_" << i / simd_size << " = px_" << i / simd_size << " * cx + py_" << i / simd_size << " * cy;\n";
         fout << "        int outside_nodes = ";
-        for( std::size_t i = 0; i < max_nb_nodes; i += simd_size )
+        for( int i = 0; i < max_nb_nodes; i += simd_size )
             fout << ( i ? " | " : "" ) << "( ( bi_" << i / simd_size << " > cs ) << " << i << " )";
         fout << ";\n";
         fout << "        int case_code = ( outside_nodes & ( nmsk - 1 ) ) | nmsk;\n";
-        for( std::size_t i = 0; i < max_nb_nodes; i += simd_size )
+        for( int i = 0; i < max_nb_nodes; i += simd_size )
             fout << "        VF di_" << i / simd_size << " = bi_" << i / simd_size << " - cs;\n"; // TODO: test if di > 0
         fout << "        \n";
         fout << "        // if nothing has changed => go to the next cut\n";
@@ -165,7 +165,7 @@ bool make_code( SimdGraph &res, unsigned case_code, int simd_size, int max_nb_no
 
         // dispatch
         fout << "        static void *dispatch_table[] = { ";
-        for( int i = 0; i < case_code; ++i )
+        for( unsigned i = 0; i < case_code; ++i )
             fout << "&&case_init, ";
         fout << "&&case_cut };\n";
         fout << "        goto *dispatch_table[ case_code ];\n";
@@ -218,23 +218,27 @@ bool make_code( SimdGraph &res, unsigned case_code, int simd_size, int max_nb_no
     return true;
 }
 
+void write_for( std::string float_type, std::string simd_type, int max_nb_nodes = 4 ) {
+    std::string arch, simd_test;
+    int max_simd_size;
 
-int main() {
-    int max_simd_size = 8;
-    int max_nb_nodes = 4;
+    if ( simd_type == "SSE2"   ) { max_simd_size = float_type == "float" ?  4 : 2; arch = "sandybridge"   ; simd_test = "__SSE2__"   ; }
+    if ( simd_type == "AVX2"   ) { max_simd_size = float_type == "float" ?  8 : 4; arch = "skylake"       ; simd_test = "__AVX2__"   ; }
+    if ( simd_type == "AVX512" ) { max_simd_size = float_type == "float" ? 16 : 8; arch = "skylake-avx512"; simd_test = "__AVX512F__"; }
 
     // ponderation
     std::vector<double> p_nb_nodes = { 0, 0, 0, 3, 20, 30, 25, 12, 5, 2 };
     std::vector<double> p_nb_cuts = { 65, 10, 10, 5, 1, 1, 1, 1, 1, 1 };
 
+    // scores
     std::map<unsigned,SimdGraph> graphs[ max_simd_size + 1 ];
     std::vector<double> scores( max_simd_size + 1, 0 );
     for( int nb_nodes = 3; nb_nodes <= max_nb_nodes; ++nb_nodes ) {
         for( unsigned comb = 0; comb < ( 1 << nb_nodes ); ++comb ) {
-            for( int simd_size : { 1, 2, 4 } ) {
+            for( int simd_size = 1; simd_size <= max_simd_size; simd_size *= 2 ) {
                 SimdGraph gr;
                 unsigned code = comb | ( 1 << nb_nodes );
-                bool ok = make_code( gr, code, simd_size, max_nb_nodes );
+                bool ok = make_code( gr, code, simd_size, max_nb_nodes, float_type, simd_type );
                 if ( ! ok )
                     continue;
 
@@ -247,7 +251,120 @@ int main() {
             }
         }
     }
-    P( scores[ 1 ] );
-    P( scores[ 2 ] );
-    P( scores[ 4 ] );
+
+    int simd_size = 1;
+    for( int s = 1; s <= max_simd_size; s *= 2 ) {
+        if ( scores[ simd_size ] > scores[ s ] )
+            simd_size = s;
+        P( s, scores[ s ] );
+    }
+
+    // write code
+    std::string nh = va_string( "src/sdot/ConvexPolyhedron/Internal/ConvexPolyhedron2dLt64_cut_{}_{}.h"  , float_type, simd_type );
+    std::string nc = va_string( "src/sdot/ConvexPolyhedron/Internal/ConvexPolyhedron2dLt64_cut_{}_{}.cpp", float_type, simd_type );
+    std::ofstream fh( nh.c_str() );
+    std::ofstream fc( nc.c_str() );
+    P( nc );
+    P( nh );
+
+    // declaration
+    fh << "#ifdef " << simd_test << "\n";
+    fh << "namespace sdot {\n";
+    fh << "namespace internal {\n";
+    fh << "void ConvexPolyhedron2dLt64_cut( " << float_type << " *px, " << float_type << " *py, std::size_t *pi, int &nodes_size, const " << float_type << " *cut_x, const " << float_type << " *cut_y, const " << float_type << " *cut_s, const std::size_t *cut_i, int cn );\n";
+    fh << "} // namespace internal\n";
+    fh << "} // namespace sdot\n";
+    fh << "#endif // " << simd_test << "\n";
+
+    // definition
+    fc << "#ifdef " << simd_test << "\n";
+    fc << "#include \"../../Support/SimdVec.h\"\n";
+    fh << "namespace sdot {\n";
+    fh << "namespace internal {\n";
+    fc << "void ConvexPolyhedron2dLt64_cut( " << float_type << " *px, " << float_type << " *py, std::size_t *pi, int &nodes_size, const " << float_type << " *cut_x, const " << float_type << " *cut_y, const " << float_type << " *cut_s, const std::size_t *cut_i, int cn ) {\n";
+    fc << "    using namespace sdot;\n";
+    fc << "    using TF = " << float_type << ";\n";
+    fc << "    using TC = std::size_t;\n";
+    fc << "    using VF = SimdVec<TF," << simd_size << ">;\n";
+    fc << "    using VC = SimdVec<TC," << simd_size << ">;\n";
+
+    // load px, py, pi, ...
+    for( char c : std::string( "xyi" ) )
+        for( int i = 0; i < max_nb_nodes + 1 /*we may have to create a new point*/; i += simd_size )
+            fc << "    " << ( c == 'i' ? "VC" : "VF" ) << " p" << c << "_" << i / simd_size
+               << " = "  << ( c == 'i' ? "VC" : "VF" ) << "::load_aligned( p" << c << " + " << i << " );\n";
+
+    // loop over the cuts
+    fc << "    for( int num_cut = 0; num_cut < cn; ++num_cut ) {\n";
+
+    // get distance and outside bit for each node
+    fc << "        int nmsk = 1 << nodes_size;\n";
+    fc << "        VF cx = cut_x[ num_cut ];\n";
+    fc << "        VF cy = cut_y[ num_cut ];\n";
+    fc << "        VF cs = cut_s[ num_cut ];\n";
+    fc << "        \n";
+    for( int i = 0; i < max_nb_nodes; i += simd_size )
+        fc << "        VF bi_" << i / simd_size << " = px_" << i / simd_size << " * cx + py_" << i / simd_size << " * cy;\n";
+    fc << "        int outside_nodes = ";
+    for( int i = 0; i < max_nb_nodes; i += simd_size )
+        fc << ( i ? " | " : "" ) << "( ( bi_" << i / simd_size << " > cs ) << " << i << " )";
+    fc << ";\n";
+    fc << "        int case_code = ( outside_nodes & ( nmsk - 1 ) ) | nmsk;\n";
+    for( int i = 0; i < max_nb_nodes; i += simd_size )
+        fc << "        VF di_" << i / simd_size << " = bi_" << i / simd_size << " - cs;\n";
+    fc << "        \n";
+    fc << "        // if nothing has changed => go to the next cut\n";
+    fc << "        if ( outside_nodes == 0 )\n";
+    fc << "            continue;\n";
+
+    // dispatch
+    std::map<std::string,std::size_t> case_map;
+    fc << "        static void *dispatch_table[] = { ";
+    for( unsigned code = 0; code < ( 1 << ( max_nb_nodes + 1 ) ); ++code ) {
+        if ( graphs[ simd_size ].count( code ) == 0 ) {
+            fc << "&&case_not_handled, ";
+            continue;
+        }
+
+        std::ostringstream fcc;
+        graphs[ simd_size ][ code ].write_code( fcc, "            " );
+        if ( case_map.count( fcc.str() ) == 0 )
+            case_map[ fcc.str() ] = case_map.size();
+
+        fc << "&&case_" << case_map[ fcc.str() ] << ", ";
+    }
+    fc << " };\n";
+    fc << "        goto *dispatch_table[ case_code ];\n";
+
+    // not handled
+    fc << "        case_not_handled: {\n";
+    fc << "            break;\n";
+    fc << "        }\n";
+
+    // cut case
+    for( std::pair<std::string,std::size_t> c : case_map ) {
+        fc << "        case_" << c.second << ": {\n";
+        fc << c.first;
+        fc << "            continue;\n";
+        fc << "        }\n";
+    }
+
+    // end for
+    fc << "    }\n";
+
+    // store px, py, pi, ...
+    for( char c : std::string( "xyi" ) )
+        for( int i = 0; i < max_nb_nodes + 1 /*we may have to create a new point*/; i += simd_size )
+            fc << "    " << ( c == 'i' ? "VC" : "VF" ) << "::store_aligned( p" << c << " + " << i << ", p" << c << "_" << i / simd_size << " );\n";
+
+    fc << "}\n";
+    fh << "} // namespace internal\n";
+    fh << "} // namespace sdot\n";
+    fc << "#endif // " << simd_test << "\n";
+}
+
+int main() {
+    for( std::string float_type : { "double"/*, "float"*/ } )
+        for( std::string simd_type : { /*"SSE2", */"AVX2"/*, "AVX512"*/ } )
+            write_for( float_type, simd_type, 3 );
 }
