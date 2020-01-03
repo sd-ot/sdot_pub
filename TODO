@@ -97,3 +97,7 @@ Pourquoi faire de l'assembleur ?
   => pour s'assurer que tout est dans les registres (?)
 
 Rq: ça serait bien d'avoir une version C++ pour le cas général. Ça permettra aussi de faire des bench.
+
+Pb: c'est important de considérer le temps de calcul des distances. => les bench doivent intégrer le test
+
+Du coup, on pourrait faire plusieurs cut_bench

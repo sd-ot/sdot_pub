@@ -24,6 +24,9 @@ public:
 
     void                  display           ( std::string filename = ".tmp" );
 
+    double                score;
+    std::string           prel;
+    std::string           suff;
     std::string           msg;
 
 private:

@@ -48,6 +48,8 @@ void SimdGraph::set_msg( std::string msg ) {
 void SimdGraph::write_code( std::ostream &os, std::string sp ) {
     if ( msg.size() )
         os << sp << "// " << msg << "\n";
+    if ( prel.size() )
+        os << sp << prel << "\n";
 
     // update parents
     std::vector<SimdOp *> front;
@@ -79,6 +81,9 @@ void SimdGraph::write_code( std::ostream &os, std::string sp ) {
             if ( all_children_done( pa ) )
                 front.push_back( pa );
     }
+
+    if ( suff.size() )
+        os << sp << suff << "\n";
 }
 
 SimdOp *SimdGraph::make_op( std::string name, const std::vector<SimdOp *> &children ) {

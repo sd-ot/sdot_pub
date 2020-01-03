@@ -41,13 +41,15 @@ void bench_Cp2Lt64_code( TFunc *func, int nb_cases, const char *output_filename 
         timings[ i ] = ( timings[ i ] - overhead ) / cases.size();
     P( timings );
 
-    if ( output_filename ) {
-        std::size_t best_i = 0;
-        for( std::size_t i = 1; i < timings.size(); ++i )
-            if ( timings[ best_i ] > timings[ i ] )
-                best_i = i;
+    std::size_t best_i = 0;
+    for( std::size_t i = 1; i < timings.size(); ++i )
+        if ( timings[ best_i ] > timings[ i ] )
+            best_i = i;
+    P( timings[ best_i ] );
+    P( best_i );
 
+    if ( output_filename ) {
         std::ofstream fout( output_filename );
-        fout << best_i << "\n";
+        fout << best_i << " " << timings[ best_i ] << "\n";
     }
 }

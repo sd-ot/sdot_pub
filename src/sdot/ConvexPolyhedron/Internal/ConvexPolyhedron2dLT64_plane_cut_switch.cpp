@@ -38,7 +38,7 @@ void Op::write_to_stream( std::ostream &os ) const {
         os << "[" << i0 << "," << i1 << "]";
 }
 
-struct Mod {
+struct Cp2Lt64CutList {
     std::vector<std::size_t> split_indices  () { std::vector<std::size_t> res; for( std::size_t i = 0; i < ops.size(); ++i ) if ( ops[ i ].split() ) res.push_back( i ); return res; }
     void                     rotate         ( std::size_t off ) { std::vector<Op> nops( ops.size() ); for( std::size_t i = 0; i < ops.size(); ++i ) nops[ i ] = ops[ ( i + off ) % ops.size() ]; ops = nops; }
     double                   score          ( std::string variant, int simd_size, int nb_regs );
@@ -49,7 +49,7 @@ struct Mod {
 };
 
 
-double Mod::score( std::string variant, int simd_size, int nb_regs ) {
+double Cp2Lt64CutList::score( std::string variant, int simd_size, int nb_regs ) {
     //    std::ofstream fout( "/home/leclerc/sdot_pub/tmp.cpp" );
     //    fout << "#include <sdot/Support/SimdVec.h>\n";
     //    fout << "#include <iostream>\n";
@@ -121,7 +121,7 @@ double Mod::score( std::string variant, int simd_size, int nb_regs ) {
     return res;
 }
 
-void Mod::write( std::ostream &os, std::string variant, int simd_size, int nb_regs, std::string sp ) {
+void Cp2Lt64CutList::write( std::ostream &os, std::string variant, int simd_size, int nb_regs, std::string sp ) {
     auto d = [&]( std::string b, int n ) { return b + "_" + std::to_string( n / simd_size ) + "[ " + std::to_string( n % simd_size ) + " ]"; };
     std::vector<std::size_t> si = split_indices();
 
@@ -192,7 +192,7 @@ void Mod::write( std::ostream &os, std::string variant, int simd_size, int nb_re
 
 bool get_code( std::ostringstream &os, std::string variant, std::size_t nb_nodes, std::bitset<8> outside, int simd_size, int nb_regs ) {
     // make a ref Mod
-    Mod ref_mod;
+    Cp2Lt64CutList ref_mod;
     for( std::size_t i = 0; i < nb_nodes; ++i ) {
         if ( outside[ i ] )
             continue;
@@ -232,11 +232,11 @@ bool get_code( std::ostringstream &os, std::string variant, std::size_t nb_nodes
     }
 
     // find the best permutation
-    Mod best_mod;
+    Cp2Lt64CutList best_mod;
     double best_score = 1e40;
     for( std::uint64_t sw_val = 0; sw_val < ( 1ul << ref_mod.split_indices().size() ); ++sw_val ) {
         for( std::size_t ro = 0; ro < nb_nodes; ++ro ) {
-            Mod mod = ref_mod;
+            Cp2Lt64CutList mod = ref_mod;
             mod.sw( sw_val );
             mod.rotate( ro );
 
