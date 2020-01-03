@@ -12,7 +12,7 @@ void cmd( std::string c ) {
         ERROR( "..." );
 }
 
-SimdGraph make_graph( OptParm &opt_parm, const Cp2Lt64CutList &mod, int simd_size ) {
+SimdGraph make_graph( OptParm &opt_parm, const Cp2Lt64CutList &mod, std::vector<bool> outside, int simd_size ) {
     std::vector<std::size_t> sp_ind = mod.split_indices();
     ASSERT( sp_ind.size() == 2, "" );
     SimdGraph gr;
@@ -26,7 +26,7 @@ SimdGraph make_graph( OptParm &opt_parm, const Cp2Lt64CutList &mod, int simd_siz
     }
 
     std::vector<SimdOp *> px_s, py_s, di_s;
-    for( std::size_t i = 0; i < mod.ops.size(); i += simd_size ) {
+    for( std::size_t i = 0; i < outside.size(); i += simd_size ) {
         px_s.push_back( gr.make_op( "REG px_" + std::to_string( i / simd_size ) + " d " + std::to_string( simd_size ), {} ) );
         py_s.push_back( gr.make_op( "REG py_" + std::to_string( i / simd_size ) + " d " + std::to_string( simd_size ), {} ) );
         di_s.push_back( gr.make_op( "REG di_" + std::to_string( i / simd_size ) + " d " + std::to_string( simd_size ), {} ) );
@@ -51,8 +51,11 @@ SimdGraph make_graph( OptParm &opt_parm, const Cp2Lt64CutList &mod, int simd_siz
         }
     }
 
-    for( std::size_t i = 0; i < r_ch.size(); ++i )
+    for( std::size_t i = 0; i < r_ch.size(); ++i ) {
+        while ( r_ch[ i ].size() < simd_size )
+            r_ch[ i ].push_back( r_ch[ i ].back() );
         gr.add_target( gr.make_op( "SET px_" + std::to_string( i ), { gr.make_op( "AGG", r_ch[ i ] ) } ) );
+    }
 
     gr.set_msg( va_string( "mod={}, swith_cuts={}", mod, switch_cuts ) );
     //    gr.write_code( std::cout, "    " );
@@ -61,7 +64,13 @@ SimdGraph make_graph( OptParm &opt_parm, const Cp2Lt64CutList &mod, int simd_siz
     return gr;
 }
 
-bool make_code( SimdGraph &res, std::vector<bool> outside, int simd_size ) {
+bool make_code( SimdGraph &res, unsigned case_code, int simd_size, int max_nb_nodes ) {
+    std::vector<bool> outside;
+    for( unsigned cp = case_code; cp; cp /= 2 )
+        outside.push_back( cp & 1 );
+    outside.pop_back();
+    P( simd_size, outside );
+
     // make a ref Mod
     Cp2Lt64CutList ref_mod;
     for( std::size_t i = 0; i < outside.size(); ++i ) {
@@ -109,7 +118,7 @@ bool make_code( SimdGraph &res, std::vector<bool> outside, int simd_size ) {
         mod.rotate( opt_parm.get_value( mod.ops.size() ) );
         mod.sw( opt_parm.get_value( 1 << mod.split_indices().size() ) );
 
-        graphs.push_back( make_graph( opt_parm, mod, simd_size ) );
+        graphs.push_back( make_graph( opt_parm, mod, outside, simd_size ) );
     } while ( opt_parm.inc() );
 
     // prepare a benchmark
@@ -117,49 +126,69 @@ bool make_code( SimdGraph &res, std::vector<bool> outside, int simd_size ) {
     fout << "#include \"scripts/bench_Cp2Lt64_code.h\"\n";
     fout << "\n";
     fout << "using namespace sdot;\n";
-    fout << "using TC = std::uint64_t;\n";
     fout << "using TF = double;\n";
+    fout << "using TC = std::uint64_t;\n";
+    fout << "using VF = SimdVec<TF," << simd_size << ">;\n";
     fout << "\n";
     for( std::size_t num_graph = 0; num_graph < graphs.size(); ++num_graph ) {
-        fout << "double __attribute__ ((noinline)) cut_bench_" << num_graph << "( int *cases_data, int cases_size ) {\n";
-        for( std::size_t i = 0; i < outside.size() + 1; i += simd_size )
-            fout << "    SimdVec<TF," << simd_size << "> px_" << i / simd_size << " = 0, py_" << i / simd_size << " = 0, di_" << i / simd_size << ";\n";
-        for( std::size_t j = 0; j < outside.size(); ++j )
-            fout << "    di_" << j / simd_size << "[ " << j % simd_size << " ] = " << ( outside[ j ] ? 1 : -1 ) << ";\n";
-        fout << "    for( int num_case = 0; ; ++num_case ) {\n";
-        fout << "        if ( num_case == cases_size ) {\n";
-        fout << "            TF res = 0;\n";
-        for( std::size_t i = 0; i < outside.size() + 1; i += simd_size )
-            fout << "            res += px_" << simd_size << "[ 0 ] + py_" << simd_size << "[ 0 ];\n";
-        fout << "            return res;\n";
-        fout << "        }\n";
+        // function signature
+        fout << "void cut_bench_" << num_graph << "( TF *px, TF *py, int &nodes_size, const TF *cut_x, const TF *cut_y, const TF *cut_s, int cn ) {\n";
+
+        // load px, py, pi, ...
+        for( char c : std::string( "xy" ) )
+            for( std::size_t i = 0; i < max_nb_nodes + 1 /*we may have to create a new point*/; i += simd_size )
+                fout << "    SimdVec<TF," << simd_size << "> p" << c << "_" << i / simd_size << " = SimdVec<TF," << simd_size << ">::load_aligned( p" << c << " + " << i << " );\n";
+
+        // loop over the cuts
+        fout << "    for( int num_cut = 0; num_cut < cn; ++num_cut ) {\n";
+
+        // get distance and outside bit for each node
+        fout << "        int nmsk = 1 << nodes_size;\n";
+        fout << "        // VC ci = cut_i[ num_cut ];\n";
+        fout << "        VF cx = cut_x[ num_cut ];\n";
+        fout << "        VF cy = cut_y[ num_cut ];\n";
+        fout << "        VF cs = cut_s[ num_cut ];\n";
         fout << "        \n";
-        fout << "        static void *dispatch_table[] = {\n            ";
-        for( std::size_t i = 0; i < 2 + graphs.size(); ++i )
-            fout << "&&case_" << i << "," << ( i % 8 == 7 || i + 1 == graphs.size() ? "\n            " : " " );
-        fout << "};\n";
-        fout << "        goto *dispatch_table[ cases_data[ num_case ] ];\n";
-        fout << "      case_0: {\n";
-        for( std::size_t j = 0; j < outside.size(); ++j ) {
-            fout << "        px_" << j / 4 << "[ " << j % 4 << " ] = " << ( outside[ j ] ? 1 : -1 ) << ";\n";
-            fout << "        py_" << j / 4 << "[ " << j % 4 << " ] = " << ( outside[ j ] ? 1 : -1 ) << ";\n";
-        }
-        fout << "        continue;\n";
-        fout << "      }\n";
-        fout << "      case_1: {\n";
-        for( std::size_t j = 0; j < outside.size(); ++j ) {
-            fout << "        px_" << j / 4 << "[ " << j % 4 << " ] = " << ( outside[ j ] ? 1 : -1 ) << ";\n";
-            fout << "        py_" << j / 4 << "[ " << j % 4 << " ] = " << ( outside[ j ] ? 1 : -1 ) << ";\n";
-        }
-        fout << "        continue;\n";
-        fout << "      }\n";
-        for( std::size_t i = 0; i < graphs.size(); ++i ) {
-            fout << "      case_" << i + 2 << ": {\n";
-            graphs[ i ].write_code( fout, "        " );
-            fout << "        continue;\n";
-            fout << "      }\n";
-        }
+        for( std::size_t i = 0; i < max_nb_nodes; i += simd_size )
+            fout << "        VF bi_" << i / simd_size << " = px_" << i / simd_size << " * cx + py_" << i / simd_size << " * cy;\n";
+        fout << "        int outside_nodes = ";
+        for( std::size_t i = 0; i < max_nb_nodes; i += simd_size )
+            fout << ( i ? " | " : "" ) << "( ( bi_" << i / simd_size << " > cs ) << " << i << " )";
+        fout << ";\n";
+        fout << "        int case_code = ( outside_nodes & ( nmsk - 1 ) ) | nmsk;\n";
+        for( std::size_t i = 0; i < max_nb_nodes; i += simd_size )
+            fout << "        VF di_" << i / simd_size << " = bi_" << i / simd_size << " - cs;\n"; // TODO: test if di > 0
+        fout << "        \n";
+        fout << "        // if nothing has changed => go to the next cut\n";
+        fout << "        if ( outside_nodes == 0 )\n";
+        fout << "            continue;\n";
+
+        // dispatch
+        fout << "        static void *dispatch_table[] = { ";
+        for( int i = 0; i < case_code; ++i )
+            fout << "&&case_init, ";
+        fout << "&&case_cut };\n";
+        fout << "        goto *dispatch_table[ case_code ];\n";
+
+        // init case
+        fout << "        case_init: {\n";
+        for( std::size_t j = 0; j < outside.size(); ++j )
+            fout << "            px_" << j / simd_size << "[ " << j % simd_size << " ] = " << ( outside[ j ] ? 1 : -1 ) << ";\n";
+        fout << "            continue;\n";
+        fout << "        }\n";
+
+        // cut case
+        fout << "        case_cut: {\n";
+        graphs[ num_graph ].write_code( fout, "            " );
+        fout << "            continue;\n";
+        fout << "        }\n";
         fout << "    }\n";
+
+        // store px, py, pi, ...
+        for( char c : std::string( "xy" ) )
+            for( std::size_t i = 0; i < outside.size() + 1 /*we may have to create a new point*/; i += simd_size )
+                fout << "    SimdVec<TF," << simd_size << ">::store_aligned( p" << c << " + " << i << ", p" << c << "_" << i / simd_size << " );\n";
+
         fout << "}\n";
     }
     fout << "\n";
@@ -167,14 +196,14 @@ bool make_code( SimdGraph &res, std::vector<bool> outside, int simd_size ) {
     fout << "    bench_Cp2Lt64_code( { ";
     for( std::size_t num_graph = 0; num_graph < graphs.size(); ++num_graph )
         fout << ( num_graph ? ", " : "" ) << "cut_bench_" << num_graph;
-    fout << " }, argc >= 2 ? argv[ 1 ] : nullptr );\n";
+    fout << " }, " << outside.size() << ", argc >= 2 ? argv[ 1 ] : nullptr );\n";
     fout << "}\n";
     fout << "\n";
 
     // launch the benchmark
     fout.close();
 
-    cmd( "cd ~/sdot_pub && g++ -O3 -march=native -ffast-math -o .tmp.exe .tmp.cpp" );
+    cmd( "cd ~/sdot_pub && g++ -g3 -O3 -march=native -ffast-math -o .tmp.exe .tmp.cpp" );
     cmd( "./.tmp.exe .tmp.dat" );
 
     // get best graph
@@ -192,7 +221,7 @@ bool make_code( SimdGraph &res, std::vector<bool> outside, int simd_size ) {
 
 int main() {
     int max_simd_size = 8;
-    int max_nb_nodes = 8;
+    int max_nb_nodes = 4;
 
     // ponderation
     std::vector<double> p_nb_nodes = { 0, 0, 0, 3, 20, 30, 25, 12, 5, 2 };
@@ -200,25 +229,25 @@ int main() {
 
     std::map<unsigned,SimdGraph> graphs[ max_simd_size + 1 ];
     std::vector<double> scores( max_simd_size + 1, 0 );
-    for( int simd_size : { 1, 2, 4 } ) {
-        for( int nb_nodes = 3; nb_nodes <= max_nb_nodes; ++nb_nodes ) {
-            for( unsigned comb = 0; comb < ( 1 << nb_nodes ); ++comb ) {
-                std::vector<bool> outside;
-                for( int n = 0; n < nb_nodes; ++n )
-                    outside.push_back( comb & ( 1 << n ) );
+    for( int nb_nodes = 3; nb_nodes <= max_nb_nodes; ++nb_nodes ) {
+        for( unsigned comb = 0; comb < ( 1 << nb_nodes ); ++comb ) {
+            for( int simd_size : { 1, 2, 4 } ) {
                 SimdGraph gr;
-                bool ok = make_code( gr, outside, simd_size );
+                unsigned code = comb | ( 1 << nb_nodes );
+                bool ok = make_code( gr, code, simd_size, max_nb_nodes );
                 if ( ! ok )
                     continue;
 
                 int nb_cuts = 0;
                 for( int n = 0; n < nb_nodes; ++n )
-                    nb_cuts += outside[ n ];
+                    nb_cuts += bool( comb & ( 1 << n ) );
 
                 scores[ simd_size ] += p_nb_nodes[ nb_nodes ] * p_nb_cuts[ nb_cuts ] * gr.score;
-                unsigned code = comb | ( 1 << nb_nodes );
                 graphs[ simd_size ][ code ] = gr;
             }
         }
     }
+    P( scores[ 1 ] );
+    P( scores[ 2 ] );
+    P( scores[ 4 ] );
 }
