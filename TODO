@@ -114,6 +114,6 @@ Prop: on génère un code particulier pour chaque architecture. En principe, le 
 * version float
 * espaces de nom
 
-
+* ne pas mettre à jour les variables qui ne sont pas modifiées
 
 

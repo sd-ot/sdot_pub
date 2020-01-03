@@ -6,9 +6,9 @@ all:
 	# ${RUN} tests/benchmarks/bench_ConvexPolyhedron3b.cpp
 	# ${RUN} tests/ConvexPolyhedron/test_ConvexPolyhedron3d.cpp
 	# ${RUN} tests/ConvexPolyhedron/test_ConvexPolyhedron2d.cpp
-	# ${RUN} tests/ConvexPolyhedron/bench_ConvexPolyhedron2d.cpp 800000
 	# ${RUN} tests/ConvexPolyhedron/test_SimdCodegen.cpp
 	${RUN} scripts/make_Cp2Lt64_code.cpp
+	# ${RUN} tests/ConvexPolyhedron/bench_ConvexPolyhedron2d.cpp 800000
 
 b:
 	${RUN} tests/ConvexPolyhedron/bench_case.cpp

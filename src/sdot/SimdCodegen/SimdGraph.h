@@ -16,7 +16,6 @@ public:
     void                  for_each_child    ( const std::function<void(SimdOp *)> &f, const std::vector<SimdOp *> &targets, bool postfix = false ) const;
 
     void                  add_target        ( SimdOp *target );
-    void                  set_msg           ( std::string msg );
 
     void                  write_code        ( std::ostream &os, std::string sp );
     SimdOp               *make_op           ( std::string name, const std::vector<SimdOp *> &children );
@@ -24,10 +23,6 @@ public:
 
     void                  display           ( std::string filename = ".tmp" );
 
-    double                score;
-    std::string           prel;
-    std::string           suff;
-    std::string           msg;
 
 private:
     void                  for_each_child_rec( const std::function<void(SimdOp *)> &f, SimdOp *target, bool postfix ) const;

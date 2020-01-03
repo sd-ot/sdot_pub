@@ -43,7 +43,7 @@ void SimdOp::write_code( std::ostream &os, std::string sp, int &nb_regs ) {
 
     if ( vs[ 0 ] == "AGG" ) {
         nreg = nb_regs++;
-        os << sp << "SimdVec<TF," << children.size() << "> R" << nreg << "{";
+        os << sp << "SimdVec<" << ( vs.size() >= 2 ? vs[ 1 ] : "TF" ) << "," << children.size() << "> R" << nreg << "{";
         for( std::size_t i = 0; i < children.size(); ++i )
             children[ i ]->write_reg( os << ( i ? ", " : " " ) );
         os << " };\n";

@@ -3,45 +3,49 @@
 #include "../src/sdot/Support/SimdVec.h"
 #include "../src/sdot/Support/Time.h"
 #include "../src/sdot/Support/P.h"
+#include <functional>
 #include <iostream>
 #include <fstream>
 #include <vector>
 
-
-using TFunc = void( double *px, double *py, int &nodes_size, const double *cut_x, const double *cut_y, const double *cut_s, int cut_n );
-
-double _timing( TFunc *func, double *px, double *py, int nodes_size, double *cut_x, double *cut_y, double *cut_s, int cut_n, std::uint64_t nb_reps = 50 ) {
+template<class TF,class TC>
+double _timing( std::function<void( TF *px, TF *py, TC *pi, int &nodes_size, const TF *cut_x, const TF *cut_y, const TF *cut_s, const TC *cut_i, int cut_n, const std::function<void(void)> &too_small_cb )> func, TF *px, TF *py, TC *pi, int nodes_size, TF *cut_x, TF *cut_y, TF *cut_s, TC *cut_i, int cut_n, std::uint64_t nb_reps = 50 ) {
     std::uint64_t res = -1ul;
     for( std::uint64_t rep = 0, t0 = 0, t1 = 0; rep < nb_reps; ++rep ) {
         RDTSC_START( t0 );
-        func( px, py, nodes_size, cut_x, cut_y, cut_s, cut_n );
+        func( px, py, pi, nodes_size, cut_x, cut_y, cut_s, cut_i, cut_n, []() {} );
         RDTSC_FINAL( t1 );
         res = std::min( res, t1 - t0 );
     }
     return res;
 };
 
-void bench_Cp2Lt64_code( std::vector<TFunc *> funcs, int nodes_size, const char *output_filename ) {
-    alignas( 64 ) double px[ 64 ];
-    alignas( 64 ) double py[ 64 ];
-    alignas( 64 ) double cut_x[ 64 ];
-    alignas( 64 ) double cut_y[ 64 ];
-    alignas( 64 ) double cut_s[ 64 ];
+template<typename TF,typename TC>
+void bench_Cp2Lt64_code( std::vector<std::function<void( TF *px, TF *py, TC *pi, int &nodes_size, const TF *cut_x, const TF *cut_y, const TF *cut_s, const TC *cut_i, int cut_n, const std::function<void(void)> &too_small_cb )>> funcs, int nodes_size, const char *output_filename ) {
+    alignas( 64 ) TF px[ 64 ];
+    alignas( 64 ) TF py[ 64 ];
+    alignas( 64 ) TC pi[ 64 ];
+    alignas( 64 ) TF cut_x[ 64 ];
+    alignas( 64 ) TF cut_y[ 64 ];
+    alignas( 64 ) TF cut_s[ 64 ];
+    alignas( 64 ) TC cut_i[ 64 ];
     int cut_n = 64;
 
     for( int i = 0; i < cut_n; ++i ) {
         px[ i ] = 0;
         py[ i ] = 0;
+        pi[ i ] = 0;
         cut_x[ i ] = 1;
         cut_y[ i ] = 0;
         cut_s[ i ] = 2;
+        cut_i[ i ] = 0;
     }
 
     // the "fully outside" case is used to reinitialize px. Reinitialization is counted as overhead
     //    double overhead = 1e40;
     //    for( int i = 0; i < cut_n; ++i )
-    //    for( std::size_t rep = 0; rep < 100; ++rep )
-    //        overhead = std::min( overhead, _timing( funcs[ 0 ], px, py, nodes_size, cut_x, cut_y, cut_s, cut_n / 2 ) );
+    //    for( std::size_t rep = 0; rep < 1000; ++rep )
+    //        overhead = std::min( overhead, _timing( funcs[ 0 ], px, py, pi, nodes_size, cut_x, cut_y, cut_s, cut_i, cut_n / 2 ) );
     double overhead = 0;
 
     // get timings (with reinitialization before each step)
@@ -50,7 +54,7 @@ void bench_Cp2Lt64_code( std::vector<TFunc *> funcs, int nodes_size, const char 
         cut_s[ i ] = 0;
     for( std::size_t rep = 0; rep < 5000; ++rep )
         for( std::size_t num_func = 0; num_func < funcs.size(); ++num_func )
-            timings[ num_func ] = std::min( timings[ num_func ], _timing( funcs[ num_func ], px, py, nodes_size, cut_x, cut_y, cut_s, cut_n ) );
+            timings[ num_func ] = std::min( timings[ num_func ], _timing( funcs[ num_func ], px, py, pi, nodes_size, cut_x, cut_y, cut_s, cut_i, cut_n ) );
 
     // timings without overhead
     for( std::size_t num_func = 0; num_func < timings.size(); ++num_func )
