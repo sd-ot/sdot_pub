@@ -7,16 +7,16 @@
 #include <fstream>
 #include <vector>
 
-using TFunc = sdot::SimdVec<double,4>( int *cases, int nb_cases );
+using TFunc = double( int *cases, int nb_cases );
 
 double _timing( TFunc *func, int *cases_data, int cases_size, std::uint64_t nb_reps = 50 ) {
     std::uint64_t res = -1ul;
     for( std::uint64_t rep = 0, t0 = 0, t1 = 0; rep < nb_reps; ++rep ) {
         RDTSC_START( t0 );
-        sdot::SimdVec<double,4> r = func( cases_data, cases_size );
+        double r = func( cases_data, cases_size );
         RDTSC_FINAL( t1 );
         res = std::min( res, t1 - t0 );
-        if ( r[ 0 ] == 5425414214.8 )
+        if ( r == 5425414214.8 )
             P( r );
     }
     return res;
