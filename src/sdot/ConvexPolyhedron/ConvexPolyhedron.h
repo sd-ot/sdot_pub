@@ -1,30 +1,21 @@
 #pragma once
 
-#include "Internal/ConvexPolyhedronFlags.h"
-#include "Internal/ConvexPolyhedronOpt.h"
-#include "../Support/Point.h"
-#include "../Support/N.h"
-#include <functional>
-
 namespace sdot {
 
 ///  Pc must contain
 ///    - CI => cut info
 ///    - TF (double, ...) => floating point type
-///    - dim => ... (if not specified in template args)
+///    - dim => space dimensionnality (if not specified in template args)
 ///
-///  Opt => optimisation. void means "generic case".
+///  Variant => void means "generic case". Other types may be defined later
 ///
 ///  This version is generic, and far from optimized.
-template<class Pc,int dim=Pc::dim,class Opt=void>
+template<class Pc,int dim=Pc::dim,class Variant=void>
 class ConvexPolyhedron;
 
 } // namespace sdot
 
-#include "Internal/ConvexPolyhedron2dVoid.h"
-#include "Internal/ConvexPolyhedron2dLt64.h"
-
-#include "Internal/ConvexPolyhedron3dVoid.h"
-#include "Internal/ConvexPolyhedron3dLt64.h"
+#include "Internal/ConvexPolyhedron_2d.h"
+// #include "Internal/ConvexPolyhedron_3d.h"
 
 // specializations
