@@ -5,9 +5,9 @@ all:
 	# ${RUN} tests/benchmarks/bench_Lgrid_2D_large.cpp
 	# ${RUN} tests/benchmarks/bench_ConvexPolyhedron3b.cpp
 	# ${RUN} tests/ConvexPolyhedron/test_ConvexPolyhedron3d.cpp
+	${RUN} scripts/make_Cp2Lt64_code.cpp
 	${RUN} tests/ConvexPolyhedron/test_ConvexPolyhedron2d.cpp
 	# ${RUN} tests/ConvexPolyhedron/test_SimdCodegen.cpp
-	# ${RUN} scripts/make_Cp2Lt64_code.cpp
 	# ${RUN} tests/ConvexPolyhedron/bench_ConvexPolyhedron2d.cpp 800000
 
 b:

@@ -269,8 +269,8 @@ void write_for( std::string float_type, std::string simd_type, int max_nb_nodes 
     if ( simd_type == "AVX512" ) { max_simd_size = float_type == "float" ? 16 : 8; arch = "skylake-avx512"; simd_test = "__AVX512F__"; }
 
     // ponderation
-    std::vector<double> p_nb_nodes = { 0, 0, 0, 3, 20, 30, 25, 12, 5, 2 };
-    std::vector<double> p_nb_cuts = { 65, 10, 10, 5, 1, 1, 1, 1, 1, 1 };
+    std::vector<double> p_nb_nodes = { 0, 0, 0, 3, 20, 30, 25, 12, 5, 2, 1 };
+    std::vector<double> p_nb_cuts = { 65, 10, 10, 5, 1, 1, 1, 1, 1, 1, 1 };
 
     // scores
     std::map<unsigned,CodeGraph> graphs[ max_simd_size + 1 ];
@@ -414,9 +414,9 @@ void write_for( std::string float_type, std::string simd_type, int max_nb_nodes 
 }
 
 int main() {
-    int max_nb_nodes = 4;
+    int max_nb_nodes = 9;
     write_for( "gen", "gen", max_nb_nodes );
-    //    for( std::string float_type : { "double"/*, "float"*/ } )
-    //        for( std::string simd_type : { /*"SSE2", */"AVX2"/*, "AVX512"*/ } )
-    //            write_for( float_type, simd_type, max_nb_nodes );
+    for( std::string float_type : { "double", "float" } )
+        for( std::string simd_type : { "SSE2", "AVX2", "AVX512" } )
+            write_for( float_type, simd_type, max_nb_nodes );
 }
