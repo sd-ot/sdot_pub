@@ -40,8 +40,9 @@ public:
     void                              plane_cut                 ( std::array<const TF *,dim> cut_dir, const TF *cut_ps, const CI *cut_ids, std::size_t nb_cuts ); ///<
 
 private:
-    using                             ATF                       = TF __attribute__((aligned(64)));
-    using                             ACI                       = CI __attribute__((aligned(64)));
+    typedef                           TF                        ATF __attribute__ ((aligned(64)));
+    typedef                           CI                        ACI __attribute__ ((aligned(64)));
+
 
     void                              reserve_without_cp        ( int nb_nodes );
 

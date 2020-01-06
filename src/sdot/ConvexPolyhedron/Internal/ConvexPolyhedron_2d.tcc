@@ -5,6 +5,7 @@
 #include "../../Support/Simplex.h"
 #include "../../Support/ASSERT.h"
 #include "../../Support/TODO.h"
+#include "../../Support/P.h"
 #include "ConvexPolyhedron_2d.h"
 
 // #include "ConvexPolyhedron2dLt64_cut_gen_gen.h"
@@ -115,11 +116,12 @@ template<class Pc> template<int flags,class Fu>
 void ConvexPolyhedron<Pc,2,void>::plane_cut( std::array<const TF *,dim> cut_dir, const TF *cut_ps, const CI *cut_ids, std::size_t nb_cuts, N<flags>, const Fu &fu ) {
     // max 8 nodes version (we store coords in registers)
     // std::size_t num_cut = 0;
-    if ( nodes_size <= 8 ) {
-        internal::ConvexPolyhedron2dLt64_cut( nodes.xs, nodes.ys, reinterpret_cast<std::size_t *>( nodes.cut_ids ), nodes_size, cut_dir[ 0 ], cut_dir[ 1 ], cut_ps, reinterpret_cast<const std::size_t *>( cut_ids ), nb_cuts, [&]() {
-            TODO;
-        } );
-    }
+//    if ( nodes_size <= 8 ) {
+//        internal::ConvexPolyhedron2dLt64_cut( nodes.xs, nodes.ys, reinterpret_cast<std::size_t *>( nodes.cut_ids ), nodes_size, cut_dir[ 0 ], cut_dir[ 1 ], cut_ps, reinterpret_cast<const std::size_t *>( cut_ids ), nb_cuts, [&]() {
+//            TODO;
+//        } );
+//    }
+    TODO;
 
     //    // => more than 8 nodes, but less than 65
     //    for( ; ; ++num_cut ) {
