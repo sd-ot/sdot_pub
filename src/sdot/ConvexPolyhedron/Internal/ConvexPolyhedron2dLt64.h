@@ -1,8 +1,6 @@
 #ifndef SDOT_CONVEX_POLYHEDRON_2_LT64_H
 #define SDOT_CONVEX_POLYHEDRON_2_LT64_H
 
-#include "ConvexPolyhedron2dLt64_NodeBlock.h"
-#include "ConvexPolyhedronOpt.h"
 #include "../ConvexPolyhedron.h"
 #include <functional>
 

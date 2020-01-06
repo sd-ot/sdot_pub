@@ -110,10 +110,14 @@ Calcul de l'overhead...
 Prop: on génère un code particulier pour chaque architecture. En principe, le choix final de l'archi se fait de façon globale, mais il faut bien qu'on écrive le code généré sans le savoir.
   => écriture de .h et .cpp pour tous les cas.
 
-* version gen-gen 
 * version float
 * espaces de nom
 
 * ne pas mettre à jour les variables qui ne sont pas modifiées
+
+Pb: gérer différents types de polyhèdres est complexe. Pour le 2D, on doit pouvoir tout faire avec le même format.
+
+Pour le 3D, on pourrait utiliser un seul type pour les vertex. Pour les faces, on pourrait faire une liste hétérogène.
+
 
 

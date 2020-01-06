@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Internal/ConvexPolyhedronFlags.h"
+#include "Internal/ConvexPolyhedronOpt.h"
 #include "../Support/Point.h"
 #include "../Support/N.h"
 #include <functional>
