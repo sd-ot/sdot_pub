@@ -8,7 +8,7 @@
 #include "../../Support/P.h"
 #include "ConvexPolyhedron_2d.h"
 
-// #include "ConvexPolyhedron2dLt64_cut_gen_gen.h"
+#include "ConvexPolyhedron2dLt64_cut_gen_gen.h"
 
 namespace sdot {
 
@@ -51,12 +51,21 @@ ConvexPolyhedron<Pc,2,void>::ConvexPolyhedron() {
 
 template<class Pc>
 ConvexPolyhedron<Pc,2,void>::~ConvexPolyhedron() {
-    delete [] pxs;
-    delete [] pys;
-    delete [] nxs;
-    delete [] nys;
-    delete [] cis;
-    delete [] ds ;
+    for( std::size_t i = 0; i < nodes_size; ++i ) {
+        pxs[ i ].~TF();
+        pys[ i ].~TF();
+        nxs[ i ].~TF();
+        nys[ i ].~TF();
+        cis[ i ].~CI();
+        ds [ i ].~TF();
+    }
+
+    aligned_free( pxs );
+    aligned_free( pys );
+    aligned_free( nxs );
+    aligned_free( nys );
+    aligned_free( cis );
+    aligned_free( ds  );
 }
 
 template<class Pc>
@@ -85,7 +94,7 @@ void ConvexPolyhedron<Pc,2,void>::write_to_stream( std::ostream &os ) const {
 }
 
 template<class Pc> template<class F>
-void ConvexPolyhedron<Pc,2,void>::for_each_bound( const F &f ) const {
+void ConvexPolyhedron<Pc,2,void>::for_each_bound( const F &/*f*/ ) const {
     //    for( int n0 = nodes_size - 1, n1 = 0; n1 < nodes_size; n0 = n1++ )
     //        f( Bound{ .nodes = &nodes, .n0 = n0, .n1 = n1 } );
     TODO;
@@ -112,17 +121,17 @@ typename ConvexPolyhedron<Pc,2,void>::Pt ConvexPolyhedron<Pc,2,void>::node( int 
     return { pxs[ index ], pys[ index ] };
 }
 
-template<class Pc> template<int flags,class Fu>
-void ConvexPolyhedron<Pc,2,void>::plane_cut( std::array<const TF *,dim> cut_dir, const TF *cut_ps, const CI *cut_ids, std::size_t nb_cuts, N<flags>, const Fu &fu ) {
+template<class Pc> template<int flags>
+void ConvexPolyhedron<Pc,2,void>::plane_cut( std::array<const TF *,dim> cut_dir, const TF *cut_ps, const CI *cut_ids, int nb_cuts, N<flags> ) {
     // max 8 nodes version (we store coords in registers)
-    // std::size_t num_cut = 0;
-//    if ( nodes_size <= 8 ) {
-//        internal::ConvexPolyhedron2dLt64_cut( nodes.xs, nodes.ys, reinterpret_cast<std::size_t *>( nodes.cut_ids ), nodes_size, cut_dir[ 0 ], cut_dir[ 1 ], cut_ps, reinterpret_cast<const std::size_t *>( cut_ids ), nb_cuts, [&]() {
-//            TODO;
-//        } );
-//    }
-    TODO;
+    int num_cut = 0;
+    if ( nodes_size <= 8 ) {
+        //                                         num_cut, px,  py, std::size_t *pi, int &nodes_size, const TF *cut_x, const TF *cut_y, const TF *cut_s, const std::size_t *cut_i, int cut_n, const std::function<void(void)> &too_small_cb ) {
+        if ( internal::ConvexPolyhedron2dLt64_cut( num_cut, pxs, pys, reinterpret_cast<std::size_t *>( cis ), nodes_size, cut_dir[ 0 ], cut_dir[ 1 ], cut_ps, reinterpret_cast<const std::size_t *>( cut_ids ), nb_cuts ) )
+            return;
+    }
 
+    TODO;
     //    // => more than 8 nodes, but less than 65
     //    for( ; ; ++num_cut ) {
     //        if ( num_cut == nb_cuts )
@@ -211,8 +220,8 @@ void ConvexPolyhedron<Pc,2,void>::plane_cut( std::array<const TF *,dim> cut_dir,
 }
 
 template<class Pc>
-void ConvexPolyhedron<Pc,2,void>::plane_cut( std::array<const TF *,dim> cut_dir, const TF *cut_ps, const CI *cut_id, std::size_t nb_cuts ) {
-    return plane_cut( cut_dir, cut_ps, cut_id, nb_cuts, N<0>(), [&]( auto & ) {} );
+void ConvexPolyhedron<Pc,2,void>::plane_cut( std::array<const TF *,dim> cut_dir, const TF *cut_ps, const CI *cut_id, int nb_cuts ) {
+    return plane_cut( cut_dir, cut_ps, cut_id, nb_cuts, N<0>() );
 }
 
 //template<class Pc> template<class TL>

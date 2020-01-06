@@ -134,7 +134,7 @@ bool make_code( CodeGraph &res, unsigned case_code, int simd_size, int max_nb_no
     if ( ref_mod.ops.empty() ) {
         res.prel += "// everything is outside\n";
         res.prel += "nodes_size = 0;\n";
-        res.suff += "return too_small_cb();\n";
+        res.suff += "return true;\n";
         return true;
     }
 
@@ -309,7 +309,7 @@ void write_for( std::string float_type, std::string simd_type, int max_nb_nodes 
             fh << "#ifdef " << simd_test << "\n";
         fh << "namespace sdot {\n";
         fh << "namespace internal {\n";
-        fh << "void ConvexPolyhedron2dLt64_cut( " << float_type << " *px, " << float_type << " *py, std::size_t *pi, int &nodes_size, const " << float_type << " *cut_x, const " << float_type << " *cut_y, const " << float_type << " *cut_s, const std::size_t *cut_i, int cut_n, const std::function<void(void)> &too_small_cb );\n";
+        fh << "bool ConvexPolyhedron2dLt64_cut( int &num_cut, " << float_type << " *px, " << float_type << " *py, std::size_t *pi, int &nodes_size, const " << float_type << " *cut_x, const " << float_type << " *cut_y, const " << float_type << " *cut_s, const std::size_t *cut_i, int cut_n );\n";
         fh << "} // namespace internal\n";
         fh << "} // namespace sdot\n";
         if ( ! simd_test.empty() )
@@ -322,7 +322,6 @@ void write_for( std::string float_type, std::string simd_type, int max_nb_nodes 
     if ( ! simd_test.empty() )
         fc << "#ifdef " << simd_test << "\n";
     fc << "#include \"../../Support/SimdVec.h\"\n";
-    fc << "#include <functional>\n";
     fc << "namespace sdot {\n";
     fc << "namespace internal {\n";
     std::string _float_type = float_type;
@@ -330,7 +329,7 @@ void write_for( std::string float_type, std::string simd_type, int max_nb_nodes 
         _float_type = "TF";
         fc << "template<class TF>\n";
     }
-    fc << "void ConvexPolyhedron2dLt64_cut( " << _float_type << " *px, " << _float_type << " *py, std::size_t *pi, int &nodes_size, const " << _float_type << " *cut_x, const " << _float_type << " *cut_y, const " << _float_type << " *cut_s, const std::size_t *cut_i, int cut_n, const std::function<void(void)> &too_small_cb ) {\n";
+    fc << "bool ConvexPolyhedron2dLt64_cut( int &num_cut, " << _float_type << " *px, " << _float_type << " *py, std::size_t *pi, int &nodes_size, const " << _float_type << " *cut_x, const " << _float_type << " *cut_y, const " << _float_type << " *cut_s, const std::size_t *cut_i, int cut_n ) {\n";
     fc << "    using namespace sdot;\n";
     if ( float_type != "gen" )
         fc << "    using TF = " << float_type << ";\n";
@@ -345,7 +344,7 @@ void write_for( std::string float_type, std::string simd_type, int max_nb_nodes 
                << " = "  << ( c == 'i' ? "VC" : "VF" ) << "::load_aligned( p" << c << " + " << i << " );\n";
 
     // loop over the cuts
-    fc << "    for( int num_cut = 0; num_cut < cut_n; ++num_cut ) {\n";
+    fc << "    for( ; num_cut < cut_n; ++num_cut ) {\n";
 
     // get distance and outside bit for each node
     fc << "        int nmsk = 1 << nodes_size;\n";
@@ -405,6 +404,7 @@ void write_for( std::string float_type, std::string simd_type, int max_nb_nodes 
     for( char c : std::string( "xyi" ) )
         for( int i = 0; i < max_nb_nodes + 1 /*we may have to create a new point*/; i += simd_size )
             fc << "    " << ( c == 'i' ? "VC" : "VF" ) << "::store_aligned( p" << c << " + " << i << ", p" << c << "_" << i / simd_size << " );\n";
+    fc << "    return true;\n";
 
     fc << "}\n";
     fc << "} // namespace internal\n";

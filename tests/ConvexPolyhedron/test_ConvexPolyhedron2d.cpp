@@ -22,37 +22,34 @@ void test_disc( VtkOutput &vo, std::size_t m, double off ) {
     using Pt = typename Cp::Pt;
     using TF = typename Cp::TF;
 
-    Cp cp( Pt( -2.0 ), Pt( 2.0 ), 17 );
-    display_vtk( vo, cp, { .offset = { off, 0, 0 } } );
+    int cpt = 0;
+    get_rand_perm_iota( [&]( std::vector<int> perm ) {
+        Cp cp( Pt( -2.0 ), Pt( 2.0 ), 17 );
 
-    //    int cpt = 0;
-    //    get_rand_perm_iota( [&]( std::vector<int> perm ) {
-    //        Cp cp( Pt( -2.0 ), Pt( 2.0 ), 17 );
+        // srand( 0 );
+        std::vector<TF> cx, cy, cs, ci;
+        for( std::size_t n = 0; n < m; ++n ) {
+            double t = 2.0 * M_PI * perm[ n ] / m;
+            cx.push_back( std::cos( t ) );
+            cy.push_back( std::sin( t ) );
+            ci.push_back( perm[ n ] );
+            cs.push_back( 1.0 );
+        }
 
-    //        // srand( 0 );
-    //        std::vector<TF> cx, cy, cs, ci;
-    //        for( std::size_t n = 0; n < m; ++n ) {
-    //            double t = 2.0 * M_PI * perm[ n ] / m; // rand() / RAND_MAX;
-    //            cx.push_back( std::cos( t ) );
-    //            cy.push_back( std::sin( t ) );
-    //            ci.push_back( perm[ n ] );
-    //            cs.push_back( 1.0 );
-    //        }
+        cp.plane_cut( { cx.data(), cy.data() }, cs.data(), ci.data(), cx.size(), N<0>() );
 
-    //        cp.plane_cut( { cx.data(), cy.data() }, cs.data(), ci.data(), cx.size(), N<0>(), [&]( auto &cp ) {
-    //            if ( cpt++ == 0 )
-    //                display_vtk( vo, cp, { .offset = { off, 0, 0 } } );
+        if ( cpt++ == 0 )
+            display_vtk( vo, cp, { .offset = { off, 0, 0 } } );
 
-    //            cp.for_each_bound( [&]( const auto &bound ) {
-    //                bound.for_each_simplex( [&]( auto simplex ) {
-    //                    Pt c = simplex.centroid();
-    //                    int a = std::round( std::atan2( c[ 1 ], c[ 0 ] ) * m / ( 2.0 * M_PI ) + m );
-    //                    ASSERT( std::abs( norm_2( c ) - 1 ) < 1e-14, "..." );
-    //                    ASSERT( a % m == bound.cut_id(), "..." );
-    //                } );
-    //            } );
-    //        } );
-    //    }, m );
+        //        cp.for_each_bound( [&]( const auto &bound ) {
+        //            bound.for_each_simplex( [&]( auto simplex ) {
+        //                Pt c = simplex.centroid();
+        //                int a = std::round( std::atan2( c[ 1 ], c[ 0 ] ) * m / ( 2.0 * M_PI ) + m );
+        //                ASSERT( std::abs( norm_2( c ) - 1 ) < 1e-14, "..." );
+        //                ASSERT( a % m == bound.cut_id(), "..." );
+        //            } );
+        //        } );
+    }, m );
 }
 
 int main() {

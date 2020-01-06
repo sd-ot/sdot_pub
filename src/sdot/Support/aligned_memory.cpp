@@ -33,7 +33,7 @@
     #include <stdlib.h>
 
     namespace sdot {
-        void *aligned_malloc( std::size_t size, std::size_t alignment) {
+        void *aligned_malloc( std::size_t size, std::size_t alignment ) {
             void * p1; // original block
             void ** p2; // aligned block
             int offset = alignment - 1 + sizeof(void *);
