@@ -61,7 +61,7 @@ template<class _TF,int _size=SimdSize<_TF>::value> struct SimdVec {
 
         static SimdVec iota         () { SimdVec res; for( int i = 0; i < size; ++i ) res.values[ i ] = i; return res; }
 
-        static void    store_aligned( T *data, const SimdVec &vec ) { _mm_store_epi64( data, vec.values ); }
+        static void    store_aligned( T *data, const SimdVec &vec ) { _mm_store_si128( (__m128i *)data, vec.values ); }
         static SimdVec load_aligned ( const T *data ) { return _mm_load_si128( reinterpret_cast<const __m128i *>( data ) ); }
         // static SimdVec load_aligned ( const std::uint8_t *data ) { return _mm256_cvtepi8_epi64( _mm_set1_epi32( *reinterpret_cast<const std::uint32_t *>( data ) ) ); }
         static SimdVec from_int8s   ( std::uint64_t val ) { return _mm_cvtsi64_si128( val ); }

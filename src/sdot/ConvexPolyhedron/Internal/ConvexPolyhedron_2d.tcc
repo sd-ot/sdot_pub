@@ -126,7 +126,6 @@ void ConvexPolyhedron<Pc,2,void>::plane_cut( std::array<const TF *,dim> cut_dir,
     // max 8 nodes version (we store coords in registers)
     int num_cut = 0;
     if ( nodes_size <= 8 ) {
-        //                                         num_cut, px,  py, std::size_t *pi, int &nodes_size, const TF *cut_x, const TF *cut_y, const TF *cut_s, const std::size_t *cut_i, int cut_n, const std::function<void(void)> &too_small_cb ) {
         if ( internal::ConvexPolyhedron2dLt64_cut( num_cut, pxs, pys, reinterpret_cast<std::size_t *>( cis ), nodes_size, cut_dir[ 0 ], cut_dir[ 1 ], cut_ps, reinterpret_cast<const std::size_t *>( cut_ids ), nb_cuts ) )
             return;
     }
