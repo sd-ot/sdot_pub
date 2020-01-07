@@ -108,7 +108,9 @@ void Cp2Lt9_Func::make_case_map() {
             std::vector<Cp2Lt9_Case> cases;
             OptParm loc_opt_parm;
             do {
-                cases.push_back( { loc_opt_parm, nb_nodes, comb, simd_size } );
+                Cp2Lt9_Case ca( loc_opt_parm, nb_nodes, comb, simd_size  );
+                if ( ca.valid )
+                    cases.push_back( ca );
             } while ( loc_opt_parm.inc() );
 
             // write a .cpp file that compute the timing for each proposition

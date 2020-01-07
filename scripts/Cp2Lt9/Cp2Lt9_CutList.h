@@ -1,12 +1,12 @@
 #pragma once
 
-#include "../src/sdot/Support/P.h"
+#include "../../src/sdot/Support/P.h"
 #include <vector>
 
 /**
   Used for code generation
 */
-struct Cp2Lt64CutList {
+struct Cp2Lt9_CutList {
     struct                   Cut {
         /**/                 Cut            ( std::size_t i0 = 0, std::size_t i1 = 0, int dir = 0 ) : dir( dir ), i0( i0 ), i1( i1 ), sw( false ) {}
 
@@ -28,10 +28,12 @@ struct Cp2Lt64CutList {
         bool                 sw;            ///<
     };
 
-    void                     write_to_stream( std::ostream &os ) const { os << ops; }
-    std::vector<std::size_t> split_indices  () const { std::vector<std::size_t> res; for( std::size_t i = 0; i < ops.size(); ++i ) if ( ops[ i ].split() ) res.push_back( i ); return res; }
-    void                     rotate         ( std::size_t off ) { std::vector<Cut> nops( ops.size() ); for( std::size_t i = 0; i < ops.size(); ++i ) nops[ i ] = ops[ ( i + off ) % ops.size() ]; ops = nops; }
-    void                     sw             ( std::uint64_t val ) { std::vector<std::size_t> si = split_indices(); for( std::size_t i = 0; i < si.size(); ++i ) ops[ si[ i ] ].sw = val & ( std::uint64_t( 1 ) << i ); }
+    /**/                     Cp2Lt9_CutList ( std::vector<bool> outside = {} );
+
+    void                     write_to_stream( std::ostream &os ) const;
+    std::vector<std::size_t> split_indices  () const;
+    void                     rotate         ( std::size_t off );
+    void                     sw             ( std::uint64_t val );
 
     std::vector<Cut>         ops;
 };
