@@ -4,6 +4,7 @@
 #include <map>
 
 void gen( std::string float_type, std::string simd_type, int max_nb_nodes ) {
+    // best parm set
     Cp2Lt9_Func best_func;
     OptParm opt_parm;
     do {
@@ -12,11 +13,12 @@ void gen( std::string float_type, std::string simd_type, int max_nb_nodes ) {
             best_func = trial_func;
     } while ( opt_parm.inc() );
 
+    // write code
     best_func.write_def( std::cout );
 }
 
 int main() {
-    int max_nb_nodes = 9;
+    int max_nb_nodes = 4;
 
     gen( "gen", "gen", max_nb_nodes );
 

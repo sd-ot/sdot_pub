@@ -23,6 +23,7 @@ public:
     void        write_def        ( std::ostream &os, const CaseMap &case_map, std::string func_name, bool for_1_case = false ) const;
 
     // constraints
+    int         min_nb_nodes;
     int         max_nb_nodes;
     std::string float_type;
     std::string simd_type;

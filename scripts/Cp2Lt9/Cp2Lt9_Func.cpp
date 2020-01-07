@@ -7,6 +7,7 @@
 Cp2Lt9_Func::Cp2Lt9_Func( OptParm &opt_parm, std::string float_type, std::string simd_type, int max_nb_nodes ) : max_nb_nodes( max_nb_nodes ), float_type( float_type ), simd_type( simd_type ) {
     // func parms
     size_for_tests = 4;
+    min_nb_nodes = 3;
     nb_registers = 6;
     pi_in_regs = 0;
     simd_size = 1 << opt_parm.get_value( max_log_simd_size() );
@@ -102,25 +103,27 @@ void Cp2Lt9_Func::make_best_score( double &best_score, std::size_t &best_case, c
 }
 
 void Cp2Lt9_Func::make_case_map() {
-    for( int nb_nodes = 3; nb_nodes <= max_nb_nodes; ++nb_nodes ) {
+    for( int nb_nodes = min_nb_nodes; nb_nodes <= max_nb_nodes; ++nb_nodes ) {
         for( unsigned comb = 0; comb < ( 1 << nb_nodes ); ++comb ) {
             // find all possible way to make the case
             std::vector<Cp2Lt9_Case> cases;
             OptParm loc_opt_parm;
             do {
-                Cp2Lt9_Case ca( loc_opt_parm, nb_nodes, comb, simd_size  );
+                Cp2Lt9_Case ca( loc_opt_parm, nb_nodes, comb, simd_size, nb_registers );
                 if ( ca.valid )
                     cases.push_back( ca );
             } while ( loc_opt_parm.inc() );
 
             // write a .cpp file that compute the timing for each proposition
-            double best_score;
-            std::size_t best_case = 0;
-            unsigned code = comb | ( 1 << nb_nodes );
-            make_best_score( best_score, best_case, cases, code, nb_nodes );
+            if ( cases.size() ) {
+                double best_score;
+                std::size_t best_case = 0;
+                unsigned code = comb | ( 1 << nb_nodes );
+                make_best_score( best_score, best_case, cases, code, nb_nodes );
 
-            // store the best one
-            case_map[ code ] = { cases[ best_case ], best_score };
+                // store the best one
+                case_map[ code ] = { cases[ best_case ], best_score };
+            }
         }
     }
 }
@@ -378,128 +381,6 @@ void Cp2Lt9_Func::write_def( std::ostream &os, const CaseMap &case_map, std::str
 //    return res;
 //}
 
-//bool make_code( CodeGraph &res, unsigned case_code, int simd_size, int max_nb_nodes, std::string float_type, std::string simd_type, std::string arch, bool make_di ) {
-//    std::vector<bool> outside;
-//    for( unsigned cp = case_code; cp; cp /= 2 )
-//        outside.push_back( cp & 1 );
-//    outside.pop_back();
-//    P( simd_type, outside );
-
-//    // make a ref Mod
-//    Cp2Lt64CutList ref_mod;
-//    for( std::size_t i = 0; i < outside.size(); ++i ) {
-//        if ( outside[ i ] )
-//            continue;
-
-//        // going inside
-//        std::size_t h = ( i + outside.size() - 1 ) % outside.size();
-//        if ( outside[ h ] )
-//            ref_mod.ops.push_back( { h, i, 1 } );
-
-//        // inside point
-//        ref_mod.ops.push_back( { i, i, 0 } );
-
-//        // outside point => create points on boundaries
-//        std::size_t j = ( i + 1 ) % outside.size();
-//        if ( outside[ j ] )
-//            ref_mod.ops.push_back( { i, j, 1 } );
-//    }
-
-//    // everything is outside
-//    if ( ref_mod.ops.empty() ) {
-//        res.prel += "// everything is outside\n";
-//        res.prel += "nodes_size = 0;\n";
-//        res.suff += "return true;\n";
-//        return true;
-//    }
-
-//    // everything is inside
-//    if ( ref_mod.split_indices().empty() ) {
-//        res.prel += "// everything is inside\n";
-//        res.suff += "continue;\n";
-//        return true;
-//    }
-
-//    // uncommon cases (to reduce code size)
-//    if ( ref_mod.split_indices().size() > 2 ) {
-//        return false;
-//    }
-
-//    // => make a list of graphs
-//    std::vector<CodeGraph> graphs;
-//    OptParm opt_parm;
-//    do {
-//        Cp2Lt64CutList mod = ref_mod;
-//        mod.rotate( opt_parm.get_value( mod.ops.size() ) );
-//        mod.sw( opt_parm.get_value( 1 << mod.split_indices().size() ) );
-
-//        graphs.push_back( make_graph( opt_parm, mod, outside, simd_size, make_di ) );
-//    } while ( opt_parm.inc() );
-
-//    // prepare a benchmark
-//    std::ofstream fout( ".tmp.cpp" );
-//    os << "#include \"scripts/bench_Cp2Lt64_code.h\"\n";
-//    os << "\n";
-//    os << "using namespace sdot;\n";
-//    os << "using TF = " << ( float_type == "gen" ? "double" : float_type ) << ";\n";
-//    os << "using TC = std::size_t;\n";
-//    os << "using VF = SimdVec<TF," << simd_size << ">;\n";
-//    os << "using VC = SimdVec<TC," << simd_size << ">;\n";
-//    os << "\n";
-//    for( std::size_t num_graph = 0; num_graph < graphs.size(); ++num_graph ) {
-//        // function signature
-//        os << "bool cut_bench_" << num_graph << "( TF *px, TF *py, TC *pi, int &nodes_size, const TF *cut_x, const TF *cut_y, const TF *cut_s, const TC *cut_i, int cut_n ) {\n";
-
-//        // load px, py, pi, ...
-//        for( char c : std::string( "xyi" ) )
-//            for( int i = 0; i < max_nb_nodes + 1 /*we may have to create a new point*/; i += simd_size )
-//                os << "    " << ( c == 'i' ? "VC" : "VF" ) << " p" << c << "_" << i / simd_size << " = " << ( c == 'i' ? "VC" : "VF" ) << "::load_aligned( p" << c << " + " << i << " );\n";
-
-//        // function to store px, py, pi, ...
-//        os << "    auto store = [&]() {\n";
-//        for( char c : std::string( "xyi" ) )
-//            for( int i = 0; i < max_nb_nodes + 1 /*we may have to create a new point*/; i += simd_size )
-//                os << "        " << ( c == 'i' ? "VC" : "VF" ) << "::store_aligned( p" << c << " + " << i << ", p" << c << "_" << i / simd_size << " );\n";
-//        os << "    };\n";
-
-//        // loop over the cuts
-//        os << "    for( int num_cut = 0; ; ++num_cut ) {\n";
-//        os << "        if ( num_cut == cut_n ) {\n";
-//        os << "            store();\n";
-//        os << "            return true;\n";
-//        os << "        }\n";
-
-//        // get distance and outside bit for each node
-//        os << "        int nmsk = 1 << nodes_size;\n";
-//        os << "        VC ci = cut_i[ num_cut ];\n";
-//        os << "        VF cx = cut_x[ num_cut ];\n";
-//        os << "        VF cy = cut_y[ num_cut ];\n";
-//        os << "        VF cs = cut_s[ num_cut ];\n";
-//        os << "        \n";
-//        os << "        int outside_nodes = 0;";
-
-//        if ( graphs[ num_graph ].make_di ) {
-//            for( int i = 0; i < max_nb_nodes; i += simd_size )
-//                os << "        VF di_" << i / simd_size << " = px_" << i / simd_size << " * cx + py_" << i / simd_size << " * cy - cs; outside_nodes |= ( ( di_" << i / simd_size << " > 0 ) << " << i << " );\n";
-//        } else {
-//            for( int i = 0; i < max_nb_nodes; i += simd_size )
-//                os << "        VF bi_" << i / simd_size << " = px_" << i / simd_size << " * cx + py_" << i / simd_size << " * cy; outside_nodes |= ( ( bi_" << i / simd_size << " > cs ) << " << i << " ); VF di_" << i / simd_size << " = bi_" << i / simd_size << " - cs;\n";
-//        }
-
-//        os << "        int case_code = ( outside_nodes & ( nmsk - 1 ) ) | nmsk;\n";
-
-//        os << "        \n";
-//        os << "        // if nothing has changed => go to the next cut\n";
-//        os << "        if ( outside_nodes == 0 )\n";
-//        os << "            continue;\n";
-
-//        // dispatch
-//        os << "        static void *dispatch_table[] = { ";
-//        for( unsigned i = 0; i < case_code; ++i )
-//            os << "&&case_init, ";
-//        os << "&&case_cut };\n";
-//        os << "        goto *dispatch_table[ case_code ];\n";
-
 //        // init case
 //        os << "        case_init: {\n";
 //        os << "            nodes_size = " << outside.size() << ";\n";
@@ -507,75 +388,12 @@ void Cp2Lt9_Func::write_def( std::ostream &os, const CaseMap &case_map, std::str
 //            os << "            px_" << j / simd_size << "[ " << j % simd_size << " ] = " << ( outside[ j ] ? 1 : -1 ) << ";\n";
 //        os << "            continue;\n";
 //        os << "        }\n";
-
-//        // cut case
-//        os << "        case_cut: {\n";
-//        graphs[ num_graph ].write_code( fout, "            " );
-//        os << "        }\n";
-//        os << "    }\n";
-
-//        // store px, py, pi, ...
-//        for( char c : std::string( "xyi" ) )
-//            for( std::size_t i = 0; i < outside.size() + 1 /*we may have to create a new point*/; i += simd_size )
-//                os << "    " << ( c == 'i' ? "VC" : "VF" ) << "::store_aligned( p" << c << " + " << i << ", p" << c << "_" << i / simd_size << " );\n";
-
-//        os << "}\n";
-//    }
-//    os << "\n";
-
-//    // launch the benchmark
-//    fout.close();
-
-
-//    res = graphs[ best_gr ];
-//    res.score = score;
-//    return true;
-//}
-
 //void write_for( std::string float_type, std::string simd_type, int max_nb_nodes ) {
 //    int max_simd_size = 1;
 //    std::string arch, simd_test;
 //    if ( simd_type == "SSE2"   ) { max_simd_size = float_type == "float" ?  4 : 2; arch = "skylake"       ; simd_test = "__SSE2__"   ; }
 //    if ( simd_type == "AVX2"   ) { max_simd_size = float_type == "float" ?  8 : 4; arch = "skylake"       ; simd_test = "__AVX2__"   ; }
 //    if ( simd_type == "AVX512" ) { max_simd_size = float_type == "float" ? 16 : 8; arch = "skylake-avx512"; simd_test = "__AVX512F__"; }
-
-//    // ponderation
-
-//    // scores
-//    std::map<unsigned,CodeGraph> graphs[ 2 * ( max_simd_size + 1 ) ];
-//    std::vector<double> scores( 2 * ( max_simd_size + 1 ), 0 );
-//    for( int nb_nodes = 3; nb_nodes <= max_nb_nodes; ++nb_nodes ) {
-//        for( unsigned comb = 0; comb < ( 1 << nb_nodes ); ++comb ) {
-//            for( int simd_size = 1; simd_size <= max_simd_size; simd_size *= 2 ) {
-//                for( int make_di = 0; make_di < 2; ++make_di ) {
-//                    CodeGraph gr;
-//                    unsigned code = comb | ( 1 << nb_nodes );
-//                    bool ok = make_code( gr, code, simd_size, max_nb_nodes, float_type, simd_type, arch, make_di );
-//                    if ( ! ok )
-//                        continue;
-
-//                    int nb_cuts = 0;
-//                    for( int n = 0; n < nb_nodes; ++n )
-//                        nb_cuts += bool( comb & ( 1 << n ) );
-
-//                    scores[ 2 * simd_size + make_di ] += p_nb_nodes[ nb_nodes ] * p_nb_cuts[ nb_cuts ] * gr.score;
-//                    graphs[ 2 * simd_size + make_di ][ code ] = gr;
-//                }
-//            }
-//        }
-//    }
-
-//    bool make_di = 0;
-//    int simd_size = 1;
-//    for( int s = 1; s <= max_simd_size; s *= 2 ) {
-//        for( int m = 0; m < 2; ++m ) {
-//            if ( scores[ 2 * simd_size + make_di ] > scores[ 2 * s + m ] ) {
-//                simd_size = s;
-//                make_di = m;
-//            }
-//            P( 2 * s + m, scores[ 2 * s + m ] );
-//        }
-//    }
 
 //    // declaration
 //    if ( float_type != "gen" ) {
@@ -613,71 +431,3 @@ void Cp2Lt9_Func::write_def( std::ostream &os, const CaseMap &case_map, std::str
 //    os << "    using VF = SimdVec<TF," << simd_size << ">;\n";
 //    os << "    using VC = SimdVec<TC," << simd_size << ">;\n";
 
-//    // decl px, py, pi, ...
-//    for( int i = 0; i < max_nb_nodes; i += simd_size )
-//        for( char c : std::string( "xyi" ) )
-//            os << "    " << ( c == 'i' ? "VC" : "VF" ) << " p" << c << "_" << i / simd_size << ";\n";
-
-//    // load px, py, pi, ...
-//    for( int i = 0; i < max_nb_nodes; i += simd_size ) {
-//        if ( i >= 4 )
-//            os << "    if ( nodes_size >= " << i << " ) {\n";
-//        for( char c : std::string( "xyi" ) )
-//            os << "    p" << c << "_" << i / simd_size << " = "  << ( c == 'i' ? "VC" : "VF" ) << "::load_aligned( p" << c << " + " << i << " );\n";
-//    }
-//    for( int i = 0; i < max_nb_nodes; i += simd_size )
-//        if ( i >= 4 )
-//            os << "    }\n";
-
-//    // function to store px, py, pi, ...
-//    os << "    auto store = [&]() {\n";
-//    for( int i = 0; i < max_nb_nodes; i += simd_size ) {
-//        if ( i >= 4 )
-//            os << "        if ( nodes_size >= " << i << " ) {\n";
-//        for( char c : std::string( "xyi" ) )
-//            os << "        " << ( c == 'i' ? "VC" : "VF" ) << "::store_aligned( p" << c << " + " << i << ", p" << c << "_" << i / simd_size << " );\n";
-//    }
-//    for( int i = 0; i < max_nb_nodes; i += simd_size )
-//        if ( i >= 4 )
-//            os << "        }\n";
-//    os << "    };\n";
-
-//    // loop over the cuts
-//    os << "    for( ; ; ++num_cut ) {\n";
-//    os << "        if ( num_cut == cut_n ) {\n";
-//    os << "            store();\n";
-//    os << "            return true;\n";
-//    os << "        }\n";
-
-//    // get distance and outside bit for each node
-//    os << "        int nmsk = 1 << nodes_size;\n";
-//    os << "        VF cx = cut_x[ num_cut ];\n";
-//    os << "        VF cy = cut_y[ num_cut ];\n";
-//    os << "        VF cs = cut_s[ num_cut ];\n";
-//    os << "        \n";
-
-//    os << "        int outside_nodes = 0;";
-//    if ( make_di ) {
-//        for( int i = 0; i < max_nb_nodes; i += simd_size )
-//            os << "        VF di_" << i / simd_size << " = px_" << i / simd_size << " * cx + py_" << i / simd_size << " * cy - cs; outside_nodes |= ( ( di_" << i / simd_size << " > 0 ) << " << i << " );\n";
-//    } else {
-//        for( int i = 0; i < max_nb_nodes; i += simd_size )
-//            os << "        VF bi_" << i / simd_size << " = px_" << i / simd_size << " * cx + py_" << i / simd_size << " * cy; outside_nodes |= ( ( bi_" << i / simd_size << " > cs ) << " << i << " ); VF di_" << i / simd_size << " = bi_" << i / simd_size << " - cs;\n";
-//    }
-
-//    os << "        int case_code = ( outside_nodes & ( nmsk - 1 ) ) | nmsk;\n";
-//    os << "        \n";
-//    os << "        // if nothing has changed => go to the next cut\n";
-//    os << "        if ( outside_nodes == 0 )\n";
-//    os << "            continue;\n";
-
-
-//    // end for
-//    os << "    }\n";
-
-//    os << "}\n";
-//    os << "} // namespace internal\n";
-//    os << "} // namespace sdot\n";
-//    if ( ! simd_test.empty() )
-//        os << "#endif // " << simd_test << "\n";
-//}
