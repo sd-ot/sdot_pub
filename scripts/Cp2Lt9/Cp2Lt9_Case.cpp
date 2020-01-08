@@ -1,4 +1,5 @@
 #include "Cp2Lt9_Case.h"
+#include <numeric>
 #include <sstream>
 #include <limits>
 
@@ -55,17 +56,67 @@ void Cp2Lt9_Case::make_code( std::ostream &os ) {
     if ( cut_list.ops.size() != outside.size() )
         os << sp << "nodes_size = " << cut_list.ops.size() << ";\n";
 
-    for( std::size_t i = 0; i < 2; ++i )
-        os << sp << "TF d" << i << " = di_" << cut_list.ops[ si[ i ] ].n0() << " / ( di_" << cut_list.ops[ si[ i ] ].n1() << " - di_" << cut_list.ops[ si[ i ] ].n0() << " );\n";
-    for( std::size_t num_op = 0; num_op < cut_list.ops.size(); ++num_op ) {
-        const Cp2Lt9_CutList::Cut &op = cut_list.ops[ num_op ];
-        if ( op.single() ) {
-            if ( num_op == op.inside_node() )
-                continue;
-            os << sp << val_reg( "x", num_op ) << " = " << val_reg( "x", op.inside_node() ) << ";\n";
-        } else {
-            os << sp << val_reg( "x", num_op ) << " = " << val_reg( "x", op.n0() ) << " + d0 * ( " << val_reg( "x", op.n0() ) << " - " << val_reg( "x", op.n1() ) << " );\n";
-        }
+    for( std::size_t i = 0; i < 2; ++i ) {
+        const Cp2Lt9_CutList::Cut &op = cut_list.ops[ si[ i ] ];
+        os << sp << "TF d_" << op.n0() << "_" << op.n1() << " = di_" << op.n0() << " / ( di_" << op.n1() << " - di_" << op.n0() << " );\n";
     }
 
+    //
+    std::vector<std::size_t> inds( cut_list.ops.size() );
+    std::iota( inds.begin(), inds.end(), 0 );
+    std::vector<std::size_t> delayed;
+    while ( inds.size() ) {
+        // helpers
+        auto will_be_needed = [&]( std::size_t num_ind ) {
+            for( std::size_t dni_mud = 0; dni_mud < inds.size(); ++dni_mud ) {
+                if ( num_ind == dni_mud )
+                    continue;
+                const Cp2Lt9_CutList::Cut &op = cut_list.ops[ inds[ dni_mud ] ];
+                if ( op.n0() == inds[ num_ind ] || op.n1() == inds[ num_ind ] )
+                    return true;
+            }
+            return false;
+        };
+
+        auto disp_and_erase = [&]( std::size_t num_ind, int n_tmp = -1 ) {
+            std::size_t ind = inds[ num_ind ];
+            inds.erase( inds.begin() + num_ind );
+
+            const Cp2Lt9_CutList::Cut &op = cut_list.ops[ ind ];
+            if ( op.single() && ind == op.inside_node() )
+                return;
+
+            if ( n_tmp >= 0 )
+                os << sp << "TF tmpx_" << n_tmp << " = ";
+            else
+                os << sp << val_reg( "x", ind ) << " = ";
+
+            if ( op.single() ) {
+                os << val_reg( "x", op.inside_node() ) << ";\n";
+            } else {
+                os << val_reg( "x", op.n0() ) << " + d_" << op.n0() << "_" << op.n1() << " * ( "
+                   << val_reg( "x", op.n0() ) << " - " << val_reg( "x", op.n1() ) << " );\n";
+            }
+        };
+
+        // look for an op that does not need a value in inds
+        auto direct = [&]() {
+            for( std::size_t num_ind = 0; num_ind < inds.size(); ++num_ind ) {
+                if ( ! will_be_needed( num_ind ) ) {
+                    disp_and_erase( num_ind );
+                    return true;
+                }
+            }
+            return false;
+        };
+        if ( direct() )
+            continue;
+
+        //
+        delayed.push_back( inds[ 0 ] );
+        disp_and_erase( 0, delayed.size() - 1 );
+    }
+
+    for( std::size_t i = 0; i < delayed.size(); ++i )
+        os << sp << val_reg( "x", delayed[ i ] ) << " = tmpx_" << i << ";\n";
 }
