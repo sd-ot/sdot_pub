@@ -44,13 +44,6 @@ void Cp2Lt9_Case::make_code( std::ostream &os ) {
         return;
     }
 
-    // helper funcs
-    auto val_reg = [&]( std::string c, int n ) {
-        if ( n / simd_size < nb_registers )
-            return "p" + c + "_" + std::to_string( n / simd_size ) + "[ " + std::to_string( n % simd_size ) + " ]";
-        return "p" + c + "[ " + std::to_string( n ) + " ]";
-    };
-
     //
     os << sp << "// out: " << outside << " cut: " << cut_list << "\n";
     if ( cut_list.ops.size() != outside.size() )
@@ -58,7 +51,9 @@ void Cp2Lt9_Case::make_code( std::ostream &os ) {
 
     for( std::size_t i = 0; i < 2; ++i ) {
         const Cp2Lt9_CutList::Cut &op = cut_list.ops[ si[ i ] ];
-        os << sp << "TF d_" << op.n0() << "_" << op.n1() << " = di_" << op.n0() << " / ( di_" << op.n1() << " - di_" << op.n0() << " );\n";
+        std::string da = "di_" + std::to_string( op.n0() / simd_size ) + "[ " + std::to_string( op.n0() % simd_size ) + " ]";
+        std::string db = "di_" + std::to_string( op.n1() / simd_size ) + "[ " + std::to_string( op.n1() % simd_size ) + " ]";
+        os << sp << "TF d_" << op.n0() << "_" << op.n1() << " = " << da << " / ( " << db << " - " << da << " );\n";
     }
 
     //
@@ -86,16 +81,18 @@ void Cp2Lt9_Case::make_code( std::ostream &os ) {
             if ( op.single() && ind == op.inside_node() )
                 return;
 
-            if ( n_tmp >= 0 )
-                os << sp << "TF tmpx_" << n_tmp << " = ";
-            else
-                os << sp << val_reg( "x", ind ) << " = ";
+            for( char c : std::string( "xy" ) ) {
+                if ( n_tmp >= 0 )
+                    os << sp << "TF tmp" << c << "_" << n_tmp << " = ";
+                else
+                    os << sp << val_reg( { c }, ind ) << " = ";
 
-            if ( op.single() ) {
-                os << val_reg( "x", op.inside_node() ) << ";\n";
-            } else {
-                os << val_reg( "x", op.n0() ) << " + d_" << op.n0() << "_" << op.n1() << " * ( "
-                   << val_reg( "x", op.n0() ) << " - " << val_reg( "x", op.n1() ) << " );\n";
+                if ( op.single() ) {
+                    os << val_reg( { c }, op.inside_node() ) << ";\n";
+                } else {
+                    os << val_reg( { c }, op.n0() ) << " + d_" << op.n0() << "_" << op.n1() << " * ( "
+                       << val_reg( { c }, op.n0() ) << " - " << val_reg( { c }, op.n1() ) << " );\n";
+                }
             }
         };
 
@@ -113,10 +110,21 @@ void Cp2Lt9_Case::make_code( std::ostream &os ) {
             continue;
 
         //
+
+
         delayed.push_back( inds[ 0 ] );
         disp_and_erase( 0, delayed.size() - 1 );
     }
 
     for( std::size_t i = 0; i < delayed.size(); ++i )
-        os << sp << val_reg( "x", delayed[ i ] ) << " = tmpx_" << i << ";\n";
+        for( char c : std::string( "xy" ) )
+            os << sp << val_reg( { c }, delayed[ i ] ) << " = tmp" << c << "_" << i << ";\n";
+
+    os << sp << "continue;\n";
+}
+
+std::string Cp2Lt9_Case::val_reg( std::string c, int n ) {
+    if ( n / simd_size < nb_registers )
+        return "p" + c + "_" + std::to_string( n / simd_size ) + "[ " + std::to_string( n % simd_size ) + " ]";
+    return "p" + c + "[ " + std::to_string( n ) + " ]";
 }

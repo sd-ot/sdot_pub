@@ -11,7 +11,7 @@ public:
     struct      CaseScore        { Cp2Lt9_Case code; double score; };
     using       CaseMap          = std::map<unsigned,CaseScore>;
 
-    /***/       Cp2Lt9_Func      ( OptParm &opt_parm, std::string float_type, std::string simd_type, int max_nb_nodes = 9 );
+    /***/       Cp2Lt9_Func      ( OptParm &opt_parm, std::string float_type, std::string simd_type, int min_nb_nodes = 3, int max_nb_nodes = 9 );
     /***/       Cp2Lt9_Func      ();
 
     int         max_log_simd_size() const;
@@ -20,7 +20,9 @@ public:
 
     void        make_best_score  ( double &best_score, std::size_t &best_case, const std::vector<Cp2Lt9_Case> &cases, unsigned code, int nb_nodes );
     void        make_case_map    ();
+    std::string arch_flag        () const;
     void        write_def        ( std::ostream &os, const CaseMap &case_map, std::string func_name, bool for_1_case = false ) const;
+    std::string val_reg          ( std::string c, int n );
 
     // constraints
     int         min_nb_nodes;

@@ -12,6 +12,8 @@ public:
 
     void              make_code    ( std::ostream &os );
 
+    std::string       val_reg      ( std::string c, int n );;
+
     // constraints
     int               nb_registers;
     int               simd_size;

@@ -4,10 +4,9 @@
 #include <sstream>
 #include <fstream>
 
-Cp2Lt9_Func::Cp2Lt9_Func( OptParm &opt_parm, std::string float_type, std::string simd_type, int max_nb_nodes ) : max_nb_nodes( max_nb_nodes ), float_type( float_type ), simd_type( simd_type ) {
+Cp2Lt9_Func::Cp2Lt9_Func( OptParm &opt_parm, std::string float_type, std::string simd_type, int min_nb_nodes, int max_nb_nodes ) : min_nb_nodes( min_nb_nodes ), max_nb_nodes( max_nb_nodes ), float_type( float_type ), simd_type( simd_type ) {
     // func parms
     size_for_tests = 4;
-    min_nb_nodes = 3;
     nb_registers = 6;
     pi_in_regs = 0;
     simd_size = 1 << opt_parm.get_value( max_log_simd_size() );
@@ -40,7 +39,7 @@ double Cp2Lt9_Func::score() const {
     std::vector<double> p_nb_cuts = { 65, 10, 10, 5, 1, 1, 1, 1, 1, 1, 1 };
 
     double res = 0;
-    for( int nb_nodes = 3; nb_nodes <= max_nb_nodes; ++nb_nodes ) {
+    for( int nb_nodes = min_nb_nodes; nb_nodes <= max_nb_nodes; ++nb_nodes ) {
         for( unsigned comb = 0; comb < ( 1 << nb_nodes ); ++comb ) {
             int nb_cuts = 0;
             for( int n = 0; n < nb_nodes; ++n )
@@ -58,32 +57,46 @@ void Cp2Lt9_Func::make_best_score( double &best_score, std::size_t &best_case, c
     std::ofstream os( ".tmp.cpp" );
     os << "#include \"scripts/Cp2Lt9/Cp2Lt9_bench.h\"\n";
     os << "\n";
+    os << "using TF = " << ( float_type == "gen" ? "double" : float_type ) << ";\n";
+    os << "using TC = std::size_t;\n";
+    os << "\n";
+    os << "namespace sdot {\n";
+    os << "namespace internal {\n";
 
     // write functions to be tested
     for( std::size_t num_case = 0; num_case < cases.size(); ++num_case ) {
         CaseMap case_map;
+
+        // we use the fully outside case to reset the coordinates
+        Cp2Lt9_Case c;
+
+        std::ostringstream ss;
+        ss << "            nodes_size = " << nb_nodes << ";\n";
+        for( int j = 0; j < nb_nodes; ++j )
+            ss << "            " << val_reg( "x", j ) << " = " << ( code & ( 1 << j ) ? 1 : -1 ) << ";\n";
+        ss << "            continue;\n";
+        c.code = ss.str();
+
+        case_map[ ( 1 << ( nb_nodes + 1 ) ) - 1 ] = { c, 0.0 };
+
+        //
         case_map[ code ] = { cases[ num_case ], 0.0 };
 
-        //    os << "        case_init: {\n";
-        //    os << "            nodes_size = " << outside.size() << ";\n";
-        //    for( std::size_t j = 0; j < outside.size(); ++j )
-        //        os << "            px_" << j / simd_size << "[ " << j % simd_size << " ] = " << ( outside[ j ] ? 1 : -1 ) << ";\n";
-        //    os << "            continue;\n";
-        //    os << "        }\n";
-
+        //
         os << "\n";
         write_def( os, case_map, "cut_bench_" + std::to_string( num_case ), true );
     }
 
     // write main
     os << "\n";
+    os << "} // namespace sdot\n";
+    os << "} // namespace internal\n";
+    os << "\n";
     os << "int main( int argc, char **argv ) {\n";
-    os << "    using TF = " << ( float_type == "gen" ? "double" : float_type ) << ";\n";
-    os << "    using TC = std::size_t;\n";
-    os << "    using FU = std::function<void( TF *px, TF *py, TC *pi, int &nodes_size, const TF *cut_x, const TF *cut_y, const TF *cut_s, const TC *cut_i, int cut_n )>;\n";
+    os << "    using FU = std::function<bool( TF *px, TF *py, TC *pi, int &nodes_size, const TF *cut_x, const TF *cut_y, const TF *cut_s, const TC *cut_i, int cut_n )>;\n";
     os << "    bench_Cp2Lt64_code( std::vector<FU>{ ";
     for( std::size_t num_case = 0; num_case < cases.size(); ++num_case )
-        os << ( num_case ? ", " : "" ) << "cut_bench_" << num_case;
+        os << ( num_case ? ", " : "" ) << "sdot::internal::cut_bench_" << num_case;
     os << " }, " << nb_nodes << ", argc >= 2 ? argv[ 1 ] : nullptr );\n";
     os << "}\n";
     os << "\n";
@@ -91,15 +104,21 @@ void Cp2Lt9_Func::make_best_score( double &best_score, std::size_t &best_case, c
     // compile and execute
     os.close();
 
-    //    cmd( "clang++ -O3" + ( arch.empty() ? "" : " -march=" + arch ) + " -ffast-math -o .tmp.exe .tmp.cpp" );
-    //    cmd( "./.tmp.exe .tmp.dat" );
+    auto cmd = []( std::string c ) {
+        std::cout << c << std::endl;
+        if ( system( c.c_str() ) )
+            ERROR( "..." );
+    };
 
-    //    // get best graph
-    //    std::ifstream fin( ".tmp.dat" );
-    //    std::size_t best_gr;
-    //    double score;
-    //    fin >> best_gr
-    //        >> score;
+    cmd( "clang++ -O3" + arch_flag() + " -ffast-math -o .tmp.exe .tmp.cpp" );
+    cmd( "./.tmp.exe .tmp.dat" );
+
+    // get best graph
+    std::ifstream fin( ".tmp.dat" );
+    std::size_t best_gr;
+    double score;
+    fin >> best_gr
+            >> score;
 }
 
 void Cp2Lt9_Func::make_case_map() {
@@ -128,11 +147,18 @@ void Cp2Lt9_Func::make_case_map() {
     }
 }
 
-void Cp2Lt9_Func::write_def( std::ostream &os, const CaseMap &case_map, std::string func_name, bool /*for_1_case*/ ) const {
+std::string Cp2Lt9_Func::arch_flag() const {
+    if ( simd_type == "SSE2"   ) return " -march=skylake";
+    if ( simd_type == "AVX2"   ) return " -march=skylake";
+    if ( simd_type == "AVX512" ) return " -march=skylake-avx512";
+    return {};
+}
+
+void Cp2Lt9_Func::write_def( std::ostream &os, const CaseMap &case_map, std::string func_name, bool for_1_case ) const {
     os << "// simd_size: " << simd_size << " make_di: " << make_di << " \n";
 
     // function signature
-    if ( float_type == "gen" )
+    if ( float_type == "gen" && ! for_1_case )
         os << "template<class TF,class TC>\n";
     os << "bool " << func_name << "( TF *px, TF *py, TC *pi, int &nodes_size, const TF *cut_x, const TF *cut_y, const TF *cut_s, const TC *cut_i, int cut_n ) {\n";
     os << "    using VF = SimdVec<TF," << simd_size << ">;\n";
@@ -239,7 +265,7 @@ void Cp2Lt9_Func::write_def( std::ostream &os, const CaseMap &case_map, std::str
     std::map<std::string,std::size_t> code_map;
     os << "        static void *dispatch_table[] = {";
     for( unsigned code = 0; code < ( 1 << ( max_nb_nodes + 1 ) ); ++code ) {
-        if ( code % 16 == 0 )
+        if ( code % 8 == 0 )
             os << "\n            ";
 
         if ( case_map.count( code ) == 0 ) {
@@ -277,6 +303,12 @@ void Cp2Lt9_Func::write_def( std::ostream &os, const CaseMap &case_map, std::str
     os << "}\n";
 }
 
+std::string Cp2Lt9_Func::val_reg( std::string c, int n ) {
+    if ( n / simd_size < nb_registers )
+        return "p" + c + "_" + std::to_string( n / simd_size ) + "[ " + std::to_string( n % simd_size ) + " ]";
+    return "p" + c + "[ " + std::to_string( n ) + " ]";
+}
+
 //#include "../src/sdot/SimdCodegen/SimdGraph.h"
 //#include "../src/sdot/Support/OptParm.h"
 //#include "../src/sdot/Support/ASSERT.h"
@@ -306,11 +338,6 @@ void Cp2Lt9_Func::write_def( std::ostream &os, const CaseMap &case_map, std::str
 //    std::string suff;
 //};
 
-//void cmd( std::string c ) {
-//    std::cout << c << std::endl;
-//    if ( system( c.c_str() ) )
-//        ERROR( "..." );
-//}
 
 //CodeGraph make_graph( OptParm &opt_parm, const Cp2Lt64CutList &mod, std::vector<bool> outside, int simd_size, bool make_di ) {
 //    std::vector<std::size_t> sp_ind = mod.split_indices();
