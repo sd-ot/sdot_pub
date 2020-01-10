@@ -6,9 +6,9 @@
 
 Cp2Lt9_Func::Cp2Lt9_Func( OptParm &opt_parm, std::string float_type, std::string simd_type, int min_nb_nodes, int max_nb_nodes ) : min_nb_nodes( min_nb_nodes ), max_nb_nodes( max_nb_nodes ), float_type( float_type ), simd_type( simd_type ) {
     // func parms
-    size_for_tests = 4;
-    nb_registers = 6;
-    pi_in_regs = 0;
+    size_for_tests = 4 + opt_parm.get_value( 3 );
+    nb_registers = 1 + opt_parm.get_value( max_nb_nodes / simd_size );
+    pi_in_regs = opt_parm.get_value( 2 );
     simd_size = 1 << opt_parm.get_value( max_log_simd_size() );
     make_di = opt_parm.get_value( 2 );
 
@@ -111,24 +111,24 @@ void Cp2Lt9_Func::make_best_score( double &best_score, std::size_t &best_case, c
     };
 
     cmd( "clang++ -O3" + arch_flag() + " -ffast-math -o .tmp.exe .tmp.cpp" );
-    cmd( "./.tmp.exe .tmp.dat" );
+    cmd( "sudo chrt --rr 1 ./.tmp.exe .tmp.dat" );
 
     // get best graph
     std::ifstream fin( ".tmp.dat" );
-    std::size_t best_gr;
-    double score;
-    fin >> best_gr
-            >> score;
+    fin >> best_case >> best_score;
 }
 
 void Cp2Lt9_Func::make_case_map() {
     for( int nb_nodes = min_nb_nodes; nb_nodes <= max_nb_nodes; ++nb_nodes ) {
         for( unsigned comb = 0; comb < ( 1 << nb_nodes ); ++comb ) {
+            const char *s = "*********************************";
+            P( nb_nodes, comb, make_di, s );
+
             // find all possible way to make the case
             std::vector<Cp2Lt9_Case> cases;
             OptParm loc_opt_parm;
             do {
-                Cp2Lt9_Case ca( loc_opt_parm, nb_nodes, comb, simd_size, nb_registers );
+                Cp2Lt9_Case ca( loc_opt_parm, nb_nodes, comb, simd_size, nb_registers, pi_in_regs );
                 if ( ca.valid )
                     cases.push_back( ca );
             } while ( loc_opt_parm.inc() );
@@ -155,7 +155,7 @@ std::string Cp2Lt9_Func::arch_flag() const {
 }
 
 void Cp2Lt9_Func::write_def( std::ostream &os, const CaseMap &case_map, std::string func_name, bool for_1_case ) const {
-    os << "// simd_size: " << simd_size << " make_di: " << make_di << " \n";
+    os << "// simd_size: " << simd_size << " make_di: " << make_di << " pi_in_regs:" << pi_in_regs << "\n";
 
     // function signature
     if ( float_type == "gen" && ! for_1_case )
@@ -218,7 +218,7 @@ void Cp2Lt9_Func::write_def( std::ostream &os, const CaseMap &case_map, std::str
         for( char c : std::string( "xy" ) )
             os << std::string( sp, ' ' ) << "VF::store_aligned( p" << c << " + " << simd_size * i << ", p" << c << "_" << i << " );\n";
         if ( pi_in_regs )
-            os << std::string( sp, ' ' ) << "VF::store_aligned( pi + " << simd_size * i << ", pi_" << i << " );\n";
+            os << std::string( sp, ' ' ) << "VC::store_aligned( pi + " << simd_size * i << ", pi_" << i << " );\n";
     }
     os << "    };\n";
 
@@ -263,6 +263,7 @@ void Cp2Lt9_Func::write_def( std::ostream &os, const CaseMap &case_map, std::str
 
     // dispatch
     std::map<std::string,std::size_t> code_map;
+    os << "        \n";
     os << "        static void *dispatch_table[] = {";
     for( unsigned code = 0; code < ( 1 << ( max_nb_nodes + 1 ) ); ++code ) {
         if ( code % 8 == 0 )
@@ -308,35 +309,6 @@ std::string Cp2Lt9_Func::val_reg( std::string c, int n ) {
         return "p" + c + "_" + std::to_string( n / simd_size ) + "[ " + std::to_string( n % simd_size ) + " ]";
     return "p" + c + "[ " + std::to_string( n ) + " ]";
 }
-
-//#include "../src/sdot/SimdCodegen/SimdGraph.h"
-//#include "../src/sdot/Support/OptParm.h"
-//#include "../src/sdot/Support/ASSERT.h"
-//#include "../src/sdot/Support/ERROR.h"
-
-//static void disp_sp( std::ostream &os, std::string sp, std::string str ) {
-//    if ( str.empty() )
-//        return;
-//    bool need_sp = true;
-//    for( char c : str ) {
-//        if ( c == '\n' )
-//            need_sp = true;
-//        else if ( need_sp ) {
-//            need_sp = false;
-//            os << sp;
-//        }
-//        os << c;
-//    }
-//}
-
-//struct CodeGraph {
-//    void        write_code( std::ostream &os, std::string sp ) { disp_sp( os, sp, prel ); graph.write_code( os, sp ); disp_sp( os, sp, suff ); }
-//    bool        make_di;
-//    SimdGraph   graph;
-//    double      score;
-//    std::string prel;
-//    std::string suff;
-//};
 
 
 //CodeGraph make_graph( OptParm &opt_parm, const Cp2Lt64CutList &mod, std::vector<bool> outside, int simd_size, bool make_di ) {
@@ -421,40 +393,3 @@ std::string Cp2Lt9_Func::val_reg( std::string c, int n ) {
 //    if ( simd_type == "SSE2"   ) { max_simd_size = float_type == "float" ?  4 : 2; arch = "skylake"       ; simd_test = "__SSE2__"   ; }
 //    if ( simd_type == "AVX2"   ) { max_simd_size = float_type == "float" ?  8 : 4; arch = "skylake"       ; simd_test = "__AVX2__"   ; }
 //    if ( simd_type == "AVX512" ) { max_simd_size = float_type == "float" ? 16 : 8; arch = "skylake-avx512"; simd_test = "__AVX512F__"; }
-
-//    // declaration
-//    if ( float_type != "gen" ) {
-//        std::string nh = va_string( "src/sdot/ConvexPolyhedron/Internal/ConvexPolyhedron2dLt64_cut_{}_{}.h" , float_type, simd_type );
-//        std::ofstream fh( nh.c_str() );
-//        if ( ! simd_test.empty() )
-//            fh << "#ifdef " << simd_test << "\n";
-//        fh << "namespace sdot {\n";
-//        fh << "namespace internal {\n";
-//        fh << "bool ConvexPolyhedron2dLt64_cut( int &num_cut, " << float_type << " *px, " << float_type << " *py, std::size_t *pi, int &nodes_size, const " << float_type << " *cut_x, const " << float_type << " *cut_y, const " << float_type << " *cut_s, const std::size_t *cut_i, int cut_n );\n";
-//        fh << "} // namespace internal\n";
-//        fh << "} // namespace sdot\n";
-//        if ( ! simd_test.empty() )
-//            fh << "#endif // " << simd_test << "\n";
-//    }
-
-//    // definition
-//    std::string nc = va_string( "src/sdot/ConvexPolyhedron/Internal/ConvexPolyhedron2dLt64_cut_{}_{}.{}", float_type, simd_type, float_type == "gen" ? "h" : "cpp" );
-//    std::ofstream fc( nc.c_str() );
-//    if ( ! simd_test.empty() )
-//        os << "#ifdef " << simd_test << "\n";
-//    os << "#include \"../../Support/SimdVec.h\"\n";
-//    os << "namespace sdot {\n";
-//    os << "namespace internal {\n";
-//    std::string _float_type = float_type;
-//    if ( float_type == "gen" ) {
-//        _float_type = "TF";
-//        os << "template<class TF>\n";
-//    }
-//    os << "bool ConvexPolyhedron2dLt64_cut( int &num_cut, " << _float_type << " *px, " << _float_type << " *py, std::size_t *pi, int &nodes_size, const " << _float_type << " *cut_x, const " << _float_type << " *cut_y, const " << _float_type << " *cut_s, const std::size_t *cut_i, int cut_n ) {\n";
-//    os << "    using namespace sdot;\n";
-//    if ( float_type != "gen" )
-//        os << "    using TF = " << float_type << ";\n";
-//    os << "    using TC = std::size_t;\n";
-//    os << "    using VF = SimdVec<TF," << simd_size << ">;\n";
-//    os << "    using VC = SimdVec<TC," << simd_size << ">;\n";
-

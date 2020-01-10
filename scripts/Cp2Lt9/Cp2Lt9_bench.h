@@ -9,7 +9,11 @@
 #include <vector>
 
 template<class TF,class TC>
-double _timing( std::function<bool( TF *px, TF *py, TC *pi, int &nodes_size, const TF *cut_x, const TF *cut_y, const TF *cut_s, const TC *cut_i, int cut_n )> func, TF *px, TF *py, TC *pi, int nodes_size, TF *cut_x, TF *cut_y, TF *cut_s, TC *cut_i, int cut_n, std::uint64_t nb_reps = 50 ) {
+double _timing( std::function<bool( TF *px, TF *py, TC *pi, int &nodes_size, const TF *cut_x, const TF *cut_y, const TF *cut_s, const TC *cut_i, int cut_n )> func, TF *px, TF *py, TC *pi, int nodes_size, TF *cut_x, TF *cut_y, TF *cut_s, TC *cut_i, int cut_n, std::uint64_t nb_reps = 5 ) {
+    // warm up
+    func( px, py, pi, nodes_size, cut_x, cut_y, cut_s, cut_i, cut_n );
+
+    // launch
     std::uint64_t res = -1ul;
     for( std::uint64_t rep = 0, t0 = 0, t1 = 0; rep < nb_reps; ++rep ) {
         RDTSC_START( t0 );
@@ -22,14 +26,14 @@ double _timing( std::function<bool( TF *px, TF *py, TC *pi, int &nodes_size, con
 
 template<typename TF,typename TC>
 void bench_Cp2Lt64_code( std::vector<std::function<bool( TF *px, TF *py, TC *pi, int &nodes_size, const TF *cut_x, const TF *cut_y, const TF *cut_s, const TC *cut_i, int cut_n )>> funcs, int nodes_size, const char *output_filename ) {
-    alignas( 64 ) TF px[ 64 ];
-    alignas( 64 ) TF py[ 64 ];
-    alignas( 64 ) TC pi[ 64 ];
-    alignas( 64 ) TF cut_x[ 64 ];
-    alignas( 64 ) TF cut_y[ 64 ];
-    alignas( 64 ) TF cut_s[ 64 ];
-    alignas( 64 ) TC cut_i[ 64 ];
-    int cut_n = 64;
+    constexpr int cut_n = 64;
+    alignas( 64 ) TF px   [ cut_n ];
+    alignas( 64 ) TF py   [ cut_n ];
+    alignas( 64 ) TC pi   [ cut_n ];
+    alignas( 64 ) TF cut_x[ cut_n ];
+    alignas( 64 ) TF cut_y[ cut_n ];
+    alignas( 64 ) TF cut_s[ cut_n ];
+    alignas( 64 ) TC cut_i[ cut_n ];
 
     for( int i = 0; i < cut_n; ++i ) {
         px[ i ] = 0;
@@ -42,10 +46,11 @@ void bench_Cp2Lt64_code( std::vector<std::function<bool( TF *px, TF *py, TC *pi,
     }
 
     // the "fully outside" case is used to reinitialize px. Reinitialization is counted as overhead
-    double overhead = 1e40;
-    for( int i = 0; i < cut_n; ++i )
-        for( std::size_t rep = 0; rep < 15000; ++rep )
-            overhead = std::min( overhead, _timing( funcs[ 0 ], px, py, pi, nodes_size, cut_x, cut_y, cut_s, cut_i, cut_n / 2 ) );
+    //    double overhead = 1e40;
+    //    for( int i = 0; i < cut_n; ++i )
+    //        for( std::size_t rep = 0; rep < 5000; ++rep )
+    //            overhead = std::min( overhead, _timing( funcs[ 0 ], px, py, pi, nodes_size, cut_x, cut_y, cut_s, cut_i, cut_n / 2 ) );
+    double overhead = 0;
 
     // get timings (with reinitialization before each step)
     std::vector<double> timings( funcs.size(), 1e40 );

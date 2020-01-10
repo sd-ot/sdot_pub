@@ -1,16 +1,25 @@
 #include "Cp2Lt9_Case.h"
+#include <algorithm>
 #include <numeric>
 #include <sstream>
 #include <limits>
 
-Cp2Lt9_Case::Cp2Lt9_Case( OptParm &opt_parm, int nb_nodes, unsigned comb, int simd_size, int nb_registers ) : Cp2Lt9_Case() {
+Cp2Lt9_Case::Cp2Lt9_Case( OptParm &opt_parm, int nb_nodes, unsigned comb, int simd_size, int nb_registers, bool pi_in_regs ) : Cp2Lt9_Case() {
     this->nb_registers = nb_registers;
+    this->pi_in_regs = pi_in_regs;
     this->simd_size = simd_size;
 
     for( int i = 0; i < nb_nodes; ++i )
         outside.push_back( comb & ( 1 << i ) );
 
     cut_list = { outside };
+
+    for( auto &op : cut_list.ops )
+        if ( op.split() )
+            op.sw = opt_parm.get_value( 2 );
+
+    if ( int rotate = opt_parm.get_value( cut_list.ops.size() ) )
+        std::rotate( cut_list.ops.begin(), cut_list.ops.begin() + rotate, cut_list.ops.end() );
 
     std::ostringstream ss;
     make_code( ss );
@@ -57,74 +66,78 @@ void Cp2Lt9_Case::make_code( std::ostream &os ) {
     }
 
     //
-    std::vector<std::size_t> inds( cut_list.ops.size() );
-    std::iota( inds.begin(), inds.end(), 0 );
-    std::vector<std::size_t> delayed;
-    while ( inds.size() ) {
-        // helpers
-        auto will_be_needed = [&]( std::size_t num_ind ) {
-            for( std::size_t dni_mud = 0; dni_mud < inds.size(); ++dni_mud ) {
-                if ( num_ind == dni_mud )
-                    continue;
-                const Cp2Lt9_CutList::Cut &op = cut_list.ops[ inds[ dni_mud ] ];
-                if ( op.n0() == inds[ num_ind ] || op.n1() == inds[ num_ind ] )
-                    return true;
-            }
-            return false;
-        };
-
-        auto disp_and_erase = [&]( std::size_t num_ind, int n_tmp = -1 ) {
-            std::size_t ind = inds[ num_ind ];
-            inds.erase( inds.begin() + num_ind );
-
-            const Cp2Lt9_CutList::Cut &op = cut_list.ops[ ind ];
-            if ( op.single() && ind == op.inside_node() )
-                return;
-
-            for( char c : std::string( "xy" ) ) {
-                if ( n_tmp >= 0 )
-                    os << sp << "TF tmp" << c << "_" << n_tmp << " = ";
-                else
-                    os << sp << val_reg( { c }, ind ) << " = ";
-
-                if ( op.single() ) {
-                    os << val_reg( { c }, op.inside_node() ) << ";\n";
-                } else {
-                    os << val_reg( { c }, op.n0() ) << " + d_" << op.n0() << "_" << op.n1() << " * ( "
-                       << val_reg( { c }, op.n0() ) << " - " << val_reg( { c }, op.n1() ) << " );\n";
+    for( bool for_cut_ind : { 0, 1 } ) {
+        std::vector<std::size_t> inds( cut_list.ops.size() );
+        std::iota( inds.begin(), inds.end(), 0 );
+        std::vector<std::size_t> delayed;
+        while ( inds.size() ) {
+            // helpers
+            auto will_be_needed = [&]( std::size_t num_ind ) {
+                for( std::size_t dni_mud = 0; dni_mud < inds.size(); ++dni_mud ) {
+                    if ( num_ind == dni_mud )
+                        continue;
+                    const Cp2Lt9_CutList::Cut &op = cut_list.ops[ inds[ dni_mud ] ];
+                    if ( for_cut_ind && op.split() )
+                        continue;
+                    if ( op.n0() == inds[ num_ind ] || op.n1() == inds[ num_ind ] )
+                        return true;
                 }
-            }
-        };
+                return false;
+            };
 
-        // look for an op that does not need a value in inds
-        auto direct = [&]() {
-            for( std::size_t num_ind = 0; num_ind < inds.size(); ++num_ind ) {
-                if ( ! will_be_needed( num_ind ) ) {
-                    disp_and_erase( num_ind );
-                    return true;
+            auto disp_and_erase = [&]( std::size_t num_ind, int n_tmp = -1 ) {
+                std::size_t ind = inds[ num_ind ];
+                inds.erase( inds.begin() + num_ind );
+
+                const Cp2Lt9_CutList::Cut &op = cut_list.ops[ ind ];
+                if ( op.single() && ind == op.inside_node() )
+                    return;
+
+                for( char c : std::string( for_cut_ind ? "i" : "xy" ) ) {
+                    if ( n_tmp >= 0 )
+                        os << sp << "TF tmp" << c << "_" << n_tmp << " = ";
+                    else
+                        os << sp << val_reg( { c }, ind ) << " = ";
+
+                    if ( op.single() ) {
+                        os << val_reg( { c }, op.inside_node() ) << ";\n";
+                    } else {
+                        if ( for_cut_ind )
+                            os << "cut_i[ num_cut ];\n";
+                        else
+                            os << val_reg( { c }, op.n0() ) << " + d_" << op.n0() << "_" << op.n1() << " * ( "
+                               << val_reg( { c }, op.n0() ) << " - " << val_reg( { c }, op.n1() ) << " );\n";
+                    }
                 }
-            }
-            return false;
-        };
-        if ( direct() )
-            continue;
+            };
 
-        //
+            // look for an op that does not need a value in inds
+            auto direct = [&]() {
+                for( std::size_t num_ind = 0; num_ind < inds.size(); ++num_ind ) {
+                    if ( ! will_be_needed( num_ind ) ) {
+                        disp_and_erase( num_ind );
+                        return true;
+                    }
+                }
+                return false;
+            };
+            if ( direct() )
+                continue;
 
+            delayed.push_back( inds[ 0 ] );
+            disp_and_erase( 0, delayed.size() - 1 );
+        }
 
-        delayed.push_back( inds[ 0 ] );
-        disp_and_erase( 0, delayed.size() - 1 );
+        for( std::size_t i = 0; i < delayed.size(); ++i )
+            for( char c : std::string( "xy" ) )
+                os << sp << val_reg( { c }, delayed[ i ] ) << " = tmp" << c << "_" << i << ";\n";
     }
-
-    for( std::size_t i = 0; i < delayed.size(); ++i )
-        for( char c : std::string( "xy" ) )
-            os << sp << val_reg( { c }, delayed[ i ] ) << " = tmp" << c << "_" << i << ";\n";
 
     os << sp << "continue;\n";
 }
 
 std::string Cp2Lt9_Case::val_reg( std::string c, int n ) {
-    if ( n / simd_size < nb_registers )
+    if ( n / simd_size < nb_registers && ( c != "i" || pi_in_regs ) )
         return "p" + c + "_" + std::to_string( n / simd_size ) + "[ " + std::to_string( n % simd_size ) + " ]";
     return "p" + c + "[ " + std::to_string( n ) + " ]";
 }

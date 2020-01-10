@@ -39,9 +39,3 @@ void Cp2Lt9_CutList::rotate( std::size_t off ) {
         nops[ i ] = ops[ ( i + off ) % ops.size() ];
     ops = nops;
 }
-
-void Cp2Lt9_CutList::sw( uint64_t val ) {
-    std::vector<std::size_t> si = split_indices();
-    for( std::size_t i = 0; i < si.size(); ++i )
-        ops[ si[ i ] ].sw = val & ( std::uint64_t( 1 ) << i );
-}

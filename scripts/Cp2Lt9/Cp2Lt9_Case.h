@@ -7,7 +7,7 @@
 /***/
 class Cp2Lt9_Case {
 public:
-    /**/              Cp2Lt9_Case  ( OptParm &opt_parm, int nb_nodes, unsigned comb, int simd_size, int nb_registers );
+    /**/              Cp2Lt9_Case  ( OptParm &opt_parm, int nb_nodes, unsigned comb, int simd_size, int nb_registers, bool pi_in_regs );
     /**/              Cp2Lt9_Case  ();
 
     void              make_code    ( std::ostream &os );
@@ -16,6 +16,7 @@ public:
 
     // constraints
     int               nb_registers;
+    bool              pi_in_regs;
     int               simd_size;
     std::vector<bool> outside;
 

@@ -33,7 +33,6 @@ struct Cp2Lt9_CutList {
     void                     write_to_stream( std::ostream &os ) const;
     std::vector<std::size_t> split_indices  () const;
     void                     rotate         ( std::size_t off );
-    void                     sw             ( std::uint64_t val );
 
     std::vector<Cut>         ops;
 };

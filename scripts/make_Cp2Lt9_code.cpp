@@ -1,3 +1,4 @@
+#include "../src/sdot/Support/Display/va_string.h"
 #include "Cp2Lt9/Cp2Lt9_Func.h"
 #include <iostream>
 #include <fstream>
@@ -14,12 +15,14 @@ void gen( std::string float_type, std::string simd_type, int min_nb_nodes, int m
     } while ( opt_parm.inc() );
 
     // write code
-    best_func.write_def( std::cout );
+    std::string fout_name = va_string( "src/sdot/ConvexPolyhedron/Internal/ConvexPolyhedron2dLt64_cut_{}_{}.h", float_type, simd_type );
+    std::ofstream fout( fout_name.c_str() );
+    best_func.write_def( fout );
 }
 
 int main() {
-    int min_nb_nodes = 4;
-    int max_nb_nodes = 4;
+    int min_nb_nodes = 3;
+    int max_nb_nodes = 9;
 
     gen( "gen", "gen", min_nb_nodes, max_nb_nodes );
 
